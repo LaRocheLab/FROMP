@@ -366,7 +366,7 @@
 //* 300:278 */       pathCnt++;
 //* 301:    */     }
 				  int j=0;
-				  for(int i=pwSums_.length-2;i>j;i--){
+				  for(int i=pwSums_.length-1;i>j;i--){
 				  	switchPaths(i, j);
 				  	j++;
 				  }

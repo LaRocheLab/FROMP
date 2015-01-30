@@ -195,7 +195,7 @@
 /* 195:    */     {
 /* 196:    */       public void actionPerformed(ActionEvent e)
 /* 197:    */       {
-/* 198:208 */         Project.listMode_ = PathwaysPane.this.listCheck_.isSelected();
+//* 198:208 */         Project.listMode_ = PathwaysPane.this.listCheck_.isSelected();
 /* 199:209 */         for (int i = 0; i < Project.samples_.size(); i++) {
 /* 200:210 */           if (PathwaysPane.this.listCheck_.isSelected()) {
 /* 201:212 */             PathwaysPane.this.sortPathwaysByScore(((Sample)Project.samples_.get(i)).pathways_);

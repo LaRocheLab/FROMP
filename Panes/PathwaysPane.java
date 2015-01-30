@@ -200,7 +200,7 @@
 /* 196:    */       public void actionPerformed(ActionEvent e)
 /* 197:    */       {
 //* 198:208 */         Project.listMode_ = PathwaysPane.this.listCheck_.isSelected();
-					  
+					   
 					   if(checked){checked=false;}
 					   else{checked=true;}
 					  
@@ -216,6 +216,7 @@
 /* 208:    */         } else {
 /* 209:224 */           PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
 /* 210:    */         }
+					  
 /* 211:227 */         PathwaysPane.this.redo();
 /* 212:    */       }
 /* 213:231 */     });
@@ -402,40 +403,88 @@
 /* 394:    */   
 /* 395:    */   private void sortPathsById(ArrayList<PathwayWithEc> pathways)
 /* 396:    */   {
-/* 397:419 */     boolean changed = true;
-/* 398:420 */     Pathway path1 = null;
-/* 399:421 */     Pathway path2 = null;
-/* 400:    */     int pathCnt=0;
-//* 401:422 */     for (; changed; pathCnt < pathways.size())
-                  while(changed && (pathCnt < pathways.size()))
-/* 402:    */     {
-/* 403:423 */       changed = false;
-/* 404:    */       
-//* 405:425 */       pathCnt = 0; continue;
-/* 406:426 */       path1 = (Pathway)pathways.get(pathCnt);
-/* 407:427 */       path2 = null;
-/* 408:428 */       for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++)
-/* 409:    */       {
-/* 410:429 */         path2 = (Pathway)pathways.get(pathCnt2);
-/* 411:430 */         if (!path1.idBiggerId2(path2)) {
-/* 412:    */           break;
-/* 413:    */         }
-/* 414:432 */         PathwayWithEc origPaths1 = (PathwayWithEc)pathways.get(pathCnt);
-/* 415:433 */         PathwayWithEc origPaths2 = (PathwayWithEc)pathways.get(pathCnt2);
-/* 416:    */         
-/* 417:435 */         pathways.remove(pathCnt2);
-/* 418:436 */         pathways.remove(pathCnt);
-/* 419:    */         
-/* 420:438 */         pathways.add(pathCnt, origPaths2);
-/* 421:439 */         pathways.add(pathCnt2, origPaths1);
-/* 422:    */         
-/* 423:441 */         pathCnt++;
-/* 424:442 */         pathCnt2++;
-/* 425:443 */         changed = true;
-/* 426:    */       }
-/* 427:425 */       pathCnt++;
-/* 428:    */     }
+		//		  Loadingframe lframe = new Loadingframe();	
+		//		  lframe.bigStep("Sorting pathways");
+				  quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+				  //quicksortPathsById(pathways,0,pathways.size()-1);
+		//		  Loadingframe.close();
+
+//* 397:419 */     boolean changed = true;
+//* 398:420 */     Pathway path1 = null;
+//* 399:421 */     Pathway path2 = null;
+//* 400:    */     int pathCnt=0;
+///* 401:422 */     for (; changed; pathCnt < pathways.size())
+ //                 while(changed && (pathCnt < pathways.size()))
+//* 402:    */     {
+//* 403:423 */       changed = false;
+//* 404:    */       
+///* 405:425 */       pathCnt = 0; continue;
+//* 406:426 */       path1 = (Pathway)pathways.get(pathCnt);
+//* 407:427 */       path2 = null;
+//* 408:428 */       for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++)
+//* 409:    */       {
+//* 410:429 */         path2 = (Pathway)pathways.get(pathCnt2);
+//* 411:430 */         if (!path1.idBiggerId2(path2)) {
+//* 412:    */           break;
+//* 413:    */         }
+//* 414:432 */         PathwayWithEc origPaths1 = (PathwayWithEc)pathways.get(pathCnt);
+//* 415:433 */         PathwayWithEc origPaths2 = (PathwayWithEc)pathways.get(pathCnt2);
+//* 416:    */         
+//* 417:435 */         pathways.remove(pathCnt2);
+//* 418:436 */         pathways.remove(pathCnt);
+//* 419:    */         
+//* 420:438 */         pathways.add(pathCnt, origPaths2);
+//* 421:439 */         pathways.add(pathCnt2, origPaths1);
+//* 422:    */         
+//* 423:441 */         pathCnt++;
+//* 424:442 */         pathCnt2++;
+//* 425:443 */         changed = true;
+//* 426:    */       }
+//* 427:425 */       pathCnt++;
+//* 428:    */     }
 /* 429:    */   }
+
+				private void quicksortPathsById(ArrayList<PathwayWithEc> path, int low, int high)
+				{
+					int i=low, j=high;
+//					if(i>=j){return;}
+					String pivot=path.get(low+(high-low)/2).id_;
+					while(i<=j){
+						while(path.get(i).id_.compareTo(pivot)<0){
+							i++;
+						}
+						while(path.get(j).id_.compareTo(pivot)>0){
+							j--;
+						}
+						if(i<=j){
+							switchPaths(path, i, j);
+							i++;
+							j--;
+						}
+					}
+					if(low < j)
+						quicksortPathsById(path, low, j);
+					if(i < high)
+						quicksortPathsById(path, i, high);
+				}
+
+				private void switchPaths(ArrayList<PathwayWithEc> path, int pathCnt, int pathCnt2)
+				{
+					PathwayWithEc origPaths1 = path.get(pathCnt);
+         			PathwayWithEc origPaths2 = path.get(pathCnt2);
+
+			        path.set(pathCnt, origPaths2);
+					path.set(pathCnt2, origPaths1);
+				}
+
+
+				
 /* 430:    */   
 /* 431:    */   public int convertStringtoInt(String in)
 /* 432:    */   {

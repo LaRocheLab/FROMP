@@ -55,23 +55,31 @@
 /*  55: 56 */         BufferedReader in = new BufferedReader(new FileReader(this.inputPath_));
 /*  56:    */         
 /*  57: 58 */         String comp = "<userP>";
-/*  58:    */         String line;
-/*  59: 60 */         while ((line = in.readLine()) != null)
+/*  58:    */         String line=in.readLine();
+/*  59: 60 */         while ((line) != null)
 /*  60:    */         {
-/*  61:    */           //String line;
-/*  62: 61 */           if (line.startsWith(comp))
-/*  63:    */           {
-/*  64: 62 */             String userP = line.substring(comp.length());
-/*  65: 63 */             Project.addUserP(userP);
-/*  66:    */           }
-/*  67:    */           else
-/*  68:    */           {
-/*  69: 66 */             String name = line.substring(line.lastIndexOf(File.separator));
-/*  70: 67 */             Color col = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-/*  71: 68 */             Sample sample = new Sample(name, line, col);
-/*  72:    */             
-/*  73: 70 */             Project.samples_.add(sample);
-/*  74:    */           }
+						try{
+							line=in.readLine();
+							//String line;
+/*  62: 61 */           	if (line.startsWith(comp))
+/*  63:    */          		{
+/*  64: 62 */           	  String userP = line.substring(comp.length());
+/*  65: 63 */           	  Project.addUserP(userP);
+/*  66:    */           	}
+/*  67:    */           	else
+/*  68:    */           	{
+/*  69: 66 */           	  String name = line.substring(line.lastIndexOf(File.separator));
+/*  70: 67 */           	  Color col = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+/*  71: 68 */           	  Sample sample = new Sample(name, line, col);
+/*  72:    */           	  
+/*  73: 70 */           	  Project.samples_.add(sample);
+/*  74:    */           	}
+						}
+						catch (Exception e)
+/*  78:    */       	{
+/*  79: 74 */       	  e.printStackTrace();
+/*  80:    */       	}
+/*  61:    */           
 /*  75:    */         }
 /*  76:    */       }
 /*  77:    */       catch (Exception e)

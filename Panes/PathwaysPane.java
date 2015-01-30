@@ -48,6 +48,7 @@
 /*  48:    */   JCheckBox listCheck_;
 /*  49: 60 */   int activeChainingMode = 0;
 /*  50:    */   int xwidth;
+				boolean checked;
 /*  51:    */   public JButton backButton_;
 /*  52:    */   
 /*  53:    */   public PathwaysPane(Project activeProj, DataProcessor proc, Dimension dim)
@@ -62,6 +63,8 @@
 /*  62: 73 */     setBackground(Project.getBackColor_().darker());
 /*  63: 74 */     setLayout(new BorderLayout());
 /*  64: 75 */     setVisible(true);
+
+				  checked=false;
 /*  65:    */     
 /*  66: 77 */     this.backButton_ = new JButton("< Back to the analysisoptions");
 /*  67: 78 */     initMainPanels();
@@ -187,15 +190,20 @@
 /* 187:196 */     listl_.setBounds(this.xCol2 + 20, this.yLine1, 200, 20);
 /* 188:197 */     this.optionsPanel_.add(listl_);
 /* 189:198 */     this.listCheck_.setBounds(this.xCol2, this.yLine1, 20, 20);
-/* 190:199 */     this.listCheck_.setBackground(this.optionsPanel_.getBackground());
-/* 191:200 */     if (this.activeProj_ != null) {
-/* 192:201 */       this.listCheck_.setSelected(Project.listMode_);
-/* 193:    */     }
+//* 190:199 */     this.listCheck_.setBackground(this.optionsPanel_.getBackground());
+//* 191:200 */     if (this.activeProj_ != null) {
+//* 192:201 */       this.listCheck_.setSelected(Project.listMode_);
+//* 193:    */     }
+				  listCheck_.setSelected(checked);
 /* 194:203 */     this.listCheck_.addActionListener(new ActionListener()
 /* 195:    */     {
 /* 196:    */       public void actionPerformed(ActionEvent e)
 /* 197:    */       {
 //* 198:208 */         Project.listMode_ = PathwaysPane.this.listCheck_.isSelected();
+					  
+					   if(checked){checked=false;}
+					   else{checked=true;}
+					  
 /* 199:209 */         for (int i = 0; i < Project.samples_.size(); i++) {
 /* 200:210 */           if (PathwaysPane.this.listCheck_.isSelected()) {
 /* 201:212 */             PathwaysPane.this.sortPathwaysByScore(((Sample)Project.samples_.get(i)).pathways_);

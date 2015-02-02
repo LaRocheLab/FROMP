@@ -64,14 +64,14 @@
 						try{
 							line=in.readLine();
 							//String line;
-/*  62: 61 */           	if (line.startsWith(comp))
+/*  62: 61 */           	if (((line) != null) && line.startsWith(comp))
 /*  63:    */          		{
 /*  64: 62 */           	  String userP = line.substring(comp.length());
 							  System.out.println("user pathway made");
 /*  65: 63 */           	  Project.addUserP(userP);
 							  System.out.println("pathway added");
 /*  66:    */           	}
-/*  67:    */           	else
+/*  67:    */           	else if ((line) != null) 
 /*  68:    */           	{
 							  File f=new File (line);
 							  if (f.exists() && !f.isDirectory()){
@@ -117,18 +117,24 @@
 /*  92:    */       }
 /*  93: 87 */       else if (this.optionsCmd_.contentEquals("p"))
 /*  94:    */       {
-/*  95: 88 */         pwMAtrix.exportPics(this.outPutPath_, false, false);
+					  String tmpPAth = this.outPutPath_ + File.separator + "pathwayPics";
+/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/*  95: 88 */         pwMAtrix.exportPics(tmpPAth, false, false);
 /*  96: 89 */         System.exit(0);
 /*  97:    */       }
 /*  98: 91 */       else if (this.optionsCmd_.contentEquals("op"))
 /*  99:    */       {
-/* 100: 92 */         pwMAtrix.exportPics(this.outPutPath_, true, false);
+					  String tmpPAth = this.outPutPath_ + File.separator + "multiPathwayPics";
+/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/* 100: 92 */         pwMAtrix.exportPics(tmpPAth, true, false);
 /* 101: 93 */         System.exit(0);
 /* 102:    */       }
 /* 103: 95 */       else if (this.optionsCmd_.contentEquals("up"))
 /* 104:    */       {
+					  String tmpPAth = this.outPutPath_ + File.separator + "userPathwayPics";
+/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
 /* 105: 96 */         System.out.println("onlyUserPaths");
-/* 106: 97 */         pwMAtrix.exportPics(this.outPutPath_, true, true);
+/* 106: 97 */         pwMAtrix.exportPics(tmpPAth, true, true);
 /* 107: 98 */         System.exit(0);
 /* 108:    */       }
 /* 109:101 */       if (this.optionsCmd_.contentEquals("p")) {

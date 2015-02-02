@@ -21,6 +21,7 @@
 /*  21:    */   String optionsCmd_;
 /*  22:    */   static Controller controller;
 /*  23:    */   static PathwayMatrix pwMAtrix;
+				final String basePath_ = new File(".").getAbsolutePath() + File.separator;
 /*  24:    */   
 /*  25:    */   public CmdController(String[] args)
 /*  26:    */   {
@@ -56,28 +57,40 @@
 /*  56:    */         
 /*  57: 58 */         String comp = "<userP>";
 /*  58:    */         String line=in.readLine();
+					  System.out.println("Entering while loop");
 /*  59: 60 */         while ((line) != null)
 /*  60:    */         {
+						System.out.println("Looping");
 						try{
 							line=in.readLine();
 							//String line;
 /*  62: 61 */           	if (line.startsWith(comp))
 /*  63:    */          		{
 /*  64: 62 */           	  String userP = line.substring(comp.length());
+							  System.out.println("user pathway made");
 /*  65: 63 */           	  Project.addUserP(userP);
+							  System.out.println("pathway added");
 /*  66:    */           	}
 /*  67:    */           	else
 /*  68:    */           	{
-/*  69: 66 */           	  String name = line.substring(line.lastIndexOf(File.separator));
-/*  70: 67 */           	  Color col = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-/*  71: 68 */           	  Sample sample = new Sample(name, line, col);
-/*  72:    */           	  
-/*  73: 70 */           	  Project.samples_.add(sample);
+							  File f=new File (line);
+							  if (f.exists() && !f.isDirectory()){
+/*  69: 66 */           	  	String name = line.substring(line.lastIndexOf(File.separator));
+							  	System.out.println("substring");
+/*  70: 67 */           	  	Color col = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+/*  71: 68 */           	  	Sample sample = new Sample(name, line, col);
+/*  72:    */           	  	
+/*  73: 70 */           	  	Project.samples_.add(sample);
+							  	System.out.println("sample added");
+							  }
+							  else{System.out.println("file does not exist");}
+
 /*  74:    */           	}
 						}
 						catch (Exception e)
 /*  78:    */       	{
 /*  79: 74 */       	  e.printStackTrace();
+						  continue;
 /*  80:    */       	}
 /*  61:    */           
 /*  75:    */         }

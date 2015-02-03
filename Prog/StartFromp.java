@@ -65,8 +65,34 @@
 /*  63: 57 */               printOptions();
 /*  64:    */             }
 /*  65:    */           }
+						else if((checkPath(args[0])) && (!checkPath(args[1]))){
+							if(args[1].endsWith("/")){
+								File dir=new File(args[1]);
+								dir.mkdir();
+								CmdController cmd;
+/*  55: 50 */           	 	if (checkOptions(args[2]) && (checkPath(args[1])))
+/*  56:    */             		{
+/*  57: 52 */               		cmd = new CmdController(args);
+/*  58:    */             		}
+/*  59:    */             		else
+/*  60:    */             		{
+/*  61: 55 */              	 		System.out.println("Wrong option input");
+/*  62: 56 */               		System.out.println("option: " + args[2]);
+/*  63: 57 */               		printOptions();
+/*  64:    */           		}
+							}
+							else{
+								System.out.println("1");
+								System.out.println("Wrong input");
+/*  69: 62 */             		System.out.println("check input/output-path");
+/*  70: 63 */             		System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             		System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             		printOptions();
+							}						
+						}
 /*  66:    */           else
 /*  67:    */           {
+						  System.out.println("2");
 /*  68: 61 */             System.out.println("Wrong input");
 /*  69: 62 */             System.out.println("check input/output-path");
 /*  70: 63 */             System.out.println("inputPath: " + args[0]);
@@ -111,7 +137,7 @@
 /* 109: 98 */       back.setBounds(0, 0, frame2.getWidth(), frame2.getHeight());
 /* 110: 99 */       back.setBackground(new Color(233, 233, 233));
 /* 111:    */       
-/* 112:101 */       JLabel label = new JLabel("<html>FROMP uses quiet some memory. <br>To run properly,<br> please restart the Programm with FROMP.bat.<br>If you choose to continue it may crash</html>");
+/* 112:101 */       JLabel label = new JLabel("<html>FROMP uses quite a lot of memory. <br>To run properly,<br> please restart the Program with FROMP.bat.<br>If you choose to continue it may crash</html>");
 /* 113:102 */       label.setLayout(null);
 /* 114:103 */       label.setForeground(Color.black);
 /* 115:104 */       label.setBounds(5, -10, frame2.getWidth(), 100);

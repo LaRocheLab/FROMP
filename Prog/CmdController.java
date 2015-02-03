@@ -62,7 +62,6 @@
 /*  60:    */         {
 						System.out.println("Looping");
 						try{
-							line=in.readLine();
 							//String line;
 /*  62: 61 */           	if (((line) != null) && line.startsWith(comp))
 /*  63:    */          		{
@@ -86,13 +85,14 @@
 							  else{System.out.println("file does not exist");}
 
 /*  74:    */           	}
+
 						}
 						catch (Exception e)
 /*  78:    */       	{
 /*  79: 74 */       	  e.printStackTrace();
 						  continue;
 /*  80:    */       	}
-/*  61:    */           
+/*  61:    */           line=in.readLine();
 /*  75:    */         }
 /*  76:    */       }
 /*  77:    */       catch (Exception e)

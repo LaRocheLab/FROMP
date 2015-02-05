@@ -1426,4 +1426,61 @@
 /* 1141:     */       }
 /* 1142:     */     }
 /* 1143:     */   }
-/* 1144:     */ }
+					
+				  public void cmdExportRepseqs(String ecName){
+				  	int index;	
+				  	EcNr ecTmp;
+				  	
+				  	for(int i=0;i<this.ecMatrix_.size();i++){
+				  		System.out.println(this.ecMatrix_.get(i).getEc_().name_);
+				  		if(ecName.contains(this.ecMatrix_.get(i).getEc_().name_)){
+							ecTmp=new EcNr(((Line)ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
+							System.out.println("index"+i);
+							for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++)
+							{	
+								ecTmp.amount_ = ((int)((Line)ActMatrixPane.this.ecMatrix_.get(i)).arrayLine_[smpCnt]);
+						    	ArrayList<ConvertStat> reps = new ArrayList();
+								for (int statsCnt = 0; statsCnt < ((Sample)Project.samples_.get(smpCnt)).conversions_.size(); statsCnt++) {
+									String test=(((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt)).getDesc_());
+									if ((ecTmp.name_.contentEquals(((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt)).getEcNr_())) &&
+									!test.contains("\t") ){
+										reps.add((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt));
+									}
+								}		
+								String test="";
+							  	String test2="";
+							  	for(int j=reps.size()-1;j>=0;j--){
+							  		if((reps.get(j)==null)){}
+							  		else{
+							  			test=((ConvertStat)reps.get(j)).getDesc_();
+			//				  			System.out.println("1  "+test);
+							  			if(test.contains("\t")){
+							  				reps.set(j,null);
+							  			}
+							  			else{
+			//				  				innerloop:
+							  				for(int k=j-1;k>=0;k--){
+							  					if((reps.get(k)==null)){}
+							  					else{
+								  					test2=((ConvertStat)reps.get(k)).getDesc_();
+			//				  						System.out.println("2  "+  test2);
+							  						if(test.contains(test2)){
+							  							reps.set(k,null);
+							  						}
+												}
+							  				}
+							  			}
+							  		}
+							  	}
+							  	for(int j=reps.size()-1;j>=0;j--){
+							  		if(reps.get(j)==null){
+							  			reps.remove(j);
+							  		}
+							  	}						
+								String sampName=((Sample)Project.samples_.get(smpCnt)).name_;
+						    	ExportReps(reps, ecTmp, sampName);
+							}
+				  		}
+				  	}
+        	      }
+        	    }

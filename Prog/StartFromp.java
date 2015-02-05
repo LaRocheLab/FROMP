@@ -100,6 +100,57 @@
 /*  72: 65 */             printOptions();
 /*  73:    */           }
 /*  74:    */         }
+					  else if(args.length == 4){
+					  	if ((checkPath(args[0])) && (checkPath(args[1])))
+/*  53:    */           {
+/*  54:    */             CmdController cmd;
+/*  55: 50 */             if (checkOptions(args[2])&&checkEC(args[3]))
+/*  56:    */             {
+/*  57: 52 */               cmd = new CmdController(args);
+/*  58:    */             }
+/*  59:    */             else
+/*  60:    */             {
+/*  61: 55 */               System.out.println("Wrong option or ec input");
+/*  62: 56 */               System.out.println("option: " + args[2]);
+							System.out.println("ec: " + args[3]);
+/*  63: 57 */               printOptions();
+/*  64:    */             }
+/*  65:    */           }
+						else if((checkPath(args[0])) && (!checkPath(args[1]))){
+							if(args[1].endsWith("/")){
+								File dir=new File(args[1]);
+								dir.mkdir();
+								CmdController cmd;
+/*  55: 50 */           	 	if (checkOptions(args[2]) && (checkPath(args[1])))
+/*  56:    */             		{
+/*  57: 52 */               		cmd = new CmdController(args);
+/*  58:    */             		}
+/*  59:    */             		else
+/*  60:    */             		{
+/*  61: 55 */              	 		System.out.println("Wrong option input");
+/*  62: 56 */               		System.out.println("option: " + args[2]);
+/*  63: 57 */               		printOptions();
+/*  64:    */           		}
+							}
+							else{
+								System.out.println("1");
+								System.out.println("Wrong input");
+/*  69: 62 */             		System.out.println("check input/output-path");
+/*  70: 63 */             		System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             		System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             		printOptions();
+							}						
+						}
+/*  66:    */           else
+/*  67:    */           {
+						  System.out.println("2");
+/*  68: 61 */             System.out.println("Wrong input");
+/*  69: 62 */             System.out.println("check input/output-path");
+/*  70: 63 */             System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             printOptions();
+/*  73:    */           }
+					  }
 /*  75:    */         else {
 /*  76: 69 */           printOptions();
 /*  77:    */         }
@@ -226,6 +277,35 @@
 /* 195:    */     }
 /* 196:185 */     return ret;
 /* 197:    */   }
+
+				private static boolean checkEC(String options)
+/* 173:    */   {
+/* 174:163 */     boolean ret = false;
+				  String testStr1;
+				  String testStr2;
+				  String testStr3;
+
+/* 175:164 */     if (options.matches("[0-9].*")) {
+/* 194:183 */       if(options.contains(".")){
+						testStr1=options.substring(options.indexOf(".")+1);
+						if(testStr1.matches("[0-9].*")){
+							if(testStr1.contains(".")){
+								testStr2=testStr1.substring(options.indexOf(".")+1);
+								if(testStr2.matches("[0-9].*")){
+									if(testStr2.contains(".")){
+										testStr3=testStr2.substring(options.indexOf(".")+1);
+										if(testStr3.matches("[0-9].*")){
+											ret=true;
+										}
+									}
+								}
+							}
+						}
+					}
+/* 195:    */     }
+/* 196:185 */     return ret;
+/* 197:    */   }
+
 /* 198:    */   
 /* 199:    */   private static void printOptions()
 /* 200:    */   {
@@ -246,6 +326,10 @@
 				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, and EC-activity-matrix");
 /* 213:200 */     System.out.println("'op' only multisample pictures");
 /* 214:201 */     System.out.println("'up' only userpathway multisample pictures");
+				  System.out.println("");
+				  System.out.println("To include sequence IDs after your option add the ec number of that pathway who's ");
+				  System.out.println("of that pathway who's sequence ID you are interested in");
+				  System.out.println("");
 /* 215:202 */     System.out.println("");
 /* 216:203 */     System.out.println("blanks in the input-path or output-path will lead to errors");
 /* 217:204 */     System.out.println("to solve use braces: (\"inputPath\")");

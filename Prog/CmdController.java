@@ -19,6 +19,7 @@
 /*  19:    */   String inputPath_;
 /*  20:    */   String outPutPath_;
 /*  21:    */   String optionsCmd_;
+				String ec_;
 /*  22:    */   static Controller controller;
 /*  23:    */   static PathwayMatrix pwMAtrix;
 				final String basePath_ = new File(".").getAbsolutePath() + File.separator;
@@ -34,6 +35,10 @@
 /*  33: 36 */     System.out.println("output: " + this.outPutPath_);
 /*  34: 37 */     this.optionsCmd_ = getOptionCmd();
 /*  35: 38 */     System.out.println("option: " + this.optionsCmd_);
+				  if(args_.length==4){
+				  	this.ec_ = getEC();
+/*  35: 38 */     	System.out.println("ec: " + this.ec_);
+				  }
 /*  36: 39 */     controller = new Controller(Color.black);
 /*  37:    */     
 /*  38: 41 */     Panes.Loadingframe.showLoading = false;
@@ -164,6 +169,10 @@
 /* 133:122 */       System.out.println("EC-activity-matrix");
 /* 134:123 */       ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 /* 135:124 */       pane.exportMat(this.outPutPath_, true);
+					if((args_.length==4)&&(this.args_[3]!=null)){
+						System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+						pane.cmdExportRepseqs(this.ec_);
+					}
 /* 136:125 */       if (this.optionsCmd_.contentEquals("e")) {
 /* 137:126 */         System.exit(0);
 /* 138:    */       }
@@ -185,4 +194,8 @@
 /* 154:    */   {
 /* 155:140 */     return args_[2];
 /* 156:    */   }
+				private String getEC()
+				{
+				  return args_[3]; 
+				}
 /* 157:    */ }

@@ -405,16 +405,23 @@
 /* 396:    */   {
 		//		  Loadingframe lframe = new Loadingframe();	
 		//		  lframe.bigStep("Sorting pathways");
-				  quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
-				  //quicksortPathsById(pathways,0,pathways.size()-1);
 				  //quicksortPathsById(pathways,0,pathways.size()-1);
 		//		  Loadingframe.close();
 
+
+				  int tmpCnt = 0;
+/* 372:400 */     for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++)
+/* 373:    */     {
+/* 374:401 */       tmpCnt = pathCnt;
+/* 375:402 */       for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+/* 376:403 */         if (((PathwayWithEc)pathways.get(tmpCnt)).idBiggerId2(((PathwayWithEc)pathways.get(pathCnt2)))) {
+/* 377:404 */           tmpCnt = pathCnt2;
+/* 378:    */         }
+/* 379:    */       }
+/* 380:407 */       pathways.add(pathCnt, (PathwayWithEc)pathways.get(tmpCnt));
+/* 381:408 */       pathways.remove(tmpCnt + 1);
+/* 382:    */     }
+				 
 //* 397:419 */     boolean changed = true;
 //* 398:420 */     Pathway path1 = null;
 //* 399:421 */     Pathway path2 = null;
@@ -454,15 +461,19 @@
 				{
 					int i=low, j=high;
 //					if(i>=j){return;}
-					String pivot=path.get(low+(high-low)/2).id_;
-					while(i<=j){
-						while(path.get(i).id_.compareTo(pivot)<0){
+					PathwayWithEc pivot=path.get(low+(high-low)/2);
+					while(i<=j)
+					{
+						while(path.get(i).idSmallerId2(pivot))
+						{
 							i++;
 						}
-						while(path.get(j).id_.compareTo(pivot)>0){
+						while(path.get(j).idBiggerId2(pivot))
+						{
 							j--;
 						}
-						if(i<=j){
+						if(i<=j)
+						{
 							switchPaths(path, i, j);
 							i++;
 							j--;
@@ -474,13 +485,12 @@
 						quicksortPathsById(path, i, high);
 				}
 
-				private void switchPaths(ArrayList<PathwayWithEc> path, int pathCnt, int pathCnt2)
+				private void switchPaths(ArrayList<PathwayWithEc> path, int i, int j)
 				{
-					PathwayWithEc origPaths1 = path.get(pathCnt);
-         			PathwayWithEc origPaths2 = path.get(pathCnt2);
+					PathwayWithEc tmp=path.get(i);
 
-			        path.set(pathCnt, origPaths2);
-					path.set(pathCnt2, origPaths1);
+					path.set(i, path.get(j));
+					path.set(j, tmp);
 				}
 
 

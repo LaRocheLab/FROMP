@@ -464,27 +464,12 @@
 /*  455: 459 */     String zeile = "";
 /*  456: 460 */     EcNr ecNr = null;
 /*  457:     */     
-					ArrayList<PathwayWithEc> uniqueEcs=new ArrayList<PathwayWithEc>();
-					ArrayList<EcWithPathway> uniquePathways=new ArrayList<EcWithPathway>();
-
 /*  464: 468 */     int counter = 0;
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  467:     */     {
 /*  468: 475 */       this.lFrame_.bigStep(((Sample)Project.samples_.get(i)).name_);
 					
-					  for(int j=0;j<Project.samples_.get(i).pathways_.size();j++){
-						 // if(!uniqueEcs.contains(Project.samples_.get(i).pathways_.get(i))){
-						  	uniqueEcs.add(Project.samples_.get(i).pathways_.get(i));
-						//  }
-					  }
-					  for(int j=0;j<Project.samples_.get(i).ecs_.size();j++){
-					//	  if(!uniquePathways.contains(Project.samples_.get(i).ecs_.get(i))){
-						  	uniquePathways.add(Project.samples_.get(i).ecs_.get(i));
-					//	  }
-					  }
-	
-
 /*  469: 476 */       Sample sample = (Sample)Project.samples_.get(i);
 /*  470: 477 */       if (sample.valuesSet)
 /*  471:     */       {
@@ -620,21 +605,29 @@
 /*  601: 618 */         System.out.println("finished allecvsp");
 /*  602:     */       }
 /*  603:     */     }
-/*  604: 621 */     String Text = "<html><body>Finished processing the samples<br><br>Identified ECs: " +  Project.amountOfEcs + 
-/*  609: 626 */       "<br>" + 
-/*  610: 627 */       "Usable ECs: " + Project.numOfUsableEcs + 
-/*  611: 628 */       "<br>" + 
-/*  612: 629 */       "Identified Pfams: " + Project.amountOfPfs + 
-/*  613: 630 */       "<br>" + 
-/*  614: 631 */       "Converted Pfams: " + Project.numOfConvertedPFs + 
-/*  615: 632 */       "<br>" + 
-/*  616: 633 */       "Usable converted Pfams: " + Project.numOfConvPfsUsable + 
+					ArrayList<String> ecs=new ArrayList<String>();
+					for (int i=0;i<Project.samples_.size();i++){
+						for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
+							if(!ecs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&Project.samples_.get(i).ecs_.get(k).name_.length()>6){
+								ecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+							}
+						}
+					}
+/*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
+//					  "<br><br>Identified ECs: " +  Project.amountOfEcs + 
+//*  609: 626 */       "<br>" + 
+//*  610: 627 */       "Usable ECs: " + Project.numOfUsableEcs + 
+//*  611: 628 */       "<br>" + 
+//*  612: 629 */       "Identified Pfams: " + Project.amountOfPfs + 
+//*  613: 630 */       "<br>" + 
+//*  614: 631 */       "Converted Pfams: " + Project.numOfConvertedPFs + 
+//*  615: 632 */       "<br>" + 
+//*  616: 633 */       "Usable converted Pfams: " + Project.numOfConvPfsUsable + 
 /*  617: 634 */       "<br>" + 
-/*  618: 635 */       "<br>" + 
-/*  619: 636 */       
-					  "Unique Pathways"+uniquePathways.size()+ "<br>"+
-					  "Unique Ecs"+uniqueEcs.size()+ "<br>"+
-					  "Sample that seem to be valid: " + "<br>";
+/*  617: 634 */       "<br>" + 
+					  "Number of ECs: "+ecs.size()+
+					  "<br><br>"+
+/*  619: 636 */       "Sample that seem to be valid: " + "<br>";
 /*  620: 637 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  621:     */     {
 /*  622: 638 */       Text = Text + (i + 1) + ":" + Project.samples_.get(i).legitSample + " ";

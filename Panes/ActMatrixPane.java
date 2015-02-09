@@ -945,16 +945,16 @@
 				  {
 					String text="";
                		String test="";
-				   // System.out.println("Reps:"+reps.size());
+				    System.out.println("Reps:"+reps.size());
 				    for (int repCnt = 0; repCnt < reps.size(); repCnt++)
 					{
 					  int amount = ((ConvertStat)reps.get(repCnt)).getEcAmount_();
 					  if (((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_() > amount) {
 					    amount = ((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_();
 					  }
-					  test=((ConvertStat)reps.get(repCnt)).getDesc_() + "," + ((ConvertStat)reps.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_() + "," + amount;
+					  test=((ConvertStat)reps.get(repCnt)).getDesc_();
 					  if(!test.contains("\t")){
-/* 140:148 */       	text = text + ((ConvertStat)reps.get(repCnt)).getDesc_() + "," + ((ConvertStat)reps.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_() + "," + amount;
+/* 140:148 */       	text = text + ((ConvertStat)reps.get(repCnt)).getDesc_();
 /* 141:149 */       	text = text + "\n";
 					  } 
 					}
@@ -1435,7 +1435,6 @@
 				  		//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 				  		if(ecName.contains(this.ecMatrix_.get(i).getEc_().name_)){
 							ecTmp=new EcNr(((Line)ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
-							//System.out.println("index"+i);
 							for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++)
 							{	
 								ecTmp.amount_ = ((int)((Line)ActMatrixPane.this.ecMatrix_.get(i)).arrayLine_[smpCnt]);

@@ -110,6 +110,11 @@
 				  	System.exit(1);
 				  }
 /*  82: 77 */     Controller.loadPathways(true);
+				  if((args_.length==4)&&(this.args_[3]!=null)){
+				  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  	System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+					pane.cmdExportRepseqs(this.ec_);
+				  }
 /*  83: 78 */     if ((this.optionsCmd_.contentEquals("p")) || (this.optionsCmd_.contentEquals("op")) || (this.optionsCmd_.contentEquals("up")) || (this.optionsCmd_.contentEquals("a")))
 /*  84:    */     {
 /*  85: 79 */       System.out.println("Pathway-score-matrix");
@@ -169,14 +174,15 @@
 /* 133:122 */       System.out.println("EC-activity-matrix");
 /* 134:123 */       ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 /* 135:124 */       pane.exportMat(this.outPutPath_, true);
-					if((args_.length==4)&&(this.args_[3]!=null)){
-						System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
-						pane.cmdExportRepseqs(this.ec_);
-					}
+//					if((args_.length==4)&&(this.args_[3]!=null)){
+//						System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+//						pane.cmdExportRepseqs(this.ec_);
+//					}
 /* 136:125 */       if (this.optionsCmd_.contentEquals("e")) {
 /* 137:126 */         System.exit(0);
 /* 138:    */       }
 /* 139:    */     }
+				  
 /* 140:129 */     System.exit(0);
 /* 141:    */   }
 /* 142:    */   

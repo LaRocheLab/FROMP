@@ -945,7 +945,7 @@
 				  {
 					String text="";
                		String test="";
-				    System.out.println("Reps:"+reps.size());
+				   // System.out.println("Reps:"+reps.size());
 				    for (int repCnt = 0; repCnt < reps.size(); repCnt++)
 					{
 					  int amount = ((ConvertStat)reps.get(repCnt)).getEcAmount_();
@@ -1432,10 +1432,10 @@
 				  	EcNr ecTmp;
 				  	
 				  	for(int i=0;i<this.ecMatrix_.size();i++){
-				  		System.out.println(this.ecMatrix_.get(i).getEc_().name_);
+				  		//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 				  		if(ecName.contains(this.ecMatrix_.get(i).getEc_().name_)){
 							ecTmp=new EcNr(((Line)ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
-							System.out.println("index"+i);
+							//System.out.println("index"+i);
 							for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++)
 							{	
 								ecTmp.amount_ = ((int)((Line)ActMatrixPane.this.ecMatrix_.get(i)).arrayLine_[smpCnt]);
@@ -1478,7 +1478,9 @@
 							  		}
 							  	}						
 								String sampName=((Sample)Project.samples_.get(smpCnt)).name_;
-						    	ExportReps(reps, ecTmp, sampName);
+								if(reps.size()>0){
+						    		ExportReps(reps, ecTmp, sampName);
+						    	}
 							}
 				  		}
 				  	}

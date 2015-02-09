@@ -605,16 +605,16 @@
 /*  601: 618 */         System.out.println("finished allecvsp");
 /*  602:     */       }
 /*  603:     */     }
-					ArrayList<String> ecs=new ArrayList<String>();
-					for (int i=0;i<Project.samples_.size();i++){
-						for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
-							if(!ecs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&Project.samples_.get(i).ecs_.get(k).name_.length()>6){
-								ecs.add(Project.samples_.get(i).ecs_.get(k).name_);
-							}
-						}
-					}
+			   		ArrayList<String> ecs=new ArrayList<String>();
+			   		for (int i=0;i<Project.samples_.size();i++){
+			   			for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
+			   				if(!ecs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&Project.samples_.get(i).ecs_.get(k).name_.length()>6){
+			   					ecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   				}
+			   	 		}
+			   		}
 /*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
-//					  "<br><br>Identified ECs: " +  Project.amountOfEcs + 
+//			   		  "<br><br>Identified ECs: " +  Project.amountOfEcs + 
 //*  609: 626 */       "<br>" + 
 //*  610: 627 */       "Usable ECs: " + Project.numOfUsableEcs + 
 //*  611: 628 */       "<br>" + 
@@ -625,8 +625,8 @@
 //*  616: 633 */       "Usable converted Pfams: " + Project.numOfConvPfsUsable + 
 /*  617: 634 */       "<br>" + 
 /*  617: 634 */       "<br>" + 
-					  "Number of ECs: "+ecs.size()+
-					  "<br><br>"+
+			   		  "Number of ECs: "+ecs.size()+
+			   		  "<br><br>"+
 /*  619: 636 */       "Sample that seem to be valid: " + "<br>";
 /*  620: 637 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  621:     */     {
@@ -641,10 +641,11 @@
 /*  630: 646 */     HelpFrame helpF = new HelpFrame(Text);
 /*  631: 647 */     System.out.println("---------------------------------------------------------------------------------------------");
 /*  632: 648 */     System.out.println("Finished processing the samples");
-/*  633: 649 */     System.out.println("Number of identified ECs: " + Project.amountOfEcs);
-/*  634: 650 */     System.out.println("Number of used ECs: " + Project.numOfUsableEcs);
-/*  635: 651 */     System.out.println("Number of found Pfams: " + Project.amountOfPfs);
-/*  636: 652 */     System.out.println("Number of converted Pfams: " + Project.numOfConvertedPFs);
+//*  633: 649 */     System.out.println("Number of identified ECs: " + Project.amountOfEcs);
+//*  634: 650 */     System.out.println("Number of used ECs: " + Project.numOfUsableEcs);
+//*  635: 651 */     System.out.println("Number of found Pfams: " + Project.amountOfPfs);
+//*  636: 652 */     System.out.println("Number of converted Pfams: " + Project.numOfConvertedPFs);
+					System.out.println("Number of ECs: "+ecs.size());
 /*  637: 653 */     System.out.println("Sample that seem to be valid:");
 /*  638: 654 */     for (int i = 0; i < Project.samples_.size(); i++) {
 /*  639: 655 */       System.out.println("Sample: " + (i + 1) + ":" + ((Sample)Project.samples_.get(i)).name_ + " " + ((Sample)Project.samples_.get(i)).legitSample);

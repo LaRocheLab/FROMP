@@ -21,6 +21,7 @@
 /*   15:   */ import java.awt.event.ActionEvent;
 /*   16:   */ import java.awt.event.ActionListener;
 /*   24:   */ import java.io.IOException;
+			  import java.awt.Font;
 
 
 /*  16:    */ public class RepseqFrame
@@ -76,7 +77,7 @@
 					if(this.reps_.size()<50){
 /*  36: 38 */       	setBounds(100, 100, this.xSize, 100 + 25 * this.reps_.size());
 					}
-					else{setBounds(100, 100, this.xSize, 100 + 25);}
+					else{setBounds(100, 100, this.xSize, 100 + 100);}
 /*  37:    */     }
 /*  38:    */     else
 /*  39:    */     {
@@ -91,10 +92,20 @@
 /*  48: 49 */     if(this.reps_.size()<50)
 				  {
 					this.back_.setBounds(0, 0, this.xSize, 100 + 25 * this.reps_.size());
+					
 				  }
 				  else
 				  {
-				  	this.back_.setBounds(100, 100, this.xSize, 100 + 25);
+				  	this.back_.setBounds(5, 5, this.xSize, 100 + 100);
+				  	JTextArea tArea = new JTextArea();
+					tArea.setBounds(0, 0, this.xSize, 25 * this.reps_.size());
+					tArea.setLayout(null);
+					tArea.setEditable(false);
+					Font font = new Font("Verdana", Font.BOLD, 12);
+					tArea.setFont(font);
+					this.back_.add(tArea);
+
+					tArea.setText("*WARNING*\nThere are too many sequence IDs to be viewed.\nYou may still export them using the drop-down File menu in the top left corner.");
 				  }
 /*  49: 50 */     this.back_.setLayout(null);
 /*  50: 51 */     this.back_.setVisible(true);
@@ -118,7 +129,6 @@
 /*  67: 69 */       addrepseqs();
 					addMenu();
 /*  68:    */     }
-				  
 /*  69:    */   }
    
 /*  71:    */   public RepseqFrame(ArrayList<ConvertStat> reps, String ecNr, int amount)

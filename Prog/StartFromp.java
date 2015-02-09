@@ -294,7 +294,7 @@
 								if(testStr2.matches("[0-9].*")){
 									if(testStr2.contains(".")){
 										testStr3=testStr2.substring(options.indexOf(".")+1);
-										if(testStr3.matches("[0-9].*")){
+										if(testStr3.matches("[0-9]*")){
 											ret=true;
 										}
 									}
@@ -322,13 +322,14 @@
 /* 209:196 */     System.out.println("'s' for the pathway-score-matrix");
 /* 210:197 */     System.out.println("'m' for the pathway-activity-matrix");
 /* 211:198 */     System.out.println("'e' for the EC-activity-matrix");
+				  System.out.println("To include sequence IDs when building the EC-activity-matrix, add the ec number");
+				  System.out.println("of that pathway who's sequence ID you are interested in");
+				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");			
+  				  System.out.println("");
 /* 212:199 */     System.out.println("'a' all options");
 				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, and EC-activity-matrix");
 /* 213:200 */     System.out.println("'op' only multisample pictures");
 /* 214:201 */     System.out.println("'up' only userpathway multisample pictures");
-				  System.out.println("");
-				  System.out.println("To include sequence IDs after your option add the ec number of that pathway who's ");
-				  System.out.println("of that pathway who's sequence ID you are interested in");
 				  System.out.println("");
 /* 215:202 */     System.out.println("");
 /* 216:203 */     System.out.println("blanks in the input-path or output-path will lead to errors");

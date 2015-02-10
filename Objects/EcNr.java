@@ -17,7 +17,7 @@
 /*  17:    */   public ArrayList<EcSampleStats> stats_;
 /*  18:    */   public int[] nr_;
 /*  19: 20 */   public boolean unique_ = true;
-/*  20: 21 */   boolean isPfam_ = false;
+/*  20: 21 */   public boolean isPfam_ = false;
 /*  21: 22 */   public boolean incomplete = false;
 /*  22: 23 */   public boolean unmapped = false;
 /*  23:    */   public String type_;
@@ -337,8 +337,12 @@
 /* 337:    */   }
 /* 338:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Objects.EcNr
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Objects.EcNr
+
+ * JD-Core Version:    0.7.0.1
+
  */

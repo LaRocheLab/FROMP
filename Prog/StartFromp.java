@@ -290,10 +290,10 @@
 						testStr1=options.substring(options.indexOf(".")+1);
 						if(testStr1.matches("[0-9].*")){
 							if(testStr1.contains(".")){
-								testStr2=testStr1.substring(options.indexOf(".")+1);
+								testStr2=testStr1.substring(testStr1.indexOf(".")+1);
 								if(testStr2.matches("[0-9].*")){
 									if(testStr2.contains(".")){
-										testStr3=testStr2.substring(options.indexOf(".")+1);
+										testStr3=testStr2.substring(testStr2.indexOf(".")+1);
 										if(testStr3.matches("[0-9]*")){
 											ret=true;
 										}

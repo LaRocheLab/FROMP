@@ -68,6 +68,10 @@
 /*   68:     */   private static ArrayList<PathwayWithEc> newUserPathList_;
 /*   69:     */   public static ArrayList<EcWithPathway> ecList_;
 /*   70:  75 */   boolean reduce = false;
+
+				  ArrayList<String> numEcs=new ArrayList<String>();
+				  ArrayList<String> numPfams=new ArrayList<String>();
+				  ArrayList<String> totalnumPfams=new ArrayList<String>();
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
 /*   73:     */   {
@@ -150,17 +154,17 @@
 /*  144:     */     }
 /*  145:     */   }
 /*  146:     */   
-/*  147:     */   public String[] getEnzFromRawSample(String line)
-/*  148:     */   {
+/*  147:     */   public String[] getEnzFromRawSample(String line) 
+/*  148:     */   {  //retrieves ec/pfam and sequence ids from HMMER output files
 /*  149: 146 */     String[] ret = new String[4];
 /*  150:     */     
-/*  155: 152 */     ret[0] = "X";
+/*  155: 152 */     ret[0] = "X";//ec name
 /*  156:     */     
 /*  157: 154 */     ret[1] = "1";
 /*  158:     */     
-/*  159: 156 */     ret[2] = "X";
+/*  159: 156 */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
 /*  160:     */     
-/*  161: 158 */     ret[3] = "X";
+/*  161: 158 */     ret[3] = "X";//sequence id
 /*  162: 160 */     if (line.contains("_"))
 /*  163:     */     {
 /*  164: 161 */       String tmp = line.substring(0, line.indexOf("_"));
@@ -177,6 +181,9 @@
 /*  175: 171 */         ret[0] = tmp;
 /*  176: 172 */         ret[2] = "EC";
 /*  177: 173 */         ret[3] = repSeq;
+						if(!numEcs.contains(ret[0])){
+							numEcs.add(ret[0]);
+						}
 /*  178:     */       }
 /*  179:     */       else
 /*  180:     */       {
@@ -190,6 +197,19 @@
 /*  188: 182 */             repSeq = repSeq.substring(0, repSeq.indexOf("/"));
 /*  189:     */           }
 /*  190: 184 */           ret[3] = repSeq;
+
+						  if(!totalnumPfams.contains(ret[0])){
+							totalnumPfams.add(ret[0]);
+						  }
+						  String[] nump=ret.clone();
+						  ArrayList<String[]> nump2;
+						  nump2=convertPfam(nump);
+						  for(int i=0;i<nump2.size();i++){
+						  	if(!numPfams.contains(nump2.get(i)[0])){
+								numPfams.add(nump2.get(i)[0]);
+								System.out.println(nump2.get(i)[0]);
+						  	}
+						  }
 /*  191:     */         }
 /*  192:     */       }
 /*  193:     */     }
@@ -203,6 +223,19 @@
 /*  201: 195 */         String tmp = line.substring(line.indexOf(" ") + 1);
 /*  202: 196 */         tmp = tmp.substring(0, tmp.indexOf(" -"));
 /*  203: 197 */         ret[3] = tmp;
+
+						if(!totalnumPfams.contains(ret[0])){
+							totalnumPfams.add(ret[0]);
+						}
+						String[] nump=ret.clone();
+						ArrayList<String[]> nump2;
+						nump2=convertPfam(nump);
+						for(int i=0;i<nump2.size();i++){
+						  if(!numPfams.contains(nump2.get(i)[0])){
+							numPfams.add(nump2.get(i)[0]);
+							System.out.println(nump2.get(i)[0]);
+						  }
+						}
 /*  204:     */       }
 /*  205:     */       else
 /*  206:     */       {
@@ -464,6 +497,11 @@
 /*  455: 459 */     String zeile = "";
 /*  456: 460 */     EcNr ecNr = null;
 /*  457:     */     
+//					ArrayList<String> numOfUsableEcs=new ArrayList<String>();
+//					ArrayList<String> numOfConvertedPFs=new ArrayList<String>();
+//					ArrayList<String> numOfConvPfsUsable=new ArrayList<String>();
+//					ArrayList<String> amountOfEcs=new ArrayList<String>();
+
 /*  464: 468 */     int counter = 0;
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
@@ -533,6 +571,9 @@
 /*  529: 542 */                         sample.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
 /*  530: 543 */                         ecWP = findEcWPath(ecNr);
 /*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
+//										if(!numOfConvertedPFs.contains(ecNr.name_)){
+//											numOfConvertedPFs.add(ecNr.name_);
+//										}
 /*  532: 545 */                         Project.numOfConvertedPFs += ecNr.amount_;
 /*  533:     */                       }
 /*  534: 547 */                       if (ecWP != null)
@@ -543,6 +584,9 @@
 /*  539: 552 */                         if (isEc(ecNr.name_))
 /*  540:     */                         {
 /*  541: 553 */                           sample.addEc(new EcWithPathway(ecWP, ecNr));
+//										  if(!numOfConvPfsUsable.contains(ecNr.name_)){
+//											numOfConvPfsUsable.add(ecNr.name_);
+//										  }
 /*  542: 554 */                           Project.numOfConvPfsUsable += ecNr.amount_;
 /*  543: 555 */                           Project.legitSamples.remove(i);
 /*  544: 556 */                           Project.legitSamples.add(i, Boolean.valueOf(true));
@@ -567,6 +611,9 @@
 /*  563: 575 */                 ecNr = new EcNr(newEnz);
 /*  564: 577 */                 if (ecNr.couldBeEc())
 /*  565:     */                 {
+//								  if(!amountOfEcs.contains(ecNr.name_)){
+//									amountOfEcs.add(ecNr.name_);
+//								  }
 /*  566: 578 */                   Project.amountOfEcs += ecNr.amount_;
 /*  567: 580 */                   if (!ecNr.isCompleteEc()) {
 /*  568: 581 */                     ecNr.incomplete = true;
@@ -576,6 +623,9 @@
 /*  572: 587 */                   if (ecWP != null)
 /*  573:     */                   {
 /*  574: 588 */                     sample.addEc(new EcWithPathway(ecWP, ecNr));
+//									if(!numOfUsableEcs.contains(ecNr.name_)){
+//										numOfUsableEcs.add(ecNr.name_);
+//								  	}
 /*  575: 589 */                     Project.numOfUsableEcs += ecNr.amount_;
 /*  576: 590 */                     Project.legitSamples.remove(i);
 /*  577: 591 */                     Project.legitSamples.add(i, Boolean.valueOf(true));
@@ -605,14 +655,67 @@
 /*  601: 618 */         System.out.println("finished allecvsp");
 /*  602:     */       }
 /*  603:     */     }
-			   		ArrayList<String> ecs=new ArrayList<String>();
+
+//					Project.numOfUsableEcs+=numOfUsableEcs.size();
+//					Project.numOfConvertedPFs+=numOfConvertedPFs.size();
+//					Project.numOfConvPfsUsable+=numOfConvPfsUsable.size();
+//					Project.amountOfEcs+=amountOfEcs.size();
+
+			   		ArrayList<String> compecs=new ArrayList<String>();
+			   		ArrayList<String> allecs=new ArrayList<String>();
+			   		String testStr1;
+			   		String testStr2;
+			   		String testStr3;
 			   		for (int i=0;i<Project.samples_.size();i++){
 			   			for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
-			   				if(!ecs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&Project.samples_.get(i).ecs_.get(k).name_.length()>6){
-			   					ecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   				System.out.println(Project.samples_.get(i).ecs_.get(k).name_);
+			   				if(!compecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
+			   					if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
+								    if(Project.samples_.get(i).ecs_.get(k).name_.contains(".")){
+										testStr1=Project.samples_.get(i).ecs_.get(k).name_.substring(Project.samples_.get(i).ecs_.get(k).name_.indexOf(".")+1);
+										if(testStr1.matches("[0-9].*")){
+											if(testStr1.contains(".")){
+												testStr2=testStr1.substring(testStr1.indexOf(".")+1);
+												if(testStr2.matches("[0-9].*")){
+													if(testStr2.contains(".")){
+														testStr3=testStr2.substring(testStr2.indexOf(".")+1);
+														if(testStr3.matches("[0-9]*")){
+															compecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+														}
+													}
+												}
+											}
+										}
+									}
+				  				}
 			   				}
 			   	 		}
 			   		}
+			   		int completepfams=0;
+			   		for(int i=0;i<numPfams.size();i++){
+			   			if (numPfams.get(i).matches("[0-9].*")) {
+						    if(numPfams.get(i).contains(".")){
+								testStr1=numPfams.get(i).substring(numPfams.get(i).indexOf(".")+1);
+								if(testStr1.matches("[0-9].*")){
+									if(testStr1.contains(".")){
+										testStr2=testStr1.substring(testStr1.indexOf(".")+1);
+										if(testStr2.matches("[0-9].*")){
+											if(testStr2.contains(".")){
+												testStr3=testStr2.substring(testStr2.indexOf(".")+1);
+												if(testStr3.matches("[0-9]*")){
+													completepfams++;
+												}
+											}
+										}
+									}
+								}
+							}
+/* 195:    */     		}
+			   		}
+
+
+
+			   		int incompecs=allecs.size()-compecs.size();
 /*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
 //			   		  "<br><br>Identified ECs: " +  Project.amountOfEcs + 
 //*  609: 626 */       "<br>" + 
@@ -625,7 +728,18 @@
 //*  616: 633 */       "Usable converted Pfams: " + Project.numOfConvPfsUsable + 
 /*  617: 634 */       "<br>" + 
 /*  617: 634 */       "<br>" + 
-			   		  "Number of ECs: "+ecs.size()+
+					  "Number of total complete ECs:\t"+compecs.size()+
+					  "<br>"+
+					  "Number of mapped ECs:\t"+numEcs.size()+
+					  "<br>"+
+					  "Number of pfams:\t"+totalnumPfams.size()+
+					  "<br>"+
+					  "Number of converted Pfams:\t"+numPfams.size()+
+			   		  "<br>"+
+			   		  "Number of complete converted Pfams:\t"+completepfams+
+			   		  "<br>"+
+			   		  "Number of total incomplete ECs:\t"+incompecs+
+					  "<br>"+
 			   		  "<br><br>"+
 /*  619: 636 */       "Sample that seem to be valid: " + "<br>";
 /*  620: 637 */     for (int i = 0; i < Project.samples_.size(); i++)
@@ -645,7 +759,7 @@
 //*  634: 650 */     System.out.println("Number of used ECs: " + Project.numOfUsableEcs);
 //*  635: 651 */     System.out.println("Number of found Pfams: " + Project.amountOfPfs);
 //*  636: 652 */     System.out.println("Number of converted Pfams: " + Project.numOfConvertedPFs);
-					System.out.println("Number of ECs: "+ecs.size());
+					System.out.println("Number of ECs: "+compecs.size());
 /*  637: 653 */     System.out.println("Sample that seem to be valid:");
 /*  638: 654 */     for (int i = 0; i < Project.samples_.size(); i++) {
 /*  639: 655 */       System.out.println("Sample: " + (i + 1) + ":" + ((Sample)Project.samples_.get(i)).name_ + " " + ((Sample)Project.samples_.get(i)).legitSample);
@@ -684,7 +798,9 @@
 /*  672: 696 */     int pfamNr = Integer.valueOf(pfam[0].substring(2)).intValue();
 /*  673:     */     
 /*  674:     */ 
-/*  675:     */ 
+/*  675:     */ 	if(!totalnumPfams.contains(pfam[0])&&pfam[2].equalsIgnoreCase("PF")){
+						totalnumPfams.add(pfam[0]);
+					}
 /*  676:     */ 
 /*  677:     */ 
 /*  678:     */ 
@@ -708,6 +824,10 @@
 /*  696: 725 */             this.numOfPfamsToGo += 1;
 /*  697: 726 */             if (tmpNr[2].contentEquals("EC")) {
 /*  698: 727 */               retList.add(tmpNr);
+							  if(!numPfams.contains(tmpNr[0])){
+								numPfams.add(tmpNr[0]);
+								System.out.println(tmpNr[0]);
+						  	  }
 /*  699:     */             }
 /*  700:     */           }
 /*  701: 730 */           if (pfamNr < Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3, zeile.indexOf(":PF") + 8)).intValue()) {

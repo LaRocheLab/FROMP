@@ -22,6 +22,7 @@
 /*  22:    */   public static ArrayList<String> userPathways;
 /*  23:    */   static final String VERS = "$$ver:";
 /*  24:    */   public static int minVisScore_;
+				public static boolean loaded=false;
 /*  25: 28 */   public static boolean listMode_ = false;
 /*  26: 29 */   public static boolean randMode_ = false;
 /*  27: 30 */   public static boolean chaining = true;
@@ -35,11 +36,13 @@
 /*  35:    */   private static Color fontColor_;
 /*  36:    */   private static Color overAllColor_;
 /*  37: 47 */   public static Color standard = new Color(90, 125, 206);
-/*  38: 49 */   public static int amountOfEcs = 0;
-/*  39: 50 */   public static int numOfUsableEcs = 0;
-/*  40: 51 */   public static int amountOfPfs = 0;
-/*  41: 52 */   public static int numOfConvertedPFs = 0;
-/*  42: 53 */   public static int numOfConvPfsUsable = 0;
+/*  38: 49 */   public static int amountOfEcs=0;
+				public static int numOfCompleteEcs=0;
+				public static int numOfMappedEcs=0;
+				public static int amountOfPfs=0;
+				public static int numOfConvertedPFs=0;
+				public static int numOfConvPfsComplete=0;
+				public static int numOfConvPfsMapped=0;
 /*  43: 54 */   public static ArrayList<Boolean> legitSamples = new ArrayList();
 				final static String basePath_ = new File(".").getAbsolutePath() + File.separator;
 /*  44:    */   
@@ -323,13 +326,17 @@
 /* 322:331 */     out.newLine();
 /* 323:332 */     out.write("<amountOfEcs>" + amountOfEcs);
 /* 324:333 */     out.newLine();
-/* 325:334 */     out.write("<numOfUsableEcs>" + numOfUsableEcs);
+/* 325:334 */     out.write("<numOfCompleteEcs>" + numOfCompleteEcs);
+/* 326:335 */     out.newLine();
+				  out.write("<numOfMappedEcs>" + numOfMappedEcs);
 /* 326:335 */     out.newLine();
 /* 327:336 */     out.write("<amountOfPfs>" + amountOfPfs);
 /* 328:337 */     out.newLine();
 /* 329:338 */     out.write("<numOfConvertedPFs>" + numOfConvertedPFs);
 /* 330:339 */     out.newLine();
-/* 331:340 */     out.write("<numOfConvPfsUsable>" + numOfConvPfsUsable);
+/* 331:340 */     out.write("<numOfConvPfsComplete>" + numOfConvPfsComplete);
+/* 332:341 */     out.newLine();
+				  out.write("<numOfConvPfsMapped>" + numOfConvPfsMapped);
 /* 332:341 */     out.newLine();
 /* 333:342 */     for (int i = 0; i < legitSamples.size(); i++)
 /* 334:    */     {
@@ -344,6 +351,7 @@
 /* 343:    */     throws IOException
 /* 344:    */   {
 /* 345:    */     String zeile;
+				  loaded=true;
 /* 346:354 */     while ((zeile = in.readLine()) != null)
 /* 347:    */     {
 //* 348:    */       String zeile;
@@ -367,14 +375,14 @@
 /* 366:    */       }
 /* 367:    */       else
 /* 368:    */       {
-/* 369:371 */         comp = "<numOfUsableEcs>";
+/* 369:371 */         comp = "<numOfCompleteEcs>";
 /* 370:372 */         if (zeile.startsWith(comp))
 /* 371:    */         {
 /* 372:373 */           String tmp = zeile.substring(comp.length());
 /* 373:    */           try
 /* 374:    */           {
 /* 375:375 */             int value = Integer.valueOf(tmp).intValue();
-/* 376:376 */             numOfUsableEcs = value;
+/* 376:376 */             numOfCompleteEcs = value;
 /* 377:    */           }
 /* 378:    */           catch (Exception e)
 /* 379:    */           {
@@ -383,14 +391,14 @@
 /* 382:    */         }
 /* 383:    */         else
 /* 384:    */         {
-/* 385:383 */           comp = "<amountOfPfs>";
+/* 385:383 */           comp = "<numOfMappedEcs>";
 /* 386:384 */           if (zeile.startsWith(comp))
 /* 387:    */           {
 /* 388:385 */             String tmp = zeile.substring(comp.length());
 /* 389:    */             try
 /* 390:    */             {
 /* 391:387 */               int value = Integer.valueOf(tmp).intValue();
-/* 392:388 */               amountOfPfs = value;
+/* 392:388 */               numOfMappedEcs = value;
 /* 393:    */             }
 /* 394:    */             catch (Exception e)
 /* 395:    */             {
@@ -399,14 +407,14 @@
 /* 398:    */           }
 /* 399:    */           else
 /* 400:    */           {
-/* 401:395 */             comp = "<numOfConvertedPFs>";
+/* 401:395 */             comp = "<amountOfPfs>";
 /* 402:396 */             if (zeile.startsWith(comp))
 /* 403:    */             {
 /* 404:397 */               String tmp = zeile.substring(comp.length());
 /* 405:    */               try
 /* 406:    */               {
 /* 407:399 */                 int value = Integer.valueOf(tmp).intValue();
-/* 408:400 */                 numOfConvertedPFs = value;
+/* 408:400 */                 amountOfPfs = value;
 /* 409:    */               }
 /* 410:    */               catch (Exception e)
 /* 411:    */               {
@@ -415,39 +423,74 @@
 /* 414:    */             }
 /* 415:    */             else
 /* 416:    */             {
-/* 417:407 */               comp = "<numOfConvPfsUsable>";
+/* 417:407 */               comp = "<numOfConvertedPFs>";
 /* 418:408 */               if (zeile.startsWith(comp))
 /* 419:    */               {
 /* 420:409 */                 String tmp = zeile.substring(comp.length());
 /* 421:    */                 try
 /* 422:    */                 {
 /* 423:411 */                   int value = Integer.valueOf(tmp).intValue();
-/* 424:412 */                   numOfConvPfsUsable = value;
+/* 424:412 */                   numOfConvertedPFs = value;
 /* 425:    */                 }
 /* 426:    */                 catch (Exception e)
 /* 427:    */                 {
 /* 428:415 */                   System.out.println("couldn't convert to Integer: " + zeile);
 /* 429:    */                 }
 /* 430:    */               }
-/* 431:    */               else
-/* 432:    */               {
-/* 433:419 */                 comp = "<legit>";
-/* 434:420 */                 if (zeile.startsWith(comp))
-/* 435:    */                 {
-/* 436:421 */                   String tmp = zeile.substring(comp.length());
-/* 437:422 */                   if (tmp.contentEquals("true")) {
-/* 438:423 */                     legitSamples.add(Boolean.valueOf(true));
-/* 439:    */                   } else {
-/* 440:426 */                     legitSamples.add(Boolean.valueOf(false));
-/* 441:    */                   }
-/* 442:    */                 }
-/* 443:    */               }
-/* 444:    */             }
-/* 445:    */           }
-/* 446:    */         }
-/* 447:    */       }
-/* 448:    */     }
-/* 449:    */   }
+							else
+/* 416:    */             	{	
+/* 417:407 */                 comp = "<numOfConvPfsComplete>";
+/* 418:408 */                 if (zeile.startsWith(comp))
+/* 419:    */                 {
+/* 420:409 */                   String tmp = zeile.substring(comp.length());
+/* 421:    */                   try
+/* 422:    */                   {
+/* 423:411 */                     int value = Integer.valueOf(tmp).intValue();
+/* 424:412 */                     numOfConvPfsComplete = value;
+/* 425:    */                   }
+/* 426:    */                   catch (Exception e)
+/* 427:    */                   {
+/* 428:415 */                     System.out.println("couldn't convert to Integer: " + zeile);
+/* 429:    */                   }
+/* 430:    */                 }
+							  else
+/* 416:    */             	  {	
+/* 417:407 */                   comp = "<numOfConvPfsMapped>";
+/* 418:408 */                   if (zeile.startsWith(comp))
+/* 419:    */                   {
+/* 420:409 */                     String tmp = zeile.substring(comp.length());
+/* 421:    */                     try
+/* 422:    */                     {
+/* 423:411 */                       int value = Integer.valueOf(tmp).intValue();
+/* 424:412 */                       numOfConvPfsMapped = value;
+/* 425:    */                     }
+/* 426:    */                     catch (Exception e)
+/* 427:    */                     {
+/* 428:415 */                       System.out.println("couldn't convert to Integer: " + zeile);
+/* 429:    */                     }
+/* 430:    */                   }
+/* 431:    */                   else
+/* 432:    */                   {
+/* 433:419 */                     comp = "<legit>";
+/* 434:420 */                     if (zeile.startsWith(comp))
+/* 435:    */                     {
+/* 436:421 */                       String tmp = zeile.substring(comp.length());
+/* 437:422 */                       if (tmp.contentEquals("true")) {
+/* 438:423 */                         legitSamples.add(Boolean.valueOf(true));
+/* 439:    */                       } else {
+/* 440:426 */                         legitSamples.add(Boolean.valueOf(false));
+/* 441:    */                       }
+/* 442:    */                     }
+/* 443:    */                   }
+/* 444:    */                 }
+/* 445:    */                 
+/* 446:    */               }
+/* 447:    */             }
+/* 448:    */           }
+/* 449:    */         }
+					}
+				  }
+				}
 /* 450:    */   
 /* 451:    */   public void saveUserPAths(BufferedWriter out)
 /* 452:    */     throws IOException

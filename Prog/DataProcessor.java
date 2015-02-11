@@ -325,6 +325,9 @@
 /*  283: 283 */       tmp = input.substring(input.indexOf(seperator) + 1);
 /*  284: 285 */       if (isEc(ret[0])) {
 /*  285: 286 */         ret[2] = "EC";
+						if(!numEcs.contains(ret[0])){
+							numEcs.add(ret[0]);
+						}
 /*  286: 289 */       } else if (ret[0].contains(".")) {
 /*  287: 290 */         ret[0] = ret[0].substring(0, ret[0].indexOf("."));
 /*  288:     */       }
@@ -333,6 +336,18 @@
 /*  291:     */       {
 /*  292: 296 */         ret[0] = pfam;
 /*  293: 297 */         ret[2] = "Pf";
+						if(!totalnumPfams.contains(ret[0])){
+							totalnumPfams.add(ret[0]);
+						}
+						String[] nump=ret.clone();
+						ArrayList<String[]> nump2;
+						nump2=convertPfam(nump);
+						for(int i=0;i<nump2.size();i++){
+						  if(!numPfams.contains(nump2.get(i)[0])){
+							numPfams.add(nump2.get(i)[0]);
+							System.out.println(nump2.get(i)[0]);
+						  }
+						}
 /*  294:     */       }
 /*  295: 299 */       if (tmp.contains(seperator))
 /*  296:     */       {
@@ -574,7 +589,7 @@
 //										if(!numOfConvertedPFs.contains(ecNr.name_)){
 //											numOfConvertedPFs.add(ecNr.name_);
 //										}
-/*  532: 545 */                         Project.numOfConvertedPFs += ecNr.amount_;
+//*  532: 545 */                         Project.numOfConvertedPFs += ecNr.amount_;
 /*  533:     */                       }
 /*  534: 547 */                       if (ecWP != null)
 /*  535:     */                       {
@@ -587,7 +602,7 @@
 //										  if(!numOfConvPfsUsable.contains(ecNr.name_)){
 //											numOfConvPfsUsable.add(ecNr.name_);
 //										  }
-/*  542: 554 */                           Project.numOfConvPfsUsable += ecNr.amount_;
+//*  542: 554 */                           Project.numOfConvPfsUsable += ecNr.amount_;
 /*  543: 555 */                           Project.legitSamples.remove(i);
 /*  544: 556 */                           Project.legitSamples.add(i, Boolean.valueOf(true));
 /*  545:     */                         }
@@ -614,7 +629,7 @@
 //								  if(!amountOfEcs.contains(ecNr.name_)){
 //									amountOfEcs.add(ecNr.name_);
 //								  }
-/*  566: 578 */                   Project.amountOfEcs += ecNr.amount_;
+//*  566: 578 */                   Project.amountOfEcs += ecNr.amount_;
 /*  567: 580 */                   if (!ecNr.isCompleteEc()) {
 /*  568: 581 */                     ecNr.incomplete = true;
 /*  569:     */                   }
@@ -626,7 +641,7 @@
 //									if(!numOfUsableEcs.contains(ecNr.name_)){
 //										numOfUsableEcs.add(ecNr.name_);
 //								  	}
-/*  575: 589 */                     Project.numOfUsableEcs += ecNr.amount_;
+//*  575: 589 */                     Project.numOfUsableEcs += ecNr.amount_;
 /*  576: 590 */                     Project.legitSamples.remove(i);
 /*  577: 591 */                     Project.legitSamples.add(i, Boolean.valueOf(true));
 /*  578:     */                   }
@@ -661,15 +676,17 @@
 //					Project.numOfConvPfsUsable+=numOfConvPfsUsable.size();
 //					Project.amountOfEcs+=amountOfEcs.size();
 
-			   		ArrayList<String> compecs=new ArrayList<String>();
+			   		ArrayList<String> comptotecs=new ArrayList<String>();
 			   		ArrayList<String> allecs=new ArrayList<String>();
+			   		ArrayList<String> ecmapped=new ArrayList<String>();
+			   		ArrayList<String> pfammapped=new ArrayList<String>();
 			   		String testStr1;
 			   		String testStr2;
 			   		String testStr3;
 			   		for (int i=0;i<Project.samples_.size();i++){
 			   			for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
 			   				System.out.println(Project.samples_.get(i).ecs_.get(k).name_);
-			   				if(!compecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
+			   				if(!comptotecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
 			   					if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
 								    if(Project.samples_.get(i).ecs_.get(k).name_.contains(".")){
 										testStr1=Project.samples_.get(i).ecs_.get(k).name_.substring(Project.samples_.get(i).ecs_.get(k).name_.indexOf(".")+1);
@@ -680,7 +697,7 @@
 													if(testStr2.contains(".")){
 														testStr3=testStr2.substring(testStr2.indexOf(".")+1);
 														if(testStr3.matches("[0-9]*")){
-															compecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+															comptotecs.add(Project.samples_.get(i).ecs_.get(k).name_);
 														}
 													}
 												}
@@ -689,9 +706,19 @@
 									}
 				  				}
 			   				}
+			   				if(!allecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
+			   					allecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   				}
+			   				if(!ecmapped.contains(Project.samples_.get(i).ecs_.get(k).name_)&&numEcs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&!Project.samples_.get(i).ecs_.get(k).unmapped){
+			   					ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   				}
+			   				if(!pfammapped.contains(Project.samples_.get(i).ecs_.get(k).name_)&&numPfams.contains(Project.samples_.get(i).ecs_.get(k).name_)&&!Project.samples_.get(i).ecs_.get(k).unmapped){
+			   					pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   				}
 			   	 		}
 			   		}
 			   		int completepfams=0;
+			   		int completeecs=0;
 			   		for(int i=0;i<numPfams.size();i++){
 			   			if (numPfams.get(i).matches("[0-9].*")) {
 						    if(numPfams.get(i).contains(".")){
@@ -712,34 +739,59 @@
 							}
 /* 195:    */     		}
 			   		}
+			   		for(int i=0;i<numEcs.size();i++){
+						if (numEcs.get(i).matches("[0-9].*")) {
+						    if(numEcs.get(i).contains(".")){
+								testStr1=numEcs.get(i).substring(numEcs.get(i).indexOf(".")+1);
+								if(testStr1.matches("[0-9].*")){
+									if(testStr1.contains(".")){
+										testStr2=testStr1.substring(testStr1.indexOf(".")+1);
+										if(testStr2.matches("[0-9].*")){
+											if(testStr2.contains(".")){
+												testStr3=testStr2.substring(testStr2.indexOf(".")+1);
+												if(testStr3.matches("[0-9]*")){
+													completeecs++;
+												}
+											}
+										}
+									}
+								}
+							}
+/* 195:    */     		}
+			   		}
 
+					int incomptotecs=allecs.size()-comptotecs.size();
 
+					if(!Project.loaded){
+						Project.amountOfEcs=numEcs.size();
+						Project.numOfCompleteEcs=completeecs;
+						Project.numOfMappedEcs=ecmapped.size();
+						Project.amountOfPfs=totalnumPfams.size();
+						Project.numOfConvertedPFs=numPfams.size();
+						Project.numOfConvPfsComplete=completepfams;
+						Project.numOfConvPfsMapped=pfammapped.size();
+					}
 
-			   		int incompecs=allecs.size()-compecs.size();
 /*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
-//			   		  "<br><br>Identified ECs: " +  Project.amountOfEcs + 
-//*  609: 626 */       "<br>" + 
-//*  610: 627 */       "Usable ECs: " + Project.numOfUsableEcs + 
-//*  611: 628 */       "<br>" + 
-//*  612: 629 */       "Identified Pfams: " + Project.amountOfPfs + 
-//*  613: 630 */       "<br>" + 
-//*  614: 631 */       "Converted Pfams: " + Project.numOfConvertedPFs + 
-//*  615: 632 */       "<br>" + 
-//*  616: 633 */       "Usable converted Pfams: " + Project.numOfConvPfsUsable + 
 /*  617: 634 */       "<br>" + 
 /*  617: 634 */       "<br>" + 
-					  "Number of total complete ECs:\t"+compecs.size()+
+					  "Total complete ECs (including converted pfams):\t"+comptotecs.size()+
 					  "<br>"+
-					  "Number of mapped ECs:\t"+numEcs.size()+
+					  "Total incomplete ECs (including converted pfams):\t"+incomptotecs+
 					  "<br>"+
-					  "Number of pfams:\t"+totalnumPfams.size()+
+					  "ECs:\t"+Project.amountOfEcs+
 					  "<br>"+
-					  "Number of converted Pfams:\t"+numPfams.size()+
+					  "Complete ECs:\t"+Project.numOfCompleteEcs+
+					  "<br>"+
+					  "Mapped ECs:\t"+Project.numOfMappedEcs+
+					  "<br>"+
+					  "Pfams:\t"+Project.amountOfPfs+
+					  "<br>"+
+					  "Converted Pfams:\t"+Project.numOfConvertedPFs+
 			   		  "<br>"+
-			   		  "Number of complete converted Pfams:\t"+completepfams+
+			   		  "Complete converted Pfams:\t"+Project.numOfConvPfsComplete+
 			   		  "<br>"+
-			   		  "Number of total incomplete ECs:\t"+incompecs+
-					  "<br>"+
+			   		  "Mapped converted Pfams:\t"+Project.numOfConvPfsMapped+
 			   		  "<br><br>"+
 /*  619: 636 */       "Sample that seem to be valid: " + "<br>";
 /*  620: 637 */     for (int i = 0; i < Project.samples_.size(); i++)
@@ -755,11 +807,16 @@
 /*  630: 646 */     HelpFrame helpF = new HelpFrame(Text);
 /*  631: 647 */     System.out.println("---------------------------------------------------------------------------------------------");
 /*  632: 648 */     System.out.println("Finished processing the samples");
-//*  633: 649 */     System.out.println("Number of identified ECs: " + Project.amountOfEcs);
-//*  634: 650 */     System.out.println("Number of used ECs: " + Project.numOfUsableEcs);
-//*  635: 651 */     System.out.println("Number of found Pfams: " + Project.amountOfPfs);
-//*  636: 652 */     System.out.println("Number of converted Pfams: " + Project.numOfConvertedPFs);
-					System.out.println("Number of ECs: "+compecs.size());
+					System.out.println("Total icomplete ECs (including converted pfams): "+comptotecs.size());
+					System.out.println("Total incomplete ECs (including converted pfams): "+incomptotecs);
+					System.out.println("ECs: "+Project.amountOfEcs);
+					System.out.println("Complete ECs: "+Project.numOfCompleteEcs);
+					System.out.println("Mapped ECs: "+Project.numOfMappedEcs);
+					System.out.println("Pfams: "+Project.amountOfPfs);
+					System.out.println("Converted Pfams: "+Project.numOfConvertedPFs);
+					System.out.println("Complete converted Pfams: "+Project.numOfConvPfsComplete);
+					System.out.println("Mapped converted Pfams: "+Project.numOfConvPfsMapped);
+	
 /*  637: 653 */     System.out.println("Sample that seem to be valid:");
 /*  638: 654 */     for (int i = 0; i < Project.samples_.size(); i++) {
 /*  639: 655 */       System.out.println("Sample: " + (i + 1) + ":" + ((Sample)Project.samples_.get(i)).name_ + " " + ((Sample)Project.samples_.get(i)).legitSample);

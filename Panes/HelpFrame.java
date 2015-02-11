@@ -4,6 +4,8 @@
 /*  4:   */ import javax.swing.JFrame;
 /*  5:   */ import javax.swing.JLabel;
 /*  6:   */ import javax.swing.JPanel;
+	//		import javax.swing.JTextArea;
+	//		import java.awt.Font;
 /*  7:   */ 
 /*  8:   */ public class HelpFrame
 /*  9:   */   extends JFrame
@@ -17,7 +19,7 @@
 /* 17:20 */       return;
 /* 18:   */     }
 /* 19:22 */     setTitle("Project summary");
-/* 20:23 */     setBounds(500, 400, 300, 300);
+/* 20:23 */     setBounds(500, 400, 300, 350);
 /* 21:24 */     setVisible(true);
 /* 22:25 */     setResizable(false);
 /* 23:26 */     setLayout(null);
@@ -29,6 +31,13 @@
 /* 29:32 */     back.setBackground(Color.white);
 /* 30:33 */     add(back);
 /* 31:   */     
+	//			JTextArea txt=new JTextArea();
+	//			txt.setBounds(0,0,300,300);
+	//			Font font = new Font("Verdana", Font.BOLD, 12);
+      //  		txt.setFont(font);
+        //		txt.setText(Text);
+        //		back.add(txt);
+
 /* 32:35 */     JLabel fromp = new JLabel(Text);
 /* 33:36 */     fromp.setBounds(0, 0, 300, 300);
 /* 34:37 */     fromp.setVisible(true);
@@ -36,8 +45,12 @@
 /* 36:   */   }
 /* 37:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.HelpFrame
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.HelpFrame
+
+ * JD-Core Version:    0.7.0.1
+
  */

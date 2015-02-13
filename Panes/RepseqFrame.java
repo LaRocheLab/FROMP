@@ -23,6 +23,7 @@
 /*   24:   */ import java.io.IOException;
 			  import java.awt.Font;
 
+			//The window which displays the sequence IDs when they are clicked on in the Activity Matric Pane 	
 
 /*  16:    */ public class RepseqFrame
 /*  17:    */   extends JFrame
@@ -186,7 +187,7 @@
 
 /* 112:    */   }
 
-				private void addMenu(){
+				private void addMenu(){//adds the dropdown menu
 					this.menuBar_ = new JMenuBar();
 
 					this.menu_ = new JMenu("File");				
@@ -206,7 +207,7 @@
 				    this.menu_.add(miItem);
 					setJMenuBar(this.menuBar_);
 				}
-		
+				//exports the sequence IDs to "RepSeqIDs"
 				public void ExportReps()
 				{
 					String text="";

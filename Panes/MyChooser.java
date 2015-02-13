@@ -5,6 +5,8 @@
 /*  5:   */ import javax.swing.JDialog;
 /*  6:   */ import javax.swing.JFileChooser;
 /*  7:   */ 
+			//an extension of JFileChooser. Not really that interesting
+
 /*  8:   */ public class MyChooser
 /*  9:   */   extends JFileChooser
 /* 10:   */ {
@@ -24,8 +26,12 @@
 /* 24:   */   }
 /* 25:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.MyChooser
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.MyChooser
+
+ * JD-Core Version:    0.7.0.1
+
  */

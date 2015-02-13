@@ -37,6 +37,10 @@
 /**/		  import java.io.PrintWriter;
 /**/		  import java.io.File;
 /*   33:     */ 
+
+				//This is the activity Matrix Pane. If you are looning for anything that goes on in the Activity Matrix part of the GUI, this is probably where it happens.
+				//
+
 /*   34:     */ public class ActMatrixPane
 /*   35:     */   extends JPanel
 /*   36:     */ {
@@ -144,6 +148,8 @@
 /*  134: 149 */     add("Center", this.showJPanel_);
 /*  135:     */   }
 /*  136:     */   
+				
+				  //This preps the onscreen matrix using the arrayline_[] variable in the line object.	
 /*  137:     */   private void prepMatrix()
 				  {
 /*  139: 152 */     this.ecMatrix_ = new ArrayList<Line>();
@@ -250,7 +256,7 @@
 /*  236:     */       }
 /*  237:     */       else
 /*  238:     */       {
-						sortEcsbyNameBubble();
+						sortEcsbyNameBubble();//This method used to be implemented in bubble sort before I changed the method to use quicksort. I kept the name though... just in case 
 						this.ecMatrix_=removeDuplicates();
 /*  240: 255 */         System.out.println("byName");
 /*  241:     */       }
@@ -629,7 +635,7 @@
 /*  676: 729 */           menuPopup.add(mItem);
         				  ActMatrixPane.this.setComponentPopupMenu(menuPopup);
         				  
-        				  mItem.addActionListener(new ActionListener()
+        				  mItem.addActionListener(new ActionListener()//this is the little popup menu that comes up when you right click any of the ECs when the "include repseqs" option is selected
 				    	  {
 				    	    public void actionPerformed(ActionEvent e)
 				    	    {
@@ -680,7 +686,7 @@
 				    		}
 				    	  });
 
-						  this.label_.addMouseListener(new MouseListener()
+						  this.label_.addMouseListener(new MouseListener()//this opens up the window when you left click the ECs with "include repseqs" selected
 /*  677:     */           {
 /*  678:     */             public void mouseClicked(MouseEvent e)
 /*  679:     */             {
@@ -800,7 +806,7 @@
 /*  676: 729 */           menuPopup.add(mItem);
         				  ActMatrixPane.this.setComponentPopupMenu(menuPopup);
         				  
-        				  mItem.addActionListener(new ActionListener()
+        				  mItem.addActionListener(new ActionListener()//this is the little popup menu that comes up when you right click any of the ECs when the "include repseqs" option is selected
 				    	  {
 				    	    public void actionPerformed(ActionEvent e)
 				    	    {
@@ -851,7 +857,7 @@
 				    		}
 				    	  });
 
-						  this.label_.addMouseListener(new MouseListener()
+						  this.label_.addMouseListener(new MouseListener()//this opens up the window when you left click the ECs with "include repseqs" selected
 /*  677:     */           {
 /*  678:     */             public void mouseClicked(MouseEvent e)
 /*  679:     */             {
@@ -941,7 +947,7 @@
 /*  722: 793 */     this.displayP_.add(this.label_);
 /*  723:     */   }
 /*  724:     */   
-				  public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
+				  public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)//exports sequence ids of a particular EC to RepSeqIDs 
 				  {
 					String text="";
                		String test="";
@@ -1249,7 +1255,7 @@
 /*  990:     */     }
 /*  991:     */   }
 /*  992:     */   
-/*  993:     */   public void exportMat(String path, boolean inCsf)
+/*  993:     */   public void exportMat(String path, boolean inCsf)//Exports the whole matrix to the input path
 /*  994:     */   {
 /*  995:1054 */     String separator = "\t";
 /*  996:1055 */     if (inCsf) {
@@ -1427,7 +1433,7 @@
 /* 1142:     */     }
 /* 1143:     */   }
 					
-				  public void cmdExportRepseqs(String ecName){
+				  public void cmdExportRepseqs(String ecName){// allows for the exporting of sequence IDs for all samples given an EC name via the cmdPrompt
 				  	int index;	
 				  	EcNr ecTmp;
 				  	

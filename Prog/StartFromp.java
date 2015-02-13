@@ -14,6 +14,8 @@
 /*  14:    */ import javax.swing.JPanel;
 /*  15:    */ import pathwayLayout.PathLayoutGrid;
 /*  16:    */ 
+			  //This is the main method for fromp. Its is what starts fromp, and what decides whether or not fromp will be working in a gui or on the command line.
+
 /*  17:    */ public class StartFromp
 /*  18:    */ {
 /*  19:    */   static NewFrompFrame newFrame;

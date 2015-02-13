@@ -3,6 +3,8 @@
 /*  3:   */ import java.io.PrintStream;
 /*  4:   */ import java.util.ArrayList;
 /*  5:   */ 
+			//This is an extension of the EcNr class. This class includes all of the pathways associated with a particular EC as an  attribute.
+
 /*  6:   */ public class EcWithPathway
 /*  7:   */   extends EcNr
 /*  8:   */ {

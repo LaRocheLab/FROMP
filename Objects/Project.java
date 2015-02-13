@@ -15,6 +15,10 @@
 /*  15:    */ import javax.swing.JLabel;
 /*  16:    */ import javax.swing.JPanel;
 /*  17:    */ 
+			//Obviously this is where project files are stored. Not much computation is done here beyond loading saved project files, 
+			//and exporting project files. Serves mostly to store the data from the samples so it can be used elsewhere.
+
+
 /*  18:    */ public class Project
 /*  19:    */ {
 /*  20:    */   public static String projectPath_;

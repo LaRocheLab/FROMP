@@ -1,5 +1,8 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
+
+			//This class holds information about the data (ie. which ec's were converted from pfams). Not particularily interesting.
+
 /*  3:   */ public class ConvertStat
 /*  4:   */ {
 /*  5:   */   String desc_;
@@ -50,8 +53,12 @@
 /* 50:   */   }
 /* 51:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Objects.ConvertStat
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Objects.ConvertStat
+
+ * JD-Core Version:    0.7.0.1
+
  */

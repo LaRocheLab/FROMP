@@ -27,13 +27,20 @@
 /*   27:     */ import javax.swing.JLabel;
 /*   28:     */ import javax.swing.JPanel;
 /*   29:     */ 
+
+				//*THIS IS THE MOST IMPORTANT PART OF FROMP*
+				// Now that I have you attention, let me explain. The data processor is what basically does all of the parsing of the raw input files the converting of pfams,
+				// and everything important for the data. Everything else is a helper class for this: storing, and displaying data, to the users. This class does all of the 
+				// computation that actually makes the data usable from the raw input. 
+			
+
 /*   30:     */ public class DataProcessor
 /*   31:     */ {
 /*   32:     */   Project activeProj_;
 /*   33:     */   StringReader reader;
 /*   34:     */   String workpath_;
 /*   35:     */   String separator_;
-/*   36:  31 */   static final String listPath = "list" + File.separator + "ec.list";
+/*   36:  31 */   static final String listPath = "list" + File.separator + "ec.list";//these five lines are the conversion charts found in "list"
 /*   37:  32 */   static final String ecNamesPath = "list" + File.separator + "ec2go.txt";
 /*   38:  33 */   static final String rnListPath = "list" + File.separator + "rn.list";
 /*   39:  34 */   static final String mapTitleList = "list" + File.separator + "map_title.tab";
@@ -154,13 +161,13 @@
 /*  144:     */     }
 /*  145:     */   }
 /*  146:     */   
-/*  147:     */   public String[] getEnzFromRawSample(String line) 
-/*  148:     */   {  //retrieves ec/pfam and sequence ids from HMMER output files
+/*  147:     */   public String[] getEnzFromRawSample(String line)
+/*  148:     */   {  //retrieves ec/pfam and sequence ids from HMMER output files.
 /*  149: 146 */     String[] ret = new String[4];
 /*  150:     */     
 /*  155: 152 */     ret[0] = "X";//ec name
 /*  156:     */     
-/*  157: 154 */     ret[1] = "1";
+/*  157: 154 */     ret[1] = "1";//number of this ec with this sequence id
 /*  158:     */     
 /*  159: 156 */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
 /*  160:     */     
@@ -181,7 +188,7 @@
 /*  175: 171 */         ret[0] = tmp;
 /*  176: 172 */         ret[2] = "EC";
 /*  177: 173 */         ret[3] = repSeq;
-						if(!numEcs.contains(ret[0])){
+						if(!numEcs.contains(ret[0])){//adds to the count of total ecs for statistics
 							numEcs.add(ret[0]);
 						}
 /*  178:     */       }
@@ -198,14 +205,14 @@
 /*  189:     */           }
 /*  190: 184 */           ret[3] = repSeq;
 
-						  if(!totalnumPfams.contains(ret[0])){
+						  if(!totalnumPfams.contains(ret[0])){//adds to the count of total pfams 
 							totalnumPfams.add(ret[0]);
 						  }
 						  String[] nump=ret.clone();
 						  ArrayList<String[]> nump2;
 						  nump2=convertPfam(nump);
 						  for(int i=0;i<nump2.size();i++){
-						  	if(!numPfams.contains(nump2.get(i)[0])){
+						  	if(!numPfams.contains(nump2.get(i)[0])){//adds to the count of total converted pfams
 								numPfams.add(nump2.get(i)[0]);
 								System.out.println(nump2.get(i)[0]);
 						  	}
@@ -224,14 +231,14 @@
 /*  202: 196 */         tmp = tmp.substring(0, tmp.indexOf(" -"));
 /*  203: 197 */         ret[3] = tmp;
 
-						if(!totalnumPfams.contains(ret[0])){
+						if(!totalnumPfams.contains(ret[0])){//adds to the count of total pfams 
 							totalnumPfams.add(ret[0]);
 						}
 						String[] nump=ret.clone();
 						ArrayList<String[]> nump2;
 						nump2=convertPfam(nump);
 						for(int i=0;i<nump2.size();i++){
-						  if(!numPfams.contains(nump2.get(i)[0])){
+						  if(!numPfams.contains(nump2.get(i)[0])){//adds to the count of total converted pfams
 							numPfams.add(nump2.get(i)[0]);
 							System.out.println(nump2.get(i)[0]);
 						  }
@@ -273,7 +280,7 @@
 /*  231:     */   }
 /*  232:     */   
 /*  233:     */   private String findPfamAndRepSeqInRaw(String input)
-/*  234:     */   {
+/*  234:     */   {//finds the PFam and sequence ID in a line of raw data
 /*  235: 226 */     String Pfam = "";
 /*  236: 227 */     String tmp = input;
 /*  237: 230 */     while (tmp.contains("PF"))
@@ -295,7 +302,7 @@
 /*  253:     */   }
 /*  254:     */   
 /*  255:     */   public String[] getEnzFromSample(String input)
-/*  256:     */   {
+/*  256:     */   {//retrieves ec/pfam and sequence ids from the three column data files.
 /*  257: 253 */     String seperator = "";
 /*  258: 254 */     String tmp = input;
 /*  259: 256 */     if (input.contains(",")) {
@@ -309,13 +316,13 @@
 /*  267:     */     }
 /*  268: 268 */     String[] ret = new String[4];
 /*  269:     */     
-/*  270: 270 */     ret[0] = "X";
-/*  271:     */     
-/*  272: 272 */     ret[1] = "1";
-/*  273:     */     
-/*  274: 274 */     ret[2] = "X";
-/*  275:     */     
-/*  276: 276 */     ret[3] = "X";
+/*  270: 270 */     ret[0] = "X";//ec name
+/*  156:     */     
+/*  157: 154 */     ret[1] = "1";//number of this ec with this sequence id
+/*  158:     */     
+/*  159: 156 */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
+/*  160:     */     
+/*  161: 158 */     ret[3] = "X";//sequence id
 /*  277: 277 */     if (input.isEmpty()) {
 /*  278: 278 */       return ret;
 /*  279:     */     }
@@ -325,7 +332,7 @@
 /*  283: 283 */       tmp = input.substring(input.indexOf(seperator) + 1);
 /*  284: 285 */       if (isEc(ret[0])) {
 /*  285: 286 */         ret[2] = "EC";
-						if(!numEcs.contains(ret[0])){
+						if(!numEcs.contains(ret[0])){//adds to the total number of ecs
 							numEcs.add(ret[0]);
 						}
 /*  286: 289 */       } else if (ret[0].contains(".")) {
@@ -336,13 +343,13 @@
 /*  291:     */       {
 /*  292: 296 */         ret[0] = pfam;
 /*  293: 297 */         ret[2] = "Pf";
-						if(!totalnumPfams.contains(ret[0])){
+						if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
 							totalnumPfams.add(ret[0]);
 						}
 						String[] nump=ret.clone();
 						ArrayList<String[]> nump2;
 						nump2=convertPfam(nump);
-						for(int i=0;i<nump2.size();i++){
+						for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
 						  if(!numPfams.contains(nump2.get(i)[0])){
 							numPfams.add(nump2.get(i)[0]);
 							System.out.println(nump2.get(i)[0]);
@@ -375,7 +382,7 @@
 /*  318:     */   }
 /*  319:     */   
 /*  320:     */   public String isPfam(String pfam)
-/*  321:     */   {
+/*  321:     */   {//if the input string is determined to be a pfam then the method outputs the pfam, only without the PF at the begining. Else it returns null 
 /*  322: 323 */     String tmp = pfam;
 /*  323: 324 */     if (tmp.contains("PF"))
 /*  324:     */     {
@@ -396,7 +403,7 @@
 /*  339:     */   }
 /*  340:     */   
 /*  341:     */   public boolean isPfambool(String pfam)
-/*  342:     */   {
+/*  342:     */   {// returns a boolean variable which is the awnser to whether or not the string is a pfam
 /*  343: 344 */     String tmp = pfam;
 /*  344: 345 */     if ((tmp.startsWith("PF")) && 
 /*  345: 346 */       (tmp.length() == 7) && 
@@ -507,16 +514,12 @@
 /*  450:     */     }
 /*  451:     */   }
 /*  452:     */   
+				  //
 /*  453:     */   public void allEcVsPathway()
 /*  454:     */   {
 /*  455: 459 */     String zeile = "";
 /*  456: 460 */     EcNr ecNr = null;
 /*  457:     */     
-//					ArrayList<String> numOfUsableEcs=new ArrayList<String>();
-//					ArrayList<String> numOfConvertedPFs=new ArrayList<String>();
-//					ArrayList<String> numOfConvPfsUsable=new ArrayList<String>();
-//					ArrayList<String> amountOfEcs=new ArrayList<String>();
-
 /*  464: 468 */     int counter = 0;
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
@@ -683,9 +686,9 @@
 			   		String testStr1;
 			   		String testStr2;
 			   		String testStr3;
-			   		for (int i=0;i<Project.samples_.size();i++){
+			   		for (int i=0;i<Project.samples_.size();i++){//adds to the number of total complete ecs
 			   			for(int k=0;k<Project.samples_.get(i).ecs_.size();k++){
-			   				System.out.println(Project.samples_.get(i).ecs_.get(k).name_);
+			   				//System.out.println(Project.samples_.get(i).ecs_.get(k).name_);
 			   				if(!comptotecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
 			   					if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
 								    if(Project.samples_.get(i).ecs_.get(k).name_.contains(".")){
@@ -706,14 +709,14 @@
 									}
 				  				}
 			   				}
-			   				if(!allecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){
+			   				if(!allecs.contains(Project.samples_.get(i).ecs_.get(k).name_)){//adds to the total number of ecs so that is can later subtract the number of complete ecs to find the number of incomplete ecs
 			   					allecs.add(Project.samples_.get(i).ecs_.get(k).name_);
 			   				}
 			   				if(!ecmapped.contains(Project.samples_.get(i).ecs_.get(k).name_)&&numEcs.contains(Project.samples_.get(i).ecs_.get(k).name_)&&!Project.samples_.get(i).ecs_.get(k).unmapped){
-			   					ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   					ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_); //adds to the number of mapped ecs
 			   				}
 			   				if(!pfammapped.contains(Project.samples_.get(i).ecs_.get(k).name_)&&numPfams.contains(Project.samples_.get(i).ecs_.get(k).name_)&&!Project.samples_.get(i).ecs_.get(k).unmapped){
-			   					pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);
+			   					pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);//adds to the number of mapped pfams
 			   				}
 			   	 		}
 			   		}
@@ -730,7 +733,7 @@
 											if(testStr2.contains(".")){
 												testStr3=testStr2.substring(testStr2.indexOf(".")+1);
 												if(testStr3.matches("[0-9]*")){
-													completepfams++;
+													completepfams++;//adds to the number of complete pfams
 												}
 											}
 										}
@@ -750,7 +753,7 @@
 											if(testStr2.contains(".")){
 												testStr3=testStr2.substring(testStr2.indexOf(".")+1);
 												if(testStr3.matches("[0-9]*")){
-													completeecs++;
+													completeecs++;//adds to the number of complete ecs
 												}
 											}
 										}
@@ -762,7 +765,7 @@
 
 					int incomptotecs=allecs.size()-comptotecs.size();
 
-					if(!Project.loaded){
+					if(!Project.loaded){//adds a failsafe for whether of not the data was loaded from a project file, as the statistics are already saved there
 						Project.amountOfEcs=numEcs.size();
 						Project.numOfCompleteEcs=completeecs;
 						Project.numOfMappedEcs=ecmapped.size();
@@ -771,7 +774,7 @@
 						Project.numOfConvPfsComplete=completepfams;
 						Project.numOfConvPfsMapped=pfammapped.size();
 					}
-
+					//calls the Help Frame to make the Project Summary window
 /*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
 /*  617: 634 */       "<br>" + 
 /*  617: 634 */       "<br>" + 
@@ -845,9 +848,9 @@
 /*  662:     */   }
 /*  663:     */   
 /*  664:     */   public ArrayList<String[]> convertPfam(String[] pfam)
-/*  665:     */   {
+/*  665:     */   {//actually does the computation of converting a pfam into an ec
 /*  666: 690 */     ArrayList<String[]> retList = new ArrayList();
-/*  667: 691 */     this.pfamToRnToEc_ = this.reader.readTxt(pfamToRnToEcPath_);
+/*  667: 691 */     this.pfamToRnToEc_ = this.reader.readTxt(pfamToRnToEcPath_);//this is the conversion file 
 /*  668:     */     
 /*  669: 693 */     String zeile = "";
 /*  670: 694 */     String[] tmpNr = new String[4];
@@ -985,6 +988,7 @@
 /*  796:     */     }
 /*  797:     */   }
 /*  798:     */   
+				  //this will only happen if random sampling is selected
 /*  799:     */   private void removeRandomEc()
 /*  800:     */   {
 /*  801: 853 */     Random generator = new Random();

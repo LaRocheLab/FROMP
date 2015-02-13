@@ -3,6 +3,8 @@
 /*   3:    */ import java.io.PrintStream;
 /*   4:    */ import java.util.ArrayList;
 /*   5:    */ 
+			//An extension of the pathway class. Adds all of the ECs which can be mapped to a particular path in a convieniant ArrayList.
+
 /*   6:    */ public class PathwayWithEc
 /*   7:    */   extends Pathway
 /*   8:    */ {

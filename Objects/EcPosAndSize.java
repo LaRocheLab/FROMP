@@ -16,8 +16,12 @@
 /* 16:   */   }
 /* 17:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Objects.EcPosAndSize
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Objects.EcPosAndSize
+
+ * JD-Core Version:    0.7.0.1
+
  */

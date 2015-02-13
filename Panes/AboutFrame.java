@@ -5,6 +5,9 @@
 /*  5:   */ import javax.swing.JLabel;
 /*  6:   */ import javax.swing.JPanel;
 /*  7:   */ 
+			//An inFROMPmational (...see what I did there...) JFrame (ie. popup window) which gives details about 
+			//the version and developers of the FROMP software. 
+
 /*  8:   */ public class AboutFrame
 /*  9:   */   extends JFrame
 /* 10:   */ {
@@ -57,8 +60,12 @@
 /* 57:   */   }
 /* 58:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.AboutFrame
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.AboutFrame
+
+ * JD-Core Version:    0.7.0.1
+
  */

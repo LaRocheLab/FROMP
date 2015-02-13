@@ -27,7 +27,9 @@
 /*  27:    */ import javax.swing.event.ChangeEvent;
 /*  28:    */ import javax.swing.event.ChangeListener;
 /*  29:    */ import javax.swing.filechooser.FileFilter;
-/*  30:    */ 
+
+				//This is the panel in between th estart screen and the pathway selection screen where you are able to select 
+				//samples you want to work with and whether or not you want to do random sampling.
 /*  31:    */ public class EditsamplesPane
 /*  32:    */   extends JPanel
 /*  33:    */ {
@@ -673,8 +675,12 @@
 /* 673:    */   }
 /* 674:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.EditsamplesPane
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.EditsamplesPane
+
+ * JD-Core Version:    0.7.0.1
+
  */

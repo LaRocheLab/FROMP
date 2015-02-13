@@ -15,6 +15,8 @@
 /*  15:    */ import javax.swing.JPanel;
 /*  16:    */ import javax.swing.Timer;
 /*  17:    */ 
+				//The panel for the EC activity part of the gui. If something happens there, its probably controlled here
+
 /*  18:    */ public class EcActPanes
 /*  19:    */   extends JPanel
 /*  20:    */ {

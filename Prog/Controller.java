@@ -8,6 +8,8 @@
 /*   8:    */ import java.io.PrintStream;
 /*   9:    */ import java.util.ArrayList;
 /*  10:    */ 
+			//This is pretty well always in the background while in the GUI. It allous the user to save, load, open, etc. projects.	
+
 /*  11:    */ public class Controller
 /*  12:    */ {
 /*  13:    */   public static Project project_;

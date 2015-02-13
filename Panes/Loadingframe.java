@@ -6,6 +6,8 @@
 /*   6:    */ import javax.swing.JLabel;
 /*   7:    */ import javax.swing.JPanel;
 /*   8:    */ 
+				//The cute little loading window with the swimming fish
+
 /*   9:    */ public class Loadingframe
 /*  10:    */   extends Thread
 /*  11:    */ {
@@ -58,7 +60,7 @@
 /*  58: 64 */     this.chapOut_.setVisible(true);
 /*  59: 65 */     this.backGround_.add(this.chapOut_);
 /*  60:    */     
-/*  61: 67 */     this.mover_ = new JLabel("><((((°>");
+/*  61: 67 */     this.mover_ = new JLabel("><((((°>");//this is the fish
 /*  62: 68 */     this.mover_.setBounds(-60 + this.step_ * 10, 40, 60, 20);
 /*  63:    */     
 /*  64: 70 */     this.mover_.setLayout(null);
@@ -173,8 +175,12 @@
 /* 173:    */   }
 /* 174:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.Loadingframe
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.Loadingframe
+
+ * JD-Core Version:    0.7.0.1
+
  */

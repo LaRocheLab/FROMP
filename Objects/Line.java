@@ -1,5 +1,9 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
+
+			//This class is used in the EC matrix pane and it contains the values of all of the matrix elements in the line (arrayline_[]) 
+			//as well as the total sum of the line (sumline_).	
+
 /*  3:   */ public class Line
 /*  4:   */ {
 /*  5:   */   PathwayWithEc path_;

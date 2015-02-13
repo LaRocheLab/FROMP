@@ -26,6 +26,9 @@
 /*  26:    */ import javax.swing.JPanel;
 /*  27:    */ import javax.swing.JScrollPane;
 /*  28:    */ 
+
+			//The Pathway Activity Matrix Pane. All things you see happening in the Pathway Activity part of the gui are controlled here.
+
 /*  29:    */ public class PathwayActivitymatrixPane
 /*  30:    */   extends JPanel
 /*  31:    */ {

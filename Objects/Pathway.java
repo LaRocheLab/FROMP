@@ -1,5 +1,7 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
+			//Pathways that ECs can be mapped to. Holds its name, id and whether or not it was a pathway designed by the user or if it was premade. 
+
 /*  3:   */ public class Pathway
 /*  4:   */ {
 /*  5:   */   public String id_;

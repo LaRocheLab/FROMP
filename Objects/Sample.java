@@ -9,6 +9,9 @@
 /*   9:    */ import java.io.PrintStream;
 /*  10:    */ import java.util.ArrayList;
 /*  11:    */ 
+			  //This contains all of the pertinant data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
+			  //as well as many other important pieces of data like the sample name, etc.
+
 /*  12:    */ public class Sample
 /*  13:    */ {
 /*  14:    */   StringReader reader_;
@@ -290,8 +293,12 @@
 /* 290:    */   }
 /* 291:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Objects.Sample
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Objects.Sample
+
+ * JD-Core Version:    0.7.0.1
+
  */

@@ -7,6 +7,8 @@
 	//		import javax.swing.JTextArea;
 	//		import java.awt.Font;
 /*  7:   */ 
+			//The Help frame. Not super exciting maybe, but it is also the project summary window (when it is called by the data processor)
+
 /*  8:   */ public class HelpFrame
 /*  9:   */   extends JFrame
 /* 10:   */ {

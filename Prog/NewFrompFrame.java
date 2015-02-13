@@ -39,6 +39,8 @@
 /*   39:     */ import javax.swing.filechooser.FileFilter;
 /*   40:     */ import pathwayLayout.PathLayoutGrid;
 /*   41:     */ 
+				//the main frame of fromp. 
+
 /*   42:     */ public class NewFrompFrame
 /*   43:     */   extends JFrame
 /*   44:     */ {

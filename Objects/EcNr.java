@@ -5,6 +5,9 @@
 /*   5:    */ import java.io.PrintStream;
 /*   6:    */ import java.util.ArrayList;
 /*   7:    */ 
+
+			//An Ec object. Contains most of the info you need to know about a particular EC.
+
 /*   8:    */ public class EcNr
 /*   9:    */ {
 /*  10:    */   public String name_;

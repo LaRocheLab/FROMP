@@ -14,7 +14,8 @@
 /*  14:    */ import javax.swing.JPanel;
 /*  15:    */ import pathwayLayout.PathLayoutGrid;
 /*  16:    */ 
-			  //This is the main method for fromp. Its is what starts fromp, and what decides whether or not fromp will be working in a gui or on the command line.
+			  //This is the main method for FROMP. Its is what starts FROMP, and what decides whether or not FROMP will be 
+			  //working in a gui or on the command line depending upon the arguments the user includes.
 
 /*  17:    */ public class StartFromp
 /*  18:    */ {
@@ -23,7 +24,12 @@
 				static String arg1="";
 /*  21:    */   
 /*  22:    */   public static void main(String[] args)
-/*  23:    */   {
+/*  23:    */   {//takes in a string array of arguments from the user which determines what the program will do. 
+				//If there are no arguments, gui fromp starts. if there is one argument and that argument is h then the print options command is called. 
+				//if there are 3 arguments and the third is a known command then the first argument is checked then taken as the input path, 
+				//the second as the output path, and the third as the command to be done. cmdController is called. 
+				//if there are four arguments, the program ensures the fourth is a proper EC then calls cmdController the same as before, but this time with an extra argument.
+				//otherwise the print options command is called.
 /*  24: 30 */     if (args != null)
 /*  25:    */     {
 /*  26: 31 */       if (args.length != 0)
@@ -281,7 +287,7 @@
 /* 197:    */   }
 
 				private static boolean checkEC(String options)
-/* 173:    */   {
+/* 173:    */   {//checks that the EC is complete
 /* 174:163 */     boolean ret = false;
 				  String testStr1;
 				  String testStr2;

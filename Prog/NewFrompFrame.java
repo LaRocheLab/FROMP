@@ -39,7 +39,7 @@
 /*   39:     */ import javax.swing.filechooser.FileFilter;
 /*   40:     */ import pathwayLayout.PathLayoutGrid;
 /*   41:     */ 
-				//the main frame of fromp. 
+				//The main frame of fromp. Almost every other part of GUI FROMP runs on this frame.
 
 /*   42:     */ public class NewFrompFrame
 /*   43:     */   extends JFrame
@@ -114,7 +114,7 @@
 /*  111:     */   }
 /*  112:     */   
 /*  113:     */   private void addMenu()
-/*  114:     */   {
+/*  114:     */   {//adds the drop down menu bar and all of its elements
 /*  115: 155 */     this.menuBar_ = new JMenuBar();
 /*  116:     */     
 /*  117: 157 */     addFileMenu();
@@ -495,7 +495,7 @@
 /*  492:     */   }
 /*  493:     */   
 /*  494:     */   private void clearBack()
-/*  495:     */   {
+/*  495:     */   {//updates the FROMT frame
 /*  496: 596 */     System.out.println("ClearBack");
 /*  497: 597 */     this.back_.removeAll();
 /*  498: 598 */     if (Project.workpath_ != null) {

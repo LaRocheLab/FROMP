@@ -49,7 +49,7 @@
 /*  41:    */     {
 /*  42: 45 */       controller.loadProjFile(this.inputPath_);
 /*  43:    */     }
-/*  44: 47 */     else if (this.inputPath_.endsWith(".out")||this.inputPath_.endsWith(".txt"))//if the input file if of the sample file type, create a new sample with the file, and add that sample to a new project
+/*  44: 47 */     else if (this.inputPath_.endsWith(".out"))//if the input file if of the sample file type, create a new sample with the file, and add that sample to a new project
 /*  45:    */     {
 /*  46: 49 */       String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator));
 /*  47: 50 */       Sample sample = new Sample(name, this.inputPath_, Color.red);

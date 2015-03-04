@@ -79,6 +79,8 @@
 				  ArrayList<String> numEcs=new ArrayList<String>();
 				  ArrayList<String> numPfams=new ArrayList<String>();
 				  ArrayList<String> totalnumPfams=new ArrayList<String>();
+
+				  ArrayList<String> matrixSamples=new ArrayList<String>();
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
 /*   73:     */   {
@@ -302,7 +304,7 @@
 /*  253:     */   }
 /*  254:     */   
 /*  255:     */   public String[] getEnzFromSample(String input)
-/*  256:     */   {//retrieves ec/pfam and sequence ids from the three column data files.
+/*  256:     */   {//retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
 /*  257: 253 */     String seperator = "";
 /*  258: 254 */     String tmp = input;
 /*  259: 256 */     if (input.contains(",")) {
@@ -314,66 +316,97 @@
 /*  265: 264 */     if ((seperator.isEmpty()) && (input.contains("\t"))) {
 /*  266: 266 */       seperator = "\t";
 /*  267:     */     }
-/*  268: 268 */     String[] ret = new String[4];
-/*  269:     */     
-/*  270: 270 */     ret[0] = "X";//ec name
-/*  156:     */     
-/*  157: 154 */     ret[1] = "1";//number of this ec with this sequence id
-/*  158:     */     
-/*  159: 156 */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
-/*  160:     */     
-/*  161: 158 */     ret[3] = "X";//sequence id
+					String[] ret = new String[4];
+					ret[0] = "X";//ec name
+/*  156:     */     ret[1] = "1";//number of this ec with this sequence id
+/*  158:     */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
+/*  160:     */     ret[3] = "X";//sequence id
 /*  277: 277 */     if (input.isEmpty()) {
 /*  278: 278 */       return ret;
 /*  279:     */     }
-/*  280: 281 */     if (input.contains(seperator))
-/*  281:     */     {
-/*  282: 282 */       ret[0] = input.substring(0, input.indexOf(seperator));
-/*  283: 283 */       tmp = input.substring(input.indexOf(seperator) + 1);
-/*  284: 285 */       if (isEc(ret[0])) {
-/*  285: 286 */         ret[2] = "EC";
-						if(!numEcs.contains(ret[0])){//adds to the total number of ecs
-							numEcs.add(ret[0]);
-						}
-/*  286: 289 */       } else if (ret[0].contains(".")) {
-/*  287: 290 */         ret[0] = ret[0].substring(0, ret[0].indexOf("."));
-/*  288:     */       }
-/*  289: 293 */       String pfam = isPfam(ret[0]);
-/*  290: 295 */       if (pfam != null)
-/*  291:     */       {
-/*  292: 296 */         ret[0] = pfam;
-/*  293: 297 */         ret[2] = "Pf";
-						if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
+					if(!seperator.isEmpty()){
+					if (input.contains(seperator)){
+					  if((input.length()-input.replace(seperator, "").length())==2||(input.length()-input.replace(seperator, "").length())==1)//this determines that the input is of the two or three column format
+/*  280: 281 */       {
+/*  282: 282 */     	  ret[0] = input.substring(0, input.indexOf(seperator));
+/*  283: 283 */     	  tmp = input.substring(input.indexOf(seperator) + 1);
+/*  284: 285 */     	  if (isEc(ret[0])) {
+/*  285: 286 */     	    ret[2] = "EC";
+							if(!numEcs.contains(ret[0])){//adds to the total number of ecs
+								numEcs.add(ret[0]);
+							}
+/*  286: 289 */     	  } else if (ret[0].contains(".")) {
+/*  287: 290 */     	    ret[0] = ret[0].substring(0, ret[0].indexOf("."));
+/*  288:     */     	  }
+/*  289: 293 */     	  String pfam = isPfam(ret[0]);
+/*  290: 295 */     	  if (pfam != null)
+/*  291:     */     	  {
+/*  292: 296 */     	    ret[0] = pfam;
+/*  293: 297 */     	    ret[2] = "Pf";
+							if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
+								totalnumPfams.add(ret[0]);
+							}
+							String[] nump=ret.clone();
+							ArrayList<String[]> nump2;
+							nump2=convertPfam(nump);
+							for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
+							  if(!numPfams.contains(nump2.get(i)[0])){
+								numPfams.add(nump2.get(i)[0]);
+								System.out.println(nump2.get(i)[0]);
+							  }
+							}
+/*  294:     */     	  }
+/*  295: 299 */     	  if (tmp.contains(seperator))
+/*  296:     */     	  {
+/*  297: 300 */     	    ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+/*  298: 301 */     	    tmp = tmp.substring(tmp.indexOf(seperator) + 1);
+/*  299: 302 */     	    if (!tmp.isEmpty()) {
+/*  300: 303 */     	      ret[3] = tmp;
+/*  301:     */     	    } else {
+/*  302: 306 */     	      return ret;
+/*  303:     */     	    }
+/*  304:     */     	  }
+/*  305:     */     	  else
+/*  306:     */     	  {
+/*  307: 310 */     	    ret[1] = tmp;
+/*  308:     */     	    
+/*  309: 312 */     	    return ret;
+/*  310:     */     	  }
+/*  311:     */       }
+					  
+					  else if((input.length()-input.replace(seperator, "").length())>3){//matrix format
+
+					  }
+					}
+					}
+					else if(isPfambool(input)||isEc(input)){//one column format
+						ret[0] = input;
+/*  284: 285 */     	if (isEc(ret[0])) {
+/*  285: 286 */     	  ret[2] = "EC";
+						  if(!numEcs.contains(ret[0])){//adds to the total number of ecs
+					  		numEcs.add(ret[0]);
+					  	  }
+/*  286: 289 */     	}
+/*  289: 293 */     	String pfam = isPfam(ret[0]);
+/*  290: 295 */     	if (pfam != null)
+/*  291:     */     	{
+/*  292: 296 */     	  ret[0] = pfam;
+/*  293: 297 */     	  ret[2] = "Pf";
+						  if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
 							totalnumPfams.add(ret[0]);
-						}
-						String[] nump=ret.clone();
-						ArrayList<String[]> nump2;
-						nump2=convertPfam(nump);
-						for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
-						  if(!numPfams.contains(nump2.get(i)[0])){
-							numPfams.add(nump2.get(i)[0]);
-							System.out.println(nump2.get(i)[0]);
 						  }
-						}
-/*  294:     */       }
-/*  295: 299 */       if (tmp.contains(seperator))
-/*  296:     */       {
-/*  297: 300 */         ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-/*  298: 301 */         tmp = tmp.substring(tmp.indexOf(seperator) + 1);
-/*  299: 302 */         if (!tmp.isEmpty()) {
-/*  300: 303 */           ret[3] = tmp;
-/*  301:     */         } else {
-/*  302: 306 */           return ret;
-/*  303:     */         }
-/*  304:     */       }
-/*  305:     */       else
-/*  306:     */       {
-/*  307: 310 */         ret[1] = tmp;
-/*  308:     */         
-/*  309: 312 */         return ret;
-/*  310:     */       }
-/*  311:     */     }
-/*  312:     */     else
+						  String[] nump=ret.clone();
+						  ArrayList<String[]> nump2;
+						  nump2=convertPfam(nump);
+						  for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
+						    if(!numPfams.contains(nump2.get(i)[0])){
+						  	  numPfams.add(nump2.get(i)[0]);
+							  System.out.println(nump2.get(i)[0]);
+						    }
+						  }
+/*  294:     */     	}
+					}
+					else
 /*  313:     */     {
 /*  314: 316 */       ret[0] = input;
 /*  315: 317 */       return ret;
@@ -544,8 +577,10 @@
 /*  484: 492 */         Project.legitSamples.add(Boolean.valueOf(false));
 /*  485:     */         try
 /*  486:     */         {
+
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)
 /*  488:     */           {
+							
 /*  489: 497 */             String[] newEnz = getEnzFromSample(zeile);
 /*  490: 500 */             if (!enzReadCorrectly(newEnz)) {
 /*  491: 501 */               newEnz = getEnzFromRawSample(zeile);

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE pathway SYSTEM "http://www.genome.jp/kegg/xml/KGML_v0.7.1_.dtd">
+<!-- Creation date: Mar 31, 2009 09:32:24 +0900 (JST) -->
+<pathway name="path:ec00312" org="ec" number="00312"
+         title="beta-Lactam resistance"
+         image="http://www.genome.jp/kegg/pathway/ec/ec00312.png"
+         link="http://www.genome.jp/kegg-bin/show_pathway?ec00312">
+    <entry id="1" name="cpd:C00039" type="compound"
+        link="http://www.kegg.jp/dbget-bin/www_bget?C00039">
+        <graphics name="C00039" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="circle" x="400" y="290" width="8" height="8"/>
+    </entry>
+    <entry id="2" name="cpd:C00039" type="compound"
+        link="http://www.kegg.jp/dbget-bin/www_bget?C00039">
+        <graphics name="C00039" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="circle" x="400" y="189" width="8" height="8"/>
+    </entry>
+    <entry id="3" name="cpd:C03438" type="compound"
+        link="http://www.kegg.jp/dbget-bin/www_bget?C03438">
+        <graphics name="C03438" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="circle" x="128" y="238" width="8" height="8"/>
+    </entry>
+    <entry id="8" name="ec:3.5.2.6" type="enzyme"
+        link="http://www.kegg.jp/dbget-bin/www_bget?3.5.2.6">
+        <graphics name="3.5.2.6" fgcolor="#000000" bgcolor="#BFBFFF"
+             type="rectangle" x="486" y="190" width="46" height="17"/>
+    </entry>
+    <entry id="11" name="path:ec00311" type="map"
+        link="http://www.kegg.jp/dbget-bin/www_bget?ec00311">
+        <graphics name="Penicillin and cephalosporin biosynthesis" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="roundrectangle" x="126" y="125" width="169" height="35"/>
+    </entry>
+    <entry id="12" name="path:ec00312" type="map"
+        link="http://www.kegg.jp/dbget-bin/www_bget?ec00312">
+        <graphics name="TITLE:beta-Lactam resistance" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="roundrectangle" x="139" y="58" width="197" height="25"/>
+    </entry>
+</pathway>

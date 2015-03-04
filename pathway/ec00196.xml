@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE pathway SYSTEM "http://www.genome.jp/kegg/xml/KGML_v0.7.1_.dtd">
+<!-- Creation date: Nov 16, 2010 16:55:37 +0900 (GMT+09:00) -->
+<pathway name="path:ec00196" org="ec" number="00196"
+         title="Photosynthesis - antenna proteins"
+         image="http://www.genome.jp/kegg/pathway/ec/ec00196.png"
+         link="http://www.genome.jp/kegg-bin/show_pathway?ec00196">
+    <entry id="1" name="path:ec00195" type="map"
+        link="http://www.kegg.jp/dbget-bin/www_bget?ec00195">
+        <graphics name="Photosynthesis" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="roundrectangle" x="820" y="412" width="95" height="25"/>
+    </entry>
+    <entry id="2" name="path:ec00195" type="map"
+        link="http://www.kegg.jp/dbget-bin/www_bget?ec00195">
+        <graphics name="Photosynthesis" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="roundrectangle" x="376" y="413" width="95" height="25"/>
+    </entry>
+    <entry id="25" name="ec:4.-.-.-" type="enzyme"
+        link="http://www.kegg.jp/dbget-bin/www_bget?4.-.-.-">
+        <graphics name="4.-.-.-" fgcolor="#000000" bgcolor="#BFBFFF"
+             type="rectangle" x="272" y="516" width="46" height="17"/>
+    </entry>
+    <entry id="36" name="path:ec00196" type="map"
+        link="http://www.kegg.jp/dbget-bin/www_bget?ec00196">
+        <graphics name="TITLE:Photosynthesis - antenna proteins" fgcolor="#000000" bgcolor="#FFFFFF"
+             type="roundrectangle" x="532" y="58" width="298" height="25"/>
+    </entry>
+</pathway>

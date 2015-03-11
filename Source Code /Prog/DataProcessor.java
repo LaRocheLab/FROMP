@@ -496,7 +496,8 @@
 /*  338: 341 */     return null;
 /*  339:     */   }
 
-				  public String isInterPro(String interpro){
+				  public String isInterPro(String interpro)
+				  { //if the input string is determined to be an interPro the the method outputs the interPro without the IPR at the begining. Else it returns null.
 				  	String tmp = interpro;
 				  	if(tmp.contains("IPR")){
 				  		tmp = tmp.substring(tmp.indexOf("IPR"));

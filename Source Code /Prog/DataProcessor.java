@@ -403,6 +403,13 @@
 							  }
 							}
 /*  294:     */     	  }
+						  String interpro = isInterPro(ret[0]);
+						  if (interpro != null){
+						  	ret[0] = interpro;
+						  	ret[2] = "IPR";
+
+						  	convertInterpro(ret);
+						  }
 /*  295: 299 */     	  if (tmp.contains(seperator))
 /*  296:     */     	  {
 /*  297: 300 */     	    ret[1] = tmp.substring(0, tmp.indexOf(seperator));
@@ -452,6 +459,13 @@
 						    }
 						  }
 /*  294:     */     	}
+						String interpro = isInterPro(ret[0]);
+						  if (interpro != null){
+						  	ret[0] = interpro;
+						  	ret[2] = "IPR";
+						  	
+						  	convertInterpro(ret);
+						  }
 					}
 					else
 /*  313:     */     {
@@ -481,6 +495,23 @@
 /*  337:     */     }
 /*  338: 341 */     return null;
 /*  339:     */   }
+
+				  public String isInterPro(String interpro){
+				  	String tmp = interpro;
+				  	if(tmp.contains("IPR")){
+				  		tmp = tmp.substring(tmp.indexOf("IPR"));
+				  		if(tmp.length() == 9 ){
+				  			if(isNumber(tmp.substring(3))){
+				  				return tmp;
+				  			}
+				  		}
+				  		else if(tmp.length() >= 9 ){
+				  			tmp = tmp.substring(3);
+				  			isInterPro(tmp);
+				  		}
+				  	} 
+				  	return null;
+				  }
 /*  340:     */   
 /*  341:     */   public boolean isPfambool(String pfam)
 /*  342:     */   {// returns a boolean variable which is the awnser to whether or not the string is a pfam

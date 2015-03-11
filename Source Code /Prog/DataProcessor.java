@@ -45,9 +45,11 @@
 /*   38:  33 */   static final String rnListPath = "list" + File.separator + "rn.list";
 /*   39:  34 */   static final String mapTitleList = "list" + File.separator + "map_title.tab";
 /*   40:  35 */   static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt";
+				  static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt";
 /*   41:     */   static final String EC = "EC";
 /*   42:     */   static final String PF = "Pf";
 /*   43:     */   static final String RN = "Rn";
+				  static final String IPR = "IPR";
 /*   44:     */   XmlParser parser;
 /*   45:  40 */   int offCounter = 0;
 /*   46:  41 */   int counter = 0;
@@ -69,6 +71,7 @@
 /*   62:     */   BufferedReader nameList;
 /*   63:     */   BufferedReader ecToGoTxt_;
 /*   64:     */   BufferedReader pfamToRnToEc_;
+				  BufferedReader interproToGOTxt_;
 /*   65:     */   PngBuilder build;
 /*   66:     */   Color sysCol_;
 /*   67:     */   public static ArrayList<PathwayWithEc> pathwayList_;
@@ -220,6 +223,20 @@
 						  	}
 						  }
 /*  191:     */         }
+						else{
+							tmp=findInterProAndRepSeqInRaw(line);
+							if(!tmp.isEmpty()){
+								ret[0] = tmp.substring(0, tmp.indexOf("-"));
+								ret[2] = "IPR";
+								String repSeq = tmp.substring(tmp.indexOf("-") + 1);
+								if(repSeq.contains("/")){
+									repSeq = repSeq.substring(0, repSeq.indexOf("/"));
+								}
+								ret[3] = repSeq;
+
+								convertInterpro(ret);
+							}
+						}
 /*  192:     */       }
 /*  193:     */     }
 /*  194: 189 */     if ((ret[0] == "X") && 
@@ -246,6 +263,17 @@
 						  }
 						}
 /*  204:     */       }
+					  else if ( (ret[0] == "X") && (line.startsWith("IPR")) ) {
+					  	ret[0] = line.substring(0, line.indexOf("."));
+					  	if (isInterProBool(ret[0])){
+					  		ret[2] = "IPR";
+					  		String tmp = line.substring(line.indexOf(" "));
+					  		tmp = tmp.substring(line.indexOf(" -"));
+					  		ret[3] = tmp;
+
+					  		convertInterpro(ret);
+					  	}
+					  }
 /*  205:     */       else
 /*  206:     */       {
 /*  207: 200 */         ret[0] = "X";
@@ -302,6 +330,25 @@
 /*  251:     */     }
 /*  252: 246 */     return "";
 /*  253:     */   }
+				  private String findInterProAndRepSeqInRaw(String input){
+				  	String interpro="";
+				  	String tmp = input;
+				  	while (tmp.contains("IPR"))
+				  	{
+				  		interpro=tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
+				  		String repseq = tmp.substring(tmp.indexOf("IPR") + 9);
+				  		char firstChar = repseq.charAt(0);
+				  		while((isNumber(firstChar))||(firstChar=='.')||(firstChar==' ')){
+				  			repseq=repseq.substring(1);
+				  			firstChar=repseq.charAt(0);
+				  		}
+				  		if(isInterProBool(interpro)){
+				  			return interpro + "-" + repseq.substring(0, repseq.indexOf("-"));
+				  		}
+				  		tmp = tmp.substring(tmp.indexOf("IPR")+9);
+				  	}
+				  	return "";
+				  }
 /*  254:     */   
 /*  255:     */   public String[] getEnzFromSample(String input)
 /*  256:     */   {//retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
@@ -445,6 +492,13 @@
 /*  348:     */     }
 /*  349: 352 */     return false;
 /*  350:     */   }
+				  public boolean isInterProBool(String interpro){
+				  	String tmp = interpro;
+				  	if( (tmp.startsWith("IPR")) && (tmp.length() == 9) && (isNumber(tmp.substring(2))) ){
+				  		return true;
+				  	}
+				  	return false;
+				  }
 /*  351:     */   
 /*  352:     */   public boolean isEc(String ec)
 /*  353:     */   {
@@ -942,7 +996,67 @@
 /*  715:     */     }
 /*  716: 745 */     return retList;
 /*  717:     */   }
-/*  718:     */   
+
+				  private ArrayList<String[]> convertInterpro(String[] interpro){
+				  	ArrayList<String[]> retList = new ArrayList();
+				  	ArrayList<String[]> tmplist = new ArrayList();
+				    this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);//this is the interpro -> GO conversion file 
+				    this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);//this is the GO -> ec conversion file 
+				    
+				    String zeile = "";
+				    String[] tmpNr = new String[4];
+				    tmpNr[3] = interpro[3];
+				    int interproNr = Integer.valueOf(interpro[0].substring(4)).intValue();
+
+				    try{
+				    	while((zeile = this.interproToGOTxt_.readLine()) != null){
+				    		if (!zeile.startsWith("!")){
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
+				    				tmpNr = new String[4];
+				    				tmpNr[0]=zeile.substring(zeile.indexOf("; GO:")+5);
+				    				tmpNr[1]=interpro[1];
+				    				tmpNr[2]="GO";
+				    				tmpNr[3]=interpro[3];
+
+				    				tmplist.add(tmpNr);
+				    			}
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
+				    				break;
+				    			}
+				    		}
+				    	}
+				    	this.interproToGOTxt_.close();
+				    }catch(IOException e){
+				    	openWarning("Error", "File" + interproToGOPath_ +" not found");
+				    	e.printStackTrace();
+				    }
+				    try{
+				    	for(int i=0;i<tmplist.size();i++){
+				    		String[] tmpStringArray= tmplist.get(i);
+				    		interproNr = Integer.valueOf(tmpStringArray[0].substring(4)).intValue();
+				    		while((zeile = this.ecToGoTxt_.readLine()) != null){
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf(":IPR") + 12)).intValue()){
+				    				tmpNr = new String[4];
+				    				tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
+				    				tmpNr[1]=tmpStringArray[1];
+				    				tmpNr[2]="EC";
+				    				tmpNr[3]=tmpStringArray[3];
+
+				    				retList.add(tmpNr);
+				    			}
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
+				    				break;
+				    			}
+				    		}
+				    	}
+				    }catch(IOException e){
+				    	openWarning("Error", "File" + interproToGOPath_ +" not found");
+				    	e.printStackTrace();				    	
+				    }
+				    return retList;
+				  }
+
+
 /*  719:     */   private void fillSampleEcs(Sample sample, int sampleIndex)
 /*  720:     */   {
 /*  721: 753 */     this.lFrame_.bigStep("Filling " + sample.name_);

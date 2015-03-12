@@ -524,7 +524,7 @@
 /*  348:     */     }
 /*  349: 352 */     return false;
 /*  350:     */   }
-				  public boolean isInterProBool(String interpro){
+				  public boolean isInterProBool(String interpro){//returns a boolean variable which is the awnser to whether or not the string is an interPro
 				  	String tmp = interpro;
 				  	if( (tmp.startsWith("IPR")) && (tmp.length() == 9) && (isNumber(tmp.substring(2))) ){
 				  		return true;
@@ -533,7 +533,7 @@
 				  }
 /*  351:     */   
 /*  352:     */   public boolean isEc(String ec)
-/*  353:     */   {
+/*  353:     */   {//method returns a boolean variable stating whether or not the input string is an ec
 /*  354: 355 */     if (ec == null) {
 /*  355: 355 */       return false;
 /*  356:     */     }
@@ -1043,7 +1043,7 @@
 				    try{
 				    	while((zeile = this.interproToGOTxt_.readLine()) != null){
 				    		if (!zeile.startsWith("!")){
-				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
 				    				tmpNr = new String[4];
 				    				tmpNr[0]=zeile.substring(zeile.indexOf("; GO:")+5);
 				    				tmpNr[1]=interpro[1];
@@ -1052,7 +1052,7 @@
 
 				    				tmplist.add(tmpNr);
 				    			}
-				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
+				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
 				    				break;
 				    			}
 				    		}
@@ -1067,17 +1067,19 @@
 				    		String[] tmpStringArray= tmplist.get(i);
 				    		interproNr = Integer.valueOf(tmpStringArray[0].substring(4)).intValue();
 				    		while((zeile = this.ecToGoTxt_.readLine()) != null){
-				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf(":IPR") + 12)).intValue()){
-				    				tmpNr = new String[4];
-				    				tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
-				    				tmpNr[1]=tmpStringArray[1];
-				    				tmpNr[2]="EC";
-				    				tmpNr[3]=tmpStringArray[3];
+				    			if (!zeile.startsWith("!")){
+				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue()){
+				    					tmpNr = new String[4];
+				    					tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
+				    					tmpNr[1]=tmpStringArray[1];
+				    					tmpNr[2]="EC";
+				    					tmpNr[3]=tmpStringArray[3];
 
-				    				retList.add(tmpNr);
-				    			}
-				    			if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf(":IPR") + 4, zeile.indexOf(":IPR") + 10)).intValue()){
-				    				break;
+				    					retList.add(tmpNr);
+				    				}
+				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:") + 5, zeile.indexOf("; GO:") + 12)).intValue()){
+				    					break;
+				    				}
 				    			}
 				    		}
 				    	}

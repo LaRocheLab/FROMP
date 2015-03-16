@@ -1,31 +1,79 @@
 noEnzList
+test1col.txt IPR011766															
+test1col.txt IPR016180		
+test2col.txt IPR011766,5															
+test2col.txt IPR016180,1		
 
 noRepseqList
 
 ecList
 
 PFList
-test123.txt id: IPR003918 repseq: GZ2L4FS04H17XT amount: 8
-test123.txt id: IPR014348 repseq: GZ2L4FS04H18AV amount: 1
-test123.txt id: IPR006099 repseq: GZ2L4FS04H18N8 amount: 1
-test123.txt id: IPR000114 repseq: GZ2L4FS04H193Y amount: 1
-test123.txt id: IPR011766 repseq: GZ2L4FS04H19AH															 amount: 5
-test123.txt id: IPR016180 repseq: GZ2L4FS04H1A6L		 amount: 1
-test123.txt id: IPR029061 repseq: GZ2L4FS04H1AKW amount: 1
-test123.txt id: IPR000399 repseq: GZ2L4FS04H1B5X amount: 1
-test123.txt id: IPR009008 repseq: GZ2L4FS04H1C2O amount: 1
-test123.txt id: IPR002300 repseq: GZ2L4FS04H1CT6 amount: 1
-test123.txt id: IPR013786 repseq: GZ2L4FS04H1CV2 amount: 2
-test123.txt id: IPR024084 repseq: GZ2L4FS04H1CX6 amount: 1
-test123.txt id: IPR029000 repseq: GZ2L4FS04H1CXM amount: 1
-test123.txt id: IPR002130 repseq: GZ2L4FS04H1CYX amount: 1
-test123.txt id: IPR020892 repseq: GZ2L4FS04H1DS4 amount: 1
-test123.txt id: IPR022417 repseq: GZ2L4FS04H1E0M amount: 1
-test123.txt id: IPR000860 repseq: GZ2L4FS04H1E0M amount: 1
-test123.txt id: IPR014729 repseq: GZ2L4FS04H1EE3 amount: 1
-test123.txt id: IPR020825 repseq: GZ2L4FS04H1ELL amount: 1
-test123.txt id: IPR008922 repseq: GZ2L4FS04H1ET7 amount: 1
-test123.txt id: IPR019776 repseq: GZ2L4FS04H1EZZ amount: 1
-test123.txt id: IPR001444 repseq: GZ2L4FS04H1FB4 amount: 2
-test123.txt id: IPR001347 repseq: GZ2L4FS04H1FHF amount: 3
-test123.txt id: IPR006214 repseq: GZ2L4FS04H1FNI amount: 1
+test1col.txt id: IPR003918 repseq: X amount: 1
+test1col.txt id: IPR014348 repseq: X amount: 1
+test1col.txt id: IPR006099 repseq: X amount: 1
+test1col.txt id: IPR000114 repseq: X amount: 1
+test1col.txt id: IPR029061 repseq: X amount: 1
+test1col.txt id: IPR000399 repseq: X amount: 1
+test1col.txt id: IPR009008 repseq: X amount: 1
+test1col.txt id: IPR002300 repseq: X amount: 1
+test1col.txt id: IPR013786 repseq: X amount: 1
+test1col.txt id: IPR024084 repseq: X amount: 1
+test1col.txt id: IPR029000 repseq: X amount: 1
+test1col.txt id: IPR002130 repseq: X amount: 1
+test1col.txt id: IPR020892 repseq: X amount: 1
+test1col.txt id: IPR022417 repseq: X amount: 1
+test1col.txt id: IPR000860 repseq: X amount: 1
+test1col.txt id: IPR014729 repseq: X amount: 1
+test1col.txt id: IPR020825 repseq: X amount: 1
+test1col.txt id: IPR008922 repseq: X amount: 1
+test1col.txt id: IPR019776 repseq: X amount: 1
+test1col.txt id: IPR001444 repseq: X amount: 1
+test1col.txt id: IPR001347 repseq: X amount: 1
+test1col.txt id: IPR006214 repseq: X amount: 1
+test2col.txt id: IPR003918 repseq: X amount: 8
+test2col.txt id: IPR014348 repseq: X amount: 1
+test2col.txt id: IPR006099 repseq: X amount: 1
+test2col.txt id: IPR000114 repseq: X amount: 1
+test2col.txt id: IPR029061 repseq: X amount: 1
+test2col.txt id: IPR000399 repseq: X amount: 1
+test2col.txt id: IPR009008 repseq: X amount: 1
+test2col.txt id: IPR002300 repseq: X amount: 1
+test2col.txt id: IPR013786 repseq: X amount: 2
+test2col.txt id: IPR024084 repseq: X amount: 1
+test2col.txt id: IPR029000 repseq: X amount: 1
+test2col.txt id: IPR002130 repseq: X amount: 1
+test2col.txt id: IPR020892 repseq: X amount: 1
+test2col.txt id: IPR022417 repseq: X amount: 1
+test2col.txt id: IPR000860 repseq: X amount: 1
+test2col.txt id: IPR014729 repseq: X amount: 1
+test2col.txt id: IPR020825 repseq: X amount: 1
+test2col.txt id: IPR008922 repseq: X amount: 1
+test2col.txt id: IPR019776 repseq: X amount: 1
+test2col.txt id: IPR001444 repseq: X amount: 2
+test2col.txt id: IPR001347 repseq: X amount: 3
+test2col.txt id: IPR006214 repseq: X amount: 1
+test3col.txt id: IPR003918 repseq: GZ2L4FS04H17XT amount: 8
+test3col.txt id: IPR014348 repseq: GZ2L4FS04H18AV amount: 1
+test3col.txt id: IPR006099 repseq: GZ2L4FS04H18N8 amount: 1
+test3col.txt id: IPR000114 repseq: GZ2L4FS04H193Y amount: 1
+test3col.txt id: IPR011766 repseq: GZ2L4FS04H19AH															 amount: 5
+test3col.txt id: IPR016180 repseq: GZ2L4FS04H1A6L		 amount: 1
+test3col.txt id: IPR029061 repseq: GZ2L4FS04H1AKW amount: 1
+test3col.txt id: IPR000399 repseq: GZ2L4FS04H1B5X amount: 1
+test3col.txt id: IPR009008 repseq: GZ2L4FS04H1C2O amount: 1
+test3col.txt id: IPR002300 repseq: GZ2L4FS04H1CT6 amount: 1
+test3col.txt id: IPR013786 repseq: GZ2L4FS04H1CV2 amount: 2
+test3col.txt id: IPR024084 repseq: GZ2L4FS04H1CX6 amount: 1
+test3col.txt id: IPR029000 repseq: GZ2L4FS04H1CXM amount: 1
+test3col.txt id: IPR002130 repseq: GZ2L4FS04H1CYX amount: 1
+test3col.txt id: IPR020892 repseq: GZ2L4FS04H1DS4 amount: 1
+test3col.txt id: IPR022417 repseq: GZ2L4FS04H1E0M amount: 1
+test3col.txt id: IPR000860 repseq: GZ2L4FS04H1E0M amount: 1
+test3col.txt id: IPR014729 repseq: GZ2L4FS04H1EE3 amount: 1
+test3col.txt id: IPR020825 repseq: GZ2L4FS04H1ELL amount: 1
+test3col.txt id: IPR008922 repseq: GZ2L4FS04H1ET7 amount: 1
+test3col.txt id: IPR019776 repseq: GZ2L4FS04H1EZZ amount: 1
+test3col.txt id: IPR001444 repseq: GZ2L4FS04H1FB4 amount: 2
+test3col.txt id: IPR001347 repseq: GZ2L4FS04H1FHF amount: 3
+test3col.txt id: IPR006214 repseq: GZ2L4FS04H1FNI amount: 1

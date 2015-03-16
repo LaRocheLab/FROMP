@@ -235,7 +235,7 @@
 								}
 								ret[3] = repSeq;
 
-								convertInterpro(ret);
+//								convertInterpro(ret);
 							}
 						}
 /*  192:     */       }
@@ -272,7 +272,7 @@
 					  		tmp = tmp.substring(line.indexOf(" -"));
 					  		ret[3] = tmp;
 
-					  		convertInterpro(ret);
+//					  		convertInterpro(ret);
 					  	}
 					  }
 /*  205:     */       else
@@ -427,6 +427,7 @@
 /*  308:     */     	    
 /*  309: 312 */     	    return ret;
 /*  310:     */     	  }
+						  
 /*  311:     */       }
 					  
 					  else if((input.length()-input.replace(seperator, "").length())>3){//matrix format
@@ -434,7 +435,8 @@
 					  }
 					}
 					}
-					else if(isPfambool(input)||isEc(input)){//one column format
+					else if(isPfambool(input)||isEc(input)||isInterProBool(input)){//one column format
+						System.out.println("One column");
 						ret[0] = input;
 /*  284: 285 */     	if (isEc(ret[0])) {
 /*  285: 286 */     	  ret[2] = "EC";
@@ -461,12 +463,14 @@
 						  }
 /*  294:     */     	}
 						String interpro = isInterPro(ret[0]);
-						  if (interpro != null){
-						  	ret[0] = interpro;
-						  	ret[2] = "IPR";
-						  	
-						  	//ret=convertInterpro(ret);
-						  }
+						if (interpro != null){
+						  System.out.println("One column IPR");
+						  ret[0] = interpro;
+						  ret[1] = "1";
+						  ret[2] = "IPR";
+						
+						  //ret=convertInterpro(ret);
+						}
 					}
 					else
 /*  313:     */     {
@@ -477,7 +481,7 @@
 /*  318:     */   }
 /*  319:     */   
 /*  320:     */   public String isPfam(String pfam)
-/*  321:     */   {//if the input string is determined to be a pfam then the method outputs the pfam, only without the PF at the begining. Else it returns null 
+/*  321:     */   {//if the input string is determined to be a pfam then the method outputs the pfam
 /*  322: 323 */     String tmp = pfam;
 /*  323: 324 */     if (tmp.contains("PF"))
 /*  324:     */     {
@@ -498,7 +502,7 @@
 /*  339:     */   }
 
 				  public String isInterPro(String interpro)
-				  { //if the input string is determined to be an interPro the the method outputs the interPro without the IPR at the begining. Else it returns null.
+				  { //if the input string is determined to be an interPro the the method outputs the interPro. Else it returns null.
 				  	String tmp = interpro;
 				  	if(tmp.contains("IPR")){
 				  		tmp = tmp.substring(tmp.indexOf("IPR"));
@@ -1099,7 +1103,7 @@
 				    String[] tmpNr = new String[4];
 				    tmpNr[3] = interpro[3];
 				    System.out.println("repseq: " +tmpNr[3]);
-				    int interproNr = Integer.valueOf(interpro[0].substring(4)).intValue();
+				    int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
 
 //				    System.out.println("interproNR: "+ interproNr);
 

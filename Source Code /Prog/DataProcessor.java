@@ -227,13 +227,18 @@
 						else{
 							tmp=findInterProAndRepSeqInRaw(line);
 							if(!tmp.isEmpty()){
-								ret[0] = tmp.substring(0, tmp.indexOf("-"));
+								if(tmp.contains("-")){
+									ret[0] = tmp.substring(0, tmp.indexOf("-"));
+									String repSeq = tmp.substring(tmp.indexOf("-") + 1);
+									if(repSeq.contains("/")){
+										repSeq = repSeq.substring(0, repSeq.indexOf("/"));
+									}
+									ret[3] = repSeq;
+								}else{
+									ret[0]=tmp;
+								} 
 								ret[2] = "IPR";
-								String repSeq = tmp.substring(tmp.indexOf("-") + 1);
-								if(repSeq.contains("/")){
-									repSeq = repSeq.substring(0, repSeq.indexOf("/"));
-								}
-								ret[3] = repSeq;
+								
 
 //								convertInterpro(ret);
 							}
@@ -309,6 +314,32 @@
 /*  229:     */     }
 /*  230: 223 */     return ret;
 /*  231:     */   }
+
+				  public String[] getEnzFromInterPro(String line)
+				  { //retrieves the interpro and sequence ids from InterPro output files
+					String[] ret = new String[4];
+
+					ret[0] = "X";//ipr name
+					ret[1] = "1";//number of this ipr with this sequence id
+					ret[2] = "X";//whether or not it is an ipr
+					ret[3] = "X";//sequence id
+
+					if (!line.startsWith(">") && line.contains("IPR")){
+						if(line.contains("_")){
+							String repSeq = line.substring(0,line.indexOf("_"));
+							ret[3] = repSeq;
+						}
+						String interpro = findInterProAndRepSeqInRaw(line);
+						if(interpro!=null){
+							if(interpro.contains("-")){
+								interpro=interpro.substring(0,interpro.indexOf("-"));
+							}
+							ret[0]=interpro;
+							ret[2]="IPR";
+						}
+					}
+					return ret;
+				  }
 /*  232:     */   
 /*  233:     */   private String findPfamAndRepSeqInRaw(String input)
 /*  234:     */   {//finds the PFam and sequence ID in a line of raw data
@@ -344,7 +375,8 @@
 				  			firstChar=repseq.charAt(0);
 				  		}
 				  		if(isInterProBool(interpro)){
-				  			return interpro + "-" + repseq.substring(0, repseq.indexOf("-"));
+				  			if(repseq.contains("-")){return interpro + "-" + repseq.substring(0, repseq.indexOf("-"));}
+				  			else {return interpro;}
 				  		}
 				  		tmp = tmp.substring(tmp.indexOf("IPR")+9);
 				  	}
@@ -373,67 +405,67 @@
 /*  278: 278 */       return ret;
 /*  279:     */     }
 					if(!seperator.isEmpty()){
-					if (input.contains(seperator)){
-					  if((input.length()-input.replace(seperator, "").length())==2||(input.length()-input.replace(seperator, "").length())==1)//this determines that the input is of the two or three column format
-/*  280: 281 */       {
-/*  282: 282 */     	  ret[0] = input.substring(0, input.indexOf(seperator));
-/*  283: 283 */     	  tmp = input.substring(input.indexOf(seperator) + 1);
-/*  284: 285 */     	  if (isEc(ret[0])) {
-/*  285: 286 */     	    ret[2] = "EC";
-							if(!numEcs.contains(ret[0])){//adds to the total number of ecs
-								numEcs.add(ret[0]);
-							}
-/*  286: 289 */     	  } else if (ret[0].contains(".")) {
-/*  287: 290 */     	    ret[0] = ret[0].substring(0, ret[0].indexOf("."));
-/*  288:     */     	  }
-/*  289: 293 */     	  String pfam = isPfam(ret[0]);
-/*  290: 295 */     	  if (pfam != null)
-/*  291:     */     	  {
-/*  292: 296 */     	    ret[0] = pfam;
-/*  293: 297 */     	    ret[2] = "Pf";
-							if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
-								totalnumPfams.add(ret[0]);
-							}
-							String[] nump=ret.clone();
-							ArrayList<String[]> nump2;
-							nump2=convertPfam(nump);
-							for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
-							  if(!numPfams.contains(nump2.get(i)[0])){
-								numPfams.add(nump2.get(i)[0]);
-								System.out.println(nump2.get(i)[0]);
+						if (input.contains(seperator)){
+						  if((input.length()-input.replace(seperator, "").length())==2||(input.length()-input.replace(seperator, "").length())==1)//this determines that the input is of the two or three column format
+/*  280: 281 */     	  {
+/*  282: 282 */     		  ret[0] = input.substring(0, input.indexOf(seperator));
+/*  283: 283 */     		  tmp = input.substring(input.indexOf(seperator) + 1);
+/*  284: 285 */     		  if (isEc(ret[0])) {
+/*  285: 286 */     		    ret[2] = "EC";
+								if(!numEcs.contains(ret[0])){//adds to the total number of ecs
+									numEcs.add(ret[0]);
+								}
+/*  286: 289 */     		  } else if (ret[0].contains(".")) {
+/*  287: 290 */     		    ret[0] = ret[0].substring(0, ret[0].indexOf("."));
+/*  288:     */     		  }
+/*  289: 293 */     		  String pfam = isPfam(ret[0]);
+/*  290: 295 */     		  if (pfam != null)
+/*  291:     */     		  {
+/*  292: 296 */     		    ret[0] = pfam;
+/*  293: 297 */     		    ret[2] = "Pf";
+								if(!totalnumPfams.contains(ret[0])){//adds to the total number of pfams
+									totalnumPfams.add(ret[0]);
+								}
+								String[] nump=ret.clone();
+								ArrayList<String[]> nump2;
+								nump2=convertPfam(nump);
+								for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
+								  if(!numPfams.contains(nump2.get(i)[0])){
+									numPfams.add(nump2.get(i)[0]);
+									System.out.println(nump2.get(i)[0]);
+								  }
+								}
+/*  294:     */     		  }
+							  String interpro = isInterPro(ret[0]);
+							  if (interpro != null){
+							  	ret[0] = interpro;
+							  	ret[2] = "IPR";
+
+							  	//convertInterpro(ret);
 							  }
-							}
-/*  294:     */     	  }
-						  String interpro = isInterPro(ret[0]);
-						  if (interpro != null){
-						  	ret[0] = interpro;
-						  	ret[2] = "IPR";
-
-						  	//convertInterpro(ret);
-						  }
-/*  295: 299 */     	  if (tmp.contains(seperator))
-/*  296:     */     	  {
-/*  297: 300 */     	    ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-/*  298: 301 */     	    tmp = tmp.substring(tmp.indexOf(seperator) + 1);
-/*  299: 302 */     	    if (!tmp.isEmpty()) {
-/*  300: 303 */     	      ret[3] = tmp;
-/*  301:     */     	    } else {
-/*  302: 306 */     	      return ret;
-/*  303:     */     	    }
-/*  304:     */     	  }
-/*  305:     */     	  else
-/*  306:     */     	  {
-/*  307: 310 */     	    ret[1] = tmp;
-/*  308:     */     	    
-/*  309: 312 */     	    return ret;
-/*  310:     */     	  }
+/*  295: 299 */     		  if (tmp.contains(seperator))
+/*  296:     */     		  {
+/*  297: 300 */     		    ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+/*  298: 301 */     		    tmp = tmp.substring(tmp.indexOf(seperator) + 1);
+/*  299: 302 */     		    if (!tmp.isEmpty()) {
+/*  300: 303 */     		      ret[3] = tmp;
+/*  301:     */     		    } else {
+/*  302: 306 */     		      return ret;
+/*  303:     */     		    }
+/*  304:     */     		  }
+/*  305:     */     		  else
+/*  306:     */     		  {
+/*  307: 310 */     		    ret[1] = tmp;
+/*  308:     */     		    
+/*  309: 312 */     		    return ret;
+/*  310:     */     		  }
+							  
+/*  311:     */     	  }
 						  
-/*  311:     */       }
-					  
-					  else if((input.length()-input.replace(seperator, "").length())>3){//matrix format
-
-					  }
-					}
+						  else if((input.length()-input.replace(seperator, "").length())>3){//Matrix format. Still nothing here to input the matrix format.
+						  	
+						  }
+						}
 					}
 					else if(isPfambool(input)||isEc(input)||isInterProBool(input)){//one column format
 						System.out.println("One column");
@@ -671,12 +703,15 @@
 
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)
 /*  488:     */           {
-							System.out.println("Hello world");
+//							System.out.println("Hello world");
 /*  489: 497 */             String[] newEnz = getEnzFromSample(zeile);
-							System.out.println("newEnz: "+Arrays.toString(newEnz));
+//							System.out.println("newEnz: "+Arrays.toString(newEnz));
 /*  490: 500 */             if (!enzReadCorrectly(newEnz)) {
 /*  491: 501 */               newEnz = getEnzFromRawSample(zeile);
 /*  492:     */             }
+							if(!enzReadCorrectly(newEnz)){
+								newEnz = getEnzFromInterPro(zeile);
+							}
 //*  493: 503 */             if (newEnz[3] == "X")
 //*  494:     */             {
 //*  495: 504 */               Debug.addnoRepseqLine(sample.name_ + " " + zeile);
@@ -754,7 +789,7 @@
 /*  560:     */               }
 							  else if (newEnz[2].equalsIgnoreCase("IPR")){
 							  	ArrayList<String[]> enzL = convertInterpro(newEnz);
-							  	System.out.println("enzL size" + enzL.size());
+//							  	System.out.println("enzL size" + enzL.size());
 							  	for(int cnt=0;cnt<enzL.size();cnt++){
 							  	  newEnz = (String[])enzL.get(cnt);
 							  	  if (!newEnz[0].isEmpty())
@@ -1013,7 +1048,7 @@
 /*  646: 660 */     boolean ret = false;
 /*  647: 662 */     if ((isEc(newEnz[0])) || (isPfambool(newEnz[0])) || (isInterProBool(newEnz[0]))) {
 /*  648: 663 */       ret = true;
-					  System.out.println("Deamed true");
+//					  System.out.println("Deamed true");
 /*  649:     */     } else {
 /*  650: 666 */       return false;
 /*  651:     */     }
@@ -1092,8 +1127,8 @@
 /*  717:     */   }
 
 				  private ArrayList<String[]> convertInterpro(String[] interpro){
-				  	System.out.println("interpro conversion step");
-				  	System.out.println("incoming string array: " + Arrays.toString(interpro));
+//				  	System.out.println("interpro conversion step");
+//				  	System.out.println("incoming string array: " + Arrays.toString(interpro));
 				  	ArrayList<String[]> retList = new ArrayList();
 				  	ArrayList<String[]> tmplist = new ArrayList();
 				    this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);//this is the interpro -> GO conversion file 
@@ -1102,7 +1137,7 @@
 				    String zeile = "";
 				    String[] tmpNr = new String[4];
 				    tmpNr[3] = interpro[3];
-				    System.out.println("repseq: " +tmpNr[3]);
+//				    System.out.println("repseq: " +tmpNr[3]);
 				    int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
 
 //				    System.out.println("interproNR: "+ interproNr);
@@ -1163,7 +1198,7 @@
 				    	e.printStackTrace();				    	
 				    }
 				    for (int i=0;i<retList.size();i++){
-				    	System.out.println("retlist #"+i+": "+Arrays.toString(retList.get(i)));
+//				    	System.out.println("retlist #"+i+": "+Arrays.toString(retList.get(i)));
 					}
 				    return retList;
 				  }

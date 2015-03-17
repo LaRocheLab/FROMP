@@ -57,6 +57,11 @@
 /* 54:56 */     idea.setBounds(30, 170, 200, 20);
 /* 55:57 */     idea.setVisible(true);
 /* 56:58 */     back.add(idea);
+
+				idea = new JLabel("Kevan Lynch");
+/* 54:56 */     idea.setBounds(30, 170, 200, 20);
+/* 55:57 */     idea.setVisible(true);
+/* 56:58 */     back.add(idea);
 /* 57:   */   }
 /* 58:   */ }
 

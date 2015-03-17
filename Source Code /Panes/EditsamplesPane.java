@@ -648,6 +648,9 @@
 /* 646:681 */       if (!tmpProc.enzReadCorrectly(newEnz)) {
 /* 647:682 */         newEnz = tmpProc.getEnzFromRawSample(zeile);
 /* 648:    */       }
+					if (!tmpProc.enzReadCorrectly(newEnz)) {
+						newEnz = tmpProc.getEnzFromInterPro(zeile);
+					}
 /* 649:684 */       if (!tmpProc.enzReadCorrectly(newEnz))
 /* 650:    */       {
 /* 651:685 */         System.err.println("no enzyme in sample line");

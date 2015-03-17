@@ -1,79 +1,1007 @@
 noEnzList
-test1col.txt IPR011766															
-test1col.txt IPR016180		
-test2col.txt IPR011766,5															
-test2col.txt IPR016180,1		
+InterPro.txt >ERR770958_MERGED_FASTQ
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12775:22707-1:N:0:GTCTGCAA_176_326_-	e3bdc626ecc13d2ec02759053114b9a0	49	Gene3D	G3DSA:3.60.130.10		1	40	1.8E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14599:20145-1:N:0:GTCTGCAA_1_256_-	02f3c9ecfb871452d4b1f0ee0c45d987	84	Gene3D	G3DSA:3.40.630.10		2	79	1.2E-20	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21884:23077-1:N:0:GTCTGCAA_1_399_-	926b8b50950a0783ebbb02703212fcdd	132	Gene3D	G3DSA:3.50.50.60		67	113	2.8E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21248:20577-1:N:0:GTCTGCAA_1_230_+	ff90cf277f64c6d4dd82ab8a627e1db6	76	Gene3D	G3DSA:3.40.190.10		7	76	1.6E-19	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7618:22220-1:N:0:GTCTGCAA_1_190_-	f9a56957fb423cd002b030b90f4b96ee	62	Gene3D	G3DSA:3.40.50.10490		1	61	4.3E-25	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14046:20348-1:N:0:GTCTGCAA_1_493_-	c01596dd1d4ccd689a8330d6a4aa48ed	164	Gene3D	G3DSA:3.50.50.60		46	83	7.2E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24067:20841-1:N:0:GTCTGCAA_1_322_+	2f9160ae4c4a79e370fdc2ad76c9ef7c	106	Gene3D	G3DSA:1.20.1560.10		1	65	2.3E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:15566:22824-1:N:0:GTCTGCAA_1_175_+	3540eea6d011446c8c3c06f34e0de76f	57	Gene3D	G3DSA:1.20.1600.10		9	51	2.2E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14103:21193-1:N:0:GTCTGCAA_1_406_+	97bd918217aef608121e4c1a2823d3d4	135	Gene3D	G3DSA:3.50.50.60		3	56	7.7E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14103:21193-1:N:0:GTCTGCAA_1_406_+	97bd918217aef608121e4c1a2823d3d4	135	PRINTS	PR00411	Pyridine nucleotide disulphide reductase class-I signature	128	135	6.39E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14103:21193-1:N:0:GTCTGCAA_1_406_+	97bd918217aef608121e4c1a2823d3d4	135	PRINTS	PR00411	Pyridine nucleotide disulphide reductase class-I signature	25	32	6.39E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14103:21193-1:N:0:GTCTGCAA_1_406_+	97bd918217aef608121e4c1a2823d3d4	135	PRINTS	PR00411	Pyridine nucleotide disulphide reductase class-I signature	62	83	6.39E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:6382:19979-1:N:0:GTCTGCAA_1_206_-	b88148037c38b55afc49926bf1b68f78	67	Gene3D	G3DSA:3.10.310.10		2	66	5.9E-27	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24288:22299-1:N:0:GTCTGCAA_1_293_+	70abbea6a6804d647eda71f8746b5742	96	Gene3D	G3DSA:3.30.540.10		1	96	1.2E-32	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:6146:19560-1:N:0:GTCTGCAA_1_117_-	f17d88493ddcefedcf10188ca52e42b0	38	Gene3D	G3DSA:1.20.5.710		6	38	4.1E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18773:22818-1:N:0:GTCTGCAA_1_137_+	73850d861d88ccfeefcb31f767f2deeb	44	Gene3D	G3DSA:3.40.50.980		12	44	1.6E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:16693:22543-1:N:0:GTCTGCAA_1_372_+	2e54ce7aca738567e29e5a2128697dff	123	Gene3D	G3DSA:1.20.120.140		18	112	1.3E-23	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:22613:22627-1:N:0:GTCTGCAA_1_415_-	133b8be087d8c4e11c08a6ee97258496	138	Gene3D	G3DSA:3.90.25.10		95	137	1.1E-33	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:22613:22627-1:N:0:GTCTGCAA_1_415_-	133b8be087d8c4e11c08a6ee97258496	138	Gene3D	G3DSA:3.90.25.10		1	50	1.1E-33	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:11363:20377-1:N:0:GTCTGCAA_1_287_+	dfdfcf47779ebdc7a300d171b2eddd6c	94	Gene3D	G3DSA:3.30.420.40		1	94	6.7E-35	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:17350:20368-1:N:0:GTCTGCAA_1_278_+	3673ee4c5b3fb2476b7fa0f89a10af00	92	Gene3D	G3DSA:3.30.300.120		48	87	2.4E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7317:22908-1:N:0:GTCTGCAA_1_185_-	0d2c32b47362b209f77061a57d1098eb	60	Gene3D	G3DSA:3.10.580.10		2	60	6.2E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:22104:20825-1:N:0:GTCTGCAA_1_253_-	d221ce345a7309fec91a8b563f61c80d	84	Gene3D	G3DSA:2.60.450.10		17	76	3.3E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21636:20583-1:N:0:GTCTGCAA_1_425_+	2dc3c513accffa8f09fb2e29c554a108	141	Gene3D	G3DSA:2.130.10.130		53	119	3.5E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20773:19300-1:N:0:GTCTGCAA_1_286_+	470201aebe1a35252b344cfe6fb5391f	94	Gene3D	G3DSA:3.40.50.2300		1	90	4.6E-30	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:23958:19978-1:N:0:GTCTGCAA_1_235_-	63bd765384a1b6d73aa7ed0fd62e9edf	78	Gene3D	G3DSA:1.20.140.10		2	77	9.7E-21	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:11172:20166-1:N:0:GTCTGCAA_1_201_+	3f89fd702536f5b4c394c58d18fd8e9a	66	Gene3D	G3DSA:1.20.140.10		2	66	3.1E-17	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9400:23185-1:N:0:GTCTGCAA_1_280_+	f84e487894f6e36a00f8321c7a6f9179	93	Gene3D	G3DSA:3.20.20.140		11	90	2.5E-17	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7712:22176-1:N:0:GTCTGCAA_211_347_-	c315b40c39e4f6de4f727ed8c3cf248f	44	Gene3D	G3DSA:1.10.40.30		1	42	1.5E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:23640:20500-1:N:0:GTCTGCAA_1_270_+	f45dd2c7a9a2b894559882d7f8d97814	89	Gene3D	G3DSA:1.10.8.60		1	65	6.7E-21	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:8587:20575-1:N:0:GTCTGCAA_1_378_+	071b5ee8415a51d05b46ea88183b7a81	125	Gene3D	G3DSA:2.60.120.620		14	62	8.9E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:19448:22384-1:N:0:GTCTGCAA_1_405_-	3ec2b8cfc37c08087a260abae0d33318	134	Gene3D	G3DSA:1.20.140.10		60	124	3.2E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:13865:22294-1:N:0:GTCTGCAA_1_234_+	823c82403c0551ecb64edecefb018a65	77	Gene3D	G3DSA:3.30.1300.10		18	66	7.7E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20736:19497-1:N:0:GTCTGCAA_1_394_+	2082b25c1daa7297f7a41bc2d9e29463	130	Gene3D	G3DSA:1.20.1060.10		7	129	3.8E-27	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21088:19969-1:N:0:GTCTGCAA_1_109_-	fd8e61a612417ef7649557ce9adf97c0	35	Gene3D	G3DSA:2.30.38.10		5	35	7.4E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14826:20854-1:N:0:GTCTGCAA_1_118_+	e066cbc813e9fa4d8a504bc605db34cd	38	Gene3D	G3DSA:3.90.1010.10		2	38	5.0E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7520:20066-1:N:0:GTCTGCAA_1_376_-	2c826891d9865991f4e47448b2fc4347	124	Gene3D	G3DSA:3.10.105.10		4	123	4.2E-40	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:10014:19601-1:N:0:GTCTGCAA_1_155_+	b9afcbfbbbffe4a70c7aa30395d1ca83	50	Gene3D	G3DSA:3.20.70.20		2	39	2.3E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:10880:22372-1:N:0:GTCTGCAA_105_362_+	795ca3440bba77412f81aa830508cc02	84	Gene3D	G3DSA:2.40.30.10		3	45	3.2E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:4382:19967-1:N:0:GTCTGCAA_1_265_-	fc357a8a83fa189ed17a17c6701f9cd0	88	Gene3D	G3DSA:3.20.20.140		1	88	2.1E-30	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:15461:19311-1:N:0:GTCTGCAA_1_281_+	cc7c754c11200644e25eb103a9e100b3	92	Gene3D	G3DSA:3.30.1510.10		4	92	9.2E-41	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7866:20703-1:N:0:GTCTGCAA_1_155_-	b0c9644f7f0c628bb94cc91f02f2849c	51	Gene3D	G3DSA:3.30.360.10		1	49	2.7E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7043:20576-1:N:0:GTCTGCAA_1_207_+	5538ae9c27271f48dc9aa1ec4bf6c7ce	68	Gene3D	G3DSA:3.10.50.40		2	67	4.6E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12643:19440-1:N:0:GTCTGCAA_18_351_+	9f04ba4de0c29541022573fd98e3471d	110	Gene3D	G3DSA:3.90.1200.10		8	73	2.5E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21877:21262-1:N:0:GTCTGCAA_1_133_+	ed929b06435e77a87d91e609a25d2782	43	Gene3D	G3DSA:3.30.930.10		1	43	7.9E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18234:19313-1:N:0:GTCTGCAA_1_228_-	68f14e63a5fa58fbd444e4d227f8b1f7	75	Gene3D	G3DSA:1.10.601.10		2	71	1.3E-22	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:13105:22808-1:N:0:GTCTGCAA_1_241_-	dc4b9401e5086044d3b060d877e9eadc	80	Gene3D	G3DSA:3.40.50.1100		1	74	1.6E-22	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:25488:22326-1:N:0:GTCTGCAA_1_465_-	3c3843d4be4dfded35eb646f111a5a3b	154	Gene3D	G3DSA:1.20.1250.20		1	133	1.2E-15	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21693:22290-1:N:0:GTCTGCAA_1_226_+	0e526e5eb14b75c656f04a23326b342c	74	Gene3D	G3DSA:1.20.150.20		2	56	6.2E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20035:21261-1:N:0:GTCTGCAA_1_393_-	534eb777f2ffc613a3ac2176f4eaa0c9	130	Gene3D	G3DSA:3.40.50.2300		6	129	2.2E-39	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24433:22006-1:N:0:GTCTGCAA_1_121_-	03b19326fdfb82cc5dd12bce60619c3a	39	Gene3D	G3DSA:1.10.287.610		3	39	2.4E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:4749:19885-1:N:0:GTCTGCAA_1_170_+	26ceab33ae5bb4822e5dcb5be5242ea9	55	Gene3D	G3DSA:3.90.25.10		1	50	2.8E-18	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:26383:20795-1:N:0:GTCTGCAA_1_376_-	d65f3c9239e2281f8f0a8c10aac3db75	125	Gene3D	G3DSA:3.40.50.10490		1	125	1.0E-42	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:6558:21022-1:N:0:GTCTGCAA_1_273_-	94e08e8b6fe7055314eb4c633a9018d6	90	Gene3D	G3DSA:3.40.50.1770		14	89	1.2E-26	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18992:20491-1:N:0:GTCTGCAA_1_220_-	2aca3a393b7fcb46d5a9954d1ddd9fee	73	Gene3D	G3DSA:1.10.8.280		1	72	1.7E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9609:21824-1:N:0:GTCTGCAA_1_194_-	b1672cac0a0c46f799bf1d6148ab595b	63	Gene3D	G3DSA:2.30.38.10		3	58	1.1E-19	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20595:21047-1:N:0:GTCTGCAA_1_253_-	af7379b97ab26ab0572c052eaea6196f	83	Gene3D	G3DSA:2.40.50.250		25	83	1.4E-24	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:16050:20428-1:N:0:GTCTGCAA_1_253_-	750b38bd931c0236ca4672ab1d90b787	84	Gene3D	G3DSA:3.40.50.10490		1	84	2.8E-29	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:7068:21836-1:N:0:GTCTGCAA_1_171_-	4ae68b06882ede4550c78e0fd009d047	56	Gene3D	G3DSA:3.30.930.10		1	39	7.3E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18209:19350-1:N:0:GTCTGCAA_1_408_-	ccc439f10e8f01cda608f63ceb16470a	136	Gene3D	G3DSA:3.30.70.900		14	109	2.0E-33	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20527:23180-1:N:0:GTCTGCAA_1_127_+	c52a00252369818787bce9ad0bd48705	41	Gene3D	G3DSA:1.10.579.10		1	41	9.1E-17	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9461:19804-1:N:0:GTCTGCAA_1_206_-	a33a82b0d2e82d26c1bca08d1fe0d569	67	Gene3D	G3DSA:3.20.20.360		1	27	5.2E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:26848:19491-1:N:0:GTCTGCAA_1_176_+	3ac28b5020bdd8d9554ddfb908b54a1f	58	Gene3D	G3DSA:3.30.420.40		1	58	1.1E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12081:19994-1:N:0:GTCTGCAA_1_271_-	5a715f25b1a1685a9159f921f3a3b950	90	Gene3D	G3DSA:3.50.50.60		18	63	1.7E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:23700:22151-1:N:0:GTCTGCAA_1_182_-	a5c978153f8ee89d4388a4f8aeefb862	60	Gene3D	G3DSA:3.30.300.110		17	60	3.0E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:10019:22295-1:N:0:GTCTGCAA_1_236_-	debe632b6f5e5add23b6d3820c0b8d03	78	Gene3D	G3DSA:3.40.50.2300		2	66	1.3E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12487:21015-1:N:0:GTCTGCAA_236_418_-	45ca88f037209e8fc3eddec4a337915f	59	Gene3D	G3DSA:3.50.50.60		7	47	9.3E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24198:22883-1:N:0:GTCTGCAA_1_109_-	e4474b7aaaac9ac75bd1d369aa38c658	35	Gene3D	G3DSA:3.50.50.60		2	34	2.1E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:5793:19242-1:N:0:GTCTGCAA_1_264_-	69a1a45b675107d51cdc3c5d125b3b7a	87	Gene3D	G3DSA:3.40.50.740		3	75	1.0E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:10093:19987-1:N:0:GTCTGCAA_1_233_-	b2d1714da9c0431e3d5ddd6d9e135940	76	Gene3D	G3DSA:2.120.10.90		2	75	6.5E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:15417:19236-1:N:0:GTCTGCAA_26_397_+	2889c405e0b8c17bc386a6eb3a597d86	122	Gene3D	G3DSA:3.30.460.10		1	66	3.3E-15	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:16627:22404-1:N:0:GTCTGCAA_1_347_+	19e734818e3aec4e58e8f0e964991918	115	Gene3D	G3DSA:3.30.540.10		17	69	7.2E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9486:19380-1:N:0:GTCTGCAA_1_229_+	4ac911229718e987f7ddc7a55a62abbb	75	Gene3D	G3DSA:3.50.50.60		4	68	1.2E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:8405:19545-1:N:0:GTCTGCAA_1_252_-	cf8f714a30fa03219bc189337c94b81a	83	Gene3D	G3DSA:1.10.8.60		1	66	6.1E-24	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12700:19533-1:N:0:GTCTGCAA_1_141_+	1ecd7ef2a727475316914dd19da4503f	46	Gene3D	G3DSA:3.30.420.40		5	46	8.7E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18789:21479-1:N:0:GTCTGCAA_1_129_-	c8771ef2ad94dbfe20f1f222cd1ec953	42	Gene3D	G3DSA:3.30.420.40		4	42	3.5E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18921:20195-1:N:0:GTCTGCAA_1_198_-	fd8b1e384761068f57f233d779539e8a	65	Gene3D	G3DSA:3.40.50.1980		22	64	2.2E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20689:20261-1:N:0:GTCTGCAA_1_320_+	a9a934074dca2e6493b4c0632872d9ef	105	Gene3D	G3DSA:3.30.930.10		3	105	6.8E-38	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:25747:20094-1:N:0:GTCTGCAA_1_402_+	913d9d14d492e81ed9595f05c87e2640	133	Gene3D	G3DSA:3.50.50.60		1	50	6.7E-17	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:13229:22738-1:N:0:GTCTGCAA_1_193_-	dcece16f986a47d27378db29a252f701	63	Gene3D	G3DSA:3.30.420.40		1	62	4.6E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18547:20509-1:N:0:GTCTGCAA_1_200_-	6ad1d2e639a1d8d6fa9f5c1a1cbe23d5	66	Gene3D	G3DSA:3.40.228.10		4	66	1.1E-16	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21864:20155-1:N:0:GTCTGCAA_1_164_-	62c4bb715ed43e25308c45e73c9dfc8c	53	Gene3D	G3DSA:1.20.1560.10		3	53	3.9E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:17670:20334-1:N:0:GTCTGCAA_148_328_+	5e3502e58bb41db6d150eda67c7769e1	59	Gene3D	G3DSA:3.40.190.10		24	59	1.6E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9201:19866-1:N:0:GTCTGCAA_1_363_+	5010003e6b284c0f9a494d6d58982d65	120	Gene3D	G3DSA:1.10.530.10		26	116	2.9E-8	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:16123:21899-1:N:0:GTCTGCAA_1_164_+	c4e6ca06333b76b32562205dbe5f41e9	54	Gene3D	G3DSA:3.90.25.10		5	53	2.2E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9198:21175-1:N:0:GTCTGCAA_1_146_-	2e3f2c9716c0b40e2e9ebb3b5dd04696	48	Gene3D	G3DSA:3.40.1360.10		21	48	5.7E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:26009:19994-1:N:0:GTCTGCAA_1_287_+	6cacbb561d73199c182169e14aca0557	94	Gene3D	G3DSA:3.20.20.140		1	93	4.3E-18	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20108:22908-1:N:0:GTCTGCAA_1_112_-	78c455c38ae554227544d46d714f24f6	37	Gene3D	G3DSA:3.40.190.10		1	36	2.6E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:15994:23180-1:N:0:GTCTGCAA_1_133_-	9b26fc820e28fb1a6938e05bbdbd8bdf	43	Gene3D	G3DSA:1.10.240.10		4	42	8.1E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24219:22393-1:N:0:GTCTGCAA_1_123_+	1aa3d824093e916afb8d2e42aaa425b3	40	Gene3D	G3DSA:3.50.50.60		3	40	1.5E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:9475:21307-1:N:0:GTCTGCAA_1_111_-	33d39e722945acb19747bf879a4bba4d	36	Gene3D	G3DSA:2.40.30.10		4	36	9.4E-7	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14787:19238-1:N:0:GTCTGCAA_1_140_-	811d0053b3b28ef2494054d0a379a403	46	Gene3D	G3DSA:3.30.1330.120		2	43	4.9E-4	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:21457:19488-1:N:0:GTCTGCAA_1_148_+	7a3e5b042996c658cb248dc3263a05c2	48	Gene3D	G3DSA:3.40.228.10		1	46	1.2E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24989:21152-1:N:0:GTCTGCAA_1_187_+	505e397be1f2a0a2f3275af2a4aff224	61	Gene3D	G3DSA:2.120.10.90		2	61	6.8E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24827:21026-1:N:0:GTCTGCAA_1_399_+	f365edf5c4442248c533d2ffccb52a5e	132	Gene3D	G3DSA:3.50.50.60		15	117	1.5E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:24712:23387-1:N:0:GTCTGCAA_1_131_-	435268dd2c6d5c020a2a50bd1820c7fb	43	Gene3D	G3DSA:2.40.10.10		5	43	5.0E-11	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:20442:24390-1:N:0:GTCTGCAA_1_354_-	54887e501fc2a4b16241fe344d6179b0	117	Gene3D	G3DSA:3.50.50.60		18	105	1.6E-9	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:12551:3646-1:N:0:GTCTGCAA_1_292_-	93e7bbd49dfe7b711f49334ce5374520	96	Gene3D	G3DSA:3.40.140.10		11	95	9.5E-28	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:11250:4034-1:N:0:GTCTGCAA_1_115_+	243313d99a8b364193e3bce07deeef22	37	Gene3D	G3DSA:3.30.930.10		1	37	5.9E-8	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:8619:23697-1:N:0:GTCTGCAA_1_350_+	4616bbfce1c7eb5d2e46b38a684f6df0	116	Gene3D	G3DSA:2.40.240.20		83	116	7.2E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:18595:2442-1:N:0:GTCTGCAA_1_124_+	78546dc6507d82f5cca4a7a2e79fe3dd	41	Gene3D	G3DSA:3.40.220.10		2	40	8.9E-6	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:8716:2525-1:N:0:GTCTGCAA_125_313_+	e9f2e62667a31e437db8d2e639275802	61	Gene3D	G3DSA:3.30.700.10		8	46	4.5E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:10800:3361-1:N:0:GTCTGCAA_1_159_-	808350cc6c01a3d53ea02ea5ad410f8e	52	Gene3D	G3DSA:3.30.9.10		5	37	3.5E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18953:24125-1:N:0:GTCTGCAA_1_140_-	b9c755c80ecf3f7529d899e4925f85fb	45	Gene3D	G3DSA:2.120.10.90		1	43	2.0E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18707:23411-1:N:0:GTCTGCAA_1_287_-	e90041a78112a7f41070beee4048ab3c	95	Gene3D	G3DSA:3.40.1380.10		85	95	1.7E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18707:23411-1:N:0:GTCTGCAA_1_287_-	e90041a78112a7f41070beee4048ab3c	95	Gene3D	G3DSA:3.40.1380.10		1	37	1.7E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:18707:23411-1:N:0:GTCTGCAA_1_287_-	e90041a78112a7f41070beee4048ab3c	95	Gene3D	G3DSA:1.10.287.80		40	84	8.0E-10	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:13546:25174-1:N:0:GTCTGCAA_1_341_-	754bde3dc34fe41cfc6187767d1e0b26	112	Gene3D	G3DSA:3.30.300.30		6	103	1.5E-12	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:13196:25166-1:N:0:GTCTGCAA_1_316_-	e2bb6fe3794d3407b6d1ded430f06d58	104	Gene3D	G3DSA:2.70.70.10		4	103	3.2E-29	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:12046:24337-1:N:0:GTCTGCAA_1_231_+	0206144c8fd46900226f9a044a06c9cf	76	Gene3D	G3DSA:1.10.150.20		30	76	7.9E-13	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:14302:24798-1:N:0:GTCTGCAA_1_339_-	30f808cf82a3743b8358fe0a627f10a8	112	Gene3D	G3DSA:3.30.70.20		34	108	3.6E-18	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:22626:23832-1:N:0:GTCTGCAA_1_308_-	147139dc5c03d854c88ae01114bfbf16	102	Gene3D	G3DSA:2.40.30.10		1	56	7.2E-15	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1101:22626:23832-1:N:0:GTCTGCAA_1_308_-	147139dc5c03d854c88ae01114bfbf16	102	Gene3D	G3DSA:2.40.30.10		59	101	1.7E-21	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:20684:1806-1:N:0:GTCTGCAA_1_196_+	da33f08981566a4c010a0127f899a4bd	65	Gene3D	G3DSA:3.50.50.60		15	64	2.2E-5	T	03-03-2015
+InterPro.txt HWI-M02024:110:000000000-A8H0K:1:1102:12404:3802-1:N:0:GTCTGCAA_1_188_+	8951a01245314bce7cf83fa91ef7078e	62	Gene3D	G3DSA:3.40.190.80		1	59	2.3E-10	T	03-03-2015
 
 noRepseqList
 
 ecList
 
 PFList
-test1col.txt id: IPR003918 repseq: X amount: 1
-test1col.txt id: IPR014348 repseq: X amount: 1
-test1col.txt id: IPR006099 repseq: X amount: 1
-test1col.txt id: IPR000114 repseq: X amount: 1
-test1col.txt id: IPR029061 repseq: X amount: 1
-test1col.txt id: IPR000399 repseq: X amount: 1
-test1col.txt id: IPR009008 repseq: X amount: 1
-test1col.txt id: IPR002300 repseq: X amount: 1
-test1col.txt id: IPR013786 repseq: X amount: 1
-test1col.txt id: IPR024084 repseq: X amount: 1
-test1col.txt id: IPR029000 repseq: X amount: 1
-test1col.txt id: IPR002130 repseq: X amount: 1
-test1col.txt id: IPR020892 repseq: X amount: 1
-test1col.txt id: IPR022417 repseq: X amount: 1
-test1col.txt id: IPR000860 repseq: X amount: 1
-test1col.txt id: IPR014729 repseq: X amount: 1
-test1col.txt id: IPR020825 repseq: X amount: 1
-test1col.txt id: IPR008922 repseq: X amount: 1
-test1col.txt id: IPR019776 repseq: X amount: 1
-test1col.txt id: IPR001444 repseq: X amount: 1
-test1col.txt id: IPR001347 repseq: X amount: 1
-test1col.txt id: IPR006214 repseq: X amount: 1
-test2col.txt id: IPR003918 repseq: X amount: 8
-test2col.txt id: IPR014348 repseq: X amount: 1
-test2col.txt id: IPR006099 repseq: X amount: 1
-test2col.txt id: IPR000114 repseq: X amount: 1
-test2col.txt id: IPR029061 repseq: X amount: 1
-test2col.txt id: IPR000399 repseq: X amount: 1
-test2col.txt id: IPR009008 repseq: X amount: 1
-test2col.txt id: IPR002300 repseq: X amount: 1
-test2col.txt id: IPR013786 repseq: X amount: 2
-test2col.txt id: IPR024084 repseq: X amount: 1
-test2col.txt id: IPR029000 repseq: X amount: 1
-test2col.txt id: IPR002130 repseq: X amount: 1
-test2col.txt id: IPR020892 repseq: X amount: 1
-test2col.txt id: IPR022417 repseq: X amount: 1
-test2col.txt id: IPR000860 repseq: X amount: 1
-test2col.txt id: IPR014729 repseq: X amount: 1
-test2col.txt id: IPR020825 repseq: X amount: 1
-test2col.txt id: IPR008922 repseq: X amount: 1
-test2col.txt id: IPR019776 repseq: X amount: 1
-test2col.txt id: IPR001444 repseq: X amount: 2
-test2col.txt id: IPR001347 repseq: X amount: 3
-test2col.txt id: IPR006214 repseq: X amount: 1
-test3col.txt id: IPR003918 repseq: GZ2L4FS04H17XT amount: 8
-test3col.txt id: IPR014348 repseq: GZ2L4FS04H18AV amount: 1
-test3col.txt id: IPR006099 repseq: GZ2L4FS04H18N8 amount: 1
-test3col.txt id: IPR000114 repseq: GZ2L4FS04H193Y amount: 1
-test3col.txt id: IPR011766 repseq: GZ2L4FS04H19AH															 amount: 5
-test3col.txt id: IPR016180 repseq: GZ2L4FS04H1A6L		 amount: 1
-test3col.txt id: IPR029061 repseq: GZ2L4FS04H1AKW amount: 1
-test3col.txt id: IPR000399 repseq: GZ2L4FS04H1B5X amount: 1
-test3col.txt id: IPR009008 repseq: GZ2L4FS04H1C2O amount: 1
-test3col.txt id: IPR002300 repseq: GZ2L4FS04H1CT6 amount: 1
-test3col.txt id: IPR013786 repseq: GZ2L4FS04H1CV2 amount: 2
-test3col.txt id: IPR024084 repseq: GZ2L4FS04H1CX6 amount: 1
-test3col.txt id: IPR029000 repseq: GZ2L4FS04H1CXM amount: 1
-test3col.txt id: IPR002130 repseq: GZ2L4FS04H1CYX amount: 1
-test3col.txt id: IPR020892 repseq: GZ2L4FS04H1DS4 amount: 1
-test3col.txt id: IPR022417 repseq: GZ2L4FS04H1E0M amount: 1
-test3col.txt id: IPR000860 repseq: GZ2L4FS04H1E0M amount: 1
-test3col.txt id: IPR014729 repseq: GZ2L4FS04H1EE3 amount: 1
-test3col.txt id: IPR020825 repseq: GZ2L4FS04H1ELL amount: 1
-test3col.txt id: IPR008922 repseq: GZ2L4FS04H1ET7 amount: 1
-test3col.txt id: IPR019776 repseq: GZ2L4FS04H1EZZ amount: 1
-test3col.txt id: IPR001444 repseq: GZ2L4FS04H1FB4 amount: 2
-test3col.txt id: IPR001347 repseq: GZ2L4FS04H1FHF amount: 3
-test3col.txt id: IPR006214 repseq: GZ2L4FS04H1FNI amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF04898 repseq: 	Glutamate synthase central domain	1	114	2.8E amount: 1
+InterPro.txt id: IPR029058 repseq: X amount: 1
+InterPro.txt id: IPR023366 repseq: 	ATP synthase subunit alpha amount: 1
+InterPro.txt id: PF00677 repseq: 	Lumazine binding domain	3	78	2.7E amount: 1
+InterPro.txt id: IPR001279 repseq: 	Beta amount: 1
+InterPro.txt id: PF00753 repseq: 	Metallo amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00580 repseq: 	UvrD amount: 1
+InterPro.txt id: PF01546 repseq: 	Peptidase family M20 amount: 1
+InterPro.txt id: IPR001261 repseq: X amount: 1
+InterPro.txt id: IPR000515 repseq: 	ABC transporter type 1, transmembrane domain MetI amount: 1
+InterPro.txt id: IPR007730 repseq: 	Sporulation amount: 1
+InterPro.txt id: PF05036 repseq: 	Sporulation related domain	58	119	1.8E amount: 1
+InterPro.txt id: PF01103 repseq: 	Surface antigen	10	64	5.5E amount: 1
+InterPro.txt id: PF01266 repseq: 	FAD dependent oxidoreductase	13	104	4.5E amount: 1
+InterPro.txt id: PF02896 repseq: 	PEP amount: 1
+InterPro.txt id: IPR015813 repseq: 	Pyruvate amount: 1
+InterPro.txt id: IPR015421 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF01041 repseq: 	DegT amount: 1
+InterPro.txt id: IPR005479 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR013815 repseq: 	ATP amount: 1
+InterPro.txt id: PF02786 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: PF13386 repseq: 	Cytochrome C biogenesis protein transmembrane region	1	94	1.1E amount: 1
+InterPro.txt id: IPR003918 repseq: X amount: 1
+InterPro.txt id: IPR003918 repseq: X amount: 1
+InterPro.txt id: PF00361 repseq: 	NADH amount: 1
+InterPro.txt id: PF00543 repseq: 	Nitrogen regulatory protein P amount: 1
+InterPro.txt id: IPR015867 repseq: 	Nitrogen regulatory protein PII amount: 1
+InterPro.txt id: PF03150 repseq: 	Di amount: 1
+InterPro.txt id: IPR009056 repseq: 	Cytochrome c amount: 1
+InterPro.txt id: IPR002295 repseq: 	N6 adenine amount: 1
+InterPro.txt id: IPR002295 repseq: 	N6 adenine amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: PF01555 repseq: 	DNA methylase	2	53	5.7E amount: 1
+InterPro.txt id: IPR014348 repseq: 	Cobalamin (vitamin B12) amount: 1
+InterPro.txt id: PF01642 repseq: 	Methylmalonyl amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR020798 repseq: X amount: 1
+InterPro.txt id: IPR020798 repseq: X amount: 1
+InterPro.txt id: IPR000114 repseq: X amount: 1
+InterPro.txt id: IPR000114 repseq: X amount: 1
+InterPro.txt id: IPR000114 repseq: X amount: 1
+InterPro.txt id: IPR000114 repseq: X amount: 1
+InterPro.txt id: PF00252 repseq: 	Ribosomal protein L16p amount: 1
+InterPro.txt id: IPR016180 repseq: X amount: 1
+InterPro.txt id: IPR000114 repseq: X amount: 1
+InterPro.txt id: PF02775 repseq: 	Thiamine pyrophosphate enzyme, C amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: IPR000399 repseq: 	TPP amount: 1
+InterPro.txt id: IPR009008 repseq: 	Valyl amount: 1
+InterPro.txt id: PF00133 repseq: 	tRNA synthetases class I (I, L, M and V)	1	37	5.2E amount: 1
+InterPro.txt id: IPR013786 repseq: 	Acyl amount: 1
+InterPro.txt id: PF00180 repseq: 	Isocitrate amount: 1
+InterPro.txt id: IPR024084 repseq: 	Isopropylmalate dehydrogenase amount: 1
+InterPro.txt id: IPR029000 repseq: 	Cyclophilin amount: 1
+InterPro.txt id: IPR002130 repseq: 	Cyclophilin amount: 1
+InterPro.txt id: IPR002130 repseq: 	Cyclophilin amount: 1
+InterPro.txt id: IPR002130 repseq: 	Cyclophilin amount: 1
+InterPro.txt id: IPR020892 repseq: 	Cyclophilin amount: 1
+InterPro.txt id: PF00160 repseq: 	Cyclophilin type peptidyl amount: 1
+InterPro.txt id: PF01379 repseq: 	Porphobilinogen deaminase, dipyromethane cofactor binding domain	2	76	1.7E amount: 1
+InterPro.txt id: IPR000860 repseq: 	Tetrapyrrole biosynthesis, hydroxymethylbilane synthase	GO:0004418|GO:0033014	KEGG: 00860+2.5.1.61|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR000860 repseq: 	Tetrapyrrole biosynthesis, hydroxymethylbilane synthase	GO:0004418|GO:0033014	KEGG: 00860+2.5.1.61|MetaCyc: PWY amount: 1
+InterPro.txt id: PF00133 repseq: 	tRNA synthetases class I (I, L, M and V)	2	147	3.0E amount: 1
+InterPro.txt id: IPR009008 repseq: 	Valyl amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: IPR020825 repseq: 	Phenylalanyl amount: 1
+InterPro.txt id: IPR008922 repseq: 	Uncharacterised domain, di amount: 1
+InterPro.txt id: IPR008922 repseq: 	Uncharacterised domain, di amount: 1
+InterPro.txt id: IPR019776 repseq: X amount: 1
+InterPro.txt id: PF00460 repseq: 	Flagella basal body rod protein	81	105	7.9E amount: 1
+InterPro.txt id: PF01380 repseq: 	SIS domain	1	45	2.7E amount: 1
+InterPro.txt id: PF01027 repseq: 	Inhibitor of apoptosis amount: 1
+InterPro.txt id: PF00710 repseq: 	Asparaginase	5	40	2.4E amount: 1
+InterPro.txt id: IPR027474 repseq: 	L amount: 1
+InterPro.txt id: PF01266 repseq: 	FAD dependent oxidoreductase	6	83	1.2E amount: 1
+InterPro.txt id: IPR016021 repseq: 	MIF4 amount: 1
+InterPro.txt id: PF02854 repseq: 	MIF4G domain	2	62	8.4E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR015797 repseq: 	NUDIX hydrolase domain amount: 1
+InterPro.txt id: PF00293 repseq: 	NUDIX domain	26	60	1.3E amount: 1
+InterPro.txt id: PF02786 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR005479 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR013816 repseq: 	ATP amount: 1
+InterPro.txt id: PF00204 repseq: 	DNA gyrase B	14	114	1.2E amount: 1
+InterPro.txt id: IPR014721 repseq: 	Ribosomal protein S5 domain 2 amount: 1
+InterPro.txt id: IPR029055 repseq: 	Nucleophile aminohydrolases, N amount: 1
+InterPro.txt id: PF00310 repseq: 	Glutamine amidotransferases class amount: 1
+InterPro.txt id: PF00448 repseq: 	SRP54 amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR015901 repseq: 	Phosphoglycerate kinase, C amount: 1
+InterPro.txt id: PF00162 repseq: 	Phosphoglycerate kinase	1	85	3.9E amount: 1
+InterPro.txt id: IPR013830 repseq: 	SGNH hydrolase amount: 1
+InterPro.txt id: PF13472 repseq: 	GDSL amount: 1
+InterPro.txt id: IPR008265 repseq: X amount: 1
+InterPro.txt id: PF01915 repseq: 	Glycosyl hydrolase family 3 C amount: 1
+InterPro.txt id: IPR002772 repseq: 	Glycoside hydrolase family 3 C amount: 1
+InterPro.txt id: IPR004099 repseq: 	Pyridine nucleotide amount: 1
+InterPro.txt id: PF07992 repseq: 	Pyridine nucleotide amount: 1
+InterPro.txt id: PF02852 repseq: 	Pyridine nucleotide amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: PF01323 repseq: 	DSBA amount: 1
+InterPro.txt id: PF04303 repseq: 	PrpF protein	1	66	7.4E amount: 1
+InterPro.txt id: IPR003594 repseq: 	Histidine kinase amount: 1
+InterPro.txt id: IPR000760 repseq: X amount: 1
+InterPro.txt id: IPR000760 repseq: X amount: 1
+InterPro.txt id: IPR000760 repseq: X amount: 1
+InterPro.txt id: IPR020583 repseq: 	Inositol monophosphatase, metal amount: 1
+InterPro.txt id: PF00459 repseq: 	Inositol monophosphatase family	1	96	2.3E amount: 1
+InterPro.txt id: IPR006641 repseq: 	YqgF amount: 1
+InterPro.txt id: PF03652 repseq: 	Uncharacterised protein family (UPF0081)	1	99	1.5E amount: 1
+InterPro.txt id: IPR005227 repseq: 	Resolvase, holliday junction amount: 1
+InterPro.txt id: IPR001279 repseq: 	Beta amount: 1
+InterPro.txt id: IPR017941 repseq: 	Rieske [2Fe amount: 1
+InterPro.txt id: IPR029014 repseq: 	NiFe hydrogenase amount: 1
+InterPro.txt id: PF00346 repseq: 	Respiratory amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00005 repseq: 	ABC transporter	1	59	3.1E amount: 1
+InterPro.txt id: IPR014710 repseq: 	RmlC amount: 1
+InterPro.txt id: PF02678 repseq: 	Pirin	9	83	5.1E amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: IPR005474 repseq: 	Transketolase, N amount: 1
+InterPro.txt id: PF13292 repseq: 	1 amount: 1
+InterPro.txt id: PF00687 repseq: 	Ribosomal protein L1p amount: 1
+InterPro.txt id: IPR023673 repseq: X amount: 1
+InterPro.txt id: IPR016095 repseq: 	Ribosomal protein L1, 3 amount: 1
+InterPro.txt id: IPR016094 repseq: 	Ribosomal protein L1, 2 amount: 1
+InterPro.txt id: IPR016094 repseq: 	Ribosomal protein L1, 2 amount: 1
+InterPro.txt id: PF00006 repseq: 	ATP synthase alpha amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF03461 repseq: 	TRCF domain	1	82	6.7E amount: 1
+InterPro.txt id: IPR020845 repseq: 	AMP amount: 1
+InterPro.txt id: PF00501 repseq: 	AMP amount: 1
+InterPro.txt id: IPR020459 repseq: 	AMP amount: 1
+InterPro.txt id: IPR020459 repseq: 	AMP amount: 1
+InterPro.txt id: IPR029149 repseq: 	Creatinase amount: 1
+InterPro.txt id: PF02769 repseq: 	AIR synthase related protein, C amount: 1
+InterPro.txt id: IPR010918 repseq: 	AIR synthase amount: 1
+InterPro.txt id: PF00448 repseq: 	SRP54 amount: 1
+InterPro.txt id: PF02881 repseq: 	SRP54 amount: 1
+InterPro.txt id: PF13414 repseq: 	TPR repeat	5	66	1.1E amount: 1
+InterPro.txt id: IPR011990 repseq: 	Tetratricopeptide amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00437 repseq: 	Type II amount: 1
+InterPro.txt id: PF02222 repseq: 	ATP amount: 1
+InterPro.txt id: IPR013815 repseq: 	ATP amount: 1
+InterPro.txt id: PF00378 repseq: 	Enoyl amount: 1
+InterPro.txt id: IPR029045 repseq: 	ClpP amount: 1
+InterPro.txt id: PF01782 repseq: 	RimM N amount: 1
+InterPro.txt id: IPR002676 repseq: X amount: 1
+InterPro.txt id: PF09526 repseq: 	Probable metal amount: 1
+InterPro.txt id: IPR012658 repseq: X amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01370 repseq: 	NAD dependent epimerase amount: 1
+InterPro.txt id: PF01588 repseq: 	Putative tRNA binding domain	1	63	4.2E amount: 1
+InterPro.txt id: IPR012340 repseq: 	Nucleic acid amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF01070 repseq: 	FMN amount: 1
+InterPro.txt id: IPR006015 repseq: X amount: 1
+InterPro.txt id: IPR006015 repseq: X amount: 1
+InterPro.txt id: PF00582 repseq: 	Universal stress protein family	3	116	3.8E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF00370 repseq: 	FGGY family of carbohydrate kinases, N amount: 1
+InterPro.txt id: IPR011990 repseq: 	Tetratricopeptide amount: 1
+InterPro.txt id: PF01926 repseq: 	50S ribosome amount: 1
+InterPro.txt id: IPR027368 repseq: X amount: 1
+InterPro.txt id: IPR015824 repseq: 	Phosphoglycerate kinase, N amount: 1
+InterPro.txt id: PF01300 repseq: 	Telomere recombination	5	77	1.6E amount: 1
+InterPro.txt id: IPR017945 repseq: 	DHBP synthase RibB amount: 1
+InterPro.txt id: IPR000845 repseq: X amount: 1
+InterPro.txt id: PF01048 repseq: 	Phosphorylase superfamily	2	85	8.6E amount: 1
+InterPro.txt id: PF00571 repseq: 	CBS domain	14	60	5.8E amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: IPR017937 repseq: X amount: 1
+InterPro.txt id: PF08534 repseq: 	Redoxin	15	78	1.3E amount: 1
+InterPro.txt id: PF02514 repseq: 	CobN amount: 1
+InterPro.txt id: PF02272 repseq: 	DHHA1 domain	3	46	6.6E amount: 1
+InterPro.txt id: PF06684 repseq: 	Amino acid synthesis	1	42	9.3E amount: 1
+InterPro.txt id: IPR009569 repseq: X amount: 1
+InterPro.txt id: IPR027295 repseq: 	Quinonprotein alcohol dehydrogenase amount: 1
+InterPro.txt id: IPR014710 repseq: 	RmlC amount: 1
+InterPro.txt id: PF07883 repseq: 	Cupin domain	17	75	2.9E amount: 1
+InterPro.txt id: IPR017849 repseq: 	Alkaline phosphatase amount: 1
+InterPro.txt id: PF00884 repseq: 	Sulfatase	6	38	2.3E amount: 1
+InterPro.txt id: PF04304 repseq: 	Protein of unknown function (DUF454)	10	75	4.2E amount: 1
+InterPro.txt id: PF01145 repseq: 	SPFH domain  amount: 1
+InterPro.txt id: PF00749 repseq: 	tRNA synthetases class I (E and Q), catalytic domain	31	128	8.0E amount: 1
+InterPro.txt id: IPR001412 repseq: 	Aminoacyl amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: IPR000924 repseq: 	Glutamyl amount: 1
+InterPro.txt id: IPR000924 repseq: 	Glutamyl amount: 1
+InterPro.txt id: IPR000924 repseq: 	Glutamyl amount: 1
+InterPro.txt id: IPR004088 repseq: X amount: 1
+InterPro.txt id: PF00013 repseq: 	KH domain	1	36	1.4E amount: 1
+InterPro.txt id: PF02608 repseq: 	Basic membrane protein	4	92	1.3E amount: 1
+InterPro.txt id: IPR001260 repseq: 	Coproporphyrinogen III oxidase, aerobic	GO:0004109|GO:0006779|GO:0055114	KEGG: 00860+1.3.3.3|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR001260 repseq: 	Coproporphyrinogen III oxidase, aerobic	GO:0004109|GO:0006779|GO:0055114	KEGG: 00860+1.3.3.3|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR001260 repseq: 	Coproporphyrinogen III oxidase, aerobic	GO:0004109|GO:0006779|GO:0055114	KEGG: 00860+1.3.3.3|MetaCyc: PWY amount: 1
+InterPro.txt id: PF01218 repseq: 	Coproporphyrinogen III oxidase	5	63	3.7E amount: 1
+InterPro.txt id: PF00441 repseq: 	Acyl amount: 1
+InterPro.txt id: PF06808 repseq: 	DctM amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF13380 repseq: 	CoA binding domain	1	39	4.5E amount: 1
+InterPro.txt id: IPR013762 repseq: 	Integrase amount: 1
+InterPro.txt id: PF00589 repseq: 	Phage integrase family	4	120	3.0E amount: 1
+InterPro.txt id: PF01921 repseq: 	tRNA synthetases class I (K)	1	68	1.1E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF00154 repseq: 	recA bacterial DNA recombination protein	1	59	3.9E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00117 repseq: 	Glutamine amidotransferase class amount: 1
+InterPro.txt id: IPR029062 repseq: 	Class I glutamine amidotransferase amount: 1
+InterPro.txt id: PF02233 repseq: 	NAD(P) transhydrogenase beta subunit	3	149	1.4E amount: 1
+InterPro.txt id: IPR029035 repseq: 	DHS amount: 1
+InterPro.txt id: PF00106 repseq: 	short chain dehydrogenase	4	101	3.8E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR029045 repseq: 	ClpP amount: 1
+InterPro.txt id: PF00378 repseq: 	Enoyl amount: 1
+InterPro.txt id: PF00441 repseq: 	Acyl amount: 1
+InterPro.txt id: PF08541 repseq: 	3 amount: 1
+InterPro.txt id: IPR016038 repseq: 	Thiolase amount: 1
+InterPro.txt id: PF01491 repseq: 	Frataxin amount: 1
+InterPro.txt id: IPR020895 repseq: X amount: 1
+InterPro.txt id: IPR002908 repseq: X amount: 1
+InterPro.txt id: IPR002908 repseq: X amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF00682 repseq: 	HMGL amount: 1
+InterPro.txt id: IPR002034 repseq: 	Alpha amount: 1
+InterPro.txt id: PF04909 repseq: 	Amidohydrolase	7	90	3.1E amount: 1
+InterPro.txt id: PF08328 repseq: 	Adenylosuccinate lyase C amount: 1
+InterPro.txt id: IPR002888 repseq: 	[2Fe amount: 1
+InterPro.txt id: PF01799 repseq: 	[2Fe amount: 1
+InterPro.txt id: PF01207 repseq: 	Dihydrouridine synthase (Dus)	5	122	3.8E amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: IPR018517 repseq: 	tRNA amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: IPR014721 repseq: 	Ribosomal protein S5 domain 2 amount: 1
+InterPro.txt id: PF01134 repseq: 	Glucose inhibited division protein A	2	82	4.1E amount: 1
+InterPro.txt id: PF12697 repseq: 	Alpha amount: 1
+InterPro.txt id: IPR029058 repseq: X amount: 1
+InterPro.txt id: PF13328 repseq: 	HD domain	2	87	3.1E amount: 1
+InterPro.txt id: IPR012340 repseq: 	Nucleic acid amount: 1
+InterPro.txt id: PF01330 repseq: 	RuvA N terminal domain	2	36	4.9E amount: 1
+InterPro.txt id: PF13759 repseq: 	Putative 2OG amount: 1
+InterPro.txt id: IPR006091 repseq: 	Acyl amount: 1
+InterPro.txt id: PF04560 repseq: 	RNA polymerase Rpb2, domain 7	1	44	3.0E amount: 1
+InterPro.txt id: IPR013783 repseq: 	Immunoglobulin amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF02776 repseq: 	Thiamine pyrophosphate enzyme, N amount: 1
+InterPro.txt id: IPR009068 repseq: 	S15 amount: 1
+InterPro.txt id: PF00312 repseq: 	Ribosomal protein S15	72	117	1.4E amount: 1
+InterPro.txt id: IPR005290 repseq: 	Ribosomal protein S15, bacterial amount: 1
+InterPro.txt id: IPR011258 repseq: 	BPG amount: 1
+InterPro.txt id: PF06415 repseq: 	BPG amount: 1
+InterPro.txt id: PF02771 repseq: 	Acyl amount: 1
+InterPro.txt id: IPR013786 repseq: 	Acyl amount: 1
+InterPro.txt id: PF02606 repseq: 	Tetraacyldisaccharide amount: 1
+InterPro.txt id: PF00113 repseq: 	Enolase, C amount: 1
+InterPro.txt id: IPR029065 repseq: 	Enolase C amount: 1
+InterPro.txt id: PF01960 repseq: 	ArgJ family	1	45	3.5E amount: 1
+InterPro.txt id: IPR016117 repseq: 	ArgJ amount: 1
+InterPro.txt id: PF07724 repseq: 	AAA domain (Cdc48 subfamily)	6	91	1.4E amount: 1
+InterPro.txt id: IPR001270 repseq: X amount: 1
+InterPro.txt id: IPR001270 repseq: X amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR023404 repseq: X amount: 1
+InterPro.txt id: PF04055 repseq: 	Radical SAM superfamily	27	106	1.9E amount: 1
+InterPro.txt id: IPR029035 repseq: 	DHS amount: 1
+InterPro.txt id: PF00766 repseq: 	Electron transfer flavoprotein FAD amount: 1
+InterPro.txt id: IPR029044 repseq: 	Nucleotide amount: 1
+InterPro.txt id: PF02569 repseq: 	Pantoate amount: 1
+InterPro.txt id: IPR006091 repseq: 	Acyl amount: 1
+InterPro.txt id: PF02771 repseq: 	Acyl amount: 1
+InterPro.txt id: IPR013786 repseq: 	Acyl amount: 1
+InterPro.txt id: PF02770 repseq: 	Acyl amount: 1
+InterPro.txt id: PF01676 repseq: 	Metalloenzyme superfamily	1	103	9.1E amount: 1
+InterPro.txt id: IPR017849 repseq: 	Alkaline phosphatase amount: 1
+InterPro.txt id: PF00476 repseq: 	DNA polymerase family A	30	129	1.8E amount: 1
+InterPro.txt id: PF00501 repseq: 	AMP amount: 1
+InterPro.txt id: PF02786 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR005479 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR013816 repseq: 	ATP amount: 1
+InterPro.txt id: PF00115 repseq: 	Cytochrome C and Quinol oxidase polypeptide I	1	96	9.3E amount: 1
+InterPro.txt id: IPR023616 repseq: 	Cytochrome c oxidase, subunit I domain	GO:0004129|GO:0055114	KEGG: 00190+1.9.3.1|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR000883 repseq: 	Cytochrome c oxidase subunit I	GO:0004129|GO:0005506|GO:0009055|GO:0009060|GO:0016021|GO:0020037|GO:0055114	KEGG: 00190+1.9.3.1|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR000883 repseq: 	Cytochrome c oxidase subunit I	GO:0004129|GO:0005506|GO:0009055|GO:0009060|GO:0016021|GO:0020037|GO:0055114	KEGG: 00190+1.9.3.1|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR023615 repseq: 	Cytochrome c oxidase, subunit I, copper amount: 1
+InterPro.txt id: PF14259 repseq: 	RNA recognition motif (a.k.a. RRM, RBD, or RNP domain)	1	62	1.1E amount: 1
+InterPro.txt id: IPR012677 repseq: 	Nucleotide amount: 1
+InterPro.txt id: PF00389 repseq: 	D amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR017941 repseq: 	Rieske [2Fe amount: 1
+InterPro.txt id: IPR001663 repseq: 	Aromatic amount: 1
+InterPro.txt id: IPR001663 repseq: 	Aromatic amount: 1
+InterPro.txt id: PF00355 repseq: 	Rieske [2Fe amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF07991 repseq: 	Acetohydroxy acid isomeroreductase, catalytic domain	1	59	1.3E amount: 1
+InterPro.txt id: IPR018078 repseq: 	DNA amount: 1
+InterPro.txt id: PF02657 repseq: 	Fe amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF01268 repseq: 	Formate amount: 1
+InterPro.txt id: IPR000897 repseq: X amount: 1
+InterPro.txt id: PF00448 repseq: 	SRP54 amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00496 repseq: 	Bacterial extracellular solute amount: 1
+InterPro.txt id: IPR013221 repseq: X amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01134 repseq: 	Glucose inhibited division protein A	1	33	1.9E amount: 1
+InterPro.txt id: IPR013815 repseq: 	ATP amount: 1
+InterPro.txt id: PF08443 repseq: 	RimK amount: 1
+InterPro.txt id: IPR013328 repseq: X amount: 1
+InterPro.txt id: PF14833 repseq: 	NAD amount: 1
+InterPro.txt id: PF02867 repseq: 	Ribonucleotide reductase, barrel domain	18	50	8.4E amount: 1
+InterPro.txt id: PF02551 repseq: 	Acyl amount: 1
+InterPro.txt id: IPR029069 repseq: X amount: 1
+InterPro.txt id: PF08450 repseq: 	SMP amount: 1
+InterPro.txt id: IPR011042 repseq: 	Six amount: 1
+InterPro.txt id: PF01915 repseq: 	Glycosyl hydrolase family 3 C amount: 1
+InterPro.txt id: IPR002772 repseq: 	Glycoside hydrolase family 3 C amount: 1
+InterPro.txt id: IPR015422 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF01979 repseq: 	Amidohydrolase family	4	88	7.1E amount: 1
+InterPro.txt id: IPR000531 repseq: 	TonB amount: 1
+InterPro.txt id: PF00521 repseq: 	DNA gyrase amount: 1
+InterPro.txt id: IPR013758 repseq: 	DNA topoisomerase, type IIA, subunit A amount: 1
+InterPro.txt id: PF06776 repseq: 	Invasion associated locus B (IalB) protein	9	117	8.6E amount: 1
+InterPro.txt id: PF01379 repseq: 	Porphobilinogen deaminase, dipyromethane cofactor binding domain	2	44	8.4E amount: 1
+InterPro.txt id: PF03900 repseq: 	Porphobilinogen deaminase, C amount: 1
+InterPro.txt id: IPR022419 repseq: 	Porphobilinogen deaminase, dipyrromethane cofactor binding site	GO:0004418|GO:0018160|GO:0033014	KEGG: 00860+2.5.1.61|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR022418 repseq: 	Porphobilinogen deaminase, C amount: 1
+InterPro.txt id: IPR014039 repseq: X amount: 1
+InterPro.txt id: IPR018101 repseq: X amount: 1
+InterPro.txt id: PF00889 repseq: 	Elongation factor TS	2	124	6.2E amount: 1
+InterPro.txt id: IPR001816 repseq: X amount: 1
+InterPro.txt id: IPR014039 repseq: X amount: 1
+InterPro.txt id: PF01268 repseq: 	Formate amount: 1
+InterPro.txt id: IPR016160 repseq: X amount: 1
+InterPro.txt id: PF00171 repseq: 	Aldehyde dehydrogenase family	2	114	2.5E amount: 1
+InterPro.txt id: IPR029510 repseq: X amount: 1
+InterPro.txt id: IPR016163 repseq: 	Aldehyde dehydrogenase, C amount: 1
+InterPro.txt id: PF00742 repseq: 	Homoserine dehydrogenase	1	49	5.9E amount: 1
+InterPro.txt id: PF02230 repseq: 	Phospholipase amount: 1
+InterPro.txt id: IPR029058 repseq: X amount: 1
+InterPro.txt id: PF00460 repseq: 	Flagella basal body rod protein	65	87	7.3E amount: 1
+InterPro.txt id: PF00562 repseq: 	RNA polymerase Rpb2, domain 6	28	78	3.6E amount: 1
+InterPro.txt id: IPR007120 repseq: 	DNA amount: 1
+InterPro.txt id: PF01189 repseq: 	NOL1 amount: 1
+InterPro.txt id: IPR023267 repseq: 	RNA (C5 amount: 1
+InterPro.txt id: IPR023267 repseq: 	RNA (C5 amount: 1
+InterPro.txt id: IPR023267 repseq: 	RNA (C5 amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00639 repseq: 	PPIC amount: 1
+InterPro.txt id: PF05000 repseq: 	RNA polymerase Rpb1, domain 4	15	67	2.2E amount: 1
+InterPro.txt id: IPR015422 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: IPR015421 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF00587 repseq: 	tRNA synthetase class II core domain (G, H, P, S and T)	2	43	1.4E amount: 1
+InterPro.txt id: PF01135 repseq: 	Protein amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: IPR008274 repseq: X amount: 1
+InterPro.txt id: PF02738 repseq: 	Molybdopterin amount: 1
+InterPro.txt id: PF00009 repseq: 	Elongation factor Tu GTP binding domain	2	82	5.1E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00902 repseq: 	Sec amount: 1
+InterPro.txt id: IPR019820 repseq: 	Sec amount: 1
+InterPro.txt id: IPR002033 repseq: 	Sec amount: 1
+InterPro.txt id: IPR002033 repseq: 	Sec amount: 1
+InterPro.txt id: IPR013762 repseq: 	Integrase amount: 1
+InterPro.txt id: PF00589 repseq: 	Phage integrase family	32	91	1.0E amount: 1
+InterPro.txt id: PF13393 repseq: 	Histidyl amount: 1
+InterPro.txt id: PF00140 repseq: 	Sigma amount: 1
+InterPro.txt id: PF02636 repseq: 	Putative S amount: 1
+InterPro.txt id: PF00291 repseq: 	Pyridoxal amount: 1
+InterPro.txt id: PF07690 repseq: 	Major Facilitator Superfamily	2	134	1.2E amount: 1
+InterPro.txt id: PF12705 repseq: 	PD amount: 1
+InterPro.txt id: PF01336 repseq: 	OB amount: 1
+InterPro.txt id: IPR023097 repseq: 	Tex RuvX amount: 1
+InterPro.txt id: PF05787 repseq: 	Bacterial protein of unknown function (DUF839)	3	55	2.7E amount: 1
+InterPro.txt id: PF01786 repseq: 	Alternative oxidase	1	80	1.5E amount: 1
+InterPro.txt id: PF00011 repseq: 	Hsp20 amount: 1
+InterPro.txt id: IPR008978 repseq: 	HSP20 amount: 1
+InterPro.txt id: PF00005 repseq: 	ABC transporter	26	64	1.6E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF03740 repseq: 	Pyridoxal phosphate biosynthesis protein PdxJ	2	39	3.2E amount: 1
+InterPro.txt id: PF13407 repseq: 	Periplasmic binding protein domain	11	130	1.0E amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF01645 repseq: 	Conserved region in glutamate synthase	1	74	3.7E amount: 1
+InterPro.txt id: PF00006 repseq: 	ATP synthase alpha amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR001752 repseq: X amount: 1
+InterPro.txt id: IPR001752 repseq: X amount: 1
+InterPro.txt id: PF00225 repseq: 	Kinesin motor domain	3	83	9.8E amount: 1
+InterPro.txt id: IPR001752 repseq: X amount: 1
+InterPro.txt id: IPR022764 repseq: X amount: 1
+InterPro.txt id: PF01694 repseq: 	Rhomboid family	11	107	2.1E amount: 1
+InterPro.txt id: PF01653 repseq: 	NAD amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF07724 repseq: 	AAA domain (Cdc48 subfamily)	2	65	6.2E amount: 1
+InterPro.txt id: IPR028299 repseq: X amount: 1
+InterPro.txt id: PF00892 repseq: 	EamA amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01712 repseq: 	Deoxynucleoside kinase	6	79	1.2E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF04413 repseq: 	3 amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01118 repseq: 	Semialdehyde dehydrogenase, NAD binding domain	24	104	1.9E amount: 1
+InterPro.txt id: IPR004115 repseq: 	GAD amount: 1
+InterPro.txt id: PF02938 repseq: 	GAD domain	3	32	1.8E amount: 1
+InterPro.txt id: PF01061 repseq: 	ABC amount: 1
+InterPro.txt id: PF00211 repseq: 	Adenylate and Guanylate cyclase catalytic domain	11	74	8.1E amount: 1
+InterPro.txt id: IPR001054 repseq: 	Adenylyl cyclase class amount: 1
+InterPro.txt id: IPR016136 repseq: 	DNA helicase DnaB, N amount: 1
+InterPro.txt id: IPR011759 repseq: X amount: 1
+InterPro.txt id: PF02790 repseq: 	Cytochrome C oxidase subunit II, transmembrane domain	2	41	1.1E amount: 1
+InterPro.txt id: PF00171 repseq: 	Aldehyde dehydrogenase family	15	117	5.6E amount: 1
+InterPro.txt id: IPR016162 repseq: 	Aldehyde dehydrogenase N amount: 1
+InterPro.txt id: IPR000453 repseq: 	Chorismate synthase	GO:0004107|GO:0009073	KEGG: 00400+4.2.3.5|MetaCyc: PWY amount: 1
+InterPro.txt id: PF00579 repseq: 	tRNA synthetases class I (W and Y)	10	74	2.8E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: IPR005480 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: PF02787 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR013816 repseq: 	ATP amount: 1
+InterPro.txt id: PF01370 repseq: 	NAD dependent epimerase amount: 1
+InterPro.txt id: PF13580 repseq: 	SIS domain	2	85	4.1E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF01921 repseq: 	tRNA synthetases class I (K)	2	109	1.9E amount: 1
+InterPro.txt id: PF05787 repseq: 	Bacterial protein of unknown function (DUF839)	18	51	2.5E amount: 1
+InterPro.txt id: PF05222 repseq: 	Alanine dehydrogenase amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF02670 repseq: 	1 amount: 1
+InterPro.txt id: PF07494 repseq: 	Two component regulator propeller	23	46	3.0E amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: IPR016162 repseq: 	Aldehyde dehydrogenase N amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF01467 repseq: 	Cytidylyltransferase	85	143	4.3E amount: 1
+InterPro.txt id: PF00210 repseq: 	Ferritin amount: 1
+InterPro.txt id: IPR012347 repseq: 	Ferritin amount: 1
+InterPro.txt id: PF04296 repseq: 	Protein of unknown function (DUF448)	2	81	6.1E amount: 1
+InterPro.txt id: IPR007393 repseq: X amount: 1
+InterPro.txt id: IPR000515 repseq: 	ABC transporter type 1, transmembrane domain MetI amount: 1
+InterPro.txt id: PF00884 repseq: 	Sulfatase	1	121	1.1E amount: 1
+InterPro.txt id: IPR017849 repseq: 	Alkaline phosphatase amount: 1
+InterPro.txt id: PF13537 repseq: 	Glutamine amidotransferase domain	2	73	7.3E amount: 1
+InterPro.txt id: IPR029055 repseq: 	Nucleophile aminohydrolases, N amount: 1
+InterPro.txt id: PF00494 repseq: 	Squalene amount: 1
+InterPro.txt id: IPR008949 repseq: X amount: 1
+InterPro.txt id: PF02401 repseq: 	LytB protein	2	89	1.6E amount: 1
+InterPro.txt id: PF03382 repseq: 	Mycoplasma protein of unknown function, DUF285	1	56	1.3E amount: 1
+InterPro.txt id: IPR011889 repseq: 	Bacterial surface protein 26 amount: 1
+InterPro.txt id: IPR009056 repseq: 	Cytochrome c amount: 1
+InterPro.txt id: PF13442 repseq: 	Cytochrome C oxidase, cbb3 amount: 1
+InterPro.txt id: IPR012675 repseq: 	Beta amount: 1
+InterPro.txt id: IPR003594 repseq: 	Histidine kinase amount: 1
+InterPro.txt id: PF02518 repseq: 	Histidine kinase amount: 1
+InterPro.txt id: IPR001241 repseq: X amount: 1
+InterPro.txt id: IPR001241 repseq: X amount: 1
+InterPro.txt id: IPR014746 repseq: X amount: 1
+InterPro.txt id: PF03030 repseq: 	Inorganic H+ pyrophosphatase	2	50	1.7E amount: 1
+InterPro.txt id: IPR000209 repseq: X amount: 1
+InterPro.txt id: IPR023828 repseq: 	Peptidase S8, subtilisin, Ser amount: 1
+InterPro.txt id: PF03023 repseq: 	MviN amount: 1
+InterPro.txt id: IPR006101 repseq: 	Glycoside hydrolase, family 2	GO:0004553|GO:0005975	KEGG: 00052+3.2.1.23|KEGG: 00511+3.2.1.23|KEGG: 00531+3.2.1.23|KEGG: 00600+3.2.1.23|KEGG: 00604+3.2.1.23|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR006101 repseq: 	Glycoside hydrolase, family 2	GO:0004553|GO:0005975	KEGG: 00052+3.2.1.23|KEGG: 00511+3.2.1.23|KEGG: 00531+3.2.1.23|KEGG: 00600+3.2.1.23|KEGG: 00604+3.2.1.23|MetaCyc: PWY amount: 1
+InterPro.txt id: PF02836 repseq: 	Glycosyl hydrolases family 2, TIM barrel domain	2	78	1.3E amount: 1
+InterPro.txt id: IPR023230 repseq: 	Glycoside hydrolase, family 2, conserved site		KEGG: 00052+3.2.1.23|KEGG: 00511+3.2.1.23|KEGG: 00531+3.2.1.23|KEGG: 00600+3.2.1.23|KEGG: 00604+3.2.1.23|MetaCyc: PWY amount: 1
+InterPro.txt id: IPR013781 repseq: X amount: 1
+InterPro.txt id: IPR000994 repseq: X amount: 1
+InterPro.txt id: PF00557 repseq: 	Metallopeptidase family M24	1	66	6.1E amount: 1
+InterPro.txt id: IPR013816 repseq: 	ATP amount: 1
+InterPro.txt id: PF02222 repseq: 	ATP amount: 1
+InterPro.txt id: IPR013815 repseq: 	ATP amount: 1
+InterPro.txt id: PF00909 repseq: 	Ammonium Transporter Family	2	32	7.6E amount: 1
+InterPro.txt id: IPR029020 repseq: X amount: 1
+InterPro.txt id: IPR018047 repseq: X amount: 1
+InterPro.txt id: IPR018265 repseq: X amount: 1
+InterPro.txt id: IPR001706 repseq: 	Ribosomal protein L35, non amount: 1
+InterPro.txt id: IPR001706 repseq: 	Ribosomal protein L35, non amount: 1
+InterPro.txt id: IPR001706 repseq: 	Ribosomal protein L35, non amount: 1
+InterPro.txt id: PF01632 repseq: 	Ribosomal protein L35	1	53	2.2E amount: 1
+InterPro.txt id: IPR001706 repseq: 	Ribosomal protein L35, non amount: 1
+InterPro.txt id: PF13602 repseq: 	Zinc amount: 1
+InterPro.txt id: IPR029069 repseq: X amount: 1
+InterPro.txt id: PF00501 repseq: 	AMP amount: 1
+InterPro.txt id: PF00303 repseq: 	Thymidylate synthase	1	56	3.5E amount: 1
+InterPro.txt id: IPR023451 repseq: 	Thymidylate synthase amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF00478 repseq: 	IMP dehydrogenase  amount: 1
+InterPro.txt id: IPR018370 repseq: X amount: 1
+InterPro.txt id: PF00118 repseq: 	TCP amount: 1
+InterPro.txt id: IPR027413 repseq: 	GroEL amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00580 repseq: 	UvrD amount: 1
+InterPro.txt id: PF01628 repseq: 	HrcA protein C terminal domain	1	34	3.3E amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF01116 repseq: 	Fructose amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00005 repseq: 	ABC transporter	16	76	3.9E amount: 1
+InterPro.txt id: IPR029045 repseq: 	ClpP amount: 1
+InterPro.txt id: PF13292 repseq: 	1 amount: 1
+InterPro.txt id: IPR023374 repseq: 	AttH amount: 1
+InterPro.txt id: PF07143 repseq: 	Hydroxyneurosporene synthase (CrtC)	1	97	2.9E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR015813 repseq: 	Pyruvate amount: 1
+InterPro.txt id: PF00463 repseq: 	Isocitrate lyase family	7	67	9.0E amount: 1
+InterPro.txt id: IPR029058 repseq: X amount: 1
+InterPro.txt id: PF04354 repseq: 	ZipA, C amount: 1
+InterPro.txt id: IPR007449 repseq: 	ZipA, C amount: 1
+InterPro.txt id: PF00342 repseq: 	Phosphoglucose isomerase	2	84	1.2E amount: 1
+InterPro.txt id: PF01113 repseq: 	Dihydrodipicolinate reductase, N amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF05173 repseq: 	Dihydrodipicolinate reductase, C amount: 1
+InterPro.txt id: IPR000531 repseq: 	TonB amount: 1
+InterPro.txt id: PF03948 repseq: 	Ribosomal protein L9, C amount: 1
+InterPro.txt id: IPR020069 repseq: 	Ribosomal protein L9, C amount: 1
+InterPro.txt id: IPR012347 repseq: 	Ferritin amount: 1
+InterPro.txt id: PF12762 repseq: 	ISXO2 amount: 1
+InterPro.txt id: PF13393 repseq: 	Histidyl amount: 1
+InterPro.txt id: IPR002187 repseq: X amount: 1
+InterPro.txt id: IPR002187 repseq: X amount: 1
+InterPro.txt id: IPR015867 repseq: 	Nitrogen regulatory protein PII amount: 1
+InterPro.txt id: IPR002332 repseq: 	Nitrogen regulatory protein P amount: 1
+InterPro.txt id: PF00543 repseq: 	Nitrogen regulatory protein P amount: 1
+InterPro.txt id: PF01820 repseq: 	D amount: 1
+InterPro.txt id: IPR016185 repseq: 	Pre amount: 1
+InterPro.txt id: PF02776 repseq: 	Thiamine pyrophosphate enzyme, N amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF09842 repseq: 	Predicted membrane protein (DUF2069)	5	104	1.6E amount: 1
+InterPro.txt id: IPR018392 repseq: X amount: 1
+InterPro.txt id: IPR027469 repseq: X amount: 1
+InterPro.txt id: PF01545 repseq: 	Cation efflux family	2	99	8.6E amount: 1
+InterPro.txt id: PF02628 repseq: 	Cytochrome oxidase assembly protein	18	94	6.0E amount: 1
+InterPro.txt id: PF06421 repseq: 	GTP amount: 1
+InterPro.txt id: PF07045 repseq: 	Protein of unknown function (DUF1330)	31	91	1.2E amount: 1
+InterPro.txt id: PF07082 repseq: 	Protein of unknown function (DUF1350)	2	69	2.6E amount: 1
+InterPro.txt id: PF07969 repseq: 	Amidohydrolase family	8	63	2.5E amount: 1
+InterPro.txt id: IPR002081 repseq: X amount: 1
+InterPro.txt id: IPR002081 repseq: X amount: 1
+InterPro.txt id: PF03441 repseq: 	FAD binding domain of DNA photolyase	4	41	3.3E amount: 1
+InterPro.txt id: IPR018394 repseq: 	Cryptochrome amount: 1
+InterPro.txt id: PF02836 repseq: 	Glycosyl hydrolases family 2, TIM barrel domain	37	115	7.1E amount: 1
+InterPro.txt id: IPR013812 repseq: 	Glycoside hydrolase, family 2 amount: 1
+InterPro.txt id: PF00703 repseq: 	Glycosyl hydrolases family 2	3	30	1.9E amount: 1
+InterPro.txt id: IPR013781 repseq: X amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF00290 repseq: 	Tryptophan synthase alpha chain	8	72	9.2E amount: 1
+InterPro.txt id: IPR002508 repseq: X amount: 1
+InterPro.txt id: IPR027463 repseq: X amount: 1
+InterPro.txt id: PF13932 repseq: 	GidA associated domain 3	1	71	2.5E amount: 1
+InterPro.txt id: IPR001279 repseq: 	Beta amount: 1
+InterPro.txt id: IPR023310 repseq: 	Malate synthase G, beta sub amount: 1
+InterPro.txt id: PF00370 repseq: 	FGGY family of carbohydrate kinases, N amount: 1
+InterPro.txt id: PF00890 repseq: 	FAD binding domain	2	50	5.4E amount: 1
+InterPro.txt id: IPR020595 repseq: 	Glucose amount: 1
+InterPro.txt id: PF01134 repseq: 	Glucose inhibited division protein A	2	63	1.3E amount: 1
+InterPro.txt id: PF04356 repseq: 	Protein of unknown function (DUF489)	3	35	8.2E amount: 1
+InterPro.txt id: IPR007451 repseq: X amount: 1
+InterPro.txt id: IPR029055 repseq: 	Nucleophile aminohydrolases, N amount: 1
+InterPro.txt id: PF01053 repseq: 	Cys amount: 1
+InterPro.txt id: IPR015421 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF02475 repseq: 	Met amount: 1
+InterPro.txt id: IPR011601 repseq: 	UDP amount: 1
+InterPro.txt id: PF02873 repseq: 	UDP amount: 1
+InterPro.txt id: PF00448 repseq: 	SRP54 amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF01595 repseq: 	Domain of unknown function DUF21	1	106	5.6E amount: 1
+InterPro.txt id: PF13458 repseq: 	Periplasmic binding protein	2	76	5.3E amount: 1
+InterPro.txt id: PF05610 repseq: 	Protein of unknown function (DUF779)	2	60	1.4E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00004 repseq: 	ATPase family associated with various cellular activities (AAA)	1	63	1.3E amount: 1
+InterPro.txt id: PF02028 repseq: 	BCCT family transporter	2	99	6.4E amount: 1
+InterPro.txt id: PF00753 repseq: 	Metallo amount: 1
+InterPro.txt id: IPR001279 repseq: 	Beta amount: 1
+InterPro.txt id: PF01593 repseq: 	Flavin containing amine oxidoreductase	1	40	1.5E amount: 1
+InterPro.txt id: PF02028 repseq: 	BCCT family transporter	1	95	8.9E amount: 1
+InterPro.txt id: IPR018093 repseq: X amount: 1
+InterPro.txt id: IPR015422 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF00202 repseq: 	Aminotransferase class amount: 1
+InterPro.txt id: PF02163 repseq: 	Peptidase family M50	1	38	1.5E amount: 1
+InterPro.txt id: PF02153 repseq: 	Prephenate dehydrogenase	3	49	2.5E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF00133 repseq: 	tRNA synthetases class I (I, L, M and V)	3	61	3.0E amount: 1
+InterPro.txt id: IPR029068 repseq: X amount: 1
+InterPro.txt id: IPR013758 repseq: 	DNA topoisomerase, type IIA, subunit A amount: 1
+InterPro.txt id: PF00521 repseq: 	DNA gyrase amount: 1
+InterPro.txt id: PF06253 repseq: 	Trimethylamine methyltransferase (MTTB)	10	63	2.8E amount: 1
+InterPro.txt id: PF04577 repseq: 	Protein of unknown function (DUF563)	12	107	1.1E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF13561 repseq: 	Enoyl amount: 1
+InterPro.txt id: IPR009014 repseq: 	Transketolase, C amount: 1
+InterPro.txt id: PF02780 repseq: 	Transketolase, C amount: 1
+InterPro.txt id: PF02322 repseq: 	Cytochrome oxidase subunit II	9	57	7.0E amount: 1
+InterPro.txt id: PF00478 repseq: 	IMP dehydrogenase  amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF01391 repseq: 	Collagen triple helix repeat (20 copies)	7	59	3.3E amount: 1
+InterPro.txt id: PF00571 repseq: 	CBS domain	3	57	4.0E amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF04607 repseq: 	Region found in RelA  amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: PF00459 repseq: 	Inositol monophosphatase family	17	105	1.9E amount: 1
+InterPro.txt id: PF01329 repseq: 	Pterin 4 alpha carbinolamine dehydratase	1	44	4.0E amount: 1
+InterPro.txt id: IPR001533 repseq: 	Transcriptional coactivator amount: 1
+InterPro.txt id: PF13449 repseq: 	Esterase amount: 1
+InterPro.txt id: PF01645 repseq: 	Conserved region in glutamate synthase	1	48	6.0E amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF04250 repseq: 	Protein of unknown function (DUF429)	1	87	3.0E amount: 1
+InterPro.txt id: PF01042 repseq: 	Endoribonuclease L amount: 1
+InterPro.txt id: IPR006056 repseq: 	Enamine amount: 1
+InterPro.txt id: IPR013813 repseq: 	Endoribonuclease L amount: 1
+InterPro.txt id: PF07992 repseq: 	Pyridine nucleotide amount: 1
+InterPro.txt id: IPR017849 repseq: 	Alkaline phosphatase amount: 1
+InterPro.txt id: PF11251 repseq: 	Protein of unknown function (DUF3050)	52	88	2.4E amount: 1
+InterPro.txt id: PF05035 repseq: 	2 amount: 1
+InterPro.txt id: PF02527 repseq: 	rRNA small subunit methyltransferase G	11	157	2.7E amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: PF09360 repseq: 	Iron amount: 1
+InterPro.txt id: PF09360 repseq: 	Iron amount: 1
+InterPro.txt id: IPR011049 repseq: 	Serralysin amount: 1
+InterPro.txt id: PF05658 repseq: 	Head domain of trimeric autotransporter adhesin	4	30	2.4E amount: 1
+InterPro.txt id: PF02782 repseq: 	FGGY family of carbohydrate kinases, C amount: 1
+InterPro.txt id: IPR011049 repseq: 	Serralysin amount: 1
+InterPro.txt id: PF00353 repseq: 	Hemolysin amount: 1
+InterPro.txt id: PF00353 repseq: 	Hemolysin amount: 1
+InterPro.txt id: IPR002376 repseq: 	Formyl transferase, N amount: 1
+InterPro.txt id: PF00551 repseq: 	Formyl transferase	1	62	4.1E amount: 1
+InterPro.txt id: PF01119 repseq: 	DNA mismatch repair protein, C amount: 1
+InterPro.txt id: IPR014721 repseq: 	Ribosomal protein S5 domain 2 amount: 1
+InterPro.txt id: PF03023 repseq: 	MviN amount: 1
+InterPro.txt id: PF01262 repseq: 	Alanine dehydrogenase amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01381 repseq: 	Helix amount: 1
+InterPro.txt id: IPR010982 repseq: 	Lambda repressor amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR015797 repseq: 	NUDIX hydrolase domain amount: 1
+InterPro.txt id: IPR022691 repseq: 	Transcription elongation factor, GreA amount: 1
+InterPro.txt id: PF03449 repseq: 	Transcription elongation factor, N amount: 1
+InterPro.txt id: IPR000412 repseq: 	ABC amount: 1
+InterPro.txt id: IPR000412 repseq: 	ABC amount: 1
+InterPro.txt id: IPR000412 repseq: 	ABC amount: 1
+InterPro.txt id: PF01061 repseq: 	ABC amount: 1
+InterPro.txt id: IPR004101 repseq: 	Mur ligase, C amount: 1
+InterPro.txt id: PF02875 repseq: 	Mur ligase family, glutamate ligase domain	2	42	4.6E amount: 1
+InterPro.txt id: PF05000 repseq: 	RNA polymerase Rpb1, domain 4	13	84	8.3E amount: 1
+InterPro.txt id: PF00815 repseq: 	Histidinol dehydrogenase	5	64	2.1E amount: 1
+InterPro.txt id: PF00116 repseq: 	Cytochrome C oxidase subunit II, periplasmic domain	53	102	9.9E amount: 1
+InterPro.txt id: IPR008972 repseq: X amount: 1
+InterPro.txt id: IPR008972 repseq: X amount: 1
+InterPro.txt id: IPR013786 repseq: 	Acyl amount: 1
+InterPro.txt id: PF13302 repseq: 	Acetyltransferase (GNAT) domain	4	125	4.8E amount: 1
+InterPro.txt id: IPR016181 repseq: 	Acyl amount: 1
+InterPro.txt id: PF01625 repseq: 	Peptide methionine sulfoxide reductase	38	123	2.2E amount: 1
+InterPro.txt id: IPR002569 repseq: X amount: 1
+InterPro.txt id: PF00587 repseq: 	tRNA synthetase class II core domain (G, H, P, S and T)	18	105	4.6E amount: 1
+InterPro.txt id: IPR029064 repseq: 	50S ribosomal protein L30e amount: 1
+InterPro.txt id: PF08032 repseq: 	RNA 2' amount: 1
+InterPro.txt id: IPR029026 repseq: 	tRNA (guanine amount: 1
+InterPro.txt id: PF00588 repseq: 	SpoU rRNA Methylase family	89	138	9.0E amount: 1
+InterPro.txt id: PF04166 repseq: 	Pyridoxal phosphate biosynthetic protein PdxA	3	99	1.7E amount: 1
+InterPro.txt id: IPR024084 repseq: 	Isopropylmalate dehydrogenase amount: 1
+InterPro.txt id: IPR027477 repseq: X amount: 1
+InterPro.txt id: PF00890 repseq: 	FAD binding domain	2	108	3.8E amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: PF06325 repseq: 	Ribosomal protein L11 methyltransferase (PrmA)	2	161	1.8E amount: 1
+InterPro.txt id: PF00814 repseq: 	Glycoprotease family	1	62	6.0E amount: 1
+InterPro.txt id: PF00310 repseq: 	Glutamine amidotransferases class amount: 1
+InterPro.txt id: IPR029055 repseq: 	Nucleophile aminohydrolases, N amount: 1
+InterPro.txt id: PF00115 repseq: 	Cytochrome C and Quinol oxidase polypeptide I	1	34	1.6E amount: 1
+InterPro.txt id: IPR023616 repseq: 	Cytochrome c oxidase, subunit I domain	GO:0004129|GO:0055114	KEGG: 00190+1.9.3.1|MetaCyc: PWY amount: 1
+InterPro.txt id: PF13847 repseq: 	Methyltransferase domain	9	103	2.2E amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: PF00589 repseq: 	Phage integrase family	15	89	4.3E amount: 1
+InterPro.txt id: IPR013762 repseq: 	Integrase amount: 1
+InterPro.txt id: IPR012337 repseq: 	Ribonuclease H amount: 1
+InterPro.txt id: PF00075 repseq: 	RNase H	4	55	1.2E amount: 1
+InterPro.txt id: IPR007120 repseq: 	DNA amount: 1
+InterPro.txt id: PF00562 repseq: 	RNA polymerase Rpb2, domain 6	1	119	2.3E amount: 1
+InterPro.txt id: PF01699 repseq: 	Sodium amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF00676 repseq: 	Dehydrogenase E1 component	8	113	4.8E amount: 1
+InterPro.txt id: PF00421 repseq: 	Photosystem II protein	1	137	2.2E amount: 1
+InterPro.txt id: IPR011334 repseq: 	UDP amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR009056 repseq: 	Cytochrome c amount: 1
+InterPro.txt id: PF06904 repseq: 	Extensin amount: 1
+InterPro.txt id: PF03972 repseq: 	MmgE amount: 1
+InterPro.txt id: PF01458 repseq: 	Uncharacterized protein family (UPF0051)	1	50	1.3E amount: 1
+InterPro.txt id: IPR029044 repseq: 	Nucleotide amount: 1
+InterPro.txt id: IPR008147 repseq: 	Glutamine synthetase, beta amount: 1
+InterPro.txt id: PF02867 repseq: 	Ribonucleotide reductase, barrel domain	1	40	9.7E amount: 1
+InterPro.txt id: PF13417 repseq: 	Glutathione S amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: PF03321 repseq: 	GH3 auxin amount: 1
+InterPro.txt id: IPR000462 repseq: 	CDP amount: 1
+InterPro.txt id: PF01066 repseq: 	CDP amount: 1
+InterPro.txt id: IPR018247 repseq: 	EF amount: 1
+InterPro.txt id: PF01968 repseq: 	Hydantoinase amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF09527 repseq: 	Putative F0F1 amount: 1
+InterPro.txt id: PF01235 repseq: 	Sodium:alanine symporter family	1	80	4.2E amount: 1
+InterPro.txt id: IPR029057 repseq: 	Phosphoribosyltransferase amount: 1
+InterPro.txt id: IPR013264 repseq: 	DNA primase, catalytic core, N amount: 1
+InterPro.txt id: PF08275 repseq: 	DNA primase catalytic core, N amount: 1
+InterPro.txt id: IPR008179 repseq: 	Phosphoribosyl amount: 1
+InterPro.txt id: PF01244 repseq: 	Membrane dipeptidase (Peptidase family M19)	1	93	9.1E amount: 1
+InterPro.txt id: PF07466 repseq: 	Protein of unknown function (DUF1517)	18	90	5.8E amount: 1
+InterPro.txt id: IPR015422 repseq: 	Pyridoxal phosphate amount: 1
+InterPro.txt id: PF00563 repseq: 	EAL domain	9	125	4.0E amount: 1
+InterPro.txt id: IPR001633 repseq: X amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF01406 repseq: 	tRNA synthetases class I (C) catalytic domain	2	68	7.6E amount: 1
+InterPro.txt id: PF04093 repseq: 	rod shape amount: 1
+InterPro.txt id: PF00849 repseq: 	RNA pseudouridylate synthase	5	28	1.4E amount: 1
+InterPro.txt id: PF02233 repseq: 	NAD(P) transhydrogenase beta subunit	2	127	5.2E amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF00676 repseq: 	Dehydrogenase E1 component	26	100	8.3E amount: 1
+InterPro.txt id: IPR009056 repseq: 	Cytochrome c amount: 1
+InterPro.txt id: PF11902 repseq: 	Protein of unknown function (DUF3422)	1	65	1.2E amount: 1
+InterPro.txt id: IPR012349 repseq: 	FMN amount: 1
+InterPro.txt id: PF01336 repseq: 	OB amount: 1
+InterPro.txt id: IPR012340 repseq: 	Nucleic acid amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR003960 repseq: 	ATPase, AAA amount: 1
+InterPro.txt id: PF01311 repseq: 	Bacterial export proteins, family 1	1	68	9.1E amount: 1
+InterPro.txt id: IPR002645 repseq: X amount: 1
+InterPro.txt id: PF01740 repseq: 	STAS domain	13	80	2.4E amount: 1
+InterPro.txt id: IPR029055 repseq: 	Nucleophile aminohydrolases, N amount: 1
+InterPro.txt id: PF01804 repseq: 	Penicillin amidase	10	105	7.4E amount: 1
+InterPro.txt id: PF02542 repseq: 	YgbB family	2	84	3.1E amount: 1
+InterPro.txt id: IPR020555 repseq: 	2 amount: 1
+InterPro.txt id: IPR003526 repseq: 	2 amount: 1
+InterPro.txt id: IPR013320 repseq: 	Concanavalin A amount: 1
+InterPro.txt id: PF04997 repseq: 	RNA polymerase Rpb1, domain 1	11	65	3.6E amount: 1
+InterPro.txt id: PF06808 repseq: 	DctM amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: PF00793 repseq: 	DAHP synthetase I family	5	79	2.2E amount: 1
+InterPro.txt id: PF02934 repseq: 	GatB amount: 1
+InterPro.txt id: PF05992 repseq: 	SbmA amount: 1
+InterPro.txt id: PF13406 repseq: 	Transglycosylase SLT domain	54	142	1.2E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR013221 repseq: X amount: 1
+InterPro.txt id: IPR027443 repseq: 	Isopenicillin N synthase amount: 1
+InterPro.txt id: PF01040 repseq: 	UbiA prenyltransferase family	2	67	4.9E amount: 1
+InterPro.txt id: PF01027 repseq: 	Inhibitor of apoptosis amount: 1
+InterPro.txt id: PF01796 repseq: 	DUF35 OB amount: 1
+InterPro.txt id: IPR012349 repseq: 	FMN amount: 1
+InterPro.txt id: PF00285 repseq: 	Citrate synthase	1	38	7.2E amount: 1
+InterPro.txt id: PF02653 repseq: 	Branched amount: 1
+InterPro.txt id: PF03989 repseq: 	DNA gyrase C amount: 1
+InterPro.txt id: PF13173 repseq: 	AAA domain	1	40	6.9E amount: 1
+InterPro.txt id: PF05982 repseq: 	Domain of unknown function (DUF897)	1	105	2.4E amount: 1
+InterPro.txt id: PF00920 repseq: 	Dehydratase family	2	88	9.8E amount: 1
+InterPro.txt id: IPR013783 repseq: 	Immunoglobulin amount: 1
+InterPro.txt id: IPR029062 repseq: 	Class I glutamine amidotransferase amount: 1
+InterPro.txt id: IPR020751 repseq: 	Aminoacyl amount: 1
+InterPro.txt id: PF04227 repseq: 	Indigoidine synthase A like protein	2	54	8.1E amount: 1
+InterPro.txt id: PF14026 repseq: 	Protein of unknown function (DUF4242)	4	69	3.0E amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: PF00209 repseq: 	Sodium:neurotransmitter symporter family	1	84	3.3E amount: 1
+InterPro.txt id: PF02401 repseq: 	LytB protein	26	97	9.9E amount: 1
+InterPro.txt id: PF13661 repseq: 	2OG amount: 1
+InterPro.txt id: PF05742 repseq: 	NRDE protein	2	78	1.7E amount: 1
+InterPro.txt id: IPR029759 repseq: X amount: 1
+InterPro.txt id: IPR012336 repseq: 	Thioredoxin amount: 1
+InterPro.txt id: PF00255 repseq: 	Glutathione peroxidase	49	83	7.5E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00005 repseq: 	ABC transporter	18	63	1.0E amount: 1
+InterPro.txt id: IPR000994 repseq: X amount: 1
+InterPro.txt id: PF00557 repseq: 	Metallopeptidase family M24	1	77	6.7E amount: 1
+InterPro.txt id: PF02634 repseq: 	FdhD amount: 1
+InterPro.txt id: PF00676 repseq: 	Dehydrogenase E1 component	2	49	1.6E amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: PF00920 repseq: 	Dehydratase family	2	57	9.2E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01370 repseq: 	NAD dependent epimerase amount: 1
+InterPro.txt id: PF07726 repseq: 	ATPase family associated with various cellular activities (AAA)	46	96	4.5E amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF05050 repseq: 	Methyltransferase FkbM domain	1	43	3.2E amount: 1
+InterPro.txt id: IPR006342 repseq: X amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF01266 repseq: 	FAD dependent oxidoreductase	14	139	8.8E amount: 1
+InterPro.txt id: PF14693 repseq: 	Ribosomal protein TL5, C amount: 1
+InterPro.txt id: IPR020057 repseq: X amount: 1
+InterPro.txt id: IPR020056 repseq: 	Ribosomal protein L25 amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: PF00271 repseq: 	Helicase conserved C amount: 1
+InterPro.txt id: IPR000601 repseq: X amount: 1
+InterPro.txt id: PF13754 repseq: 	Bacterial Ig amount: 1
+InterPro.txt id: PF00198 repseq: 	2 amount: 1
+InterPro.txt id: IPR023213 repseq: 	Chloramphenicol acetyltransferase amount: 1
+InterPro.txt id: PF02789 repseq: 	Cytosol aminopeptidase family, N amount: 1
+InterPro.txt id: IPR012340 repseq: 	Nucleic acid amount: 1
+InterPro.txt id: IPR011344 repseq: 	Single amount: 1
+InterPro.txt id: PF00436 repseq: 	Single amount: 1
+InterPro.txt id: IPR012902 repseq: 	Prokaryotic N amount: 1
+InterPro.txt id: PF13544 repseq: 	Type IV pilin N amount: 1
+InterPro.txt id: IPR012902 repseq: 	Prokaryotic N amount: 1
+InterPro.txt id: PF00902 repseq: 	Sec amount: 1
+InterPro.txt id: PF01345 repseq: 	Domain of unknown function DUF11	34	60	8.8E amount: 1
+InterPro.txt id: IPR001434 repseq: X amount: 1
+InterPro.txt id: PF01494 repseq: 	FAD binding domain	2	51	1.6E amount: 1
+InterPro.txt id: PF01436 repseq: 	NHL repeat	81	104	1.2E amount: 1
+InterPro.txt id: IPR003431 repseq: 	Beta propeller phytase	GO:0016158	KEGG: 00562+3.1.3.8|MetaCyc: PWY amount: 1
+InterPro.txt id: PF03989 repseq: 	DNA gyrase C amount: 1
+InterPro.txt id: PF00231 repseq: 	ATP synthase	1	94	3.2E amount: 1
+InterPro.txt id: IPR012338 repseq: 	Beta amount: 1
+InterPro.txt id: PF00144 repseq: 	Beta amount: 1
+InterPro.txt id: IPR029058 repseq: X amount: 1
+InterPro.txt id: PF12697 repseq: 	Alpha amount: 1
+InterPro.txt id: IPR000639 repseq: 	Epoxide hydrolase amount: 1
+InterPro.txt id: IPR000639 repseq: 	Epoxide hydrolase amount: 1
+InterPro.txt id: IPR012337 repseq: 	Ribonuclease H amount: 1
+InterPro.txt id: PF01351 repseq: 	Ribonuclease HII	4	79	1.4E amount: 1
+InterPro.txt id: PF13193 repseq: 	AMP amount: 1
+InterPro.txt id: IPR009008 repseq: 	Valyl amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF08439 repseq: 	Oligopeptidase F	1	48	2.8E amount: 1
+InterPro.txt id: PF01551 repseq: 	Peptidase family M23	21	103	7.4E amount: 1
+InterPro.txt id: IPR014729 repseq: 	Rossmann amount: 1
+InterPro.txt id: PF03054 repseq: 	tRNA methyl transferase	12	122	5.1E amount: 1
+InterPro.txt id: PF01628 repseq: 	HrcA protein C terminal domain	1	49	9.0E amount: 1
+InterPro.txt id: IPR029016 repseq: 	GAF domain amount: 1
+InterPro.txt id: IPR002033 repseq: 	Sec amount: 1
+InterPro.txt id: IPR002033 repseq: 	Sec amount: 1
+InterPro.txt id: IPR019820 repseq: 	Sec amount: 1
+InterPro.txt id: PF00902 repseq: 	Sec amount: 1
+InterPro.txt id: IPR017900 repseq: 	4Fe amount: 1
+InterPro.txt id: IPR017900 repseq: 	4Fe amount: 1
+InterPro.txt id: IPR010207 repseq: X amount: 1
+InterPro.txt id: PF14697 repseq: 	4Fe amount: 1
+InterPro.txt id: IPR029060 repseq: 	PIN domain amount: 1
+InterPro.txt id: PF02739 repseq: 	5' amount: 1
+InterPro.txt id: PF00108 repseq: 	Thiolase, N amount: 1
+InterPro.txt id: IPR016038 repseq: 	Thiolase amount: 1
+InterPro.txt id: PF01039 repseq: 	Carboxyl transferase domain	1	81	1.2E amount: 1
+InterPro.txt id: IPR029045 repseq: 	ClpP amount: 1
+InterPro.txt id: PF00815 repseq: 	Histidinol dehydrogenase	1	62	9.9E amount: 1
+InterPro.txt id: PF00118 repseq: 	TCP amount: 1
+InterPro.txt id: IPR027413 repseq: 	GroEL amount: 1
+InterPro.txt id: IPR017998 repseq: 	Chaperone tailless complex polypeptide 1 (TCP amount: 1
+InterPro.txt id: IPR017998 repseq: 	Chaperone tailless complex polypeptide 1 (TCP amount: 1
+InterPro.txt id: IPR017998 repseq: 	Chaperone tailless complex polypeptide 1 (TCP amount: 1
+InterPro.txt id: PF03143 repseq: 	Elongation factor Tu C amount: 1
+InterPro.txt id: PF03144 repseq: 	Elongation factor Tu domain 2	1	53	3.1E amount: 1
+InterPro.txt id: PF01368 repseq: 	DHH family	58	128	2.4E amount: 1
+InterPro.txt id: IPR016040 repseq: 	NAD(P) amount: 1
+InterPro.txt id: PF03720 repseq: 	UDP amount: 1
+InterPro.txt id: PF02776 repseq: 	Thiamine pyrophosphate enzyme, N amount: 1
+InterPro.txt id: IPR029061 repseq: 	Thiamin diphosphate amount: 1
+InterPro.txt id: IPR002474 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: PF00988 repseq: 	Carbamoyl amount: 1
+InterPro.txt id: IPR029063 repseq: 	S amount: 1
+InterPro.txt id: IPR006342 repseq: X amount: 1
+InterPro.txt id: PF12847 repseq: 	Methyltransferase domain	59	103	4.6E amount: 1
+InterPro.txt id: IPR002701 repseq: 	Chorismate mutase	GO:0046417	KEGG: 00400+5.4.99.5|MetaCyc: PWY amount: 1
+InterPro.txt id: PF01817 repseq: 	Chorismate mutase type II	35	75	4.1E amount: 1
+InterPro.txt id: PF06418 repseq: 	CTP synthase N amount: 1
+InterPro.txt id: IPR027417 repseq: 	P amount: 1
+InterPro.txt id: IPR000515 repseq: 	ABC transporter type 1, transmembrane domain MetI amount: 1
+InterPro.txt id: IPR029066 repseq: 	PLP amount: 1
+InterPro.txt id: PF01168 repseq: 	Alanine racemase, N amount: 1
+InterPro.txt id: PF02687 repseq: 	FtsX amount: 1
+InterPro.txt id: IPR015932 repseq: 	Aconitase amount: 1
+InterPro.txt id: IPR015931 repseq: 	Aconitase amount: 1
+InterPro.txt id: PF00330 repseq: 	Aconitase family (aconitate hydratase)	32	97	2.1E amount: 1
+InterPro.txt id: IPR018136 repseq: 	Aconitase family, 4Fe amount: 1
+InterPro.txt id: IPR001279 repseq: 	Beta amount: 1
+InterPro.txt id: PF01509 repseq: 	TruB family pseudouridylate synthase (N terminal domain)	26	54	3.6E amount: 1
+InterPro.txt id: PF00180 repseq: 	Isocitrate amount: 1
+InterPro.txt id: IPR024084 repseq: 	Isopropylmalate dehydrogenase amount: 1
+InterPro.txt id: PF00521 repseq: 	DNA gyrase amount: 1
+InterPro.txt id: IPR024946 repseq: 	Arginine repressor C amount: 1
+InterPro.txt id: IPR015915 repseq: 	Kelch amount: 1
+InterPro.txt id: IPR029056 repseq: 	Ribokinase amount: 1
+InterPro.txt id: IPR029044 repseq: 	Nucleotide amount: 1
+InterPro.txt id: IPR013785 repseq: 	Aldolase amount: 1
+InterPro.txt id: IPR002034 repseq: 	Alpha amount: 1
+InterPro.txt id: PF00682 repseq: 	HMGL amount: 1

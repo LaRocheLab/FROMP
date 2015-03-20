@@ -47,6 +47,7 @@
 /*   39:  34 */   static final String mapTitleList = "list" + File.separator + "map_title.tab";
 /*   40:  35 */   static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt";
 				  static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt";
+				  static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
 /*   41:     */   static final String EC = "EC";
 /*   42:     */   static final String PF = "Pf";
 /*   43:     */   static final String RN = "Rn";
@@ -73,6 +74,7 @@
 /*   63:     */   BufferedReader ecToGoTxt_;
 /*   64:     */   BufferedReader pfamToRnToEc_;
 				  BufferedReader interproToGOTxt_;
+				  BufferedReader interproToECTxt_;
 /*   65:     */   PngBuilder build;
 /*   66:     */   Color sysCol_;
 /*   67:     */   public static ArrayList<PathwayWithEc> pathwayList_;
@@ -1130,8 +1132,7 @@
 //				  	System.out.println("interpro conversion step");
 //				  	System.out.println("incoming string array: " + Arrays.toString(interpro));
 				  	ArrayList<String[]> retList = new ArrayList();
-				  	ArrayList<String[]> tmplist = new ArrayList();
-				    this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);//this is the interpro -> GO conversion file 
+				    this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);//this is the interpro -> GO conversion file 
 				    
 				    
 				    String zeile = "";
@@ -1143,63 +1144,42 @@
 //				    System.out.println("interproNR: "+ interproNr);
 
 				    try{
-				    	while((zeile = this.interproToGOTxt_.readLine()) != null){
+				    	while((zeile = this.interproToECTxt_.readLine()) != null){
 				    		if (!zeile.startsWith("!")){
-				    			if(zeile.contains("InterPro:IPR")){
+				    			if(zeile.startsWith("IPR")){
 //				    				System.out.println("test against interproNR: "+Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue());
-				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
+				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("IPR") + 3, zeile.indexOf("IPR") + 9)).intValue()){
 //				    					System.out.println("Match!");
-				    					tmpNr = new String[4];
-				    					tmpNr[0]=zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
-				    					tmpNr[1]=interpro[1];
-				    					tmpNr[2]="GO";
-				    					tmpNr[3]=interpro[3];	
+				    					int numIPRtoEC=(zeile.length()-zeile.replace("+", "").length());
+				    					String nextEC = zeile.substring(zeile.indexOf("+"));
+				    					for(int i=0;i<numIPRtoEC;i++){
+				    						tmpNr = new String[4];
+				    						if(nextEC.contains("+")){
+				    							tmpNr[0]=nextEC.substring(0, nextEC.indexOf("+"));
+				    						}else{
+				    							tmpNr[0]=nextEC;
+				    						}
+				    						tmpNr[1]=interpro[1];
+				    						tmpNr[2]="EC";
+				    						tmpNr[3]=interpro[3];	
 
-//				    					System.out.println("item added to tmplist"+Arrays.toString(tmpNr));
-				    					tmplist.add(tmpNr);
-				    				}
-				    				if(interproNr < Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
+//				    						System.out.println("item added to tmplist"+Arrays.toString(tmpNr));
+				    						retList.add(tmpNr);
+				    						if(nextEC.contains("+")){
+				    							nextEC = nextEC.substring(nextEC.indexOf("+"));
+				    						}
+				    					}
 				    					break;
 				    				}
 				    			}
 				    		}
 				    	}
-				    	this.interproToGOTxt_.close();
+				    	this.interproToECTxt_.close();
 				    }catch(IOException e){
-				    	openWarning("Error", "File" + interproToGOPath_ +" not found");
+				    	openWarning("Error", "File" + interproToECPath_ +" not found");
 				    	e.printStackTrace();
 				    }
-				    try{
-				    	for(int i=0;i<tmplist.size();i++){
-				    		this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);//this is the GO -> ec conversion file 
-				    		String[] tmpStringArray= tmplist.get(i);
-				    		interproNr = Integer.valueOf(tmpStringArray[0]).intValue();
-//				    		System.out.println("GO NR: "+ interproNr);
-				    		while((zeile = this.ecToGoTxt_.readLine()) != null){
-				    			if (!zeile.startsWith("!")){
-//				    				System.out.println("test against GO NR: "+Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue());
-				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue()){
-//				    					System.out.println("Match!");
-				    					tmpNr = new String[4];
-				    					tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
-				    					tmpNr[1]=tmpStringArray[1];
-				    					tmpNr[2]="EC";
-				    					tmpNr[3]=tmpStringArray[3];
-
-//				    					System.out.println("item added to retlist"+Arrays.toString(tmpNr));
-				    					retList.add(tmpNr);
-				    				}
-				    			}
-				    		}
-				    	}
-				    	this.ecToGoTxt_.close();
-				    }catch(IOException e){
-				    	openWarning("Error", "File" + ecToGoTxt_ +" not found");
-				    	e.printStackTrace();				    	
-				    }
-				    for (int i=0;i<retList.size();i++){
-//				    	System.out.println("retlist #"+i+": "+Arrays.toString(retList.get(i)));
-					}
+				    
 				    return retList;
 				  }
 

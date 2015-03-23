@@ -116,7 +116,7 @@
 /* 116:119 */     this.displayP_.add(this.searchfield);
 /* 117:    */     
 /* 118:121 */     JButton button_ = new JButton();
-/* 119:122 */     button_.setBounds(325, 200, 75, 25);
+/* 119:122 */     button_.setBounds(325, 200, 100, 25);
 /* 120:123 */     button_.setVisible(true);
 /* 121:124 */     button_.setText("search");
 /* 122:125 */     button_.addActionListener(new ActionListener()
@@ -158,7 +158,7 @@
 /* 158:165 */     this.displayP_.add(this.searchfield2);
 /* 159:    */     
 /* 160:167 */     JButton button2_ = new JButton();
-/* 161:168 */     button2_.setBounds(700, 200, 75, 25);
+/* 161:168 */     button2_.setBounds(725, 200, 100, 25);
 /* 162:169 */     button2_.setVisible(true);
 /* 163:170 */     button2_.setText("search");
 /* 164:171 */     button2_.addActionListener(new ActionListener()
@@ -402,8 +402,12 @@
 /* 402:    */   }
 /* 403:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.PwSearchPane
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.PwSearchPane
+
+ * JD-Core Version:    0.7.0.1
+
  */

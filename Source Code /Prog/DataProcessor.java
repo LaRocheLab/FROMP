@@ -891,7 +891,6 @@
 				            }
 /*  592:     */           }
 /*  593: 608 */           sample.sample_.close();
-						  System.out.println(sampleSet.toString());
 /*  594:     */         }
 /*  595:     */         catch (IOException e)
 /*  596:     */         {

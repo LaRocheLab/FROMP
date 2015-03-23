@@ -264,25 +264,25 @@
 /*  261: 318 */     });
 /*  262: 319 */     this.menu_.add(mItem);
 /*  263:     */     
-//*  264: 321 */     mItem = new JMenuItem("Search", 
-//*  265: 322 */       88);
-//*  266: 323 */     mItem.setAccelerator(KeyStroke.getKeyStroke(
-//*  267: 324 */       88, 8));
-//*  268: 325 */     mItem.getAccessibleContext().setAccessibleDescription(
-//*  269: 326 */       "Search");
-//*  270: 327 */     mItem.addActionListener(new ActionListener()
-//*  271:     */     {
-//*  272:     */       public void actionPerformed(ActionEvent e)
-//*  273:     */       {
-//*  274: 332 */         System.out.println("Search Pathway");
-//*  275: 333 */         if (NewFrompFrame.this.control_.gotSamples())
-//*  276:     */         {
-//*  277: 334 */           Controller.loadPathways(true);
-//*  278: 335 */           NewFrompFrame.this.searchPathway();
-//*  279:     */         }
-//*  280:     */       }
-//*  281: 343 */     });
-//*  282: 344 */     this.menu_.add(mItem);
+/*  264: 321 */     mItem = new JMenuItem("Search", 
+/*  265: 322 */       88);
+/*  266: 323 */     mItem.setAccelerator(KeyStroke.getKeyStroke(
+/*  267: 324 */       88, 8));
+/*  268: 325 */     mItem.getAccessibleContext().setAccessibleDescription(
+/*  269: 326 */       "Search");
+/*  270: 327 */     mItem.addActionListener(new ActionListener()
+/*  271:     */     {
+/*  272:     */       public void actionPerformed(ActionEvent e)
+/*  273:     */       {
+/*  274: 332 */         System.out.println("Search Pathway");
+/*  275: 333 */         if (NewFrompFrame.this.control_.gotSamples())
+/*  276:     */         {
+/*  277: 334 */           Controller.loadPathways(true);
+/*  278: 335 */           NewFrompFrame.this.searchPathway();
+/*  279:     */         }
+/*  280:     */       }
+/*  281: 343 */     });
+/*  282: 344 */     this.menu_.add(mItem);
 /*  283:     */   }
 /*  284:     */   
 /*  285:     */   private void addAnalyseMenu()

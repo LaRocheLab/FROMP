@@ -683,7 +683,7 @@
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  467:     */     {
 /*  468: 475 */       this.lFrame_.bigStep(((Sample)Project.samples_.get(i)).name_);
-					
+					  
 /*  469: 476 */       Sample sample = (Sample)Project.samples_.get(i);
 /*  470: 477 */       if (sample.valuesSet)
 /*  471:     */       {
@@ -702,10 +702,24 @@
 /*  484: 492 */         Project.legitSamples.add(Boolean.valueOf(false));
 /*  485:     */         try
 /*  486:     */         {
-
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)
 /*  488:     */           {
-//							System.out.println("Hello world");
+							if (zeile.startsWith(">")){
+								if(Project.samples_.get(i).ecs_.isEmpty()){
+									Project.samples_.get(i).name_=zeile.substring(zeile.indexOf(">")+1);
+									continue;
+								}else{
+									Color tmpColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+									Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">")+1), sample.fullPath_, tmpColor);
+									tmpSample.legitSample=true;
+									tmpSample.inUse = true;
+									Project.samples_.add(i+1,tmpSample);
+									Project.legitSamples.add(i+1, true);
+									i++;
+									continue;
+								}
+
+							}
 /*  489: 497 */             String[] newEnz = getEnzFromSample(zeile);
 //							System.out.println("newEnz: "+Arrays.toString(newEnz));
 /*  490: 500 */             if (!enzReadCorrectly(newEnz)) {
@@ -714,11 +728,7 @@
 							if(!enzReadCorrectly(newEnz)){
 								newEnz = getEnzFromInterPro(zeile);
 							}
-//*  493: 503 */             if (newEnz[3] == "X")
-//*  494:     */             {
-//*  495: 504 */               Debug.addnoRepseqLine(sample.name_ + " " + zeile);
-//*  496:     */             }
-/*  497: 512 */             /*else*/ if (!enzReadCorrectly(newEnz))
+							if (!enzReadCorrectly(newEnz))
 /*  498:     */             {
 /*  499: 513 */               Debug.addnoEnzymeLine(sample.name_ + " " + zeile);
 /*  500:     */             }
@@ -751,7 +761,7 @@
 /*  526:     */                     {
 /*  527: 541 */                       if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_)))
 /*  528:     */                       {
-/*  529: 542 */                         sample.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
+/*  529: 542 */                         Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
 /*  530: 543 */                         ecWP = findEcWPath(ecNr);
 /*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
 //										if(!numOfConvertedPFs.contains(ecNr.name_)){
@@ -766,7 +776,7 @@
 /*  538:     */                         }
 /*  539: 552 */                         if (isEc(ecNr.name_))
 /*  540:     */                         {
-/*  541: 553 */                           sample.addEc(new EcWithPathway(ecWP, ecNr));
+/*  541: 553 */                           Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 //										  if(!numOfConvPfsUsable.contains(ecNr.name_)){
 //											numOfConvPfsUsable.add(ecNr.name_);
 //										  }
@@ -783,7 +793,7 @@
 /*  552: 564 */                         ecNr.unmapped = true;
 /*  553: 565 */                         EcWithPathway unmatched = new EcWithPathway(ecNr);
 /*  554: 566 */                         unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
-/*  555: 567 */                         sample.addEc(unmatched);
+/*  555: 567 */                         Project.samples_.get(i).addEc(unmatched);
 /*  556:     */                       }
 /*  557:     */                     }
 /*  558:     */                   }
@@ -803,7 +813,7 @@
 /*  526:     */                     {
 /*  527: 541 */                       if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_)))
 /*  528:     */                       {
-/*  529: 542 */                         sample.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
+/*  529: 542 */                         Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
 /*  530: 543 */                         ecWP = findEcWPath(ecNr);
 /*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
 //										if(!numOfConvertedPFs.contains(ecNr.name_)){
@@ -818,7 +828,7 @@
 /*  538:     */                         }
 /*  539: 552 */                         if (isEc(ecNr.name_))
 /*  540:     */                         {
-/*  541: 553 */                           sample.addEc(new EcWithPathway(ecWP, ecNr));
+/*  541: 553 */                           Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 //										  if(!numOfConvPfsUsable.contains(ecNr.name_)){
 //											numOfConvPfsUsable.add(ecNr.name_);
 //										  }
@@ -835,7 +845,7 @@
 /*  552: 564 */                         ecNr.unmapped = true;
 /*  553: 565 */                         EcWithPathway unmatched = new EcWithPathway(ecNr);
 /*  554: 566 */                         unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
-/*  555: 567 */                         sample.addEc(unmatched);
+/*  555: 567 */                         Project.samples_.get(i).addEc(unmatched);
 /*  556:     */                       }
 /*  557:     */                     }
 /*  558:     */                   }
@@ -854,11 +864,11 @@
 /*  567: 580 */                   if (!ecNr.isCompleteEc()) {
 /*  568: 581 */                     ecNr.incomplete = true;
 /*  569:     */                   }
-/*  570: 584 */                   sample.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, ecNr.amount_, 0, 0));
+/*  570: 584 */                   Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, ecNr.amount_, 0, 0));
 /*  571: 585 */                   EcWithPathway ecWP = findEcWPath(ecNr);
 /*  572: 587 */                   if (ecWP != null)
 /*  573:     */                   {
-/*  574: 588 */                     sample.addEc(new EcWithPathway(ecWP, ecNr));
+/*  574: 588 */                     Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 //									if(!numOfUsableEcs.contains(ecNr.name_)){
 //										numOfUsableEcs.add(ecNr.name_);
 //								  	}
@@ -874,13 +884,14 @@
 /*  584: 599 */                     ecNr.unmapped = true;
 /*  585: 600 */                     EcWithPathway unmatched = new EcWithPathway(ecNr);
 /*  586: 601 */                     unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
-/*  587: 602 */                     sample.addEc(unmatched);
+/*  587: 602 */                     Project.samples_.get(i).addEc(unmatched);
 /*  588:     */                   }
 /*  589:     */                 }
 /*  590:     */               }
 				            }
 /*  592:     */           }
 /*  593: 608 */           sample.sample_.close();
+						  System.out.println(sampleSet.toString());
 /*  594:     */         }
 /*  595:     */         catch (IOException e)
 /*  596:     */         {

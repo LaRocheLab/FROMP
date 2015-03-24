@@ -240,9 +240,6 @@
 									ret[0]=tmp;
 								} 
 								ret[2] = "IPR";
-								
-
-//								convertInterpro(ret);
 							}
 						}
 /*  192:     */       }
@@ -278,8 +275,6 @@
 					  		String tmp = line.substring(line.indexOf(" "));
 					  		tmp = tmp.substring(line.indexOf(" -"));
 					  		ret[3] = tmp;
-
-//					  		convertInterpro(ret);
 					  	}
 					  }
 /*  205:     */       else
@@ -442,8 +437,6 @@
 							  if (interpro != null){
 							  	ret[0] = interpro;
 							  	ret[2] = "IPR";
-
-							  	//convertInterpro(ret);
 							  }
 /*  295: 299 */     		  if (tmp.contains(seperator))
 /*  296:     */     		  {
@@ -502,8 +495,6 @@
 						  ret[0] = interpro;
 						  ret[1] = "1";
 						  ret[2] = "IPR";
-						
-						  //ret=convertInterpro(ret);
 						}
 					}
 					else
@@ -685,6 +676,8 @@
 /*  468: 475 */       this.lFrame_.bigStep(((Sample)Project.samples_.get(i)).name_);
 					  
 /*  469: 476 */       Sample sample = (Sample)Project.samples_.get(i);
+					  ArrayList<Sample> sampleArray= new ArrayList();//needed for the matrix input format
+
 /*  470: 477 */       if (sample.valuesSet)
 /*  471:     */       {
 /*  472: 478 */         System.out.println("ValueSet");
@@ -702,9 +695,9 @@
 /*  484: 492 */         Project.legitSamples.add(Boolean.valueOf(false));
 /*  485:     */         try
 /*  486:     */         {
-/*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)
+/*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)//This is what does the parsing through the files to build the "Sample attributes"
 /*  488:     */           {
-							if (zeile.startsWith(">")){
+							if (zeile.startsWith(">")){//Important for interpro input formats where several samples are in the same file each starting off with a line containing the sample name starting with ">"
 								if(Project.samples_.get(i).ecs_.isEmpty()){
 									Project.samples_.get(i).name_=zeile.substring(zeile.indexOf(">")+1);
 									continue;
@@ -720,8 +713,23 @@
 								}
 
 							}
+//							if(zeile.length()-zeile.replace(",","").length() > 2 ){
+//								String temp = zeile.substring(zeile.indexOf(",")+1);
+//								temp = temp.substring(0,zeile.indexOf(","));
+//								if(!isNumber(tmp)){
+//									String sampleNames=zeile;	
+//									while(sampleNames.contains(",")){
+//										if(sampleNames.startsWith(",")){
+//											sampleNames=sampleNames.substring(1);
+//										}
+//										temp=sampleNames.substring(0,sampleNames.indexOf(","));
+//										Color tmpColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+//										Sample tempSample = new Sample(temp, sample.fullPath_, tmpColor);
+//										sampleArray.add(tempSample);
+//									}
+//								}
+//							}
 /*  489: 497 */             String[] newEnz = getEnzFromSample(zeile);
-//							System.out.println("newEnz: "+Arrays.toString(newEnz));
 /*  490: 500 */             if (!enzReadCorrectly(newEnz)) {
 /*  491: 501 */               newEnz = getEnzFromRawSample(zeile);
 /*  492:     */             }
@@ -800,8 +808,7 @@
 /*  559:     */                 }
 /*  560:     */               }
 							  else if (newEnz[2].equalsIgnoreCase("IPR")){
-							  	ArrayList<String[]> enzL = convertInterpro(newEnz);
-//							  	System.out.println("enzL size" + enzL.size());
+							  	ArrayList<String[]> enzL = convertInterproOld(newEnz);
 							  	for(int cnt=0;cnt<enzL.size();cnt++){
 							  	  newEnz = (String[])enzL.get(cnt);
 							  	  if (!newEnz[0].isEmpty())
@@ -1138,28 +1145,21 @@
 /*  716: 745 */     return retList;
 /*  717:     */   }
 
-				  private ArrayList<String[]> convertInterpro(String[] interpro){
-//				  	System.out.println("interpro conversion step");
-//				  	System.out.println("incoming string array: " + Arrays.toString(interpro));
+				  private ArrayList<String[]> convertInterpro(String[] interpro){//this is the conversion step using ipr->kegg. while it is a lot faster than its counter part it also leaves out several reads
 				  	ArrayList<String[]> retList = new ArrayList();
-				    this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);//this is the interpro -> GO conversion file 
+				    this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);//this is the interpro -> kegg conversion file 
 				    
 				    
 				    String zeile = "";
 				    String[] tmpNr = new String[4];
 				    tmpNr[3] = interpro[3];
-//				    System.out.println("repseq: " +tmpNr[3]);
 				    int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
-
-//				    System.out.println("interproNR: "+ interproNr);
 
 				    try{
 				    	while((zeile = this.interproToECTxt_.readLine()) != null){
 				    		if (!zeile.startsWith("!")){
 				    			if(zeile.startsWith("IPR")){
-//				    				System.out.println("test against interproNR: "+Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue());
 				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("IPR") + 3, zeile.indexOf("IPR") + 9)).intValue()){
-//				    					System.out.println("Match!");
 				    					int numIPRtoEC=(zeile.length()-zeile.replace("+", "").length());
 				    					String nextEC = zeile.substring(zeile.indexOf("+"));
 				    					for(int i=0;i<numIPRtoEC;i++){
@@ -1173,7 +1173,6 @@
 				    						tmpNr[2]="EC";
 				    						tmpNr[3]=interpro[3];	
 
-//				    						System.out.println("item added to tmplist"+Arrays.toString(tmpNr));
 				    						retList.add(tmpNr);
 				    						if(nextEC.contains("+")){
 				    							nextEC = nextEC.substring(nextEC.indexOf("+"));
@@ -1192,6 +1191,75 @@
 				    
 				    return retList;
 				  }
+
+				  private ArrayList<String[]> convertInterproOld(String[] interpro){//this is the ipr conversion step using, ipr->go, go->ec. It is much slower than its counterpart but has much more coverage
+					ArrayList<String[]> retList = new ArrayList();
+					ArrayList<String[]> tmplist = new ArrayList();
+					this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);//this is the interpro -> GO conversion file
+					String zeile = "";
+					String[] tmpNr = new String[4];
+					tmpNr[3] = interpro[3];
+					// System.out.println("repseq: " +tmpNr[3]);
+					int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
+					// System.out.println("interproNR: "+ interproNr);
+					try{
+						while((zeile = this.interproToGOTxt_.readLine()) != null){
+							if (!zeile.startsWith("!")){
+								if(zeile.contains("InterPro:IPR")){
+									// 	System.out.println("test against interproNR: "+Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue());
+									if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
+										// System.out.println("Match!");
+										tmpNr = new String[4];
+										tmpNr[0]=zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
+										tmpNr[1]=interpro[1];
+										tmpNr[2]="GO";
+										tmpNr[3]=interpro[3];
+										// System.out.println("item added to tmplist"+Arrays.toString(tmpNr));
+										tmplist.add(tmpNr);
+									}
+									if(interproNr < Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
+										break;
+									}
+								}
+							}
+						}
+						this.interproToGOTxt_.close();
+					}catch(IOException e){
+						openWarning("Error", "File" + interproToGOPath_ +" not found");
+						e.printStackTrace();
+					}
+					try{
+						for(int i=0;i<tmplist.size();i++){
+							this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);//this is the GO -> ec conversion file
+							String[] tmpStringArray= tmplist.get(i);
+							interproNr = Integer.valueOf(tmpStringArray[0]).intValue();
+							// System.out.println("GO NR: "+ interproNr);
+							while((zeile = this.ecToGoTxt_.readLine()) != null){
+								if (!zeile.startsWith("!")){
+									// System.out.println("test against GO NR: "+Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue());
+									if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue()){
+										// System.out.println("Match!");
+										tmpNr = new String[4];
+										tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
+										tmpNr[1]=tmpStringArray[1];
+										tmpNr[2]="EC";
+										tmpNr[3]=tmpStringArray[3];
+										// System.out.println("item added to retlist"+Arrays.toString(tmpNr));
+										retList.add(tmpNr);
+									}
+								}
+							}
+						}
+							this.ecToGoTxt_.close();
+					}catch(IOException e){
+						openWarning("Error", "File" + ecToGoTxt_ +" not found");
+						e.printStackTrace();
+					}
+
+					return retList;
+				  }	
+
+				  
 
 
 /*  719:     */   private void fillSampleEcs(Sample sample, int sampleIndex)

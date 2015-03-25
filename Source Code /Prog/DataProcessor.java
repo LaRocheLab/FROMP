@@ -27,6 +27,7 @@
 /*   27:     */ import javax.swing.JLabel;
 /*   28:     */ import javax.swing.JPanel;
 				import java.util.Arrays;
+				import java.util.*;
 /*   29:     */ 
 
 				//*THIS IS THE MOST IMPORTANT PART OF FROMP*
@@ -87,6 +88,8 @@
 				  ArrayList<String> totalnumPfams=new ArrayList<String>();
 
 				  ArrayList<String> matrixSamples=new ArrayList<String>();
+
+				  Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
 /*   73:     */   {
@@ -171,6 +174,10 @@
 /*  146:     */   
 /*  147:     */   public String[] getEnzFromRawSample(String line)
 /*  148:     */   {  //retrieves ec/pfam and sequence ids from HMMER output files.
+					if(line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+						return getEnzFromInterPro(line);
+					}
+					System.out.println("Raw Sample");
 /*  149: 146 */     String[] ret = new String[4];
 /*  150:     */     
 /*  155: 152 */     ret[0] = "X";//ec name
@@ -226,22 +233,22 @@
 						  	}
 						  }
 /*  191:     */         }
-						else{
-							tmp=findInterProAndRepSeqInRaw(line);
-							if(!tmp.isEmpty()){
-								if(tmp.contains("-")){
-									ret[0] = tmp.substring(0, tmp.indexOf("-"));
-									String repSeq = tmp.substring(tmp.indexOf("-") + 1);
-									if(repSeq.contains("/")){
-										repSeq = repSeq.substring(0, repSeq.indexOf("/"));
-									}
-									ret[3] = repSeq;
-								}else{
-									ret[0]=tmp;
-								} 
-								ret[2] = "IPR";
-							}
-						}
+			//			else{
+			//				tmp=findInterProAndRepSeqInRaw(line);
+			//				if(!tmp.isEmpty()){
+			//					if(tmp.contains("-")){
+			//						ret[0] = tmp.substring(0, tmp.indexOf("-"));
+			//						String repSeq = tmp.substring(tmp.indexOf("-") + 1);
+			//						if(repSeq.contains("/")){
+			//							repSeq = repSeq.substring(0, repSeq.indexOf("/"));
+			//						}
+			//						ret[3] = repSeq;
+			//					}else{
+			//						ret[0]=tmp;
+			//					} 
+			//					ret[2] = "IPR";
+			//				}
+			//			}
 /*  192:     */       }
 /*  193:     */     }
 /*  194: 189 */     if ((ret[0] == "X") && 
@@ -314,6 +321,12 @@
 
 				  public String[] getEnzFromInterPro(String line)
 				  { //retrieves the interpro and sequence ids from InterPro output files
+
+				  	if(!line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+						return null;
+					}
+
+				  	System.out.println("Inter Pro");
 					String[] ret = new String[4];
 
 					ret[0] = "X";//ipr name
@@ -321,20 +334,19 @@
 					ret[2] = "X";//whether or not it is an ipr
 					ret[3] = "X";//sequence id
 
-					if (!line.startsWith(">") && line.contains("IPR")){
-						if(line.contains("_")){
-							String repSeq = line.substring(0,line.indexOf("_"));
-							ret[3] = repSeq;
-						}
-						String interpro = findInterProAndRepSeqInRaw(line);
-						if(interpro!=null){
-							if(interpro.contains("-")){
-								interpro=interpro.substring(0,interpro.indexOf("-"));
-							}
-							ret[0]=interpro;
-							ret[2]="IPR";
-						}
+					if(line.contains("\t")){
+						String repSeq = line.substring(0,line.indexOf("\t"));
+						ret[3] = repSeq;
 					}
+					String interpro=findInterProInRaw(line);
+					if(interpro!=null){
+						System.out.println("IPR sucessfully saved");
+						ret[0]=interpro;
+						ret[2]="IPR";
+					} else{
+						System.out.println("IPR save was unsuccessful");
+					}
+					
 					return ret;
 				  }
 /*  232:     */   
@@ -359,29 +371,29 @@
 /*  251:     */     }
 /*  252: 246 */     return "";
 /*  253:     */   }
-				  private String findInterProAndRepSeqInRaw(String input){
+				  private String findInterProInRaw(String input){
 				  	String interpro="";
 				  	String tmp = input;
 				  	while (tmp.contains("IPR"))
 				  	{
 				  		interpro=tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
-				  		String repseq = tmp.substring(tmp.indexOf("IPR") + 9);
-				  		char firstChar = repseq.charAt(0);
-				  		while((isNumber(firstChar))||(firstChar=='.')||(firstChar==' ')){
-				  			repseq=repseq.substring(1);
-				  			firstChar=repseq.charAt(0);
+				  		if (interpro.matches("IPR[0-9][0-9][0-9][0-9][0-9][0-9]")){
+				  			System.out.println("IPR Found Successfully");
+				  			return interpro;
+				  		} else{
+				  			tmp=tmp.substring(tmp.indexOf("IPR")+3);
 				  		}
-				  		if(isInterProBool(interpro)){
-				  			if(repseq.contains("-")){return interpro + "-" + repseq.substring(0, repseq.indexOf("-"));}
-				  			else {return interpro;}
-				  		}
-				  		tmp = tmp.substring(tmp.indexOf("IPR")+9);
 				  	}
-				  	return "";
+				  	System.out.println("IPR not found");
+				  	return null;
 				  }
 /*  254:     */   
 /*  255:     */   public String[] getEnzFromSample(String input)
 /*  256:     */   {//retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
+					if(input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+						return getEnzFromInterPro(input);
+					}
+					System.out.println("Sample");
 /*  257: 253 */     String seperator = "";
 /*  258: 254 */     String tmp = input;
 /*  259: 256 */     if (input.contains(",")) {
@@ -695,8 +707,10 @@
 /*  484: 492 */         Project.legitSamples.add(Boolean.valueOf(false));
 /*  485:     */         try
 /*  486:     */         {
+						  System.out.println("Parsing");
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)//This is what does the parsing through the files to build the "Sample attributes"
 /*  488:     */           {
+
 							if (zeile.startsWith(">")){//Important for interpro input formats where several samples are in the same file each starting off with a line containing the sample name starting with ">"
 								if(Project.samples_.get(i).ecs_.isEmpty()){
 									Project.samples_.get(i).name_=zeile.substring(zeile.indexOf(">")+1);
@@ -808,11 +822,16 @@
 /*  559:     */                 }
 /*  560:     */               }
 							  else if (newEnz[2].equalsIgnoreCase("IPR")){
-							  	ArrayList<String[]> enzL = convertInterproOld(newEnz);
+							  	System.out.println("newEnz[2].equalsIgnoreCase(\"IPR\")");
+							  	System.out.println("IPR name: "+newEnz[0]);
+							  	ArrayList<String[]> enzL = convertInterpro(newEnz);
+							  	System.out.println("enzL size: "+enzL.size());
 							  	for(int cnt=0;cnt<enzL.size();cnt++){
 							  	  newEnz = (String[])enzL.get(cnt);
+							  	  System.out.println("Looping for IPR conversions to be set into samples");
 							  	  if (!newEnz[0].isEmpty())
 /*  521:     */                   {
+									System.out.println("IPR not empty");
 /*  522: 535 */                     ecNr = new EcNr(newEnz);
 /*  523:     */                     
 /*  524: 537 */                     EcWithPathway ecWP = null;
@@ -820,26 +839,21 @@
 /*  526:     */                     {
 /*  527: 541 */                       if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_)))
 /*  528:     */                       {
+										System.out.println("Conversion has given good results");
 /*  529: 542 */                         Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
 /*  530: 543 */                         ecWP = findEcWPath(ecNr);
 /*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
-//										if(!numOfConvertedPFs.contains(ecNr.name_)){
-//											numOfConvertedPFs.add(ecNr.name_);
-//										}
-//*  532: 545 */                         Project.numOfConvertedPFs += ecNr.amount_;
 /*  533:     */                       }
 /*  534: 547 */                       if (ecWP != null)
 /*  535:     */                       {
+										System.out.println("EC Has Pathway");
 /*  536: 549 */                         if (!ecNr.isCompleteEc()) {
 /*  537: 550 */                           ecNr.incomplete = true;
 /*  538:     */                         }
 /*  539: 552 */                         if (isEc(ecNr.name_))
 /*  540:     */                         {
+										  System.out.println("EC added");
 /*  541: 553 */                           Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-//										  if(!numOfConvPfsUsable.contains(ecNr.name_)){
-//											numOfConvPfsUsable.add(ecNr.name_);
-//										  }
-//*  542: 554 */                           Project.numOfConvPfsUsable += ecNr.amount_;
 /*  543: 555 */                           Project.legitSamples.remove(i);
 /*  544: 556 */                           Project.legitSamples.add(i, Boolean.valueOf(true));
 /*  545:     */                         }
@@ -853,9 +867,13 @@
 /*  553: 565 */                         EcWithPathway unmatched = new EcWithPathway(ecNr);
 /*  554: 566 */                         unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
 /*  555: 567 */                         Project.samples_.get(i).addEc(unmatched);
+										System.out.println("Unmatched EC added");
+
 /*  556:     */                       }
 /*  557:     */                     }
+									
 /*  558:     */                   }
+								  System.out.println("IPR empty");
 
 							  	}
 							  }
@@ -1064,11 +1082,14 @@
 /*  643:     */   
 /*  644:     */   public boolean enzReadCorrectly(String[] newEnz)
 /*  645:     */   {
+					if(newEnz==null){
+						return false;
+					}
 /*  646: 660 */     boolean ret = false;
 /*  647: 662 */     if ((isEc(newEnz[0])) || (isPfambool(newEnz[0])) || (isInterProBool(newEnz[0]))) {
 /*  648: 663 */       ret = true;
-//					  System.out.println("Deamed true");
 /*  649:     */     } else {
+					  System.out.println("enz read incorrectly");
 /*  650: 666 */       return false;
 /*  651:     */     }
 /*  652:     */     try
@@ -1080,6 +1101,11 @@
 /*  658:     */       int num;
 /*  659: 672 */       ret = false;
 /*  660:     */     }
+					if(ret){
+						System.out.println("enz read correctly");
+					} else{
+						System.out.println("enz read incorrectly");
+					}
 /*  661: 675 */     return ret;
 /*  662:     */   }
 /*  663:     */   
@@ -1146,49 +1172,36 @@
 /*  717:     */   }
 
 				  private ArrayList<String[]> convertInterpro(String[] interpro){//this is the conversion step using ipr->kegg. while it is a lot faster than its counter part it also leaves out several reads
-				  	ArrayList<String[]> retList = new ArrayList();
-				    this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);//this is the interpro -> kegg conversion file 
-				    
+				  	ArrayList<String[]> retList = new ArrayList(); 
+				    if(this.IPRToECHash.isEmpty()){
+				    	DigitizeConversionFiles();
+				    }
 				    
 				    String zeile = "";
 				    String[] tmpNr = new String[4];
 				    tmpNr[3] = interpro[3];
-				    int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
+				    String interproNr = interpro[0];
 
-				    try{
-				    	while((zeile = this.interproToECTxt_.readLine()) != null){
-				    		if (!zeile.startsWith("!")){
-				    			if(zeile.startsWith("IPR")){
-				    				if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("IPR") + 3, zeile.indexOf("IPR") + 9)).intValue()){
-				    					int numIPRtoEC=(zeile.length()-zeile.replace("+", "").length());
-				    					String nextEC = zeile.substring(zeile.indexOf("+"));
-				    					for(int i=0;i<numIPRtoEC;i++){
-				    						tmpNr = new String[4];
-				    						if(nextEC.contains("+")){
-				    							tmpNr[0]=nextEC.substring(0, nextEC.indexOf("+"));
-				    						}else{
-				    							tmpNr[0]=nextEC;
-				    						}
-				    						tmpNr[1]=interpro[1];
-				    						tmpNr[2]="EC";
-				    						tmpNr[3]=interpro[3];	
+				    if(this.IPRToECHash.containsKey(interproNr)){
+				    	for(int i=0;i<IPRToECHash.get(interproNr).size();i++){
+				    		tmpNr[0]=IPRToECHash.get(interproNr).get(i);
+				    		tmpNr[1]=interpro[1];
+				    		tmpNr[2]="EC";
+				    		tmpNr[3]=interpro[3];
 
-				    						retList.add(tmpNr);
-				    						if(nextEC.contains("+")){
-				    							nextEC = nextEC.substring(nextEC.indexOf("+"));
-				    						}
-				    					}
-				    					break;
-				    				}
-				    			}
-				    		}
+				    		retList.add(tmpNr);
 				    	}
-				    	this.interproToECTxt_.close();
-				    }catch(IOException e){
-				    	openWarning("Error", "File" + interproToECPath_ +" not found");
-				    	e.printStackTrace();
 				    }
 				    
+				    if(!retList.isEmpty()){
+				    	System.out.println("Conversion Successful");
+				    	for(int i=0;i<retList.size();i++){
+				    		String[] strings=retList.get(i);
+				    		System.out.println("tmpNr[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
+				    	}
+				    } else{
+				    	System.out.println("Conversion unsuccessful");
+				    }
 				    return retList;
 				  }
 
@@ -1259,7 +1272,101 @@
 					return retList;
 				  }	
 
-				  
+
+				  private void DigitizeConversionFiles(){
+				  	this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);
+				  	Hashtable<String, ArrayList<String>> tmpIPRToEC = new Hashtable<String, ArrayList<String>>();
+				  	String line= "";
+				  	try{
+				  		while((line = this.interproToECTxt_.readLine()) != null){
+				  			if(!line.startsWith("!")){
+				  				if(line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")&&line.contains("+")){
+				  					String tmpIPR = line.substring(line.indexOf("IPR"),line.indexOf("IPR")+9);
+				  					ArrayList<String> tmpECS= new ArrayList<String>();
+				  					String temp= line;
+				  					while(temp.contains("+")){
+				  						temp= temp.substring(temp.indexOf("+")+1);
+				  						String tmpEC = temp;
+				  						if(tmpEC.contains("+")){
+				  							tmpEC=tmpEC.substring(0,tmpEC.indexOf("+"));
+				  						}
+				  						tmpECS.add(tmpEC);
+				  					}
+				  					System.out.println("Digitized: "+tmpIPR+"Maps to: "+tmpECS.toString());
+				  					tmpIPRToEC.put(tmpIPR,tmpECS);
+
+
+				  				}
+				  			}
+				  		}
+				  	} catch(IOException e){
+						openWarning("Error", "File" + interproToECPath_ +" not found");
+						e.printStackTrace();
+					}
+					this.IPRToECHash = tmpIPRToEC;
+				  }
+
+
+
+				  private void DigitizeConversionFilesOld(){
+				  	this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);
+				  	this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);
+				  	Hashtable<String, ArrayList<String>> tmpIPRToGO = new Hashtable<String, ArrayList<String>>();
+				  	Hashtable<String, ArrayList<String>> tmpECToGO = new Hashtable<String, ArrayList<String>>();
+
+				  	String zeile="";
+				  	try{
+						while((zeile = this.interproToGOTxt_.readLine()) != null){
+							if (!zeile.startsWith("!")){
+								if(zeile.contains("InterPro:IPR")&&zeile.contains("; GO:")){
+									String tmpIPR = zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18);
+									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
+
+									if(tmpIPR!=null&&tmpIPRToGO.get(tmpIPR)!=null&&tmpGO!=null){
+										ArrayList<String> tmpValue = tmpIPRToGO.get(tmpIPR);
+										tmpValue.add(tmpGO);
+										tmpIPRToGO.put(tmpIPR,tmpValue);
+									} else if(tmpIPR!=null&&tmpGO!=null){
+										ArrayList<String> tmpValue = new ArrayList<String>();
+										tmpValue.add(tmpGO);
+										tmpIPRToGO.put(tmpIPR,tmpValue);
+									}
+
+								}
+							}
+						}
+						this.interproToGOTxt_.close();
+					}catch(IOException e){
+						openWarning("Error", "File" + interproToGOPath_ +" not found");
+						e.printStackTrace();
+					}
+
+					try{
+						while((zeile = this.ecToGoTxt_.readLine()) != null){
+							if (!zeile.startsWith("!")){
+								if(zeile.contains("EC:")&&zeile.contains("; GO:")){
+									String tmpEC = zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
+									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
+
+									if(tmpGO!=null&&tmpECToGO.get(tmpGO)!=null&&tmpEC!=null){
+										ArrayList<String> tmpValue = tmpECToGO.get(tmpGO);
+										tmpValue.add(tmpEC);
+										tmpECToGO.put(tmpGO,tmpValue);
+									} else if(tmpEC!=null&&tmpGO!=null){
+										ArrayList<String> tmpValue = new ArrayList<String>();
+										tmpValue.add(tmpEC);
+										tmpECToGO.put(tmpGO,tmpValue);
+									}
+
+								}
+							}
+						}
+						this.ecToGoTxt_.close();
+					}catch(IOException e){
+						openWarning("Error", "File" + ecNamesPath +" not found");
+						e.printStackTrace();
+					}
+				  }
 
 
 /*  719:     */   private void fillSampleEcs(Sample sample, int sampleIndex)

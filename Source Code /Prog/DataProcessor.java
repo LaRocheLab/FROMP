@@ -90,6 +90,8 @@
 				  ArrayList<String> matrixSamples=new ArrayList<String>();
 
 				  Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();
+				  Hashtable<String, ArrayList<String>> IPRToGOHash=new Hashtable<String, ArrayList<String>>();
+				  Hashtable<String, ArrayList<String>> GOToECHash=new Hashtable<String, ArrayList<String>>();
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
 /*   73:     */   {
@@ -756,7 +758,7 @@
 /*  500:     */             }
 				            else
 				            {
-/*  503: 516 */               if (newEnz[2] == "EC") {
+/*  503: 516 */               if (newEnz[2] == "EC") {//if the sequence was already a n EC
 /*  504: 517 */                 Debug.addEc(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
 /*  505:     */               } else {
 /*  506: 520 */                 Debug.addPf(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
@@ -765,7 +767,7 @@
 /*  508: 522 */               counter++;
 /*  509: 523 */               this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
 /*  510: 524 */               this.lFrame_.updateCounter(counter);
-/*  511: 525 */               if (newEnz[2].equalsIgnoreCase("PF"))
+/*  511: 525 */               if (newEnz[2].equalsIgnoreCase("PF"))//if the sequence was taken in as a pfam.
 /*  512:     */               {
 /*  513: 526 */                 if (!newEnz[1].isEmpty()) {
 /*  514: 527 */                   Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
@@ -821,10 +823,10 @@
 /*  558:     */                   }
 /*  559:     */                 }
 /*  560:     */               }
-							  else if (newEnz[2].equalsIgnoreCase("IPR")){
+							  else if (newEnz[2].equalsIgnoreCase("IPR")){//if the sequence was taken in as an Interpro.
 							  	System.out.println("newEnz[2].equalsIgnoreCase(\"IPR\")");
 							  	System.out.println("IPR name: "+newEnz[0]);
-							  	ArrayList<String[]> enzL = convertInterpro(newEnz);
+							  	ArrayList<String[]> enzL = convertInterpro(newEnz);//If you chance this to "enzL = convertInterproOld(newEnz)" Then it will change from direct to indirect mapping of Interpro reads
 							  	System.out.println("enzL size: "+enzL.size());
 							  	for(int cnt=0;cnt<enzL.size();cnt++){
 							  	  newEnz = (String[])enzL.get(cnt);
@@ -1171,7 +1173,7 @@
 /*  716: 745 */     return retList;
 /*  717:     */   }
 
-				  private ArrayList<String[]> convertInterpro(String[] interpro){//this is the conversion step using ipr->kegg. while it is a lot faster than its counter part it also leaves out several reads
+				  private ArrayList<String[]> convertInterpro(String[] interpro){//this is the conversion step using ipr->kegg.
 				  	ArrayList<String[]> retList = new ArrayList(); 
 				    if(this.IPRToECHash.isEmpty()){
 				    	DigitizeConversionFiles();
@@ -1205,69 +1207,60 @@
 				    return retList;
 				  }
 
-				  private ArrayList<String[]> convertInterproOld(String[] interpro){//this is the ipr conversion step using, ipr->go, go->ec. It is much slower than its counterpart but has much more coverage
+				  private ArrayList<String[]> convertInterproOld(String[] interpro){//this is the ipr conversion step using, ipr->go, go->ec. I
+					if(IPRToGOHash.isEmpty() || GOToECHash.isEmpty()){
+						DigitizeConversionFilesOld();
+					}
 					ArrayList<String[]> retList = new ArrayList();
-					ArrayList<String[]> tmplist = new ArrayList();
-					this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);//this is the interpro -> GO conversion file
+					ArrayList<String> tmpList = new ArrayList();
+
 					String zeile = "";
 					String[] tmpNr = new String[4];
 					tmpNr[3] = interpro[3];
-					// System.out.println("repseq: " +tmpNr[3]);
-					int interproNr = Integer.valueOf(interpro[0].substring(3)).intValue();
-					// System.out.println("interproNR: "+ interproNr);
-					try{
-						while((zeile = this.interproToGOTxt_.readLine()) != null){
-							if (!zeile.startsWith("!")){
-								if(zeile.contains("InterPro:IPR")){
-									// 	System.out.println("test against interproNR: "+Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue());
-									if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
-										// System.out.println("Match!");
-										tmpNr = new String[4];
-										tmpNr[0]=zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
-										tmpNr[1]=interpro[1];
-										tmpNr[2]="GO";
-										tmpNr[3]=interpro[3];
-										// System.out.println("item added to tmplist"+Arrays.toString(tmpNr));
-										tmplist.add(tmpNr);
-									}
-									if(interproNr < Integer.valueOf(zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18)).intValue()){
-										break;
-									}
-								}
+					String interproNr = interpro[0];
+					
+					if(this.IPRToGOHash.containsKey(interproNr)){
+						for(int i=0;i<this.IPRToGOHash.get(interproNr).size();i++){
+				    		tmpList.add(this.IPRToGOHash.get(interproNr).get(i));
+				    	}
+					}
+
+					if(!tmpList.isEmpty()){
+				    	System.out.println("IPR->GO Conversion Successful");
+				    	for(int i=0;i<tmpList.size();i++){
+				    		System.out.println("IPR->GO: "+interproNr+"->"+tmpList.get(i));
+				    	}
+				    }else{
+				    	System.out.println("IPR->GO Conversion unsuccessful");
+				    }
+					System.out.println("tmplist.size(): "+tmpList.size());
+
+					for(int i=0;i<tmpList.size();i++){
+						String key = tmpList.get(i);
+						if(this.GOToECHash.get(key)!=null&&this.GOToECHash.containsKey(key)){
+							System.out.println("GOToECHash.containsKey: "+key);
+							for(int j=0;j<this.GOToECHash.get(key).size();j++){
+								tmpNr[0]=this.GOToECHash.get(key).get(j);
+				    			tmpNr[1]=interpro[1];
+				    			tmpNr[2]="EC";
+				    			tmpNr[3]=interpro[3];
+
+				    			System.out.println("Added to ret list[0],[1],[2],[3]: "+tmpNr[0]+","+tmpNr[1]+","+tmpNr[2]+","+tmpNr[3] );
+
+				    			retList.add(tmpNr);	
 							}
 						}
-						this.interproToGOTxt_.close();
-					}catch(IOException e){
-						openWarning("Error", "File" + interproToGOPath_ +" not found");
-						e.printStackTrace();
 					}
-					try{
-						for(int i=0;i<tmplist.size();i++){
-							this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);//this is the GO -> ec conversion file
-							String[] tmpStringArray= tmplist.get(i);
-							interproNr = Integer.valueOf(tmpStringArray[0]).intValue();
-							// System.out.println("GO NR: "+ interproNr);
-							while((zeile = this.ecToGoTxt_.readLine()) != null){
-								if (!zeile.startsWith("!")){
-									// System.out.println("test against GO NR: "+Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue());
-									if(interproNr == Integer.valueOf(zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12)).intValue()){
-										// System.out.println("Match!");
-										tmpNr = new String[4];
-										tmpNr[0]=zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
-										tmpNr[1]=tmpStringArray[1];
-										tmpNr[2]="EC";
-										tmpNr[3]=tmpStringArray[3];
-										// System.out.println("item added to retlist"+Arrays.toString(tmpNr));
-										retList.add(tmpNr);
-									}
-								}
-							}
-						}
-							this.ecToGoTxt_.close();
-					}catch(IOException e){
-						openWarning("Error", "File" + ecToGoTxt_ +" not found");
-						e.printStackTrace();
-					}
+
+					if(!retList.isEmpty()){
+				    	System.out.println("GO->EC Conversion Successful");
+				    	for(int i=0;i<retList.size();i++){
+				    		String[] strings=retList.get(i);
+				    		System.out.println("GO->EC[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
+				    	}
+				    } else{
+				    	System.out.println("GO->EC Conversion unsuccessful");
+				    }
 
 					return retList;
 				  }	
@@ -1294,8 +1287,6 @@
 				  					}
 				  					System.out.println("Digitized: "+tmpIPR+"Maps to: "+tmpECS.toString());
 				  					tmpIPRToEC.put(tmpIPR,tmpECS);
-
-
 				  				}
 				  			}
 				  		}
@@ -1319,12 +1310,13 @@
 						while((zeile = this.interproToGOTxt_.readLine()) != null){
 							if (!zeile.startsWith("!")){
 								if(zeile.contains("InterPro:IPR")&&zeile.contains("; GO:")){
-									String tmpIPR = zeile.substring(zeile.indexOf("InterPro:IPR") + 12, zeile.indexOf("InterPro:IPR") + 18);
-									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
+									String tmpIPR = zeile.substring(zeile.indexOf("InterPro:IPR") + 9, zeile.indexOf("InterPro:IPR") + 18);
+									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+2, zeile.indexOf("; GO:") + 12);
 
 									if(tmpIPR!=null&&tmpIPRToGO.get(tmpIPR)!=null&&tmpGO!=null){
 										ArrayList<String> tmpValue = tmpIPRToGO.get(tmpIPR);
 										tmpValue.add(tmpGO);
+										tmpIPRToGO.remove(tmpIPR);
 										tmpIPRToGO.put(tmpIPR,tmpValue);
 									} else if(tmpIPR!=null&&tmpGO!=null){
 										ArrayList<String> tmpValue = new ArrayList<String>();
@@ -1346,11 +1338,12 @@
 							if (!zeile.startsWith("!")){
 								if(zeile.contains("EC:")&&zeile.contains("; GO:")){
 									String tmpEC = zeile.substring(zeile.indexOf("EC:")+3, zeile.indexOf(" "));
-									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+5, zeile.indexOf("; GO:") + 12);
+									String tmpGO = zeile.substring(zeile.indexOf("; GO:")+2, zeile.indexOf("; GO:") + 12);
 
 									if(tmpGO!=null&&tmpECToGO.get(tmpGO)!=null&&tmpEC!=null){
 										ArrayList<String> tmpValue = tmpECToGO.get(tmpGO);
 										tmpValue.add(tmpEC);
+										tmpECToGO.remove(tmpGO);
 										tmpECToGO.put(tmpGO,tmpValue);
 									} else if(tmpEC!=null&&tmpGO!=null){
 										ArrayList<String> tmpValue = new ArrayList<String>();
@@ -1366,6 +1359,11 @@
 						openWarning("Error", "File" + ecNamesPath +" not found");
 						e.printStackTrace();
 					}
+					//System.out.println("IPRToGOHash: "+tmpIPRToGO.toString());
+					//System.out.println("GOToECHash: "+tmpECToGO.toString());
+					this.IPRToGOHash = tmpIPRToGO;
+					this.GOToECHash = tmpECToGO;
+
 				  }
 
 

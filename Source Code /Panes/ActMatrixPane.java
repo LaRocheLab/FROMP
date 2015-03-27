@@ -1314,8 +1314,25 @@
 /* 1049:     */        
 /* 1051:     */ 
 /* 1052:1105 */         String date = day + "." + month + "." + year;
-/* 1053:1106 */         path = path + File.separator + "EcActMat" +"."+Project.workpath_+"."+date + ".txt";
+/* 1053:1106 */         path = path + File.separator + "EcActMat" +"."+Project.workpath_+"."+date;
 /* 1054:     */       }
+					  String tmpPath=path+".txt";
+					  File file1 = new File(tmpPath);
+					  if(file1.exists() && !file1.isDirectory()) { 
+					  	int i=1;
+					  	while("Pigs"!="Fly"){// loop forever
+					  		tmpPath=path+"("+i+")"+".txt";
+					  		File file2=new File(tmpPath);
+					  		if(file2.exists() && !file2.isDirectory()) { 
+					  			i++;
+					  			continue;
+					  		} else{
+					  			path=path+"("+i+")";
+					  			break;
+					  		}
+					  	}
+					  }
+					  path=path+".txt";
 /* 1055:1108 */       exportMat(path, inCsf);
 /* 1056:     */     }
 /* 1057:     */   }

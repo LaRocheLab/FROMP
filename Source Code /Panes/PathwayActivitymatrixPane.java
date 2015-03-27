@@ -595,8 +595,25 @@
 /* 603:    */ 		
 /* 604:    */ 
 /* 605:661 */         String date = day + "." + month + "." + year;
-/* 606:662 */         path = path + File.separator + "pwActivity" +"."+Project.workpath_+"."+ date + ".txt";
+/* 606:662 */         path = path + File.separator + "pwActivity" +"."+Project.workpath_+"."+ date;
 /* 607:    */       }
+					String tmpPath=path+".txt";
+					File file1 = new File(tmpPath);
+					if(file1.exists() && !file1.isDirectory()) { 
+					  int i=1;
+					  while("Pigs"!="Fly"){// loop forever
+					  	tmpPath=path+"("+i+")"+".txt";
+					  	File file2=new File(tmpPath);
+					    if(file2.exists() && !file2.isDirectory()) { 
+					  		i++;
+					  		continue;
+					  	} else{
+					  		path=path+"("+i+")";
+					  		break;
+					  	}
+					  }
+					}
+					path=path+".txt";
 /* 608:664 */       this.exp_.path_ = path;
 /* 609:665 */       this.exp_.exportDoubleMatrix(xDesc, yDesc, matrix, this.useCsf_.isSelected());
 /* 610:    */     }

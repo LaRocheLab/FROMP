@@ -49,13 +49,6 @@
 /*  41:    */     {
 /*  42: 45 */       controller.loadProjFile(this.inputPath_);
 /*  43:    */     }
-/*  44: 47 */     else if (this.inputPath_.endsWith(".out")||this.inputPath_.endsWith(".txt"))//if the input file if of the sample file type, create a new sample with the file, and add that sample to a new project
-/*  45:    */     {
-/*  46: 49 */       String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator));
-/*  47: 50 */       Sample sample = new Sample(name, this.inputPath_, Color.red);
-/*  48:    */       
-/*  49: 52 */       Project.samples_.add(sample);
-/*  50:    */     }
 /*  51: 54 */     else if (this.inputPath_.endsWith(".lst"))//if the input file is of the .lst type, itterate through the file and build samples for all of the file paths in the file, if the line starts with <userP> a new userpath is added. They are all added to a new project
 /*  52:    */     {
 /*  53:    */       try
@@ -107,10 +100,14 @@
 /*  79: 74 */         e.printStackTrace();
 /*  80:    */       }
 /*  81:    */     }
-				  else{//anything other than .frp, .out, or .lst are not accepted
-				  	System.out.println("Incorrect File Format");
-				  	System.exit(1);//exits with an error
-				  }
+				  
+/*  44: 47 */     else
+/*  45:    */     {
+/*  46: 49 */       String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator));
+/*  47: 50 */       Sample sample = new Sample(name, this.inputPath_, Color.red);
+/*  48:    */       
+/*  49: 52 */       Project.samples_.add(sample);
+/*  50:    */     }
 /*  82: 77 */     Controller.loadPathways(true);
 				  if((args_.length==4)&&(this.args_[3]!=null)){//this takes args[3] (ie. the ec name inputted) and exports the sequence IDs for all samples for that EC
 				  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));

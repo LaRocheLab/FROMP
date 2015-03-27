@@ -452,8 +452,25 @@
 /* 452:    */ 
 /* 453:    */ 
 /* 454:519 */         String date = day + "." + month + "." + year;
-/* 455:520 */         path = path + File.separator + "pwScore" +"."+Project.workpath_+"."+ date + ".txt";
+/* 455:520 */         path = path + File.separator + "pwScore" +"."+Project.workpath_+"."+ date;
 /* 456:    */       }
+					String tmpPath=path+".txt";
+					File file1 = new File(tmpPath);
+					if(file1.exists() && !file1.isDirectory()) { 
+					  int i=1;
+					  while("Pigs"!="Fly"){// loop forever
+					  	tmpPath=path+"("+i+")"+".txt";
+					  	File file2=new File(tmpPath);
+					    if(file2.exists() && !file2.isDirectory()) { 
+					  		i++;
+					  		continue;
+					  	} else{
+					  		path=path+"("+i+")";
+					  		break;
+					  	}
+					  }
+					}
+					path=path+".txt";
 /* 457:522 */       exportMat(path, inCsf);
 /* 458:    */     }
 /* 459:524 */     System.out.println("outputfile succesfully written. Path: " + path);

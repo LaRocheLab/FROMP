@@ -47,6 +47,10 @@
 				public static int numOfConvertedPFs=0;
 				public static int numOfConvPfsComplete=0;
 				public static int numOfConvPfsMapped=0;
+				public static int amountOfIPRs=0;
+				public static int numOfConvertedIPRs=0;
+				public static int numOfConvIPRsComplete=0;
+				public static int numOfConvIPRsMapped=0;
 /*  43: 54 */   public static ArrayList<Boolean> legitSamples = new ArrayList();
 				final static String basePath_ = new File(".").getAbsolutePath() + File.separator;
 /*  44:    */   

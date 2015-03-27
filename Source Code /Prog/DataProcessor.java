@@ -342,6 +342,7 @@
 					}
 					String interpro=findInterProInRaw(line);
 					if(interpro!=null){
+						Project.amountOfIPRs+=1;
 //						System.out.println("IPR sucessfully saved");
 						ret[0]=interpro;
 						ret[2]="IPR";
@@ -685,6 +686,7 @@
 /*  457:     */     
 /*  464: 468 */     int counter = 0;
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
+					final long startTime = System.currentTimeMillis();
 					outerloop:
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  467:     */     {
@@ -714,7 +716,8 @@
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)//This is what does the parsing through the files to build the "Sample attributes"
 /*  488:     */           {
 							if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")||zeile.startsWith(">")){
-								ParseInterpro();
+								i=ParseInterpro(i);
+
 								break;
 							}
 							if (zeile.startsWith(">")){//Important for interpro input formats where several samples are in the same file each starting off with a line containing the sample name starting with ">"
@@ -912,7 +915,8 @@
 /*  601: 618 */         System.out.println("finished allecvsp");
 /*  602:     */       }
 /*  603:     */     }
-
+					final long endTime = System.currentTimeMillis();
+					System.out.println("Total execution time(milliseconds): " + (endTime - startTime) );
 
 			   		ArrayList<String> comptotecs=new ArrayList<String>();
 			   		ArrayList<String> allecs=new ArrayList<String>();
@@ -1030,7 +1034,16 @@
 			   		  "Complete converted Pfams:\t"+Project.numOfConvPfsComplete+
 			   		  "<br>"+
 			   		  "Mapped converted Pfams:\t"+Project.numOfConvPfsMapped+
+			   		  "<br>"+
+					  "Interpros:\t"+Project.amountOfPfs+
+					  "<br>"+
+					  "Converted Interpros:\t"+Project.numOfConvertedPFs+
+			   		  "<br>"+
+			   		  "Complete converted Interpros:\t"+Project.numOfConvPfsComplete+
+			   		  "<br>"+
+			   		  "Mapped converted Interpros:\t"+Project.numOfConvPfsMapped+
 			   		  "<br><br>"+
+			   		   "<br>"+
 /*  619: 636 */       "Sample that seem to be valid: " + "<br>";
 /*  620: 637 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  621:     */     {
@@ -1063,11 +1076,12 @@
 /*  642:     */   }
 /*  643:     */   
 
-				  public void ParseInterpro() 
+				  public int ParseInterpro(int count) 
 				  {// 
 				  	System.out.println("Parse Interpro");
 				  	String zeile="";
-				  	for (int i = 0; i < Project.samples_.size(); i++){
+				  	int i=count;
+				  	for (i = count; i < Project.samples_.size(); i++){
 				  		Sample sample = Project.samples_.get(i);
 				  		String tmp = ((Sample)Project.samples_.get(i)).fullPath_;
 				  		sample.sample_ = this.reader.readTxt(tmp);
@@ -1085,11 +1099,13 @@
 										Project.samples_.add(i+1,tmpSample);
 										Project.legitSamples.add(i+1, true);
 										i++;
+//										System.out.println("New Sample Added");
 										continue;
 									}
 								}
 								
 								if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+									
 									String[] newEnz = getEnzFromInterPro(zeile);
 									if (newEnz[2].equalsIgnoreCase("IPR")){
 										ArrayList<String[]> enzL = convertInterpro(newEnz);//If you chance this to "enzL = convertInterproOld(newEnz)" Then it will change from direct to indirect mapping of Interpro reads
@@ -1104,14 +1120,17 @@
 				        				                Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
 				        				                ecWP = findEcWPath(ecNr);
 				        				                this.lFrame_.step("converted" + newEnz[0]);
+				        				                
 				        		    		        }
 				        		    		        if (ecWP != null){
 //														System.out.println("EC Has Pathway");
+				        		    		        	Project.numOfConvIPRsMapped+=1;
 				        		   		 	            if (!ecNr.isCompleteEc()) {
 				        		    		              ecNr.incomplete = true;
 				        		    		            }
 				        		    	            	if (isEc(ecNr.name_)){
 //													  		System.out.println("EC added");
+				        		    	            		Project.numOfConvIPRsComplete+=1;
 				        		    	              		Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 				        		    	              		Project.legitSamples.remove(i);
 				        		    	              		Project.legitSamples.add(i, Boolean.valueOf(true));
@@ -1146,6 +1165,7 @@
 /*  598: 615 */           e.printStackTrace();
 /*  599:     */         }
 				  	}
+				  	return i;
 				  }
 
 
@@ -1258,7 +1278,7 @@
 				    		tmpNr[1]=interpro[1];
 				    		tmpNr[2]="EC";
 				    		tmpNr[3]=interpro[3];
-
+				    		Project.numOfConvertedIPRs+=1;
 				    		retList.add(tmpNr);
 				    	}
 				    }

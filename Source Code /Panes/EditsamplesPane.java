@@ -231,7 +231,7 @@
 /* 229:    */   {
 /* 230:282 */     this.button_ = new JButton();
 /* 231:283 */     this.button_.setBounds(this.xCol2, 50, 150, 30);
-/* 232:284 */     this.button_.setText("Select Sample file");
+/* 232:284 */     this.button_.setText("Select Sample");
 /* 233:285 */     add(this.button_);
 /* 234:    */     
 /* 235:287 */     this.button_.addActionListener(new ActionListener()
@@ -257,7 +257,7 @@
 /* 255:    */         {
 /* 256:    */           public boolean accept(File f)
 /* 257:    */           {
-/* 258:312 */             if ((f.isDirectory()) || (f.getName().toLowerCase().endsWith(".txt")) || (f.getName().toLowerCase().endsWith(".out"))) {
+/* 258:312 */             if ((f.isDirectory()) || (f.getName().toLowerCase().endsWith(".txt")) || (f.getName().toLowerCase().endsWith(".out")) || (f.getName().toLowerCase().endsWith(".tsv"))) {
 /* 259:313 */               return true;
 /* 260:    */             }
 /* 261:315 */             return false;

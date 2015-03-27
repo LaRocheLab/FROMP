@@ -179,7 +179,7 @@
 					if(line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return getEnzFromInterPro(line);
 					}
-					System.out.println("Raw Sample");
+//					System.out.println("Raw Sample");
 /*  149: 146 */     String[] ret = new String[4];
 /*  150:     */     
 /*  155: 152 */     ret[0] = "X";//ec name
@@ -231,7 +231,7 @@
 						  for(int i=0;i<nump2.size();i++){
 						  	if(!numPfams.contains(nump2.get(i)[0])){//adds to the count of total converted pfams
 								numPfams.add(nump2.get(i)[0]);
-								System.out.println(nump2.get(i)[0]);
+//								System.out.println(nump2.get(i)[0]);
 						  	}
 						  }
 /*  191:     */         }
@@ -273,7 +273,7 @@
 						for(int i=0;i<nump2.size();i++){
 						  if(!numPfams.contains(nump2.get(i)[0])){//adds to the count of total converted pfams
 							numPfams.add(nump2.get(i)[0]);
-							System.out.println(nump2.get(i)[0]);
+//							System.out.println(nump2.get(i)[0]);
 						  }
 						}
 					  }
@@ -328,7 +328,7 @@
 						return null;
 					}
 
-				  	System.out.println("Inter Pro");
+//				  	System.out.println("Inter Pro");
 					String[] ret = new String[4];
 
 					ret[0] = "X";//ipr name
@@ -342,11 +342,11 @@
 					}
 					String interpro=findInterProInRaw(line);
 					if(interpro!=null){
-						System.out.println("IPR sucessfully saved");
+//						System.out.println("IPR sucessfully saved");
 						ret[0]=interpro;
 						ret[2]="IPR";
 					} else{
-						System.out.println("IPR save was unsuccessful");
+//						System.out.println("IPR save was unsuccessful");
 					}
 					
 					return ret;
@@ -380,13 +380,13 @@
 				  	{
 				  		interpro=tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
 				  		if (interpro.matches("IPR[0-9][0-9][0-9][0-9][0-9][0-9]")){
-				  			System.out.println("IPR Found Successfully");
+//				  			System.out.println("IPR Found Successfully");
 				  			return interpro;
 				  		} else{
 				  			tmp=tmp.substring(tmp.indexOf("IPR")+3);
 				  		}
 				  	}
-				  	System.out.println("IPR not found");
+//				  	System.out.println("IPR not found");
 				  	return null;
 				  }
 /*  254:     */   
@@ -395,7 +395,7 @@
 					if(input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return getEnzFromInterPro(input);
 					}
-					System.out.println("Sample");
+//					System.out.println("Sample");
 /*  257: 253 */     String seperator = "";
 /*  258: 254 */     String tmp = input;
 /*  259: 256 */     if (input.contains(",")) {
@@ -443,7 +443,7 @@
 								for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
 								  if(!numPfams.contains(nump2.get(i)[0])){
 									numPfams.add(nump2.get(i)[0]);
-									System.out.println(nump2.get(i)[0]);
+//									System.out.println(nump2.get(i)[0]);
 								  }
 								}
 /*  294:     */     		  }
@@ -477,7 +477,7 @@
 						}
 					}
 					else if(isPfambool(input)||isEc(input)||isInterProBool(input)){//one column format
-						System.out.println("One column");
+//						System.out.println("One column");
 						ret[0] = input;
 /*  284: 285 */     	if (isEc(ret[0])) {
 /*  285: 286 */     	  ret[2] = "EC";
@@ -499,13 +499,13 @@
 						  for(int i=0;i<nump2.size();i++){//adds to the total number of converted pfams
 						    if(!numPfams.contains(nump2.get(i)[0])){
 						  	  numPfams.add(nump2.get(i)[0]);
-							  System.out.println(nump2.get(i)[0]);
+//							  System.out.println(nump2.get(i)[0]);
 						    }
 						  }
 /*  294:     */     	}
 						String interpro = isInterPro(ret[0]);
 						if (interpro != null){
-						  System.out.println("One column IPR");
+//						  System.out.println("One column IPR");
 						  ret[0] = interpro;
 						  ret[1] = "1";
 						  ret[2] = "IPR";
@@ -710,7 +710,7 @@
 /*  484: 492 */         Project.legitSamples.add(Boolean.valueOf(false));
 /*  485:     */         try
 /*  486:     */         {
-						  System.out.println("Parsing");
+//						  System.out.println("Parsing");
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)//This is what does the parsing through the files to build the "Sample attributes"
 /*  488:     */           {
 							if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")||zeile.startsWith(">")){
@@ -1106,12 +1106,12 @@
 				        				                this.lFrame_.step("converted" + newEnz[0]);
 				        		    		        }
 				        		    		        if (ecWP != null){
-														System.out.println("EC Has Pathway");
+//														System.out.println("EC Has Pathway");
 				        		   		 	            if (!ecNr.isCompleteEc()) {
 				        		    		              ecNr.incomplete = true;
 				        		    		            }
 				        		    	            	if (isEc(ecNr.name_)){
-													  		System.out.println("EC added");
+//													  		System.out.println("EC added");
 				        		    	              		Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 				        		    	              		Project.legitSamples.remove(i);
 				        		    	              		Project.legitSamples.add(i, Boolean.valueOf(true));
@@ -1124,14 +1124,14 @@
 				        		            		    EcWithPathway unmatched = new EcWithPathway(ecNr);
 				        		        		        unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
 				        		   		    	        Project.samples_.get(i).addEc(unmatched);
-														System.out.println("Unmatched EC added");
+//														System.out.println("Unmatched EC added");
 
 					        			            }
 					        			        }
 				        			    	}
-				        			    	else{
-				        			    		System.out.println("newEnz is empty");
-				        			    	}
+//				        			    	else{
+//				        			    		System.out.println("newEnz is empty");
+//				        			    	}
 										}
 									}
 								
@@ -1263,15 +1263,15 @@
 				    	}
 				    }
 				    
-				    if(!retList.isEmpty()){
-				    	System.out.println("Conversion Successful");
-				    	for(int i=0;i<retList.size();i++){
-				    		String[] strings=retList.get(i);
-				    		System.out.println("tmpNr[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
-				    	}
-				    } else{
-				    	System.out.println("Conversion unsuccessful");
-				    }
+//				    if(!retList.isEmpty()){
+//				    	System.out.println("Conversion Successful");
+//				    	for(int i=0;i<retList.size();i++){
+//				    		String[] strings=retList.get(i);
+//				    		System.out.println("tmpNr[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
+//				    	}
+//				    } else{
+//				    	System.out.println("Conversion unsuccessful");
+//				    }
 				    return retList;
 				  }
 
@@ -1293,42 +1293,42 @@
 				    	}
 					}
 
-					if(!tmpList.isEmpty()){
-				    	System.out.println("IPR->GO Conversion Successful");
-				    	for(int i=0;i<tmpList.size();i++){
-				    		System.out.println("IPR->GO: "+interproNr+"->"+tmpList.get(i));
-				    	}
-				    }else{
-				    	System.out.println("IPR->GO Conversion unsuccessful");
-				    }
-					System.out.println("tmplist.size(): "+tmpList.size());
+//					if(!tmpList.isEmpty()){
+//				    	System.out.println("IPR->GO Conversion Successful");
+//				    	for(int i=0;i<tmpList.size();i++){
+//				    		System.out.println("IPR->GO: "+interproNr+"->"+tmpList.get(i));
+//				    	}
+//				    }else{
+//				    	System.out.println("IPR->GO Conversion unsuccessful");
+//				    }
+//					System.out.println("tmplist.size(): "+tmpList.size());
 
 					for(int i=0;i<tmpList.size();i++){
 						String key = tmpList.get(i);
 						if(this.GOToECHash.get(key)!=null&&this.GOToECHash.containsKey(key)){
-							System.out.println("GOToECHash.containsKey: "+key);
+//							System.out.println("GOToECHash.containsKey: "+key);
 							for(int j=0;j<this.GOToECHash.get(key).size();j++){
 								tmpNr[0]=this.GOToECHash.get(key).get(j);
 				    			tmpNr[1]=interpro[1];
 				    			tmpNr[2]="EC";
 				    			tmpNr[3]=interpro[3];
 
-				    			System.out.println("Added to ret list[0],[1],[2],[3]: "+tmpNr[0]+","+tmpNr[1]+","+tmpNr[2]+","+tmpNr[3] );
+//				    			System.out.println("Added to ret list[0],[1],[2],[3]: "+tmpNr[0]+","+tmpNr[1]+","+tmpNr[2]+","+tmpNr[3] );
 
 				    			retList.add(tmpNr);	
 							}
 						}
 					}
 
-					if(!retList.isEmpty()){
-				    	System.out.println("GO->EC Conversion Successful");
-				    	for(int i=0;i<retList.size();i++){
-				    		String[] strings=retList.get(i);
-				    		System.out.println("GO->EC[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
-				    	}
-				    } else{
-				    	System.out.println("GO->EC Conversion unsuccessful");
-				    }
+//					if(!retList.isEmpty()){
+//				    	System.out.println("GO->EC Conversion Successful");
+//				    	for(int i=0;i<retList.size();i++){
+//				    		String[] strings=retList.get(i);
+//				    		System.out.println("GO->EC[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3] );
+//				    	}
+//				    } else{
+//				    	System.out.println("GO->EC Conversion unsuccessful");
+//				    }
 
 					return retList;
 				  }	
@@ -1353,7 +1353,7 @@
 				  						}
 				  						tmpECS.add(tmpEC);
 				  					}
-				  					System.out.println("Digitized: "+tmpIPR+"Maps to: "+tmpECS.toString());
+//				  					System.out.println("Digitized: "+tmpIPR+"Maps to: "+tmpECS.toString());
 				  					tmpIPRToEC.put(tmpIPR,tmpECS);
 				  				}
 				  			}

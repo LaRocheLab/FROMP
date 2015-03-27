@@ -685,6 +685,7 @@
 /*  457:     */     
 /*  464: 468 */     int counter = 0;
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
+					outerloop:
 /*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
 /*  467:     */     {
 /*  468: 475 */       this.lFrame_.bigStep(((Sample)Project.samples_.get(i)).name_);
@@ -712,7 +713,10 @@
 						  System.out.println("Parsing");
 /*  487: 494 */           while ((zeile = sample.sample_.readLine()) != null)//This is what does the parsing through the files to build the "Sample attributes"
 /*  488:     */           {
-
+							if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")||zeile.startsWith(">")){
+								ParseInterpro();
+								break;
+							}
 							if (zeile.startsWith(">")){//Important for interpro input formats where several samples are in the same file each starting off with a line containing the sample name starting with ">"
 								if(Project.samples_.get(i).ecs_.isEmpty()){
 									Project.samples_.get(i).name_=zeile.substring(zeile.indexOf(">")+1);
@@ -727,31 +731,11 @@
 									i++;
 									continue;
 								}
-
 							}
-//							if(zeile.length()-zeile.replace(",","").length() > 2 ){
-//								String temp = zeile.substring(zeile.indexOf(",")+1);
-//								temp = temp.substring(0,zeile.indexOf(","));
-//								if(!isNumber(tmp)){
-//									String sampleNames=zeile;	
-//									while(sampleNames.contains(",")){
-//										if(sampleNames.startsWith(",")){
-//											sampleNames=sampleNames.substring(1);
-//										}
-//										temp=sampleNames.substring(0,sampleNames.indexOf(","));
-//										Color tmpColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-//										Sample tempSample = new Sample(temp, sample.fullPath_, tmpColor);
-//										sampleArray.add(tempSample);
-//									}
-//								}
-//							}
 /*  489: 497 */             String[] newEnz = getEnzFromSample(zeile);
 /*  490: 500 */             if (!enzReadCorrectly(newEnz)) {
 /*  491: 501 */               newEnz = getEnzFromRawSample(zeile);
 /*  492:     */             }
-							if(!enzReadCorrectly(newEnz)){
-								newEnz = getEnzFromInterPro(zeile);
-							}
 							if (!enzReadCorrectly(newEnz))
 /*  498:     */             {
 /*  499: 513 */               Debug.addnoEnzymeLine(sample.name_ + " " + zeile);
@@ -823,62 +807,62 @@
 /*  558:     */                   }
 /*  559:     */                 }
 /*  560:     */               }
-							  else if (newEnz[2].equalsIgnoreCase("IPR")){//if the sequence was taken in as an Interpro.
-							  	System.out.println("newEnz[2].equalsIgnoreCase(\"IPR\")");
-							  	System.out.println("IPR name: "+newEnz[0]);
-							  	ArrayList<String[]> enzL = convertInterpro(newEnz);//If you chance this to "enzL = convertInterproOld(newEnz)" Then it will change from direct to indirect mapping of Interpro reads
-							  	System.out.println("enzL size: "+enzL.size());
-							  	for(int cnt=0;cnt<enzL.size();cnt++){
-							  	  newEnz = (String[])enzL.get(cnt);
-							  	  System.out.println("Looping for IPR conversions to be set into samples");
-							  	  if (!newEnz[0].isEmpty())
-/*  521:     */                   {
-									System.out.println("IPR not empty");
-/*  522: 535 */                     ecNr = new EcNr(newEnz);
-/*  523:     */                     
-/*  524: 537 */                     EcWithPathway ecWP = null;
-/*  525: 538 */                     if (!ecNr.type_.contentEquals("X"))
-/*  526:     */                     {
-/*  527: 541 */                       if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_)))
-/*  528:     */                       {
-										System.out.println("Conversion has given good results");
-/*  529: 542 */                         Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
-/*  530: 543 */                         ecWP = findEcWPath(ecNr);
-/*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
-/*  533:     */                       }
-/*  534: 547 */                       if (ecWP != null)
-/*  535:     */                       {
-										System.out.println("EC Has Pathway");
-/*  536: 549 */                         if (!ecNr.isCompleteEc()) {
-/*  537: 550 */                           ecNr.incomplete = true;
-/*  538:     */                         }
-/*  539: 552 */                         if (isEc(ecNr.name_))
-/*  540:     */                         {
-										  System.out.println("EC added");
-/*  541: 553 */                           Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-/*  543: 555 */                           Project.legitSamples.remove(i);
-/*  544: 556 */                           Project.legitSamples.add(i, Boolean.valueOf(true));
-/*  545:     */                         }
-/*  546:     */                       }
-/*  547:     */                       else
-/*  548:     */                       {
-/*  549: 561 */                         if (!ecNr.isCompleteEc()) {
-/*  550: 562 */                           ecNr.incomplete = true;
-/*  551:     */                         }
-/*  552: 564 */                         ecNr.unmapped = true;
-/*  553: 565 */                         EcWithPathway unmatched = new EcWithPathway(ecNr);
-/*  554: 566 */                         unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
-/*  555: 567 */                         Project.samples_.get(i).addEc(unmatched);
-										System.out.println("Unmatched EC added");
+//							  else if (newEnz[2].equalsIgnoreCase("IPR")){//if the sequence was taken in as an Interpro.
+//							  	System.out.println("newEnz[2].equalsIgnoreCase(\"IPR\")");
+//							  	System.out.println("IPR name: "+newEnz[0]);
+//							  	ArrayList<String[]> enzL = convertInterpro(newEnz);//If you chance this to "enzL = convertInterproOld(newEnz)" Then it will change from direct to indirect mapping of Interpro reads
+//							  	System.out.println("enzL size: "+enzL.size());
+//							  	for(int cnt=0;cnt<enzL.size();cnt++){
+//							  	  newEnz = (String[])enzL.get(cnt);
+//							  	  System.out.println("Looping for IPR conversions to be set into samples");
+//							  	  if (!newEnz[0].isEmpty())
+//*  521:     */                   {
+//									System.out.println("IPR not empty");
+//*  522: 535 */                     ecNr = new EcNr(newEnz);
+//*  523:     */                     
+//*  524: 537 */                     EcWithPathway ecWP = null;
+//*  525: 538 */                     if (!ecNr.type_.contentEquals("X"))
+//*  526:     */                     {
+//*  527: 541 */                       if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_)))
+//*  528:     */                       {
+//										System.out.println("Conversion has given good results");
+//*  529: 542 */                         Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
+//*  530: 543 */                         ecWP = findEcWPath(ecNr);
+//*  531: 544 */                         this.lFrame_.step("converted" + newEnz[0]);
+//*  533:     */                       }
+//*  534: 547 */                       if (ecWP != null)
+//*  535:     */                       {
+//										System.out.println("EC Has Pathway");
+//*  536: 549 */                         if (!ecNr.isCompleteEc()) {
+//*  537: 550 */                           ecNr.incomplete = true;
+//*  538:     */                         }
+//*  539: 552 */                         if (isEc(ecNr.name_))
+//*  540:     */                         {
+//										  System.out.println("EC added");
+//*  541: 553 */                           Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
+//*  543: 555 */                           Project.legitSamples.remove(i);
+//*  544: 556 */                           Project.legitSamples.add(i, Boolean.valueOf(true));
+//*  545:     */                         }
+//*  546:     */                       }
+//*  547:     */                       else
+//*  548:     */                       {
+//*  549: 561 */                         if (!ecNr.isCompleteEc()) {
+//*  550: 562 */                           ecNr.incomplete = true;
+//*  551:     */                         }
+//*  552: 564 */                         ecNr.unmapped = true;
+//*  553: 565 */                         EcWithPathway unmatched = new EcWithPathway(ecNr);
+//*  554: 566 */                         unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
+//*  555: 567 */                         Project.samples_.get(i).addEc(unmatched);
+//										System.out.println("Unmatched EC added");
 
-/*  556:     */                       }
-/*  557:     */                     }
+//*  556:     */                       }
+//*  557:     */                     }
 									
-/*  558:     */                   }
-								  System.out.println("IPR empty");
-
-							  	}
-							  }
+//*  558:     */                   }
+//								  System.out.println("IPR empty");
+//
+//							  	}
+//							  }
 /*  561: 574 */               else if (!newEnz[0].isEmpty())
 /*  562:     */               {
 /*  563: 575 */                 ecNr = new EcNr(newEnz);
@@ -929,10 +913,6 @@
 /*  602:     */       }
 /*  603:     */     }
 
-//					Project.numOfUsableEcs+=numOfUsableEcs.size();
-//					Project.numOfConvertedPFs+=numOfConvertedPFs.size();
-//					Project.numOfConvPfsUsable+=numOfConvPfsUsable.size();
-//					Project.amountOfEcs+=amountOfEcs.size();
 
 			   		ArrayList<String> comptotecs=new ArrayList<String>();
 			   		ArrayList<String> allecs=new ArrayList<String>();
@@ -1029,7 +1009,7 @@
 						Project.numOfConvPfsComplete=completepfams;
 						Project.numOfConvPfsMapped=pfammapped.size();
 					}
-					//calls the Help Frame to make the Project Summary window
+//					calls the Help Frame to make the Project Summary window
 /*  604: 621 */     String Text = "<html><body>Finished processing the samples"+
 /*  617: 634 */       "<br>" + 
 /*  617: 634 */       "<br>" + 
@@ -1082,6 +1062,94 @@
 /*  641: 657 */     newUserPathList_ = new ArrayList();
 /*  642:     */   }
 /*  643:     */   
+
+				  public void ParseInterpro() 
+				  {// 
+				  	System.out.println("Parse Interpro");
+				  	String zeile="";
+				  	for (int i = 0; i < Project.samples_.size(); i++){
+				  		Sample sample = Project.samples_.get(i);
+				  		String tmp = ((Sample)Project.samples_.get(i)).fullPath_;
+				  		sample.sample_ = this.reader.readTxt(tmp);
+				  		try{
+				  			while((zeile = sample.sample_.readLine()) != null){
+				  				if (zeile.startsWith(">")){//Important for interpro input formats where several samples are in the same file each starting off with a line containing the sample name starting with ">"
+									if(Project.samples_.get(i).ecs_.isEmpty()){
+										Project.samples_.get(i).name_=zeile.substring(zeile.indexOf(">")+1);
+										continue;
+									}else{
+										Color tmpColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+										Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">")+1), sample.fullPath_, tmpColor);
+										tmpSample.legitSample=true;
+										tmpSample.inUse = true;
+										Project.samples_.add(i+1,tmpSample);
+										Project.legitSamples.add(i+1, true);
+										i++;
+										continue;
+									}
+								}
+								
+								if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+									String[] newEnz = getEnzFromInterPro(zeile);
+									if (newEnz[2].equalsIgnoreCase("IPR")){
+										ArrayList<String[]> enzL = convertInterpro(newEnz);//If you chance this to "enzL = convertInterproOld(newEnz)" Then it will change from direct to indirect mapping of Interpro reads
+										for(int cnt=0;cnt<enzL.size();cnt++){
+											newEnz = (String[])enzL.get(cnt);
+											if (!newEnz[0].isEmpty()){
+				        				        EcNr ecNr = new EcNr(newEnz);
+				        				            
+				        				        EcWithPathway ecWP = null;
+				        				        if (!ecNr.type_.contentEquals("X")){
+				        				        	if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_))){
+				        				                Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0));
+				        				                ecWP = findEcWPath(ecNr);
+				        				                this.lFrame_.step("converted" + newEnz[0]);
+				        		    		        }
+				        		    		        if (ecWP != null){
+														System.out.println("EC Has Pathway");
+				        		   		 	            if (!ecNr.isCompleteEc()) {
+				        		    		              ecNr.incomplete = true;
+				        		    		            }
+				        		    	            	if (isEc(ecNr.name_)){
+													  		System.out.println("EC added");
+				        		    	              		Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
+				        		    	              		Project.legitSamples.remove(i);
+				        		    	              		Project.legitSamples.add(i, Boolean.valueOf(true));
+				        		    	            	}
+				        		    		        	} else{
+				        		        	        	if (!ecNr.isCompleteEc()) {
+				        		        	        	  ecNr.incomplete = true;
+				        		            	    	}
+				        		        	        	ecNr.unmapped = true;
+				        		            		    EcWithPathway unmatched = new EcWithPathway(ecNr);
+				        		        		        unmatched.addPathway((Pathway)getPathwayList_().get(this.unmatchedIndex));
+				        		   		    	        Project.samples_.get(i).addEc(unmatched);
+														System.out.println("Unmatched EC added");
+
+					        			            }
+					        			        }
+				        			    	}
+				        			    	else{
+				        			    		System.out.println("newEnz is empty");
+				        			    	}
+										}
+									}
+								
+								} else{
+									continue;
+								}
+							}
+						}
+				  		catch (IOException e)
+/*  596:     */         {
+/*  597: 614 */           openWarning("Error", "File: " + tmp + " not found");
+/*  598: 615 */           e.printStackTrace();
+/*  599:     */         }
+				  	}
+				  }
+
+
+
 /*  644:     */   public boolean enzReadCorrectly(String[] newEnz)
 /*  645:     */   {
 					if(newEnz==null){

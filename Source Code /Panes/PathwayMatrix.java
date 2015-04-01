@@ -402,7 +402,7 @@
 /* 402:469 */       out.write(" " + seperator + "OverAll");
 /* 403:470 */       for (int i = 0; i < this.samples_.size(); i++) {
 /* 404:471 */         if (((Sample)this.samples_.get(i)).inUse) {
-/* 405:474 */           out.write(seperator + ((Sample)this.samples_.get(i)).name_);
+/* 405:474 */           out.write(((Sample)this.samples_.get(i)).name_ + seperator);
 /* 406:    */         }
 /* 407:    */       }
 /* 408:476 */       out.newLine();

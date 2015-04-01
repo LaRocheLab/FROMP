@@ -1,0 +1,152 @@
+	ERR771019_MERGED_FASTQ_InterPro.txt.tsv	ERR771060_MERGED_FASTQ_InterPro.tsv	ERR771064_MERGED_FASTQ_InterPro.tsv	ERR771070_MERGED_FASTQ_InterPro.tsv	
+ec00010 / Glycolysis / Gluconeogenesis	1254.0	375.0	3422.0	3737.0	
+ec00020 / Citrate cycle (TCA cycle)	486.0	210.0	1054.0	1325.0	
+ec00030 / Pentose phosphate pathway	1259.0	295.0	2056.0	2122.0	
+ec00040 / Pentose and glucuronate interconversions	379.0	77.0	440.0	416.0	
+ec00051 / Fructose and mannose metabolism	436.0	122.0	1264.0	1119.0	
+ec00052 / Galactose metabolism	653.0	86.0	915.0	739.0	
+ec00053 / Ascorbate and aldarate metabolism	40.0	15.0	69.0	47.0	
+ec00061 / Fatty acid biosynthesis	366.0	141.0	891.0	1087.0	
+ec00062 / Fatty acid elongation in mitochondria	436.0	63.0	559.0	613.0	
+ec00071 / Fatty acid metabolism	450.0	71.0	591.0	657.0	
+ec00072 / Synthesis and degradation of ketone bodies	23.0	16.0	10.0	25.0	
+ec00100 / Steroid biosynthesis	0.0	0.0	0.0	0.0	
+ec00120 / Primary bile acid biosynthesis	280.0	44.0	445.0	478.0	
+ec00121 / Secondary bile acid biosynthesis	0.0	0.0	0.0	0.0	
+ec00130 / Ubiquinone and other terpenoid-quinone biosynthesis	1.0	43.0	209.0	207.0	
+ec00140 / Steroid hormone biosynthesis	2.0	3.0	2.0	1.0	
+ec00190 / Oxidative phosphorylation	2649.0	685.0	3917.0	4673.0	
+ec00195 / Photosynthesis	1504.0	130.0	1512.0	1761.0	
+ec00196 / Photosynthesis - antenna proteins	0.0	0.0	0.0	0.0	
+ec00230 / Purine metabolism	6681.0	1446.0	14825.0	13489.0	
+ec00231 / Puromycin biosynthesis	0.0	0.0	0.0	0.0	
+ec00232 / Caffeine metabolism	2.0	6.0	4.0	4.0	
+ec00240 / Pyrimidine metabolism	6084.0	1127.0	14030.0	11893.0	
+ec00250 / Alanine, aspartate and glutamate metabolism	1136.0	377.0	2268.0	2602.0	
+ec00253 / Tetracycline biosynthesis	134.0	111.0	731.0	906.0	
+ec00260 / Glycine, serine and threonine metabolism	1147.0	170.0	1477.0	1758.0	
+ec00270 / Cysteine and methionine metabolism	672.0	279.0	2041.0	2327.0	
+ec00280 / Valine, leucine and isoleucine degradation	450.0	103.0	813.0	875.0	
+ec00281 / Geraniol degradation	436.0	68.0	562.0	614.0	
+ec00290 / Valine, leucine and isoleucine biosynthesis	1260.0	536.0	3815.0	4484.0	
+ec00300 / Lysine biosynthesis	14.0	45.0	421.0	490.0	
+ec00310 / Lysine degradation	438.0	63.0	564.0	622.0	
+ec00311 / Penicillin and cephalosporin biosynthesis	0.0	39.0	0.0	1.0	
+ec00312 / beta-Lactam resistance	0.0	39.0	0.0	1.0	
+ec00330 / Arginine and proline metabolism	1731.0	585.0	2771.0	3310.0	
+ec00331 / Clavulanic acid biosynthesis	0.0	0.0	0.0	0.0	
+ec00340 / Histidine metabolism	207.0	149.0	1253.0	1390.0	
+ec00350 / Tyrosine metabolism	34.0	40.0	35.0	113.0	
+ec00351 / DDT degradation	0.0	0.0	0.0	0.0	
+ec00360 / Phenylalanine metabolism	3.0	7.0	14.0	25.0	
+ec00361 / Chlorocyclohexane and chlorobenzene degradation	1.0	2.0	1.0	1.0	
+ec00362 / Benzoate degradation	171.0	38.0	142.0	167.0	
+ec00363 / Bisphenol degradation	8.0	0.0	0.0	0.0	
+ec00364 / Fluorobenzoate degradation	40.0	7.0	34.0	77.0	
+ec00380 / Tryptophan metabolism	507.0	141.0	736.0	832.0	
+ec00400 / Phenylalanine, tyrosine and tryptophan biosynthesis	898.0	292.0	2289.0	2517.0	
+ec00401 / Novobiocin biosynthesis	0.0	14.0	112.0	135.0	
+ec00402 / Benzoxazinoid biosynthesis	0.0	0.0	0.0	0.0	
+ec00410 / beta-Alanine metabolism	159.0	68.0	352.0	451.0	
+ec00430 / Taurine and hypotaurine metabolism	516.0	139.0	507.0	892.0	
+ec00440 / Phosphonate and phosphinate metabolism	0.0	0.0	0.0	0.0	
+ec00450 / Selenocompound metabolism	307.0	81.0	450.0	509.0	
+ec00460 / Cyanoamino acid metabolism	504.0	148.0	722.0	1121.0	
+ec00471 / D-Glutamine and D-glutamate metabolism	145.0	37.0	205.0	185.0	
+ec00472 / D-Arginine and D-ornithine metabolism	0.0	0.0	0.0	0.0	
+ec00473 / D-Alanine metabolism	537.0	135.0	779.0	698.0	
+ec00480 / Glutathione metabolism	1778.0	703.0	5361.0	4967.0	
+ec00500 / Starch and sucrose metabolism	466.0	133.0	617.0	778.0	
+ec00510 / N-Glycan biosynthesis	1.0	0.0	33.0	15.0	
+ec00511 / Other glycan degradation	341.0	51.0	216.0	223.0	
+ec00512 / Mucin type O-Glycan biosynthesis	0.0	0.0	0.0	0.0	
+ec00513 / Various types of N-glycan biosynthesis	3.0	32.0	43.0	73.0	
+ec00514 / Other types of O-glycan biosynthesis	0.0	0.0	0.0	4.0	
+ec00520 / Amino sugar and nucleotide sugar metabolism	1106.0	489.0	2386.0	2233.0	
+ec00521 / Streptomycin biosynthesis	63.0	6.0	114.0	143.0	
+ec00522 / Biosynthesis of 12-, 14- and 16-membered macrolides	0.0	0.0	0.0	0.0	
+ec00523 / Polyketide sugar unit biosynthesis	0.0	0.0	0.0	0.0	
+ec00524 / Butirosin and neomycin biosynthesis	52.0	4.0	24.0	66.0	
+ec00531 / Glycosaminoglycan degradation	152.0	55.0	170.0	173.0	
+ec00532 / Glycosaminoglycan biosynthesis - chondroitin sulfate	0.0	0.0	0.0	0.0	
+ec00533 / Glycosaminoglycan biosynthesis - keratan sulfate	0.0	0.0	0.0	0.0	
+ec00534 / Glycosaminoglycan biosynthesis - heparan sulfate	0.0	0.0	0.0	0.0	
+ec00540 / Lipopolysaccharide biosynthesis	720.0	97.0	513.0	776.0	
+ec00550 / Peptidoglycan biosynthesis	829.0	124.0	916.0	840.0	
+ec00561 / Glycerolipid metabolism	122.0	30.0	195.0	180.0	
+ec00562 / Inositol phosphate metabolism	57.0	17.0	288.0	308.0	
+ec00563 / Glycosylphosphatidylinositol(GPI)-anchor biosynthesis	0.0	0.0	4.0	7.0	
+ec00564 / Glycerophospholipid metabolism	352.0	111.0	478.0	517.0	
+ec00565 / Ether lipid metabolism	43.0	4.0	36.0	21.0	
+ec00590 / Arachidonic acid metabolism	504.0	110.0	310.0	638.0	
+ec00591 / Linoleic acid metabolism	30.0	0.0	20.0	10.0	
+ec00592 / alpha-Linolenic acid metabolism	186.0	19.0	147.0	158.0	
+ec00600 / Sphingolipid metabolism	176.0	37.0	215.0	185.0	
+ec00601 / Glycosphingolipid biosynthesis - lacto and neolacto series	0.0	2.0	14.0	32.0	
+ec00603 / Glycosphingolipid biosynthesis - globo series	46.0	39.0	128.0	172.0	
+ec00604 / Glycosphingolipid biosynthesis - ganglio series	110.0	40.0	158.0	156.0	
+ec00620 / Pyruvate metabolism	905.0	384.0	2549.0	3139.0	
+ec00621 / Dioxin degradation	13.0	7.0	19.0	27.0	
+ec00622 / Xylene degradation	13.0	7.0	19.0	27.0	
+ec00623 / Toluene degradation	281.0	46.0	445.0	479.0	
+ec00624 / Polycyclic aromatic hydrocarbon degradation	2.0	1.0	6.0	2.0	
+ec00625 / Chloroalkane and chloroalkene degradation	15.0	16.0	20.0	32.0	
+ec00626 / Naphthalene degradation	14.0	8.0	19.0	31.0	
+ec00627 / Aminobenzoate degradation	220.0	43.0	184.0	323.0	
+ec00630 / Glyoxylate and dicarboxylate metabolism	138.0	191.0	1066.0	1214.0	
+ec00633 / Nitrotoluene degradation	6.0	6.0	4.0	6.0	
+ec00640 / Propanoate metabolism	750.0	297.0	1935.0	2287.0	
+ec00642 / Ethylbenzene degradation	0.0	0.0	0.0	0.0	
+ec00643 / Styrene degradation	56.0	27.0	47.0	142.0	
+ec00650 / Butanoate metabolism	484.0	80.0	662.0	719.0	
+ec00660 / C5-Branched dibasic acid metabolism	384.0	80.0	675.0	747.0	
+ec00670 / One carbon pool by folate	2113.0	596.0	5007.0	5382.0	
+ec00680 / Methane metabolism	2117.0	410.0	3665.0	4166.0	
+ec00710 / Carbon fixation in photosynthetic organisms	1057.0	385.0	2833.0	3242.0	
+ec00720 / Carbon fixation pathways in prokaryotes	1236.0	580.0	3850.0	4626.0	
+ec00730 / Thiamine metabolism	57.0	24.0	96.0	160.0	
+ec00740 / Riboflavin metabolism	51.0	134.0	776.0	884.0	
+ec00750 / Vitamin B6 metabolism	457.0	77.0	303.0	359.0	
+ec00760 / Nicotinate and nicotinamide metabolism	486.0	99.0	785.0	942.0	
+ec00770 / Pantothenate and CoA biosynthesis	702.0	304.0	2112.0	2403.0	
+ec00780 / Biotin metabolism	39.0	16.0	30.0	28.0	
+ec00785 / Lipoic acid metabolism	169.0	14.0	128.0	126.0	
+ec00790 / Folate biosynthesis	164.0	139.0	781.0	830.0	
+ec00791 / Atrazine degradation	43.0	6.0	119.0	133.0	
+ec00830 / Retinol metabolism	14.0	8.0	19.0	31.0	
+ec00860 / Porphyrin and chlorophyll metabolism	1191.0	350.0	2077.0	2694.0	
+ec00900 / Terpenoid backbone biosynthesis	439.0	210.0	1534.0	1742.0	
+ec00901 / Indole alkaloid biosynthesis	0.0	0.0	0.0	0.0	
+ec00902 / Monoterpenoid biosynthesis	0.0	0.0	0.0	0.0	
+ec00903 / Limonene and pinene degradation	156.0	19.0	114.0	135.0	
+ec00904 / Diterpenoid biosynthesis	0.0	0.0	0.0	0.0	
+ec00905 / Brassinosteroid biosynthesis	0.0	0.0	0.0	0.0	
+ec00906 / Carotenoid biosynthesis	0.0	0.0	7.0	2.0	
+ec00908 / Zeatin biosynthesis	11.0	15.0	153.0	159.0	
+ec00909 / Sesquiterpenoid biosynthesis	0.0	0.0	0.0	0.0	
+ec00910 / Nitrogen metabolism	1232.0	398.0	1223.0	1705.0	
+ec00920 / Sulfur metabolism	269.0	90.0	208.0	356.0	
+ec00930 / Caprolactam degradation	436.0	63.0	559.0	613.0	
+ec00940 / Phenylpropanoid biosynthesis	0.0	0.0	0.0	2.0	
+ec00941 / Flavonoid biosynthesis	4.0	0.0	3.0	2.0	
+ec00942 / Anthocyanin biosynthesis	0.0	0.0	0.0	0.0	
+ec00943 / Isoflavonoid biosynthesis	0.0	0.0	0.0	0.0	
+ec00944 / Flavone and flavonol biosynthesis	0.0	0.0	0.0	0.0	
+ec00945 / Stilbenoid, diarylheptanoid and gingerol biosynthesis	0.0	0.0	0.0	0.0	
+ec00950 / Isoquinoline alkaloid biosynthesis	4.0	4.0	1.0	14.0	
+ec00960 / Tropane, piperidine and pyridine alkaloid biosynthesis	3.0	13.0	25.0	18.0	
+ec00965 / Betalain biosynthesis	0.0	0.0	0.0	0.0	
+ec00966 / Glucosinolate biosynthesis	0.0	0.0	0.0	0.0	
+ec00970 / Aminoacyl-tRNA biosynthesis	3186.0	929.0	5790.0	6850.0	
+ec00980 / Metabolism of xenobiotics by cytochrome P450	29.0	8.0	24.0	60.0	
+ec00981 / Insect hormone biosynthesis	0.0	0.0	0.0	0.0	
+ec00982 / Drug metabolism - cytochrome P450	14.0	8.0	19.0	31.0	
+ec00983 / Drug metabolism - other enzymes	65.0	53.0	417.0	381.0	
+ec01040 / Biosynthesis of unsaturated fatty acids	156.0	19.0	161.0	157.0	
+ec01051 / Biosynthesis of ansamycins	0.0	0.0	0.0	0.0	
+ec01053 / Biosynthesis of siderophore group nonribosomal peptides	0.0	0.0	0.0	0.0	
+ec01055 / Biosynthesis of vancomycin group antibiotics	0.0	0.0	0.0	0.0	
+ec01056 / Biosynthesis of type II polyketide backbone	0.0	0.0	0.0	0.0	
+ec01057 / Biosynthesis of type II polyketide products	0.0	0.0	0.0	0.0	
+ec01058 / Acridone alkaloid biosynthesis	0.0	0.0	0.0	0.0	
+-1 / Unmatched	735.0	322.0	1847.0	2426.0	

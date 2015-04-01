@@ -57,10 +57,10 @@
 /*  56:    */         
 /*  57: 58 */         String comp = "<userP>";
 /*  58:    */         String line=in.readLine();
-					  System.out.println("Entering while loop");
+//					  System.out.println("Entering while loop");
 /*  59: 60 */         while ((line) != null)
 /*  60:    */         {
-						System.out.println("Looping");
+//						System.out.println("Looping");
 						try{
 							//String line;
 /*  62: 61 */           	if (((line) != null) && line.startsWith(comp))
@@ -73,9 +73,17 @@
 /*  67:    */           	else if ((line) != null) 
 /*  68:    */           	{
 							  File f=new File (line);
-							  if (f.exists() && !f.isDirectory()){
+							  if (f.exists() && !f.isDirectory() && line.endsWith(".frp")){
+							  	controller.loadAnotherProjFile(line);
+							  	System.out.println("Project file added");
+							  	Project.workpath_=inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+				  				if(Project.workpath_.contains(File.separator)){
+				  					Project.workpath_=Project.workpath_.replace(File.separator,"");
+				  				}
+							  }
+							  else if (f.exists() && !f.isDirectory()){
 /*  69: 66 */           	  	String name = line.substring(line.lastIndexOf(File.separator));
-							  	System.out.println("substring");
+//							  	System.out.println("substring");
 /*  70: 67 */           	  	Color col = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 /*  71: 68 */           	  	Sample sample = new Sample(name, line, col);
 /*  72:    */           	  	
@@ -108,7 +116,13 @@
 /*  48:    */       
 /*  49: 52 */       Project.samples_.add(sample);
 /*  50:    */     }
+
 /*  82: 77 */     Controller.loadPathways(true);
+				  Project.workpath_=inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+				  if(Project.workpath_.contains(File.separator)){
+				  	Project.workpath_=Project.workpath_.replace(File.separator,"");
+				  }
+
 				  if((args_.length==4)&&(this.args_[3]!=null)){//this takes args[3] (ie. the ec name inputted) and exports the sequence IDs for all samples for that EC
 				  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 				  	System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
@@ -178,6 +192,23 @@
 //						pane.cmdExportRepseqs(this.ec_);
 //					}
 /* 136:125 */       if (this.optionsCmd_.contentEquals("e")) {
+/* 137:126 */         System.exit(0);
+/* 138:    */       }
+/* 139:    */     }
+				  if ((this.optionsCmd_.contentEquals("f")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
+/* 132:    */     {//exports the samples as a .frp file so that it cam be used in the gui later. if f is selected it exits afterwards
+/* 133:122 */       System.out.println("Export as .frp file");
+					
+               		String projPath= "";
+					if (Project.projectPath_.contains("projects")){
+						projPath=Project.projectPath_.substring(0,Project.projectPath_.indexOf("projects")-1);
+					} else {
+						projPath=Project.projectPath_;
+					}
+					String tmpPath= projPath + File.separator + "projects" + File.separator + inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf(".")) + ".frp";
+/* 135:124 */       System.out.println(tmpPath);
+					controller.saveProject(tmpPath);
+/* 136:125 */       if (this.optionsCmd_.contentEquals("f")) {
 /* 137:126 */         System.exit(0);
 /* 138:    */       }
 /* 139:    */     }

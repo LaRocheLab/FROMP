@@ -221,11 +221,29 @@
 /* 209:    */   
 /* 210:    */   public String exportProj(String path)
 /* 211:    */   {
+				  System.out.println("exportProj");
 /* 212:225 */     if (path == null)
 /* 213:    */     {
 /* 214:226 */       path = projectPath_;
 /* 215:227 */       if (!path.endsWith(".frp")) {
-/* 216:228 */         path = path + File.separator + "projects" + File.separator + workpath_ + ".frp";
+/* 216:228 */         path = projectPath_ + File.separator + "projects" + File.separator + workpath_ ;
+					  String tmpPath=path+ ".frp";
+					  File file1 = new File(tmpPath);
+					  if(file1.exists() && !file1.isDirectory()) { 
+						int i=1;
+					 	while("Pigs"!="Fly"){// loop forever
+					  		tmpPath=path+"("+i+")"+ ".frp";
+					  		File file2=new File(tmpPath);
+					  		if(file2.exists() && !file2.isDirectory()) { 
+					  			i++;
+					  			continue;
+					  		} else{
+					  			path=path+"("+i+")";
+					  			break;
+					  		}
+					  	}
+					  }
+					  path=path+ ".frp";
 /* 217:    */       }
 /* 218:230 */       System.out.println(path);
 /* 219:    */     }
@@ -233,7 +251,24 @@
 /* 221:    */     {
 /* 222:233 */       System.out.println(projectPath_);
 /* 223:234 */       System.out.println(workpath_);
-/* 224:235 */       path = projectPath_ + File.separator + "projects" + File.separator + workpath_ + ".frp";
+/* 224:235 */       path = projectPath_ + File.separator + "projects" + File.separator + workpath_ ;
+					String tmpPath=path+ ".frp";
+					File file1 = new File(tmpPath);
+					if(file1.exists() && !file1.isDirectory()) { 
+						int i=1;
+					 	while("Pigs"!="Fly"){// loop forever
+					  		tmpPath=path+"("+i+")"+ ".frp";
+					  		File file2=new File(tmpPath);
+					  		if(file2.exists() && !file2.isDirectory()) { 
+					  			i++;
+					  			continue;
+					  		} else{
+					  			path=path+"("+i+")";
+					  			break;
+					  		}
+					  	}
+					}
+					path=path+ ".frp";
 /* 225:236 */       System.out.println(path);
 /* 226:    */     }
 /* 227:238 */     BufferedWriter out = null;

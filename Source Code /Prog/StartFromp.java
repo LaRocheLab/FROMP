@@ -271,6 +271,9 @@
 /* 184:173 */     if (options.contentEquals("e")) {
 /* 185:174 */       ret = true;
 /* 186:    */     }
+				  if (options.contentEquals("f")) {
+/* 188:177 */       ret = true;
+/* 189:    */     }
 /* 187:176 */     if (options.contentEquals("a")) {
 /* 188:177 */       ret = true;
 /* 189:    */     }
@@ -330,12 +333,15 @@
 /* 209:196 */     System.out.println("'s' for the pathway-score-matrix");
 /* 210:197 */     System.out.println("'m' for the pathway-activity-matrix");
 /* 211:198 */     System.out.println("'e' for the EC-activity-matrix");
+				  System.out.println("'f' To export the project as a .frp file");
+				  System.out.println("Exported .frp files will be saved in ~/projects");
+				  System.out.println("");
 				  System.out.println("To include sequence IDs when building the EC-activity-matrix, add the ec number");
 				  System.out.println("of that pathway who's sequence ID you are interested in");
 				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");			
   				  System.out.println("");
 /* 212:199 */     System.out.println("'a' all options");
-				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, and EC-activity-matrix");
+				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, EC-activity-matrix, and to export as a .frp file");
 /* 213:200 */     System.out.println("'op' only multisample pictures");
 /* 214:201 */     System.out.println("'up' only userpathway multisample pictures");
 				  System.out.println("");

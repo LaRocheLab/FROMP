@@ -38,6 +38,8 @@
 /*   38:     */ import javax.swing.KeyStroke;
 /*   39:     */ import javax.swing.filechooser.FileFilter;
 /*   40:     */ import pathwayLayout.PathLayoutGrid;
+				import javax.swing.JScrollPane;
+				import javax.swing.ScrollPaneConstants;
 /*   41:     */ 
 				//The main frame of fromp. Almost every other part of GUI FROMP runs on this frame.
 
@@ -57,6 +59,7 @@
 /*   55:  69 */   final String basePath_ = new File(".").getAbsolutePath() + File.separator;
 /*   56:  70 */   final String recentProjPath_ = "recentProj.txt";
 /*   57:     */   private Controller control_;
+				  private JScrollPane showJPanel_;
 /*   58:     */   
 /*   59:     */   public NewFrompFrame()
 /*   60:     */   {
@@ -543,7 +546,14 @@
 /*  540: 642 */         NewFrompFrame.this.selectPws();
 /*  541:     */       }
 /*  542: 644 */     });
-/*  543: 645 */     this.back_.add(samplesP_, "Center");
+
+					this.showJPanel_ = new JScrollPane(samplesP_);
+					this.showJPanel_.setVisible(true);
+					this.showJPanel_.setVerticalScrollBarPolicy(22);
+					this.showJPanel_.setHorizontalScrollBarPolicy(30);
+
+					this.back_.add("Center", this.showJPanel_);
+
 /*  544: 646 */     invalidate();
 /*  545: 647 */     validate();
 /*  546: 648 */     repaint();

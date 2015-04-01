@@ -21,13 +21,13 @@
 /* 17:20 */       return;
 /* 18:   */     }
 /* 19:22 */     setTitle("Project summary");
-/* 20:23 */     setBounds(500, 400, 300, 350);
+/* 20:23 */     setBounds(500, 400, 300, 450);
 /* 21:24 */     setVisible(true);
 /* 22:25 */     setResizable(false);
 /* 23:26 */     setLayout(null);
 /* 24:   */     
 /* 25:28 */     JPanel back = new JPanel();
-/* 26:29 */     back.setBounds(0, 0, 300, 300);
+/* 26:29 */     back.setBounds(0, 0, 300, 400);
 /* 27:30 */     back.setVisible(true);
 /* 28:31 */     back.setLayout(null);
 /* 29:32 */     back.setBackground(Color.white);
@@ -41,7 +41,7 @@
         //		back.add(txt);
 
 /* 32:35 */     JLabel fromp = new JLabel(Text);
-/* 33:36 */     fromp.setBounds(0, 0, 300, 300);
+/* 33:36 */     fromp.setBounds(0, 0, 300, 400);
 /* 34:37 */     fromp.setVisible(true);
 /* 35:38 */     back.add(fromp);
 /* 36:   */   }

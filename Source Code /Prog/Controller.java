@@ -8,7 +8,7 @@
 /*   8:    */ import java.io.PrintStream;
 /*   9:    */ import java.util.ArrayList;
 /*  10:    */ 
-			//This is pretty well always in the background while in the GUI. It allous the user to save, load, open, etc. projects.	
+			//This is pretty well always in the background while in Fromp. It allous the user to save, load, open, etc. projects.	
 
 /*  11:    */ public class Controller
 /*  12:    */ {
@@ -44,6 +44,17 @@
 /*  42:    */     }
 /*  43: 39 */     return project_.loadProject(this.reader_.readTxt(path));
 /*  44:    */   }
+
+/*  34:    */   public int loadAnotherProjFile(String path)
+/*  35:    */   {
+/*  37: 33 */     if (path.endsWith(".frp"))
+/*  38:    */     {
+/*  39: 34 */       project_.importProj(path);
+/*  40: 35 */       System.out.println("import");
+/*  41: 36 */       return 1;
+/*  42:    */     }
+/*  43: 39 */     return project_.loadProject(this.reader_.readTxt(path));
+/*  44:    */   }
 /*  45:    */   
 /*  46:    */   public void openProject()
 /*  47:    */   {
@@ -55,7 +66,18 @@
 /*  53: 49 */     if (project_ != null)
 /*  54:    */     {
 /*  55: 50 */       String path = project_.exportProj(null);
-/*  56: 51 */       NewFrompFrame.addRecentPath(path);
+//*  56: 51 */       NewFrompFrame.addRecentPath(path);
+/*  57: 52 */       return path;
+/*  58:    */     }
+/*  59: 54 */     return "";
+/*  60:    */   }
+
+				public static String saveProject(String tmpPath)
+/*  52:    */   {
+/*  53: 49 */     if (project_ != null)
+/*  54:    */     {
+/*  55: 50 */       String path = project_.exportProj(tmpPath);
+//*  56: 51 */       NewFrompFrame.addRecentPath(path);
 /*  57: 52 */       return path;
 /*  58:    */     }
 /*  59: 54 */     return "";

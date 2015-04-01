@@ -27,6 +27,7 @@
 /*  27:    */ import javax.swing.event.ChangeEvent;
 /*  28:    */ import javax.swing.event.ChangeListener;
 /*  29:    */ import javax.swing.filechooser.FileFilter;
+/*   13:     */ import java.awt.Dimension;
 
 				//This is the panel in between th estart screen and the pathway selection screen where you are able to select 
 				//samples you want to work with and whether or not you want to do random sampling.
@@ -84,6 +85,8 @@
 /*  82:100 */     setLayout(null);
 /*  83:101 */     setVisible(true);
 /*  84:102 */     setBackground(Project.getBackColor_());
+				  setPreferredSize(new Dimension(getWidth(), (Project.samples_.size() + 2) * 50 + 100));
+				  setSize(getPreferredSize());
 /*  85:103 */     prepPaint();
 /*  86:    */   }
 /*  87:    */   

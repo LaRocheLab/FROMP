@@ -69,6 +69,10 @@
 /*   57:  58 */   int numOfGoToEc = 0;
 /*   58:     */   int unmatchedIndex;
 /*   59:  62 */   int maxEcInP = 0;
+//				  int numIPR = 0;
+//				  int numConvertedIPR = 0;
+//				  int numCompleteIPR = 0;
+//				  int numMappedIPR = 0;
 /*   60:     */   BufferedReader ecList;
 /*   61:     */   BufferedReader rnList;
 /*   62:     */   BufferedReader nameList;
@@ -92,6 +96,7 @@
 				  Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();
 				  Hashtable<String, ArrayList<String>> IPRToGOHash=new Hashtable<String, ArrayList<String>>();
 				  Hashtable<String, ArrayList<String>> GOToECHash=new Hashtable<String, ArrayList<String>>();
+
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
 /*   73:     */   {
@@ -1035,13 +1040,13 @@
 			   		  "<br>"+
 			   		  "Mapped converted Pfams:\t"+Project.numOfConvPfsMapped+
 			   		  "<br>"+
-					  "Interpros:\t"+Project.amountOfPfs+
+					  "Interpros:\t"+Project.amountOfIPRs+
 					  "<br>"+
-					  "Converted Interpros:\t"+Project.numOfConvertedPFs+
+					  "Converted Interpros:\t"+Project.numOfConvertedIPRs+
 			   		  "<br>"+
-			   		  "Complete converted Interpros:\t"+Project.numOfConvPfsComplete+
+			   		  "Complete converted Interpros:\t"+Project.numOfConvIPRsComplete+
 			   		  "<br>"+
-			   		  "Mapped converted Interpros:\t"+Project.numOfConvPfsMapped+
+			   		  "Mapped converted Interpros:\t"+Project.numOfConvIPRsMapped+
 			   		  "<br><br>"+
 			   		   "<br>"+
 /*  619: 636 */       "Sample that seem to be valid: " + "<br>";
@@ -1078,7 +1083,7 @@
 
 				  public int ParseInterpro(int count) 
 				  {// 
-				  	System.out.println("Parse Interpro");
+//				  	System.out.println("Parse Interpro");
 				  	String zeile="";
 				  	int i=count;
 				  	for (i = count; i < Project.samples_.size(); i++){

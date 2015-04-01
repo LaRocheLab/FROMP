@@ -1264,13 +1264,13 @@
 /*  999:     */     try
 /* 1000:     */     {
 /* 1001:1059 */       BufferedWriter out = new BufferedWriter(new FileWriter(path));
-/* 1002:1060 */       out.write("EcActivity " + separator);
+/* 1002:1060 */       out.write("EcActivity" + separator);
 /* 1003:1061 */       out.newLine();
 /* 1004:1062 */       out.newLine();
 /* 1005:1064 */       for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
 /* 1006:1065 */         if (((Sample)Project.samples_.get(smpCnt)).inUse)
 /* 1007:     */         {
-/* 1008:1066 */           out.write(separator);
+//* 1008:1066 */           out.write(separator);
 /* 1009:1067 */           out.write(((Sample)Project.samples_.get(smpCnt)).name_ + separator);
 /* 1010:     */         }
 /* 1011:     */       }

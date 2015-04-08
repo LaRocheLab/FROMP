@@ -216,7 +216,7 @@
 /*  210:     */     {
 /*  211:     */       public void actionPerformed(ActionEvent e)
 /*  212:     */       {
-/*  213: 261 */         System.exit(0);
+/*  213: 261 */         openClosingFrame();
 /*  214:     */       }
 /*  215: 264 */     });
 /*  216: 265 */     this.menu_.add(miItem);
@@ -290,10 +290,10 @@
 /*  284:     */   
 /*  285:     */   private void addAnalyseMenu()
 /*  286:     */   {
-/*  287: 350 */     this.menu_ = new JMenu("Analyse");
+/*  287: 350 */     this.menu_ = new JMenu("Analyze");
 /*  288:     */     
 /*  289: 352 */     this.menu_.getAccessibleContext().setAccessibleDescription(
-/*  290: 353 */       "Analyse");
+/*  290: 353 */       "Analyze");
 /*  291: 354 */     this.menuBar_.add(this.menu_);
 /*  292:     */     
 /*  293:     */ 
@@ -499,10 +499,10 @@
 /*  493:     */   
 /*  494:     */   private void clearBack()
 /*  495:     */   {//updates the FROMT frame
-/*  496: 596 */     System.out.println("ClearBack");
+//*  496: 596 */     System.out.println("ClearBack");
 /*  497: 597 */     this.back_.removeAll();
 /*  498: 598 */     if (Project.workpath_ != null) {
-/*  499: 599 */       setTitle("Project: " + Project.workpath_ + "  - FROMP-Alpha - Fragment Recruitment on Metabolic Pathways");
+/*  499: 599 */       setTitle("Project: " + Project.workpath_ + " - FROMP-Alpha - Fragment Recruitment on Metabolic Pathways");
 /*  500:     */     } else {
 /*  501: 602 */       setTitle("FROMP-Alpha - Fragment Recruitment on Metabolic Pathways");
 /*  502:     */     }
@@ -549,8 +549,7 @@
 
 					this.showJPanel_ = new JScrollPane(samplesP_);
 					this.showJPanel_.setVisible(true);
-					this.showJPanel_.setVerticalScrollBarPolicy(22);
-					this.showJPanel_.setHorizontalScrollBarPolicy(30);
+					this.showJPanel_.setVerticalScrollBarPolicy(20);
 
 					this.back_.add("Center", this.showJPanel_);
 
@@ -1135,25 +1134,25 @@
 /* 1105:     */     else
 /* 1106:     */     {
 /* 1107:1202 */       final JFrame frame = new JFrame("Warning!");
-/* 1108:1203 */       frame.setBounds(200, 200, 300, 300);
+/* 1108:1203 */       frame.setBounds(200, 200, 350, 300);
 /* 1109:1204 */       frame.setLayout(null);
 /* 1110:1205 */       frame.setVisible(true);
 /* 1111:     */       
 /* 1112:1207 */       JPanel backP = new JPanel();
-/* 1113:1208 */       backP.setBounds(0, 0, 300, 300);
+/* 1113:1208 */       backP.setBounds(0, 0, 350, 300);
 /* 1114:1209 */       backP.setLayout(null);
 /* 1115:1210 */       frame.add(backP);
 /* 1116:     */       
 /* 1117:1212 */       JLabel label = new JLabel("Warning all unsaved progress will be lost!");
-/* 1118:1213 */       label.setBounds(10, 100, 280, 25);
+/* 1118:1213 */       label.setBounds(25, 100, 300, 25);
 /* 1119:1214 */       backP.add(label);
 /* 1120:     */       
 /* 1121:1216 */       label = new JLabel("Exit anyway?!");
-/* 1122:1217 */       label.setBounds(100, 125, 280, 25);
+/* 1122:1217 */       label.setBounds(125, 125, 300, 25);
 /* 1123:1218 */       backP.add(label);
 /* 1124:     */       
 /* 1125:1220 */       JButton exit = new JButton("Exit");
-/* 1126:1221 */       exit.setBounds(30, 200, 100, 30);
+/* 1126:1221 */       exit.setBounds(55, 200, 100, 30);
 /* 1127:1222 */       exit.addActionListener(new ActionListener()
 /* 1128:     */       {
 /* 1129:     */         public void actionPerformed(ActionEvent arg0)
@@ -1164,7 +1163,7 @@
 /* 1134:1230 */       backP.add(exit);
 /* 1135:     */       
 /* 1136:1232 */       JButton cancel = new JButton("Cancel");
-/* 1137:1233 */       cancel.setBounds(155, 200, 100, 30);
+/* 1137:1233 */       cancel.setBounds(180, 200, 100, 30);
 /* 1138:1234 */       cancel.addActionListener(new ActionListener()
 /* 1139:     */       {
 /* 1140:     */         public void actionPerformed(ActionEvent e)

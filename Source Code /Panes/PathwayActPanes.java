@@ -37,7 +37,7 @@
 /* 37:44 */     setBackground(Project.standard);
 /* 38:45 */     setLayout(new BorderLayout());
 /* 39:46 */     setVisible(true);
-/* 40:47 */     this.backButton_ = new JButton("< Back to the analysisoptions");
+/* 40:47 */     this.backButton_ = new JButton("< Back to the Analysis Options");
 /* 41:   */     
 /* 42:49 */     prepaint();
 /* 43:   */   }
@@ -53,7 +53,7 @@
 /* 53:58 */     add(this.optionsPanel_, "First");
 /* 54:   */     
 /* 55:   */ 
-/* 56:61 */     this.backButton_.setBounds(20, 12, 200, 25);
+/* 56:61 */     this.backButton_.setBounds(10, 10, 300, 25);
 /* 57:62 */     this.optionsPanel_.add(this.backButton_);
 /* 58:   */     
 /* 59:64 */     this.showPanel_ = new JPanel();
@@ -87,8 +87,12 @@
 /* 87:   */   }
 /* 88:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Panes.PathwayActPanes
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Panes.PathwayActPanes
+
+ * JD-Core Version:    0.7.0.1
+
  */

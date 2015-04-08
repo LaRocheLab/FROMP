@@ -123,7 +123,7 @@
 /* 123:143 */     this.optionsPanel_.add(this.useCsf_);
 /* 124:    */     
 /* 125:145 */     JButton writeButt = new JButton("Write matrix");
-/* 126:146 */     writeButt.setBounds(10, 20, 150, 20);
+/* 126:146 */     writeButt.setBounds(10, 10, 150, 25);
 /* 127:147 */     writeButt.setVisible(true);
 /* 128:148 */     writeButt.setLayout(null);
 /* 129:149 */     writeButt.addActionListener(new ActionListener()
@@ -179,7 +179,7 @@
 /* 179:    */     
 /* 180:    */ 
 /* 181:203 */     JButton openDetailFr = new JButton("Pathway-Info-Window");
-/* 182:204 */     openDetailFr.setBounds(510, 10, 180, 30);
+/* 182:204 */     openDetailFr.setBounds(420, 10, 200, 25);
 /* 183:205 */     openDetailFr.setVisible(true);
 /* 184:206 */     openDetailFr.addActionListener(new ActionListener()
 /* 185:    */     {
@@ -192,7 +192,7 @@
 /* 192:    */     
 /* 193:216 */     this.mouseOverP = new JPanel();
 /* 194:217 */     this.mouseOverP.setBackground(Project.getBackColor_());
-/* 195:218 */     this.mouseOverP.setBounds(700, 10, 500, 60);
+/* 195:218 */     this.mouseOverP.setBounds(660, 10, 500, 60);
 /* 196:219 */     this.optionsPanel_.add(this.mouseOverP);
 /* 197:    */     
 /* 198:    */ 

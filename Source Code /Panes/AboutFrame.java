@@ -28,7 +28,7 @@
 /* 25:27 */     back.setBackground(Color.white);
 /* 26:28 */     add(back);
 /* 27:   */     
-/* 28:30 */     JLabel fromp = new JLabel("Fromp Ver. 1.0: 05.2012");
+/* 28:30 */     JLabel fromp = new JLabel("Fromp Ver. 1.0: 04.2015");
 /* 29:31 */     fromp.setBounds(10, 10, 200, 20);
 /* 30:32 */     fromp.setVisible(true);
 /* 31:33 */     back.add(fromp);

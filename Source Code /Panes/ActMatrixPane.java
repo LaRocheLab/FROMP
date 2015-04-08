@@ -33,10 +33,10 @@
 /**/			import javax.swing.JPopupMenu;
 /**/			import javax.swing.JMenuItem;
 /*   38:     */ import javax.swing.KeyStroke;
-				import javax.swing.*;
-/**/		  import java.io.PrintWriter;
-/**/		  import java.io.File;
-/*   33:     */ 
+/**/			import javax.swing.*;
+/**/		  	import java.io.PrintWriter;
+/**/		  	import java.io.File;
+/*   33:     */ import javax.swing.JComboBox;
 
 				//This is the activity Matrix Pane. If you are looning for anything that goes on in the Activity Matrix part of the GUI, this is probably where it happens.
 				//
@@ -81,6 +81,7 @@
 				  JPopupMenu menuPopup;
 				  int popupIndexY;
 				  int popupIndexX;
+				  JComboBox combo;
 /*   70:     */   
 /*   71:     */   public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList, DataProcessor proc, Dimension dim)
 /*   72:     */   {
@@ -157,7 +158,7 @@
 /*  141: 154 */     this.lframe.step("Init");
 /*  142: 155 */     this.sumIndexSmp = 0;
 /*  143: 158 */     for (int x = 0; x < Project.samples_.size(); x++) {
-/*  144: 159 */       if (((Sample)Project.samples_.get(x)).inUse) {
+/*  144: 159 */       if ((((Sample)Project.samples_.get(x)).inUse)&&(((Sample)Project.samples_.get(x)).onoff)) {
 /*  145: 160 */         this.sumIndexSmp += 1;
 /*  146:     */       }
 /*  147:     */     }
@@ -174,7 +175,7 @@
 /*  158: 173 */     this.sums = new Line(new double[this.sumIndexSmp], false, false, false);
 /*  159: 174 */     this.sums.fillWithZeros();
 /*  160: 176 */     for (int x = 0; x < Project.samples_.size(); x++) {
-/*  161: 177 */       if (((Sample)Project.samples_.get(x)).inUse)
+/*  161: 177 */       if ((((Sample)Project.samples_.get(x)).inUse)&&(((Sample)Project.samples_.get(x)).onoff))
 /*  162:     */       {
 /*  163: 178 */         indexSmp++;
 /*  164: 179 */         ArrayList<EcWithPathway> actSample = ((Sample)Project.samples_.get(x)).ecs_;
@@ -283,7 +284,7 @@
 /*  261: 277 */     this.showOptions_.setBackground(this.optionsPanel_.getBackground());
 /*  262: 278 */     this.showOptions_.setForeground(Project.getFontColor_());
 /*  263: 279 */     this.showOptions_.setLayout(null);
-/*  264: 280 */     this.showOptions_.setBounds(130, 10, 120, 15);
+/*  264: 280 */     this.showOptions_.setBounds(200, 10, 150, 15);
 /*  265:     */     
 /*  266: 282 */     this.optionsPanel_.add(this.showOptions_);
 /*  267: 284 */     if (this.bySumcheck_ == null) {
@@ -293,7 +294,7 @@
 /*  271: 288 */     this.bySumcheck_.setLayout(null);
 /*  272: 289 */     this.bySumcheck_.setBackground(this.optionsPanel_.getBackground());
 /*  273: 290 */     this.bySumcheck_.setForeground(Project.getFontColor_());
-/*  274: 291 */     this.bySumcheck_.setBounds(250, 10, 100, 15);
+/*  274: 291 */     this.bySumcheck_.setBounds(350, 10, 150, 15);
 /*  275: 292 */     this.optionsPanel_.add(this.bySumcheck_);
 /*  276: 294 */     if (this.useOddsrat_ == null) {
 /*  277: 295 */       this.useOddsrat_ = new JCheckBox("Odds-ratio");
@@ -302,7 +303,7 @@
 /*  280: 298 */     this.useOddsrat_.setLayout(null);
 /*  281: 299 */     this.useOddsrat_.setBackground(this.optionsPanel_.getBackground());
 /*  282: 300 */     this.useOddsrat_.setForeground(Project.getFontColor_());
-/*  283: 301 */     this.useOddsrat_.setBounds(250, 27, 100, 15);
+/*  283: 301 */     this.useOddsrat_.setBounds(350, 27, 150, 15);
 /*  284: 302 */     this.optionsPanel_.add(this.useOddsrat_);
 /*  285: 304 */     if (this.useCsf_ == null) {
 /*  286: 305 */       this.useCsf_ = new JCheckBox("CSF");
@@ -313,6 +314,62 @@
 /*  291: 310 */     this.useCsf_.setForeground(Project.getFontColor_());
 /*  292: 311 */     this.useCsf_.setBounds(10, 44, 100, 15);
 /*  293: 312 */     this.optionsPanel_.add(this.useCsf_);
+					
+					this.resort_ = new JButton("Rebuild");
+/*  390:     */     
+/*  391: 417 */     this.resort_.setBounds(700, 50, 200, 30);
+/*  392: 418 */     this.resort_.setVisible(true);
+/*  393: 419 */     this.resort_.setLayout(null);
+/*  394: 420 */     this.resort_.setForeground(Project.getFontColor_());
+/*  395: 421 */     this.resort_.addActionListener(new ActionListener()
+/*  396:     */     {
+/*  397:     */       public void actionPerformed(ActionEvent e)
+/*  398:     */       {
+						int test=0;
+						for(int i=0;i<Project.samples_.size();i++){
+	    					if(Project.samples_.get(i).onoff==true){
+	    						test++;
+	    					}
+	    				}
+	    				if(test<1){
+	    					final JFrame frame = new JFrame("Warning!");
+/* 1108:1203 */       		frame.setBounds(200, 200, 300, 110);
+/* 1109:1204 */       		frame.setLayout(null);
+/* 1110:1205 */       		frame.setVisible(true);
+/* 1111:     */       
+/* 1112:1207 */       		JPanel backP = new JPanel();
+/* 1113:1208 */       		backP.setBounds(0, 0, 300, 110);
+/* 1114:1209 */       		backP.setLayout(null);
+/* 1115:1210 */       		frame.add(backP);
+/* 1116:     */       
+/* 1117:1212 */       		JLabel label = new JLabel("Warning! You must view at least");
+/* 1118:1213 */       		label.setBounds(10, 10, 280, 15);
+/* 1119:1214 */       		backP.add(label);
+							JLabel label3 = new JLabel("one sample at a time.");
+/* 1118:1213 */       		label3.setBounds(10, 25, 280, 15);
+/* 1119:1214 */       		backP.add(label3);
+
+							JLabel label2 = new JLabel("Samples have been reset.");
+/* 1118:1213 */       		label2.setBounds(10, 50, 280, 25);
+/* 1119:1214 */       		backP.add(label2);
+
+							for(int i=0;i<Project.samples_.size();i++){
+	    						Project.samples_.get(i).onoff=true;
+	    					}
+	    				}
+
+/*  399: 426 */         setSelectedEc();
+						prepMatrix();
+						initMainPanels();
+						prepaint();
+
+	    				for(int i=0;i<Project.samples_.size();i++){
+	    					Project.samples_.get(i).onoff=true;
+	    				}
+/*  400:     */       }
+/*  401: 429 */     });
+/*  402: 430 */     this.optionsPanel_.add(this.resort_);
+
 /*  294: 314 */     if (this.export_ == null)
 /*  295:     */     {
 /*  296: 315 */       this.export_ = new JButton("Write to file");
@@ -360,7 +417,7 @@
 /*  338:     */         }
 /*  339:     */       });
 /*  340:     */     }
-/*  341: 361 */     this.export_.setBounds(10, 10, 100, 20);
+/*  341: 361 */     this.export_.setBounds(10, 10, 150, 20);
 /*  342: 362 */     this.export_.setVisible(true);
 /*  343: 363 */     this.export_.setLayout(null);
 /*  344: 364 */     this.export_.setForeground(Project.getFontColor_());
@@ -375,7 +432,7 @@
 /*  353: 376 */     this.moveUnmappedToEnd.setLayout(null);
 /*  354: 377 */     this.moveUnmappedToEnd.setBackground(this.optionsPanel_.getBackground());
 /*  355: 378 */     this.moveUnmappedToEnd.setForeground(Project.getFontColor_());
-/*  356: 379 */     this.moveUnmappedToEnd.setBounds(360, 10, 200, 15);
+/*  356: 379 */     this.moveUnmappedToEnd.setBounds(500, 10, 200, 15);
 /*  357: 380 */     this.optionsPanel_.add(this.moveUnmappedToEnd);
 /*  358: 382 */     if (this.includeRepseq_ == null)
 /*  359:     */     {
@@ -386,7 +443,7 @@
 /*  364: 388 */     this.includeRepseq_.setLayout(null);
 /*  365: 389 */     this.includeRepseq_.setForeground(Project.getFontColor_());
 /*  366: 390 */     this.includeRepseq_.setBackground(this.optionsPanel_.getBackground());
-/*  367: 391 */     this.includeRepseq_.setBounds(360, 27, 200, 15);
+/*  367: 391 */     this.includeRepseq_.setBounds(500, 27, 200, 15);
 /*  368: 392 */     this.optionsPanel_.add(this.includeRepseq_);
 /*  369: 394 */     if (this.dispIncomplete_ == null)
 /*  370:     */     {
@@ -397,7 +454,7 @@
 /*  375: 400 */     this.dispIncomplete_.setLayout(null);
 /*  376: 401 */     this.dispIncomplete_.setForeground(Project.getFontColor_());
 /*  377: 402 */     this.dispIncomplete_.setBackground(this.optionsPanel_.getBackground());
-/*  378: 403 */     this.dispIncomplete_.setBounds(360, 44, 200, 15);
+/*  378: 403 */     this.dispIncomplete_.setBounds(500, 44, 200, 15);
 /*  379: 404 */     this.optionsPanel_.add(this.dispIncomplete_);
 /*  380: 406 */     if (this.maxVisField_ == null) {
 /*  381: 407 */       this.maxVisField_ = new JTextField((int)Math.round(this.maxVisVal_));
@@ -422,11 +479,6 @@
 /*  400:     */       }
 /*  401: 429 */     });
 /*  402: 430 */     this.optionsPanel_.add(this.resort_);
-/*  403:     */     
-/*  404: 432 */     JLabel sampleSelectHint = new JLabel("Click on samplename to sort matrix.");
-/*  405: 433 */     sampleSelectHint.setForeground(Project.getFontColor_());
-/*  406: 434 */     sampleSelectHint.setBounds(0, 70, 250, 20);
-/*  407: 435 */     this.optionsPanel_.add(sampleSelectHint);
 /*  408:     */   }
 /*  409:     */   
 /*  410:     */   private void resort()
@@ -452,21 +504,17 @@
 /*  426: 453 */     this.lframe.bigStep("drawSampleNames");
 /*  427:     */     
 /*  428: 455 */     this.nameLabels_ = new ArrayList();
-/*  429: 456 */     String usedSampleText = "";
 /*  430: 457 */     String name = "";
 /*  431: 458 */     if (this.selectedSampIndex_ < 0) {
 /*  432: 459 */       name = "Overall";
 /*  433:     */     } else {
 /*  434: 462 */       name = ((Sample)Project.samples_.get(this.selectedSampIndex_)).name_;
 /*  435:     */     }
-/*  436: 467 */     usedSampleText = "Matrix now sorted by " + name;
-/*  437: 468 */     this.selectedSampText = new JLabel(usedSampleText);
-/*  438: 469 */     this.selectedSampText.setBounds(0, 83, 800, 20);
-/*  439: 470 */     this.selectedSampText.setForeground(Project.getFontColor_());
-/*  440: 471 */     this.optionsPanel_.add(this.selectedSampText);
+
 /*  441: 472 */     int x = 0;
+					int xREAL=0;
 /*  442: 473 */     for (x = 0; x < Project.samples_.size(); x++) {
-/*  443: 474 */       if (((Sample)Project.samples_.get(x)).inUse)
+/*  443: 474 */       if ((((Sample)Project.samples_.get(x)).inUse)&&(((Sample)Project.samples_.get(x)).onoff))
 /*  444:     */       {
 /*  445: 477 */         this.lframe.step(((Sample)this.smpList_.get(x)).name_);
 /*  446: 478 */         this.label_ = new JLabel(((Sample)this.smpList_.get(x)).name_);
@@ -474,19 +522,19 @@
 /*  448:     */ 
 /*  449:     */ 
 /*  450: 482 */         this.label_.setForeground(((Sample)this.smpList_.get(x)).sampleCol_);
-/*  451: 483 */         this.label_.setBounds(50 + (x + 1) * 130, 20, 130, 15);
+/*  451: 483 */         this.label_.setBounds(50 + (xREAL + 1) * 130, 20, 130, 15);
 /*  452: 484 */         if (this.selectedSampIndex_ == x) {
 /*  453: 485 */           this.label_.setBounds(this.label_.getX(), this.label_.getY() - 20, 400, this.label_.getHeight());
 /*  454:     */         }
 /*  455: 487 */         this.label_.setVisible(true);
 /*  456: 488 */         this.label_.setLayout(null);
-/*  457: 489 */         final int nameIndex = x;
+/*  457: 489 */         final int nameIndex = xREAL;
 /*  458:     */         
 /*  459: 491 */         this.nameLabels_.add(this.label_);
 /*  460: 492 */         this.displayP_.add(this.label_);
 /*  461:     */         
 /*  462: 494 */         final JPanel mousOverP = new JPanel();
-/*  463: 495 */         mousOverP.setBounds(50 + (x + 1) * 130, 0, 130, 40);
+/*  463: 495 */         mousOverP.setBounds(50 + (xREAL + 1) * 130, 0, 130, 40);
 /*  464:     */         
 /*  465: 497 */         mousOverP.setBackground(Project.getBackColor_());
 /*  466:     */         
@@ -500,21 +548,7 @@
 /*  474:     */         {
 /*  475:     */           public void mouseClicked(MouseEvent e)
 /*  476:     */           {
-/*  477: 510 */             if (ActMatrixPane.this.selectedSampIndex_ != index)
-/*  478:     */             {
-/*  479: 511 */               ActMatrixPane.this.selectedSampIndex_ = index;
-/*  480: 512 */               ActMatrixPane.this.selectedSampText = new JLabel("<html><body>using sampleNr.: " + ActMatrixPane.this.selectedSampIndex_ + "<br> as reference.</body></html>");
-/*  481: 513 */               mousOverP.setBackground(Project.standard);
-/*  482: 514 */               ((JLabel)ActMatrixPane.this.nameLabels_.get(nameIndex)).setBackground(Project.standard);
-/*  483: 515 */               ActMatrixPane.this.bySumcheck_.setSelected(true);
-/*  484:     */             }
-/*  485:     */             else
-/*  486:     */             {
-/*  487: 518 */               ActMatrixPane.this.selectedSampIndex_ = -1;
-/*  488: 519 */               ActMatrixPane.this.selectedSampText = new JLabel("<html><body>using sampleNr.: " + ActMatrixPane.this.selectedSampIndex_ + "<br> as reference.</body></html>");
-/*  489: 520 */               mousOverP.setBackground(Project.getBackColor_());
-/*  490:     */             }
-/*  491: 522 */             ActMatrixPane.this.resort();
+/*  477: 510 */             Project.samples_.get(index).onoff=false;
 /*  492:     */           }
 /*  493:     */           
 /*  494:     */           public void mouseEntered(MouseEvent e)
@@ -546,14 +580,16 @@
 /*  520:     */           public void mouseReleased(MouseEvent e) {}
 /*  521: 561 */         });
 /*  522: 562 */         this.displayP_.add(mousOverP);
+						xREAL++;
+
 /*  523:     */       }
 /*  524:     */     }
-/*  525: 564 */     this.label_ = new JLabel(" sum");
+/*  525: 564 */     this.label_ = new JLabel(" Sum");
 /*  526:     */     
 /*  527:     */ 
 /*  528:     */ 
 /*  529: 568 */     this.label_.setForeground(Color.black);
-/*  530: 569 */     this.label_.setBounds(50 + (x + 1) * 130, 20, 130, 15);
+/*  530: 569 */     this.label_.setBounds(50 + (xREAL + 1) * 130, 20, 130, 15);
 /*  531: 570 */     this.label_.setVisible(true);
 /*  532: 571 */     this.label_.setLayout(null);
 /*  533:     */     
@@ -1425,7 +1461,7 @@
 /* 1117:     */   private void setSelectedEc()
 /* 1118:     */   {
 /* 1119:1168 */     for (int x = 0; x < Project.samples_.size(); x++) {
-/* 1120:1169 */       if (((Sample)Project.samples_.get(x)).inUse)
+/* 1120:1169 */       if ((((Sample)Project.samples_.get(x)).inUse)&&(((Sample)Project.samples_.get(x)).onoff))
 /* 1121:     */       {
 /* 1122:1170 */         ArrayList<EcWithPathway> actSample = ((Sample)Project.samples_.get(x)).ecs_;
 /* 1123:1171 */         for (int ecCnt = 0; ecCnt < actSample.size(); ecCnt++)

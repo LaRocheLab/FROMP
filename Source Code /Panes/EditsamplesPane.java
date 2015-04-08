@@ -79,8 +79,8 @@
 /*  76: 94 */     this.fChoose_ = new MyChooser(this.lastPath_);
 /*  77: 95 */     this.checks_ = new ArrayList();
 /*  78:    */     
-/*  79: 97 */     this.backButton_ = new JButton("< Back to projectmenu");
-/*  80: 98 */     this.nextButton_ = new JButton("Go to pathwayselection >");
+/*  79: 97 */     this.backButton_ = new JButton("< Back to Project Menu");
+/*  80: 98 */     this.nextButton_ = new JButton("Go to Pathway Selection >");
 /*  81:    */     
 /*  82:100 */     setLayout(null);
 /*  83:101 */     setVisible(true);
@@ -490,11 +490,11 @@
 /* 485:    */   
 /* 486:    */   private void addBackNext()
 /* 487:    */   {
-/* 488:535 */     this.backButton_.setBounds(this.xCol2 - 110, 570, 200, 30);
+/* 488:535 */     this.backButton_.setBounds(this.xCol2 - 135, 570, 250, 30);
 /* 489:536 */     add(this.backButton_);
 /* 490:    */     
 /* 491:    */ 
-/* 492:539 */     this.nextButton_.setBounds(this.xCol2 + 100, 570, 200, 30);
+/* 492:539 */     this.nextButton_.setBounds(this.xCol2 + 125, 570, 250, 30);
 /* 493:540 */     add(this.nextButton_);
 /* 494:    */   }
 /* 495:    */   
@@ -515,10 +515,10 @@
 /* 510:    */   private void addColDiff()
 /* 511:    */   {
 /* 512:553 */     if (this.colDiff == null) {
-/* 513:554 */       this.colDiff = new JLabel("Samplecolor difference");
+/* 513:554 */       this.colDiff = new JLabel("Sample Color Difference");
 /* 514:    */     }
 /* 515:556 */     this.colDiff.setLayout(null);
-/* 516:557 */     this.colDiff.setBounds(this.xCol2, 180, 150, 30);
+/* 516:557 */     this.colDiff.setBounds(this.xCol2, 180, 200, 30);
 /* 517:558 */     add(this.colDiff);
 /* 518:560 */     if (this.slider == null) {
 /* 519:561 */       this.slider = new JSlider(10, 100, this.colChange);

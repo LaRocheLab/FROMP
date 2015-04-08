@@ -54,8 +54,8 @@
 /*  54: 70 */     this.selectAll = true;
 /*  55:    */     
 /*  56: 72 */     this.paths_ = pws;
-/*  57: 73 */     this.back_ = new JButton("< Back to sample selection");
-/*  58: 74 */     this.next_ = new JButton("Go to analysis >");
+/*  57: 73 */     this.back_ = new JButton("< Back to Sample Selection");
+/*  58: 74 */     this.next_ = new JButton("Go to Analysis >");
 /*  59: 75 */     initMainPanels();
 /*  60: 76 */     showComponents();
 /*  61:    */   }
@@ -107,13 +107,13 @@
 /* 107:    */   
 /* 108:    */   private void addNextBackButt()
 /* 109:    */   {
-/* 110:123 */     this.back_.setBounds(20, 77, 200, 20);
+/* 110:123 */     this.back_.setBounds(20, 75, 250, 20);
 /* 111:124 */     this.back_.setVisible(true);
 /* 112:125 */     this.back_.setLayout(null);
 /* 113:126 */     this.optionsPanel_.add(this.back_);
 /* 114:    */     
 /* 115:    */ 
-/* 116:129 */     this.next_.setBounds(this.xLine2 + 200, 77, 200, 20);
+/* 116:129 */     this.next_.setBounds(this.xLine2 + 150, 75, 250, 20);
 /* 117:130 */     this.next_.setVisible(true);
 /* 118:131 */     this.next_.setLayout(null);
 /* 119:132 */     this.optionsPanel_.add(this.next_);

@@ -15,7 +15,6 @@
 /*  15:    */ import javax.swing.JPanel;
 /*  16:    */ import javax.swing.Timer;
 /*  17:    */ 
-				//The panel for the EC activity part of the gui. If something happens there, its probably controlled here
 
 /*  18:    */ public class EcActPanes
 /*  19:    */   extends JPanel
@@ -51,7 +50,7 @@
 /*  49: 55 */     setBackground(Project.getBackColor_());
 /*  50: 56 */     setLayout(new BorderLayout());
 /*  51: 57 */     setVisible(true);
-/*  52: 58 */     this.backButton_ = new JButton(" < Back to the analysisoptions");
+/*  52: 58 */     this.backButton_ = new JButton(" < Back to the Analysis Options");
 /*  53: 59 */     initMainPanels();
 /*  54:    */     
 /*  55: 61 */     addOptions();
@@ -137,7 +136,7 @@
 /* 135:141 */     this.optionsPanel_.add(legend);
 /* 136:    */     
 /* 137:    */ 
-/* 138:144 */     this.backButton_.setBounds(20, 52, 200, 25);
+/* 138:144 */     this.backButton_.setBounds(10, 10, 300, 25);
 /* 139:145 */     this.optionsPanel_.add(this.backButton_);
 /* 140:    */   }
 /* 141:    */   

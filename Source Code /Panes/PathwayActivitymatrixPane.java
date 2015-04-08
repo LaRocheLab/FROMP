@@ -57,7 +57,7 @@
 /*  54:    */   
 /*  55:    */   public PathwayActivitymatrixPane(DataProcessor proc, Project proj, Dimension dim)
 /*  56:    */   {
-/*  57: 64 */     System.out.println("PathwayActivitymatrix");
+/*  57: 64 */     System.out.println("Pathway Activity matrix");
 /*  58: 65 */     this.proc_ = proc;
 /*  59: 66 */     this.actProj_ = proj;
 /*  60:    */     
@@ -185,19 +185,16 @@
 /* 182:    */       }
 /* 183:197 */     });
 /* 184:198 */     this.optionsPanel_.add(this.sortByLine_);
-/* 185:200 */     if (this.useCsf_ == null) {
-/* 186:201 */       this.useCsf_ = new JCheckBox("CSF");
-/* 187:    */     }
+/* 186:201 */     this.useCsf_ = new JCheckBox("CSF");
 /* 188:203 */     this.useCsf_.setVisible(true);
 /* 189:204 */     this.useCsf_.setLayout(null);
 /* 190:205 */     this.useCsf_.setBackground(this.optionsPanel_.getBackground());
 /* 191:206 */     this.useCsf_.setForeground(Project.getFontColor_());
 /* 192:207 */     this.useCsf_.setBounds(10, 44, 100, 15);
 /* 193:208 */     this.optionsPanel_.add(this.useCsf_);
-/* 194:210 */     if (this.export_ == null) {
-/* 195:211 */       this.export_ = new JButton("Write to file");
-/* 196:    */     }
-/* 197:213 */     this.export_.setBounds(10, 10, 100, 20);
+
+/* 194:210 */     this.export_ = new JButton("Write to file");
+/* 197:213 */     this.export_.setBounds(10, 10, 150, 20);
 /* 198:214 */     this.export_.setVisible(true);
 /* 199:215 */     this.export_.setLayout(null);
 /* 200:216 */     this.export_.addActionListener(new ActionListener()
@@ -210,7 +207,7 @@
 /* 207:225 */     this.optionsPanel_.add(this.export_);
 /* 208:    */     
 /* 209:227 */     JButton applyOptions = new JButton("Apply");
-/* 210:228 */     applyOptions.setBounds(460, 50, 80, 20);
+/* 210:228 */     applyOptions.setBounds(450, 50, 100, 20);
 /* 211:229 */     applyOptions.setVisible(true);
 /* 212:230 */     applyOptions.setLayout(null);
 /* 213:231 */     applyOptions.addActionListener(new ActionListener()
@@ -224,6 +221,30 @@
 /* 219:    */       }
 /* 220:240 */     });
 /* 221:241 */     this.optionsPanel_.add(applyOptions);
+					
+				  JButton rebuild=new JButton("Rebuild");
+				  rebuild.setBounds(450, 75, 100, 20);
+				  rebuild.setVisible(true);
+/* 212:230 */     rebuild.setLayout(null);
+/* 213:231 */     rebuild.addActionListener(new ActionListener()
+/* 214:    */     {
+/* 215:    */       public void actionPerformed(ActionEvent e)
+/* 216:    */       {
+					  PathwayActivitymatrixPane.this.changed_=true;
+/*  75: 82 */     	  PathwayActivitymatrixPane.this.createMatrix();
+/*  76: 83 */     	  PathwayActivitymatrixPane.this.showMatrix();
+/*  80: 87 */     	  PathwayActivitymatrixPane.this.invalidate();
+/*  81: 88 */     	  PathwayActivitymatrixPane.this.validate();
+/*  82: 89 */     	  PathwayActivitymatrixPane.this.repaint();
+
+					  PathwayActivitymatrixPane.this.showMatrix();
+/* 218:237 */         PathwayActivitymatrixPane.this.repaint();
+					  for(int i=0;i<Project.samples_.size();i++){
+					  	Project.samples_.get(i).onoff=true;
+					  }
+/* 219:    */       }
+/* 220:240 */     });
+/* 221:241 */     this.optionsPanel_.add(rebuild);
 
 /* 238:258 */     this.mouseOverP = new JPanel();
 /* 239:259 */     this.mouseOverP.setBackground(Project.getBackColor_());
@@ -336,7 +357,8 @@
 /* 344:    */   {
 /* 345:353 */     this.numOfpaths = 0;
 /* 346:354 */     this.lineMatrix_ = new ArrayList();
-/* 347:355 */     for (int j = 0; j < this.proc_.getPathwayList_().size(); j++) {
+/* 347:355 */     for (int j = 0; j < this.proc_.getPathwayList_().size(); j++) 
+				  {
 /* 348:356 */       if (((PathwayWithEc)this.proc_.getPathwayList_().get(j)).isSelected()) {
 /* 349:357 */         this.numOfpaths += 1;
 /* 350:    */       }
@@ -349,29 +371,33 @@
 /* 357:366 */     for (int pathCnt = 0; pathCnt < this.paths_.size(); pathCnt++)
 /* 358:    */     {
 /* 359:367 */       tmpLine = new double[sampleNr];
+					int xREAL=0;
 /* 360:368 */       if (this.proc_.getPathway(((PathwayWithEc)this.paths_.get(pathCnt)).id_).isSelected())
 /* 361:    */       {
 /* 362:371 */         for (int sampleCnt = 0; sampleCnt < sampleNr; sampleCnt++)
 /* 363:    */         {
-/* 364:375 */           PathwayWithEc tmpPath = (PathwayWithEc)((Sample)Project.samples_.get(sampleCnt)).pathways_.get(pathCnt);
-/* 365:376 */           double activity = 0.0D;
-/* 366:    */           double tmpScore;
-//* 367:    */           double tmpScore;
-/* 368:377 */           if (this.includeWeights_)
-/* 369:    */           {
-/* 370:379 */             for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
-/* 371:380 */               activity += ((EcNr)tmpPath.ecNrs_.get(ecCnt)).amount_ * ((EcNr)tmpPath.ecNrs_.get(ecCnt)).weight_;
-/* 372:    */             }
-/* 373:382 */             tmpScore = activity;
-/* 374:    */           }
-/* 375:    */           else
-/* 376:    */           {
-/* 377:385 */             for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
-/* 378:386 */               activity += ((EcNr)tmpPath.ecNrs_.get(ecCnt)).amount_;
-/* 379:    */             }
-/* 380:388 */             tmpScore = activity;
-/* 381:    */           }
-/* 382:390 */           tmpLine[sampleCnt] = tmpScore;
+						if(Project.samples_.get(sampleCnt).onoff){
+/* 364:375 */           	PathwayWithEc tmpPath = (PathwayWithEc)((Sample)Project.samples_.get(sampleCnt)).pathways_.get(pathCnt);
+/* 365:376 */           	double activity = 0.0D;
+/* 366:    */           	double tmpScore;
+//* 367:    */          	 double tmpScore;
+/* 368:377 */           	if (this.includeWeights_)
+/* 369:    */           	{
+/* 370:379 */           	  for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
+/* 371:380 */           	    activity += ((EcNr)tmpPath.ecNrs_.get(ecCnt)).amount_ * ((EcNr)tmpPath.ecNrs_.get(ecCnt)).weight_;
+/* 372:    */           	  }
+/* 373:382 */           	  tmpScore = activity;
+/* 374:    */           	}
+/* 375:    */           	else
+/* 376:    */           	{
+/* 377:385 */           	  for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
+/* 378:386 */           	    activity += ((EcNr)tmpPath.ecNrs_.get(ecCnt)).amount_;
+/* 379:    */           	  }
+/* 380:388 */           	  tmpScore = activity;
+/* 381:    */           	}
+/* 382:390 */           	tmpLine[sampleCnt] = tmpScore;
+							xREAL++;
+						}
 /* 383:    */         }
 /* 384:392 */         this.lineMatrix_.add(new Line((PathwayWithEc)this.paths_.get(pathCnt), tmpLine));
 /* 385:    */       }
@@ -472,68 +498,76 @@
 /* 480:    */     }
 /* 481:522 */     int sampleNr = Project.samples_.size();
 /* 482:523 */     int pathNr = this.lineMatrix_.size();
+				  int xREAL=0;
 /* 483:528 */     for (int sampleCnt = 0; sampleCnt < sampleNr; sampleCnt++)
 /* 484:    */     {
-/* 485:530 */       final JLabel fullName = new JLabel(((Sample)Project.samples_.get(sampleCnt)).name_);
-/* 486:531 */       int x = xDist + namesWidth + scoreWidth * (sampleCnt + 1);
-/* 487:532 */       fullName.setBounds(x, (col - 1) * coldist - 5, 500, coldist);
-/* 488:533 */       fullName.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
-/* 489:534 */       fullName.setVisible(false);
-/* 490:535 */       this.displayP_.add(fullName);
+					if(Project.samples_.get(sampleCnt).onoff){
+/* 485:530 */       	final JLabel fullName = new JLabel(((Sample)Project.samples_.get(sampleCnt)).name_);
+/* 486:531 */       	int x = xDist + namesWidth + scoreWidth * (xREAL + 1);
+/* 487:532 */       	fullName.setBounds(x, (col - 1) * coldist - 5, 500, coldist);
+/* 488:533 */       	fullName.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
+/* 489:534 */       	fullName.setVisible(false);
+/* 490:535 */       	this.displayP_.add(fullName);
 /* 491:    */       
-/* 492:537 */       final JLabel smpName = new JLabel(((Sample)Project.samples_.get(sampleCnt)).name_);
-/* 493:538 */       smpName.setBounds(0, 0, scoreWidth, 20);
-/* 494:539 */       smpName.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
-/* 495:540 */       smpName.setVisible(true);
-/* 496:    */       
-/* 497:542 */       JPanel mouseOver = new JPanel();
-/* 498:543 */       mouseOver.setBounds(x, (col - 1) * coldist - 5 + 25, scoreWidth, 20);
-/* 499:544 */       mouseOver.setBackground(Project.getBackColor_());
-/* 500:545 */       mouseOver.setLayout(null);
-/* 501:546 */       mouseOver.addMouseListener(new MouseListener()
-/* 502:    */       {
-/* 503:    */         public void mouseReleased(MouseEvent e) {}
-/* 504:    */         
-/* 505:    */         public void mousePressed(MouseEvent e) {}
-/* 506:    */         
-/* 507:    */         public void mouseExited(MouseEvent e)
-/* 508:    */         {
-/* 509:563 */           fullName.setVisible(false);
-/* 510:564 */           smpName.setVisible(true);
-/* 511:    */         }
-/* 512:    */         
-/* 513:    */         public void mouseEntered(MouseEvent e)
-/* 514:    */         {
-/* 515:570 */           fullName.setVisible(true);
-/* 516:571 */           smpName.setVisible(false);
-/* 517:    */         }
-/* 518:    */         
-/* 519:    */         public void mouseClicked(MouseEvent e) {}
-/* 520:579 */       });
-/* 521:580 */       this.displayP_.add(mouseOver);
-/* 522:581 */       mouseOver.add(smpName);
+/* 492:537 */       	final JLabel smpName = new JLabel(((Sample)Project.samples_.get(sampleCnt)).name_);
+/* 493:538 */       	smpName.setBounds(0, 0, scoreWidth, 20);
+/* 494:539 */       	smpName.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
+/* 495:540 */       	smpName.setVisible(true);
+					
+						final int smpCnt=sampleCnt;
+/* 496:    */       	
+/* 497:542 */       	JPanel mouseOver = new JPanel();
+/* 498:543 */       	mouseOver.setBounds(x, (col - 1) * coldist - 5 + 25, scoreWidth, 20);
+/* 499:544 */       	mouseOver.setBackground(Project.getBackColor_());
+/* 500:545 */       	mouseOver.setLayout(null);
+/* 501:546 */       	mouseOver.addMouseListener(new MouseListener()
+/* 502:    */       	{
+/* 503:    */       	  public void mouseReleased(MouseEvent e) {}
+/* 504:    */       	  
+/* 505:    */       	  public void mousePressed(MouseEvent e) {}
+/* 506:    */       	  
+/* 507:    */       	  public void mouseExited(MouseEvent e)
+/* 508:    */       	  {
+/* 509:563 */       	    fullName.setVisible(false);
+/* 510:564 */       	    smpName.setVisible(true);
+/* 511:    */       	  }
+/* 512:    */       	  
+/* 513:    */       	  public void mouseEntered(MouseEvent e)
+/* 514:    */       	  {
+/* 515:570 */       	    fullName.setVisible(true);
+/* 516:571 */       	    smpName.setVisible(false);
+/* 517:    */       	  }
+/* 518:    */       	  
+/* 519:    */       	  public void mouseClicked(MouseEvent e) {
+							Project.samples_.get(smpCnt).onoff=false;
+						  }
+/* 520:579 */       	});
+/* 521:580 */       	this.displayP_.add(mouseOver);
+/* 522:581 */       	mouseOver.add(smpName);
 /* 523:    */       
 /* 524:    */ 
 /* 525:    */ 
-/* 526:585 */       counter = 0;
-/* 527:586 */       for (int pathCnt = 0; pathCnt < pathNr; pathCnt++) {
-/* 528:587 */         if (((PathwayWithEc)((Sample)Project.samples_.get(sampleCnt)).pathways_.get(pathCnt)).isSelected())
-/* 529:    */         {
-/* 530:592 */           String tmpString = String.valueOf(((Line)this.lineMatrix_.get(pathCnt)).getEntry(sampleCnt));
-/* 531:594 */           if (tmpString.length() > scoreLength)
-/* 532:    */           {
-/* 533:595 */             tmpString = tmpString.substring(0, scoreLength);
-/* 534:596 */             lframe.step(tmpString);
-/* 535:    */           }
-/* 536:598 */           JLabel scores = new JLabel(tmpString);
-/* 537:599 */           scores.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
-/* 538:600 */           x = xDist + namesWidth + scoreWidth * (sampleCnt + 1);
-/* 539:601 */           int y = col * coldist + coldist * counter;
-/* 540:602 */           scores.setBounds(x, y, scoreWidth, coldist);
-/* 541:603 */           this.displayP_.add(scores);
-/* 542:604 */           counter++;
-/* 543:    */         }
-/* 544:    */       }
+/* 526:585 */       	counter = 0;
+/* 527:586 */       	for (int pathCnt = 0; pathCnt < pathNr; pathCnt++) {
+/* 528:587 */       	  if (((PathwayWithEc)((Sample)Project.samples_.get(sampleCnt)).pathways_.get(pathCnt)).isSelected())
+/* 529:    */       	  {
+/* 530:592 */       	    String tmpString = String.valueOf(((Line)this.lineMatrix_.get(pathCnt)).getEntry(sampleCnt));
+/* 531:594 */       	    if (tmpString.length() > scoreLength)
+/* 532:    */       	    {
+/* 533:595 */       	      tmpString = tmpString.substring(0, scoreLength);
+/* 534:596 */       	      lframe.step(tmpString);
+/* 535:    */       	    }
+/* 536:598 */       	    JLabel scores = new JLabel(tmpString);
+/* 537:599 */       	    scores.setForeground(((Sample)Project.samples_.get(sampleCnt)).sampleCol_);
+/* 538:600 */       	    x = xDist + namesWidth + scoreWidth * (xREAL + 1);
+/* 539:601 */       	    int y = col * coldist + coldist * counter;
+/* 540:602 */       	    scores.setBounds(x, y, scoreWidth, coldist);
+/* 541:603 */       	    this.displayP_.add(scores);
+/* 542:604 */       	    counter++;
+/* 543:    */       	  }
+/* 544:    */       	}
+						xREAL++;
+					}
 /* 545:    */     }
 /* 546:607 */     for (int pathCnt = 0; pathCnt < pathNr; pathCnt++)
 /* 547:    */     {
@@ -548,7 +582,7 @@
 /* 556:    */       }
 /* 557:617 */       JLabel scores = new JLabel(tmpString);
 /* 558:618 */       scores.setForeground(Color.black);
-/* 559:619 */       int x = xDist + namesWidth + scoreWidth * (this.numOfSamples + 1);
+/* 559:619 */       int x = xDist + namesWidth + scoreWidth * (xREAL + 1);
 /* 560:620 */       int y = col * coldist + coldist * pathCnt;
 /* 561:621 */       scores.setBounds(x, y, scoreWidth, coldist);
 /* 562:622 */       this.displayP_.add(scores);

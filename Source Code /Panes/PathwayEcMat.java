@@ -53,6 +53,7 @@
 /*  53:    */   private JPanel mouseOverP;
 /*  54:    */   private JCheckBox useCsf_;
 /*  55: 62 */   boolean firstTime = true;
+				private JButton rebuild;
 /*  56:    */   
 /*  57:    */   public PathwayEcMat(ArrayList<PathwayWithEc> origPaths, Project actProj, DataProcessor proc, Dimension dim)
 /*  58:    */   {
@@ -76,8 +77,8 @@
 /*  76: 84 */     setLayout(new BorderLayout());
 /*  77: 85 */     setBackground(Project.getBackColor_());
 /*  78:    */     
-/*  79: 87 */     this.sortPathesBySum_ = new JCheckBox("Sort pathes by the sum of Ecs");
-/*  80: 88 */     this.sortEcsBySum_ = new JCheckBox("Sort Ecs by sum");
+/*  79: 87 */     this.sortPathesBySum_ = new JCheckBox("Sort paths by the sum of ECs");
+/*  80: 88 */     this.sortEcsBySum_ = new JCheckBox("Sort ECs by sum");
 /*  81: 89 */     this.sortPathesBySum_.setSelected(false);
 /*  82: 90 */     this.sortEcsBySum_.setSelected(false);
 /*  83:    */     
@@ -133,7 +134,7 @@
 /* 133:137 */     lframe.bigStep("creating Arrays");
 /* 134:138 */     this.activesamps_ = 0;
 /* 135:139 */     for (int x = 0; x < Project.samples_.size(); x++) {
-/* 136:140 */       if (((Sample)Project.samples_.get(x)).inUse) {
+/* 136:140 */       if ((((Sample)Project.samples_.get(x)).inUse)&&(Project.samples_.get(x).onoff)) {
 /* 137:141 */         this.activesamps_ += 1;
 /* 138:    */       }
 /* 139:    */     }
@@ -161,16 +162,18 @@
 /* 161:    */       {
 /* 162:165 */         EcNr ecNr = (EcNr)((PathwayWithEc)this.origPaths_.get(origCnt)).ecNrs_.get(ecCnt);
 /* 163:166 */         double[] arr = new double[this.activesamps_];
+					  int xREAL=0;
 /* 164:167 */         for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-/* 165:168 */           if (((Sample)Project.samples_.get(smpCnt)).inUse)
+/* 165:168 */           if ((((Sample)Project.samples_.get(smpCnt)).inUse)&&(Project.samples_.get(smpCnt).onoff))
 /* 166:    */           {
 /* 167:171 */             EcWithPathway ecwp = ((Sample)Project.samples_.get(smpCnt)).getEc(ecNr.name_);
 /* 168:172 */             if (ecwp != null)
 /* 169:    */             {
-/* 170:173 */               arr[smpCnt] = ecwp.amount_;
+/* 170:173 */               arr[xREAL] = ecwp.amount_;
 /* 171:174 */               activCnt += ecwp.amount_;
 /* 172:    */             }
 /* 173:176 */             ecwp = null;
+						  xREAL++;
 /* 174:    */           }
 /* 175:    */         }
 /* 176:178 */         Line line = new Line(ecNr, arr);
@@ -534,7 +537,7 @@
 /* 415:399 */     this.optionsPanel_.add(this.useCsf_);
 /* 416:    */     
 /* 417:401 */     JButton export = new JButton("Export values");
-/* 418:402 */     export.setBounds(10, 10, 125, 20);
+/* 418:402 */     export.setBounds(10, 10, 150, 20);
 /* 419:403 */     export.setVisible(true);
 /* 420:404 */     export.addActionListener(new ActionListener()
 /* 421:    */     {
@@ -582,13 +585,13 @@
 /* 463:449 */     this.optionsPanel_.add(export);
 /* 464:    */     
 /* 465:    */ 
-/* 466:452 */     this.sortPathesBySum_.setBounds(350, 10, 200, 20);
+/* 466:452 */     this.sortPathesBySum_.setBounds(200, 10, 250, 20);
 /* 467:453 */     this.sortPathesBySum_.setBackground(this.optionsPanel_.getBackground());
 /* 468:    */     
 /* 469:455 */     this.optionsPanel_.add(this.sortPathesBySum_);
 /* 470:    */     
 /* 471:    */ 
-/* 472:458 */     this.sortEcsBySum_.setBounds(350, 30, 200, 20);
+/* 472:458 */     this.sortEcsBySum_.setBounds(200, 30, 200, 20);
 /* 473:459 */     this.sortEcsBySum_.setBackground(this.optionsPanel_.getBackground());
 /* 474:    */     
 /* 475:461 */     this.optionsPanel_.add(this.sortEcsBySum_);
@@ -613,6 +616,22 @@
 /* 494:    */     
 /* 495:483 */     this.mouseOverDisp.setBounds(0, 0, 500, 60);
 /* 496:484 */     this.mouseOverP.add(this.mouseOverDisp);
+
+				  this.rebuild=new JButton("Rebuild");
+				  this.rebuild.setBounds(550,50,100,25);
+				  this.rebuild.addActionListener(new ActionListener()
+/* 480:    */     {
+/* 481:    */       public void actionPerformed(ActionEvent e)
+/* 482:    */       {
+/* 483:470 */          	PathwayEcMat.this.createArrays();
+/*  71: 79 */     		PathwayEcMat.this.fillArrays();
+ 						PathwayEcMat.this.prepaint();
+ 						for(int i=0;i<Project.samples_.size();i++){
+ 							Project.samples_.get(i).onoff=true;
+ 						}
+/* 484:    */       }
+/* 485:473 */     });
+/* 486:474 */     this.optionsPanel_.add(this.rebuild);
 /* 497:    */     
 /* 498:486 */     System.out.println("finished 1");
 /* 499:    */   }
@@ -689,19 +708,24 @@
 /* 570:579 */             PathwayEcMat.this.setAdditionalInfo(path);
 /* 571:    */           }
 /* 572:    */           
-/* 573:    */           public void mouseClicked(MouseEvent e) {}
+/* 573:    */           public void mouseClicked(MouseEvent e) {
+
+						}
 /* 574:588 */         });
 /* 575:589 */         this.displayP_.add(pathButt);
 /* 576:590 */         lineCounter++;
 /* 577:591 */         line = "";
 /* 578:592 */         smpSpaceCnt++;
+					  int smpNme=0;
 /* 579:593 */         for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-/* 580:594 */           if (((Sample)Project.samples_.get(smpCnt)).inUse)
+/* 580:594 */           if ((((Sample)Project.samples_.get(smpCnt)).inUse)&&(Project.samples_.get(smpCnt).onoff))
 /* 581:    */           {
+						  final int sampleCount=smpCnt;
+						  final int sampleName=smpNme;
 /* 582:595 */             lframe.step("drawing " + ((Sample)Project.samples_.get(smpCnt)).name_);
 /* 583:596 */             line = ((Sample)Project.samples_.get(smpCnt)).name_;
 /* 584:597 */             final JLabel fullName = new JLabel(line);
-/* 585:598 */             fullName.setBounds(20 + xdist + xdist * smpCnt, 50 + lineH * lineCounter + arrH * arrCounter + smpNameSpace * smpSpaceCnt - lineH, 500, lineH);
+/* 585:598 */             fullName.setBounds(20 + xdist + xdist * sampleName, 50 + lineH * lineCounter + arrH * arrCounter + smpNameSpace * smpSpaceCnt - lineH, 500, lineH);
 /* 586:599 */             fullName.setForeground(((Sample)Project.samples_.get(smpCnt)).sampleCol_);
 /* 587:600 */             fullName.setVisible(false);
 /* 588:601 */             fullName.setLayout(null);
@@ -714,9 +738,9 @@
 /* 595:608 */             smpName.setVisible(true);
 /* 596:609 */             smpName.setLayout(null);
 /* 597:    */             
-/* 598:    */ 
+/* 598:    */ 			  
 /* 599:612 */             JPanel mouseOver = new JPanel();
-/* 600:613 */             mouseOver.setBounds(20 + xdist + xdist * smpCnt, 50 + lineH * lineCounter + arrH * arrCounter + smpNameSpace * smpSpaceCnt, xdist, lineH);
+/* 600:613 */             mouseOver.setBounds(20 + xdist + xdist * sampleName, 50 + lineH * lineCounter + arrH * arrCounter + smpNameSpace * smpSpaceCnt, xdist, lineH);
 /* 601:614 */             mouseOver.setBackground(Project.getBackColor_());
 /* 602:615 */             mouseOver.setVisible(true);
 /* 603:616 */             mouseOver.setLayout(null);
@@ -738,10 +762,13 @@
 /* 619:642 */                 smpName.setVisible(false);
 /* 620:    */               }
 /* 621:    */               
-/* 622:    */               public void mouseClicked(MouseEvent e) {}
+/* 622:    */               public void mouseClicked(MouseEvent e) {
+								Project.samples_.get(sampleCount).onoff=false;
+							}
 /* 623:652 */             });
 /* 624:653 */             this.displayP_.add(mouseOver);
 /* 625:654 */             mouseOver.add(smpName);
+						  smpNme++;
 /* 626:    */           }
 /* 627:    */         }
 /* 628:662 */         lineCounter++;
@@ -787,7 +814,7 @@
 /* 668:710 */               JLabel value = new JLabel(line);
 /* 669:711 */               value.setBounds(20 + xdist + xdist * smpCnt, 50 + lineH * lineCounter + arrH * arrCounter + smpNameSpace * smpSpaceCnt, xdist, lineH);
 /* 670:    */               
-/* 671:713 */               value.setForeground(((Sample)Project.samples_.get(smpCnt)).sampleCol_);
+/* 671:713 */               value.setForeground(Color.black);
 /* 672:714 */               value.setVisible(true);
 /* 673:715 */               value.setLayout(null);
 /* 674:716 */               this.displayP_.add(value);

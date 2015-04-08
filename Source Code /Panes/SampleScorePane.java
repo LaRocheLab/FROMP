@@ -111,8 +111,8 @@
 /* 111:    */   
 /* 112:    */   private void addOptions()
 /* 113:    */   {
-/* 114:133 */     JButton left = new JButton("prev. Sample");
-/* 115:134 */     left.setBounds(10, 10, 200, 30);
+/* 114:133 */     JButton left = new JButton("Previous Sample");
+/* 115:134 */     left.setBounds(10, 10, 200, 25);
 /* 116:135 */     left.setVisible(true);
 /* 117:136 */     left.addActionListener(new ActionListener()
 /* 118:    */     {
@@ -135,8 +135,8 @@
 /* 135:156 */     });
 /* 136:157 */     this.optionsPanel_.add(left);
 /* 137:    */     
-/* 138:159 */     JButton right = new JButton("next Sample");
-/* 139:160 */     right.setBounds(300, 10, 200, 30);
+/* 138:159 */     JButton right = new JButton("Next Sample");
+/* 139:160 */     right.setBounds(10, 40, 200, 25);
 /* 140:161 */     right.setVisible(true);
 /* 141:162 */     right.addActionListener(new ActionListener()
 /* 142:    */     {
@@ -165,11 +165,11 @@
 /* 165:190 */     this.useCsf_.setLayout(null);
 /* 166:191 */     this.useCsf_.setBackground(this.optionsPanel_.getBackground());
 /* 167:192 */     this.useCsf_.setForeground(Project.getFontColor_());
-/* 168:193 */     this.useCsf_.setBounds(215, 30, 80, 15);
+/* 168:193 */     this.useCsf_.setBounds(250, 50, 80, 15);
 /* 169:194 */     this.optionsPanel_.add(this.useCsf_);
 /* 170:    */     
 /* 171:196 */     JButton export = new JButton("Write to file");
-/* 172:197 */     export.setBounds(215, 10, 80, 20);
+/* 172:197 */     export.setBounds(250, 10, 130, 25);
 /* 173:198 */     export.setVisible(true);
 /* 174:199 */     export.setLayout(null);
 /* 175:200 */     export.setForeground(Project.getFontColor_());
@@ -219,7 +219,7 @@
 /* 219:245 */     this.optionsPanel_.add(export);
 /* 220:    */     
 /* 221:247 */     JButton openDetailFr = new JButton("Pathway-Info-Window");
-/* 222:248 */     openDetailFr.setBounds(510, 10, 180, 30);
+/* 222:248 */     openDetailFr.setBounds(420, 10, 200, 25);
 /* 223:249 */     openDetailFr.setVisible(true);
 /* 224:250 */     openDetailFr.addActionListener(new ActionListener()
 /* 225:    */     {
@@ -251,12 +251,12 @@
 /* 251:275 */       tmpSample = (Sample)Project.samples_.get(counter);
 /* 252:276 */       label = new JLabel("Sample " + (counter + 1) + ": " + tmpSample.name_);
 /* 253:    */     }
-/* 254:279 */     label.setBounds(10, 60, 500, 20);
+/* 254:279 */     label.setBounds(10, 70, 500, 20);
 /* 255:280 */     this.optionsPanel_.add(label);
 /* 256:    */     
 /* 257:282 */     this.mouseOverP = new JPanel();
 /* 258:283 */     this.mouseOverP.setBackground(Project.getBackColor_());
-/* 259:284 */     this.mouseOverP.setBounds(700, 10, 500, 60);
+/* 259:284 */     this.mouseOverP.setBounds(660, 10, 500, 60);
 /* 260:285 */     this.optionsPanel_.add(this.mouseOverP);
 /* 261:    */     
 /* 262:287 */     this.mouseOverDisp = new JLabel("Additional Pathway-information");

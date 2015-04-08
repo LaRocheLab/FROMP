@@ -477,7 +477,7 @@
 							  
 /*  311:     */     	  }
 						  
-						  else if((input.length()-input.replace(seperator, "").length())>3){//Matrix format. Still nothing here to input the matrix format.
+						  else if((input.length()-input.replace(seperator, "").length())>3){//Matrix format. Still nothing here to input the matrix format. Use the Load Ec-matrix button.
 						  	
 						  }
 						}

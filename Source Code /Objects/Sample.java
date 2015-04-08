@@ -31,6 +31,7 @@
 /*  28: 31 */   public boolean singleSample_ = true;
 /*  29: 33 */   public boolean legitSample = false;
 /*  30: 35 */   public int indexNr = 0;
+				public boolean onoff = true;
 /*  31:    */   
 /*  32:    */   public Sample()
 /*  33:    */   {
@@ -141,6 +142,14 @@
 /* 138:138 */       this.inUse = false;
 /* 139:    */     } else {
 /* 140:141 */       this.inUse = true;
+/* 141:    */     }
+/* 142:    */   }
+				public void toggleonoff()
+/* 136:    */   {
+/* 137:137 */     if (this.onoff) {
+/* 138:138 */       this.onoff = false;
+/* 139:    */     } else {
+/* 140:141 */       this.onoff = true;
 /* 141:    */     }
 /* 142:    */   }
 /* 143:    */   

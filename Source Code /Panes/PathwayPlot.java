@@ -45,7 +45,7 @@
 /*  45:    */   JCheckBox pointsBox_;
 /*  46:    */   JCheckBox vertLineBox_;
 /*  47:    */   JCheckBox linesBox_;
-/*  48: 52 */   float scale_ = 1.0F;
+/*  48: 52 */   float scale_ = 0.5F;
 /*  49:    */   JButton scaleDown_;
 /*  50:    */   JButton scaleUp_;
 /*  51:    */   JButton export_;
@@ -198,8 +198,8 @@
 /* 198:222 */         PathwayPlot.this.prePaint();
 /* 199:    */       }
 /* 200:226 */     });
-/* 201:227 */     this.scaleUp_ = new JButton("Scale up");
-/* 202:228 */     this.scaleUp_.setBounds(320, 10, 100, 20);
+/* 201:227 */     this.scaleUp_ = new JButton("Scale Up");
+/* 202:228 */     this.scaleUp_.setBounds(320, 10, 150, 20);
 /* 203:229 */     this.scaleUp_.setVisible(true);
 /* 204:230 */     this.scaleUp_.addActionListener(new ActionListener()
 /* 205:    */     {
@@ -212,8 +212,8 @@
 /* 212:    */         }
 /* 213:    */       }
 /* 214:240 */     });
-/* 215:241 */     this.scaleDown_ = new JButton("Scale down");
-/* 216:242 */     this.scaleDown_.setBounds(320, 50, 100, 20);
+/* 215:241 */     this.scaleDown_ = new JButton("Scale Down");
+/* 216:242 */     this.scaleDown_.setBounds(320, 50, 150, 20);
 /* 217:243 */     this.scaleDown_.setVisible(true);
 /* 218:244 */     this.scaleDown_.addActionListener(new ActionListener()
 /* 219:    */     {

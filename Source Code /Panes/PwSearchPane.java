@@ -236,7 +236,7 @@
 /* 236:240 */     showaddInfoPanel();
 /* 237:    */     
 /* 238:242 */     this.line_ = 0;
-/* 239:243 */     JButton newSearch = new JButton("new search");
+/* 239:243 */     JButton newSearch = new JButton("New Search");
 /* 240:244 */     newSearch.setBounds(40, 20, this.colDis, this.linDis);
 /* 241:245 */     newSearch.setVisible(true);
 /* 242:246 */     newSearch.addActionListener(new ActionListener()

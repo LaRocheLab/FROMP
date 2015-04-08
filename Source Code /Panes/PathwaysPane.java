@@ -33,7 +33,7 @@
 /*  33:    */   JPanel showPanel_;
 /*  34:    */   int yOffset_;
 /*  35: 42 */   int minVisScore_ = 0;
-/*  36: 43 */   int xCol2 = 300;
+/*  36: 43 */   int xCol2 = 350;
 /*  37: 44 */   int xCol3 = 500;
 /*  38: 45 */   int mode = 0;
 /*  39: 47 */   int yLine1 = 30;
@@ -66,7 +66,7 @@
 
 				  checked=false;
 /*  65:    */     
-/*  66: 77 */     this.backButton_ = new JButton("< Back to the analysisoptions");
+/*  66: 77 */     this.backButton_ = new JButton("< Back to the Analysis Options");
 /*  67: 78 */     initMainPanels();
 /*  68: 79 */     initChainChecks();
 /*  69: 80 */     addOptions();
@@ -105,7 +105,7 @@
 /* 102:    */   
 /* 103:    */   private void initChainChecks()
 /* 104:    */   {
-/* 105:110 */     JLabel chain = new JLabel("Use chaining mode 1");
+/* 105:110 */     JLabel chain = new JLabel("Use Chaining Mode 1");
 /* 106:111 */     if (this.chainCheck_ == null)
 /* 107:    */     {
 /* 108:112 */       this.chainCheck_ = new JCheckBox();
@@ -135,7 +135,7 @@
 /* 132:140 */     });
 /* 133:141 */     this.optionsPanel_.add(this.chainCheck_);
 /* 134:    */     
-/* 135:143 */     JLabel chain2 = new JLabel("Use chaining mode 2");
+/* 135:143 */     JLabel chain2 = new JLabel("Use Chaining Mode 2");
 /* 136:144 */     if (this.chainCheck2_ == null)
 /* 137:    */     {
 /* 138:145 */       this.chainCheck2_ = new JCheckBox();
@@ -169,12 +169,12 @@
 /* 166:    */   
 /* 167:    */   private void addChaincheck()
 /* 168:    */   {
-/* 169:180 */     JLabel chain = new JLabel("Use chaining mode 1");
+/* 169:180 */     JLabel chain = new JLabel("Use Chaining Mode 1");
 /* 170:181 */     chain.setBounds(this.xCol3 + 20, this.yLine1, 230, 20);
 /* 171:182 */     this.optionsPanel_.add(chain);
 /* 172:183 */     this.optionsPanel_.add(this.chainCheck_);
 /* 173:    */     
-/* 174:185 */     JLabel chain2 = new JLabel("Use chaining mode 2");
+/* 174:185 */     JLabel chain2 = new JLabel("Use Chaining Mode 2");
 /* 175:186 */     chain2.setBounds(this.xCol3 + 220, this.yLine1, 230, 20);
 /* 176:187 */     this.optionsPanel_.add(chain2);
 /* 177:188 */     this.optionsPanel_.add(this.chainCheck2_);
@@ -187,7 +187,7 @@
 /* 184:193 */     this.listCheck_ = new JCheckBox();
 /* 185:    */     
 /* 186:    */ 
-/* 187:196 */     listl_.setBounds(this.xCol2 + 20, this.yLine1, 200, 20);
+/* 187:196 */     listl_.setBounds(this.xCol2 +20, this.yLine1, 150, 20);
 /* 188:197 */     this.optionsPanel_.add(listl_);
 /* 189:198 */     this.listCheck_.setBounds(this.xCol2, this.yLine1, 20, 20);
 //* 190:199 */     this.listCheck_.setBackground(this.optionsPanel_.getBackground());
@@ -332,7 +332,7 @@
 /* 323:358 */     this.optionsPanel_.add(this.pwPlot_);
 /* 324:    */     
 /* 325:    */ 
-/* 326:361 */     this.backButton_.setBounds(10, 52, 200, 25);
+/* 326:361 */     this.backButton_.setBounds(10, 52, 300, 25);
 /* 327:362 */     this.optionsPanel_.add(this.backButton_);
 /* 328:    */   }
 /* 329:    */   

@@ -17,8 +17,8 @@
 
 /*  16:    */ public class PngBuilder
 /*  17:    */ {
-/*  18:    */   BufferedImage image;
-/*  19: 14 */   String separator_ = File.separator;
+/*  18:    */   BufferedImage image;					// The image being generated
+/*  19: 14 */   String separator_ = File.separator;		// the file seperator used by this OS
 /*  20:    */   
 /*  21:    */   public BufferedImage getAlteredPathway(ArrayList<EcPosAndSize> posList, String pathwayId, Sample sample)
 /*  22:    */   {

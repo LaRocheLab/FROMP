@@ -18,58 +18,60 @@
 			  import Prog.StringReader;
 
 /*  17:    */ 
-			//Obviously this is where project files are stored. Not much computation is done here beyond loading saved project files, 
-			//and exporting project files. Serves mostly to store the data from the samples so it can be used elsewhere.
+			// Obviously this is where project files are stored. Serves mostly to store the data from the samples so it can be used elsewhere.
+			// One notable feature of this class however is the fact that this is where the matrix format files are processed... I don't know  
+			// why either but it works and is was a hastle to move it to Prog.DataProcessor. If you would like to take the time to do so you  
+			// are welcome to do so 
 
 
 /*  18:    */ public class Project
 /*  19:    */ {
-/*  20:    */   public static String projectPath_;
-/*  21:    */   public static String workpath_;
-/*  22:    */   public static ArrayList<String> userPathways;
-/*  23:    */   static final String VERS = "$$ver:";
-/*  24:    */   public static int minVisScore_;
-				public static boolean loaded=false;
-/*  25: 28 */   public static boolean listMode_ = false;
-/*  26: 29 */   public static boolean randMode_ = false;
-/*  27: 30 */   public static boolean chaining = true;
-/*  28: 31 */   public static boolean imported = false;
-/*  29: 33 */   public static boolean dataChanged = true;
-/*  30: 34 */   public static boolean dataChanged2 = true;
-/*  31:    */   public static ArrayList<Sample> samples_;
-/*  32:    */   public static ArrayList<String> removedSamples;
-/*  33:    */   public static Sample overall_;
-/*  34:    */   private static Color backColor_;
-/*  35:    */   private static Color fontColor_;
-/*  36:    */   private static Color overAllColor_;
-/*  37: 47 */   public static Color standard = new Color(90, 125, 206);
-/*  38: 49 */   public static int amountOfEcs=0;
-				public static int numOfCompleteEcs=0;
-				public static int numOfMappedEcs=0;
-				public static int amountOfPfs=0;
-				public static int numOfConvertedPFs=0;
-				public static int numOfConvPfsComplete=0;
-				public static int numOfConvPfsMapped=0;
-				public static int amountOfIPRs=0;
-				public static int numOfConvertedIPRs=0;
-				public static int numOfConvIPRsComplete=0;
-				public static int numOfConvIPRsMapped=0;
-/*  43: 54 */   public static ArrayList<Boolean> legitSamples = new ArrayList();
-				final static String basePath_ = new File(".").getAbsolutePath() + File.separator;
-				Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();
-				Hashtable<String, String> PFamToECHash=new Hashtable<String, String>();
-				BufferedReader interproToECTxt_;
-				BufferedReader pfamToRnToEcTxt_;
-				static final String interproToECPath_ = basePath_+"list" + File.separator + "interPro_kegg.tsv";
-				static final String pfamToRnToEcPath_ = basePath_+"list" + File.separator + "pfam2Ec2Rn.txt";
-				StringReader reader;
+/*  20:    */   public static String projectPath_;																	// Path to the project file in question
+/*  21:    */   public static String workpath_;																		// The name of the project
+/*  22:    */   public static ArrayList<String> userPathways;														// User created pathways being used for this project
+/*  23:    */   static final String VERS = "$$ver:";																// 
+/*  24:    */   public static int minVisScore_;																		// 
+				public static boolean loaded=false;																	// 
+/*  25: 28 */   public static boolean listMode_ = false;															// 
+/*  26: 29 */   public static boolean randMode_ = false;															// 
+/*  27: 30 */   public static boolean chaining = true;																// 
+/*  28: 31 */   public static boolean imported = false;																// 
+/*  29: 33 */   public static boolean dataChanged = true;															// 
+/*  30: 34 */   public static boolean dataChanged2 = true;															// 
+/*  31:    */   public static ArrayList<Sample> samples_;															// ArrayList of sample objects which stores the samples associated wth this project
+/*  32:    */   public static ArrayList<String> removedSamples;														// 
+/*  33:    */   public static Sample overall_;																		// 
+/*  34:    */   private static Color backColor_;																	// 
+/*  35:    */   private static Color fontColor_;																	// 
+/*  36:    */   private static Color overAllColor_;																	// 
+/*  37: 47 */   public static Color standard = new Color(90, 125, 206);												// 
+/*  38: 49 */   public static int amountOfEcs=0;																	// 
+				public static int numOfCompleteEcs=0;																// 
+				public static int numOfMappedEcs=0;																	// 
+				public static int amountOfPfs=0;																	// 
+				public static int numOfConvertedPFs=0;																// 
+				public static int numOfConvPfsComplete=0;															// 
+				public static int numOfConvPfsMapped=0;																// 
+				public static int amountOfIPRs=0;																	// 
+				public static int numOfConvertedIPRs=0;																// 
+				public static int numOfConvIPRsComplete=0;															// 
+				public static int numOfConvIPRsMapped=0;															// 
+/*  43: 54 */   public static ArrayList<Boolean> legitSamples = new ArrayList();									// ArrayList of booleans which correlates to the samples_ array and states whether of not each sample is valid
+				final static String basePath_ = new File(".").getAbsolutePath() + File.separator;					// The base path of the Fromp software. Nessesairy for all relative paths to function
+				Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();		// Hash which stores the IPR -> EC conversion file
+				Hashtable<String, String> PFamToECHash=new Hashtable<String, String>();								// Hash which stores the PFam -> EC conversion file
+				BufferedReader interproToECTxt_;																	// Reader for IPR -> EC conversion file
+				BufferedReader pfamToRnToEcTxt_;																	// Reader for PFam -> EC conversion file
+				static final String interproToECPath_ = basePath_+"list" + File.separator + "interPro_kegg.tsv";	// Path to the file for the IPR -> EC conversion file
+				static final String pfamToRnToEcPath_ = basePath_+"list" + File.separator + "pfam2Ec2Rn.txt";		// Path to the file for the PFam -> EC conversion file
+				StringReader reader;																				// Prog.StringReader, not native Java string reader
 /*  44:    */   
 /*  45:    */   public Project(String workPath)
 /*  46:    */   {
-/*  47: 57 */     File file = new File("");
+/*  47: 57 */     File file = new File("");						
 /*  48:    */     try
 /*  49:    */     {
-/*  50: 60 */       projectPath_ = file.getCanonicalPath();
+/*  50: 60 */       projectPath_ = file.getCanonicalPath();		//Sets the path to the project file
 /*  51:    */     }
 /*  52:    */     catch (IOException e)
 /*  53:    */     {
@@ -89,7 +91,7 @@
 /*  67:    */   }
 /*  68:    */   
 /*  69:    */   public int loadProject(BufferedReader projectFile)
-/*  70:    */   {
+/*  70:    */   {// Method to load a project file. Calls loadProjectv0 with an integer 'mode' deppending of whether or not the first line contains "$$ver:1". version 1 has denotions for whether or not each sample in the project file is "in use"
 /*  71: 84 */     String zeile = "";
 /*  72:    */     try
 /*  73:    */     {
@@ -183,7 +185,7 @@
 /* 161:    */   }
 /* 162:    */   
 /* 163:    */   public void writeProject()
-/* 164:    */   {
+/* 164:    */   {// Writes out a project file. To my knowledge this method is never used as the exportProject method is prefered. Writes to a .prj file 
 /* 165:180 */     System.out.println(projectPath_);
 /* 166:    */     try
 /* 167:    */     {
@@ -230,30 +232,30 @@
 /* 208:    */   }
 /* 209:    */   
 /* 210:    */   public String exportProj(String path)
-/* 211:    */   {
+/* 211:    */   {// The actual method to write the project out to a file. Builds a .frp file
 				  System.out.println("exportProj");
 /* 212:225 */     if (path == null)
 /* 213:    */     {
 /* 214:226 */       path = projectPath_;
 /* 215:227 */       if (!path.endsWith(".frp")) {
 /* 216:228 */         path = projectPath_ + File.separator + "projects" + File.separator + workpath_ ;
-					  String tmpPath=path+ ".frp";
-					  File file1 = new File(tmpPath);
-					  if(file1.exists() && !file1.isDirectory()) { 
-						int i=1;
-					 	while("Pigs"!="Fly"){// loop forever
-					  		tmpPath=path+"("+i+")"+ ".frp";
-					  		File file2=new File(tmpPath);
-					  		if(file2.exists() && !file2.isDirectory()) { 
-					  			i++;
-					  			continue;
-					  		} else{
-					  			path=path+"("+i+")";
-					  			break;
-					  		}
-					  	}
-					  }
-					  path=path+ ".frp";
+					  String tmpPath=path+ ".frp";							// Temporary string built to test if a file of that name allready exists
+					  File file1 = new File(tmpPath);						//
+					  if(file1.exists() && !file1.isDirectory()) { 			// If the file of that name does exist than loop until appending some int i to the file name will generate a file name for a file that does not already exist
+						int i=1;											//
+					 	while("Pigs"!="Fly"){								// This is my favorite infinite loop condition (followed closely by "Hell" != "Frozen over").
+					  		tmpPath=path+"("+i+")"+ ".frp";					//
+					  		File file2=new File(tmpPath);					//
+					  		if(file2.exists() && !file2.isDirectory()) { 	// If the file with this name exists increment the int i and keep looping
+					  			i++;										//
+					  			continue;									//
+					  		} else{											// If there is no file with this name that exists than this name is ok for the file we are generating. Break out of the loop.
+					  			path=path+"("+i+")";						//
+					  			break;										//
+					  		}												//
+					  	}													//
+					  }														//
+					  path=path+ ".frp";									// Appends the file extension
 /* 217:    */       }
 /* 218:230 */       System.out.println(path);
 /* 219:    */     }
@@ -290,7 +292,7 @@
 /* 233:    */       }
 /* 234:    */       catch (FileNotFoundException e)
 /* 235:    */       {
-/* 236:245 */         JFrame frame = new JFrame("Error");
+/* 236:245 */         JFrame frame = new JFrame("Error");	// If an error is caught when trying to write to the file we are generating a new JFrame displaying the error message is built
 /* 237:246 */         frame.setBounds(100, 100, 500, 100);
 /* 238:247 */         frame.setVisible(true);
 /* 239:248 */         frame.setLayout(null);
@@ -360,9 +362,9 @@
 /* 303:310 */           out.newLine();
 /* 304:    */         }
 /* 305:    */       }
-/* 306:313 */       saveUserPAths(out);
-/* 307:314 */       saveConvStats(out);
-/* 308:315 */       out.close();
+/* 306:313 */       saveUserPAths(out);		// Writes the userpaths (if any) to the end of the file
+/* 307:314 */       saveConvStats(out);		// Writes the conversion statistics (if any) to the end of the file
+/* 308:315 */       out.close();			// Closes the file
 /* 309:316 */       return path;
 /* 310:    */     }
 /* 311:    */     catch (IOException e)
@@ -402,7 +404,7 @@
 /* 341:    */   
 /* 342:    */   private void loadConvStats(BufferedReader in)
 /* 343:    */     throws IOException
-/* 344:    */   {
+/* 344:    */   {// Loads coversion statistics from an input project file
 /* 345:    */     String zeile;
 				  loaded=true;
 /* 346:354 */     while ((zeile = in.readLine()) != null)
@@ -623,7 +625,7 @@
 /* 487:    */   }
 /* 488:    */   
 /* 489:    */   public void loadMat(String path, String name)
-/* 490:    */   {
+/* 490:    */   {// When you press the "Load EC-Matrix" button in the the EditSamplesPane and load a matrix file type this is where it is parsed. Takes in ECs, or Pfams/IPRs to be converted,  as well as the counts for each sample in a matrix format. This function parses that and builds samples from the file to add to this project.
 /* 491:465 */     String line = "";
 /* 492:466 */     String cutOff = "";
 /* 493:467 */     int origSmpSize = samples_.size();
@@ -701,7 +703,7 @@
 /* 549:    */           		}
 							}
 							continue;
-							
+
 						}
 						else if(cutOff.startsWith("PF")){
 							this.reader = new StringReader();
@@ -761,7 +763,7 @@
 /* 558:    */     }
 /* 559:    */   }
 
-				private String convertPFam(String pfam){
+				private String convertPFam(String pfam){// Conversion step for Pfams using Pfam -> Ec conversion files
 					String ret="";
 					if(this.PFamToECHash.isEmpty()){
 				    	DigitizeConversionFiles();
@@ -778,7 +780,7 @@
 					return ret;
 				}
 
-				private ArrayList<String> convertInterpro(String interpro){//this is the conversion step using ipr->kegg.
+				private ArrayList<String> convertInterpro(String interpro){// This is the conversion step using ipr->kegg.
 				  	ArrayList<String> retList = new ArrayList(); 
 				    if(this.IPRToECHash.isEmpty()){
 				    	DigitizeConversionFiles();
@@ -797,7 +799,7 @@
 				    }
 				    return retList;
 				}
-				private void DigitizeConversionFiles(){
+				private void DigitizeConversionFiles(){ // Parses through both the IPR->Kegg and PFam->EC conversion files and takes them in to memory as HashTables to facilitate the conversion from PFam or IPR to EC
 				  	this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);
 				  	this.pfamToRnToEcTxt_ = this.reader.readTxt(pfamToRnToEcPath_);
 				  	Hashtable<String, ArrayList<String>> tmpIPRToEC = new Hashtable<String, ArrayList<String>>();
@@ -858,7 +860,7 @@
 /* 570:    */   }
 /* 571:    */   
 /* 572:    */   public void importProj(String path)
-/* 573:    */   {
+/* 573:    */   {// Imports the project file at a given file path
 /* 574:599 */     legitSamples = new ArrayList();
 /* 575:600 */     BufferedReader in = null;
 /* 576:601 */     projectPath_ = path;
@@ -1025,7 +1027,7 @@
 /* 737:    */   }
 /* 738:    */   
 /* 739:    */   public void clearSamples()
-/* 740:    */   {
+/* 740:    */   {// removes all the samples stored by this project object
 /* 741:759 */     samples_ = new ArrayList();
 /* 742:    */   }
 /* 743:    */   

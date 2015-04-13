@@ -14,24 +14,24 @@
 
 /*  12:    */ public class Sample
 /*  13:    */ {
-/*  14:    */   StringReader reader_;
-/*  15:    */   public String name_;
-/*  16:    */   public String fullPath_;
-/*  17:    */   public Color sampleCol_;
-/*  18:    */   public BufferedReader sample_;
-/*  19:    */   public ArrayList<PathwayWithEc> pathways_;
-/*  20:    */   public ArrayList<EcWithPathway> ecs_;
-/*  21:    */   public ArrayList<PathwayWithEc> rnPathways_;
-/*  22:    */   public ArrayList<EcWithPathway> rns_;
-/*  23:    */   public ArrayList<ConvertStat> conversions_;
-/*  24:    */   public boolean imported;
-/*  25: 28 */   public boolean matrixSample = false;
-/*  26:    */   public boolean inUse;
-/*  27:    */   public boolean valuesSet;
-/*  28: 31 */   public boolean singleSample_ = true;
-/*  29: 33 */   public boolean legitSample = false;
-/*  30: 35 */   public int indexNr = 0;
-				public boolean onoff = true;
+/*  14:    */   StringReader reader_;							// String reader used to load new samples 
+/*  15:    */   public String name_;							// Name of the sample
+/*  16:    */   public String fullPath_;						// The file path to the sample
+/*  17:    */   public Color sampleCol_;						// the sample colour
+/*  18:    */   public BufferedReader sample_;					// Buffered reader used to load new samples 
+/*  19:    */   public ArrayList<PathwayWithEc> pathways_;		// Array list of pathways with ecs mapped to them in the sample
+/*  20:    */   public ArrayList<EcWithPathway> ecs_;			// Array list of ecs with pathways in the sample
+/*  21:    */   public ArrayList<PathwayWithEc> rnPathways_;	// 
+/*  22:    */   public ArrayList<EcWithPathway> rns_;			// 
+/*  23:    */   public ArrayList<ConvertStat> conversions_;		// the conversion statistrics for ecs in this sample
+/*  24:    */   public boolean imported;						// 
+/*  25: 28 */   public boolean matrixSample = false;			// 
+/*  26:    */   public boolean inUse;							// 
+/*  27:    */   public boolean valuesSet;						// 
+/*  28: 31 */   public boolean singleSample_ = true;			// 
+/*  29: 33 */   public boolean legitSample = false;				// 
+/*  30: 35 */   public int indexNr = 0;							// 
+				public boolean onoff = true;					// Used for display purposes in the GUI
 /*  31:    */   
 /*  32:    */   public Sample()
 /*  33:    */   {

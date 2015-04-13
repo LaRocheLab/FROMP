@@ -1,7 +1,7 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
 
-			//This class holds information about the data (ie. which ec's were converted from pfams). Not particularily interesting.
+			//This class holds information about the data (ie. which ec's were converted from pfams).
 
 /*  3:   */ public class ConvertStat
 /*  4:   */ {

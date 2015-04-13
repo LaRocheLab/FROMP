@@ -19,28 +19,31 @@
 /*  19:    */ import javax.swing.JPanel;
 /*  20:    */ import javax.swing.JScrollPane;
 /*  21:    */ import javax.swing.JTextField;
+
+				// The panel which comes up in the GUI by using the drop down menu option Projects->Search
+				// This allows the user to search by EC or by pathway
 /*  22:    */ 
 /*  23:    */ public class PwSearchPane
 /*  24:    */   extends JPanel
 /*  25:    */ {
-/*  26:    */   private static final long serialVersionUID = 1L;
-/*  27:    */   private ArrayList<Sample> samples_;
-/*  28:    */   private Sample overSample_;
-/*  29:    */   private ArrayList<PathwayWithEc> pathways_;
-/*  30:    */   private JTextField searchfield;
-/*  31:    */   private JTextField searchfield2;
-/*  32:    */   private ArrayList<Integer> pathwIndexes_;
-/*  33:    */   private ArrayList<Integer> ecIndexes_;
-/*  34:    */   private Project proj_;
-/*  35:    */   private int line_;
-/*  36: 41 */   private int linDis = 40;
-/*  37: 42 */   private int colDis = 250;
-/*  38: 43 */   private int xDist = 250;
-/*  39:    */   private JPanel optionsPanel_;
-/*  40:    */   private JPanel displayP_;
-/*  41:    */   private JScrollPane showJPanel_;
-/*  42:    */   private JLabel mouseOverDisp;
-/*  43:    */   private JPanel mouseOverP;
+/*  26:    */   private static final long serialVersionUID = 1L; 	// 
+/*  27:    */   private ArrayList<Sample> samples_;					// ArrayList of samples to search through
+/*  28:    */   private Sample overSample_;							// 
+/*  29:    */   private ArrayList<PathwayWithEc> pathways_;			// ArrayList of pathways to search through
+/*  30:    */   private JTextField searchfield;						// Pathway search field
+/*  31:    */   private JTextField searchfield2;					// EC search field
+/*  32:    */   private ArrayList<Integer> pathwIndexes_;			// Temp variable of the indicies in the pathways arraylist that the search hits
+/*  33:    */   private ArrayList<Integer> ecIndexes_;				// Temp variable of the indicies in the ec arraylist that the search hits
+/*  34:    */   private Project proj_;								// The active project
+/*  35:    */   private int line_;									// 
+/*  36: 41 */   private int linDis = 40;							// 
+/*  37: 42 */   private int colDis = 250;							// 
+/*  38: 43 */   private int xDist = 250;							// 
+/*  39:    */   private JPanel optionsPanel_;						// Options panel
+/*  40:    */   private JPanel displayP_;							// Panel where searches are displayed
+/*  41:    */   private JScrollPane showJPanel_;					// The scroll panel fro if the display panel gets too large for its allotted space
+/*  42:    */   private JLabel mouseOverDisp;						// 
+/*  43:    */   private JPanel mouseOverP;							// 
 /*  44:    */   
 /*  45:    */   public PwSearchPane(Project proj, ArrayList<Sample> samples, Sample overallSample, Dimension dim)
 /*  46:    */   {

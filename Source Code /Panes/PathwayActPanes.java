@@ -12,6 +12,8 @@
 /* 12:   */ import javax.swing.JCheckBox;
 /* 13:   */ import javax.swing.JPanel;
 /* 14:   */ 
+			// The Panel above the PathwayActivitymatrixPane
+
 /* 15:   */ public class PathwayActPanes
 /* 16:   */   extends JPanel
 /* 17:   */ {

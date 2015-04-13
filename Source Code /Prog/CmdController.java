@@ -17,39 +17,39 @@
 
 /*  16:    */ public class CmdController
 /*  17:    */ {
-/*  18:    */   public static String[] args_;
-/*  19:    */   String inputPath_;
-/*  20:    */   String outPutPath_;
-/*  21:    */   String optionsCmd_;
-				String ec_;
-/*  22:    */   static Controller controller;
-/*  23:    */   static PathwayMatrix pwMAtrix;
-				final String basePath_ = new File(".").getAbsolutePath() + File.separator;
+/*  18:    */   public static String[] args_;												// An array of String arguments tagen in from the command line
+/*  19:    */   String inputPath_;															// The inputpath given by the user  
+/*  20:    */   String outPutPath_;															// The output path given in by the user
+/*  21:    */   String optionsCmd_;															// The option denoted by the user. ie h for help, etc
+				String ec_;																	// If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
+/*  22:    */   static Controller controller;												// The controller. Allows user to save, load etc.
+/*  23:    */   static PathwayMatrix pwMAtrix;												// 
+				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The base path of the Fromp software. Nessesairy for all relative paths to function
 /*  24:    */   
 /*  25:    */   public CmdController(String[] args)
 /*  26:    */   {
 /*  27: 30 */     System.out.println("Starting cmdFromp");
 /*  28:    */     
 /*  29: 32 */     args_ = args;
-/*  30: 33 */     this.inputPath_ = getInputPath();
-/*  31: 34 */     System.out.println("input: " + this.inputPath_);
-/*  32: 35 */     this.outPutPath_ = getOutputPath();
-/*  33: 36 */     System.out.println("output: " + this.outPutPath_);
-/*  34: 37 */     this.optionsCmd_ = getOptionCmd();
-/*  35: 38 */     System.out.println("option: " + this.optionsCmd_);
-				  if(args_.length==4){
-				  	this.ec_ = getEC();
-/*  35: 38 */     	System.out.println("ec: " + this.ec_);
-				  }
+/*  30: 33 */     this.inputPath_ = getInputPath();						// Set instance variables from command line arguements
+/*  31: 34 */     System.out.println("input: " + this.inputPath_);		//
+/*  32: 35 */     this.outPutPath_ = getOutputPath();					//
+/*  33: 36 */     System.out.println("output: " + this.outPutPath_);	//
+/*  34: 37 */     this.optionsCmd_ = getOptionCmd();					//
+/*  35: 38 */     System.out.println("option: " + this.optionsCmd_);	//
+				  if(args_.length==4){									// If an EC was included set the ec_ variable
+				  	this.ec_ = getEC();									//
+/*  35: 38 */     	System.out.println("ec: " + this.ec_);				//
+				  }														//
 /*  36: 39 */     controller = new Controller(Color.black);
 /*  37:    */     
 /*  38: 41 */     Panes.Loadingframe.showLoading = false;
 /*  39: 42 */     Panes.HelpFrame.showSummary = false;
-/*  40: 44 */     if (this.inputPath_.endsWith(".frp"))//if the input file is of the the project file type, load the project
+/*  40: 44 */     if (this.inputPath_.endsWith(".frp"))					// If the input file is of the the project file type, load the project
 /*  41:    */     {
 /*  42: 45 */       controller.loadProjFile(this.inputPath_);
 /*  43:    */     }
-/*  51: 54 */     else if (this.inputPath_.endsWith(".lst"))//if the input file is of the .lst type, itterate through the file and build samples for all of the file paths in the file, if the line starts with <userP> a new userpath is added. They are all added to a new project
+/*  51: 54 */     else if (this.inputPath_.endsWith(".lst"))			// If the input file is of the .lst type, itterate through the file and build samples for all of the file paths in the file, if the line starts with <userP> a new userpath is added. They are all added to a new project
 /*  52:    */     {
 /*  53:    */       try
 /*  54:    */       {

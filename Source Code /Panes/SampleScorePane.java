@@ -28,27 +28,29 @@
 /*  28:    */ import javax.swing.JScrollPane;
 /*  29:    */ import javax.swing.filechooser.FileFilter;
 /*  30:    */ 
+				// The "Show pathway-scores" tab of the pathway completeness analysis
+
 /*  31:    */ public class SampleScorePane
 /*  32:    */   extends JPanel
 /*  33:    */ {
-/*  34:    */   private static final long serialVersionUID = 1L;
-/*  35:    */   private DataProcessor proc_;
-/*  36: 43 */   private static int counter = 0;
-/*  37: 45 */   private int yoffset = 100;
-/*  38: 46 */   private int linCnt = 0;
-/*  39: 47 */   private int colCnt = 0;
-/*  40: 48 */   private int linDis = 40;
-/*  41: 49 */   private int colDis = 275;
-/*  42: 51 */   private int lines = 31;
-/*  43:    */   private double maxVisScore;
-/*  44:    */   private JLabel mouseOverDisp;
-/*  45:    */   private JPanel mouseOverP;
-/*  46:    */   private JPanel optionsPanel_;
-/*  47:    */   private JPanel displayP_;
-/*  48:    */   private JScrollPane showJPanel_;
-/*  49:    */   private JCheckBox useCsf_;
-/*  50:    */   private static MouseOverFrame infoFrame;
-/*  51:    */   int xWidth;
+/*  34:    */   private static final long serialVersionUID = 1L;	// 
+/*  35:    */   private DataProcessor proc_;						// the data processor object used to parse through input files
+/*  36: 43 */   private static int counter = 0;						// 
+/*  37: 45 */   private int yoffset = 100;							// 
+/*  38: 46 */   private int linCnt = 0;								// 
+/*  39: 47 */   private int colCnt = 0;								// 
+/*  40: 48 */   private int linDis = 40;							// 
+/*  41: 49 */   private int colDis = 275;							// 
+/*  42: 51 */   private int lines = 31;								// 
+/*  43:    */   private double maxVisScore;							// 
+/*  44:    */   private JLabel mouseOverDisp;						// 
+/*  45:    */   private JPanel mouseOverP;							// 
+/*  46:    */   private JPanel optionsPanel_;						// the options panel upon which the options, ie buttons and chectboxes, are displayed
+/*  47:    */   private JPanel displayP_;							// the display panel upon which the pathway scores will be displayed 
+/*  48:    */   private JScrollPane showJPanel_;					// 
+/*  49:    */   private JCheckBox useCsf_;							// 
+/*  50:    */   private static MouseOverFrame infoFrame;			// 
+/*  51:    */   int xWidth;											// 
 /*  52:    */   
 /*  53:    */   public SampleScorePane(Sample overAll, Project actProj, DataProcessor proc, Dimension dim)
 /*  54:    */   {

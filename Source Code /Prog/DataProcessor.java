@@ -42,82 +42,80 @@
 /*   33:     */   StringReader reader;
 /*   34:     */   String workpath_;
 /*   35:     */   String separator_;
-/*   36:  31 */   static final String listPath = "list" + File.separator + "ec.list";//these five lines are the conversion charts found in "/list"
-/*   37:  32 */   static final String ecNamesPath = "list" + File.separator + "ec2go.txt";
-/*   38:  33 */   static final String rnListPath = "list" + File.separator + "rn.list";
-/*   39:  34 */   static final String mapTitleList = "list" + File.separator + "map_title.tab";
-/*   40:  35 */   static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt";
-				  static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt";
-				  static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
-/*   41:     */   static final String EC = "EC";
-/*   42:     */   static final String PF = "Pf";
-/*   43:     */   static final String RN = "Rn";
-				  static final String IPR = "IPR";
-/*   44:     */   XmlParser parser;
-/*   45:  40 */   int offCounter = 0;
-/*   46:  41 */   int counter = 0;
-/*   47:  42 */   int nrOfP = 0;
-/*   48:  46 */   public static boolean newBaseData = true;
-/*   49:  47 */   public static boolean newUserData = true;
-/*   50:     */   Loadingframe lFrame_;
-/*   51:  51 */   boolean chaining = true;
-/*   52:  53 */   int numOfConvertedPfam = 0;
-/*   53:  54 */   int numOfMissedpfams = 0;
-/*   54:  55 */   int numOfPFams = 0;
-/*   55:  56 */   int numOfPfamsToGo = 0;
-/*   56:  57 */   int numOfGOToRn = 0;
-/*   57:  58 */   int numOfGoToEc = 0;
-/*   58:     */   int unmatchedIndex;
-/*   59:  62 */   int maxEcInP = 0;
-//				  int numIPR = 0;
-//				  int numConvertedIPR = 0;
-//				  int numCompleteIPR = 0;
-//				  int numMappedIPR = 0;
-/*   60:     */   BufferedReader ecList;
-/*   61:     */   BufferedReader rnList;
-/*   62:     */   BufferedReader nameList;
-/*   63:     */   BufferedReader ecToGoTxt_;
-/*   64:     */   BufferedReader pfamToRnToEc_;
-				  BufferedReader interproToGOTxt_;
-				  BufferedReader interproToECTxt_;
-/*   65:     */   PngBuilder build;
-/*   66:     */   Color sysCol_;
-/*   67:     */   public static ArrayList<PathwayWithEc> pathwayList_;
-/*   68:     */   private static ArrayList<PathwayWithEc> newUserPathList_;
-/*   69:     */   public static ArrayList<EcWithPathway> ecList_;
-/*   70:  75 */   boolean reduce = false;
-
-				  ArrayList<String> numEcs=new ArrayList<String>();
-				  ArrayList<String> numPfams=new ArrayList<String>();
-				  ArrayList<String> totalnumPfams=new ArrayList<String>();
-
-				  ArrayList<String> matrixSamples=new ArrayList<String>();
-
-				  Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();
-				  Hashtable<String, ArrayList<String>> IPRToGOHash=new Hashtable<String, ArrayList<String>>();
-				  Hashtable<String, ArrayList<String>> GOToECHash=new Hashtable<String, ArrayList<String>>();
+/*   36:  31 */   static final String listPath = "list" + File.separator + "ec.list";					 		// These lines are the conversion charts found in "/list"
+/*   37:  32 */   static final String ecNamesPath = "list" + File.separator + "ec2go.txt";				 		//
+/*   38:  33 */   static final String rnListPath = "list" + File.separator + "rn.list";					 		//
+/*   39:  34 */   static final String mapTitleList = "list" + File.separator + "map_title.tab";			 		//
+/*   40:  35 */   static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt";	 		//
+				  static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt";	 		//
+				  static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv"; 		//
+/*   41:     */   static final String EC = "EC";																// Variables to store the starting Strings of Pfams, ECs, Rns, and InterPros
+/*   42:     */   static final String PF = "Pf";																//
+/*   43:     */   static final String RN = "Rn";																//
+				  static final String IPR = "IPR";																//
+/*   44:     */   XmlParser parser;																				// An XML parser, Prog.XMLParser
+/*   45:  40 */   int offCounter = 0;																			//
+/*   46:  41 */   int counter = 0;																				//
+/*   47:  42 */   int nrOfP = 0;																				//
+/*   48:  46 */   public static boolean newBaseData = true;														//		
+/*   49:  47 */   public static boolean newUserData = true;														//
+/*   50:     */   Loadingframe lFrame_;																			// Loading Frame to let the user know when things are happening
+/*   51:  51 */   boolean chaining = true;																		// Boolean to indicate whether or not in chaining mode
+/*   52:  53 */   int numOfConvertedPfam = 0;																	// Conversion statistics for the Pfam, EC, and InterPro conversions	
+/*   53:  54 */   int numOfMissedpfams = 0;																		// 
+/*   54:  55 */   int numOfPFams = 0;																			//
+/*   55:  56 */   int numOfPfamsToGo = 0;																		//
+/*   56:  57 */   int numOfGOToRn = 0;																			//
+/*   57:  58 */   int numOfGoToEc = 0;																			//
+/*   58:     */   int unmatchedIndex;																			//
+/*   59:  62 */   int maxEcInP = 0;																				//
+//				  int numIPR = 0;																				//	
+//				  int numConvertedIPR = 0;																		//
+//				  int numCompleteIPR = 0;																		//
+//				  int numMappedIPR = 0;																			//
+/*   60:     */   BufferedReader ecList;																		// Buffered Reader for reading the conversion files
+/*   61:     */   BufferedReader rnList;																		//
+/*   62:     */   BufferedReader nameList;																		//
+/*   63:     */   BufferedReader ecToGoTxt_;																	//
+/*   64:     */   BufferedReader pfamToRnToEc_;																	//
+				  BufferedReader interproToGOTxt_;																//
+				  BufferedReader interproToECTxt_;																//
+/*   65:     */   PngBuilder build;																				// PngBuilder to draw the graphics
+/*   66:     */   Color sysCol_;																				// Array list containing the pathways
+/*   67:     */   public static ArrayList<PathwayWithEc> pathwayList_;											// Array list containing the user pathways
+/*   68:     */   private static ArrayList<PathwayWithEc> newUserPathList_;										// Array list containg the ECs
+/*   69:     */   public static ArrayList<EcWithPathway> ecList_;												//
+/*   70:  75 */   boolean reduce = false;																		//
+																												//
+				  ArrayList<String> numEcs=new ArrayList<String>();												// Arraylists to facilitate conversion statistics
+				  ArrayList<String> numPfams=new ArrayList<String>();											//	
+				  ArrayList<String> totalnumPfams=new ArrayList<String>();										//
+				  																								//
+				  Hashtable<String, ArrayList<String>> IPRToECHash=new Hashtable<String, ArrayList<String>>();	// Hash of IPR -> EC conversion
+				  Hashtable<String, ArrayList<String>> IPRToGOHash=new Hashtable<String, ArrayList<String>>();	// Hash of IPR -> GO conversion
+				  Hashtable<String, ArrayList<String>> GOToECHash=new Hashtable<String, ArrayList<String>>();	// Hash of GO -> EC conversion
 
 /*   71:     */   
 /*   72:     */   public DataProcessor(Project actProj)
-/*   73:     */   {
-/*   74:  78 */     this.activeProj_ = actProj;
-
-					newUserData = true;
-					newBaseData = true;
-/*   75:     */     
-/*   76:  80 */     this.reader = new StringReader();
-/*   77:  81 */     this.separator_ = File.separator;
-/*   78:  82 */     this.parser = new XmlParser();
-/*   79:  83 */     this.lFrame_ = new Loadingframe();
-/*   80:     */     
-/*   81:  85 */     newUserPathList_ = new ArrayList();
-                    pathwayList_= null;
-/*   82:     */     
-/*   83:  87 */     prepData();
+/*   73:     */   {// Builds the data processor object for the active project
+/*   74:  78 */     this.activeProj_ = actProj;				 
+															
+					newUserData = true;						
+					newBaseData = true;						
+/*   75:     */     										
+/*   76:  80 */     this.reader = new StringReader();		
+/*   77:  81 */     this.separator_ = File.separator;		
+/*   78:  82 */     this.parser = new XmlParser();			
+/*   79:  83 */     this.lFrame_ = new Loadingframe();		
+/*   80:     */     										
+/*   81:  85 */     newUserPathList_ = new ArrayList();		
+                    pathwayList_= null;						
+/*   82:     */     										
+/*   83:  87 */     prepData();	 // Prepares everything for the data processor 
 /*   84:     */   }
 /*   85:     */   
 /*   86:     */   public DataProcessor()
-/*   87:     */   {
+/*   87:     */   {// Builds a shell of a data processor, not connected to 
 					newUserData = true;
 					newBaseData = true;
 /*   88:  90 */     this.reader = new StringReader();
@@ -126,7 +124,7 @@
 /*   91:     */   }
 /*   92:     */   
 /*   93:     */   public void prepData()
-/*   94:     */   {
+/*   94:     */   {// Prepares the data processor, if the base data or the user data is new, ie DataProcessor was just called, it prepares the pathlist and the ec list 
 /*   95:  95 */     if (newBaseData)
 /*   96:     */     {
 /*   97:  96 */       System.err.println("new BaseData");
@@ -141,9 +139,9 @@
 /*  106: 104 */       prepUserEc();
 /*  107: 105 */       newUserData = false;
 /*  108:     */     }
-/*  109: 107 */     computeWeights();
-/*  110: 108 */     transferWeightToPwl();
-/*  111: 109 */     calcChainsForProg();
+/*  109: 107 */     computeWeights();		// 
+/*  110: 108 */     transferWeightToPwl();	// Transfers the weights to a pathway list
+/*  111: 109 */     calcChainsForProg();	// Calculates the longest chain between EcNrs
 /*  112: 111 */     if (this.lFrame_ != null) {
 /*  113: 112 */       Loadingframe.close();
 /*  114:     */     }
@@ -180,20 +178,20 @@
 /*  145:     */   }
 /*  146:     */   
 /*  147:     */   public String[] getEnzFromRawSample(String line)
-/*  148:     */   {  //retrieves ec/pfam and sequence ids from HMMER output files.
+/*  148:     */   {// Retrieves ec/pfam and sequence IDs from HMMER output files.
 					if(line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return getEnzFromInterPro(line);
 					}
 //					System.out.println("Raw Sample");
 /*  149: 146 */     String[] ret = new String[4];
 /*  150:     */     
-/*  155: 152 */     ret[0] = "X";//ec name
-/*  156:     */     
-/*  157: 154 */     ret[1] = "1";//number of this ec with this sequence id
-/*  158:     */     
-/*  159: 156 */     ret[2] = "X";//whether or not it is a pf or if it is an ec 
-/*  160:     */     
-/*  161: 158 */     ret[3] = "X";//sequence id
+/*  155: 152 */     ret[0] = "X";	// Ec name
+/*  156:     */     				//
+/*  157: 154 */     ret[1] = "1";	// Number of this ec with this sequence id
+/*  158:     */     				//
+/*  159: 156 */     ret[2] = "X";	// Whether or not it is a pf or if it is an ec 
+/*  160:     */     				//
+/*  161: 158 */     ret[3] = "X";	// Sequence ID
 /*  162: 160 */     if (line.contains("_"))
 /*  163:     */     {
 /*  164: 161 */       String tmp = line.substring(0, line.indexOf("_"));
@@ -269,14 +267,14 @@
 /*  202: 196 */         tmp = tmp.substring(0, tmp.indexOf(" -"));
 /*  203: 197 */         ret[3] = tmp;
 
-						if(!totalnumPfams.contains(ret[0])){//adds to the count of total pfams 
+						if(!totalnumPfams.contains(ret[0])){		// Adds to the count of total pfams 
 							totalnumPfams.add(ret[0]);
 						}
 						String[] nump=ret.clone();
 						ArrayList<String[]> nump2;
 						nump2=convertPfam(nump);
 						for(int i=0;i<nump2.size();i++){
-						  if(!numPfams.contains(nump2.get(i)[0])){//adds to the count of total converted pfams
+						  if(!numPfams.contains(nump2.get(i)[0])){	// Adds to the count of total converted pfams
 							numPfams.add(nump2.get(i)[0]);
 //							System.out.println(nump2.get(i)[0]);
 						  }
@@ -327,7 +325,7 @@
 /*  231:     */   }
 
 				  public String[] getEnzFromInterPro(String line)
-				  { //retrieves the interpro and sequence ids from InterPro output files
+				  { // Retrieves the interpro and sequence ids from InterPro output files
 
 				  	if(!line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return null;
@@ -336,10 +334,10 @@
 //				  	System.out.println("Inter Pro");
 					String[] ret = new String[4];
 
-					ret[0] = "X";//ipr name
-					ret[1] = "1";//number of this ipr with this sequence id
-					ret[2] = "X";//whether or not it is an ipr
-					ret[3] = "X";//sequence id
+					ret[0] = "X";	// IPR name
+					ret[1] = "1";	// Number of this ipr with this sequence id
+					ret[2] = "X";	// Whether or not it is an ipr
+					ret[3] = "X";	// Sequence id
 
 					if(line.contains("\t")){
 						String repSeq = line.substring(0,line.indexOf("\t"));
@@ -359,7 +357,7 @@
 				  }
 /*  232:     */   
 /*  233:     */   private String findPfamAndRepSeqInRaw(String input)
-/*  234:     */   {//finds the PFam and sequence ID in a line of raw data
+/*  234:     */   {// Finds the PFam and sequence ID in a line of raw data
 /*  235: 226 */     String Pfam = "";
 /*  236: 227 */     String tmp = input;
 /*  237: 230 */     while (tmp.contains("PF"))
@@ -623,7 +621,7 @@
 /*  390:     */   }
 /*  391:     */   
 /*  392:     */   public boolean isNumber(String in)
-/*  393:     */   {
+/*  393:     */   {// Returns whether or not a string is a number
 /*  394:     */     try
 /*  395:     */     {
 /*  396: 396 */       int num = Integer.valueOf(in).intValue();
@@ -638,7 +636,7 @@
 /*  405:     */   }
 /*  406:     */   
 /*  407:     */   public boolean isNumber(char c)
-/*  408:     */   {
+/*  408:     */   {// Returns whether or not a char is a number
 /*  409: 404 */     if ((c == '0') || (c == '1') || (c == '2') || (c == '3') || (c == '4') || (c == '5') || (c == '6') || (c == '7') || (c == '8') || (c == '9')) {
 /*  410: 405 */       return true;
 /*  411:     */     }
@@ -685,7 +683,7 @@
 /*  452:     */   
 				  //
 /*  453:     */   public void allEcVsPathway()
-/*  454:     */   {
+/*  454:     */   {// Does the parsing of the input files As well as the printing out of statistics at the end. each file is parsed line by line and checked for formating at teach line in order to accomidate for mixed format files. If the file is found to be of the interpro format, however, then this method will call another method to parse the file so that efficiency isnt lost checking the file type at each line. This method then continues
 /*  455: 459 */     String zeile = "";
 /*  456: 460 */     EcNr ecNr = null;
 /*  457:     */     
@@ -693,23 +691,23 @@
 /*  465: 469 */     this.lFrame_.bigStep("all EC Vs Pathway");
 					final long startTime = System.currentTimeMillis();
 					outerloop:
-/*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)
+/*  466: 474 */     for (int i = 0; i < Project.samples_.size(); i++)// For each of the samples in the project
 /*  467:     */     {
 /*  468: 475 */       this.lFrame_.bigStep(((Sample)Project.samples_.get(i)).name_);
 					  
 /*  469: 476 */       Sample sample = (Sample)Project.samples_.get(i);
-					  ArrayList<Sample> sampleArray= new ArrayList();//needed for the matrix input format
+					  ArrayList<Sample> sampleArray= new ArrayList();	// Needed for the matrix input format
 
-/*  470: 477 */       if (sample.valuesSet)
+/*  470: 477 */       if (sample.valuesSet) // If the sample has already had its vlaues set then simply add paths to the samples 
 /*  471:     */       {
 /*  472: 478 */         System.out.println("ValueSet");
 /*  473: 479 */         addUserNewPathsToSample(sample);
 /*  474:     */       }
-/*  475: 483 */       else if (sample.imported)
+/*  475: 483 */       else if (sample.imported) // if the  sample was imported then fill the samples ECs
 /*  476:     */       {
 /*  477: 484 */         fillSampleEcs((Sample)Project.samples_.get(i), i);
 /*  478:     */       }
-/*  479: 488 */       else if (!sample.name_.isEmpty())
+/*  479: 488 */       else if (!sample.name_.isEmpty()) // If the sample name is empty than the sample hasn't been built yet, so build the sample from the sample file
 /*  480:     */       {
 /*  481: 489 */         String tmp = ((Sample)Project.samples_.get(i)).fullPath_;
 /*  482: 490 */         sample.sample_ = this.reader.readTxt(tmp);
@@ -750,7 +748,7 @@
 /*  500:     */             }
 				            else
 				            {
-/*  503: 516 */               if (newEnz[2] == "EC") {//if the sequence was already a n EC
+/*  503: 516 */               if (newEnz[2] == "EC") {//if the sequence was already an EC
 /*  504: 517 */                 Debug.addEc(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
 /*  505:     */               } else {
 /*  506: 520 */                 Debug.addPf(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
@@ -759,7 +757,7 @@
 /*  508: 522 */               counter++;
 /*  509: 523 */               this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
 /*  510: 524 */               this.lFrame_.updateCounter(counter);
-/*  511: 525 */               if (newEnz[2].equalsIgnoreCase("PF"))//if the sequence was taken in as a pfam.
+/*  511: 525 */               if (newEnz[2].equalsIgnoreCase("PF"))// If the sequence was taken in as a pfam.
 /*  512:     */               {
 /*  513: 526 */                 if (!newEnz[1].isEmpty()) {
 /*  514: 527 */                   Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
@@ -1082,7 +1080,7 @@
 /*  643:     */   
 
 				  public int ParseInterpro(int count) 
-				  {// 
+				  {// Parses a file of the InterPro format and pulls out the samples, IPRs(which get converted) and sequence IDs 
 //				  	System.out.println("Parse Interpro");
 				  	String zeile="";
 				  	int i=count;
@@ -1176,7 +1174,7 @@
 
 
 /*  644:     */   public boolean enzReadCorrectly(String[] newEnz)
-/*  645:     */   {
+/*  645:     */   {// returns true if element 0 of the array is either ec, ipr, or pfam and element 1 is an int
 					if(newEnz==null){
 						return false;
 					}
@@ -1359,7 +1357,7 @@
 				  }	
 
 
-				  private void DigitizeConversionFiles(){
+				  private void DigitizeConversionFiles(){ // Takes the IPR->EC conversion file into memory as a hashtable
 				  	this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);
 				  	Hashtable<String, ArrayList<String>> tmpIPRToEC = new Hashtable<String, ArrayList<String>>();
 				  	String line= "";
@@ -1392,7 +1390,7 @@
 
 
 
-				  private void DigitizeConversionFilesOld(){
+				  private void DigitizeConversionFilesOld(){// Takes the IPR->GO and GO->EC conversion files into memory as hashtables
 				  	this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);
 				  	this.ecToGoTxt_=this.reader.readTxt(ecNamesPath);
 				  	Hashtable<String, ArrayList<String>> tmpIPRToGO = new Hashtable<String, ArrayList<String>>();
@@ -1461,7 +1459,7 @@
 
 
 /*  719:     */   private void fillSampleEcs(Sample sample, int sampleIndex)
-/*  720:     */   {
+/*  720:     */   {//
 /*  721: 753 */     this.lFrame_.bigStep("Filling " + sample.name_);
 /*  722: 754 */     for (int ecCnt = 0; ecCnt < sample.ecs_.size(); ecCnt++)
 /*  723:     */     {
@@ -1489,7 +1487,7 @@
 /*  745:     */   }
 /*  746:     */   
 /*  747:     */   public void removeEcPfamDoubles()
-/*  748:     */   {
+/*  748:     */   {// 
 /*  749: 788 */     String ecNr = "";
 /*  750: 789 */     ConvertStat stat = null;
 /*  751: 790 */     int amount = 0;
@@ -1518,7 +1516,7 @@
 /*  774:     */   }
 /*  775:     */   
 /*  776:     */   public void removeEcByEcnR(Sample samp, String ecNr, int amount)
-/*  777:     */   {
+/*  777:     */   {// removes an ec by its name from a provided sample
 /*  778: 824 */     if (ecNr == null) {
 /*  779: 826 */       return;
 /*  780:     */     }
@@ -1542,7 +1540,7 @@
 /*  798:     */   
 				  //this will only happen if random sampling is selected
 /*  799:     */   private void removeRandomEc()
-/*  800:     */   {
+/*  800:     */   {// removes randome ecs for prepping during random sampling
 /*  801: 853 */     Random generator = new Random();
 /*  802:     */     
 /*  803: 855 */     System.out.println("removeRandomEc");
@@ -1598,7 +1596,7 @@
 /*  853:     */   }
 /*  854:     */   
 /*  855:     */   public EcWithPathway findEcWPath(EcNr ecNr)
-/*  856:     */   {
+/*  856:     */   {// loops through the ec list, which contains the ecs with pathways, and if ny ecs have the same name as the provided ecnr, returns the ec with pathway
 /*  857: 916 */     for (int i = 0; i < ecList_.size(); i++) {
 /*  858: 918 */       if (((EcWithPathway)ecList_.get(i)).name_.compareTo(ecNr.name_) == 0) {
 /*  859: 919 */         return (EcWithPathway)ecList_.get(i);
@@ -1730,7 +1728,7 @@
 /*  985:     */   }
 /*  986:     */   
 /*  987:     */   private void prepEcList()
-/*  988:     */   {
+/*  988:     */   {// preps the ec list
 /*  989:1063 */     this.lFrame_.bigStep("EC List");
 /*  990:1064 */     String zeile = "";
 /*  991:1065 */     String tmp = "";
@@ -1829,7 +1827,7 @@
 /* 1084:     */   }
 /* 1085:     */   
 /* 1086:     */   private void prepPathList()
-/* 1087:     */   {
+/* 1087:     */   {// Preps the list of pathways
 /* 1088:1168 */     this.lFrame_.bigStep("Pathlist");
 /* 1089:1169 */     String zeile = "";
 /* 1090:1170 */     String ecNr = "";
@@ -2506,7 +2504,7 @@
 /* 1761:     */   }
 /* 1762:     */   
 /* 1763:     */   private void openWarning(String title, String string)
-/* 1764:     */   {
+/* 1764:     */   {// open the warning frame which takes in its title and warning message
 /* 1765:1875 */     JFrame frame = new JFrame(title);
 /* 1766:1876 */     frame.setVisible(true);
 /* 1767:1877 */     frame.setBounds(200, 200, 350, 150);

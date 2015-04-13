@@ -8,15 +8,15 @@
 /*   8:    */ import java.io.PrintStream;
 /*   9:    */ import java.util.ArrayList;
 /*  10:    */ 
-			//This is pretty well always in the background while in Fromp. It allous the user to save, load, open, etc. projects.	
+			//This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.	
 
 /*  11:    */ public class Controller
 /*  12:    */ {
-/*  13:    */   public static Project project_;
-/*  14:    */   public static DataProcessor processor_;
-/*  15:    */   StringReader reader_;
-/*  16: 15 */   static boolean dataChanged = true;
-/*  17:    */   Color sysCol_;
+/*  13:    */   public static Project project_;				// The current project
+/*  14:    */   public static DataProcessor processor_;		// The data processor which does all parsing and hard computation of the raw input files
+/*  15:    */   StringReader reader_;						// Used for reading inputfiles. Not java's native method. Found at Prog.StringReader
+/*  16: 15 */   static boolean dataChanged = true;			//
+/*  17:    */   Color sysCol_;								// 
 /*  18:    */   
 /*  19:    */   public Controller(Color sysCol)
 /*  20:    */   {
@@ -133,7 +133,9 @@
 /* 109: 99 */       dataChanged = false;
 /* 110:100 */       Project.dataChanged = false;
 /* 111:    */     }
-/* 112:    */     else {}
+/* 112:    */     else {
+					return;
+				  }
 /* 113:    */   }
 /* 114:    */   
 /* 115:    */   public boolean gotSamples()

@@ -19,22 +19,22 @@
 /*  18:    */ public class EcActPanes
 /*  19:    */   extends JPanel
 /*  20:    */ {
-/*  21:    */   private static final long serialVersionUID = 1L;
-/*  22:    */   Project activeProj_;
-/*  23:    */   ArrayList<PathwayWithEc> pwList_;
-/*  24:    */   ArrayList<EcWithPathway> ecList_;
-/*  25:    */   DataProcessor proc_;
-/*  26:    */   JPanel showPanel_;
-/*  27:    */   JPanel optionsPanel_;
-/*  28:    */   JButton pathwaySort;
-/*  29:    */   JButton ecSort_;
-/*  30:    */   PathwayEcMat pwEcMat;
-/*  31:    */   ActMatrixPane actMat_;
-/*  32:    */   int mode_;
-/*  33:    */   int xsize;
-/*  34:    */   int yOffset_;
-/*  35:    */   public JButton backButton_;
-/*  36:    */   Timer timer;
+/*  21:    */   private static final long serialVersionUID = 1L;	//
+/*  22:    */   Project activeProj_;								// This is the active project
+/*  23:    */   ArrayList<PathwayWithEc> pwList_;					// List of pathways to which something is mapped
+/*  24:    */   ArrayList<EcWithPathway> ecList_;					// list of ec which map to some pathway
+/*  25:    */   DataProcessor proc_;								// the data processor object which controlls the parsing of the input files allowing important information to be gleaned for analysis
+/*  26:    */   JPanel showPanel_;									// 
+/*  27:    */   JPanel optionsPanel_;								// The options panel
+/*  28:    */   JButton pathwaySort;								// A button to choose to g to the PathwayEcMat panel
+/*  29:    */   JButton ecSort_;									// A button to go to the ActMatrixPane panel
+/*  30:    */   PathwayEcMat pwEcMat;								// 
+/*  31:    */   ActMatrixPane actMat_;								// 
+/*  32:    */   int mode_;											// 
+/*  33:    */   int xsize;											// 
+/*  34:    */   int yOffset_;										// 
+/*  35:    */   public JButton backButton_;							// Button to go back to Analysis Options
+/*  36:    */   Timer timer;										// 
 /*  37:    */   
 /*  38:    */   public EcActPanes(Project activeProj, DataProcessor proc, Dimension dim)
 /*  39:    */   {

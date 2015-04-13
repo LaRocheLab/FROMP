@@ -25,25 +25,27 @@
 /*  25:    */ import javax.swing.JScrollPane;
 /*  26:    */ import javax.swing.filechooser.FileFilter;
 /*  27:    */ import pathwayLayout.PathLayoutGrid;
+
+				// The pathway selction panel
 /*  28:    */ 
 /*  29:    */ public class PathwaySelectP
 /*  30:    */   extends JPanel
 /*  31:    */ {
-/*  32:    */   private static final long serialVersionUID = 1L;
-/*  33:    */   ArrayList<PathwayWithEc> paths_;
-/*  34: 45 */   final String cfgName = "pwcfg:";
-/*  35: 46 */   final String selected = "TRUE";
-/*  36: 47 */   final String notSelected = "FALSE";
-/*  37: 48 */   final String fileEnding = ".pcg";
-/*  38: 49 */   final String userPathfileEnding = ".pwm";
-/*  39: 50 */   final String basePath_ = new File(".").getAbsolutePath() + File.separator;
-/*  40:    */   boolean selectAll;
-/*  41: 53 */   int xLine2 = 500;
-/*  42:    */   JPanel optionsPanel_;
-/*  43:    */   JPanel displayP_;
-/*  44:    */   JScrollPane showJPanel_;
-/*  45:    */   public JButton next_;
-/*  46:    */   public JButton back_;
+/*  32:    */   private static final long serialVersionUID = 1L;							// 
+/*  33:    */   ArrayList<PathwayWithEc> paths_;											// An arraylist of Pathways
+/*  34: 45 */   final String cfgName = "pwcfg:";											// 
+/*  35: 46 */   final String selected = "TRUE";												// 
+/*  36: 47 */   final String notSelected = "FALSE";											// 
+/*  37: 48 */   final String fileEnding = ".pcg";											// 
+/*  38: 49 */   final String userPathfileEnding = ".pwm";									// 
+/*  39: 50 */   final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The path to the working directory
+/*  40:    */   boolean selectAll;															// 
+/*  41: 53 */   int xLine2 = 500;															// 
+/*  42:    */   JPanel optionsPanel_;														// The options panel
+/*  43:    */   JPanel displayP_;															// The panel which all the pathways  are displayed on
+/*  44:    */   JScrollPane showJPanel_;													// The scroll pane which allows the user to scroll through the samples if the exceed their allotted space
+/*  45:    */   public JButton next_;														// Button to Go to Analysis
+/*  46:    */   public JButton back_;														// Button to go Back to Sample Selection
 /*  47:    */   
 /*  48:    */   public PathwaySelectP(ArrayList<PathwayWithEc> pws)
 /*  49:    */   {
@@ -61,8 +63,8 @@
 /*  61:    */   }
 /*  62:    */   
 /*  63:    */   private void redo()
-/*  64:    */   {
-/*  65: 79 */     removeAll();
+/*  64:    */   {// rebuilds the back panel
+/*  65: 79 */     removeAll();			
 /*  66: 80 */     initMainPanels();
 /*  67: 81 */     showComponents();
 /*  68: 82 */     invalidate();
@@ -100,7 +102,7 @@
 /* 100:    */   }
 /* 101:    */   
 /* 102:    */   private void showComponents()
-/* 103:    */   {
+/* 103:    */   {// adds the buttons and the pathways to the display panel
 /* 104:118 */     addButtons();
 /* 105:119 */     addPathways();
 /* 106:    */   }
@@ -120,7 +122,7 @@
 /* 120:    */   }
 /* 121:    */   
 /* 122:    */   private void addPathways()
-/* 123:    */   {
+/* 123:    */   {// add the pathways to the display panel
 /* 124:136 */     for (int pwCnt = 0; pwCnt < this.paths_.size(); pwCnt++)
 /* 125:    */     {
 /* 126:137 */       final int pwInt = pwCnt;
@@ -195,7 +197,7 @@
 /* 193:    */   }
 /* 194:    */   
 /* 195:    */   private void addButtons()
-/* 196:    */   {
+/* 196:    */   {// adds buttons to the display panel
 /* 197:217 */     JLabel descr = new JLabel("Select your wanted Pathways");
 /* 198:218 */     descr.setBounds(20, 10, 400, 17);
 /* 199:219 */     this.displayP_.add(descr);

@@ -11,6 +11,8 @@
 /* 11:   */ import javax.swing.JLabel;
 /* 12:   */ import javax.swing.JPanel;
 /* 13:   */ 
+			// Class file used to supplement the buffered reader class to be used to parse through input files and conversion files for the data processor	
+
 /* 14:   */ public class StringReader
 /* 15:   */ {
 /* 16:   */   public BufferedReader readTxt(String path)
@@ -109,8 +111,12 @@
 /* :9:   */   }
 /* ;0:   */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Prog.StringReader
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Prog.StringReader
+
+ * JD-Core Version:    0.7.0.1
+
  */

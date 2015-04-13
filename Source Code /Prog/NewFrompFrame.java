@@ -46,20 +46,20 @@
 /*   42:     */ public class NewFrompFrame
 /*   43:     */   extends JFrame
 /*   44:     */ {
-/*   45:     */   private static final long serialVersionUID = 7855981267252684730L;
-/*   46:     */   private String separator_;
-/*   47:     */   private String path_;
-/*   48:     */   private Color backCol_;
-/*   49:     */   private Color sysColor_;
-/*   50:     */   private Color overallSampCol;
-/*   51:     */   private JMenuBar menuBar_;
-/*   52:     */   private JMenu menu_;
-/*   53:     */   private JPanel back_;
-/*   54:     */   public static ArrayList<String> recentProj_;
-/*   55:  69 */   final String basePath_ = new File(".").getAbsolutePath() + File.separator;
-/*   56:  70 */   final String recentProjPath_ = "recentProj.txt";
-/*   57:     */   private Controller control_;
-				  private JScrollPane showJPanel_;
+/*   45:     */   private static final long serialVersionUID = 7855981267252684730L;			//
+/*   46:     */   private String separator_;													// The file seperator used by your OS. ie '/' for Linux/Mac and '\' for Windows
+/*   47:     */   private String path_;															// The canonical path for this folder
+/*   48:     */   private Color backCol_;														// Backgound colour
+/*   49:     */   private Color sysColor_;														// System colour
+/*   50:     */   private Color overallSampCol;													//
+/*   51:     */   private JMenuBar menuBar_;													// Menu bar at the top of Fromp. ie 'File' , 'Project' , 'Analyze' etc.
+/*   52:     */   private JMenu menu_;															//
+/*   53:     */   private JPanel back_;															// The back panel on this JFrame
+/*   54:     */   public static ArrayList<String> recentProj_;									//	
+/*   55:  69 */   final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The base path of the Fromp software. Nessesairy for all relative paths to function 
+/*   56:  70 */   final String recentProjPath_ = "recentProj.txt";								// Path to the file which contains the recently opened projects 
+/*   57:     */   private Controller control_;													// The controller. Allows user to save, load etc.
+				  private JScrollPane showJPanel_;												// Used only to be able to scroll through samples in the EditSamplesPane
 /*   58:     */   
 /*   59:     */   public NewFrompFrame()
 /*   60:     */   {
@@ -70,7 +70,9 @@
 /*   65:  82 */     setBounds(20, 20, 1200, 800);
 /*   66:     */     
 /*   67:  84 */     setDefaultCloseOperation(0);
-/*   68:  85 */     addWindowListener(new WindowListener()
+					//Adds an action listner to the close button of the the JFrame which prints "Window Closing" when it is closed and 
+					//opens a warning that you will lose all unsaved data by closing before you close.
+/*   68:  85 */     addWindowListener(new WindowListener() 
 /*   69:     */     {
 /*   70:     */       public void windowOpened(WindowEvent arg0) {}
 /*   71:     */       
@@ -108,24 +110,24 @@
 /*  102:     */     {
 /*  103: 145 */       e1.printStackTrace();
 /*  104:     */     }
-/*  105: 147 */     addMenu();
-/*  106: 148 */     loadRecentProj();
-/*  107: 149 */     showNewProjPanel();
-/*  108: 150 */     invalidate();
-/*  109: 151 */     validate();
-/*  110: 152 */     repaint();
+/*  105: 147 */     addMenu();				// Adds the drop down menu
+/*  106: 148 */     loadRecentProj();		// Adds the list of "Recent Projects"
+/*  107: 149 */     showNewProjPanel();		// Shows the statring panel of Fromp. Includes 'Project Options' , and 'Recent Projects'
+/*  108: 150 */     invalidate();			// Next three commands in combination reload the JFrame 
+/*  109: 151 */     validate();				//
+/*  110: 152 */     repaint();				//
 /*  111:     */   }
 /*  112:     */   
 /*  113:     */   private void addMenu()
 /*  114:     */   {//adds the drop down menu bar and all of its elements
 /*  115: 155 */     this.menuBar_ = new JMenuBar();
-/*  116:     */     
-/*  117: 157 */     addFileMenu();
-/*  118: 158 */     addProjectMenu();
-/*  119: 159 */     addAnalyseMenu();
-/*  120: 160 */     addSettingsMenu();
-/*  121: 161 */     addDesignMenu();
-/*  122: 162 */     addHelpMenu();
+/*  116:     */     	
+/*  117: 157 */     addFileMenu();		// Adds the "File" drop down menu option
+/*  118: 158 */     addProjectMenu();	// Adds the "Project" drop down menu option
+/*  119: 159 */     addAnalyseMenu();	// I really think you can piece it together from here, you're a smart guy/gal
+/*  120: 160 */     addSettingsMenu();	//
+/*  121: 161 */     addDesignMenu();	//
+/*  122: 162 */     addHelpMenu();		//
 /*  123:     */     
 /*  124: 164 */     setJMenuBar(this.menuBar_);
 /*  125:     */   }
@@ -559,7 +561,7 @@
 /*  547:     */   }
 /*  548:     */   
 /*  549:     */   private void selectPws()
-/*  550:     */   {
+/*  550:     */   {// Opens the pathway selection panel
 /*  551: 654 */     if (Controller.processor_ == null) {
 /*  552: 655 */       Controller.loadPathways(false);
 /*  553:     */     }
@@ -588,7 +590,7 @@
 /*  576:     */   }
 /*  577:     */   
 /*  578:     */   private void showPathwayScorePane()
-/*  579:     */   {
+/*  579:     */   {// Opens the pathway completeness analysis
 /*  580: 686 */     clearBack();
 /*  581: 687 */     PathwaysPane pwPanes = new PathwaysPane(Controller.project_, Controller.processor_, getSize());
 /*  582: 688 */     pwPanes.backButton_.addActionListener(new ActionListener()
@@ -606,7 +608,7 @@
 /*  594:     */   }
 /*  595:     */   
 /*  596:     */   private void showPathwayActMatrix()
-/*  597:     */   {
+/*  597:     */   {// Opens the pathway activity analysis
 /*  598: 706 */     clearBack();
 /*  599: 707 */     PathwayActPanes actP = new PathwayActPanes(Controller.project_, Controller.processor_, getSize());
 /*  600: 708 */     actP.backButton_.addActionListener(new ActionListener()
@@ -624,7 +626,7 @@
 /*  612:     */   }
 /*  613:     */   
 /*  614:     */   private void showEcActPanes()
-/*  615:     */   {
+/*  615:     */   {// Opens the ec activity analysis
 /*  616: 726 */     clearBack();
 /*  617: 727 */     EcActPanes matrixP_ = new EcActPanes(Controller.project_, Controller.processor_, getSize());
 /*  618: 728 */     matrixP_.backButton_.addActionListener(new ActionListener()
@@ -642,7 +644,7 @@
 /*  630:     */   }
 /*  631:     */   
 /*  632:     */   private void searchPathway()
-/*  633:     */   {
+/*  633:     */   {// Opens the search panel 
 /*  634: 743 */     clearBack();
 /*  635: 744 */     this.control_.computeSampleScores();
 /*  636: 745 */     PwSearchPane pwSearch = new PwSearchPane(Controller.project_, Project.samples_, Project.overall_, getSize());
@@ -653,7 +655,7 @@
 /*  641:     */   }
 /*  642:     */   
 /*  643:     */   private void newProjectName()
-/*  644:     */   {
+/*  644:     */   {// Opens the new project panel
 /*  645: 753 */     this.back_.removeAll();
 /*  646:     */     
 /*  647: 755 */     JButton button = new JButton();
@@ -692,7 +694,7 @@
 /*  680:     */   }
 /*  681:     */   
 /*  682:     */   private void showAnalyseOptions()
-/*  683:     */   {
+/*  683:     */   {// Opens the analysis options panel
 /*  684: 793 */     int xcol1 = 100;
 /*  685: 794 */     int yOff = 100;
 /*  686: 795 */     int ySize = 30;
@@ -703,9 +705,6 @@
 /*  691: 800 */     panel.setBackground(Project.getBackColor_());
 /*  692: 801 */     panel.setBounds(0, 0, 400, 800);
 /*  693:     */     
-/*  694: 803 */     JLabel label = new JLabel("Selective options:");
-/*  695: 804 */     label.setBounds(xcol1, yOff - 30, xsize, ySize);
-/*  696:     */     
 /*  697:     */ 
 /*  698: 807 */     JButton s = new JButton("< Back to PathwaySelction");
 /*  699: 808 */     s.setBounds(xcol1, yOff - ySize, xsize, ySize);
@@ -750,7 +749,7 @@
 /*  738:     */     
 /*  739:     */ 
 /*  740:     */ 
-/*  741: 853 */     label = new JLabel("Analysis Options");
+/*  741: 853 */     JLabel label = new JLabel("Analysis Options");
 /*  742: 854 */     label.setBounds(xcol1, yOff + (ySize + 2) * 2, xsize, ySize);
 /*  743: 855 */     panel.add(label);
 /*  744:     */     

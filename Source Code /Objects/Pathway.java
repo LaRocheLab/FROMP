@@ -4,11 +4,11 @@
 
 /*  3:   */ public class Pathway
 /*  4:   */ {
-/*  5:   */   public String id_;
-/*  6:   */   public String name_;
-/*  7: 6 */   private boolean selected = true;
-/*  8: 8 */   public boolean userPathway = false;
-/*  9:   */   public String pathwayInfoPAth;
+/*  5:   */   public String id_;					// the id of the pathway
+/*  6:   */   public String name_;					// pathway name 
+/*  7: 6 */   private boolean selected = true;		// whether or not this project will use this pathway
+/*  8: 8 */   public boolean userPathway = false;	// whether or not this was a user built pathway
+/*  9:   */   public String pathwayInfoPAth;		// info about the pathway
 /* 10:   */   
 /* 11:   */   public boolean isSelected()
 /* 12:   */   {

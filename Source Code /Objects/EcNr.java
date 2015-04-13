@@ -10,29 +10,29 @@
 
 /*   8:    */ public class EcNr
 /*   9:    */ {
-/*  10:    */   public String name_;
-/*  11:    */   public String bioName_;
-/*  12:    */   public float weight_;
-/*  13:    */   public int amount_;
-/*  14:    */   public Color samColor_;
-/*  15:    */   public int sampleNr_;
-/*  16:    */   public ArrayList<EcPosAndSize> posSize_;
-/*  17:    */   public ArrayList<EcSampleStats> stats_;
-/*  18:    */   public int[] nr_;
-/*  19: 20 */   public boolean unique_ = true;
-/*  20: 21 */   public boolean isPfam_ = false;
-/*  21: 22 */   public boolean incomplete = false;
-/*  22: 23 */   public boolean unmapped = false;
-/*  23:    */   public String type_;
-/*  24:    */   public String rnNr_;
-/*  25:    */   public int maxChainLength_;
-/*  26:    */   public int longestChain_;
-/*  27:    */   public double chainMultiply1_;
-/*  28:    */   public double chainMultiply2_;
-/*  29: 34 */   public boolean userEC = false;
-/*  30:    */   static BufferedReader pfam2Go;
-/*  31:    */   static BufferedReader Kegg2Go;
-/*  32:    */   public ArrayList<Repseqs> repseqs_;
+/*  10:    */   public String name_;						// Name of the ec
+/*  11:    */   public String bioName_;						// 
+/*  12:    */   public float weight_;						// It's computed weight
+/*  13:    */   public int amount_;							// The number of this ec that there are 
+/*  14:    */   public Color samColor_;						// Sample colour
+/*  15:    */   public int sampleNr_;						// 
+/*  16:    */   public ArrayList<EcPosAndSize> posSize_;	// arraylist of positions and sizes of ecs
+/*  17:    */   public ArrayList<EcSampleStats> stats_;		// arraylist of the sampleNr amount and colour of the ecs
+/*  18:    */   public int[] nr_;							// 
+/*  19: 20 */   public boolean unique_ = true;				// 
+/*  20: 21 */   public boolean isPfam_ = false;				// 
+/*  21: 22 */   public boolean incomplete = false;			// 
+/*  22: 23 */   public boolean unmapped = false;			// 
+/*  23:    */   public String type_;						// 
+/*  24:    */   public String rnNr_;						// 
+/*  25:    */   public int maxChainLength_;					// 
+/*  26:    */   public int longestChain_;					// 
+/*  27:    */   public double chainMultiply1_;				// 
+/*  28:    */   public double chainMultiply2_;				// 
+/*  29: 34 */   public boolean userEC = false;				// 
+/*  30:    */   static BufferedReader pfam2Go;				// reader for pfam -> ec conversion file
+/*  31:    */   static BufferedReader Kegg2Go;				// reader for Kegg-> go conversion
+/*  32:    */   public ArrayList<Repseqs> repseqs_;			// An arraylist of sequence ids 
 /*  33:    */   
 /*  34:    */   public EcNr(String[] name)
 /*  35:    */   {

@@ -32,28 +32,28 @@
 /*  29:    */ public class PathwayActivitymatrixPane
 /*  30:    */   extends JPanel
 /*  31:    */ {
-/*  32:    */   private static final long serialVersionUID = 1L;
-/*  33:    */   DataProcessor proc_;
-/*  34:    */   Project actProj_;
-/*  35:    */   Exporter exp_;
-/*  36:    */   boolean includeWeights_;
-/*  37:    */   JButton export_;
-/*  38:    */   boolean changed_;
-/*  39:    */   JCheckBox includeWeights;
-/*  40:    */   JCheckBox normalizeMax_;
-/*  41:    */   JCheckBox normalizeSum_;
-/*  42:    */   JCheckBox sortByLine_;
-/*  43:    */   int numOfpaths;
-/*  44:    */   int numOfSamples;
-/*  45:    */   ArrayList<PathwayWithEc> paths_;
-/*  46:    */   ArrayList<Line> lineMatrix_;
-/*  47:    */   MouseOverFrame infoFrame;
-/*  48:    */   private JPanel optionsPanel_;
-/*  49:    */   private JPanel displayP_;
-/*  50:    */   private JScrollPane showJPanel_;
-/*  51:    */   private JLabel mouseOverDisp;
-/*  52:    */   private JPanel mouseOverP;
-/*  53:    */   private JCheckBox useCsf_;
+/*  32:    */   private static final long serialVersionUID = 1L;	// 
+/*  33:    */   DataProcessor proc_;								// DataProcessor object to do the parsing and computations nessesairy to build the activity matrix
+/*  34:    */   Project actProj_;									// The active project
+/*  35:    */   Exporter exp_;										// Used to export the matrix to a file 
+/*  36:    */   boolean includeWeights_;							// Boolean to say whether or not to to include the weights
+/*  37:    */   JButton export_;									// Button used in the gui to export the activity matrix
+/*  38:    */   boolean changed_;									// 
+/*  39:    */   JCheckBox includeWeights;							// Checkboxes for sorting, normalizing and including the weights of the matrix
+/*  40:    */   JCheckBox normalizeMax_;							// 
+/*  41:    */   JCheckBox normalizeSum_;							// 
+/*  42:    */   JCheckBox sortByLine_;								// 
+/*  43:    */   int numOfpaths;										// Number of paths
+/*  44:    */   int numOfSamples;									// Number of samples
+/*  45:    */   ArrayList<PathwayWithEc> paths_;					// ArrayList of the pathways which have ecs mapped
+/*  46:    */   ArrayList<Line> lineMatrix_;						// An arraylist of line objects used to build the activity matrix
+/*  47:    */   MouseOverFrame infoFrame;							// A mouse over frame used to display information about what you are mousing over of the main fromp frame
+/*  48:    */   private JPanel optionsPanel_;						// The options panel at the top of the display for this frame
+/*  49:    */   private JPanel displayP_;							// The main display panel where the matrix is displayed 
+/*  50:    */   private JScrollPane showJPanel_;					// A scroll pane which houses the display panel such that if the display panel exceded the alloted space of the frame it is fit to the display size and the usedr is able to scroll through the content
+/*  51:    */   private JLabel mouseOverDisp;						// A label which holds the same purpose as the MouseOverFrame
+/*  52:    */   private JPanel mouseOverP;							// 
+/*  53:    */   private JCheckBox useCsf_;							// 
 /*  54:    */   
 /*  55:    */   public PathwayActivitymatrixPane(DataProcessor proc, Project proj, Dimension dim)
 /*  56:    */   {
@@ -66,23 +66,23 @@
 /*  63: 70 */     setLayout(new BorderLayout());
 /*  64: 71 */     setBackground(Project.getBackColor_());
 /*  65: 72 */     setPreferredSize(dim);
-/*  66: 73 */     this.includeWeights_ = false;
+/*  66: 73 */     this.includeWeights_ = false;	
 /*  67:    */     
-/*  68: 75 */     prepPaths();
-/*  69:    */     
-/*  70: 77 */     this.changed_ = true;
-/*  71:    */     
-/*  72:    */ 
-/*  73: 80 */     initMainPanels();
-/*  74: 81 */     addOptions();
-/*  75: 82 */     createMatrix();
-/*  76: 83 */     showMatrix();
-/*  77:    */     
-/*  78:    */ 
-/*  79:    */ 
-/*  80: 87 */     invalidate();
-/*  81: 88 */     validate();
-/*  82: 89 */     repaint();
+/*  68: 75 */     prepPaths();					// Prepares the Pathwaylist this.paths_
+/*  69:    */     								// 
+/*  70: 77 */     this.changed_ = true;			// Notes that the data has been changed
+/*  71:    */     								// 
+/*  72:    */ 									// 
+/*  73: 80 */     initMainPanels();				// Initiates the options panel, the display panel, and the scroll panel
+/*  74: 81 */     addOptions();					// Adds checkboxes, buttons, and labels to the options panel
+/*  75: 82 */     createMatrix();				// Builds the activity matrix by generating the arraylist of line objects which will be used to display the matrix
+/*  76: 83 */     showMatrix();					// Generates the onscreen activity matrix
+/*  77:    */     								// 
+/*  78:    */ 									// 
+/*  79:    */ 									// 
+/*  80: 87 */     invalidate();					// Rebuilds the backpanel to refresh what is seen on screen
+/*  81: 88 */     validate();					// 
+/*  82: 89 */     repaint();					// 
 /*  83:    */   }
 /*  84:    */   
 /*  85:    */   private void initMainPanels()

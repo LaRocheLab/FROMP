@@ -1,8 +1,8 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
 
-			//This class is used in the EC matrix pane and it contains the values of all of the matrix elements in the line (arrayline_[]) 
-			//as well as the total sum of the line (sumline_).	
+			// This class is used in many of the classes which display matricies. It contains the values of all of the matrix elements in the line (arrayline_[]) 
+			// as well as the total sum of the line (sumline_).	This object is a literal "Line" of the matrix.
 
 /*  3:   */ public class Line
 /*  4:   */ {

@@ -32,14 +32,7 @@
 /* 28:31 */     back.setLayout(null);
 /* 29:32 */     back.setBackground(Color.white);
 /* 30:33 */     add(back);
-/* 31:   */     
-	//			JTextArea txt=new JTextArea();
-	//			txt.setBounds(0,0,300,300);
-	//			Font font = new Font("Verdana", Font.BOLD, 12);
-      //  		txt.setFont(font);
-        //		txt.setText(Text);
-        //		back.add(txt);
-
+/* 31:   */
 /* 32:35 */     JLabel fromp = new JLabel(Text);
 /* 33:36 */     fromp.setBounds(0, 0, 300, 400);
 /* 34:37 */     fromp.setVisible(true);

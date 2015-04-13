@@ -14,6 +14,8 @@
 /*  14:    */ import javax.swing.JFileChooser;
 /*  15:    */ import javax.swing.JPanel;
 /*  16:    */ import javax.swing.filechooser.FileFilter;
+
+				// The class which facilitates exporting of matricies (ec, pathway activity, etc) 
 /*  17:    */ 
 /*  18:    */ public class Exporter
 /*  19:    */ {
@@ -233,8 +235,12 @@
 /* 233:    */   }
 /* 234:    */ }
 
-
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
- * Qualified Name:     Prog.Exporter
- * JD-Core Version:    0.7.0.1
+
+
+/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+
+ * Qualified Name:     Prog.Exporter
+
+ * JD-Core Version:    0.7.0.1
+
  */

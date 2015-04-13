@@ -28,17 +28,17 @@
 /*  16:    */ public class RepseqFrame
 /*  17:    */   extends JFrame
 /*  18:    */ {
-/*  19:    */   private static final long serialVersionUID = 1L;
-				private JMenuBar menuBar_;
-				private JMenu menu_;
-				final String basePath_ = new File(".").getAbsolutePath() + File.separator;
-/*  20:    */   EcNr ecNr_;
-/*  21:    */   JLabel label_;
-/*  22:    */   JPanel back_;
-/*  23:    */   ArrayList<ConvertStat> reps_;
-/*  24: 27 */   int xSize = 800;
-/*  25:    */   int ySize;
-				String sampName_;
+/*  19:    */   private static final long serialVersionUID = 1L;							//
+				private JMenuBar menuBar_;													// drop down menu bar for the repseq frame
+				private JMenu menu_;														// menu item for the dropdown menu
+				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// the current wokpath
+/*  20:    */   EcNr ecNr_;																	// ec for which we are viewing the associated squence IDs 
+/*  21:    */   JLabel label_;																//
+/*  22:    */   JPanel back_;																// backpanel on the frame
+/*  23:    */   ArrayList<ConvertStat> reps_;												// arraylist of conversion statistics for the ECs
+/*  24: 27 */   int xSize = 800;															//
+/*  25:    */   int ySize;																	//
+				String sampName_;															// name of the sample in question
 /*  26:    */   
 /*  27:    */   public RepseqFrame(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
 /*  28:    */   {
@@ -209,7 +209,7 @@
 				}
 				//exports the sequence IDs to "RepSeqIDs"
 				public void ExportReps()
-				{
+				{// exports the sequence ids to a file
 					String text="";
 //               		String test="";
 				    System.out.println("Reps:"+RepseqFrame.this.reps_.size());
@@ -250,7 +250,7 @@
   
 
 /* 114:    */   private void addrepseqs()
-/* 115:    */   {
+/* 115:    */   {// adds the sequence ids to the viewing panel
 /* 116:115 */     if(this.reps_.size()>50)
 					{
 					this.label_ = new JLabel("RepSeq , fromEc , fromPf , used Val.");

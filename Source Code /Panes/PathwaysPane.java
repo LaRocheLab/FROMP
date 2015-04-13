@@ -18,38 +18,40 @@
 /*  18:    */ import javax.swing.JLabel;
 /*  19:    */ import javax.swing.JPanel;
 /*  20:    */ import javax.swing.JTextField;
+
+				// The class which switches between all three analysies in the pathway completeness section
 /*  21:    */ 
 /*  22:    */ public class PathwaysPane
 /*  23:    */   extends JPanel
 /*  24:    */ {
-/*  25:    */   private static final long serialVersionUID = 1L;
-/*  26:    */   SampleScorePane ssp;
-/*  27:    */   PathwayMatrix pwMat;
-/*  28:    */   Color buttonDefault_;
-/*  29:    */   Project activeProj_;
-/*  30:    */   ArrayList<PathwayWithEc> pwList_;
-/*  31:    */   ArrayList<EcWithPathway> ecList_;
-/*  32:    */   DataProcessor proc_;
-/*  33:    */   JPanel showPanel_;
-/*  34:    */   int yOffset_;
-/*  35: 42 */   int minVisScore_ = 0;
-/*  36: 43 */   int xCol2 = 350;
-/*  37: 44 */   int xCol3 = 500;
-/*  38: 45 */   int mode = 0;
-/*  39: 47 */   int yLine1 = 30;
-/*  40:    */   JPanel optionsPanel_;
-/*  41:    */   JButton pwScores_;
-/*  42:    */   JButton pwMatrix_;
-/*  43:    */   JButton actMatrix_;
-/*  44:    */   JButton pwPlot_;
-/*  45:    */   JTextField maxVisfield;
-/*  46:    */   JCheckBox chainCheck_;
-/*  47:    */   JCheckBox chainCheck2_;
-/*  48:    */   JCheckBox listCheck_;
-/*  49: 60 */   int activeChainingMode = 0;
-/*  50:    */   int xwidth;
-				boolean checked;
-/*  51:    */   public JButton backButton_;
+/*  25:    */   private static final long serialVersionUID = 1L;	// 
+/*  26:    */   SampleScorePane ssp;								// The Show pathway-score tab
+/*  27:    */   PathwayMatrix pwMat;								// the Show score-matrix tab
+/*  28:    */   Color buttonDefault_;								// 
+/*  29:    */   Project activeProj_;								// the active project
+/*  30:    */   ArrayList<PathwayWithEc> pwList_;					// Array list of pathways
+/*  31:    */   ArrayList<EcWithPathway> ecList_;					// Array list of ecs mapped to pathways
+/*  32:    */   DataProcessor proc_;								// the data processor used to parse and compute what we need from the raw input files
+/*  33:    */   JPanel showPanel_;									// 
+/*  34:    */   int yOffset_;										// 
+/*  35: 42 */   int minVisScore_ = 0;								// 
+/*  36: 43 */   int xCol2 = 350;									// 
+/*  37: 44 */   int xCol3 = 500;									// 
+/*  38: 45 */   int mode = 0;										// 
+/*  39: 47 */   int yLine1 = 30;									// 
+/*  40:    */   JPanel optionsPanel_;								// the options panel where buttons, and check boxes sprcific to this tab are
+/*  41:    */   JButton pwScores_;									// button to switch to the Show pathway-score pane
+/*  42:    */   JButton pwMatrix_;									// button to switch to the  Show score-matrix pane
+/*  43:    */   JButton actMatrix_;									// 
+/*  44:    */   JButton pwPlot_;									// button to switch to the  Show score-plot pane
+/*  45:    */   JTextField maxVisfield;								// 
+/*  46:    */   JCheckBox chainCheck_;								// the checkbox for chaining mode 1
+/*  47:    */   JCheckBox chainCheck2_;								// the checkbox for chaining mode 2
+/*  48:    */   JCheckBox listCheck_;								// the sort my score checkbox
+/*  49: 60 */   int activeChainingMode = 0;							// 
+/*  50:    */   int xwidth;											// 
+				boolean checked;									// 
+/*  51:    */   public JButton backButton_;							// Button to take the user back to Analysis options
 /*  52:    */   
 /*  53:    */   public PathwaysPane(Project activeProj, DataProcessor proc, Dimension dim)
 /*  54:    */   {
@@ -74,7 +76,7 @@
 /*  71:    */   }
 /*  72:    */   
 /*  73:    */   private void initMainPanels()
-/*  74:    */   {
+/*  74:    */   {// initiates the show and options panels
 /*  75: 84 */     this.optionsPanel_ = new JPanel();
 /*  76: 85 */     this.optionsPanel_.setPreferredSize(new Dimension(getWidth() - 50, 100));
 /*  77: 86 */     this.optionsPanel_.setBackground(Project.getBackColor_().darker());
@@ -104,7 +106,7 @@
 /* 101:    */   }
 /* 102:    */   
 /* 103:    */   private void initChainChecks()
-/* 104:    */   {
+/* 104:    */   {// builds the chaining mode checkboxes
 /* 105:110 */     JLabel chain = new JLabel("Use Chaining Mode 1");
 /* 106:111 */     if (this.chainCheck_ == null)
 /* 107:    */     {
@@ -168,7 +170,7 @@
 /* 165:    */   }
 /* 166:    */   
 /* 167:    */   private void addChaincheck()
-/* 168:    */   {
+/* 168:    */   {// adds the chaining mode checkboxes to the options panel
 /* 169:180 */     JLabel chain = new JLabel("Use Chaining Mode 1");
 /* 170:181 */     chain.setBounds(this.xCol3 + 20, this.yLine1, 230, 20);
 /* 171:182 */     this.optionsPanel_.add(chain);
@@ -244,7 +246,7 @@
 /* 235:    */   }
 /* 236:    */   
 /* 237:    */   private void redo()
-/* 238:    */   {
+/* 238:    */   {// removes everything from the panel, chhoses what mode the user has selected, and rebuilds the panel baised off that.
 /* 239:255 */     this.optionsPanel_.removeAll();
 /* 240:256 */     addOptions();
 /* 241:257 */     this.showPanel_.removeAll();
@@ -278,7 +280,7 @@
 /* 269:    */   }
 /* 270:    */   
 /* 271:    */   private void addButtons()
-/* 272:    */   {
+/* 272:    */   {// Adds the buttons to select between the three pathway analysies: Show pathway-scores, Show score-matrix, and Show score-plot
 /* 273:293 */     this.pwScores_ = new JButton("Show pathway-scores");
 /* 274:294 */     this.pwScores_.setBounds(0, 80, 200, 20);
 /* 275:295 */     this.pwScores_.setVisible(true);
@@ -337,7 +339,7 @@
 /* 328:    */   }
 /* 329:    */   
 /* 330:    */   private void showScores()
-/* 331:    */   {
+/* 331:    */   {// show the "Show pathway-scores" tab
 /* 332:366 */     clear();
 /* 333:367 */     this.ssp = new SampleScorePane(Project.overall_, this.activeProj_, this.proc_, new Dimension(getWidth(), getHeight()));
 /* 334:368 */     this.showPanel_.add("Center", this.ssp);
@@ -347,7 +349,7 @@
 /* 338:    */   }
 /* 339:    */   
 /* 340:    */   private void showMatrix()
-/* 341:    */   {
+/* 341:    */   {// show the "Show score-matrix" tab
 /* 342:375 */     clear();
 /* 343:    */     
 /* 344:377 */     this.pwMat = new PathwayMatrix(Project.samples_, Project.overall_, this.pwList_, this.activeProj_);
@@ -359,7 +361,7 @@
 /* 350:    */   }
 /* 351:    */   
 /* 352:    */   private void showPlot()
-/* 353:    */   {
+/* 353:    */   {// show the "Show score-plot" tab
 /* 354:385 */     clear();
 /* 355:    */     
 /* 356:387 */     PathwayPlot pwPlot = new PathwayPlot(this.activeProj_, this.proc_);
@@ -376,7 +378,7 @@
 /* 367:    */   }
 /* 368:    */   
 /* 369:    */   private void sortPathwaysByScore(ArrayList<PathwayWithEc> pathways)
-/* 370:    */   {
+/* 370:    */   {// sorts the pathways by Pathways.score_
 /* 371:399 */     int tmpCnt = 0;
 /* 372:400 */     for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++)
 /* 373:    */     {

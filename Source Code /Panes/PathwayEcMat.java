@@ -32,74 +32,74 @@
 /*  32:    */ public class PathwayEcMat
 /*  33:    */   extends JPanel
 /*  34:    */ {
-/*  35:    */   private static final long serialVersionUID = 1L;
-/*  36:    */   private ArrayList<ArrayList<Line>> arrays_;
-/*  37:    */   private double[] pwSums_;
-/*  38:    */   ArrayList<PathwayWithEc> origPaths_;
-/*  39:    */   Project actProj_;
-/*  40:    */   JCheckBox sortPathesBySum_;
-/*  41:    */   JCheckBox sortEcsBySum_;
-/*  42:    */   boolean dataChanged_;
-/*  43:    */   int activesamps_;
-/*  44:    */   DataProcessor proc_;
-/*  45: 50 */   boolean allset = true;
-/*  46:    */   int xWidth;
-/*  47:    */   int yOffset_;
-/*  48: 53 */   int linecnt_ = 0;
-/*  49:    */   private JPanel optionsPanel_;
-/*  50:    */   private JPanel displayP_;
-/*  51:    */   private JScrollPane showJPanel_;
-/*  52:    */   private JLabel mouseOverDisp;
-/*  53:    */   private JPanel mouseOverP;
-/*  54:    */   private JCheckBox useCsf_;
-/*  55: 62 */   boolean firstTime = true;
-				private JButton rebuild;
+/*  35:    */   private static final long serialVersionUID = 1L;	// 
+/*  36:    */   private ArrayList<ArrayList<Line>> arrays_;			// An array list of array lists of line objects. each array list of line objects is a matrix so it is an arraylist of matricies
+/*  37:    */   private double[] pwSums_;							// An array or doubles which serves as the last oline of the matrix. Each element is the sum of its corresponding line
+/*  38:    */   ArrayList<PathwayWithEc> origPaths_;				// Arraylist of pathways
+/*  39:    */   Project actProj_;									// The active project
+/*  40:    */   JCheckBox sortPathesBySum_;							// Checkbox to sort paths by sum... I have no idea why paths has an 'e' in it though... I didn't write that variable
+/*  41:    */   JCheckBox sortEcsBySum_;							// Checkbot to sort Ec's by sum
+/*  42:    */   boolean dataChanged_;								// Boolean to state whether or not the data has been changed
+/*  43:    */   int activesamps_;									// The number of active samples
+/*  44:    */   DataProcessor proc_;								// DataProcessor object to parse through the sample files and do the heavy computations required to build this matrix
+/*  45: 50 */   boolean allset = true;								// 
+/*  46:    */   int xWidth;											// 
+/*  47:    */   int yOffset_;										// 
+/*  48: 53 */   int linecnt_ = 0;									// 
+/*  49:    */   private JPanel optionsPanel_;						// The top panel which contains all the options for formatting the matrix
+/*  50:    */   private JPanel displayP_;							// The display panel where the matrix is portrayed
+/*  51:    */   private JScrollPane showJPanel_;					// The scroll panel that teh display panel sits on. if the display panel becomes to large for the space it is allotted this allows the user to scroll through the matrix 
+/*  52:    */   private JLabel mouseOverDisp;						// A label which displays more information about what the user is mousing over
+/*  53:    */   private JPanel mouseOverP;							// 
+/*  54:    */   private JCheckBox useCsf_;							// 
+/*  55: 62 */   boolean firstTime = true;							// 
+				private JButton rebuild;							// A button added to the options panel used to fully rebuild this matrix as well as the options
 /*  56:    */   
 /*  57:    */   public PathwayEcMat(ArrayList<PathwayWithEc> origPaths, Project actProj, DataProcessor proc, Dimension dim)
 /*  58:    */   {
-/*  59: 67 */     System.out.println("pathwayecmat");
-/*  60: 68 */     this.dataChanged_ = false;
-/*  61:    */     
-/*  62: 70 */     this.origPaths_ = origPaths;
-/*  63: 71 */     this.actProj_ = actProj;
-/*  64: 72 */     this.proc_ = proc;
-/*  65:    */     
-/*  66: 74 */     this.xWidth = (4000 + Project.samples_.size() * 300);
-/*  67:    */     
-/*  68:    */ 
-/*  69:    */ 
-/*  70: 78 */     createArrays();
-/*  71: 79 */     fillArrays();
-/*  72:    */     
-/*  73:    */ 
-/*  74: 82 */     setSize(dim);
-/*  75: 83 */     setVisible(true);
-/*  76: 84 */     setLayout(new BorderLayout());
-/*  77: 85 */     setBackground(Project.getBackColor_());
-/*  78:    */     
-/*  79: 87 */     this.sortPathesBySum_ = new JCheckBox("Sort paths by the sum of ECs");
-/*  80: 88 */     this.sortEcsBySum_ = new JCheckBox("Sort ECs by sum");
-/*  81: 89 */     this.sortPathesBySum_.setSelected(false);
-/*  82: 90 */     this.sortEcsBySum_.setSelected(false);
-/*  83:    */     
-/*  84: 92 */     prepaint();
-/*  85:    */     
+/*  59: 67 */     System.out.println("pathwayecmat");										//
+/*  60: 68 */     this.dataChanged_ = false;												//
+/*  61:    */     																			//
+/*  62: 70 */     this.origPaths_ = origPaths;												//
+/*  63: 71 */     this.actProj_ = actProj;													//
+/*  64: 72 */     this.proc_ = proc;														//
+/*  65:    */     																			//
+/*  66: 74 */     this.xWidth = (4000 + Project.samples_.size() * 300);						//
+/*  67:    */     																			//
+/*  68:    */ 																				//
+/*  69:    */ 																				//		
+/*  70: 78 */     createArrays();															// Creates the array list of array lists. Does not fill the inner arraylists with line objects 
+/*  71: 79 */     fillArrays();																// Builds the line objects and fills the array lists with line objects
+/*  72:    */     																			//
+/*  73:    */ 																				//
+/*  74: 82 */     setSize(dim);																//
+/*  75: 83 */     setVisible(true);															//
+/*  76: 84 */     setLayout(new BorderLayout());											//
+/*  77: 85 */     setBackground(Project.getBackColor_());									//
+/*  78:    */     																			//
+/*  79: 87 */     this.sortPathesBySum_ = new JCheckBox("Sort paths by the sum of ECs"); 	//
+/*  80: 88 */     this.sortEcsBySum_ = new JCheckBox("Sort ECs by sum");					//
+/*  81: 89 */     this.sortPathesBySum_.setSelected(false);									//
+/*  82: 90 */     this.sortEcsBySum_.setSelected(false);									//
+/*  83:    */     																			//
+/*  84: 92 */     prepaint();																// Removes everything from the back panel, initiates the new panels and draws the Ec matrix on screen
+/*  85:    */     																	
 /*  86: 94 */     System.out.println("finished 0");
 /*  87: 95 */     this.allset = true;
 /*  88:    */   }
 /*  89:    */   
 /*  90:    */   private void prepaint()
 /*  91:    */   {
-/*  92: 99 */     removeAll();
-/*  93:    */     
-/*  94:101 */     initMainPanels();
-/*  95:102 */     addOptions();
-/*  96:    */     
-/*  97:104 */     drawArr();
-/*  98:    */     
-/*  99:106 */     invalidate();
-/* 100:107 */     validate();
-/* 101:108 */     repaint();
+/*  92: 99 */     removeAll();		// Removes everything from the back panel
+/*  93:    */     					// 	
+/*  94:101 */     initMainPanels();	// Initiates the options panel, the display panel, and the scroll panel
+/*  95:102 */     addOptions();		// Adds buttons, checkboxes, and labels to the options panel
+/*  96:    */     					// 
+/*  97:104 */     drawArr();		// Draws the matrix to the screen
+/*  98:    */     					// 
+/*  99:106 */     invalidate();		// Rebuilds the backpanel
+/* 100:107 */     validate();		// 
+/* 101:108 */     repaint();		// 
 /* 102:    */   }
 /* 103:    */   
 /* 104:    */   private void initMainPanels()
@@ -269,7 +269,7 @@
 				}
 
 /* 233:    */   private void sortEcsByName()
-/* 234:    */   {
+/* 234:    */   {// this method was implemented using bubble sort, I have since modified it to work as a quicksort method instead
 /* 235:233 */     boolean changed = true;
 /* 236:    */     
 /* 237:235 */     Loadingframe lframe = new Loadingframe();

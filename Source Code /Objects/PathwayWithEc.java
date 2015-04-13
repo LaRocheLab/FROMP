@@ -8,14 +8,13 @@
 /*   6:    */ public class PathwayWithEc
 /*   7:    */   extends Pathway
 /*   8:    */ {
-/*   9:    */   public ArrayList<EcNr> ecNrs_;
-/*  10:    */   public double weight_;
-/*  11:    */   public double score_;
-/*  12:    */   public boolean weightSet;
-/*  13:    */   public int sumOfEC_;
+/*   9:    */   public ArrayList<EcNr> ecNrs_;	// Arraylist of ecs which map to this pathway
+/*  10:    */   public double weight_;			// the weight of this pathway
+/*  11:    */   public double score_;			// the pathway score
+/*  12:    */   public boolean weightSet;		// 
+/*  13:    */   public int sumOfEC_;			// the sum of the number of ecs
 /*  14:    */   
-/*  15:    */   public PathwayWithEc(Pathway pathway)
-/*  16:    */   {
+/*  15:    */   public PathwayWithEc(Pathway pathway){
 /*  17: 15 */     super(pathway);
 /*  18: 16 */     this.ecNrs_ = new ArrayList();
 /*  19: 17 */     this.sumOfEC_ = 0;

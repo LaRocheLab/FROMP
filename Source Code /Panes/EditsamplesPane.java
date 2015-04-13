@@ -29,41 +29,42 @@
 /*  29:    */ import javax.swing.filechooser.FileFilter;
 /*   13:     */ import java.awt.Dimension;
 
-				//This is the panel in between th estart screen and the pathway selection screen where you are able to select 
-				//samples you want to work with and whether or not you want to do random sampling.
+				// This is the panel in between th estart screen and the pathway selection screen where you are able to select 
+				// samples you want to work with and whether or not you want to do random sampling.
+
 /*  31:    */ public class EditsamplesPane
 /*  32:    */   extends JPanel
 /*  33:    */ {
-/*  34:    */   private static final long serialVersionUID = 1L;
-/*  35:    */   Project activeProj_;
-/*  36:    */   Sample tmpSamp_;
-/*  37:    */   IndexButton[] colButton_;
-/*  38:    */   IndexButton[] delButt_;
-/*  39:    */   JButton button_;
-/*  40:    */   JButton newColors_;
-/*  41:    */   String lastPath_;
-/*  42:    */   MyChooser fChoose_;
-/*  43:    */   File lastFile;
-/*  44:    */   JSlider slider;
-/*  45:    */   int colChange;
-/*  46:    */   JLabel colDiff;
-/*  47:    */   ArrayList<JCheckBox> checks_;
-/*  48:    */   public JCheckBox listCheck_;
-/*  49:    */   JCheckBox chainCheck_;
-/*  50:    */   JLabel listl_;
-/*  51:    */   public JCheckBox randCheck_;
-/*  52:    */   JLabel randl_;
-/*  53:    */   public boolean dataChanged_;
-/*  54:    */   public JButton advance_;
-/*  55:    */   private JButton save_;
-/*  56:    */   private JButton saveAs_;
-/*  57:    */   private JButton loadMat_;
-/*  58:    */   public JButton backButton_;
-/*  59:    */   public JButton nextButton_;
-/*  60:    */   ArrayList<JButton> names_;
-/*  61:    */   StringReader reader;
-/*  62: 81 */   int xCol2 = 700;
-/*  63:    */   
+/*  34:    */   private static final long serialVersionUID = 1L;	//
+/*  35:    */   Project activeProj_;								// Project object from which to add and remove samples
+/*  36:    */   Sample tmpSamp_;									// A temporary sample object, to be used for adding samples to the project
+/*  37:    */   IndexButton[] colButton_;							// Array of colour buttons for the samples
+/*  38:    */   IndexButton[] delButt_;								// Array of buttons used to remove samples from the project
+/*  39:    */   JButton button_;									// Select sample button
+/*  40:    */   JButton newColors_;									// Set new colours button 
+/*  41:    */   String lastPath_;									// Temporary variable used to keep track of the last file path in the FileChooser
+/*  42:    */   MyChooser fChoose_;									// The afforementioned FileChooser
+/*  43:    */   File lastFile;										// The last file in the Project.samples_ arraylist 
+/*  44:    */   JSlider slider;										// Sample Colour Difference Slider
+/*  45:    */   int colChange;										// Difference in colour from sample to sample if not interfiered with
+/*  46:    */   JLabel colDiff;										// 
+/*  47:    */   ArrayList<JCheckBox> checks_;						// Checkboxes to the left of each sample. If not checked, sets sample.inuse to false
+/*  48:    */   public JCheckBox listCheck_;						// 
+/*  49:    */   JCheckBox chainCheck_;								// 
+/*  50:    */   JLabel listl_;										// 
+/*  51:    */   public JCheckBox randCheck_;						// CheckBox for random sampling
+/*  52:    */   JLabel randl_;										// 
+/*  53:    */   public boolean dataChanged_;						// 
+/*  54:    */   public JButton advance_;							// 
+/*  55:    */   private JButton save_;								// 
+/*  56:    */   private JButton saveAs_;							// 
+/*  57:    */   private JButton loadMat_;							// 
+/*  58:    */   public JButton backButton_;							// 	
+/*  59:    */   public JButton nextButton_;							// 
+/*  60:    */   ArrayList<JButton> names_;							// ArrayList of buttons which contain the names of the samples
+/*  61:    */   StringReader reader;								// 
+/*  62: 81 */   int xCol2 = 700;									// 
+/*  63:    */    
 /*  64:    */   public EditsamplesPane(Project activeProj)
 /*  65:    */   {
 /*  66: 84 */     this.reader = new StringReader();
@@ -87,11 +88,11 @@
 /*  84:102 */     setBackground(Project.getBackColor_());
 				  setPreferredSize(new Dimension(getWidth(), (Project.samples_.size() + 2) * 50 + 100));
 				  setSize(getPreferredSize());
-/*  85:103 */     prepPaint();
+/*  85:103 */     prepPaint();						// Sets everything up for the EditSamplesPane
 /*  86:    */   }
 /*  87:    */   
 /*  88:    */   private void addSamples()
-/*  89:    */   {
+/*  89:    */   {// Adds all the samples on screen as buttons
 /*  90:107 */     setBackground(Project.getBackColor_());
 /*  91:    */     
 /*  92:109 */     this.names_ = new ArrayList();
@@ -231,7 +232,7 @@
 /* 226:    */   }
 /* 227:    */   
 /* 228:    */   private void loadSampleButton()
-/* 229:    */   {
+/* 229:    */   {// Builds the Select Sample button
 /* 230:282 */     this.button_ = new JButton();
 /* 231:283 */     this.button_.setBounds(this.xCol2, 50, 150, 30);
 /* 232:284 */     this.button_.setText("Select Sample");
@@ -295,7 +296,7 @@
 /* 290:    */   }
 /* 291:    */   
 /* 292:    */   private void convertChecks()
-/* 293:    */   {
+/* 293:    */   {// "Converts" the check boxes next to the samples into data stored about the samples. If the boxes are checked than inUse for that sample equals true, else false
 /* 294:346 */     System.out.println("convert");
 /* 295:347 */     for (int i = 0; i < this.checks_.size(); i++)
 /* 296:    */     {
@@ -321,7 +322,7 @@
 /* 316:    */   }
 /* 317:    */   
 /* 318:    */   private void addMatrixButton()
-/* 319:    */   {
+/* 319:    */   {// Adds the Load EC-Matrix button. If pressed it opens a FileChooser. If a file is selected it trys Project.loadMat on the path of the file selected to add the samples
 /* 320:371 */     this.loadMat_ = new JButton("Load EC-matrix");
 /* 321:372 */     this.loadMat_.setBounds(this.xCol2, 85, 150, 30);
 /* 322:373 */     this.loadMat_.setLayout(null);
@@ -489,7 +490,7 @@
 /* 484:    */   }
 /* 485:    */   
 /* 486:    */   private void addBackNext()
-/* 487:    */   {
+/* 487:    */   {// Adds the "Back to project Menu" and "Go to pathway selection" buttons
 /* 488:535 */     this.backButton_.setBounds(this.xCol2 - 135, 570, 250, 30);
 /* 489:536 */     add(this.backButton_);
 /* 490:    */     
@@ -551,16 +552,16 @@
 /* 546:    */   
 /* 547:    */   public void prepPaint()
 /* 548:    */   {
-/* 549:593 */     removeAll();
-/* 550:594 */     addSamples();
-/* 551:595 */     addColDiff();
-/* 552:596 */     showRandomSampling();
-/* 553:597 */     addMatrixButton();
-/* 554:    */     
-/* 555:599 */     addBackNext();
-/* 556:600 */     invalidate();
-/* 557:601 */     validate();
-/* 558:602 */     repaint();
+/* 549:593 */     removeAll();				// Clears the back panel
+/* 550:594 */     addSamples();				// Adds samples if there are any in the current project
+/* 551:595 */     addColDiff();				// Sets up the colour slider
+/* 552:596 */     showRandomSampling();		// Sets up the random sampling button and if it is selected puts the project inot random sampling mode
+/* 553:597 */     addMatrixButton();		// Sets up the Add EC-Matrix button, as well as the help button next to it. If it is pressed the EC-matrix is parsed in this sample object
+/* 554:    */     							// 
+/* 555:599 */     addBackNext();			// Adds the back and next buttons
+/* 556:600 */     invalidate();				// After this the method rebuilds the back panel with what has been done
+/* 557:601 */     validate();				// 
+/* 558:602 */     repaint();				// 
 /* 559:    */   }
 /* 560:    */   
 /* 561:    */   private void setValues()
@@ -579,7 +580,7 @@
 /* 574:    */   }
 /* 575:    */   
 /* 576:    */   private void showRandomSampling()
-/* 577:    */   {
+/* 577:    */   {// Shows the random sampling checkbox. If checked sets ranMode_ in Project object
 /* 578:617 */     if (this.randCheck_ == null)
 /* 579:    */     {
 /* 580:618 */       this.randCheck_ = new JCheckBox();
@@ -608,7 +609,7 @@
 /* 603:    */   }
 /* 604:    */   
 /* 605:    */   private void openWarning(String title, String string)
-/* 606:    */   {
+/* 606:    */   {// Opens a warning Frame, with the input title as the title, and input string as the body
 /* 607:647 */     JFrame frame = new JFrame(title);
 /* 608:648 */     frame.setVisible(true);
 /* 609:649 */     frame.setBounds(200, 200, 350, 150);
@@ -635,7 +636,7 @@
 /* 630:    */   
 /* 631:    */   private boolean testSampleFile(String samplePath)
 /* 632:    */     throws IOException
-/* 633:    */   {
+/* 633:    */   {// Tests the first five lines of a file, if none of them can be read the file registers as invalid, saying"no enzyme in sample line". If all can be read, registers as valid. Anywhere in between, registers as valid, but offers a warning that only x of 5 were read
 /* 634:672 */     int retries = 5;
 /* 635:673 */     int goodLines = 0;
 /* 636:    */     

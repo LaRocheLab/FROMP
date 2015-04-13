@@ -1,5 +1,7 @@
 /*  1:   */ package Objects;
 /*  2:   */ 
+			// gives the position and size of an ec.
+
 /*  3:   */ public class EcPosAndSize
 /*  4:   */ {
 /*  5:   */   public int x_;

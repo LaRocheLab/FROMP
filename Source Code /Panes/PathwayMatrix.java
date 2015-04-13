@@ -33,34 +33,36 @@
 /*  33:    */ import javax.swing.JScrollPane;
 /*  34:    */ import javax.swing.filechooser.FileFilter;
 /*  35:    */ import pathwayLayout.PathLayoutGrid;
+
+				// The "Show score-matrix" tab of the pathway completeness analysis
 /*  36:    */ 
 /*  37:    */ public class PathwayMatrix
 /*  38:    */   extends JPanel
 /*  39:    */ {
-/*  40:    */   private static final long serialVersionUID = 1L;
-/*  41:    */   private ArrayList<Sample> samples_;
-/*  42:    */   private Sample overSample_;
-/*  43:    */   private ArrayList<PathwayWithEc> pathways_;
-/*  44:    */   private ArrayList<PathwayWithEc> tmpPathways_;
-/*  45:    */   private double[][] scoreMat;
-/*  46:    */   private double[][] rnScoreMat;
-/*  47:    */   Project actProj_;
-/*  48: 57 */   int linDis = 40;
-/*  49: 58 */   int colDis = 275;
-/*  50: 59 */   int xDist = 250;
-/*  51: 60 */   int offset = 100;
-/*  52:    */   JLabel name;
-/*  53:    */   JCheckBox showRn_;
-/*  54:    */   JLabel mouseOverDisp;
-/*  55:    */   JPanel mouseOverP;
-/*  56:    */   JLabel mouseOverFrDisp;
-/*  57:    */   JPanel optionsPanel_;
-/*  58:    */   JPanel displayP_;
-/*  59:    */   JScrollPane showJPanel_;
-/*  60:    */   private JCheckBox useCsf_;
-/*  61:    */   MouseOverFrame infoFrame;
-/*  62:    */   int xWidth;
-/*  63:    */   
+/*  40:    */   private static final long serialVersionUID = 1L;	// 
+/*  41:    */   private ArrayList<Sample> samples_;					// The arraylist of samples 
+/*  42:    */   private Sample overSample_;							// 
+/*  43:    */   private ArrayList<PathwayWithEc> pathways_;			// Arraylist of pathways
+/*  44:    */   private ArrayList<PathwayWithEc> tmpPathways_;		// Arraylist of ecs mapped to pathways
+/*  45:    */   private double[][] scoreMat;						// 
+/*  46:    */   private double[][] rnScoreMat;						// 
+/*  47:    */   Project actProj_;									// the active project
+/*  48: 57 */   int linDis = 40;									// 
+/*  49: 58 */   int colDis = 275;									// 
+/*  50: 59 */   int xDist = 250;									// 
+/*  51: 60 */   int offset = 100;									// 
+/*  52:    */   JLabel name;										// 
+/*  53:    */   JCheckBox showRn_;									// 
+/*  54:    */   JLabel mouseOverDisp;								// 
+/*  55:    */   JPanel mouseOverP;									// 
+/*  56:    */   JLabel mouseOverFrDisp;								// 
+/*  57:    */   JPanel optionsPanel_;								// the options panel upon which the options, ie the buttons and checkboxes, will sit
+/*  58:    */   JPanel displayP_;									// The display panel upon which this pathway matrix will be displayed 
+/*  59:    */   JScrollPane showJPanel_;							// 
+/*  60:    */   private JCheckBox useCsf_;							// 
+/*  61:    */   MouseOverFrame infoFrame;							// 
+/*  62:    */   int xWidth;											// 
+/*  63:    */   				
 /*  64:    */   public PathwayMatrix(ArrayList<Sample> samples, Sample overallSample, ArrayList<PathwayWithEc> pathways, Project actProj)
 /*  65:    */   {
 /*  66: 82 */     this.samples_ = new ArrayList();
@@ -85,7 +87,7 @@
 /*  85:    */   }
 /*  86:    */   
 /*  87:    */   private void initMainPanels()
-/*  88:    */   {
+/*  88:    */   {// innitiates the options, display, and show panel
 /*  89:106 */     this.optionsPanel_ = new JPanel();
 /*  90:107 */     this.optionsPanel_.setPreferredSize(new Dimension(this.xWidth, 100));
 /*  91:108 */     this.optionsPanel_.setLocation(0, 0);
@@ -111,7 +113,7 @@
 /* 111:    */   }
 /* 112:    */   
 /* 113:    */   private void addOptions()
-/* 114:    */   {
+/* 114:    */   {// adds the buttons, etc. to the options panel
 /* 115:135 */     if (this.useCsf_ == null) {
 /* 116:136 */       this.useCsf_ = new JCheckBox("CSF");
 /* 117:    */     }
@@ -201,7 +203,7 @@
 /* 201:    */   }
 /* 202:    */   
 /* 203:    */   public void writeMatrix()
-/* 204:    */   {
+/* 204:    */   {// writes the matrix to the display panel to be seen by the user
 /* 205:233 */     int counter = 0;
 /* 206:234 */     for (int i = 0; i < this.pathways_.size(); i++)
 /* 207:    */     {
@@ -326,7 +328,7 @@
 /* 326:    */   }
 /* 327:    */   
 /* 328:    */   public void prepMat()
-/* 329:    */   {
+/* 329:    */   {// builds the 2d array of doubles: scoreMat
 /* 330:405 */     this.scoreMat = new double[this.samples_.size() + 1][this.overSample_.pathways_.size()];
 /* 331:406 */     for (int pwCnt = 0; pwCnt < this.overSample_.pathways_.size(); pwCnt++)
 /* 332:    */     {
@@ -338,7 +340,7 @@
 /* 338:    */   }
 /* 339:    */   
 /* 340:    */   public void prepRnMat()
-/* 341:    */   {
+/* 341:    */   {// builds the 2d array of doubles: rnScoreMat
 /* 342:414 */     this.rnScoreMat = new double[this.samples_.size() + 1][this.overSample_.rnPathways_.size()];
 /* 343:415 */     for (int pwCnt = 0; pwCnt < this.overSample_.rnPathways_.size(); pwCnt++)
 /* 344:    */     {
@@ -379,7 +381,7 @@
 /* 379:    */   }
 /* 380:    */   
 /* 381:    */   public void exportMat(String path, boolean inCsf)
-/* 382:    */   {
+/* 382:    */   {// exports the pathway matrix to a file
 /* 383:451 */     String seperator = "\t";
 /* 384:452 */     if (inCsf) {
 /* 385:453 */       seperator = ",";
@@ -477,7 +479,7 @@
 /* 460:    */   }
 /* 461:    */   
 /* 462:    */   public void exportPics(String path, boolean onlyOverall, boolean onlyUserP)
-/* 463:    */   {
+/* 463:    */   {// exports the sample ppictures
 /* 464:531 */     if (!onlyOverall) {
 /* 465:532 */       for (int smpCnt = 0; smpCnt < this.samples_.size(); smpCnt++)
 /* 466:    */       {

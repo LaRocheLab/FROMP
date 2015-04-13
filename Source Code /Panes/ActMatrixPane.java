@@ -36,78 +36,75 @@
 /**/			import javax.swing.*;
 /**/		  	import java.io.PrintWriter;
 /**/		  	import java.io.File;
-/*   33:     */ import javax.swing.JComboBox;
 
-				//This is the activity Matrix Pane. If you are looning for anything that goes on in the Activity Matrix part of the GUI, this is probably where it happens.
-				//
+				//This is the activity Matrix Pane. Ec oriented part of the EC activity section. From here you can generate the Ec activity matrix
 
 /*   34:     */ public class ActMatrixPane
 /*   35:     */   extends JPanel
 /*   36:     */ {
-/*   37:     */   private static final long serialVersionUID = 1L;
-/*   38:     */   private ArrayList<Sample> smpList_;
-/*   39:     */   private JButton export_;
-/*   40:     */   private JButton names_;
-/*   41:     */   private JLabel label_;
-/*   42:     */   private JCheckBox bySumcheck_;
-/*   43:     */   private JCheckBox useOddsrat_;
-/*   44:     */   private JCheckBox moveUnmappedToEnd;
-/*   45:     */   private JCheckBox includeRepseq_;
-/*   46:     */   private JCheckBox showOptions_;
-/*   47:     */   private JCheckBox dispIncomplete_;
-/*   48:     */   private JCheckBox useCsf_;
-/*   49:     */   private JTextField maxVisField_;
-/*   50:  57 */   private float maxVisVal_ = 0.0F;
-/*   51:     */   private ArrayList<JLabel> nameLabels_;
-/*   52:     */   private Project actProj_;
-/*   53:  65 */   private boolean sortedEc = false;
-/*   54:  66 */   private final int xSize = 130;
-/*   55:  67 */   private final int ySize = 15;
-/*   56:     */   private int sumIndexSmp;
-/*   57:     */   private JButton resort_;
-/*   58:     */   private ArrayList<Line> ecMatrix_;
-/*   59:     */   private Loadingframe lframe;
-/*   60:     */   private Line unmappedSum;
-/*   61:     */   private Line mappedSum;
-/*   62:     */   private Line incompleteSum;
-/*   63:     */   private Line sums;
-/*   64:     */   JPanel optionsPanel_;
-/*   65:     */   JPanel displayP_;
-/*   66:     */   JScrollPane showJPanel_;
-/*   67:     */   DataProcessor proc_;
-/*   68:  88 */   int selectedSampIndex_ = -1;
-/*   69:     */   JLabel selectedSampText;
-				  final String basePath_ = new File(".").getAbsolutePath() + File.separator;
-				  JPopupMenu menuPopup;
-				  int popupIndexY;
-				  int popupIndexX;
-				  JComboBox combo;
+/*   37:     */   private static final long serialVersionUID = 1L;								// 
+/*   38:     */   private ArrayList<Sample> smpList_;											// ArrayList of samples to be used to generate the matrix
+/*   39:     */   private JButton export_;														// Button to export the matrix to a file
+/*   40:     */   private JButton names_;														// Tmp variable for building a a list of EC buttons
+/*   41:     */   private JLabel label_;														// 
+/*   42:     */   private JCheckBox bySumcheck_;												// Check box used to sort matrix by sum
+/*   43:     */   private JCheckBox useOddsrat_;												// Checkbox to include the odds-ratio in the calculation of the matrix
+/*   44:     */   private JCheckBox moveUnmappedToEnd;											// Checkbox to moved unmapped ecs to the end of the list. Default is checked
+/*   45:     */   private JCheckBox includeRepseq_;												// Checkbox to include the ability to click on ecs from samples and see the sequence ids which are associated with that ec
+/*   46:     */   private JCheckBox showOptions_;												// Checkbox to show the options panel
+/*   47:     */   private JCheckBox dispIncomplete_;											// Checkbox to display incomplete ecs
+/*   48:     */   private JCheckBox useCsf_;													// Checkbox to use CSF
+/*   49:     */   private JTextField maxVisField_;												// 
+/*   50:  57 */   private float maxVisVal_ = 0.0F;												// 
+/*   51:     */   private ArrayList<JLabel> nameLabels_;										// ArrayList of labels
+/*   52:     */   private Project actProj_;														// The active project
+/*   53:  65 */   private boolean sortedEc = false;												// 
+/*   54:  66 */   private final int xSize = 130;												// 
+/*   55:  67 */   private final int ySize = 15;													// 
+/*   56:     */   private int sumIndexSmp;														// 
+/*   57:     */   private JButton resort_;														// JBotton to resort the array
+/*   58:     */   private ArrayList<Line> ecMatrix_;											// Arraylist of line objects used to build the matrix
+/*   59:     */   private Loadingframe lframe;													// Loading frame
+/*   60:     */   private Line unmappedSum;														// 
+/*   61:     */   private Line mappedSum;														// 
+/*   62:     */   private Line incompleteSum;													// 
+/*   63:     */   private Line sums;															// 
+/*   64:     */   JPanel optionsPanel_;															// Options panel 
+/*   65:     */   JPanel displayP_;																// Panel which displays the ec matrix
+/*   66:     */   JScrollPane showJPanel_;														// Scroll pane which allows the user to scroll through the matrix if it is bigger than the allotted space
+/*   67:     */   DataProcessor proc_;															// Data Processor which allows the input files to be parsed and for relivent data to be computed from them
+/*   68:  88 */   int selectedSampIndex_ = -1;													// 
+/*   69:     */   JLabel selectedSampText;														// 
+				  final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The working path of this project
+				  JPopupMenu menuPopup;															// Popup menu used for right clicking and exporting sequence ids
+				  int popupIndexY;																// Coordinates to facilitate the exporting of sequence ids
+				  int popupIndexX;																// 
 /*   70:     */   
 /*   71:     */   public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList, DataProcessor proc, Dimension dim)
 /*   72:     */   {
-/*   73:  92 */     this.lframe = new Loadingframe();
-/*   74:  93 */     this.lframe.bigStep("Preparing Panel");
-/*   75:  94 */     this.lframe.step("Init");
-/*   76:     */     
-/*   77:  96 */     this.actProj_ = actProj;
-/*   78:  97 */     this.proc_ = proc;
-/*   79:     */     
-/*   80:     */ 
-/*   81: 100 */     setLayout(new BorderLayout());
-/*   82: 101 */     setVisible(true);
-/*   83: 102 */     setBackground(Project.getBackColor_());
-/*   84: 103 */     setSize(dim);
-/*   85:     */     
-/*   86: 105 */     this.smpList_ = Project.samples_;
-/*   87: 106 */     this.sumIndexSmp = 0;
-/*   88:     */     
-/*   89: 108 */     setSelectedEc();
-/*   90: 109 */     prepMatrix();
-/*   91: 110 */     initMainPanels();
-/*   92:     */     
-/*   93: 112 */     prepaint();
-/*   94:     */     
-/*   95: 114 */     Loadingframe.close();
+/*   73:  92 */     this.lframe = new Loadingframe();			// opens the loading frame
+/*   74:  93 */     this.lframe.bigStep("Preparing Panel");		// 
+/*   75:  94 */     this.lframe.step("Init");					// 
+/*   76:     */     											// 
+/*   77:  96 */     this.actProj_ = actProj;					// sets this active project
+/*   78:  97 */     this.proc_ = proc;							// stes this data processor
+/*   79:     */     											// 
+/*   80:     */ 												// 
+/*   81: 100 */     setLayout(new BorderLayout());				// 
+/*   82: 101 */     setVisible(true);							// 
+/*   83: 102 */     setBackground(Project.getBackColor_());		// 
+/*   84: 103 */     setSize(dim);								// 
+/*   85:     */     											// 
+/*   86: 105 */     this.smpList_ = Project.samples_;			// 
+/*   87: 106 */     this.sumIndexSmp = 0;						// 
+/*   88:     */     											// 
+/*   89: 108 */     setSelectedEc();							// Sets whether or not each sample is selected
+/*   90: 109 */     prepMatrix();								// Builds the ec matrix
+/*   91: 110 */     initMainPanels();							// Instanciates teh options, display and scroll panels
+/*   92:     */     											// 
+/*   93: 112 */     prepaint();									// Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
+/*   94:     */     											// 
+/*   95: 114 */     Loadingframe.close();						// closes the loading frame
 /*   96:     */   }
 /*   97:     */   
 /*   98:     */   private void prepaint()
@@ -240,7 +237,7 @@
 /*  223:     */   }
 /*  224:     */   
 /*  225:     */   private void addOptions()
-/*  226:     */   {
+/*  226:     */   {// adds the buttons, labels, checkboxes etc to the options panel
 /*  227: 245 */     this.lframe.bigStep("Adding options");
 /*  228: 246 */     this.lframe.step("Buttons");
 /*  229: 247 */     this.optionsPanel_.removeAll();
@@ -315,7 +312,7 @@
 /*  292: 311 */     this.useCsf_.setBounds(10, 44, 100, 15);
 /*  293: 312 */     this.optionsPanel_.add(this.useCsf_);
 					
-					this.resort_ = new JButton("Rebuild");
+					this.resort_ = new JButton("Rebuild"); // A more powerful buton than the apply options button, doesnt just resort the matrix, but instead rebuilds the entire matrix along with the back panel. Shouldn't be used unless the user is looking to remove samples from their view as it will take nmopre time than the apply options button. This will be especially noticible with large samples, but much less noticible with smaller samples.
 /*  390:     */     
 /*  391: 417 */     this.resort_.setBounds(700, 50, 200, 30);
 /*  392: 418 */     this.resort_.setVisible(true);
@@ -325,13 +322,13 @@
 /*  396:     */     {
 /*  397:     */       public void actionPerformed(ActionEvent e)
 /*  398:     */       {
-						int test=0;
+						int test=0;// A temp variable to ensure that at least on of the samples.onoff=true
 						for(int i=0;i<Project.samples_.size();i++){
 	    					if(Project.samples_.get(i).onoff==true){
 	    						test++;
 	    					}
 	    				}
-	    				if(test<1){
+	    				if(test<1){// You can't view less than one sample at a time or the program will crash, this stops the user from being able to do that, and makes a window that warns the user that they will be unable to do so
 	    					final JFrame frame = new JFrame("Warning!");
 /* 1108:1203 */       		frame.setBounds(200, 200, 300, 110);
 /* 1109:1204 */       		frame.setLayout(null);
@@ -363,7 +360,7 @@
 						initMainPanels();
 						prepaint();
 
-	    				for(int i=0;i<Project.samples_.size();i++){
+	    				for(int i=0;i<Project.samples_.size();i++){// After this button is pressed all sample.onoff are reset to true so that when the matrix is rebuilt again all samples will be there again. This way the user doesnt 'lose' any of their samples.
 	    					Project.samples_.get(i).onoff=true;
 	    				}
 /*  400:     */       }
@@ -500,7 +497,7 @@
 /*  422:     */   }
 /*  423:     */   
 /*  424:     */   private void drawSampleNames()
-/*  425:     */   {
+/*  425:     */   {// Draws the mouse over lables above the ec matrix. if you mouse over these lables the expand showing their full names. if you click them then it sets that sample.onoff=false
 /*  426: 453 */     this.lframe.bigStep("drawSampleNames");
 /*  427:     */     
 /*  428: 455 */     this.nameLabels_ = new ArrayList();
@@ -597,7 +594,7 @@
 /*  535:     */   }
 /*  536:     */   
 /*  537:     */   private void showEcValues()
-/*  538:     */   {
+/*  538:     */   {// paints the ec matrix showing the ec values, calls showValues, or show odds 
 /*  539: 577 */     boolean sumLineDrawn = false;
 /*  540: 578 */     this.lframe.bigStep("showEcValues");
 /*  541: 579 */     int ecCnt = 0;
@@ -641,7 +638,7 @@
 /*  579:     */   }
 /*  580:     */   
 /*  581:     */   private void showOdds(Line ecNr, int index)
-/*  582:     */   {
+/*  582:     */   {// prints the ec matrix, but in place of the ecs the odds ratios are used
 /*  583: 622 */     if (ecNr.isSumline_())
 /*  584:     */     {
 /*  585: 623 */       addSumLineVals(ecNr, index);
@@ -815,7 +812,7 @@
 /*  653:     */   }
 /*  654:     */   
 /*  655:     */   private void showValues(Line ecNr, int index)
-/*  656:     */   {
+/*  656:     */   {// Prints the ec matrix
 /*  657: 711 */     if (ecNr.isSumline_())
 /*  658:     */     {
 /*  659: 712 */       addSumLineVals(ecNr, index);
@@ -983,8 +980,8 @@
 /*  722: 793 */     this.displayP_.add(this.label_);
 /*  723:     */   }
 /*  724:     */   
-				  public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)//exports sequence ids of a particular EC to RepSeqIDs 
-				  {
+				  public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
+				  {// Exports sequence ids of a particular EC to RepSeqIDs 
 					String text="";
                		String test="";
 				    System.out.println("Reps:"+reps.size());
@@ -1024,7 +1021,7 @@
 				  }
 
 /*  725:     */   private void addSumLineVals(Line ecNr, int index)
-/*  726:     */   {
+/*  726:     */   {// adds the sum of a line in order to be able to print the line sum
 /*  727: 797 */     int uncompleteOffset = 0;
 /*  728: 798 */     if ((!ecNr.isMappedSums_()) && (!ecNr.isUnMappedSums_())) {
 /*  729: 799 */       uncompleteOffset = 50;
@@ -1061,7 +1058,7 @@
 /*  760:     */   }
 /*  761:     */   
 /*  762:     */   private void addEcButton(Line ecNr, int index)
-/*  763:     */   {
+/*  763:     */   {// adds all of the en name buttons on the left hand side of the ec matrix
 /*  764: 831 */     this.lframe.bigStep("Adding ecButtons");
 /*  765: 832 */     if (!ecNr.isSumline_())
 /*  766:     */     {
@@ -1117,7 +1114,7 @@
 /*  816:     */   }
 /*  817:     */   
 /*  818:     */   private void switchOptionsMode()
-/*  819:     */   {
+/*  819:     */   {// Switches the option mode
 /*  820: 887 */     if (this.showOptions_.isSelected())
 /*  821:     */     {
 /*  822: 888 */       this.useOddsrat_.setVisible(true);
@@ -1291,8 +1288,8 @@
 /*  990:     */     }
 /*  991:     */   }
 /*  992:     */   
-/*  993:     */   public void exportMat(String path, boolean inCsf)//Exports the whole matrix to the input path
-/*  994:     */   {
+/*  993:     */   public void exportMat(String path, boolean inCsf)
+/*  994:     */   {// Exports the whole matrix to the input path
 /*  995:1054 */     String separator = "\t";
 /*  996:1055 */     if (inCsf) {
 /*  997:1056 */       separator = ",";

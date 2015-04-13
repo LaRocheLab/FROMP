@@ -31,25 +31,27 @@
 /*  31:    */ import javax.swing.JScrollPane;
 /*  32:    */ import javax.swing.filechooser.FileFilter;
 /*  33:    */ 
+				// The "Show score-plot" tab of the pathway completeness analysis
+
 /*  34:    */ public class PathwayPlot
 /*  35:    */   extends JPanel
 /*  36:    */ {
-/*  37:    */   private static final long serialVersionUID = 1L;
-/*  38:    */   Project proj_;
-/*  39:    */   BufferedImage canvas_;
-/*  40:    */   ImageIcon image_;
-/*  41:    */   JLabel imageLabel_;
-/*  42:    */   JPanel toolbar_;
-/*  43:    */   JPanel showPanel_;
-/*  44:    */   JScrollPane scrollPane_;
-/*  45:    */   JCheckBox pointsBox_;
-/*  46:    */   JCheckBox vertLineBox_;
-/*  47:    */   JCheckBox linesBox_;
-/*  48: 52 */   float scale_ = 0.5F;
-/*  49:    */   JButton scaleDown_;
-/*  50:    */   JButton scaleUp_;
-/*  51:    */   JButton export_;
-/*  52:    */   DataProcessor proc_;
+/*  37:    */   private static final long serialVersionUID = 1L;	// 
+/*  38:    */   Project proj_;										// the current project				
+/*  39:    */   BufferedImage canvas_;								// 
+/*  40:    */   ImageIcon image_;									// 
+/*  41:    */   JLabel imageLabel_;									// houses this.image_
+/*  42:    */   JPanel toolbar_;									// 
+/*  43:    */   JPanel showPanel_;									// 
+/*  44:    */   JScrollPane scrollPane_;							// the scroll pane which houses the imageLabel_
+/*  45:    */   JCheckBox pointsBox_;								// 
+/*  46:    */   JCheckBox vertLineBox_;								// 
+/*  47:    */   JCheckBox linesBox_;								// 
+/*  48: 52 */   float scale_ = 0.5F;								// 
+/*  49:    */   JButton scaleDown_;									// 
+/*  50:    */   JButton scaleUp_;									// 
+/*  51:    */   JButton export_;									// 
+/*  52:    */   DataProcessor proc_;								// 
 /*  53:    */   
 /*  54:    */   public PathwayPlot(Project proj, DataProcessor proc)
 /*  55:    */   {
@@ -70,7 +72,7 @@
 /*  70:    */   }
 /*  71:    */   
 /*  72:    */   private void initPanels()
-/*  73:    */   {
+/*  73:    */   {// innitiates the toolbar_ and the imageLabel_
 /*  74: 83 */     this.toolbar_ = new JPanel();
 /*  75:    */     
 /*  76: 85 */     this.toolbar_.setPreferredSize(new Dimension(getWidth() - 20, 100));
@@ -89,7 +91,7 @@
 /*  89:    */   }
 /*  90:    */   
 /*  91:    */   private void addScrollPane()
-/*  92:    */   {
+/*  92:    */   {// adds the scroll pane to this
 /*  93:103 */     this.scrollPane_ = new JScrollPane(this.imageLabel_);
 /*  94:104 */     this.scrollPane_.setVisible(true);
 /*  95:105 */     this.scrollPane_.setVerticalScrollBarPolicy(20);
@@ -99,7 +101,7 @@
 /*  99:    */   }
 /* 100:    */   
 /* 101:    */   private void addTools()
-/* 102:    */   {
+/* 102:    */   {// adds the tools allowing the user to scale the image to their liking as well as choose the type of graph they would like to see
 /* 103:112 */     JLabel label = new JLabel("Plot points");
 /* 104:113 */     label.setBounds(20, 0, 100, 20);
 /* 105:114 */     label.setLayout(null);
@@ -136,7 +138,7 @@
 /* 136:    */   }
 /* 137:    */   
 /* 138:    */   public void initCheckBoxes()
-/* 139:    */   {
+/* 139:    */   {// initiates all of the checkboxes and their actionlisteners, does not add them to the panel
 /* 140:152 */     this.linesBox_ = new JCheckBox();
 /* 141:153 */     this.linesBox_.setBackground(Project.standard);
 /* 142:154 */     this.linesBox_.setBounds(120, 20, 17, 16);
@@ -239,7 +241,7 @@
 /* 239:    */   }
 /* 240:    */   
 /* 241:    */   public void plot()
-/* 242:    */   {
+/* 242:    */   {// builds the plot
 /* 243:270 */     int size = (int)(10.0F * this.scale_);
 /* 244:271 */     int xStep = (int)(10.0F * this.scale_);
 /* 245:272 */     int yStep = (int)(10.0F * this.scale_);
@@ -318,7 +320,7 @@
 /* 318:    */   }
 /* 319:    */   
 /* 320:    */   private void export()
-/* 321:    */   {
+/* 321:    */   {// exports the plot as a picture file
 /* 322:350 */     JFileChooser fChoose_ = new JFileChooser("");
 /* 323:351 */     fChoose_.setFileSelectionMode(0);
 /* 324:352 */     fChoose_.setBounds(100, 100, 200, 20);
@@ -360,7 +362,7 @@
 /* 360:    */   }
 /* 361:    */   
 /* 362:    */   public void prePaint()
-/* 363:    */   {
+/* 363:    */   {// rebuilds the panel
 /* 364:395 */     removeAll();
 /* 365:396 */     initPanels();
 /* 366:397 */     addTools();

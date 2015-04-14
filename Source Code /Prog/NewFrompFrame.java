@@ -311,13 +311,17 @@
 /*  303:     */     {
 /*  304:     */       public void actionPerformed(ActionEvent e)
 /*  305:     */       {
-/*  306: 371 */         NewFrompFrame.this.clearBack();
+						
 /*  307: 373 */         if (NewFrompFrame.this.control_.gotSamples())
 /*  308:     */         {
+						  NewFrompFrame.this.clearBack();
 /*  309: 374 */           Controller.loadPathways(true);
 /*  310: 375 */           NewFrompFrame.this.showPathwayScorePane();
-/*  311:     */         }
+/*  311:     */         } else {
+							warningFrame();
+						}
 /*  312: 382 */         System.out.println("Pathway orientated");
+						
 /*  313:     */       }
 /*  314: 385 */     });
 /*  315: 386 */     this.menu_.add(mItem);
@@ -333,12 +337,14 @@
 /*  325:     */       public void actionPerformed(ActionEvent e)
 /*  326:     */       {
 /*  327: 399 */         System.out.println("Pathway Activity");
-/*  328: 400 */         NewFrompFrame.this.clearBack();
 /*  329: 402 */         if (NewFrompFrame.this.control_.gotSamples())
 /*  330:     */         {
+						  NewFrompFrame.this.clearBack();
 /*  331: 403 */           Controller.loadPathways(true);
 /*  332: 404 */           NewFrompFrame.this.showPathwayActMatrix();
-/*  333:     */         }
+/*  333:     */         } else {
+							warningFrame();
+						}
 /*  334:     */       }
 /*  335: 414 */     });
 /*  336: 415 */     this.menu_.add(mItem);
@@ -354,17 +360,36 @@
 /*  346:     */     {
 /*  347:     */       public void actionPerformed(ActionEvent e)
 /*  348:     */       {
-/*  349: 429 */         NewFrompFrame.this.clearBack();
+/*  349: 429 */         
 /*  350: 430 */         if (NewFrompFrame.this.control_.gotSamples())
 /*  351:     */         {
+						  NewFrompFrame.this.clearBack();
 /*  352: 431 */           Controller.loadPathways(true);
 /*  353: 432 */           NewFrompFrame.this.showEcActPanes();
-/*  354:     */         }
+/*  354:     */         } else {
+							warningFrame();
+						}
 /*  355: 438 */         System.out.println("Compare Samples");
 /*  356:     */       }
 /*  357: 441 */     });
 /*  358: 442 */     this.menu_.add(mItem);
 /*  359:     */   }
+
+				  private void warningFrame(){
+				  	JFrame wrngFrame=new JFrame();
+/* 1108:1203 */     wrngFrame.setBounds(200, 200, 350, 100);
+/* 1109:1204 */     wrngFrame.setLayout(null);
+/* 1110:1205 */     wrngFrame.setVisible(true);
+/* 1111:     */     
+/* 1112:1207 */     JPanel backP = new JPanel();
+/* 1113:1208 */     backP.setBounds(0, 0, 350, 100);
+/* 1114:1209 */     backP.setLayout(null);
+/* 1115:1210 */     wrngFrame.add(backP);
+/* 1116:     */     
+/* 1117:1212 */     JLabel label = new JLabel("Warning! No samples have been selected!");
+/* 1118:1213 */     label.setBounds(25, 25, 300, 25);
+/* 1119:1214 */     backP.add(label);
+				  }
 /*  360:     */   
 /*  361:     */   private void addSettingsMenu()
 /*  362:     */   {
@@ -763,7 +788,9 @@
 /*  752:     */         {
 /*  753: 865 */           Controller.loadPathways(true);
 /*  754: 866 */           NewFrompFrame.this.showPathwayScorePane();
-/*  755:     */         }
+/*  755:     */         } else {
+							warningFrame();
+						}
 /*  756:     */       }
 /*  757: 869 */     });
 /*  758: 870 */     panel.add(s);
@@ -778,7 +805,9 @@
 /*  767:     */         {
 /*  768: 880 */           Controller.loadPathways(true);
 /*  769: 881 */           NewFrompFrame.this.showPathwayActMatrix();
-/*  770:     */         }
+/*  770:     */         } else {
+							warningFrame();
+						}
 /*  771:     */       }
 /*  772: 884 */     });
 /*  773: 885 */     panel.add(s);
@@ -793,7 +822,9 @@
 /*  782:     */         {
 /*  783: 895 */           Controller.loadPathways(true);
 /*  784: 896 */           NewFrompFrame.this.showEcActPanes();
-/*  785:     */         }
+/*  785:     */         } else {
+							warningFrame();
+						}
 /*  786:     */       }
 /*  787: 899 */     });
 /*  788: 900 */     panel.add(s);

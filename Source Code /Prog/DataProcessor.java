@@ -330,7 +330,7 @@
 				  	if(!line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return null;
 					}
-
+					String seperator=",";
 //				  	System.out.println("Inter Pro");
 					String[] ret = new String[4];
 
@@ -338,21 +338,37 @@
 					ret[1] = "1";	// Number of this ipr with this sequence id
 					ret[2] = "X";	// Whether or not it is an ipr
 					ret[3] = "X";	// Sequence id
-
-					if(line.contains("\t")){
-						String repSeq = line.substring(0,line.indexOf("\t"));
-						ret[3] = repSeq;
+					if(line.contains(seperator)){
+						String interpro=findInterProInRaw(line);
+						if(interpro!=null){
+							Project.amountOfIPRs+=1;
+							ret[0]=interpro;
+							ret[2]="IPR";
+						}
+						String tmp=line.substring(line.indexOf(seperator)+1);
+						if(tmp.contains(seperator)){
+							ret[1]=tmp.substring(0,tmp.indexOf(seperator));
+							ret[3]=tmp.substring(line.indexOf(seperator)+1);
+						}
+						else if(tmp!=null){
+							ret[1]=tmp;
+						}
 					}
-					String interpro=findInterProInRaw(line);
-					if(interpro!=null){
-						Project.amountOfIPRs+=1;
-//						System.out.println("IPR sucessfully saved");
-						ret[0]=interpro;
-						ret[2]="IPR";
-					} else{
-//						System.out.println("IPR save was unsuccessful");
+					else{
+						if(line.contains("\t")){
+							String repSeq = line.substring(0,line.indexOf("\t"));
+							ret[3] = repSeq;
+						}
+						String interpro=findInterProInRaw(line);
+						if(interpro!=null){
+							Project.amountOfIPRs+=1;
+//							System.out.println("IPR sucessfully saved");
+							ret[0]=interpro;
+							ret[2]="IPR";
+						} else{
+//							System.out.println("IPR save was unsuccessful");
+						}
 					}
-					
 					return ret;
 				  }
 /*  232:     */   
@@ -393,6 +409,7 @@
 //				  	System.out.println("IPR not found");
 				  	return null;
 				  }
+
 /*  254:     */   
 /*  255:     */   public String[] getEnzFromSample(String input)
 /*  256:     */   {//retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
@@ -1107,7 +1124,7 @@
 									}
 								}
 								
-								if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
+								else if(zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 									
 									String[] newEnz = getEnzFromInterPro(zeile);
 									if (newEnz[2].equalsIgnoreCase("IPR")){
@@ -1157,8 +1174,6 @@
 										}
 									}
 								
-								} else{
-									continue;
 								}
 							}
 						}

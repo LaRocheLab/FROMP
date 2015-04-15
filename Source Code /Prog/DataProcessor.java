@@ -2507,6 +2507,17 @@
 /* 1749:     */   {
 /* 1750:1863 */     return pathwayList_;
 /* 1751:     */   }
+
+				  public boolean selectedPathways(){
+				  	boolean ret=false;
+				  	for (int i=0;i<pathwayList_.size();i++){
+				  		if(pathwayList_.get(i).isSelected()){
+				  			ret=true;
+				  			break;
+				  		}
+				  	}
+				  	return ret;
+				  }
 /* 1752:     */   
 /* 1753:     */   public EcWithPathway getEc(String ecId)
 /* 1754:     */   {

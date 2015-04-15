@@ -207,6 +207,28 @@
 /*  199:     */       }
 /*  200: 247 */     });
 /*  201: 248 */     this.menu_.add(miItem);
+					
+					miItem = new JMenuItem("Home", 
+/*  204: 251 */       86);
+/*  205: 252 */     miItem.setAccelerator(KeyStroke.getKeyStroke(
+/*  206: 253 */       86, 8));
+/*  207: 254 */     miItem.getAccessibleContext().setAccessibleDescription(
+/*  208: 255 */       "Home");
+/*  209: 256 */     miItem.addActionListener(new ActionListener()
+/*  210:     */     {
+/*  211:     */       public void actionPerformed(ActionEvent e)
+/*  212:     */       {
+						NewFrompFrame.this.control_ = new Controller(NewFrompFrame.this.sysColor_);
+						clearBack();
+/*  213: 261 */         addMenu();				
+/*  106: 148 */     	loadRecentProj();		
+/*  107: 149 */    		showNewProjPanel();		
+/*  108: 150 */     	invalidate();			
+/*  109: 151 */     	validate();				
+/*  110: 152 */     	repaint();	
+/*  214:     */       }
+/*  215: 264 */     });
+/*  216: 265 */     this.menu_.add(miItem);
 /*  202:     */     
 /*  203: 250 */     miItem = new JMenuItem("Quit", 
 /*  204: 251 */       81);
@@ -311,12 +333,16 @@
 /*  303:     */     {
 /*  304:     */       public void actionPerformed(ActionEvent e)
 /*  305:     */       {
-						
-/*  307: 373 */         if (NewFrompFrame.this.control_.gotSamples())
+/*  329: 402 */         if (NewFrompFrame.this.control_.gotSamples())
 /*  308:     */         {
 						  NewFrompFrame.this.clearBack();
 /*  309: 374 */           Controller.loadPathways(true);
-/*  310: 375 */           NewFrompFrame.this.showPathwayScorePane();
+						  if(!NewFrompFrame.this.control_.processor_.selectedPathways()){
+							warningFrame("No pathways selected!");
+							selectPws();
+						  } else {
+/*  310: 375 */           	NewFrompFrame.this.showPathwayScorePane();
+						  }
 /*  311:     */         } else {
 							warningFrame();
 						}
@@ -337,11 +363,16 @@
 /*  325:     */       public void actionPerformed(ActionEvent e)
 /*  326:     */       {
 /*  327: 399 */         System.out.println("Pathway Activity");
-/*  329: 402 */         if (NewFrompFrame.this.control_.gotSamples())
+						if (NewFrompFrame.this.control_.gotSamples())
 /*  330:     */         {
 						  NewFrompFrame.this.clearBack();
 /*  331: 403 */           Controller.loadPathways(true);
-/*  332: 404 */           NewFrompFrame.this.showPathwayActMatrix();
+						  if(!NewFrompFrame.this.control_.processor_.selectedPathways()){
+							warningFrame("No pathways selected!");
+							selectPws();
+						  } else {
+/*  332: 404 */           	NewFrompFrame.this.showPathwayActMatrix();
+						  }
 /*  333:     */         } else {
 							warningFrame();
 						}
@@ -360,13 +391,17 @@
 /*  346:     */     {
 /*  347:     */       public void actionPerformed(ActionEvent e)
 /*  348:     */       {
-/*  349: 429 */         
 /*  350: 430 */         if (NewFrompFrame.this.control_.gotSamples())
 /*  351:     */         {
 						  NewFrompFrame.this.clearBack();
 /*  352: 431 */           Controller.loadPathways(true);
-/*  353: 432 */           NewFrompFrame.this.showEcActPanes();
-/*  354:     */         } else {
+						  if(!NewFrompFrame.this.control_.processor_.selectedPathways()){
+							warningFrame("No pathways selected!");
+							selectPws();
+						  } else {
+/*  353: 432 */           	NewFrompFrame.this.showEcActPanes();
+/*  354:     */           }
+						} else {
 							warningFrame();
 						}
 /*  355: 438 */         System.out.println("Compare Samples");
@@ -387,6 +422,21 @@
 /* 1115:1210 */     wrngFrame.add(backP);
 /* 1116:     */     
 /* 1117:1212 */     JLabel label = new JLabel("Warning! No samples have been selected!");
+/* 1118:1213 */     label.setBounds(25, 25, 300, 25);
+/* 1119:1214 */     backP.add(label);
+				  }
+				  private void warningFrame(String strIN){
+				  	JFrame wrngFrame=new JFrame();
+/* 1108:1203 */     wrngFrame.setBounds(200, 200, 350, 100);
+/* 1109:1204 */     wrngFrame.setLayout(null);
+/* 1110:1205 */     wrngFrame.setVisible(true);
+/* 1111:     */     
+/* 1112:1207 */     JPanel backP = new JPanel();
+/* 1113:1208 */     backP.setBounds(0, 0, 350, 100);
+/* 1114:1209 */     backP.setLayout(null);
+/* 1115:1210 */     wrngFrame.add(backP);
+/* 1116:     */     
+/* 1117:1212 */     JLabel label = new JLabel("Warning! "+strIN);
 /* 1118:1213 */     label.setBounds(25, 25, 300, 25);
 /* 1119:1214 */     backP.add(label);
 				  }
@@ -568,9 +618,13 @@
 /*  535:     */     {
 /*  536:     */       public void actionPerformed(ActionEvent e)
 /*  537:     */       {
-/*  538: 640 */         NewFrompFrame.this.clearBack();
+						if(!NewFrompFrame.this.control_.gotSamples()) {
+							warningFrame();
+						} else {
+/*  538: 640 */         	NewFrompFrame.this.clearBack();
 /*  539:     */         
-/*  540: 642 */         NewFrompFrame.this.selectPws();
+/*  540: 642 */         	NewFrompFrame.this.selectPws();
+						}
 /*  541:     */       }
 /*  542: 644 */     });
 
@@ -591,7 +645,7 @@
 /*  552: 655 */       Controller.loadPathways(false);
 /*  553:     */     }
 /*  554: 657 */     clearBack();
-/*  555: 658 */     PathwaySelectP selectP = new PathwaySelectP(Controller.processor_.getPathwayList_());
+/*  555: 658 */     final PathwaySelectP selectP = new PathwaySelectP(Controller.processor_.getPathwayList_());
 /*  556: 659 */     selectP.back_.addActionListener(new ActionListener()
 /*  557:     */     {
 /*  558:     */       public void actionPerformed(ActionEvent e)
@@ -604,8 +658,16 @@
 /*  565:     */     {
 /*  566:     */       public void actionPerformed(ActionEvent e)
 /*  567:     */       {
-/*  568: 673 */         NewFrompFrame.this.clearBack();
-/*  569: 674 */         NewFrompFrame.this.showAnalyseOptions();
+						Boolean noPathways=true;
+						if(selectP.pathSelected()){
+							noPathways=false;
+						}
+						if(!noPathways){
+/*  568: 673 */         	NewFrompFrame.this.clearBack();
+/*  569: 674 */         	NewFrompFrame.this.showAnalyseOptions();
+						} else {
+							warningFrame("No pathways selected!");
+						}
 /*  570:     */       }
 /*  571: 676 */     });
 /*  572: 677 */     this.back_.add(selectP);

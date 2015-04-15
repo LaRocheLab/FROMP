@@ -145,7 +145,7 @@
 /* 143:157 */     ArrayList<String> paths = Project.userPathways;
 				  
 /* 144:159 */     if (paths != null) {
-					System.out.println(paths.toString());
+//					System.out.println(paths.toString());
 /* 145:160 */       for (int uPathCnt = 0; uPathCnt < Project.userPathways.size(); uPathCnt++)
 /* 146:    */       {
 /* 147:161 */         final int pwInt = uPathCnt;
@@ -270,6 +270,20 @@
 /* 266:    */     
 /* 267:300 */     redo();
 /* 268:    */   }
+				public boolean pathSelected(){
+				  boolean ret=false;
+				  outerloop:
+				  for (int pwCnt = 0; pwCnt < this.paths_.size(); pwCnt++) {
+/* 261:294 */       if (((PathwayWithEc)this.paths_.get(pwCnt)).isSelected()) {
+/* 262:295 */        	ret=true;
+						break outerloop;
+/* 263:    */       }
+/* 264:    */     }
+				  if(!Project.userPathways.isEmpty()){
+				  	ret=true;
+				  }
+				  return ret;
+				}
 /* 269:    */   
 /* 270:    */   private void saveConfig(String path)
 /* 271:    */   {

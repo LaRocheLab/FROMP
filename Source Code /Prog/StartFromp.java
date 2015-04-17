@@ -47,16 +47,30 @@
 						  arg1="h";
 /*  38: 37 */             printOptions();
 /*  39:    */           }
-/*  40:    */           else
+/*  40:    */           else if (args[0].contentEquals("d"))
 /*  41:    */           {
-/*  42:    */             PathLayoutGrid Grid;
-/*  43: 39 */             if (args[0].contentEquals("d")) {
-/*  44: 41 */               Grid = new PathLayoutGrid(10, 10, true);
-/*  45:    */             } else {
-/*  46: 44 */               printOptions();
-/*  47:    */             }
+/*  42:    */             PathLayoutGrid Grid = new PathLayoutGrid(10, 10, true);
+/*  45:    */             
 /*  48:    */           }
+						else {
+/*  46: 44 */             printOptions();
+/*  47:    */           }
 /*  49:    */         }
+					  else if (args.length == 2){
+					  	if (checkPath(args[0])){
+							if(checkEC(args[1])){
+								CmdController cmd = new CmdController(args);
+							}
+					 		else{
+					 			System.out.println("1");
+								System.out.println("Wrong input");
+/*  69: 62 */             		System.out.println("check input/output-path");
+/*  70: 63 */             		System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             		System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             		printOptions();
+					 		}
+					 	}
+					  }
 /*  50: 47 */         else if (args.length == 3)
 /*  51:    */         {
 /*  52: 49 */           if ((checkPath(args[0])) && (checkPath(args[1])))
@@ -73,7 +87,10 @@
 /*  63: 57 */               printOptions();
 /*  64:    */             }
 /*  65:    */           }
-						else if((checkPath(args[0])) && (!checkPath(args[1]))){
+						else if((checkPath(args[0])) && (checkEC(args[1]) && checkEC(args[2]))){
+							CmdController cmd = new CmdController(args);
+						}
+						else if((checkPath(args[0])) && (!checkPath(args[1])) && (!checkEC(args[1]))){
 							if(args[1].endsWith("/")){
 								File dir=new File(args[1]);
 								dir.mkdir();
@@ -139,6 +156,91 @@
 /*  62: 56 */               		System.out.println("option: " + args[2]);
 /*  63: 57 */               		printOptions();
 /*  64:    */           		}
+							}
+							else{
+								System.out.println("1");
+								System.out.println("Wrong input");
+/*  69: 62 */             		System.out.println("check input/output-path");
+/*  70: 63 */             		System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             		System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             		printOptions();
+							}						
+						}
+/*  66:    */           else
+/*  67:    */           {
+						  System.out.println("2");
+/*  68: 61 */             System.out.println("Wrong input");
+/*  69: 62 */             System.out.println("check input/output-path");
+/*  70: 63 */             System.out.println("inputPath: " + args[0]);
+/*  71: 64 */             System.out.println("outputPath: " + args[1]);
+/*  72: 65 */             printOptions();
+/*  73:    */           }
+					  }
+					  else if(args.length > 4){
+					  	if ((checkPath(args[0])) && (checkPath(args[1])))
+/*  53:    */           {
+/*  54:    */             CmdController cmd;
+/*  55: 50 */             if (checkOptions(args[2]))
+/*  56:    */             {
+							boolean allECs=true;
+							for(int i=3;i<args.length;i++){
+								if(!checkEC(args[i])){
+									allECs=false;
+									break;
+								}
+							}
+							if(allECs){
+/*  57: 52 */               	cmd = new CmdController(args);
+							}
+							else{
+								System.out.println("Wrong option or ec input");
+/*  62: 56 */               	System.out.println("option: " + args[2]);
+								System.out.println("ec: " + args[3]);
+/*  63: 57 */               	printOptions();
+							}
+/*  58:    */             }
+/*  59:    */             else
+/*  60:    */             {
+/*  61: 55 */               System.out.println("Wrong option or ec input");
+/*  62: 56 */               System.out.println("option: " + args[2]);
+							System.out.println("ec: " + args[3]);
+/*  63: 57 */               printOptions();
+/*  64:    */             }
+/*  65:    */           }
+						else if((checkPath(args[0])) && (!checkPath(args[1]))){
+							if(args[1].endsWith("/")){
+								File dir=new File(args[1]);
+								dir.mkdir();
+								CmdController cmd;
+/*  55: 50 */           	 	if (checkOptions(args[2]) && (checkPath(args[1])))
+/*  56:    */             		{
+/*  57: 52 */               		cmd = new CmdController(args);
+/*  58:    */             		}
+/*  59:    */             		else
+/*  60:    */             		{
+/*  61: 55 */              	 		System.out.println("Wrong option input");
+/*  62: 56 */               		System.out.println("option: " + args[2]);
+/*  63: 57 */               		printOptions();
+/*  64:    */           		}
+							}
+							else if(checkEC(args[1])){
+								CmdController cmd;
+								boolean allECs=true;
+								for(int i=3;i<args.length;i++){
+									if(!checkEC(args[i])){
+										allECs=false;
+									}
+								}
+								if(allECs){
+/*  57: 52 */               		cmd = new CmdController(args);
+								}
+								else{
+/*  68: 61 */           		  System.out.println("Wrong input");
+/*  69: 62 */           		  System.out.println("check input/output-path");
+/*  70: 63 */           		  System.out.println("inputPath: " + args[0]);
+/*  71: 64 */           		  System.out.println("outputPath: " + args[1]);
+								  printOptions();
+								}
 							}
 							else{
 								System.out.println("1");

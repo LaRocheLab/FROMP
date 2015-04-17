@@ -10,6 +10,7 @@
 /*  10:    */ import java.io.BufferedReader;
 /*  11:    */ import java.io.File;
 /*  12:    */ import java.io.FileReader;
+/*  12:    */ import java.util.ArrayList;
 /*  13:    */ import java.io.PrintStream;
 /*  14:    */ import java.util.ArrayList;
 /*  15:    */ 
@@ -21,26 +22,66 @@
 /*  19:    */   String inputPath_;															// The inputpath given by the user  
 /*  20:    */   String outPutPath_;															// The output path given in by the user
 /*  21:    */   String optionsCmd_;															// The option denoted by the user. ie h for help, etc
-				String ec_;																	// If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
+				ArrayList<String> ec_;														// If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 /*  22:    */   static Controller controller;												// The controller. Allows user to save, load etc.
 /*  23:    */   static PathwayMatrix pwMAtrix;												// 
-				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The base path of the Fromp software. Nessesairy for all relative paths to function
+				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The base path of the Fromp software. Necessary for all relative paths to function
 /*  24:    */   
 /*  25:    */   public CmdController(String[] args)
 /*  26:    */   {
 /*  27: 30 */     System.out.println("Starting cmdFromp");
 /*  28:    */     
 /*  29: 32 */     args_ = args;
-/*  30: 33 */     this.inputPath_ = getInputPath();						// Set instance variables from command line arguements
-/*  31: 34 */     System.out.println("input: " + this.inputPath_);		//
-/*  32: 35 */     this.outPutPath_ = getOutputPath();					//
-/*  33: 36 */     System.out.println("output: " + this.outPutPath_);	//
-/*  34: 37 */     this.optionsCmd_ = getOptionCmd();					//
-/*  35: 38 */     System.out.println("option: " + this.optionsCmd_);	//
-				  if(args_.length==4){									// If an EC was included set the ec_ variable
-				  	this.ec_ = getEC();									//
-/*  35: 38 */     	System.out.println("ec: " + this.ec_);				//
-				  }														//
+				  this.ec_ = new ArrayList<String>();
+				  if(args_.length == 2){
+				  	this.ec_.add(args_[1]);
+				  	this.inputPath_ = getInputPath();						
+/*  31: 34 */     	System.out.println("input: " + this.inputPath_);		
+				  }
+				  else if(args_.length == 3){
+				  	if(checkEC(args_[1])){
+				  		this.inputPath_ = getInputPath();						
+/*  31: 34 */     		System.out.println("input: " + this.inputPath_);		
+						this.ec_.add(args_[1]);
+						this.ec_.add(args_[2]);
+				  	}
+				  	else{
+/*  30: 33 */     		this.inputPath_ = getInputPath();					// Set instance variables from command line arguements
+/*  31: 34 */     		System.out.println("input: " + this.inputPath_);	//
+/*  32: 35 */     		this.outPutPath_ = getOutputPath();					//
+/*  33: 36 */     		System.out.println("output: " + this.outPutPath_);	//
+/*  34: 37 */     		this.optionsCmd_ = getOptionCmd();					//
+/*  35: 38 */     		System.out.println("option: " + this.optionsCmd_);	//
+
+				  	}
+				  }
+				  else if(args.length >= 4){
+				  	if(checkEC(args_[1])){
+				  		this.inputPath_ = getInputPath();						
+/*  31: 34 */     		System.out.println("input: " + this.inputPath_);
+						System.out.println("ECs");	
+				  		for(int i=1;i<args.length;i++){
+				  			this.ec_.add(args_[i]);
+				  			System.out.println(args_[i]);
+				  		}
+				  	}
+				  	else{
+				  		this.inputPath_ = getInputPath();						
+/*  31: 34 */     		System.out.println("input: " + this.inputPath_);	
+/*  32: 35 */     		this.outPutPath_ = getOutputPath();					
+/*  33: 36 */     		System.out.println("output: " + this.outPutPath_);	
+/*  34: 37 */     		this.optionsCmd_ = getOptionCmd();					
+/*  35: 38 */     		System.out.println("option: " + this.optionsCmd_);	
+						System.out.println("ECs");
+						for(int i=3;i<args.length;i++){
+				  			this.ec_.add(args_[i]);
+				  			System.out.println(args_[i]);
+				  		}
+				  	}
+				  }
+
+
+
 /*  36: 39 */     controller = new Controller(Color.black);
 /*  37:    */     
 /*  38: 41 */     Panes.Loadingframe.showLoading = false;
@@ -123,95 +164,99 @@
 				  	Project.workpath_=Project.workpath_.replace(File.separator,"");
 				  }
 
-				  if((args_.length==4)&&(this.args_[3]!=null)){//this takes args[3] (ie. the ec name inputted) and exports the sequence IDs for all samples for that EC
+				  if(!ec_.isEmpty()){
 				  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 				  	System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
-					pane.cmdExportRepseqs(this.ec_);
-				  }
-/*  83: 78 */     if ((this.optionsCmd_.contentEquals("p")) || (this.optionsCmd_.contentEquals("op")) || (this.optionsCmd_.contentEquals("up")) || (this.optionsCmd_.contentEquals("a")))
-/*  84:    */     {//this if statment contains al of the picture export commands
-/*  85: 79 */       System.out.println("Pathway-score-matrix");
-/*  86: 80 */       pwMAtrix = new PathwayMatrix(Project.samples_, Project.overall_, DataProcessor.pathwayList_, Controller.project_);//builds a pathway matrix object whigh will be used to generate the pathway pictures
-/*  87: 81 */       if (this.optionsCmd_.contentEquals("a"))
-/*  88:    */       {//if the a command is selected export all of the pathway pictures
-/*  89: 82 */         String tmpPAth = this.outPutPath_ + File.separator + "pathwayPics";
-/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
-/*  91: 84 */         pwMAtrix.exportPics(tmpPAth, false, false);
-/*  92:    */       }
-/*  93: 87 */       else if (this.optionsCmd_.contentEquals("p"))
-/*  94:    */       {//if the p command is selected export all of the pathway pictures, then exit
-					  String tmpPAth = this.outPutPath_ + File.separator + "pathwayPics";
-/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
-/*  95: 88 */         pwMAtrix.exportPics(tmpPAth, false, false);
-/*  96: 89 */         System.exit(0);
-/*  97:    */       }
-/*  98: 91 */       else if (this.optionsCmd_.contentEquals("op"))
-/*  99:    */       {// if the op command is selected export all the multi pathway pictures, then exit
-					  String tmpPAth = this.outPutPath_ + File.separator + "multiPathwayPics";
-/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
-/* 100: 92 */         pwMAtrix.exportPics(tmpPAth, true, false);//note the true in the exportPics call. There was no false in the previous calls. This is how it differs
-/* 101: 93 */         System.exit(0);
-/* 102:    */       }
-/* 103: 95 */       else if (this.optionsCmd_.contentEquals("up"))
-/* 104:    */       {//if the up command is selected then export only the user pathway pictures, then exit 
-					  String tmpPAth = this.outPutPath_ + File.separator + "userPathwayPics";
-/*  90: 83 */         System.out.println("PathwayPics will be saved at: " + tmpPAth);
-/* 105: 96 */         System.out.println("onlyUserPaths");
-/* 106: 97 */         pwMAtrix.exportPics(tmpPAth, true, true);//both are true here
-/* 107: 98 */         System.exit(0);
-/* 108:    */       }
-/* 109:101 */       if (this.optionsCmd_.contentEquals("p")) {
-/* 110:102 */         System.exit(0);
-/* 111:    */       }
-/* 112:    */     }
-/* 113:105 */     if ((this.optionsCmd_.contentEquals("s")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
-/* 114:    */     {//exports the pathway score matrix for the corresponding commands. if s is selected it exits afterwards
-/* 115:106 */       System.out.println("Pathway-score-matrix");
-/* 116:107 */       pwMAtrix = new PathwayMatrix(Project.samples_, Project.overall_, DataProcessor.pathwayList_, Controller.project_);
-/* 117:108 */       pwMAtrix.exportMat(this.outPutPath_, true);
-/* 118:109 */       if (this.optionsCmd_.contentEquals("s")) {
-/* 119:110 */         System.exit(0);
-/* 120:    */       }
-/* 121:    */     }
-/* 122:113 */     if ((this.optionsCmd_.contentEquals("m")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
-/* 123:    */     {//exports the pathway activity matrix for the corresponding commands. if m is selected it exits afterwards
-/* 124:114 */       System.out.println("Pathway-activity-matrix");
-/* 125:115 */       PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(Controller.processor_, Controller.project_, new Dimension(23, 23));
-/* 126:116 */       pane.exportMat(false, this.outPutPath_);
-/* 127:117 */       if (this.optionsCmd_.contentEquals("m")) {
-/* 128:118 */         System.exit(0);
-/* 129:    */       }
-/* 130:    */     }
-/* 131:121 */     if ((this.optionsCmd_.contentEquals("e")) || (this.optionsCmd_.contentEquals("a"))  || (this.optionsCmd_.contentEquals("am")))
-/* 132:    */     {//exports the EC-activity matrix for the corresponding commands. if e is selected it exits afterwards
-/* 133:122 */       System.out.println("EC-activity-matrix");
-/* 134:123 */       ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
-/* 135:124 */       pane.exportMat(this.outPutPath_, true);
-//					if((args_.length==4)&&(this.args_[3]!=null)){
-//						System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
-//						pane.cmdExportRepseqs(this.ec_);
-//					}
-/* 136:125 */       if (this.optionsCmd_.contentEquals("e")) {
-/* 137:126 */         System.exit(0);
-/* 138:    */       }
-/* 139:    */     }
-				  if ((this.optionsCmd_.contentEquals("f")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
-/* 132:    */     {//exports the samples as a .frp file so that it cam be used in the gui later. if f is selected it exits afterwards
-/* 133:122 */       System.out.println("Export as .frp file");
-					
-               		String projPath= "";
-					if (Project.projectPath_.contains("projects")){
-						projPath=Project.projectPath_.substring(0,Project.projectPath_.indexOf("projects")-1);
-					} else {
-						projPath=Project.projectPath_;
+				  	for(int i=0;i<ec_.size();i++){
+						pane.cmdExportRepseqs(this.ec_.get(i));				  		
 					}
-					String tmpPath= projPath + File.separator + "projects" + File.separator + inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf(".")) + ".frp";
-/* 135:124 */       System.out.println(tmpPath);
-					controller.saveProject(tmpPath);
-/* 136:125 */       if (this.optionsCmd_.contentEquals("f")) {
-/* 137:126 */         System.exit(0);
-/* 138:    */       }
-/* 139:    */     }
+				  }
+				  if(this.optionsCmd_!=null){
+/*  83: 78 */   	  if ((this.optionsCmd_.contentEquals("p")) || (this.optionsCmd_.contentEquals("op")) || (this.optionsCmd_.contentEquals("up")) || (this.optionsCmd_.contentEquals("a")))
+/*  84:    */   	  {//this if statment contains al of the picture export commands
+/*  85: 79 */   	    System.out.println("Pathway-score-matrix");
+/*  86: 80 */   	    pwMAtrix = new PathwayMatrix(Project.samples_, Project.overall_, DataProcessor.pathwayList_, Controller.project_);//builds a pathway matrix object whigh will be used to generate the pathway pictures
+/*  87: 81 */   	    if (this.optionsCmd_.contentEquals("a"))
+/*  88:    */   	    {//if the a command is selected export all of the pathway pictures
+/*  89: 82 */   	      String tmpPAth = this.outPutPath_ + File.separator + "pathwayPics";
+/*  90: 83 */   	      System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/*  91: 84 */   	      pwMAtrix.exportPics(tmpPAth, false, false);
+/*  92:    */   	    }
+/*  93: 87 */   	    else if (this.optionsCmd_.contentEquals("p"))
+/*  94:    */   	    {//if the p command is selected export all of the pathway pictures, then exit
+						  String tmpPAth = this.outPutPath_ + File.separator + "pathwayPics";
+/*  90: 83 */   	      System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/*  95: 88 */   	      pwMAtrix.exportPics(tmpPAth, false, false);
+/*  96: 89 */   	      System.exit(0);
+/*  97:    */   	    }
+/*  98: 91 */   	    else if (this.optionsCmd_.contentEquals("op"))
+/*  99:    */   	    {// if the op command is selected export all the multi pathway pictures, then exit
+						  String tmpPAth = this.outPutPath_ + File.separator + "multiPathwayPics";
+/*  90: 83 */   	      System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/* 100: 92 */   	      pwMAtrix.exportPics(tmpPAth, true, false);//note the true in the exportPics call. There was no false in the previous calls. This is how it differs
+/* 101: 93 */   	      System.exit(0);
+/* 102:    */   	    }
+/* 103: 95 */   	    else if (this.optionsCmd_.contentEquals("up"))
+/* 104:    */   	    {//if the up command is selected then export only the user pathway pictures, then exit 
+						  String tmpPAth = this.outPutPath_ + File.separator + "userPathwayPics";
+/*  90: 83 */     	    System.out.println("PathwayPics will be saved at: " + tmpPAth);
+/* 105: 96 */     	    System.out.println("onlyUserPaths");
+/* 106: 97 */     	    pwMAtrix.exportPics(tmpPAth, true, true);//both are true here
+/* 107: 98 */     	    System.exit(0);
+/* 108:    */     	  }
+/* 109:101 */     	  if (this.optionsCmd_.contentEquals("p")) {
+/* 110:102 */     	    System.exit(0);
+/* 111:    */     	  }
+/* 112:    */     	}
+/* 113:105 */   	  if ((this.optionsCmd_.contentEquals("s")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
+/* 114:    */   	  {//exports the pathway score matrix for the corresponding commands. if s is selected it exits afterwards
+/* 115:106 */   	    System.out.println("Pathway-score-matrix");
+/* 116:107 */   	    pwMAtrix = new PathwayMatrix(Project.samples_, Project.overall_, DataProcessor.pathwayList_, Controller.project_);
+/* 117:108 */   	    pwMAtrix.exportMat(this.outPutPath_, true);
+/* 118:109 */   	    if (this.optionsCmd_.contentEquals("s")) {
+/* 119:110 */   	      System.exit(0);
+/* 120:    */   	    }
+/* 121:    */   	  }
+/* 122:113 */   	  if ((this.optionsCmd_.contentEquals("m")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
+/* 123:    */   	  {//exports the pathway activity matrix for the corresponding commands. if m is selected it exits afterwards
+/* 124:114 */   	    System.out.println("Pathway-activity-matrix");
+/* 125:115 */   	    PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(Controller.processor_, Controller.project_, new Dimension(23, 23));
+/* 126:116 */   	    pane.exportMat(false, this.outPutPath_);
+/* 127:117 */   	    if (this.optionsCmd_.contentEquals("m")) {
+/* 128:118 */   	      System.exit(0);
+/* 129:    */   	    }
+/* 130:    */   	  }
+/* 131:121 */   	  if ((this.optionsCmd_.contentEquals("e")) || (this.optionsCmd_.contentEquals("a"))  || (this.optionsCmd_.contentEquals("am")))
+/* 132:    */   	  {//exports the EC-activity matrix for the corresponding commands. if e is selected it exits afterwards
+/* 133:122 */   	    System.out.println("EC-activity-matrix");
+/* 134:123 */   	    ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+/* 135:124 */   	    pane.exportMat(this.outPutPath_, true);
+//						if((args_.length==4)&&(this.args_[3]!=null)){
+//							System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+//							pane.cmdExportRepseqs(this.ec_);
+//						}
+/* 136:125 */   	    if (this.optionsCmd_.contentEquals("e")) {
+/* 137:126 */   	      System.exit(0);
+/* 138:    */   	    }
+/* 139:    */   	  }
+					  if ((this.optionsCmd_.contentEquals("f")) || (this.optionsCmd_.contentEquals("a")) || (this.optionsCmd_.contentEquals("am")))
+/* 132:    */   	  {//exports the samples as a .frp file so that it cam be used in the gui later. if f is selected it exits afterwards
+/* 133:122 */   	    System.out.println("Export as .frp file");
+						
+            	   		String projPath= "";
+						if (Project.projectPath_.contains("projects")){
+							projPath=Project.projectPath_.substring(0,Project.projectPath_.indexOf("projects")-1);
+							} else {
+							projPath=Project.projectPath_;
+						}
+						String tmpPath= projPath + File.separator + "projects" + File.separator + inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf(".")) + ".frp";
+/* 135:124 */   	    System.out.println(tmpPath);
+						controller.saveProject(tmpPath);
+/* 136:125 */     	  if (this.optionsCmd_.contentEquals("f")) {
+/* 137:126 */     	    System.exit(0);
+/* 138:    */     	  }
+/* 139:    */     	}
+				  }
 				  
 /* 140:129 */     System.exit(0);
 /* 141:    */   }
@@ -230,8 +275,31 @@
 /* 154:    */   {
 /* 155:140 */     return args_[2];
 /* 156:    */   }
-				private String getEC()
-				{
-				  return args_[3]; 
-				}
+				private static boolean checkEC(String options)
+/* 173:    */   {//checks that the EC is complete
+/* 174:163 */     boolean ret = false;
+				  String testStr1;
+				  String testStr2;
+				  String testStr3;
+
+/* 175:164 */     if (options.matches("[0-9].*")) {
+/* 194:183 */       if(options.contains(".")){
+						testStr1=options.substring(options.indexOf(".")+1);
+						if(testStr1.matches("[0-9].*")){
+							if(testStr1.contains(".")){
+								testStr2=testStr1.substring(testStr1.indexOf(".")+1);
+								if(testStr2.matches("[0-9].*")){
+									if(testStr2.contains(".")){
+										testStr3=testStr2.substring(testStr2.indexOf(".")+1);
+										if(testStr3.matches("[0-9]*")){
+											ret=true;
+										}
+									}
+								}
+							}
+						}
+					}
+/* 195:    */     }
+/* 196:185 */     return ret;
+/* 197:    */   }
 /* 157:    */ }

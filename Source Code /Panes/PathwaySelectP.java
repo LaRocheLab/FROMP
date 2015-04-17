@@ -279,7 +279,7 @@
 						break outerloop;
 /* 263:    */       }
 /* 264:    */     }
-				  if(!Project.userPathways.isEmpty()){
+				  if(Project.userPathways!=null&&!Project.userPathways.isEmpty()){
 				  	ret=true;
 				  }
 				  return ret;

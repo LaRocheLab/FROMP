@@ -124,7 +124,7 @@
 /*  116:     */     	
 /*  117: 157 */     addFileMenu();		// Adds the "File" drop down menu option
 /*  118: 158 */     addProjectMenu();	// Adds the "Project" drop down menu option
-/*  119: 159 */     addAnalyseMenu();	// I really think you can piece it together from here, you're a smart guy/gal
+/*  119: 159 */     addAnalyseMenu();	// I think you can piece it together from here
 /*  120: 160 */     addSettingsMenu();	//
 /*  121: 161 */     addDesignMenu();	//
 /*  122: 162 */     addHelpMenu();		//
@@ -286,7 +286,11 @@
 /*  256:     */     {
 /*  257:     */       public void actionPerformed(ActionEvent e)
 /*  258:     */       {
-/*  259: 315 */         NewFrompFrame.this.selectPws();
+						if (NewFrompFrame.this.control_.gotSamples()){
+/*  259: 315 */         	NewFrompFrame.this.selectPws();
+						} else {
+							warningFrame();
+						}
 /*  260:     */       }
 /*  261: 318 */     });
 /*  262: 319 */     this.menu_.add(mItem);
@@ -461,11 +465,15 @@
 /*  378:     */     {
 /*  379:     */       public void actionPerformed(ActionEvent e)
 /*  380:     */       {
-/*  381: 466 */         System.out.println("Color");
-/*  382: 467 */         NewFrompFrame.this.backCol_ = JColorChooser.showDialog(NewFrompFrame.this.getParent(), "Choose BackGroundColor", NewFrompFrame.this.backCol_);
+/*  382: 467 */         NewFrompFrame.this.backCol_ = JColorChooser.showDialog(NewFrompFrame.this.getParent(), "Choose BackgroundColor", NewFrompFrame.this.backCol_);
 /*  383: 468 */         Project.setBackColor_(NewFrompFrame.this.backCol_);
 /*  384: 469 */         NewFrompFrame.this.back_.setBackground(NewFrompFrame.this.backCol_);
-/*  385: 470 */         NewFrompFrame.this.invalidate();
+//						NewFrompFrame.this.clearBack();
+//						NewFrompFrame.this.addBackPanel();
+//*  385: 470 */        NewFrompFrame.this.back_.invalidate();
+//*  386: 471 */        NewFrompFrame.this.back_.validate();
+//*  387: 472 */        NewFrompFrame.this.back_.repaint();
+						NewFrompFrame.this.invalidate();
 /*  386: 471 */         NewFrompFrame.this.validate();
 /*  387: 472 */         NewFrompFrame.this.repaint();
 /*  388:     */       }
@@ -499,7 +507,6 @@
 /*  416:     */     {
 /*  417:     */       public void actionPerformed(ActionEvent e)
 /*  418:     */       {
-/*  419: 508 */         System.out.println("Color");
 /*  420: 509 */         NewFrompFrame.this.overallSampCol = JColorChooser.showDialog(NewFrompFrame.this.getParent(), "Choose Overall Color", NewFrompFrame.this.overallSampCol);
 /*  421: 510 */         Project.setOverAllColor_(NewFrompFrame.this.overallSampCol);
 /*  422:     */       }
@@ -575,7 +582,7 @@
 /*  492:     */   }
 /*  493:     */   
 /*  494:     */   private void clearBack()
-/*  495:     */   {//updates the FROMT frame
+/*  495:     */   {//updates the FROMP frame
 //*  496: 596 */     System.out.println("ClearBack");
 /*  497: 597 */     this.back_.removeAll();
 /*  498: 598 */     if (Project.workpath_ != null) {

@@ -393,6 +393,7 @@
 /*  251:     */     }
 /*  252: 246 */     return "";
 /*  253:     */   }
+
 				  private String findInterProInRaw(String input){
 				  	String interpro="";
 				  	String tmp = input;
@@ -1197,7 +1198,7 @@
 /*  647: 662 */     if ((isEc(newEnz[0])) || (isPfambool(newEnz[0])) || (isInterProBool(newEnz[0]))) {
 /*  648: 663 */       ret = true;
 /*  649:     */     } else {
-					  System.out.println("enz read incorrectly");
+//					  System.out.println("enz read incorrectly");
 /*  650: 666 */       return false;
 /*  651:     */     }
 /*  652:     */     try
@@ -1209,11 +1210,11 @@
 /*  658:     */       int num;
 /*  659: 672 */       ret = false;
 /*  660:     */     }
-					if(ret){
-						System.out.println("enz read correctly");
-					} else{
-						System.out.println("enz read incorrectly");
-					}
+//					if(ret){
+//						System.out.println("enz read correctly");
+//					} else{
+//						System.out.println("enz read incorrectly");
+//					}
 /*  661: 675 */     return ret;
 /*  662:     */   }
 /*  663:     */   
@@ -1257,7 +1258,7 @@
 /*  698: 727 */               retList.add(tmpNr);
 							  if(!numPfams.contains(tmpNr[0])){
 								numPfams.add(tmpNr[0]);
-								System.out.println(tmpNr[0]);
+//								System.out.println(tmpNr[0]);
 						  	  }
 /*  699:     */             }
 /*  700:     */           }
@@ -2103,7 +2104,7 @@
 /* 1345:1415 */       openWarning("Error", "File: " + listPath + " not found");
 /* 1346:1416 */       e.printStackTrace();
 /* 1347:     */     }
-/* 1348:1418 */     System.out.println("computeWeights " + totaluniqueEc + " " + ecList_.size());
+//* 1348:1418 */     System.out.println("computeWeights " + totaluniqueEc + " " + ecList_.size());
 /* 1349:1419 */     for (int i = 0; i < totaluniqueEc; i++)
 /* 1350:     */     {
 /* 1351:1421 */       if (!((EcWithPathway)ecList_.get(i)).weightsSet)

@@ -388,6 +388,9 @@
 /* 193:182 */     if (options.contentEquals("up")) {
 /* 194:183 */       ret = true;
 /* 195:    */     }
+				  if (options.contentEquals("ec")){
+				  	ret = true;	
+				  }
 /* 196:185 */     return ret;
 /* 197:    */   }
 
@@ -435,11 +438,12 @@
 /* 209:196 */     System.out.println("'s' for the pathway-score-matrix");
 /* 210:197 */     System.out.println("'m' for the pathway-activity-matrix");
 /* 211:198 */     System.out.println("'e' for the EC-activity-matrix");
-				  System.out.println("'f' To export the project as a .frp file");
+				  System.out.println("'f' to export the project as a .frp file");
 				  System.out.println("Exported .frp files will be saved in ~/projects");
 				  System.out.println("");
-				  System.out.println("To include sequence IDs when building the EC-activity-matrix, add the ec number");
-				  System.out.println("of that pathway who's sequence ID you are interested in");
+				  System.out.println("'ec' to export a list of ec found in a file of ec numbers from your input file");
+				  System.out.println("To include sequence IDs without a file of ec numbers, add the ec numbers");
+				  System.out.println("who's sequence ID you are interested in to your command");
 				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");			
   				  System.out.println("");
 /* 212:199 */     System.out.println("'a' all options");

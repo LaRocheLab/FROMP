@@ -13,6 +13,7 @@
 /*  12:    */ import java.util.ArrayList;
 /*  13:    */ import java.io.PrintStream;
 /*  14:    */ import java.util.ArrayList;
+/*  21:    */ import java.io.IOException;
 /*  15:    */ 
 			//this controls the cmdFromp functions
 
@@ -26,6 +27,8 @@
 /*  22:    */   static Controller controller;												// The controller. Allows user to save, load etc.
 /*  23:    */   static PathwayMatrix pwMAtrix;												// 
 				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The base path of the Fromp software. Necessary for all relative paths to function
+				BufferedReader ecList;
+				StringReader reader;
 /*  24:    */   
 /*  25:    */   public CmdController(String[] args)
 /*  26:    */   {
@@ -95,7 +98,7 @@
 /*  53:    */       try
 /*  54:    */       {
 /*  55: 56 */         BufferedReader in = new BufferedReader(new FileReader(this.inputPath_));
-/*  56:    */         
+/*  56:    *s/         
 /*  57: 58 */         String comp = "<userP>";
 /*  58:    */         String line=in.readLine();
 //					  System.out.println("Entering while loop");
@@ -132,7 +135,6 @@
 							  	System.out.println("sample added");
 							  }
 							  else{System.out.println("file does not exist");}
-
 /*  74:    */           	}
 
 						}
@@ -172,6 +174,23 @@
 					}
 				  }
 				  if(this.optionsCmd_!=null){
+				  	  if(this.optionsCmd_.contentEquals("ec")){
+				  	  	this.reader = new StringReader();
+				  	  	this.ecList=this.reader.readTxt(outPutPath_);
+				  	  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  		System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+				  	  	String line ="";
+				  	  	try{
+				  	  		while((line = this.ecList.readLine()) != null){
+				  	  			if(checkEC(line)){
+				  	  				pane.cmdExportRepseqs(line);	
+				  	  			}
+				  	  		}
+				  	  	} catch(IOException e){
+							e.printStackTrace();
+						}
+				  	  	System.exit(0);
+				  	  }
 /*  83: 78 */   	  if ((this.optionsCmd_.contentEquals("p")) || (this.optionsCmd_.contentEquals("op")) || (this.optionsCmd_.contentEquals("up")) || (this.optionsCmd_.contentEquals("a")))
 /*  84:    */   	  {//this if statment contains al of the picture export commands
 /*  85: 79 */   	    System.out.println("Pathway-score-matrix");

@@ -1544,12 +1544,13 @@
 				  		}
 				  	}
         	      }
-        	      public void cmdExportSequences(String ecName){
+        	      
+        	      public void cmdExportSequences(String ecName)
+        	      {
 					int index;	
 				  	EcNr ecTmp;
 				  	
 				  	for(int i=0;i<this.ecMatrix_.size();i++){
-				  		//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 				  		if(ecName.contains(this.ecMatrix_.get(i).getEc_().name_)){
 							ecTmp=new EcNr(((Line)ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
 							for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++)

@@ -240,7 +240,7 @@
 /* 446:    */         	{
 /* 447:    */         	  public boolean accept(File f)
 /* 448:    */         	  {
-							if((f.isDirectory()) || (f.getName().toLowerCase().endsWith(".fasta")) || (f.getName().toLowerCase().endsWith(".fas"))) {
+							if((f.isDirectory()) || (f.getName().toLowerCase().endsWith(".fasta")) || (f.getName().toLowerCase().endsWith(".fas")) || (f.getName().toLowerCase().endsWith(".faa"))) {
 								return true;
 							}
 							return false;
@@ -248,7 +248,7 @@
 /* 454:    */         	  
 /* 455:    */         	  public String getDescription()
 /* 456:    */         	  {
-/* 457:504 */         	    return ".fasta/.fas";
+/* 457:504 */         	    return ".fasta/.fas/.faa";
 /* 458:    */         	  }
 /* 459:    */         	});
 /* 460:508 */         	if (fChoose_.showSaveDialog(EditsamplesPane.this.getParent()) == 0)

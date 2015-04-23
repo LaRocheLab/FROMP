@@ -37,9 +37,13 @@
 /*  29: 32 */     args_ = args;
 				  this.ec_ = new ArrayList<String>();
 				  if(args_.length == 2){
-				  	this.ec_.add(args_[1]);
-				  	this.inputPath_ = getInputPath();						
-/*  31: 34 */     	System.out.println("input: " + this.inputPath_);		
+				  	if(checkEC(args_[1])){
+				  		this.ec_.add(args_[1]);
+				  	} else if (args_[1].contentEquals("seq")) {
+				  		this.optionsCmd_=args_[1];
+				  	}
+					this.inputPath_ = getInputPath();						
+/*  31: 34 */     	System.out.println("input: " + this.inputPath_);
 				  }
 				  else if(args_.length == 3){
 				  	if(checkEC(args_[1])){
@@ -47,6 +51,11 @@
 /*  31: 34 */     		System.out.println("input: " + this.inputPath_);		
 						this.ec_.add(args_[1]);
 						this.ec_.add(args_[2]);
+				  	}
+				  	else if (args_[1].contentEquals("seq")){
+				  		this.inputPath_ = getInputPath();
+				  		this.optionsCmd_=args_[1];
+				  		this.ec_.add(args_[2]);
 				  	}
 				  	else{
 /*  30: 33 */     		this.inputPath_ = getInputPath();					// Set instance variables from command line arguements
@@ -63,6 +72,16 @@
 				  		this.inputPath_ = getInputPath();						
 /*  31: 34 */     		System.out.println("input: " + this.inputPath_);
 						System.out.println("ECs");	
+				  		for(int i=1;i<args.length;i++){
+				  			this.ec_.add(args_[i]);
+				  			System.out.println(args_[i]);
+				  		}
+				  	}
+				  	else if(args_[1].contentEquals("seq")){
+				  		this.inputPath_ = getInputPath();
+				  		this.optionsCmd_=args_[1];
+				  		System.out.println("input: " + this.inputPath_);
+						System.out.println("Seqs");	
 				  		for(int i=1;i<args.length;i++){
 				  			this.ec_.add(args_[i]);
 				  			System.out.println(args_[i]);
@@ -167,11 +186,22 @@
 				  }
 
 				  if(!ec_.isEmpty()){
-				  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
-				  	System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
-				  	for(int i=0;i<ec_.size();i++){
-						pane.cmdExportRepseqs(this.ec_.get(i));				  		
-					}
+				  	if(this.optionsCmd_!=null){
+				  		if(!this.optionsCmd_.contentEquals("seq")){
+				  			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  			System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+				  			for(int i=0;i<ec_.size();i++){
+								pane.cmdExportRepseqs(this.ec_.get(i));				  		
+							}
+				  		}
+				  	}
+				  	else{
+				  		ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  		System.out.println("Repseqs will be saved at: "+basePath_+"RepSeqIDs/");
+				  		for(int i=0;i<ec_.size();i++){
+							pane.cmdExportRepseqs(this.ec_.get(i));				  		
+						}
+				  	}
 				  }
 				  if(this.optionsCmd_!=null){
 				  	  if(this.optionsCmd_.contentEquals("ec")){
@@ -184,6 +214,32 @@
 				  	  		while((line = this.ecList.readLine()) != null){
 				  	  			if(checkEC(line)){
 				  	  				pane.cmdExportRepseqs(line);	
+				  	  			}
+				  	  		}
+				  	  	} catch(IOException e){
+							e.printStackTrace();
+						}
+				  	  	System.exit(0);
+				  	  }
+				  	  if((this.optionsCmd_.contentEquals("seq"))&& !ec_.isEmpty()){
+				  	  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  		System.out.println("Sequences will be saved at: "+basePath_+"Sequences/");
+				  		for(int i=0;i<ec_.size();i++){
+							pane.cmdExportSequences(this.ec_.get(i));				  		
+						}
+						if ((this.optionsCmd_.contentEquals("seq"))){
+							System.exit(0);
+						}	
+				  	  } else if((this.optionsCmd_.contentEquals("seq"))){
+				  	  	this.reader = new StringReader();
+				  	  	this.ecList=this.reader.readTxt(outPutPath_);
+				  	  	ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+				  		System.out.println("Sequences will be saved at: "+basePath_+"Sequences/");
+				  	  	String line ="";
+				  	  	try{
+				  	  		while((line = this.ecList.readLine()) != null){
+				  	  			if(checkEC(line)){
+				  	  				pane.cmdExportSequences(line);	
 				  	  			}
 				  	  		}
 				  	  	} catch(IOException e){

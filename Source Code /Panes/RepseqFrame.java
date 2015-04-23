@@ -21,7 +21,13 @@
 /*   15:   */ import java.awt.event.ActionEvent;
 /*   16:   */ import java.awt.event.ActionListener;
 /*   24:   */ import java.io.IOException;
+			  import java.util.Map;
 			  import java.awt.Font;
+			  import java.util.LinkedHashMap;
+			  import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
+			  import org.biojava.nbio.core.sequence.io.FastaReader;
+			  import org.biojava.nbio.core.sequence.*;
+			  
 
 			//The window which displays the sequence IDs when they are clicked on in the Activity Matric Pane 	
 
@@ -42,35 +48,9 @@
 /*  26:    */   
 /*  27:    */   public RepseqFrame(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
 /*  28:    */   {
-/*  29: 31 */     super(ecNr.name_ + " * " + reps.size());
+/*  29: 31 */     super(ecNr.name_ + " * " + reps.size()+" Unique Sequence IDs");
 /*  30:    */     this.sampName_=sampName;
 /*  31: 33 */     this.reps_ = reps;
-
-/*				  String test="";
-				  String test2="";
-				  for(int i=this.reps_.size()-1;i>=0;i--){
-				  	test=((ConvertStat)this.reps_.get(i)).getDesc_();
-				  	if(test.contains("\t")){
-				  		this.reps_.set(i,null);
-				  	}
-				  	else{
-//				  		innerloop:
-				  		for(int j=this.reps_.size()-1;j>=0;j--){
-				  			test2=((ConvertStat)this.reps_.get(j)).getDesc_();
-				  			if(test2.contains(test)&&(i!=j)){
-				  				this.reps_.set(i,null);
-				  			}
-				  		}
-				  	}
-				  }
-				  for(int i=this.reps_.size()-1;i>=0;i--){
-				  	if(this.reps_.get(i)==null){
-				  		this.reps_.remove(i);
-				  	}
-				  }
-*/
-				 
-
 /*  32: 34 */     this.ecNr_ = ecNr;
 /*  33: 36 */     if (this.reps_ != null)
 /*  34:    */     {
@@ -134,7 +114,7 @@
    
 /*  71:    */   public RepseqFrame(ArrayList<ConvertStat> reps, String ecNr, int amount)
 /*  72:    */   {
-/*  73: 73 */     super(ecNr + " * " + amount);
+/*  73: 73 */     super(ecNr + " * " + amount+" Unique Sequence IDs");
 /*  74:    */     this.sampName_="";
 /*  75: 75 */     this.reps_ = reps;
 /*  76: 77 */     if (this.reps_ != null)
@@ -193,7 +173,7 @@
 					this.menu_ = new JMenu("File");				
 
 					this.menuBar_.add(this.menu_);
-					JMenuItem miItem = new JMenuItem("Export",83);
+					JMenuItem miItem = new JMenuItem("ExportReps",83);
 					miItem.setAccelerator(KeyStroke.getKeyStroke(83, 8));
 
 					miItem.addActionListener(new ActionListener()
@@ -205,6 +185,20 @@
 				    });
 
 				    this.menu_.add(miItem);
+
+				   miItem = new JMenuItem("ExportSequences",86);
+					miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
+
+					miItem.addActionListener(new ActionListener()
+				    {
+				      public void actionPerformed(ActionEvent e)
+				      {
+				      	RepseqFrame.this.ExportSequences();
+				      }
+				    });
+
+				    this.menu_.add(miItem);
+
 					setJMenuBar(this.menuBar_);
 				}
 				//exports the sequence IDs to "RepSeqIDs"
@@ -247,6 +241,81 @@
 					  e1.printStackTrace();
 					}
 				}
+
+				public void ExportSequences(){
+					String seqFilePath="";
+					for(int i=0;i<Project.samples_.size();i++){
+						if(this.sampName_.equals(Project.samples_.get(i).name_)){
+							if(Project.samples_.get(i).getSequenceFile()!=null&&!Project.samples_.get(i).getSequenceFile().equals("")){
+								seqFilePath=Project.samples_.get(i).getSequenceFile();
+							}
+						}
+					}
+					if(seqFilePath!=null&&!seqFilePath.equals("")){
+						File seqFile = new File(seqFilePath);
+						if(seqFile.exists() && !seqFile.isDirectory()) {
+							LinkedHashMap<String, ProteinSequence> sequenceHash;
+							try
+							{
+								sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
+								if(sequenceHash!=null){
+//									System.out.println("Seq File: "+seqFile);
+//									for (Map.Entry<String, ProteinSequence> entry : sequenceHash.entrySet()) {
+//  									String key = entry.getKey();
+//									    ProteinSequence value = entry.getValue();
+//									    System.out.println(key+": "+value);
+//									}
+									String text="";
+									System.out.println("repCnt: "+RepseqFrame.this.reps_.size());
+									for (int repCnt = 0; repCnt < RepseqFrame.this.reps_.size(); repCnt++)
+									{
+/* 140:148 */       					if((sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_()))!=null){
+											text = text + ((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "\t" + (sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_())).toString();
+/* 141:149 */       						text = text + "\n";
+//											System.out.println("I got one");
+										}
+									}
+				    				try
+				    				{
+				    				  String sampleName;
+				    				  if(sampName_.contains(".out")){
+				    				  	sampleName=sampName_.replace(".out","");
+				    				  }
+				    				  else{
+				    				  	sampleName=sampName_;
+				    				  }
+				    				  File file = new File(basePath_+"Sequences"+File.separator+sampleName+"-"+ecNr_.name_+"-Sequences"+".txt");
+				    				  PrintWriter printWriter=new PrintWriter(file);
+				    				  if(text!=null&&text!=""){
+				    				  	printWriter.println(""+text);
+				    				  }
+				    				  else{
+				    				  	printWriter.println("No matching sequences in the file provided.");
+				    				  }									  
+									  printWriter.close (); 
+									}
+									catch (IOException e1)
+									{
+									  e1.printStackTrace();
+									}
+								} else {
+									System.out.println("The sequence file is not in the fasta format");
+								}
+							} catch (IOException e1)
+							{
+								e1.printStackTrace();
+							}
+							
+
+						} else {
+							System.out.println("The sequence file associated with this sample does not exist");
+						}
+					} else {
+						System.out.println("There is no sequence file associated with this sample");
+					}
+				}
+
+
   
 
 /* 114:    */   private void addrepseqs()

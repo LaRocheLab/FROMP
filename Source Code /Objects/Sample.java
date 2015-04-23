@@ -32,11 +32,13 @@
 /*  29: 33 */   public boolean legitSample = false;				// 
 /*  30: 35 */   public int indexNr = 0;							// 
 				public boolean onoff = true;					// Used for display purposes in the GUI
+				private String sequenceFile;					//
 /*  31:    */   
 /*  32:    */   public Sample()
 /*  33:    */   {
 /*  34: 40 */     this.sample_ = null;
 /*  35: 41 */     this.fullPath_ = "";
+				  this.sequenceFile="";	
 /*  36: 42 */     this.sampleCol_ = Color.white;
 /*  37: 43 */     this.reader_ = new StringReader();
 /*  38: 44 */     this.ecs_ = new ArrayList();
@@ -52,6 +54,7 @@
 /*  48:    */   {
 /*  49: 53 */     this.name_ = name;
 /*  50: 54 */     this.fullPath_ = fullpath;
+				  this.sequenceFile="";
 /*  51: 55 */     this.sampleCol_ = Color.white;
 /*  52: 56 */     this.reader_ = new StringReader();
 /*  53: 57 */     this.ecs_ = new ArrayList();
@@ -65,6 +68,7 @@
 /*  61:    */   {
 /*  62: 64 */     this.name_ = name;
 /*  63: 65 */     this.fullPath_ = fullpath;
+				  this.sequenceFile="";
 /*  64: 66 */     this.sampleCol_ = col;
 /*  65: 67 */     this.reader_ = new StringReader();
 /*  66: 68 */     this.ecs_ = new ArrayList();
@@ -79,6 +83,7 @@
 /*  75:    */   {
 /*  76: 76 */     this.name_ = name;
 /*  77: 77 */     this.fullPath_ = fullpath;
+				  this.sequenceFile="";
 /*  78: 78 */     this.sampleCol_ = col;
 /*  79: 79 */     this.inUse = using;
 /*  80: 80 */     this.reader_ = new StringReader();
@@ -93,6 +98,7 @@
 /*  89:    */   {
 /*  90: 88 */     this.name_ = sample.name_;
 /*  91: 89 */     this.fullPath_ = sample.fullPath_;
+				  this.sequenceFile=sample.sequenceFile;
 /*  92: 90 */     this.sampleCol_ = sample.sampleCol_;
 /*  93: 91 */     this.reader_ = new StringReader();
 /*  94:    */     
@@ -103,6 +109,13 @@
 /*  99: 97 */     this.conversions_ = new ArrayList();
 /* 100:    */   }
 /* 101:    */   
+				public void setSequenceFile(String seq){
+					this.sequenceFile=seq;
+				}
+				public String getSequenceFile(){
+					return this.sequenceFile;
+				}
+				
 /* 102:    */   public void setColor(Color col)
 /* 103:    */   {
 /* 104:103 */     this.sampleCol_ = col;

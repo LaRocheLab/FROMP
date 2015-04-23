@@ -36,6 +36,10 @@
 /**/			import javax.swing.*;
 /**/		  	import java.io.PrintWriter;
 /**/		  	import java.io.File;
+				import java.util.LinkedHashMap;
+			  	import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
+			  	import org.biojava.nbio.core.sequence.io.FastaReader;
+			  	import org.biojava.nbio.core.sequence.*;
 
 				//This is the activity Matrix Pane. Ec oriented part of the EC activity section. From here you can generate the Ec activity matrix
 
@@ -991,11 +995,11 @@
 					  if (((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_() > amount) {
 					    amount = ((ConvertStat)reps.get(repCnt)).getPfamToEcAmount_();
 					  }
-					  test=((ConvertStat)reps.get(repCnt)).getDesc_();
-					  if(!test.contains("\t")){
+//					  test=((ConvertStat)reps.get(repCnt)).getDesc_();
+//					  if(!test.contains("\t")){
 /* 140:148 */       	text = text + ((ConvertStat)reps.get(repCnt)).getDesc_();
 /* 141:149 */       	text = text + "\n";
-					  } 
+//					  } 
 					}
 //					System.out.println("Text:\n"+text);
 				    try
@@ -1540,4 +1544,137 @@
 				  		}
 				  	}
         	      }
+        	      public void cmdExportSequences(String ecName){
+					int index;	
+				  	EcNr ecTmp;
+				  	
+				  	for(int i=0;i<this.ecMatrix_.size();i++){
+				  		//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
+				  		if(ecName.contains(this.ecMatrix_.get(i).getEc_().name_)){
+							ecTmp=new EcNr(((Line)ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
+							for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++)
+							{	
+								ecTmp.amount_ = ((int)((Line)ActMatrixPane.this.ecMatrix_.get(i)).arrayLine_[smpCnt]);
+						    	ArrayList<ConvertStat> reps = new ArrayList();
+								for (int statsCnt = 0; statsCnt < ((Sample)Project.samples_.get(smpCnt)).conversions_.size(); statsCnt++) {
+									String test=(((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt)).getDesc_());
+									if ((ecTmp.name_.contentEquals(((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt)).getEcNr_())) &&
+									!test.contains("\t") ){
+										reps.add((ConvertStat)((Sample)Project.samples_.get(smpCnt)).conversions_.get(statsCnt));
+									}
+								}		
+								String test="";
+							  	String test2="";
+							  	for(int j=reps.size()-1;j>=0;j--){
+							  		if((reps.get(j)==null)){}
+							  		else{
+							  			test=((ConvertStat)reps.get(j)).getDesc_();
+			//				  			System.out.println("1  "+test);
+							  			if(test.contains("\t")){
+							  				reps.set(j,null);
+							  			}
+							  			else{
+			//				  				innerloop:
+							  				for(int k=j-1;k>=0;k--){
+							  					if((reps.get(k)==null)){}
+							  					else{
+								  					test2=((ConvertStat)reps.get(k)).getDesc_();
+			//				  						System.out.println("2  "+  test2);
+							  						if(test.contains(test2)){
+							  							reps.set(k,null);
+							  						}
+												}
+							  				}
+							  			}
+							  		}
+							  	}
+							  	for(int j=reps.size()-1;j>=0;j--){
+							  		if(reps.get(j)==null){
+							  			reps.remove(j);
+							  		}
+							  	}						
+								String sampName=((Sample)Project.samples_.get(smpCnt)).name_;
+								if(reps.size()>0){
+						    		ExportSequences(reps, ecTmp, sampName);
+						    	}
+							}
+				  		}
+				  	}
+        	      }
+
+
+        	      public void ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_, String sampName_){
+					String seqFilePath="";
+					for(int i=0;i<Project.samples_.size();i++){
+						if(sampName_.equals(Project.samples_.get(i).name_)){
+							if(Project.samples_.get(i).getSequenceFile()!=null&&!Project.samples_.get(i).getSequenceFile().equals("")){
+								seqFilePath=Project.samples_.get(i).getSequenceFile();
+							}
+						}
+					}
+					if(seqFilePath!=null&&!seqFilePath.equals("")){
+						File seqFile = new File(seqFilePath);
+						if(seqFile.exists() && !seqFile.isDirectory()) {
+							LinkedHashMap<String, ProteinSequence> sequenceHash;
+							try
+							{
+								sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
+								if(sequenceHash!=null){
+//									System.out.println("Seq File: "+seqFile);
+//									for (Map.Entry<String, ProteinSequence> entry : sequenceHash.entrySet()) {
+//  									String key = entry.getKey();
+//									    ProteinSequence value = entry.getValue();
+//									    System.out.println(key+": "+value);
+//									}
+									String text="";
+									System.out.println("repCnt: "+reps_.size());
+									for (int repCnt = 0; repCnt < reps_.size(); repCnt++)
+									{
+/* 140:148 */       					if((sequenceHash.get(((ConvertStat)reps_.get(repCnt)).getDesc_()))!=null){
+											text = text + ((ConvertStat)reps_.get(repCnt)).getDesc_() + "\t" + (sequenceHash.get(((ConvertStat)reps_.get(repCnt)).getDesc_())).toString();
+/* 141:149 */       						text = text + "\n";
+//											System.out.println("I got one");
+										}
+									}
+				    				try
+				    				{
+				    				  String sampleName;
+				    				  if(sampName_.contains(".out")){
+				    				  	sampleName=sampName_.replace(".out","");
+				    				  }
+				    				  else{
+				    				  	sampleName=sampName_;
+				    				  }
+				    				  File file = new File(basePath_+"Sequences"+File.separator+sampleName+"-"+ecNr_.name_+"-Sequences"+".txt");
+				    				  PrintWriter printWriter=new PrintWriter(file);
+				    				  if(text!=null&&text!=""){
+				    				  	printWriter.println(""+text);
+				    				  }
+				    				  else{
+				    				  	printWriter.println("No matching sequences in the file provided. ("+sampName_+")");
+				    				  }									  
+									  printWriter.close (); 
+									}
+									catch (IOException e1)
+									{
+									  e1.printStackTrace();
+									}
+								} else {
+									System.out.println("The sequence file is not in the fasta format. ("+sampName_+")");
+								}
+							} catch (IOException e1)
+							{
+								e1.printStackTrace();
+							}
+							
+
+						} else {
+							System.out.println("The sequence file associated with this sample ("+sampName_+") does not exist");
+						}
+					} else {
+						System.out.println("There is no sequence file associated with this sample ("+sampName_+")");
+					}
+				  }
+
+
         	    }

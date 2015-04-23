@@ -364,6 +364,7 @@
 /* 305:    */       }
 /* 306:313 */       saveUserPAths(out);		// Writes the userpaths (if any) to the end of the file
 /* 307:314 */       saveConvStats(out);		// Writes the conversion statistics (if any) to the end of the file
+					saveSeqFiles(out);
 /* 308:315 */       out.close();			// Closes the file
 /* 309:316 */       return path;
 /* 310:    */     }
@@ -623,6 +624,41 @@
 /* 485:460 */       userPathways.add(zeile3);
 				  }
 /* 487:    */   }
+				private void saveSeqFiles(BufferedWriter out)
+/* 319:    */     throws IOException
+/* 320:    */   {
+/* 321:330 */     out.write("<SeqFiles>");
+/* 322:331 */     out.newLine();
+/* 323:332 */     for(int i=0;i<samples_.size();i++){
+					if(samples_.get(i).getSequenceFile()!=null&&!samples_.get(i).getSequenceFile().equals("")){
+						out.write(samples_.get(i).getSequenceFile());
+					}
+					else{
+						out.write("none");
+					}
+					out.newLine();
+				  }
+/* 338:346 */     out.write("</SeqFiles>");
+/* 339:347 */     out.newLine();
+/* 340:    */   }
+				private void loadSeqFiles(BufferedReader in)
+/* 343:    */     throws IOException
+/* 344:    */   {
+					if(samples_.isEmpty()){
+						return;
+					}
+					String zeile;
+					int i=0;
+					while((zeile=in.readLine()) != null){
+						if(zeile.contentEquals("</SeqFiles>")) {
+/* 482:    */       		break;
+/* 483:    */       	}
+						if(!zeile.contentEquals("none")){
+							samples_.get(i).setSequenceFile(zeile);
+						}
+						i++;
+					}
+				}
 /* 488:    */   
 /* 489:    */   public void loadMat(String path, String name)
 /* 490:    */   {// When you press the "Load EC-Matrix" button in the the EditSamplesPane and load a matrix file type this is where it is parsed. Takes in ECs, or Pfams/IPRs to be converted,  as well as the counts for each sample in a matrix format. This function parses that and builds samples from the file to add to this project.
@@ -1000,6 +1036,9 @@
 /* 710:728 */           if (tmpLine.contentEquals("<ConvStats>")) {
 /* 711:729 */             loadConvStats(in);
 /* 712:    */           }
+						if (tmpLine.contentEquals("<SeqFiles>")) {
+/* 711:729 */             loadSeqFiles(in);
+/* 712:    */           }
 /* 713:    */         }
 /* 714:    */       }
 /* 715:734 */       in.close();
@@ -1106,10 +1145,10 @@
 /* 816:    */   
 /* 817:    */   public static void removeSample(int index)
 /* 818:    */   {
-/* 819:840 */     if (removedSamples == null) {
-/* 820:841 */       removedSamples = new ArrayList();
-/* 821:    */     }
-/* 822:843 */     removedSamples.add(((Sample)samples_.get(index)).name_);
+//* 819:840 */     if (removedSamples == null) {
+//* 820:841 */       removedSamples = new ArrayList();
+//* 821:    */     }
+//* 822:843 */     removedSamples.add(((Sample)samples_.get(index)).name_);
 /* 823:844 */     samples_.remove(index);
 /* 824:    */   }
 /* 825:    */   

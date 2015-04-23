@@ -16,6 +16,7 @@
 /*  16:    */ import java.io.IOException;
 /*  17:    */ import java.io.PrintStream;
 /*  18:    */ import java.util.ArrayList;
+			  import java.util.*;
 /*  19:    */ import javax.swing.JButton;
 /*  20:    */ import javax.swing.JCheckBox;
 /*  21:    */ import javax.swing.JColorChooser;
@@ -40,6 +41,7 @@
 /*  36:    */   Sample tmpSamp_;									// A temporary sample object, to be used for adding samples to the project
 /*  37:    */   IndexButton[] colButton_;							// Array of colour buttons for the samples
 /*  38:    */   IndexButton[] delButt_;								// Array of buttons used to remove samples from the project
+				IndexButton[] seqButt_;								// Array of buttons used to add a sequence file to a sample
 /*  39:    */   JButton button_;									// Select sample button
 /*  40:    */   JButton newColors_;									// Set new colours button 
 /*  41:    */   String lastPath_;									// Temporary variable used to keep track of the last file path in the FileChooser
@@ -63,7 +65,7 @@
 /*  59:    */   public JButton nextButton_;							// 
 /*  60:    */   ArrayList<JButton> names_;							// ArrayList of buttons which contain the names of the samples
 /*  61:    */   StringReader reader;								// 
-/*  62: 81 */   int xCol2 = 700;									// 
+/*  62: 81 */   int xCol2 = 800;									// 
 /*  63:    */    
 /*  64:    */   public EditsamplesPane(Project activeProj)
 /*  65:    */   {
@@ -77,6 +79,7 @@
 /*  73: 91 */     this.colChange = 15;
 /*  74: 92 */     this.colButton_ = new IndexButton[Project.samples_.size()];
 /*  75: 93 */     this.delButt_ = new IndexButton[Project.samples_.size()];
+				  this.seqButt_ = new IndexButton[Project.samples_.size()];
 /*  76: 94 */     this.fChoose_ = new MyChooser(this.lastPath_);
 /*  77: 95 */     this.checks_ = new ArrayList();
 /*  78:    */     
@@ -99,6 +102,7 @@
 /*  93:    */     
 /*  94:111 */     this.colButton_ = new IndexButton[Project.samples_.size()];
 /*  95:112 */     this.delButt_ = new IndexButton[Project.samples_.size()];
+				  this.seqButt_ = new IndexButton[Project.samples_.size()];
 /*  96:113 */     int nameL = 400;
 /*  97:114 */     int colH = 20;
 /*  98:115 */     int colD = 25;
@@ -134,6 +138,9 @@
 /* 128:    */       
 /* 129:148 */       label = new JLabel("del");
 /* 130:149 */       label.setBounds(102 + nameL, 23, 40, 20);
+/* 131:150 */       add(label);
+					label = new JLabel("seq");
+/* 130:149 */       label.setBounds(156 + nameL, 23, 40, 20);
 /* 131:150 */       add(label);
 /* 132:    */     }
 /* 133:153 */     for (int sampCnt = 0; sampCnt < Project.samples_.size(); sampCnt++)
@@ -195,6 +202,72 @@
 /* 189:239 */       });
 /* 190:240 */       add(this.colButton_[sampCnt]);
 /* 191:    */       
+					this.seqButt_[sampCnt] = new IndexButton(sampCnt);
+					if(Project.samples_.get(sampCnt).getSequenceFile()!=null&&!Project.samples_.get(cnt).getSequenceFile().equals("")){
+/* 196:246 */       	this.seqButt_[sampCnt].setText("Y");
+					} else {
+						this.seqButt_[sampCnt].setText("N");
+					}
+/* 194:244 */       this.seqButt_[sampCnt].setBounds(142 + nameL, 50 + colD * sampCnt, 50, 20);
+/* 195:245 */       this.seqButt_[sampCnt].setVisible(true);
+					if(Project.samples_.get(cnt).getSequenceFile()!=null&&!Project.samples_.get(cnt).getSequenceFile().equals("")){
+/* 196:246 */       	this.seqButt_[sampCnt].setBackground(Color.green);
+					} else {
+						this.seqButt_[sampCnt].setBackground(Color.red);
+					}
+/* 197:247 */       this.seqButt_[sampCnt].addActionListener(new ActionListener()
+/* 198:    */       {
+/* 199:    */         public void actionPerformed(ActionEvent e)
+/* 200:    */         {
+//* 201:252 */           Project.dataChanged = true;
+						Project.dataChanged = true;
+/* 430:478 */         	String path_ = "";
+/* 431:    */         	try
+/* 432:    */         	{
+/* 433:480 */         	  path_ = new File("").getCanonicalPath();
+/* 434:    */         	}
+/* 435:    */         	catch (IOException e1)
+/* 436:    */         	{
+/* 437:483 */         	  e1.printStackTrace();
+/* 438:    */         	}
+/* 439:485 */         	JFileChooser fChoose_ = new JFileChooser(path_);
+/* 440:486 */         	fChoose_.setFileSelectionMode(0);
+/* 441:487 */         	fChoose_.setBounds(100, 100, 200, 20);
+/* 442:488 */         	fChoose_.setVisible(true);
+/* 443:489 */         	File file = new File(path_);
+/* 444:490 */         	fChoose_.setSelectedFile(file);
+/* 445:491 */         	fChoose_.setFileFilter(new FileFilter()
+/* 446:    */         	{
+/* 447:    */         	  public boolean accept(File f)
+/* 448:    */         	  {
+							if((f.isDirectory()) || (f.getName().toLowerCase().endsWith(".fasta")) || (f.getName().toLowerCase().endsWith(".fas"))) {
+								return true;
+							}
+							return false;
+/* 453:    */         	  }
+/* 454:    */         	  
+/* 455:    */         	  public String getDescription()
+/* 456:    */         	  {
+/* 457:504 */         	    return ".fasta/.fas";
+/* 458:    */         	  }
+/* 459:    */         	});
+/* 460:508 */         	if (fChoose_.showSaveDialog(EditsamplesPane.this.getParent()) == 0)
+/* 461:    */         	{
+/* 462:    */         	  try
+/* 463:    */         	  {
+/* 464:510 */         	    String path = fChoose_.getSelectedFile().getCanonicalPath();
+/* 470:516 */         	    Project.samples_.get(cnt).setSequenceFile(path);
+/* 471:    */         	  }
+/* 472:    */         	  catch (IOException e1)
+/* 473:    */         	  {
+/* 474:521 */         	    e1.printStackTrace();
+/* 475:    */         	  }
+						  EditsamplesPane.this.prepPaint();
+/* 479:    */         	}
+/* 204:    */         }
+/* 205:257 */       });
+/* 206:258 */       add(this.seqButt_[sampCnt]);
+
 /* 192:242 */       this.delButt_[sampCnt] = new IndexButton(sampCnt);
 /* 193:243 */       this.delButt_[sampCnt].setText("x");
 /* 194:244 */       this.delButt_[sampCnt].setBounds(86 + nameL, 50 + colD * sampCnt, 50, 20);
@@ -206,7 +279,7 @@
 /* 200:    */         {
 /* 201:252 */           Project.dataChanged = true;
 /* 202:253 */           EditsamplesPane.this.removeSample(EditsamplesPane.this.delButt_[cnt].SampleIndex_);
-/* 203:254 */           EditsamplesPane.this.prepPaint();
+						EditsamplesPane.this.prepPaint();
 /* 204:    */         }
 /* 205:257 */       });
 /* 206:258 */       add(this.delButt_[sampCnt]);

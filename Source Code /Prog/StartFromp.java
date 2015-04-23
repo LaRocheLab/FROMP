@@ -60,8 +60,7 @@
 					  	if (checkPath(args[0])){
 							if(checkEC(args[1])){
 								CmdController cmd = new CmdController(args);
-							}
-					 		else{
+							}  else{
 					 			System.out.println("1");
 								System.out.println("Wrong input");
 /*  69: 62 */             		System.out.println("check input/output-path");
@@ -105,6 +104,9 @@
 /*  62: 56 */               		System.out.println("option: " + args[2]);
 /*  63: 57 */               		printOptions();
 /*  64:    */           		}
+							} else if (args[1].contentEquals("seq")&&checkEC(args[2])){
+								CmdController cmd;
+								cmd = new CmdController(args);
 							}
 							else{
 								System.out.println("1");
@@ -142,11 +144,11 @@
 /*  64:    */             }
 /*  65:    */           }
 						else if((checkPath(args[0])) && (!checkPath(args[1]))){
-							if(args[1].endsWith("/")){
+							CmdController cmd;
+                     if(args[1].endsWith("/")){
 								File dir=new File(args[1]);
 								dir.mkdir();
-								CmdController cmd;
-/*  55: 50 */           	 	if (checkOptions(args[2]) && (checkPath(args[1])))
+								if (checkOptions(args[2]) && (checkPath(args[1])))
 /*  56:    */             		{
 /*  57: 52 */               		cmd = new CmdController(args);
 /*  58:    */             		}
@@ -156,6 +158,12 @@
 /*  62: 56 */               		System.out.println("option: " + args[2]);
 /*  63: 57 */               		printOptions();
 /*  64:    */           		}
+							}
+							else if(checkEC(args[1])&&checkEC(args[2])&&checkEC(args[3])){
+								cmd = new CmdController(args);
+							}
+							else if(args[1].contentEquals("seq")&&checkEC(args[2])&&checkEC(args[3])){
+								cmd = new CmdController(args);
 							}
 							else{
 								System.out.println("1");
@@ -208,25 +216,28 @@
 /*  64:    */             }
 /*  65:    */           }
 						else if((checkPath(args[0])) && (!checkPath(args[1]))){
-							if(args[1].endsWith("/")){
-								File dir=new File(args[1]);
-								dir.mkdir();
-								CmdController cmd;
-/*  55: 50 */           	 	if (checkOptions(args[2]) && (checkPath(args[1])))
-/*  56:    */             		{
-/*  57: 52 */               		cmd = new CmdController(args);
-/*  58:    */             		}
-/*  59:    */             		else
-/*  60:    */             		{
-/*  61: 55 */              	 		System.out.println("Wrong option input");
-/*  62: 56 */               		System.out.println("option: " + args[2]);
-/*  63: 57 */               		printOptions();
-/*  64:    */           		}
-							}
-							else if(checkEC(args[1])){
+							if(checkEC(args[1])){
 								CmdController cmd;
 								boolean allECs=true;
 								for(int i=3;i<args.length;i++){
+									if(!checkEC(args[i])){
+										allECs=false;
+									}
+								}
+								if(allECs){
+/*  57: 52 */               		cmd = new CmdController(args);
+								}
+								else{
+/*  68: 61 */           		  System.out.println("Wrong input");
+/*  69: 62 */           		  System.out.println("check input/output-path");
+/*  70: 63 */           		  System.out.println("inputPath: " + args[0]);
+/*  71: 64 */           		  System.out.println("outputPath: " + args[1]);
+								  printOptions();
+								}
+							} else if(args[1].contentEquals("seq")){
+								CmdController cmd;
+								boolean allECs=true;
+								for(int i=2;i<args.length;i++){
 									if(!checkEC(args[i])){
 										allECs=false;
 									}
@@ -391,6 +402,9 @@
 				  if (options.contentEquals("ec")){
 				  	ret = true;	
 				  }
+				  if (options.contentEquals("seq")){
+				  	ret = true;	
+				  }
 /* 196:185 */     return ret;
 /* 197:    */   }
 
@@ -441,11 +455,15 @@
 				  System.out.println("'f' to export the project as a .frp file");
 				  System.out.println("Exported .frp files will be saved in ~/projects");
 				  System.out.println("");
-				  System.out.println("'ec' to export a list of ec found in a file of ec numbers from your input file");
+				  System.out.println("'ec' to export a list of sequence IDs from a file of ec numbers from your input file");
 				  System.out.println("To include sequence IDs without a file of ec numbers, add the ec numbers");
 				  System.out.println("who's sequence ID you are interested in to your command");
-				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");			
-  				  System.out.println("");
+				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");
+				  System.out.println("");
+				  System.out.println("'seq' to export a file of sequences from a .frp file which has the sequence files related to the samples");
+				  System.out.println("");
+				  System.out.println("Sequences will be stored in ~/Sequences");			
+  				  System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seq");
 /* 212:199 */     System.out.println("'a' all options");
 				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, EC-activity-matrix, and to export as a .frp file");
 /* 213:200 */     System.out.println("'op' only multisample pictures");

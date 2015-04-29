@@ -20,8 +20,8 @@
 /*  17:    */ 
 			// Obviously this is where project files are stored. Serves mostly to store the data from the samples so it can be used elsewhere.
 			// One notable feature of this class however is the fact that this is where the matrix format files are processed... I don't know  
-			// why either but it works and is was a hastle to move it to Prog.DataProcessor. If you would like to take the time to do so you  
-			// are welcome to do so 
+			// why either but it works and it would take a lot of configuring to move it to Prog.DataProcessor. If you would like to take the  
+			// time to do so you are welcome
 
 
 /*  18:    */ public class Project
@@ -72,8 +72,8 @@
 /*  48:    */     try
 /*  49:    */     {
 /*  50: 60 */       projectPath_ = file.getCanonicalPath();		//Sets the path to the project file
-/*  51:    */     }
-/*  52:    */     catch (IOException e)
+/*  51:    */     }		
+/*  52:    */     catch (IOException e)		
 /*  53:    */     {
 /*  54: 63 */       e.printStackTrace();
 /*  55:    */     }
@@ -364,7 +364,7 @@
 /* 305:    */       }
 /* 306:313 */       saveUserPAths(out);		// Writes the userpaths (if any) to the end of the file
 /* 307:314 */       saveConvStats(out);		// Writes the conversion statistics (if any) to the end of the file
-					saveSeqFiles(out);
+					saveSeqFiles(out);		// Writes the sequence files to the end fo the file. if a particular sample doesnt have a sequence file associated with it then it is replaced with "none" in the line
 /* 308:315 */       out.close();			// Closes the file
 /* 309:316 */       return path;
 /* 310:    */     }
@@ -375,9 +375,9 @@
 /* 315:321 */     return "";
 /* 316:    */   }
 /* 317:    */   
-/* 318:    */   private void saveConvStats(BufferedWriter out)
+/* 318:    */   private void saveConvStats(BufferedWriter out)		
 /* 319:    */     throws IOException
-/* 320:    */   {
+/* 320:    */   { // Saves the conversion statistics to the project file
 /* 321:330 */     out.write("<ConvStats>");
 /* 322:331 */     out.newLine();
 /* 323:332 */     out.write("<amountOfEcs>" + amountOfEcs);
@@ -550,7 +550,7 @@
 /* 450:    */   
 /* 451:    */   public void saveUserPAths(BufferedWriter out)
 /* 452:    */     throws IOException
-/* 453:    */   {
+/* 453:    */   { // Saves the user paths to the project file 
 /* 454:432 */     out.write("<userPathways>");
 /* 455:433 */     out.newLine();
 /* 456:434 */     if (userPathways == null)
@@ -592,7 +592,7 @@
 /* 470:    */   
 /* 471:    */   public void loadUserPAths(BufferedReader in, boolean newList)
 /* 472:    */     throws IOException
-/* 473:    */   {
+/* 473:    */   {// loads the user paths from the project file
 /* 474:451 */     if (userPathways == null) {
 /* 475:452 */       userPathways = new ArrayList();
 /* 476:    */     }
@@ -626,7 +626,7 @@
 /* 487:    */   }
 				private void saveSeqFiles(BufferedWriter out)
 /* 319:    */     throws IOException
-/* 320:    */   {
+/* 320:    */   {// saves the sequence files to the project file in seperate lines for all of the samples, if there is no sequence file for the sample the method instead prints "none"
 /* 321:330 */     out.write("<SeqFiles>");
 /* 322:331 */     out.newLine();
 /* 323:332 */     for(int i=0;i<samples_.size();i++){
@@ -643,7 +643,7 @@
 /* 340:    */   }
 				private void loadSeqFiles(BufferedReader in)
 /* 343:    */     throws IOException
-/* 344:    */   {
+/* 344:    */   { // load the sequence files from the project files, if line says "none" then no sequence file is added to the sample
 					if(samples_.isEmpty()){
 						return;
 					}

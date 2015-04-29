@@ -139,7 +139,7 @@
 /* 113:    */   }
 /* 114:    */   
 /* 115:    */   public boolean gotSamples()
-/* 116:    */   {
+/* 116:    */   {// if the project has samples this method will return true
 /* 117:107 */     if (project_ == null) {
 /* 118:107 */       return false;
 /* 119:    */     }

@@ -10,12 +10,14 @@
 /*  10:    */ import java.util.ArrayList;
 /*  11:    */ import java.util.Date;
 /*  12:    */ 
+			// A helper class designed to allow the user to parse through .xml files.
+
 /*  13:    */ public class XmlParser
 /*  14:    */ {
 /*  15: 12 */   String date = "";
 /*  16:    */   
 /*  17:    */   public ArrayList<EcPosAndSize> findEcPosAndSize(String ecNr, BufferedReader in)
-/*  18:    */   {
+/*  18:    */   { // finds the positions and sizes of an ec in the .xml, returns an arraylist of ec positions and sizes
 /*  19: 16 */     String tmpNr = "";
 /*  20: 17 */     String tmp = "";
 /*  21: 18 */     int begin = 0;
@@ -76,7 +78,7 @@
 /*  76:    */   }
 /*  77:    */   
 /*  78:    */   public void findEcinPathway(String workpath, String[] ecNr, BufferedReader in, String name)
-/*  79:    */   {
+/*  79:    */   { 
 /*  80: 81 */     String zeile = null;
 /*  81:    */     
 /*  82: 83 */     int offset = 0;
@@ -135,13 +137,13 @@
 /* 135:    */   }
 /* 136:    */   
 /* 137:    */   public void createDir(String path)
-/* 138:    */   {
+/* 138:    */   { // makes a directory if the given path
 /* 139:137 */     boolean status = new File(path).mkdirs();
 /* 140:138 */     report(status, path);
 /* 141:    */   }
 /* 142:    */   
 /* 143:    */   static void report(boolean b, String path)
-/* 144:    */   {
+/* 144:    */   { // reoprts whether the building of the directory was a success or a failure
 /* 145:141 */     System.out.println(b ? "success" : "failure");
 /* 146:    */   }
 /* 147:    */   

@@ -11,7 +11,8 @@
 /* 11:   */ import javax.swing.JLabel;
 /* 12:   */ import javax.swing.JPanel;
 /* 13:   */ 
-			// Class file used to supplement the buffered reader class to be used to parse through input files and conversion files for the data processor	
+			// Class file used to supplement the buffered reader class to be used to parse through input files and conversion files for the data processor
+			// pretty well all file reading is done using this class. It is more of a helper class than an object.
 
 /* 14:   */ public class StringReader
 /* 15:   */ {

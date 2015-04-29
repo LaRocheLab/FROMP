@@ -148,7 +148,7 @@
 /*  115:     */   }
 /*  116:     */   
 /*  117:     */   public void processProject()
-/*  118:     */   {
+/*  118:     */   { // prepares the project object
 /*  119: 117 */     this.lFrame_ = new Loadingframe();
 /*  120: 118 */     if ((newBaseData) || (newUserData)) {
 /*  121: 119 */       prepData();
@@ -238,26 +238,10 @@
 						  	}
 						  }
 /*  191:     */         }
-			//			else{
-			//				tmp=findInterProAndRepSeqInRaw(line);
-			//				if(!tmp.isEmpty()){
-			//					if(tmp.contains("-")){
-			//						ret[0] = tmp.substring(0, tmp.indexOf("-"));
-			//						String repSeq = tmp.substring(tmp.indexOf("-") + 1);
-			//						if(repSeq.contains("/")){
-			//							repSeq = repSeq.substring(0, repSeq.indexOf("/"));
-			//						}
-			//						ret[3] = repSeq;
-			//					}else{
-			//						ret[0]=tmp;
-			//					} 
-			//					ret[2] = "IPR";
-			//				}
-			//			}
 /*  192:     */       }
 /*  193:     */     }
 /*  194: 189 */     if ((ret[0] == "X") && 
-/*  195: 190 */       (line.startsWith("PF")))
+/*  195: 190 */       (line.startsWith("PF"))) 
 /*  196:     */     {
 /*  197: 191 */       ret[0] = line.substring(0, line.indexOf("."));
 /*  198: 193 */       if (isPfambool(ret[0]))
@@ -394,7 +378,7 @@
 /*  252: 246 */     return "";
 /*  253:     */   }
 
-				  private String findInterProInRaw(String input){
+				  private String findInterProInRaw(String input){ // method to parse the interpro format
 				  	String interpro="";
 				  	String tmp = input;
 				  	while (tmp.contains("IPR"))

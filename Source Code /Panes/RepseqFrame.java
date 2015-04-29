@@ -29,33 +29,34 @@
 			  import org.biojava.nbio.core.sequence.*;
 			  
 
-			//The window which displays the sequence IDs when they are clicked on in the Activity Matric Pane 	
+			// The window which displays the sequence IDs when an ec is clicked on in the Activity Matric Pane 	
+			// From this window the user can export the sequence IDs or sequences mapping to the particular ec
 
 /*  16:    */ public class RepseqFrame
 /*  17:    */   extends JFrame
 /*  18:    */ {
 /*  19:    */   private static final long serialVersionUID = 1L;							//
-				private JMenuBar menuBar_;													// drop down menu bar for the repseq frame
-				private JMenu menu_;														// menu item for the dropdown menu
-				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// the current wokpath
-/*  20:    */   EcNr ecNr_;																	// ec for which we are viewing the associated squence IDs 
+				private JMenuBar menuBar_;													// Drop down menu bar for the repseq frame
+				private JMenu menu_;														// Menu item for the dropdown menu
+				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The current wokpath
+/*  20:    */   EcNr ecNr_;																	// EC for which we are viewing the associated squence IDs 
 /*  21:    */   JLabel label_;																//
-/*  22:    */   JPanel back_;																// backpanel on the frame
-/*  23:    */   ArrayList<ConvertStat> reps_;												// arraylist of conversion statistics for the ECs
+/*  22:    */   JPanel back_;																// Backpanel on the frame
+/*  23:    */   ArrayList<ConvertStat> reps_;												// Arraylist of conversion statistics for the ECs
 /*  24: 27 */   int xSize = 800;															//
 /*  25:    */   int ySize;																	//
-				String sampName_;															// name of the sample in question
+				String sampName_;															// Name of the sample in question
 /*  26:    */   
 /*  27:    */   public RepseqFrame(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
 /*  28:    */   {
-/*  29: 31 */     super(ecNr.name_ + " * " + reps.size()+" Unique Sequence IDs");
+/*  29: 31 */     super(ecNr.name_ + " * " + reps.size()+" Unique Sequence IDs");			// Sets the title of the JFrame
 /*  30:    */     this.sampName_=sampName;
 /*  31: 33 */     this.reps_ = reps;
 /*  32: 34 */     this.ecNr_ = ecNr;
-/*  33: 36 */     if (this.reps_ != null)
+/*  33: 36 */     if (this.reps_ != null)													// If the Arraylist which contains the sequence ids isnt null
 /*  34:    */     {
 /*  35: 37 */       System.out.println("RepseqFrame " + this.reps_.size());
-					if(this.reps_.size()<50){
+					if(this.reps_.size()<50){												// If there are more than 50 sequence IDs then we aren't going to display the and instead will display a warning message. The user will still be able to export them to a file however
 /*  36: 38 */       	setBounds(100, 100, this.xSize, 100 + 25 * this.reps_.size());
 					}
 					else{setBounds(100, 100, this.xSize, 100 + 100);}
@@ -86,7 +87,7 @@
 					tArea.setFont(font);
 					this.back_.add(tArea);
 
-					tArea.setText("*WARNING*\nThere are too many sequence IDs to be viewed.\nYou may still export them using the drop-down File menu in the top left corner.");
+					tArea.setText("*WARNING*\nThere are too many sequence IDs to be viewed.\nYou may still export them using the drop-down File menu in the top left corner."); //	Warning if there are too many sequence ids to display
 				  }
 /*  49: 50 */     this.back_.setLayout(null);
 /*  50: 51 */     this.back_.setVisible(true);
@@ -167,33 +168,33 @@
 
 /* 112:    */   }
 
-				private void addMenu(){//adds the dropdown menu
+				private void addMenu(){//adds the dropdown File menu which allows the user to export the sequence ids and the sequences
 					this.menuBar_ = new JMenuBar();
 
 					this.menu_ = new JMenu("File");				
 
 					this.menuBar_.add(this.menu_);
-					JMenuItem miItem = new JMenuItem("ExportReps",83);
+					JMenuItem miItem = new JMenuItem("Export Reps",83);
 					miItem.setAccelerator(KeyStroke.getKeyStroke(83, 8));
 
 					miItem.addActionListener(new ActionListener()
 				    {
 				      public void actionPerformed(ActionEvent e)
 				      {
-				      	RepseqFrame.this.ExportReps();
+				      	RepseqFrame.this.ExportReps(); // exports the sequence ids which map to this ec in this sample
 				      }
 				    });
 
 				    this.menu_.add(miItem);
 
-				   miItem = new JMenuItem("ExportSequences",86);
+				   miItem = new JMenuItem("Export Sequences",86);
 					miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
 
 					miItem.addActionListener(new ActionListener()
 				    {
 				      public void actionPerformed(ActionEvent e)
 				      {
-				      	RepseqFrame.this.ExportSequences();
+				      	RepseqFrame.this.ExportSequences(); // exports the sequences which map to this ec in this sample
 				      }
 				    });
 
@@ -201,9 +202,9 @@
 
 					setJMenuBar(this.menuBar_);
 				}
-				//exports the sequence IDs to "RepSeqIDs"
+
 				public void ExportReps()
-				{// exports the sequence ids to a file
+				{// exports the sequence ids to a file in the directory ~/RepSeqIDs
 					String text="";
 //               		String test="";
 				    System.out.println("Reps:"+RepseqFrame.this.reps_.size());
@@ -242,7 +243,7 @@
 					}
 				}
 
-				public void ExportSequences(){
+				public void ExportSequences(){ // Exports the sequences to to a file in the ~/Sequences directory 
 					String seqFilePath="";
 					for(int i=0;i<Project.samples_.size();i++){
 						if(this.sampName_.equals(Project.samples_.get(i).name_)){
@@ -251,13 +252,13 @@
 							}
 						}
 					}
-					if(seqFilePath!=null&&!seqFilePath.equals("")){
-						File seqFile = new File(seqFilePath);
-						if(seqFile.exists() && !seqFile.isDirectory()) {
-							LinkedHashMap<String, ProteinSequence> sequenceHash;
+					if(seqFilePath!=null&&!seqFilePath.equals("")){ 				// Ensure the path isnt null
+						File seqFile = new File(seqFilePath);						//
+						if(seqFile.exists() && !seqFile.isDirectory()) {			// and the the file exists
+							LinkedHashMap<String, ProteinSequence> sequenceHash; 	// instanciates the sequence hash built by the bio java core
 							try
 							{
-								sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
+								sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);	// calls bio java to build the sequence hash
 								if(sequenceHash!=null){
 //									System.out.println("Seq File: "+seqFile);
 //									for (Map.Entry<String, ProteinSequence> entry : sequenceHash.entrySet()) {
@@ -272,7 +273,6 @@
 /* 140:148 */       					if((sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_()))!=null){
 											text = text + ((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "\t" + (sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_())).toString();
 /* 141:149 */       						text = text + "\n";
-//											System.out.println("I got one");
 										}
 									}
 				    				try
@@ -291,6 +291,7 @@
 				    				  }
 				    				  else{
 				    				  	printWriter.println("No matching sequences in the file provided.");
+				    				  	warningFrame("No matching sequences in the file provided.");
 				    				  }									  
 									  printWriter.close (); 
 									}
@@ -299,7 +300,7 @@
 									  e1.printStackTrace();
 									}
 								} else {
-									System.out.println("The sequence file is not in the fasta format");
+									warningFrame("The sequence file is not in the fasta format");
 								}
 							} catch (IOException e1)
 							{
@@ -308,14 +309,28 @@
 							
 
 						} else {
-							System.out.println("The sequence file associated with this sample does not exist");
+							warningFrame("The sequence file associated with this sample does not exist");
 						}
 					} else {
-						System.out.println("There is no sequence file associated with this sample");
+						warningFrame("There is no sequence file associated with this sample");
 					}
 				}
 
-
+				public void warningFrame(String str){ // The popup window produced if there is a problem with exporting the sequences	
+        	    final JFrame frame = new JFrame("Warning!");
+/* 1108:1203 */   frame.setBounds(200, 200, 500, 100);
+/* 1109:1204 */   frame.setLayout(null);
+/* 1110:1205 */   frame.setVisible(true);
+/* 1111:     */       
+/* 1112:1207 */   JPanel backP = new JPanel();
+/* 1113:1208 */   backP.setBounds(0, 0, 500, 75);
+/* 1114:1209 */   backP.setLayout(null);
+/* 1115:1210 */   frame.add(backP);
+/* 1116:     */       
+/* 1117:1212 */   JLabel label = new JLabel(str);
+/* 1118:1213 */   label.setBounds(25, 25, 450, 25);
+/* 1119:1214 */   backP.add(label);
+        	    }
   
 
 /* 114:    */   private void addrepseqs()

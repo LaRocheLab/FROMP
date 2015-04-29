@@ -20,7 +20,6 @@
 /*  17:    */ public class StartFromp
 /*  18:    */ {
 /*  19:    */   static NewFrompFrame newFrame;
-/*  20:    */   static JFrame frame2;
 				static String arg1="";
 /*  21:    */   
 /*  22:    */   public static void main(String[] args)
@@ -288,89 +287,20 @@
 /*  88: 79 */       run();
 /*  89:    */     }
 /*  90:    */   }
-/*  91:    */   
-/*  92:    */   public static void runBat()
-/*  93:    */   {
-/*  94:    */     try
-/*  95:    */     {
-/*  96: 85 */       BufferedWriter out = new BufferedWriter(new FileWriter("FROMP.bat"));
-/*  97: 86 */       out.write("java -Xms128m -Xmx256m -jar FROMP.jar start");
-/*  98: 87 */       out.close();
-/*  99: 88 */       System.out.println();
-/* 100: 89 */       frame2 = new JFrame("Warning");
-/* 101: 90 */       frame2.setLayout(null);
-/* 102: 91 */       frame2.setBounds(100, 100, 300, 300);
-/* 103: 92 */       frame2.setResizable(false);
-/* 104: 93 */       frame2.setDefaultCloseOperation(3);
-/* 105: 94 */       frame2.setVisible(true);
-/* 106:    */       
-/* 107: 96 */       JPanel back = new JPanel();
-/* 108: 97 */       back.setLayout(null);
-/* 109: 98 */       back.setBounds(0, 0, frame2.getWidth(), frame2.getHeight());
-/* 110: 99 */       back.setBackground(new Color(233, 233, 233));
-/* 111:    */       
-/* 112:101 */       JLabel label = new JLabel("<html>FROMP uses quite a lot of memory. <br>To run properly,<br> please restart the Program with FROMP.bat.<br>If you choose to continue it may crash</html>");
-/* 113:102 */       label.setLayout(null);
-/* 114:103 */       label.setForeground(Color.black);
-/* 115:104 */       label.setBounds(5, -10, frame2.getWidth(), 100);
-/* 116:105 */       label.setVisible(true);
-/* 117:106 */       back.add(label);
-/* 118:    */       
-/* 119:108 */       JButton button1 = new JButton("I want to start anyways");
-/* 120:    */       
-/* 121:110 */       button1.setBounds(0, 80, frame2.getWidth(), 100);
-/* 122:111 */       button1.setLayout(null);
-/* 123:112 */       button1.setVisible(true);
-/* 124:113 */       button1.addActionListener(new ActionListener()
-/* 125:    */       {
-/* 126:    */         public void actionPerformed(ActionEvent arg0)
-/* 127:    */         {
-/* 128:118 */           StartFromp.run();
-/* 129:119 */           StartFromp.remove();
-/* 130:    */         }
-/* 131:122 */       });
-/* 132:123 */       back.add(button1);
-/* 133:124 */       JButton button2 = new JButton("Ok, I'll use FROMP.bat");
-/* 134:    */       
-/* 135:126 */       button2.setBounds(0, 180, frame2.getWidth(), 100);
-/* 136:127 */       button2.setLayout(null);
-/* 137:128 */       button2.setVisible(true);
-/* 138:129 */       button2.addActionListener(new ActionListener()
-/* 139:    */       {
-/* 140:    */         public void actionPerformed(ActionEvent arg0)
-/* 141:    */         {
-/* 142:134 */           System.exit(0);
-/* 143:    */         }
-/* 144:137 */       });
-/* 145:138 */       back.add(button2);
-/* 146:139 */       frame2.add(back);
-/* 147:140 */       frame2.repaint();
-/* 148:    */     }
-/* 149:    */     catch (IOException e)
-/* 150:    */     {
-/* 151:144 */       System.out.println("Exception ");
-/* 152:    */     }
-/* 153:    */   }
-/* 154:    */   
-/* 155:    */   public static void remove()
-/* 156:    */   {
-/* 157:149 */     frame2.removeAll();
-/* 158:150 */     frame2.dispose();
-/* 159:    */   }
 /* 160:    */   
 /* 161:    */   public static void run()
-/* 162:    */   {
+/* 162:    */   { // runs gui fromp
 /* 163:155 */     newFrame = new NewFrompFrame();
 /* 164:    */   }
 /* 165:    */   
 /* 166:    */   private static boolean checkPath(String path)
-/* 167:    */   {
+/* 167:    */   { // checks that the file given exists
 /* 168:159 */     File f = new File(path);
 /* 169:160 */     return f.exists();
 /* 170:    */   }
 /* 171:    */   
 /* 172:    */   private static boolean checkOptions(String options)
-/* 173:    */   {
+/* 173:    */   { // ensures that the option the user has selected is allowed
 /* 174:163 */     boolean ret = false;
 /* 175:164 */     if (options.contentEquals("p")) {
 /* 176:165 */       ret = true;
@@ -409,7 +339,7 @@
 /* 197:    */   }
 
 				private static boolean checkEC(String options)
-/* 173:    */   {//checks that the EC is complete
+/* 173:    */   {//checks that the EC is complete, ie is an ec number
 /* 174:163 */     boolean ret = false;
 				  String testStr1;
 				  String testStr2;
@@ -438,7 +368,7 @@
 
 /* 198:    */   
 /* 199:    */   private static void printOptions()
-/* 200:    */   {
+/* 200:    */   { // Prints out the options for this program to the cmdline
 				  if(arg1!="h"){
 /* 201:188 */     	System.out.println("The arguements used are invalid!!");
 /* 202:189 */     	System.out.println("The correct arguements are:");
@@ -461,9 +391,9 @@
 				  System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");
 				  System.out.println("");
 				  System.out.println("'seq' to export a file of sequences from a .frp file which has the sequence files related to the samples");
-				  System.out.println("");
 				  System.out.println("Sequences will be stored in ~/Sequences");			
   				  System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seq");
+				  System.out.println("");
 /* 212:199 */     System.out.println("'a' all options");
 				  System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, EC-activity-matrix, and to export as a .frp file");
 /* 213:200 */     System.out.println("'op' only multisample pictures");

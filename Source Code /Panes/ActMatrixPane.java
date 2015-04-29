@@ -104,7 +104,7 @@
 /*   88:     */     											// 
 /*   89: 108 */     setSelectedEc();							// Sets whether or not each sample is selected
 /*   90: 109 */     prepMatrix();								// Builds the ec matrix
-/*   91: 110 */     initMainPanels();							// Instanciates teh options, display and scroll panels
+/*   91: 110 */     initMainPanels();							// Instanciates the options, display and scroll panels
 /*   92:     */     											// 
 /*   93: 112 */     prepaint();									// Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
 /*   94:     */     											// 
@@ -112,20 +112,20 @@
 /*   96:     */   }
 /*   97:     */   
 /*   98:     */   private void prepaint()
-/*   99:     */   {
-/*  100: 117 */     removeAll();
-/*  101: 118 */     initMainPanels();
-/*  102: 119 */     addOptions();
-/*  103: 120 */     drawSampleNames();
-/*  104: 121 */     showEcValues();
-/*  105:     */     
-/*  106: 123 */     invalidate();
-/*  107: 124 */     validate();
-/*  108: 125 */     repaint();
+/*   99:     */   {							// This method rebuids the back panel of the window 
+/*  100: 117 */     removeAll();			// Removes everything on the backpanel
+/*  101: 118 */     initMainPanels();		// instanciates the options, display, and scroll panels
+/*  102: 119 */     addOptions();			// adds the buttons, labels, checkboxes etc to the options panel
+/*  103: 120 */     drawSampleNames();		// Draws the mouse over lables above the ec matrix. if you mouse over these lables the expand showing their full names.
+/*  104: 121 */     showEcValues();			// paints the ec matrix showing the ec values, calls showValues, or show odds. 
+/*  105:     */     						// 
+/*  106: 123 */     invalidate();			// 
+/*  107: 124 */     validate();				// 
+/*  108: 125 */     repaint();				// 
 /*  109:     */   }
 /*  110:     */   
 /*  111:     */   private void initMainPanels()
-/*  112:     */   {
+/*  112:     */   {// instanciates the options, display, and scroll panels
 /*  113: 128 */     this.optionsPanel_ = new JPanel();
 /*  114: 129 */     this.optionsPanel_.setPreferredSize(new Dimension(getWidth(), 100));
 /*  115: 130 */     this.optionsPanel_.setLocation(0, 0);
@@ -151,9 +151,9 @@
 /*  135:     */   }
 /*  136:     */   
 				
-				  //This preps the onscreen matrix using the arrayline_[] variable in the line object.	
+				  
 /*  137:     */   private void prepMatrix()
-				  {
+				  {// This preps the onscreen matrix using the arrayline_[] variable in the line object.	
 /*  139: 152 */     this.ecMatrix_ = new ArrayList<Line>();
 /*  140: 153 */     this.lframe.bigStep("Preparing Matrix");
 /*  141: 154 */     this.lframe.step("Init");

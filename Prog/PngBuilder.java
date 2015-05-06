@@ -12,9 +12,12 @@
 /*  12:    */ import java.io.PrintStream;
 /*  13:    */ import java.util.ArrayList;
 /*  14:    */ import javax.imageio.ImageIO;
-/*  15:    */ 
-			  //This class builds the pngs output by FROMP  
-
+/*  15:    */  
+			/**
+			 * Builds the PNG files which are outputted by FROMP
+			 * 
+			 * @author Jennifer Terpstra, Kevan Lynch
+			 */
 /*  16:    */ public class PngBuilder
 /*  17:    */ {
 /*  18:    */   BufferedImage image;

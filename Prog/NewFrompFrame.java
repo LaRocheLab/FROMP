@@ -39,8 +39,11 @@
 /*   39:     */ import javax.swing.filechooser.FileFilter;
 /*   40:     */ import pathwayLayout.PathLayoutGrid;
 /*   41:     */ 
-				//The main frame of fromp. Almost every other part of GUI FROMP runs on this frame.
-
+			/**
+			 * Main GUI frame for FROMP. Every part of the GUI FROMP is run through this frame.
+			 * 
+			 * @author Jennifer Terpstra, Kevan Lynch
+			 */
 /*   42:     */ public class NewFrompFrame
 /*   43:     */   extends JFrame
 /*   44:     */ {

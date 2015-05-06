@@ -29,13 +29,14 @@
 				import java.util.Arrays;
 				import java.util.*;
 /*   29:     */ 
-
-				//*THIS IS THE MOST IMPORTANT PART OF FROMP*
-				// Now that I have you attention, let me explain. The data processor is what basically does all of the parsing of the raw input files the converting of pfams,
-				// and everything important for the data. Everything else is a helper class for this: storing, and displaying data, to the users. This class does all of the 
-				// computation that actually makes the data usable from the raw input. 
-			
-
+				/**
+				 * THIS IS THE MOST IMPORTANT PART OF FROMP
+				 * Now that I have you attention, let me explain. The data processor is what basically does all of the parsing of the raw 
+				 * input files the converting of pfams,and everything important for the data. Everything else is a helper class for this: 
+				 * storing, and displaying data, to the users. This class does all of the computation that actually makes the data usable from the raw input.
+				 * 
+				 * @author Jennifer Terpstra, Kevan Lynch
+				 */
 /*   30:     */ public class DataProcessor
 /*   31:     */ {
 /*   32:     */   Project activeProj_;
@@ -176,9 +177,16 @@
 /*  143: 142 */       Loadingframe.close();
 /*  144:     */     }
 /*  145:     */   }
-/*  146:     */   
+/*  146:     */   /**
+					*Retrieves ec/pfam and sequence ids from HMMER output files.
+					*
+					*@param line Read in lines from the HMMER files
+					*@return String array of EC name, number of EC, pfram or ec and sequence id
+					*
+					*@author Jennifer Terpstra, Kevan Lynch
+					*/
 /*  147:     */   public String[] getEnzFromRawSample(String line)
-/*  148:     */   {// Retrieves ec/pfam and sequence IDs from HMMER output files.
+/*  148:     */   {
 					if(line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return getEnzFromInterPro(line);
 					}
@@ -355,9 +363,15 @@
 					}
 					return ret;
 				  }
-/*  232:     */   
+/*  232:     */   /**
+ 				   * Finds the PFam and sequence ID in a line of raw data.
+ 				   * 
+ 				   * @param input Line of user input containing their raw data
+ 				   * 
+ 				   * @author Jennifer Terpstra, Kevan Lynch
+ 				   */
 /*  233:     */   private String findPfamAndRepSeqInRaw(String input)
-/*  234:     */   {// Finds the PFam and sequence ID in a line of raw data
+/*  234:     */   {
 /*  235: 226 */     String Pfam = "";
 /*  236: 227 */     String tmp = input;
 /*  237: 230 */     while (tmp.contains("PF"))
@@ -395,9 +409,13 @@
 				  	return null;
 				  }
 
-/*  254:     */   
+/*  254:     */ /**
+	 			 *Retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
+	 			 *
+	 			 *@author Jennifer Terpstra, Kevan Lynch
+	 			 */
 /*  255:     */   public String[] getEnzFromSample(String input)
-/*  256:     */   {//retrieves ec/pfam and sequence ids from the three column, two column, and matrix data files.
+/*  256:     */   {
 					if(input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")){
 						return getEnzFromInterPro(input);
 					}
@@ -524,9 +542,15 @@
 /*  316:     */     }
 /*  317: 319 */     return ret;
 /*  318:     */   }
-/*  319:     */   
+/*  319:     */   /**
+					* Assuming the user input string is pfam format then the method outputs the pfam, only without the PF at the begining.
+					* 
+					*  @returns pFam parsed to have no "PF" or NULL if not pFam
+					*  
+					*  @author Jennifer Terpstra, Kevan Lynch
+					*/
 /*  320:     */   public String isPfam(String pfam)
-/*  321:     */   {//if the input string is determined to be a pfam then the method outputs the pfam
+/*  321:     */   {
 /*  322: 323 */     String tmp = pfam;
 /*  323: 324 */     if (tmp.contains("PF"))
 /*  324:     */     {

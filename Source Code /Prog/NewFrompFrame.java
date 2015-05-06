@@ -41,8 +41,11 @@
 				import javax.swing.JScrollPane;
 				import javax.swing.ScrollPaneConstants;
 /*   41:     */ 
-				//The main frame of fromp. Almost every other part of GUI FROMP runs on this frame.
-
+			/**
+			 * Main GUI frame for FROMP. Every part of the GUI FROMP is run through this frame.
+			 * 
+			 * @author Jennifer Terpstra, Kevan Lynch
+			 */
 /*   42:     */ public class NewFrompFrame
 /*   43:     */   extends JFrame
 /*   44:     */ {

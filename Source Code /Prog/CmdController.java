@@ -15,7 +15,11 @@
 /*  14:    */ import java.util.ArrayList;
 /*  21:    */ import java.io.IOException;
 /*  15:    */ 
-			//this controls the cmdFromp functions 
+		/**
+		 * Used for command line FROMP functions. Processes all command line user input into FROMP.
+		 * 
+		 * @author Jennifer Terpstra, Kevan Lynch
+		 */ 
 
 /*  16:    */ public class CmdController
 /*  17:    */ {

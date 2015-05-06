@@ -379,7 +379,8 @@
 /*  357: 380 */     this.optionsPanel_.add(this.moveUnmappedToEnd);
 /*  358: 382 */     if (this.includeRepseq_ == null)
 /*  359:     */     {
-/*  360: 383 */       this.includeRepseq_ = new JCheckBox("Include Repseq-Ids");
+					//edited by Jennifer from Include Repseq-Ids to Include Sequence-Ids
+/*  360: 383 */       this.includeRepseq_ = new JCheckBox("Include Sequence-Ids");
 /*  361: 384 */       this.includeRepseq_.setSelected(false);
 /*  362:     */     }
 /*  363: 387 */     this.includeRepseq_.setVisible(true);

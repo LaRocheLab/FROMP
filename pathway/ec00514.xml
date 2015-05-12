@@ -2,206 +2,206 @@
 <!DOCTYPE pathway SYSTEM "http://www.genome.jp/kegg/xml/KGML_v0.7.1_.dtd">
 <!-- Creation date: Jan 24, 2011 14:59:42 +0900 (GMT+09:00) -->
 <pathway name="path:ec00514" org="ec" number="00514"
-         title="Other types of O-glycan biosynthesis"
-         image="http://www.genome.jp/kegg/pathway/ec/ec00514.png"
-         link="http://www.genome.jp/kegg-bin/show_pathway?ec00514">
-    <entry id="1" name="path:ec00514" type="map"
-        link="http://www.kegg.jp/dbget-bin/www_bget?ec00514">
-        <graphics name="TITLE:Other types of O-glycan biosynthesis" fgcolor="#000000" bgcolor="#FFFFFF"
-             type="roundrectangle" x="207" y="58" width="333" height="25"/>
-    </entry>
-    <entry id="2" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09302"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="161,350,176,365"/>
-    </entry>
-    <entry id="3" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="145,378,175,378"/>
-    </entry>
-    <entry id="4" name="ec:2.4.1.-" type="enzyme" reaction="rn:R07619"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="299,292,329,292"/>
-    </entry>
-    <entry id="5" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="83,409,113,409"/>
-    </entry>
-    <entry id="6" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="160,406,175,391"/>
-    </entry>
-    <entry id="7" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09301"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="222,372,252,342"/>
-    </entry>
-    <entry id="8" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09300"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="298,336,328,306"/>
-    </entry>
-    <entry id="9" name="ec:2.4.1.109" type="enzyme" reaction="rn:R07620"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.109">
-        <graphics name="2.4.1.109" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="379,292,409,292"/>
-    </entry>
-    <entry id="10" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="68,378,98,378"/>
-    </entry>
-    <entry id="11" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09303"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="82,348,112,348"/>
-    </entry>
-    <entry id="12" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="199,361,199,341"/>
-    </entry>
-    <entry id="13" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="199,395,199,415"/>
-    </entry>
-    <entry id="14" name="ec:2.4.1.50" type="enzyme" reaction="rn:R03380"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.50">
-        <graphics name="2.4.1.50" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="139,762,169,762"/>
-    </entry>
-    <entry id="15" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09316"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="266,566,281,551"/>
-    </entry>
-    <entry id="16" name="ec:2.4.1.66" type="enzyme" reaction="rn:R04491"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.66">
-        <graphics name="2.4.1.66" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="66,762,96,762"/>
-    </entry>
-    <entry id="17" name="ec:2.4.99.6 ec:2.4.99.1" type="enzyme" reaction="rn:R09297 rn:R09298"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.99.6+2.4.99.1">
-        <graphics name="2.4.99.6..." fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="89,522,119,522"/>
-    </entry>
-    <entry id="18" name="ec:2.4.1.222" type="enzyme" reaction="rn:R09296"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.222">
-        <graphics name="2.4.1.222" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="268,522,283,537"/>
-    </entry>
-    <entry id="19" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09299"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="176,522,206,522"/>
-    </entry>
-    <entry id="20" name="ec:2.4.1.221" type="enzyme" reaction="rn:R09295"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.221">
-        <graphics name="2.4.1.221" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="331,545,361,545"/>
-    </entry>
-    <entry id="21" name="ec:2.4.2.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.2.-">
-        <graphics name="2.4.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="65,664,95,664"/>
-    </entry>
-    <entry id="22" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09315"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="212,664,242,664"/>
-    </entry>
-    <entry id="23" name="ec:2.4.2.-" type="enzyme" reaction="rn:R09290"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.2.-">
-        <graphics name="2.4.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="140,664,170,664"/>
-    </entry>
-    <entry id="24" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09304"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="88,149,118,149"/>
-    </entry>
-    <entry id="25" name="ec:2.4.1.-" type="enzyme" reaction="rn:R07621"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="300,248,330,278"/>
-    </entry>
-    <entry id="26" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="210,247,240,247"/>
-    </entry>
-    <entry id="27" name="ec:2.4.1.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
-        <graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="211,291,241,291"/>
-    </entry>
-    <entry id="28" name="ec:2.4.99.6" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.99.6">
-        <graphics name="2.4.99.6" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="153,313,168,298"/>
-    </entry>
-    <entry id="29" name="ec:2.4.1.152" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.152">
-        <graphics name="2.4.1.152" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="226,318,241,303"/>
-    </entry>
-    <entry id="30" name="ec:2.4.1.17" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.17">
-        <graphics name="2.4.1.17" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="154,270,169,285"/>
-    </entry>
-    <entry id="31" name="ec:2.4.1.17" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.17">
-        <graphics name="2.4.1.17" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="135,247,165,247"/>
-    </entry>
-    <entry id="32" name="ec:2.8.2.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.8.2.-">
-        <graphics name="2.8.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="57,247,87,247"/>
-    </entry>
-    <entry id="33" name="ec:2.8.2.-" type="enzyme"
-        link="http://www.kegg.jp/dbget-bin/www_bget?2.8.2.-">
-        <graphics name="2.8.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
-             type="line" coords="77,269,107,269"/>
-    </entry>
-    <reaction id="2" name="rn:R09302" type="reversible">
-    </reaction>
-    <reaction id="4" name="rn:R07619" type="reversible">
-    </reaction>
-    <reaction id="7" name="rn:R09301" type="reversible">
-    </reaction>
-    <reaction id="8" name="rn:R09300" type="reversible">
-    </reaction>
-    <reaction id="9" name="rn:R07620" type="reversible">
-    </reaction>
-    <reaction id="11" name="rn:R09303" type="reversible">
-    </reaction>
-    <reaction id="14" name="rn:R03380" type="reversible">
-    </reaction>
-    <reaction id="15" name="rn:R09316" type="reversible">
-    </reaction>
-    <reaction id="16" name="rn:R04491" type="reversible">
-    </reaction>
-    <reaction id="17" name="rn:R09297 rn:R09298" type="reversible">
-    </reaction>
-    <reaction id="18" name="rn:R09296" type="reversible">
-    </reaction>
-    <reaction id="19" name="rn:R09299" type="reversible">
-    </reaction>
-    <reaction id="20" name="rn:R09295" type="reversible">
-    </reaction>
-    <reaction id="22" name="rn:R09315" type="reversible">
-    </reaction>
-    <reaction id="23" name="rn:R09290" type="reversible">
-    </reaction>
-    <reaction id="24" name="rn:R09304" type="reversible">
-    </reaction>
-    <reaction id="25" name="rn:R07621" type="reversible">
-    </reaction>
+	title="Other types of O-glycan biosynthesis" image="http://www.genome.jp/kegg/pathway/ec/ec00514.png"
+	link="http://www.genome.jp/kegg-bin/show_pathway?ec00514">
+	<entry id="1" name="path:ec00514" type="map"
+		link="http://www.kegg.jp/dbget-bin/www_bget?ec00514">
+		<graphics name="TITLE:Other types of O-glycan biosynthesis"
+			fgcolor="#000000" bgcolor="#FFFFFF" type="roundrectangle" x="207" y="58"
+			width="333" height="25" />
+	</entry>
+	<entry id="2" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09302"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="161,350,176,365" />
+	</entry>
+	<entry id="3" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="145,378,175,378" />
+	</entry>
+	<entry id="4" name="ec:2.4.1.-" type="enzyme" reaction="rn:R07619"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="299,292,329,292" />
+	</entry>
+	<entry id="5" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="83,409,113,409" />
+	</entry>
+	<entry id="6" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="160,406,175,391" />
+	</entry>
+	<entry id="7" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09301"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="222,372,252,342" />
+	</entry>
+	<entry id="8" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09300"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="298,336,328,306" />
+	</entry>
+	<entry id="9" name="ec:2.4.1.109" type="enzyme" reaction="rn:R07620"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.109">
+		<graphics name="2.4.1.109" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="379,292,409,292" />
+	</entry>
+	<entry id="10" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="68,378,98,378" />
+	</entry>
+	<entry id="11" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09303"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="82,348,112,348" />
+	</entry>
+	<entry id="12" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="199,361,199,341" />
+	</entry>
+	<entry id="13" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="199,395,199,415" />
+	</entry>
+	<entry id="14" name="ec:2.4.1.50" type="enzyme" reaction="rn:R03380"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.50">
+		<graphics name="2.4.1.50" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="139,762,169,762" />
+	</entry>
+	<entry id="15" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09316"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="266,566,281,551" />
+	</entry>
+	<entry id="16" name="ec:2.4.1.66" type="enzyme" reaction="rn:R04491"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.66">
+		<graphics name="2.4.1.66" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="66,762,96,762" />
+	</entry>
+	<entry id="17" name="ec:2.4.99.6 ec:2.4.99.1" type="enzyme"
+		reaction="rn:R09297 rn:R09298" link="http://www.kegg.jp/dbget-bin/www_bget?2.4.99.6+2.4.99.1">
+		<graphics name="2.4.99.6..." fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="89,522,119,522" />
+	</entry>
+	<entry id="18" name="ec:2.4.1.222" type="enzyme" reaction="rn:R09296"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.222">
+		<graphics name="2.4.1.222" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="268,522,283,537" />
+	</entry>
+	<entry id="19" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09299"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="176,522,206,522" />
+	</entry>
+	<entry id="20" name="ec:2.4.1.221" type="enzyme" reaction="rn:R09295"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.221">
+		<graphics name="2.4.1.221" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="331,545,361,545" />
+	</entry>
+	<entry id="21" name="ec:2.4.2.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.2.-">
+		<graphics name="2.4.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="65,664,95,664" />
+	</entry>
+	<entry id="22" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09315"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="212,664,242,664" />
+	</entry>
+	<entry id="23" name="ec:2.4.2.-" type="enzyme" reaction="rn:R09290"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.2.-">
+		<graphics name="2.4.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="140,664,170,664" />
+	</entry>
+	<entry id="24" name="ec:2.4.1.-" type="enzyme" reaction="rn:R09304"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="88,149,118,149" />
+	</entry>
+	<entry id="25" name="ec:2.4.1.-" type="enzyme" reaction="rn:R07621"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="300,248,330,278" />
+	</entry>
+	<entry id="26" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="210,247,240,247" />
+	</entry>
+	<entry id="27" name="ec:2.4.1.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.-">
+		<graphics name="2.4.1.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="211,291,241,291" />
+	</entry>
+	<entry id="28" name="ec:2.4.99.6" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.99.6">
+		<graphics name="2.4.99.6" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="153,313,168,298" />
+	</entry>
+	<entry id="29" name="ec:2.4.1.152" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.152">
+		<graphics name="2.4.1.152" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="226,318,241,303" />
+	</entry>
+	<entry id="30" name="ec:2.4.1.17" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.17">
+		<graphics name="2.4.1.17" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="154,270,169,285" />
+	</entry>
+	<entry id="31" name="ec:2.4.1.17" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.4.1.17">
+		<graphics name="2.4.1.17" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="135,247,165,247" />
+	</entry>
+	<entry id="32" name="ec:2.8.2.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.8.2.-">
+		<graphics name="2.8.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="57,247,87,247" />
+	</entry>
+	<entry id="33" name="ec:2.8.2.-" type="enzyme"
+		link="http://www.kegg.jp/dbget-bin/www_bget?2.8.2.-">
+		<graphics name="2.8.2.-" fgcolor="#BFBFFF" bgcolor="#FFFFFF"
+			type="line" coords="77,269,107,269" />
+	</entry>
+	<reaction id="2" name="rn:R09302" type="reversible">
+	</reaction>
+	<reaction id="4" name="rn:R07619" type="reversible">
+	</reaction>
+	<reaction id="7" name="rn:R09301" type="reversible">
+	</reaction>
+	<reaction id="8" name="rn:R09300" type="reversible">
+	</reaction>
+	<reaction id="9" name="rn:R07620" type="reversible">
+	</reaction>
+	<reaction id="11" name="rn:R09303" type="reversible">
+	</reaction>
+	<reaction id="14" name="rn:R03380" type="reversible">
+	</reaction>
+	<reaction id="15" name="rn:R09316" type="reversible">
+	</reaction>
+	<reaction id="16" name="rn:R04491" type="reversible">
+	</reaction>
+	<reaction id="17" name="rn:R09297 rn:R09298" type="reversible">
+	</reaction>
+	<reaction id="18" name="rn:R09296" type="reversible">
+	</reaction>
+	<reaction id="19" name="rn:R09299" type="reversible">
+	</reaction>
+	<reaction id="20" name="rn:R09295" type="reversible">
+	</reaction>
+	<reaction id="22" name="rn:R09315" type="reversible">
+	</reaction>
+	<reaction id="23" name="rn:R09290" type="reversible">
+	</reaction>
+	<reaction id="24" name="rn:R09304" type="reversible">
+	</reaction>
+	<reaction id="25" name="rn:R07621" type="reversible">
+	</reaction>
 </pathway>

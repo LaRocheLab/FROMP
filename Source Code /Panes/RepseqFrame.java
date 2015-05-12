@@ -1,395 +1,411 @@
-/*   1:    */ package Panes;
-/*   2:    */ 
-/*   3:    */ import Objects.ConvertStat;
-/*   4:    */ import Objects.EcNr;
-/*   5:    */ import Objects.Project;
-/*   6:    */ import java.awt.Color;
-/*   7:    */ import java.awt.event.MouseWheelEvent;
-/*   8:    */ import java.awt.event.MouseWheelListener;
-/*   9:    */ import java.io.PrintStream;
-/*  10:    */ import java.util.ArrayList;
-/*  11:    */ import javax.swing.JFrame;
-/*  12:    */ import javax.swing.JLabel;
-/*  13:    */ import javax.swing.JPanel;
-/*  14:    */ import javax.swing.JTextArea;
-/**/		  import java.io.PrintWriter;
-/**/		  import java.io.File;
-/*   33:   */ import javax.swing.JMenu;
-/*   34:   */ import javax.swing.JMenuBar;
-/*   35:   */ import javax.swing.JMenuItem;
-/*   38:   */ import javax.swing.KeyStroke;
-/*   15:   */ import java.awt.event.ActionEvent;
-/*   16:   */ import java.awt.event.ActionListener;
-/*   24:   */ import java.io.IOException;
-			  import java.util.Map;
-			  import java.awt.Font;
-			  import java.util.LinkedHashMap;
-			  import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
-			  import org.biojava.nbio.core.sequence.io.FastaReader;
-			  import org.biojava.nbio.core.sequence.*;
-			  
+package Panes;
 
-			// The window which displays the sequence IDs when an ec is clicked on in the Activity Matric Pane 	
-			// From this window the user can export the sequence IDs or sequences mapping to the particular ec
+import Objects.ConvertStat;
+import Objects.EcNr;
+import Objects.Project;
+import java.awt.Color;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import java.io.PrintWriter;
+import java.io.File;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Map;
+import java.awt.Font;
+import java.util.LinkedHashMap;
+import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
+import org.biojava.nbio.core.sequence.io.FastaReader;
+import org.biojava.nbio.core.sequence.*;
 
-/*  16:    */ public class RepseqFrame
-/*  17:    */   extends JFrame
-/*  18:    */ {
-/*  19:    */   private static final long serialVersionUID = 1L;							//
-				private JMenuBar menuBar_;													// Drop down menu bar for the repseq frame
-				private JMenu menu_;														// Menu item for the dropdown menu
-				final String basePath_ = new File(".").getAbsolutePath() + File.separator;	// The current wokpath
-/*  20:    */   EcNr ecNr_;																	// EC for which we are viewing the associated squence IDs 
-/*  21:    */   JLabel label_;																//
-/*  22:    */   JPanel back_;																// Backpanel on the frame
-/*  23:    */   ArrayList<ConvertStat> reps_;												// Arraylist of conversion statistics for the ECs
-/*  24: 27 */   int xSize = 800;															//
-/*  25:    */   int ySize;																	//
-				String sampName_;															// Name of the sample in question
-/*  26:    */   
-/*  27:    */   public RepseqFrame(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName)
-/*  28:    */   {
-/*  29: 31 */     super(ecNr.name_ + " * " + reps.size()+" Unique Sequence IDs");			// Sets the title of the JFrame
-/*  30:    */     this.sampName_=sampName;
-/*  31: 33 */     this.reps_ = reps;
-/*  32: 34 */     this.ecNr_ = ecNr;
-/*  33: 36 */     if (this.reps_ != null)													// If the Arraylist which contains the sequence ids isnt null
-/*  34:    */     {
-/*  35: 37 */       System.out.println("RepseqFrame " + this.reps_.size());
-					if(this.reps_.size()<50){												// If there are more than 50 sequence IDs then we aren't going to display the and instead will display a warning message. The user will still be able to export them to a file however
-/*  36: 38 */       	setBounds(100, 100, this.xSize, 100 + 25 * this.reps_.size());
-					}
-					else{setBounds(100, 100, this.xSize, 100 + 100);}
-/*  37:    */     }
-/*  38:    */     else
-/*  39:    */     {
-/*  40: 41 */       setBounds(100, 100, this.xSize, 100);
-/*  41:    */     }
-/*  42: 43 */     setResizable(false);
-/*  43: 44 */     setVisible(true);
-/*  44: 45 */     setLayout(null);
-/*  45:    */     
-/*  46: 47 */     this.back_ = new JPanel();
-/*  47: 48 */     this.back_.setBackground(Project.getBackColor_());
-/*  48: 49 */     if(this.reps_.size()<50)
-				  {
-					this.back_.setBounds(0, 0, this.xSize, 100 + 25 * this.reps_.size());
-					
-				  }
-				  else
-				  {
-				  	this.back_.setBounds(5, 5, this.xSize, 100 + 100);
-				  	JTextArea tArea = new JTextArea();
-					tArea.setBounds(0, 0, this.xSize, 25 * this.reps_.size());
-					tArea.setLayout(null);
-					tArea.setEditable(false);
-					Font font = new Font("Verdana", Font.BOLD, 12);
-					tArea.setFont(font);
-					this.back_.add(tArea);
+// The window which displays the sequence IDs when an ec is clicked on in the Activity Matric Pane 	
+// From this window the user can export the sequence IDs or sequences mapping to the particular ec
 
-					tArea.setText("*WARNING*\nThere are too many sequence IDs to be viewed.\nYou may still export them using the drop-down File menu in the top left corner."); //	Warning if there are too many sequence ids to display
-				  }
-/*  49: 50 */     this.back_.setLayout(null);
-/*  50: 51 */     this.back_.setVisible(true);
-/*  51: 52 */     addMouseWheelListener(new MouseWheelListener()
-/*  52:    */     {
-/*  53:    */       public void mouseWheelMoved(MouseWheelEvent e)
-/*  54:    */       {
-/*  55: 57 */         System.out.print("move");
-/*  56: 58 */         int count = e.getWheelRotation();
-/*  57: 59 */         if (Math.abs(count) > 0)
-/*  58:    */         {
-/*  59: 60 */           int value = RepseqFrame.this.back_.getY() - count * 50;
-/*  60: 61 */           RepseqFrame.this.back_.setLocation(RepseqFrame.this.back_.getX(), value);
-/*  61: 62 */           RepseqFrame.this.repaint();
-/*  62:    */         }
-/*  63:    */       }
-/*  64: 66 */     });
-				  
-/*  65: 67 */     add(this.back_);
-/*  66: 68 */     if (this.reps_ != null) {
-/*  67: 69 */       addrepseqs();
-					addMenu();
-/*  68:    */     }
-/*  69:    */   }
-   
-/*  71:    */   public RepseqFrame(ArrayList<ConvertStat> reps, String ecNr, int amount)
-/*  72:    */   {
-/*  73: 73 */     super(ecNr + " * " + amount+" Unique Sequence IDs");
-/*  74:    */     this.sampName_="";
-/*  75: 75 */     this.reps_ = reps;
-/*  76: 77 */     if (this.reps_ != null)
-/*  77:    */     {
-/*  78: 78 */       System.out.println("RepseqFrame" + this.reps_.size());
-/*  79: 79 */       if(this.reps_.size()<50)
-					{
-						setBounds(100, 100, this.xSize, 100 + 25 * this.reps_.size() + 5);
-					}
-					else
-					{
-						setBounds(100, 100, this.xSize, 130);
-					}
-/*  80:    */     }
-/*  81:    */     else
-/*  82:    */     {
-/*  83: 82 */       setBounds(100, 100, this.xSize, 100);
-/*  84:    */     }
+public class RepseqFrame extends JFrame {
+	private static final long serialVersionUID = 1L; 
+	private JMenuBar menuBar_; // Drop down menu bar for the repseq frame
+	private JMenu menu_; // Menu item for the dropdown menu
+	final String basePath_ = new File(".").getAbsolutePath() + File.separator; // The current workpath
+	
+	EcNr ecNr_; // EC for which we are viewing the associated squence IDs
+	JLabel label_; 
+	JPanel back_; // Backpanel on the frame
+	ArrayList<ConvertStat> reps_; // Arraylist of conversion statistics for the ECs
+	int xSize = 800; 
+	int ySize; 
+	String sampName_; // Name of the sample in question
 
-/*  85: 84 */     setResizable(false);
-/*  86: 85 */     setVisible(true);
-/*  87: 86 */     setLayout(null);
-/*  88:    */     
-/*  89: 88 */     this.back_ = new JPanel();
-/*  90: 89 */     this.back_.setBackground(Color.orange);
-/*  91: 90 */     if(this.reps_.size()<50){this.back_.setBounds(0, 0, this.xSize, 50 + 25 * this.reps_.size());}
-				  else{this.back_.setBounds(0, 0, this.xSize, 75 );}
-/*  92: 91 */     this.back_.setLayout(null);
-/*  93: 92 */     this.back_.setVisible(true);
-/*  94: 93 */     addMouseWheelListener(new MouseWheelListener()
-/*  95:    */     {
-/*  96:    */       public void mouseWheelMoved(MouseWheelEvent e)
-/*  97:    */       {
-/*  98: 98 */         System.out.print("move");
-/*  99: 99 */         if (RepseqFrame.this.back_.getY() <= 0)
-/* 100:    */         {
-/* 101:100 */           int count = e.getWheelRotation();
-/* 102:101 */           int value = RepseqFrame.this.back_.getY() - count * 20;
-/* 103:102 */           RepseqFrame.this.back_.setLocation(RepseqFrame.this.back_.getX(), value);
-/* 104:103 */           RepseqFrame.this.repaint();
-/* 105:    */         }
-/* 106:    */       }
-/* 107:108 */     });
-				  
-/* 108:109 */     add(this.back_);
-/* 109:110 */     if (this.reps_ != null) {
-/* 110:111 */       addrepseqs();
-					addMenu();
-/* 111:    */     }
+	public RepseqFrame(ArrayList<ConvertStat> reps, EcNr ecNr, String sampName) {
+		//sets the title of the JFrame
+		super(ecNr.name_ + " * " + reps.size() + " Unique Sequence IDs"); 
+		this.sampName_ = sampName;
+		this.reps_ = reps;
+		this.ecNr_ = ecNr;
+		if (this.reps_ != null) // If the Arraylist which contains the sequence ids isnt null
+		{
+			System.out.println("RepseqFrame " + this.reps_.size());
+			/*
+			 * If there are more than 50 sequence IDs than we arn't going to display them
+			 * and instead will display a warning message. The user will still be able to export
+			 * them to a file
+			 */
+			if (this.reps_.size() < 50) { 
+				setBounds(100, 100, this.xSize, 100 + 25 * this.reps_.size());
+			} else {
+				setBounds(100, 100, this.xSize, 100 + 100);
+			}
+		} else {
+			setBounds(100, 100, this.xSize, 100);
+		}
+		setResizable(false);
+		setVisible(true);
+		setLayout(null);
 
-/* 112:    */   }
+		this.back_ = new JPanel();
+		this.back_.setBackground(Project.getBackColor_());
+		if (this.reps_.size() < 50) {
+			this.back_
+					.setBounds(0, 0, this.xSize, 100 + 25 * this.reps_.size());
 
-				private void addMenu(){//adds the dropdown File menu which allows the user to export the sequence ids and the sequences
-					this.menuBar_ = new JMenuBar();
-
-					this.menu_ = new JMenu("File");				
-
-					this.menuBar_.add(this.menu_);
-					JMenuItem miItem = new JMenuItem("Export Reps",83);
-					miItem.setAccelerator(KeyStroke.getKeyStroke(83, 8));
-
-					miItem.addActionListener(new ActionListener()
-				    {
-				      public void actionPerformed(ActionEvent e)
-				      {
-				      	RepseqFrame.this.ExportReps(); // exports the sequence ids which map to this ec in this sample
-				      }
-				    });
-
-				    this.menu_.add(miItem);
-
-				   miItem = new JMenuItem("Export Sequences",86);
-					miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
-
-					miItem.addActionListener(new ActionListener()
-				    {
-				      public void actionPerformed(ActionEvent e)
-				      {
-				      	RepseqFrame.this.ExportSequences(); // exports the sequences which map to this ec in this sample
-				      }
-				    });
-
-				    this.menu_.add(miItem);
-
-					setJMenuBar(this.menuBar_);
+		} else {
+			this.back_.setBounds(5, 5, this.xSize, 100 + 100);
+			JTextArea tArea = new JTextArea();
+			tArea.setBounds(0, 0, this.xSize, 25 * this.reps_.size());
+			tArea.setLayout(null);
+			tArea.setEditable(false);
+			Font font = new Font("Verdana", Font.BOLD, 12);
+			tArea.setFont(font);
+			this.back_.add(tArea);
+			//warning if there are to many sequence id's to display
+			tArea.setText("*WARNING*\nThere are too many sequence IDs to be viewed.\nYou may still export them using the drop-down File menu in the top left corner."); 
+		}
+		this.back_.setLayout(null);
+		this.back_.setVisible(true);
+		addMouseWheelListener(new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				System.out.print("move");
+				int count = e.getWheelRotation();
+				if (Math.abs(count) > 0) {
+					int value = RepseqFrame.this.back_.getY() - count * 50;
+					RepseqFrame.this.back_.setLocation(
+							RepseqFrame.this.back_.getX(), value);
+					RepseqFrame.this.repaint();
 				}
+			}
+		});
 
-				public void ExportReps()
-				{// exports the sequence ids to a file in the directory ~/RepSeqIDs
-					String text="";
-//               		String test="";
-				    System.out.println("Reps:"+RepseqFrame.this.reps_.size());
-				    for (int repCnt = 0; repCnt < RepseqFrame.this.reps_.size(); repCnt++)
-					{
-					  int amount = ((ConvertStat)RepseqFrame.this.reps_.get(repCnt)).getEcAmount_();
-					  if (((ConvertStat)RepseqFrame.this.reps_.get(repCnt)).getPfamToEcAmount_() > amount) {
-					    amount = ((ConvertStat)RepseqFrame.this.reps_.get(repCnt)).getPfamToEcAmount_();
-					  }
-//					  test=((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + "," + amount;
-//					  if(!test.contains("\t")){
-/* 140:148 */       	text = text + ((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + "," + amount;
-/* 141:149 */       	text = text + "\n";
-//					  }
-					}
-//					System.out.println("Text:\n"+text);
-				    try
-				    {
-				      String sampleName;
-				      if(sampName_.contains(".out")){
-				      	sampleName=sampName_.replace(".out","");
-				      }
-				      else{
-				      	sampleName=sampName_;
-				      }
-				      File file = new File(basePath_+"RepSeqIDs"+File.separator+sampleName+"-"+ecNr_.name_+".txt");
-//				      file.getParentFile().mkdirs();
-				      PrintWriter printWriter=new PrintWriter(file);
-					  printWriter.println(""+text);
-//					  System.out.println("Text:\n"+text);
-					  printWriter.close (); 
-					}
-					catch (IOException e1)
-					{
-					  e1.printStackTrace();
-					}
+		add(this.back_);
+		if (this.reps_ != null) {
+			addrepseqs();
+			addMenu();
+		}
+	}
+
+	public RepseqFrame(ArrayList<ConvertStat> reps, String ecNr, int amount) {
+		super(ecNr + " * " + amount + " Unique Sequence IDs");
+		this.sampName_ = "";
+		this.reps_ = reps;
+		if (this.reps_ != null) {
+			System.out.println("RepseqFrame" + this.reps_.size());
+			if (this.reps_.size() < 50) {
+				setBounds(100, 100, this.xSize,
+						100 + 25 * this.reps_.size() + 5);
+			} else {
+				setBounds(100, 100, this.xSize, 130);
+			}
+		} else {
+			setBounds(100, 100, this.xSize, 100);
+		}
+
+		setResizable(false);
+		setVisible(true);
+		setLayout(null);
+
+		this.back_ = new JPanel();
+		this.back_.setBackground(Color.orange);
+		if (this.reps_.size() < 50) {
+			this.back_.setBounds(0, 0, this.xSize, 50 + 25 * this.reps_.size());
+		} else {
+			this.back_.setBounds(0, 0, this.xSize, 75);
+		}
+		this.back_.setLayout(null);
+		this.back_.setVisible(true);
+		addMouseWheelListener(new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				System.out.print("move");
+				if (RepseqFrame.this.back_.getY() <= 0) {
+					int count = e.getWheelRotation();
+					int value = RepseqFrame.this.back_.getY() - count * 20;
+					RepseqFrame.this.back_.setLocation(
+							RepseqFrame.this.back_.getX(), value);
+					RepseqFrame.this.repaint();
 				}
+			}
+		});
 
-				public void ExportSequences(){ // Exports the sequences to to a file in the ~/Sequences directory 
-					String seqFilePath="";
-					for(int i=0;i<Project.samples_.size();i++){
-						if(this.sampName_.equals(Project.samples_.get(i).name_)){
-							if(Project.samples_.get(i).getSequenceFile()!=null&&!Project.samples_.get(i).getSequenceFile().equals("")){
-								seqFilePath=Project.samples_.get(i).getSequenceFile();
+		add(this.back_);
+		if (this.reps_ != null) {
+			addrepseqs();
+			addMenu();
+		}
+
+	}
+
+	private void addMenu() {// adds the dropdown File menu which allows the user to export the sequence ids and the sequences
+		this.menuBar_ = new JMenuBar();
+
+		this.menu_ = new JMenu("File");
+
+		this.menuBar_.add(this.menu_);
+		JMenuItem miItem = new JMenuItem("Export Reps", 83);
+		miItem.setAccelerator(KeyStroke.getKeyStroke(83, 8));
+
+		miItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RepseqFrame.this.ExportReps(); // exports the sequence ids which map to this ec in this sample
+			}
+		});
+
+		this.menu_.add(miItem);
+
+		miItem = new JMenuItem("Export Sequences", 86);
+		miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
+
+		miItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RepseqFrame.this.ExportSequences(); // exports the sequences which map to this ec in this sample
+			}
+		});
+
+		this.menu_.add(miItem);
+
+		setJMenuBar(this.menuBar_);
+	}
+
+	public void ExportReps() {// exports the sequence ids to a file in the directory ~/RepSeqIDs
+		String text = "";
+		// String test="";
+		System.out.println("Reps:" + RepseqFrame.this.reps_.size());
+		for (int repCnt = 0; repCnt < RepseqFrame.this.reps_.size(); repCnt++) {
+			int amount = ((ConvertStat) RepseqFrame.this.reps_.get(repCnt))
+					.getEcAmount_();
+			if (((ConvertStat) RepseqFrame.this.reps_.get(repCnt))
+					.getPfamToEcAmount_() > amount) {
+				amount = ((ConvertStat) RepseqFrame.this.reps_.get(repCnt))
+						.getPfamToEcAmount_();
+			}
+			// test=((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," +
+			// ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," +
+			// ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + ","
+			// + amount;
+			// if(!test.contains("\t")){
+			text = text
+					+ ((ConvertStat) this.reps_.get(repCnt)).getDesc_()
+					+ ","
+					+ ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_()
+					+ ","
+					+ ((ConvertStat) this.reps_.get(repCnt))
+							.getPfamToEcAmount_() + "," + amount;
+			text = text + "\n";
+			// }
+		}
+		// System.out.println("Text:\n"+text);
+		try {
+			String sampleName;
+			if (sampName_.contains(".out")) {
+				sampleName = sampName_.replace(".out", "");
+			} else {
+				sampleName = sampName_;
+			}
+			File file = new File(basePath_ + "RepSeqIDs" + File.separator
+					+ sampleName + "-" + ecNr_.name_ + ".txt");
+			// file.getParentFile().mkdirs();
+			PrintWriter printWriter = new PrintWriter(file);
+			printWriter.println("" + text);
+			// System.out.println("Text:\n"+text);
+			printWriter.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public void ExportSequences() { // Exports the sequences to to a file in the ~/Sequences directory
+		String seqFilePath = "";
+		for (int i = 0; i < Project.samples_.size(); i++) {
+			if (this.sampName_.equals(Project.samples_.get(i).name_)) {
+				if (Project.samples_.get(i).getSequenceFile() != null
+						&& !Project.samples_.get(i).getSequenceFile()
+								.equals("")) {
+					seqFilePath = Project.samples_.get(i).getSequenceFile();
+				}
+			}
+		}
+		//ensure the path isn't null and the file exists
+		if (seqFilePath != null && !seqFilePath.equals("")) { 
+			File seqFile = new File(seqFilePath); 
+			if (seqFile.exists() && !seqFile.isDirectory()) { 
+				//instanciates the sequence hash built by the biojava core
+				LinkedHashMap<String, ProteinSequence> sequenceHash; 
+				try {
+					//calls biojava to build the sequence hash
+					sequenceHash = FastaReaderHelper
+							.readFastaProteinSequence(seqFile); 
+					if (sequenceHash != null) {
+						/*
+						 * System.out.println("Seq File: "+seqFile); for
+						 * (Map.Entry<String, ProteinSequence> entry :
+						 * sequenceHash.entrySet()) { String key =
+						 * entry.getKey(); ProteinSequence value =
+						 * entry.getValue(); System.out.println(key+": "+value);
+						 * }
+						 */
+						String text = ">";
+						System.out.println("repCnt: "
+								+ RepseqFrame.this.reps_.size());
+						for (int repCnt = 0; repCnt < RepseqFrame.this.reps_
+								.size(); repCnt++) {
+							if ((sequenceHash.get(((ConvertStat) this.reps_
+									.get(repCnt)).getDesc_())) != null) {
+								text = text
+										+ ((ConvertStat) this.reps_.get(repCnt))
+												.getDesc_()
+										+ "\n"
+										+ (sequenceHash
+												.get(((ConvertStat) this.reps_
+														.get(repCnt))
+														.getDesc_()))
+												.toString();
+								// ensures that there is a ">" character in front of every new sample
+								if (repCnt < RepseqFrame.this.reps_.size() - 1) {
+									text = text + "\n>";
+								}
+								// Don't want the ">" character on the last newline with no sample
+								else if (repCnt == RepseqFrame.this.reps_
+										.size()) {
+									text = text + "\n";
+								}
+
 							}
 						}
-					}
-					if(seqFilePath!=null&&!seqFilePath.equals("")){ 				// Ensure the path isnt null
-						File seqFile = new File(seqFilePath);						//
-						if(seqFile.exists() && !seqFile.isDirectory()) {			// and the the file exists
-							LinkedHashMap<String, ProteinSequence> sequenceHash; 	// instanciates the sequence hash built by the bio java core
-							try
-							{
-								sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);	// calls bio java to build the sequence hash
-								if(sequenceHash!=null){
-//									System.out.println("Seq File: "+seqFile);
-//									for (Map.Entry<String, ProteinSequence> entry : sequenceHash.entrySet()) {
-//  									String key = entry.getKey();
-//									    ProteinSequence value = entry.getValue();
-//									    System.out.println(key+": "+value);
-//									}
-									String text="";
-									System.out.println("repCnt: "+RepseqFrame.this.reps_.size());
-									for (int repCnt = 0; repCnt < RepseqFrame.this.reps_.size(); repCnt++)
-									{
-/* 140:148 */       					if((sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_()))!=null){
-											text = text + ((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "\t" + (sequenceHash.get(((ConvertStat)this.reps_.get(repCnt)).getDesc_())).toString();
-/* 141:149 */       						text = text + "\n";
-										}
-									}
-				    				try
-				    				{
-				    				  String sampleName;
-				    				  if(sampName_.contains(".out")){
-				    				  	sampleName=sampName_.replace(".out","");
-				    				  }
-				    				  else{
-				    				  	sampleName=sampName_;
-				    				  }
-				    				  File file = new File(basePath_+"Sequences"+File.separator+sampleName+"-"+ecNr_.name_+"-Sequences"+".txt");
-				    				  PrintWriter printWriter=new PrintWriter(file);
-				    				  if(text!=null&&text!=""){
-				    				  	printWriter.println(""+text);
-				    				  }
-				    				  else{
-				    				  	printWriter.println("No matching sequences in the file provided.");
-				    				  	warningFrame("No matching sequences in the file provided.");
-				    				  }									  
-									  printWriter.close (); 
-									}
-									catch (IOException e1)
-									{
-									  e1.printStackTrace();
-									}
-								} else {
-									warningFrame("The sequence file is not in the fasta format");
-								}
-							} catch (IOException e1)
-							{
-								e1.printStackTrace();
+						try {
+							String sampleName;
+							if (sampName_.contains(".out")) {
+								sampleName = sampName_.replace(".out", "");
+							} else {
+								sampleName = sampName_;
 							}
-							
-
-						} else {
-							warningFrame("The sequence file associated with this sample does not exist");
+							File file = new File(basePath_ + "Sequences"
+									+ File.separator + sampleName + "-"
+									+ ecNr_.name_ + "-Sequences" + ".txt");
+							PrintWriter printWriter = new PrintWriter(file);
+							if (text != null && text != "") {
+								printWriter.println("" + text);
+								System.out
+										.println("Done Writing Sequence Files\n");
+							} else {
+								printWriter
+										.println("No matching sequences in the file provided.");
+								warningFrame("No matching sequences in the file provided.");
+							}
+							printWriter.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
 					} else {
-						warningFrame("There is no sequence file associated with this sample");
+						warningFrame("The sequence file is not in the fasta format");
 					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 
-				public void warningFrame(String str){ // The popup window produced if there is a problem with exporting the sequences	
-        	    final JFrame frame = new JFrame("Warning!");
-/* 1108:1203 */   frame.setBounds(200, 200, 500, 100);
-/* 1109:1204 */   frame.setLayout(null);
-/* 1110:1205 */   frame.setVisible(true);
-/* 1111:     */       
-/* 1112:1207 */   JPanel backP = new JPanel();
-/* 1113:1208 */   backP.setBounds(0, 0, 500, 75);
-/* 1114:1209 */   backP.setLayout(null);
-/* 1115:1210 */   frame.add(backP);
-/* 1116:     */       
-/* 1117:1212 */   JLabel label = new JLabel(str);
-/* 1118:1213 */   label.setBounds(25, 25, 450, 25);
-/* 1119:1214 */   backP.add(label);
-        	    }
-  
+			} else {
+				warningFrame("The sequence file associated with this sample does not exist");
+			}
+		} else {
+			warningFrame("There is no sequence file associated with this sample");
+		}
+	}
 
-/* 114:    */   private void addrepseqs()
-/* 115:    */   {// adds the sequence ids to the viewing panel
-/* 116:115 */     if(this.reps_.size()>50)
-					{
-					this.label_ = new JLabel("RepSeq , fromEc , fromPf , used Val.");
-					this.label_.setBounds(5, 0, this.xSize, 20);
-					this.label_.setLayout(null);
-					this.back_.add(this.label_);
+	public void warningFrame(String str) { // The popup window produced if there is a problem with exporting the sequences
+		final JFrame frame = new JFrame("Warning!");
+		frame.setBounds(200, 200, 500, 100);
+		frame.setLayout(null);
+		frame.setVisible(true);
 
-					JPanel line = new JPanel();
-					line.setBounds(0, 20, this.xSize, 2);
-					line.setBackground(Color.black);
-					line.setLayout(null);
-				    this.back_.add(line);
-				    return;
-				  }
-				  this.label_ = new JLabel("RepSeq , fromEc , fromPf , used Val.");
-/* 117:116 */     this.label_.setBounds(5, 0, this.xSize, 20);
-/* 118:117 */     this.label_.setLayout(null);
-/* 119:118 */     this.back_.add(this.label_);
-/* 120:    */     
-/* 121:120 */     JPanel line = new JPanel();
-/* 122:121 */     line.setBounds(0, 20, this.xSize, 2);
-/* 123:122 */     line.setBackground(Color.black);
-/* 124:123 */     line.setLayout(null);
-/* 125:124 */     this.back_.add(line);
-/* 126:    */     
-/* 127:126 */     JTextArea tArea = new JTextArea();
-/* 128:127 */     tArea.setBounds(5, 22, this.xSize, 25 * this.reps_.size());
-/* 129:128 */     tArea.setLayout(null);
-/* 130:129 */     tArea.setEditable(false);
-/* 131:130 */     this.back_.add(tArea);
-/* 132:    */     
-/* 133:132 */     String text = "";
-				  String test="";
-/* 134:134 */     for (int repCnt = 0; repCnt < this.reps_.size(); repCnt++)
-/* 135:    */     {
-/* 136:136 */       int amount = ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_();
-/* 137:137 */       if (((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() > amount) {
-/* 138:138 */         amount = ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_();
-/* 139:    */       }
-//					test=((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + "," + amount;
-//					if(!test.contains("\t")){
-/* 140:148 */       	text = text + ((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," + ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + "," + amount;
-/* 141:149 */       	text = text + "\n";
-//					}
-/* 142:    */     }
-/* 143:152 */     tArea.setText(text);
-/* 144:    */   }
-/* 145:    */ }
+		JPanel backP = new JPanel();
+		backP.setBounds(0, 0, 500, 75);
+		backP.setLayout(null);
+		frame.add(backP);
 
+		JLabel label = new JLabel(str);
+		label.setBounds(25, 25, 450, 25);
+		backP.add(label);
+	}
 
+	private void addrepseqs() {// adds the sequence ids to the viewing panel
+		if (this.reps_.size() > 50) {
+			this.label_ = new JLabel("RepSeq , fromEc , fromPf , used Val.");
+			this.label_.setBounds(5, 0, this.xSize, 20);
+			this.label_.setLayout(null);
+			this.back_.add(this.label_);
 
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+			JPanel line = new JPanel();
+			line.setBounds(0, 20, this.xSize, 2);
+			line.setBackground(Color.black);
+			line.setLayout(null);
+			this.back_.add(line);
+			return;
+		}
+		this.label_ = new JLabel("RepSeq , fromEc , fromPf , used Val.");
+		this.label_.setBounds(5, 0, this.xSize, 20);
+		this.label_.setLayout(null);
+		this.back_.add(this.label_);
 
- * Qualified Name:     Panes.RepseqFrame
+		JPanel line = new JPanel();
+		line.setBounds(0, 20, this.xSize, 2);
+		line.setBackground(Color.black);
+		line.setLayout(null);
+		this.back_.add(line);
 
- * JD-Core Version:    0.7.0.1
+		JTextArea tArea = new JTextArea();
+		tArea.setBounds(5, 22, this.xSize, 25 * this.reps_.size());
+		tArea.setLayout(null);
+		tArea.setEditable(false);
+		this.back_.add(tArea);
 
- */
+		String text = "";
+		String test = "";
+		for (int repCnt = 0; repCnt < this.reps_.size(); repCnt++) {
+			int amount = ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_();
+			if (((ConvertStat) this.reps_.get(repCnt)).getPfamToEcAmount_() > amount) {
+				amount = ((ConvertStat) this.reps_.get(repCnt))
+						.getPfamToEcAmount_();
+			}
+			// test=((ConvertStat)this.reps_.get(repCnt)).getDesc_() + "," +
+			// ((ConvertStat)this.reps_.get(repCnt)).getEcAmount_() + "," +
+			// ((ConvertStat)this.reps_.get(repCnt)).getPfamToEcAmount_() + ","
+			// + amount;
+			// if(!test.contains("\t")){
+			text = text
+					+ ((ConvertStat) this.reps_.get(repCnt)).getDesc_()
+					+ ","
+					+ ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_()
+					+ ","
+					+ ((ConvertStat) this.reps_.get(repCnt))
+							.getPfamToEcAmount_() + "," + amount;
+			text = text + "\n";
+			// }
+		}
+		tArea.setText(text);
+	}
+}

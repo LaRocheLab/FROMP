@@ -1,172 +1,140 @@
-/*   1:    */ package Prog;
-/*   2:    */ 
-/*   3:    */ import Objects.PathwayWithEc;
-/*   4:    */ import Objects.Project;
-/*   5:    */ import Objects.Sample;
-/*   6:    */ import java.awt.Color;
-/*   7:    */ import java.awt.image.BufferedImage;
-/*   8:    */ import java.io.PrintStream;
-/*   9:    */ import java.util.ArrayList;
-/*  10:    */ 
-			//This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.	
+package Prog;
 
-/*  11:    */ public class Controller
-/*  12:    */ {
-/*  13:    */   public static Project project_;				// The current project
-/*  14:    */   public static DataProcessor processor_;		// The data processor which does all parsing and hard computation of the raw input files
-/*  15:    */   StringReader reader_;						// Used for reading inputfiles. Not java's native method. Found at Prog.StringReader
-/*  16: 15 */   static boolean dataChanged = true;			//
-/*  17:    */   Color sysCol_;								// 
-/*  18:    */   
-/*  19:    */   public Controller(Color sysCol)
-/*  20:    */   {
-/*  21: 19 */     processor_ = null;
-/*  22: 20 */     this.reader_ = new StringReader();
-/*  23: 21 */     newProject("default");
-/*  24: 22 */     this.sysCol_ = sysCol;
-/*  25:    */   }
-/*  26:    */   
-/*  27:    */   public void newProject(String workPath)
-/*  28:    */   {
-/*  29: 26 */     clearProcessor();
-/*  30: 27 */     project_ = new Project(workPath);
-/*  31: 28 */     Project.imported = false;
-/*  32:    */   }
-/*  33:    */   
-/*  34:    */   public int loadProjFile(String path)
-/*  35:    */   {
-/*  36: 32 */     project_ = new Project("");
-/*  37: 33 */     if (path.endsWith(".frp"))
-/*  38:    */     {
-/*  39: 34 */       project_.importProj(path);
-/*  40: 35 */       System.out.println("import");
-/*  41: 36 */       return 1;
-/*  42:    */     }
-/*  43: 39 */     return project_.loadProject(this.reader_.readTxt(path));
-/*  44:    */   }
+import Objects.PathwayWithEc;
+import Objects.Project;
+import Objects.Sample;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.PrintStream;
+import java.util.ArrayList;
 
-/*  34:    */   public int loadAnotherProjFile(String path)
-/*  35:    */   {
-/*  37: 33 */     if (path.endsWith(".frp"))
-/*  38:    */     {
-/*  39: 34 */       project_.importProj(path);
-/*  40: 35 */       System.out.println("import");
-/*  41: 36 */       return 1;
-/*  42:    */     }
-/*  43: 39 */     return project_.loadProject(this.reader_.readTxt(path));
-/*  44:    */   }
-/*  45:    */   
-/*  46:    */   public void openProject()
-/*  47:    */   {
-/*  48: 44 */     clearProcessor();
-/*  49:    */   }
-/*  50:    */   
-/*  51:    */   public static String saveProject()
-/*  52:    */   {
-/*  53: 49 */     if (project_ != null)
-/*  54:    */     {
-/*  55: 50 */       String path = project_.exportProj(null);
-//*  56: 51 */       NewFrompFrame.addRecentPath(path);
-/*  57: 52 */       return path;
-/*  58:    */     }
-/*  59: 54 */     return "";
-/*  60:    */   }
+//This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.	
 
-				public static String saveProject(String tmpPath)
-/*  52:    */   {
-/*  53: 49 */     if (project_ != null)
-/*  54:    */     {
-/*  55: 50 */       String path = project_.exportProj(tmpPath);
-//*  56: 51 */       NewFrompFrame.addRecentPath(path);
-/*  57: 52 */       return path;
-/*  58:    */     }
-/*  59: 54 */     return "";
-/*  60:    */   }
-/*  61:    */   
-/*  62:    */   public void setProjColor(Color col)
-/*  63:    */   {
-/*  64: 57 */     Project.setBackColor_(col);
-/*  65:    */   }
-/*  66:    */   
-/*  67:    */   public void computeSampleScores()
-/*  68:    */   {
-/*  69: 60 */     if (Project.dataChanged) {
-/*  70: 61 */       loadPathways(true);
-/*  71:    */     }
-/*  72:    */   }
-/*  73:    */   
-/*  74:    */   public BufferedImage showPathwayMap(Sample sample, PathwayWithEc path)
-/*  75:    */   {
-/*  76: 65 */     return processor_.alterPathway(sample, path);
-/*  77:    */   }
-/*  78:    */   
-/*  79:    */   public void clearProcessor()
-/*  80:    */   {
-/*  81: 69 */     processor_ = null;
-/*  82: 70 */     System.gc();
-/*  83:    */   }
-/*  84:    */   
-/*  85:    */   public static void loadPathways(boolean fullLoad)
-/*  86:    */   {
-/*  87: 74 */     if (processor_ == null) {
-/*  88: 75 */       processor_ = new DataProcessor(project_);
-/*  89:    */     }
-/*  90: 77 */     if (Project.dataChanged)
-/*  91:    */     {
-/*  92: 78 */       if (DataProcessor.newBaseData)
-/*  93:    */       {
-/*  94: 79 */         System.out.println("newBaseData");
-/*  95: 80 */         if (processor_ == null) {
-/*  96: 81 */           processor_ = new DataProcessor(project_);
-/*  97:    */         } else {
-/*  98: 84 */           processor_.prepData();
-/*  99:    */         }
-/* 100:    */       }
-/* 101: 87 */       if (!fullLoad) {
-/* 102: 88 */         return;
-/* 103:    */       }
-/* 104: 90 */       processor_.reduce = Project.randMode_;
-/* 105: 91 */       if (!Project.imported) {
-/* 106: 96 */         project_.refreshProj();
-/* 107:    */       }
-/* 108: 98 */       processor_.processProject();
-/* 109: 99 */       dataChanged = false;
-/* 110:100 */       Project.dataChanged = false;
-/* 111:    */     }
-/* 112:    */     else {
-					return;
-				  }
-/* 113:    */   }
-/* 114:    */   
-/* 115:    */   public boolean gotSamples()
-/* 116:    */   {// if the project has samples this method will return true
-/* 117:107 */     if (project_ == null) {
-/* 118:107 */       return false;
-/* 119:    */     }
-/* 120:108 */     if (Project.samples_.isEmpty()) {
-/* 121:108 */       return false;
-/* 122:    */     }
-/* 123:110 */     return true;
-/* 124:    */   }
-/* 125:    */   
-/* 126:    */   public void copyTxtFile(String inPath, String outPath)
-/* 127:    */   {
-/* 128:113 */     this.reader_.copyTxtFile(inPath, outPath);
-/* 129:    */   }
-/* 130:    */   
-/* 131:    */   public void writeScore(Sample sample, String saveAs, int mode)
-/* 132:    */   {
-/* 133:117 */     processor_.setWorkPath(Project.workpath_);
-/* 134:118 */     processor_.writeScore(sample, saveAs, mode);
-/* 135:    */   }
-/* 136:    */ }
+public class Controller {
+	public static Project project_; // The current project
+	//data processor which does all parsing and hard computation of raw input files
+	public static DataProcessor processor_; 
+	StringReader reader_; // Used for reading inputfiles. Not java's native method. Found at Prog.StringReader
+	static boolean dataChanged = true; 
+	Color sysCol_; 
 
+	public Controller(Color sysCol) {
+		processor_ = null;
+		this.reader_ = new StringReader();
+		newProject("default");
+		this.sysCol_ = sysCol;
+	}
 
+	public void newProject(String workPath) {
+		clearProcessor();
+		project_ = new Project(workPath);
+		Project.imported = false;
+	}
 
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+	public int loadProjFile(String path) {
+		project_ = new Project("");
+		if (path.endsWith(".frp")) {
+			project_.importProj(path);
+			System.out.println("import");
+			return 1;
+		}
+		return project_.loadProject(this.reader_.readTxt(path));
+	}
 
- * Qualified Name:     Prog.Controller
+	public int loadAnotherProjFile(String path) {
+		if (path.endsWith(".frp")) {
+			project_.importProj(path);
+			System.out.println("import");
+			return 1;
+		}
+		return project_.loadProject(this.reader_.readTxt(path));
+	}
 
- * JD-Core Version:    0.7.0.1
+	public void openProject() {
+		clearProcessor();
+	}
 
- */
+	public static String saveProject() {
+		if (project_ != null) {
+			String path = project_.exportProj(null);
+			// NewFrompFrame.addRecentPath(path);
+			return path;
+		}
+		return "";
+	}
+
+	public static String saveProject(String tmpPath) {
+		if (project_ != null) {
+			String path = project_.exportProj(tmpPath);
+			// NewFrompFrame.addRecentPath(path);
+			return path;
+		}
+		return "";
+	}
+
+	public void setProjColor(Color col) {
+		Project.setBackColor_(col);
+	}
+
+	public void computeSampleScores() {
+		if (Project.dataChanged) {
+			loadPathways(true);
+		}
+	}
+
+	public BufferedImage showPathwayMap(Sample sample, PathwayWithEc path) {
+		return processor_.alterPathway(sample, path);
+	}
+
+	public void clearProcessor() {
+		processor_ = null;
+		System.gc();
+	}
+
+	public static void loadPathways(boolean fullLoad) {
+		if (processor_ == null) {
+			processor_ = new DataProcessor(project_);
+		}
+		if (Project.dataChanged) {
+			if (DataProcessor.newBaseData) {
+				System.out.println("newBaseData");
+				if (processor_ == null) {
+					processor_ = new DataProcessor(project_);
+				} else {
+					processor_.prepData();
+				}
+			}
+			if (!fullLoad) {
+				return;
+			}
+			processor_.reduce = Project.randMode_;
+			if (!Project.imported) {
+				project_.refreshProj();
+			}
+			processor_.processProject();
+			dataChanged = false;
+			Project.dataChanged = false;
+		} else {
+			return;
+		}
+	}
+
+	public boolean gotSamples() {// if the project has samples this method will return true
+		if (project_ == null) {
+			return false;
+		}
+		if (Project.samples_.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	public void copyTxtFile(String inPath, String outPath) {
+		this.reader_.copyTxtFile(inPath, outPath);
+	}
+
+	public void writeScore(Sample sample, String saveAs, int mode) {
+		processor_.setWorkPath(Project.workpath_);
+		processor_.writeScore(sample, saveAs, mode);
+	}
+}

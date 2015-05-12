@@ -1,100 +1,82 @@
-/*  1:   */ package Panes;
-/*  2:   */ 
-/*  3:   */ import Objects.EcWithPathway;
-/*  4:   */ import Objects.PathwayWithEc;
-/*  5:   */ import Objects.Project;
-/*  6:   */ import Prog.DataProcessor;
-/*  7:   */ import java.awt.BorderLayout;
-/*  8:   */ import java.awt.Color;
-/*  9:   */ import java.awt.Dimension;
-/* 10:   */ import java.util.ArrayList;
-/* 11:   */ import javax.swing.JButton;
-/* 12:   */ import javax.swing.JCheckBox;
-/* 13:   */ import javax.swing.JPanel;
-/* 14:   */ 
-			// The Panel above the PathwayActivitymatrixPane
+package Panes;
 
-/* 15:   */ public class PathwayActPanes
-/* 16:   */   extends JPanel
-/* 17:   */ {
-/* 18:   */   private static final long serialVersionUID = 1L;
-/* 19:   */   Project activeProj_;
-/* 20:   */   ArrayList<PathwayWithEc> pwList_;
-/* 21:   */   ArrayList<EcWithPathway> ecList_;
-/* 22:   */   DataProcessor proc_;
-/* 23:   */   JCheckBox includeWeights;
-/* 24:   */   PathwayActivitymatrixPane actMat_;
-/* 25:   */   JPanel showPanel_;
-/* 26:   */   JPanel optionsPanel_;
-/* 27:   */   public JButton backButton_;
-/* 28:   */   int xwidth;
-/* 29:   */   
-/* 30:   */   public PathwayActPanes(Project activeProj, DataProcessor proc, Dimension dim)
-/* 31:   */   {
-/* 32:39 */     this.activeProj_ = activeProj;
-/* 33:40 */     this.pwList_ = proc.getPathwayList_();
-/* 34:41 */     this.ecList_ = DataProcessor.ecList_;
-/* 35:42 */     this.proc_ = proc;
-/* 36:43 */     setSize(dim);
-/* 37:44 */     setBackground(Project.standard);
-/* 38:45 */     setLayout(new BorderLayout());
-/* 39:46 */     setVisible(true);
-/* 40:47 */     this.backButton_ = new JButton("< Back to the Analysis Options");
-/* 41:   */     
-/* 42:49 */     prepaint();
-/* 43:   */   }
-/* 44:   */   
-/* 45:   */   private void initMainPanels()
-/* 46:   */   {
-/* 47:52 */     this.optionsPanel_ = new JPanel();
-/* 48:53 */     this.optionsPanel_.setPreferredSize(new Dimension(getWidth() - 50, 50));
-/* 49:54 */     this.optionsPanel_.setBackground(Project.getBackColor_().darker());
-/* 50:55 */     this.optionsPanel_.setBackground(Project.getBackColor_());
-/* 51:56 */     this.optionsPanel_.setVisible(true);
-/* 52:57 */     this.optionsPanel_.setLayout(null);
-/* 53:58 */     add(this.optionsPanel_, "First");
-/* 54:   */     
-/* 55:   */ 
-/* 56:61 */     this.backButton_.setBounds(10, 10, 300, 25);
-/* 57:62 */     this.optionsPanel_.add(this.backButton_);
-/* 58:   */     
-/* 59:64 */     this.showPanel_ = new JPanel();
-/* 60:65 */     this.showPanel_.setPreferredSize(new Dimension(getWidth() - 70, getHeight() - 150));
-/* 61:66 */     this.showPanel_.setBackground(Project.getBackColor_().brighter());
-/* 62:67 */     this.showPanel_.setLayout(new BorderLayout());
-/* 63:68 */     this.showPanel_.setVisible(true);
-/* 64:69 */     add(this.showPanel_, "Center");
-/* 65:   */   }
-/* 66:   */   
-/* 67:   */   private void showActivity()
-/* 68:   */   {
-/* 69:74 */     if ((this.actMat_ == null) || (Project.dataChanged))
-/* 70:   */     {
-/* 71:75 */       this.actMat_ = new PathwayActivitymatrixPane(this.proc_, this.activeProj_, this.showPanel_.getSize());
-/* 72:76 */       this.showPanel_.add(this.actMat_);
-/* 73:   */     }
-/* 74:79 */     else if (this.actMat_.changed_)
-/* 75:   */     {
-/* 76:80 */       this.actMat_.showMatrix();
-/* 77:   */     }
-/* 78:   */   }
-/* 79:   */   
-/* 80:   */   private void prepaint()
-/* 81:   */   {
-/* 82:85 */     initMainPanels();
-/* 83:86 */     showActivity();
-/* 84:87 */     invalidate();
-/* 85:88 */     validate();
-/* 86:89 */     repaint();
-/* 87:   */   }
-/* 88:   */ }
+import Objects.EcWithPathway;
+import Objects.PathwayWithEc;
+import Objects.Project;
+import Prog.DataProcessor;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
+// The Panel above the PathwayActivitymatrixPane
 
+public class PathwayActPanes extends JPanel {
+	private static final long serialVersionUID = 1L;
+	Project activeProj_;
+	ArrayList<PathwayWithEc> pwList_;
+	ArrayList<EcWithPathway> ecList_;
+	DataProcessor proc_;
+	JCheckBox includeWeights;
+	PathwayActivitymatrixPane actMat_;
+	JPanel showPanel_;
+	JPanel optionsPanel_;
+	public JButton backButton_;
+	int xwidth;
 
-/* Location:           C:\Users\Kevan\Fromp-v1.0\FROMP.jar
+	public PathwayActPanes(Project activeProj, DataProcessor proc, Dimension dim) {
+		this.activeProj_ = activeProj;
+		this.pwList_ = proc.getPathwayList_();
+		this.ecList_ = DataProcessor.ecList_;
+		this.proc_ = proc;
+		setSize(dim);
+		setBackground(Project.standard);
+		setLayout(new BorderLayout());
+		setVisible(true);
+		this.backButton_ = new JButton("< Back to the Analysis Options");
 
- * Qualified Name:     Panes.PathwayActPanes
+		prepaint();
+	}
 
- * JD-Core Version:    0.7.0.1
+	private void initMainPanels() {
+		this.optionsPanel_ = new JPanel();
+		this.optionsPanel_.setPreferredSize(new Dimension(getWidth() - 50, 50));
+		this.optionsPanel_.setBackground(Project.getBackColor_().darker());
+		this.optionsPanel_.setBackground(Project.getBackColor_());
+		this.optionsPanel_.setVisible(true);
+		this.optionsPanel_.setLayout(null);
+		add(this.optionsPanel_, "First");
 
- */
+		this.backButton_.setBounds(10, 10, 300, 25);
+		this.optionsPanel_.add(this.backButton_);
+
+		this.showPanel_ = new JPanel();
+		this.showPanel_.setPreferredSize(new Dimension(getWidth() - 70,
+				getHeight() - 150));
+		this.showPanel_.setBackground(Project.getBackColor_().brighter());
+		this.showPanel_.setLayout(new BorderLayout());
+		this.showPanel_.setVisible(true);
+		add(this.showPanel_, "Center");
+	}
+
+	private void showActivity() {
+		if ((this.actMat_ == null) || (Project.dataChanged)) {
+			this.actMat_ = new PathwayActivitymatrixPane(this.proc_,
+					this.activeProj_, this.showPanel_.getSize());
+			this.showPanel_.add(this.actMat_);
+		} else if (this.actMat_.changed_) {
+			this.actMat_.showMatrix();
+		}
+	}
+
+	private void prepaint() {
+		initMainPanels();
+		showActivity();
+		invalidate();
+		validate();
+		repaint();
+	}
+}

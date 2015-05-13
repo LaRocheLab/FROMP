@@ -76,10 +76,12 @@ public class ActMatrixPane extends JPanel {
 	int selectedSampIndex_ = -1; 
 	JLabel selectedSampText; 
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
-	JPopupMenu menuPopup; // Popup menu used for right clicking and exporting sequence ids
+	JPopupMenu menuPopup;// Popup menu used for right clicking and exporting sequence ids
+	JPopupMenu ecMenuPopup;
 	int popupIndexY; // Coordinates to facilitate the exporting of sequence ids
 	int popupIndexX; 
-
+	String buttonName;
+	boolean exportAll = false;
 	public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList,
 			DataProcessor proc, Dimension dim) {
 		this.lframe = new Loadingframe(); // opens the loading frame
@@ -580,8 +582,9 @@ public class ActMatrixPane extends JPanel {
 						}
 						ActMatrixPane.this.repaint();
 					}
-
+					
 					public void mousePressed(MouseEvent e) {
+					
 					}
 
 					public void mouseReleased(MouseEvent e) {
@@ -1131,12 +1134,16 @@ public class ActMatrixPane extends JPanel {
 		this.displayP_.add(this.label_);
 	}
 	//adds all of the EC name buttons on the left hand side of the ec matrix
+	//ADD EC BUTTON
 	private void addEcButton(Line ecNr, int index) {
 		this.lframe.bigStep("Adding ecButtons");
 		if (!ecNr.isSumline_()) {
 			ecNr.getEc_().addStats();
 			this.names_ = new JButton(ecNr.getEc_().name_
 					+ ecNr.getEc_().nameSuppl());
+			this.names_.setName(ecNr.getEc_().name_);
+			//System.out.println(ecNr.getEc_().name_
+					//+ ecNr.getEc_().nameSuppl());
 			int uncompleteOffset = 0;
 			if (!ecNr.getEc_().isCompleteEc()) {
 				uncompleteOffset = 50;
@@ -1147,16 +1154,70 @@ public class ActMatrixPane extends JPanel {
 			this.names_.setLayout(null);
 			this.names_.setForeground(Project.getFontColor_());
 			this.lframe.step(this.names_.getText());
+			//System.out.println(names_.getText());
 			final int i = index;
 			ecNr.getEc_().amount_ = ecNr.sum_;
+			
+			ActMatrixPane.this.setComponentPopupMenu(menuPopup);
 			this.names_.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PwInfoFrame frame = new PwInfoFrame(
 							((Line) ActMatrixPane.this.ecMatrix_.get(i))
 									.getEc_(), ActMatrixPane.this.actProj_,
 							Project.overall_);
+					
 				}
 			});
+			if (this.includeRepseq_.isSelected()) {
+				JMenuItem mItem2 = new JMenuItem("Export all Sequences");
+				ecMenuPopup = new JPopupMenu();
+				ecMenuPopup.add(mItem2);
+				
+				mItem2.addActionListener(new ActionListener(){
+					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						exportAll = true;
+						cmdExportSequences(buttonName, exportAll);
+						System.out.println(buttonName);
+						exportAll = false;
+						
+					}
+					
+				});
+				//When someone left clicks on the EC number it opens a popup menu containing the option to
+				//export all sequences for that EC number
+				this.names_.addMouseListener(new MouseListener() {
+					public void mouseClicked(MouseEvent e) {
+						if (SwingUtilities.isRightMouseButton(e)
+								|| e.isControlDown()) {
+							System.out.println("Right Button Pressed");
+							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),
+									e.getX(), e.getY());
+							buttonName = e.getComponent().getName();
+					
+						}
+					}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+			}
 		} else {
 			int uncompleteOffset = 0;
 			if (ecNr.isMappedSums_()) {
@@ -1581,8 +1642,10 @@ public class ActMatrixPane extends JPanel {
 			}
 		}
 	}
-
-	public void cmdExportSequences(String ecName) {
+	/*
+	 * Takes in command line calls to export sequences along with wheter or not to print all sequences samples into each EC number file
+	 */
+	public void cmdExportSequences(String ecName, boolean oneFile) {
 		int index;
 		EcNr ecTmp;
 
@@ -1640,13 +1703,25 @@ public class ActMatrixPane extends JPanel {
 					}
 					String sampName = ((Sample) Project.samples_.get(smpCnt)).name_;
 					if (reps.size() > 0) {
-						ExportSequences(reps, ecTmp, sampName);
+						if(oneFile){
+							//If the option to print all sequences per EC number is selected as true
+							System.out.println("Working....\n");
+							ExportSequencesOneFile(reps,ecTmp,sampName);
+						}
+						else{
+							//print all sequences per sample EC number 
+							System.out.println("Working....\n");
+							ExportSequences(reps, ecTmp, sampName);
+						}
+						
 					}
 				}
 			}
 		}
 	}
-
+	/*
+	 * exports sequences from EC numbers from a sample to their own named file.
+	 */
 	public void ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
 			String sampName_) {
 		String seqFilePath = "";
@@ -1708,6 +1783,7 @@ public class ActMatrixPane extends JPanel {
 							File file = new File(basePath_ + "Sequences"
 									+ File.separator + sampleName + "-"
 									+ ecNr_.name_ + "-Sequences" + ".txt");
+							//writes to a file named after the sample and EC number
 							PrintWriter printWriter = new PrintWriter(file);
 							if (text != null && text != "") {
 								printWriter.println("" + text);
@@ -1740,5 +1816,102 @@ public class ActMatrixPane extends JPanel {
 							+ sampName_ + ")");
 		}
 	}
+
+/*
+ * Exports sequences of different samples that share the same EC number into a file of that EC number name
+ */
+public void ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_) {
+	String seqFilePath = "";
+	for (int i = 0; i < Project.samples_.size(); i++) {
+		if (sampName_.equals(Project.samples_.get(i).name_)) {
+			if (Project.samples_.get(i).getSequenceFile() != null
+					&& !Project.samples_.get(i).getSequenceFile()
+							.equals("")) {
+				seqFilePath = Project.samples_.get(i).getSequenceFile();
+			}
+		}
+	}
+	if (seqFilePath != null && !seqFilePath.equals("")) {
+		File seqFile = new File(seqFilePath);
+		if (seqFile.exists() && !seqFile.isDirectory()) {
+			LinkedHashMap<String, ProteinSequence> sequenceHash;
+			try {
+				sequenceHash = FastaReaderHelper
+						.readFastaProteinSequence(seqFile);
+				if (sequenceHash != null) {
+					// System.out.println("Seq File: "+seqFile);
+					// for (Map.Entry<String, ProteinSequence> entry :
+					// sequenceHash.entrySet()) {
+					// String key = entry.getKey();
+					// ProteinSequence value = entry.getValue();
+					// System.out.println(key+": "+value);
+					// }
+					String text = ">";
+					System.out.println("repCnt: " + reps_.size());
+					for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
+						if ((sequenceHash.get(((ConvertStat) reps_
+								.get(repCnt)).getDesc_())) != null) {
+							//Adding the sample name to the descriptor of the sequence
+							text = text
+									+ ((ConvertStat) reps_.get(repCnt))
+											.getDesc_()
+									+ " " + sampName_+ "\n"
+									+ (sequenceHash
+											.get(((ConvertStat) reps_
+													.get(repCnt))
+													.getDesc_()))
+											.toString();
+							// ensures that there is a ">" character in front of every new sample
+							if (repCnt < reps_.size() - 1) {
+								text = text + "\n>";
+							}
+							// Don't want the ">" character on the last newline with no sample
+							else if (repCnt == reps_.size()) {
+								text = text + "\n";
+							}
+						}
+					}
+					try {
+						String sampleName;
+						if (sampName_.contains(".out")) {
+							sampleName = sampName_.replace(".out", "");
+						} else {
+							sampleName = sampName_;
+						}
+						File file = new File(basePath_ + "Sequences"
+								+ File.separator + ecNr_.name_ +  "-Sequences" + ".txt");
+						//This allows writing to the file of the same name to append to the file if created, creates file if not
+						PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+						if (text != null && text != "") {
+							printWriter.println("" + text);
+						} else {
+							printWriter
+									.println("No matching sequences in the file provided. ("
+											+ sampName_ + ")");
+						}
+						printWriter.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					System.out
+							.println("The sequence file is not in the fasta format. ("
+									+ sampName_ + ")");
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+		} else {
+			System.out
+					.println("The sequence file associated with this sample ("
+							+ sampName_ + ") does not exist");
+		}
+	} else {
+		System.out
+				.println("There is no sequence file associated with this sample ("
+						+ sampName_ + ")");
+	}
+}
 
 }

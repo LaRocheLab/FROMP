@@ -104,7 +104,11 @@ public class StartFromp {
 								&& checkEC(args[2])) {
 							CmdController cmd;
 							cmd = new CmdController(args);
-						} else {
+						} else if (args[1].contentEquals("seqall")
+								&& checkEC(args[2])) {
+							CmdController cmd;
+							cmd = new CmdController(args);
+						}else {
 							System.out.println("1");
 							System.out.println("Wrong input");
 							System.out.println("check input/output-path");
@@ -302,6 +306,15 @@ public class StartFromp {
 		if (options.contentEquals("seq")) {
 			ret = true;
 		}
+		if(options.contentEquals("seqall")){
+			ret = true;
+		}
+//		if(options.contentEquals("ecseq")){
+//			ret = true;
+//		}
+//		if(options.contentEquals("ecseqall")){
+//			ret = true;
+//		}
 		return ret;
 	}
 
@@ -367,6 +380,10 @@ public class StartFromp {
 				.println("'seq' to export a file of sequences from a .frp file which has the sequence files related to the samples");
 		System.out.println("Sequences will be stored in ~/Sequences");
 		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seq");
+		System.out
+				.println("'seqall' to export a file of sequences from a .frp file which has the sequence files related to the samples into one file per EC number");
+		System.out.println("Sequences will be stored in ~/Sequences");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seqall");
 		System.out.println("");
 		System.out.println("'a' all options");
 		System.out

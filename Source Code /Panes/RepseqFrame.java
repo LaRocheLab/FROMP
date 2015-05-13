@@ -3,27 +3,36 @@ package Panes;
 import Objects.ConvertStat;
 import Objects.EcNr;
 import Objects.Project;
+
 import java.awt.Color;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.File;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Map;
 import java.awt.Font;
 import java.util.LinkedHashMap;
+
 import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
 import org.biojava.nbio.core.sequence.io.FastaReader;
 import org.biojava.nbio.core.sequence.*;
@@ -183,8 +192,10 @@ public class RepseqFrame extends JFrame {
 
 		miItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RepseqFrame.this.ExportSequences(); // exports the sequences which map to this ec in this sample
+				//MODIFIED CHANGE IF BROKEN
+				RepseqFrame.this.ExportSequences(); // exports the sequences which map to this ec in this sample for each samples EC
 			}
+			
 		});
 
 		this.menu_.add(miItem);

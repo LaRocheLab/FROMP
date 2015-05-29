@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -399,6 +402,8 @@ public class MetaProteomicAnalysis {
 		Object[][] rowData = new Object[totalResult.keySet().size()][2];
 		Object[] colNames = { "Identified Taxon", "Number of occurances" };
 		int index = 0, index2 = 0;
+		//will add button to allow sorting
+		totalResult = sortHashMapByValuesD(totalResult);
 		for (String key : totalResult.keySet()) {
 			rowData[index][0] = key;
 			rowData[index][1] = totalResult.get(key);
@@ -558,6 +563,47 @@ public class MetaProteomicAnalysis {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Used to sort the hashmaps.
+	 * http://stackoverflow.com/questions/8119366/sorting-hashmap-by-values
+	 * 
+	 * @param totalResult hashmap to be sorted
+	 * @return sorted hashmap
+	 * @author Jennifer Terpstra
+	 */
+	public LinkedHashMap sortHashMapByValuesD(Map<String, Integer> totalResult) {
+		List mapKeys = new ArrayList(totalResult.keySet());
+		List mapValues = new ArrayList(totalResult.values());
+		Collections.sort(mapValues);
+		Collections.sort(mapKeys);
+		Collections.reverse(mapValues);
+		Collections.reverse(mapKeys);
+
+		LinkedHashMap sortedMap = new LinkedHashMap();
+
+		Iterator valueIt = mapValues.iterator();
+		while (valueIt.hasNext()) {
+			Object val = valueIt.next();
+			Iterator keyIt = mapKeys.iterator();
+
+			while (keyIt.hasNext()) {
+				Object key = keyIt.next();
+				String comp1 = totalResult.get(key).toString();
+				String comp2 = val.toString();
+
+				if (comp1.equals(comp2)) {
+					totalResult.remove(key);
+					mapKeys.remove(key);
+					sortedMap.put((String) key, (int) val);
+					break;
+				}
+
+			}
+
+		}
+		return sortedMap;
 	}
 
 }

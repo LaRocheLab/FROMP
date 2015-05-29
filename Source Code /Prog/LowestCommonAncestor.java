@@ -61,6 +61,36 @@ public class LowestCommonAncestor {
 				+ taxon_id + ", taxon_name=" + taxon_name + ", taxon_rank="
 				+ taxon_rank + "\n";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((taxon_name == null) ? 0 : taxon_name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LowestCommonAncestor other = (LowestCommonAncestor) obj;
+		if (taxon_name == null) {
+			if (other.taxon_name != null)
+				return false;
+		} else if (!taxon_name.equals(other.taxon_name))
+			return false;
+		return true;
+	}
+
+	
+	
+	
 	
 
 }

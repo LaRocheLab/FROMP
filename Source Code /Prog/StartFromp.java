@@ -262,16 +262,12 @@ public class StartFromp {
 		newFrame = new NewFrompFrame();
 	}
 
-	private static boolean checkPath(String path) { // checks that the file
-													// given exists
+	private static boolean checkPath(String path) { // checks that the file given exists
 		File f = new File(path);
 		return f.exists();
 	}
 
-	private static boolean checkOptions(String options) { // ensures that the
-															// option the user
-															// has selected is
-															// allowed
+	private static boolean checkOptions(String options) { // ensures that the option the user has selected is allowed
 		boolean ret = false;
 		if (options.contentEquals("p")) {
 			ret = true;
@@ -309,6 +305,10 @@ public class StartFromp {
 		if(options.contentEquals("seqall")){
 			ret = true;
 		}
+		if(options.contentEquals("lca")){
+			ret = true;
+		}
+		
 //		if(options.contentEquals("ecseq")){
 //			ret = true;
 //		}
@@ -318,9 +318,7 @@ public class StartFromp {
 		return ret;
 	}
 
-	private static boolean checkEC(String options) {// checks that the EC is
-													// complete, ie is an ec
-													// number
+	private static boolean checkEC(String options) {// checks that the EC is complete, ie is an ec number
 		boolean ret = false;
 		String testStr1;
 		String testStr2;
@@ -349,8 +347,7 @@ public class StartFromp {
 		return ret;
 	}
 
-	private static void printOptions() { // Prints out the options for this
-											// program to the cmdline
+	private static void printOptions() { // Prints out the options for this program to the cmdline
 		if (arg1 != "h") {
 			System.out.println("The arguements used are invalid!!");
 			System.out.println("The correct arguements are:");

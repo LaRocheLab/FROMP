@@ -8,6 +8,8 @@ import Objects.Pathway;
 import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
+import Prog.MetaProteomicAnalysis;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -31,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
+
 import java.io.PrintWriter;
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -105,6 +109,29 @@ public class ActMatrixPane extends JPanel {
 		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
 		Loadingframe.close(); // closes the loading frame
 	}
+	
+	public ActMatrixPane(Project actProj,DataProcessor proc, Dimension dim) {
+		this.lframe = new Loadingframe(); // opens the loading frame
+		this.lframe.bigStep("Preparing Panel"); 
+		this.lframe.step("Init"); 
+									
+		this.actProj_ = actProj; // sets this active project
+		this.proc_ = proc; // stes this data processor
+							
+							
+		setLayout(new BorderLayout()); 
+		setVisible(true); 
+		setBackground(Project.getBackColor_()); 
+		setSize(dim); 
+						
+		this.smpList_ = Project.samples_; 
+		this.sumIndexSmp = 0; 
+		setSelectedEc(); // Sets whether or not each sample is selected
+		prepMatrix(); // Builds the ec matrix
+		initMainPanels(); // Instanciates the options, display and scroll panels
+		prepaintLCA(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
+		Loadingframe.close(); // closes the loading frame
+	}
 
 	private void prepaint() { // This method rebuids the back panel of the window
 		removeAll(); // Removes everything on the backpanel
@@ -112,6 +139,15 @@ public class ActMatrixPane extends JPanel {
 		addOptions(); // adds the buttons, labels, checkboxes etc to the options panel
 		drawSampleNames(); // Draws the mouse over lables above the ec matrix. if you mouse over these lables the expand showing their full names.
 		showEcValues(); // paints the ec matrix showing the ec values, calls showValues, or show odds.
+		invalidate(); 
+		validate(); 
+		repaint(); 
+	}
+	
+	private void prepaintLCA() { // This method rebuids the back panel of the window
+		removeAll(); // Removes everything on the backpanel
+		initMainPanels(); // instanciates the options, display, and scroll panels
+		addOptionsLCA(); // adds the buttons, labels, checkboxes etc to the options panel
 		invalidate(); 
 		validate(); 
 		repaint(); 
@@ -230,7 +266,57 @@ public class ActMatrixPane extends JPanel {
 		this.sums.setSum();
 		unCompleteMover();
 	}
+	//Options panel for the Lowest Common Ancestor page
+	private void addOptionsLCA(){
+		this.lframe.bigStep("Adding options");
+		this.lframe.step("Buttons");
+		
+		this.export_ = new JButton("Find Lowest Common Ancestor");
+		this.export_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String path = "";
+				try {
+					path = new File("").getCanonicalPath();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				JFileChooser fChoose_ = new JFileChooser(path + File.separator
+						+ "Sequences");
+				fChoose_.setFileSelectionMode(0);
+				fChoose_.setBounds(100, 100, 200, 20);
+				fChoose_.setVisible(true);
+				fChoose_.setFileFilter(new FileFilter() {
+					public boolean accept(File f) {
+						if ((f.isDirectory())
+								|| (f.getName().toLowerCase().endsWith(".txt"))) {
+							return true;
+						}
+						return false;
+					}
 
+					public String getDescription() {
+						return ".txt";
+					}
+				});
+				fChoose_.showOpenDialog(getParent());
+				try {
+					MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+					meta.getTrypticPeptideAnaysis(meta.readFasta(fChoose_.getSelectedFile().getCanonicalPath()));
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	this.export_.setBounds(20, 20, 300, 40);
+	this.export_.setVisible(true);
+	this.export_.setLayout(null);
+	this.export_.setForeground(Project.getFontColor_());
+
+	this.optionsPanel_.add(this.export_);
+	}
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel
 		this.lframe.bigStep("Adding options");
 		this.lframe.step("Buttons");

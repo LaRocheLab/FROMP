@@ -5,6 +5,7 @@ import Objects.Sample;
 import Panes.ActMatrixPane;
 import Panes.PathwayActivitymatrixPane;
 import Panes.PathwayMatrix;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
@@ -14,6 +15,12 @@ import java.util.ArrayList;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import sun.org.mozilla.javascript.json.JsonParser;
 
 /**
  * Used for command line FROMP functions. Processes all command line user input
@@ -32,8 +39,11 @@ public class CmdController {
 	static PathwayMatrix pwMAtrix; // the Pathway Matrix
 	//Basepath of the FROMP software. Necessary for all relative paths to function
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
-	BufferedReader ecList; // Buffered reader used to read in the
+	BufferedReader ecList; // Buffered reader used to read in the ec numbers listed in a file
+	BufferedReader sequenceList;// buffered reader user to read in the sequence filenames listed in a file
 	StringReader reader; // String reader to assist in the reading of the
+	private String inputPath;
+	private String optionsCmd;
 
 	public CmdController(String[] args) {
 		System.out.println("Starting cmdFromp");
@@ -41,6 +51,7 @@ public class CmdController {
 		args_ = args;
 		this.ec_ = new ArrayList<String>();
 		if (args_.length == 2) {
+			System.out.println("len2\n");
 			if (checkEC(args_[1])) {
 				this.ec_.add(args_[1]);
 			} else if (args_[1].contentEquals("seq")) {
@@ -52,6 +63,7 @@ public class CmdController {
 			this.inputPath_ = getInputPath();
 			System.out.println("input: " + this.inputPath_);
 		} else if (args_.length == 3) {
+			System.out.println("len3\n");
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -65,7 +77,9 @@ public class CmdController {
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
 				this.ec_.add(args_[2]);
-			}else {
+			}
+			else {
+				System.out.println("Here\n");
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
 				this.outPutPath_ = getOutputPath();
@@ -415,6 +429,30 @@ public class CmdController {
 					e.printStackTrace();
 				}
 				System.exit(0);
+			}
+			//ISSUE WITH IT TIMING OUT ON SOME REQUESTS
+			else if((this.optionsCmd_.contentEquals("lca"))){
+				this.reader = new StringReader();
+				this.sequenceList = this.reader.readTxt(outPutPath_);
+				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
+				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
+				String line = "";
+				try {
+					while ((line = this.sequenceList.readLine()) != null) {
+						//If the line contains a > it is not a file containing a list of sequence files
+						if(line.contains(">")){
+							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_));
+							break;
+						}
+						else{
+							System.out.println(line);
+							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line));
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 			//export picture commands
 			if ((this.optionsCmd_.contentEquals("p"))

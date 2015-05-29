@@ -4,10 +4,12 @@ import Objects.Project;
 import Panes.AboutFrame;
 import Panes.EcActPanes;
 import Panes.EditsamplesPane;
+import Panes.LCAPanes;
 import Panes.PathwayActPanes;
 import Panes.PathwaySelectP;
 import Panes.PathwaysPane;
 import Panes.PwSearchPane;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -24,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
 import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -37,7 +40,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
+
 import pathwayLayout.PathLayoutGrid;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -428,6 +433,9 @@ public class NewFrompFrame extends JFrame {
 						NewFrompFrame.this.getParent(), "Choose System Color",
 						NewFrompFrame.this.sysColor_);
 				Project.setFontColor_(NewFrompFrame.this.sysColor_);
+				NewFrompFrame.this.invalidate();
+				NewFrompFrame.this.validate();
+				NewFrompFrame.this.repaint();
 			}
 		});
 		this.menu_.add(mItem);
@@ -637,6 +645,22 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
+	//NEEDS EDITING
+	private void showLCAPanes() {// Opens the ec activity analysis
+		clearBack();
+		LCAPanes matrixP_ = new LCAPanes(Controller.project_,
+				Controller.processor_, getSize());
+		matrixP_.backButton_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewFrompFrame.this.clearBack();
+				NewFrompFrame.this.showAnalyseOptions();
+			}
+		});
+		this.back_.add(matrixP_);
+		invalidate();
+		validate();
+		repaint();
+	}
 
 	private void searchPathway() {// Opens the search panel
 		clearBack();
@@ -769,7 +793,22 @@ public class NewFrompFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
+					//uncommented
 					NewFrompFrame.this.showEcActPanes();
+				} else {
+					warningFrame();
+				}
+			}
+		});
+		panel.add(s);
+		
+		s = new JButton("Lowest Common Ancestor >");
+		s.setBounds(xcol1, yOff + (ySize + 2) * 6, xsize, ySize);
+		s.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (NewFrompFrame.this.control_.gotSamples()) {
+					Controller.loadPathways(true);
+					NewFrompFrame.this.showLCAPanes();
 				} else {
 					warningFrame();
 				}

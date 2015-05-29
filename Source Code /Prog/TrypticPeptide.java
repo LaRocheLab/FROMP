@@ -15,8 +15,10 @@ import java.util.ArrayList;
  */
 public class TrypticPeptide {
 	String uniqueIdentifier;
+	LowestCommonAncestor identifiedTaxa;
 	ArrayList<String> peptides;
 	ArrayList<LowestCommonAncestor> lca;
+	LowestCommonAncestor lowestClass;
 	
 	public TrypticPeptide(){
 		
@@ -48,11 +50,20 @@ public class TrypticPeptide {
 	public void setLca(ArrayList<LowestCommonAncestor> lca) {
 		this.lca = lca;
 	}
-	@Override
-	public String toString() {
-		return "uniqueIdentifier=" + uniqueIdentifier
-				+ ", peptides=" + peptides;
+	
+	public LowestCommonAncestor getIdentifiedTaxa() {
+		return identifiedTaxa;
 	}
+	public void setIdentifiedTaxa(LowestCommonAncestor identifiedTaxa) {
+		this.identifiedTaxa = identifiedTaxa;
+	}
+	public LowestCommonAncestor getLowestClass() {
+		return lowestClass;
+	}
+	public void setLowestClass(LowestCommonAncestor lowestClass) {
+		this.lowestClass = lowestClass;
+	}
+	
 	
 
 }

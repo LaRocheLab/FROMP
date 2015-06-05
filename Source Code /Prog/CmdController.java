@@ -430,7 +430,6 @@ public class CmdController {
 				}
 				System.exit(0);
 			}
-			//ISSUE WITH IT TIMING OUT ON SOME REQUESTS
 			else if((this.optionsCmd_.contentEquals("lca"))){
 				this.reader = new StringReader();
 				this.sequenceList = this.reader.readTxt(outPutPath_);
@@ -441,18 +440,17 @@ public class CmdController {
 					while ((line = this.sequenceList.readLine()) != null) {
 						//If the line contains a > it is not a file containing a list of sequence files
 						if(line.contains(">")){
-							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_));
+							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true);
 							break;
 						}
 						else{
 							System.out.println(line);
-							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line));
+							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true);
 						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
 			}
 			//export picture commands
 			if ((this.optionsCmd_.contentEquals("p"))

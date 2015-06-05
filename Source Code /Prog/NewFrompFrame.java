@@ -336,8 +336,8 @@ public class NewFrompFrame extends JFrame {
 		});
 		this.menu_.add(mItem);
 
-		mItem = new JMenuItem("EC Activity", 69);
-		mItem.setAccelerator(KeyStroke.getKeyStroke(69, 8));
+		mItem = new JMenuItem("EC Activity", 70);
+		mItem.setAccelerator(KeyStroke.getKeyStroke(70, 8));
 		mItem.getAccessibleContext().setAccessibleDescription(
 				"EC Activity Matrix");
 		mItem.addActionListener(new ActionListener() {
@@ -351,6 +351,30 @@ public class NewFrompFrame extends JFrame {
 						selectPws();
 					} else {
 						NewFrompFrame.this.showEcActPanes();
+					}
+				} else {
+					warningFrame();
+				}
+				System.out.println("Compare Samples");
+			}
+		});
+		this.menu_.add(mItem);
+		
+		mItem = new JMenuItem("Find Lowest Common Ancestor", 69);
+		mItem.setAccelerator(KeyStroke.getKeyStroke(69, 8));
+		mItem.getAccessibleContext().setAccessibleDescription(
+				"Lowest Common Ancestor");
+		mItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (NewFrompFrame.this.control_.gotSamples()) {
+					NewFrompFrame.this.clearBack();
+					Controller.loadPathways(true);
+					if (!NewFrompFrame.this.control_.processor_
+							.selectedPathways()) {
+						warningFrame("No pathways selected!");
+						selectPws();
+					} else {
+						NewFrompFrame.this.showLCAPanes();
 					}
 				} else {
 					warningFrame();
@@ -646,7 +670,7 @@ public class NewFrompFrame extends JFrame {
 		repaint();
 	}
 	//NEEDS EDITING
-	private void showLCAPanes() {// Opens the ec activity analysis
+	public void showLCAPanes() {
 		clearBack();
 		LCAPanes matrixP_ = new LCAPanes(Controller.project_,
 				Controller.processor_, getSize());

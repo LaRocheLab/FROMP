@@ -36,7 +36,7 @@ public class Loadingframe extends Thread {
 			return;
 		}
 		this.frame_ = new JFrame();
-		this.frame_.setBounds(200, 100, 150, 150);
+		this.frame_.setBounds(200, 100, 400, 150);
 		this.frame_.setResizable(false);
 		this.frame_.setLayout(null);
 		this.frame_.setVisible(true);
@@ -52,7 +52,7 @@ public class Loadingframe extends Thread {
 		this.step_ = 0;
 
 		this.chapOut_ = new JLabel("");
-		this.chapOut_.setBounds(10, 10, 130, 20);
+		this.chapOut_.setBounds(10, 10, 400, 20);
 		this.chapOut_.setLayout(null);
 		this.chapOut_.setVisible(true);
 		this.backGround_.add(this.chapOut_);
@@ -65,14 +65,14 @@ public class Loadingframe extends Thread {
 		this.backGround_.add(this.mover_);
 
 		this.outputer_ = new JLabel("");
-		this.outputer_.setBounds(10, 60, 130, 20);
+		this.outputer_.setBounds(10, 60, 400, 20);
 		this.outputer_.setLayout(null);
 		this.outputer_.setVisible(true);
 		this.backGround_.add(this.outputer_);
 		this.frame_.repaint();
 
 		this.counter_ = new JLabel("");
-		this.counter_.setBounds(10, 80, 130, 20);
+		this.counter_.setBounds(10, 80, 400, 20);
 		this.counter_.setLayout(null);
 		this.counter_.setVisible(true);
 		this.backGround_.add(this.counter_);

@@ -1,7 +1,11 @@
 package Prog;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,17 +22,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import Panes.ActMatrixPane;
 import jxl.*;
 import jxl.write.*;
 import jxl.write.Number;
@@ -48,9 +64,10 @@ public class MetaProteomicAnalysis {
 	StringReader reader = new StringReader();
 	//Used to extract the specific filename of the sequence file for naming the new .sh file
 	String fileName = "";
+	tableAndChartData returnData = new tableAndChartData();
+	boolean commandLineOn = false;
 	
 	public MetaProteomicAnalysis(){
-		
 	}
 	
 	/**
@@ -110,8 +127,7 @@ public class MetaProteomicAnalysis {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("File not found!\n");
-			e.printStackTrace();
+			warningFrame("File " + path + " Not found!");
 		}
 		return retList;
 	}
@@ -120,10 +136,11 @@ public class MetaProteomicAnalysis {
 	 * 
 	 * @param peptide Arraylist of tryptic peptides to be anazyed for their lowest common ancestor
 	 */
-	public void getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide) {
+	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline) {
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
 		File file = new File(new File(".").getAbsolutePath() + File.separator
 				+ "GetPost" + File.separator + fileName + ".sh");
+		commandLineOn = commandline;
 		// Main Get query line
 		String query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 		// Peptide sequences to query
@@ -233,14 +250,14 @@ public class MetaProteomicAnalysis {
 
 						}
 					} catch (IOException | JSONException e) {
-						e.printStackTrace();
 					}
 				}
 			}
 			printWriter.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			warningFrame("getPost folder does not exist!");
 		}
+		return returnData;
 	}
 	
 	/**
@@ -269,9 +286,9 @@ public class MetaProteomicAnalysis {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-						System.out.println(peptide.get(i).getUniqueIdentifier());
+						//System.out.println(peptide.get(i).getUniqueIdentifier());
 						printWriter.println(peptide.get(i).getUniqueIdentifier());
-						System.out.println(peptide.get(i).getIdentifiedTaxa());
+						//System.out.println(peptide.get(i).getIdentifiedTaxa());
 						printWriter.println(peptide.get(i).getIdentifiedTaxa());
 					} else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
@@ -284,7 +301,7 @@ public class MetaProteomicAnalysis {
 							p1 = Runtime.getRuntime().exec(query);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							warningFrame("Error occured with GET request!");
 						}
 						BufferedReader input1 = new BufferedReader(
 								new InputStreamReader(p1.getInputStream()));
@@ -334,26 +351,24 @@ public class MetaProteomicAnalysis {
 								}
 							}
 							if (positive) {
-								System.out.println(peptide.get(i).getUniqueIdentifier());
+								//System.out.println(peptide.get(i).getUniqueIdentifier());
 								printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLowestClass());
 							} else {
 								/*If one of the LCA within the LCA arraylist fails the comparison with the lowest taxa taxonic
 								 * information than that Tryptic pepetides determined taxa is set to Inconclusive.
 								 */
-								System.out.println(peptide.get(i).getUniqueIdentifier());
+								//System.out.println(peptide.get(i).getUniqueIdentifier());
 								printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(new LowestCommonAncestor("",0,"Inconclusive",""));
 								positive = true;
 							}
-							System.out.println(peptide.get(i).getIdentifiedTaxa());
+							//System.out.println(peptide.get(i).getIdentifiedTaxa());
 							printWriter.println(peptide.get(i).getIdentifiedTaxa());
 							// System.out.println(line1);
 							query = "";
 							line1 = "";
 						} catch (IOException | JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
 						// System.out.println(peptide.get(i).getUniqueIdentifier());
 						// System.out.println(peptide.get(i).getLowestClass().getTaxon_rank());
@@ -363,10 +378,9 @@ public class MetaProteomicAnalysis {
 
 			}
 			printWriter.close();
-			drawLCAGraph(peptide);
+			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			warningFrame("GetPost folder does not exist!");
 		}
 	}
 	
@@ -379,7 +393,7 @@ public class MetaProteomicAnalysis {
 	 * @param peptide Arraylist of Tryptic peptides for a given sample
 	 * @author Jennifer Terpstra
 	 */
-	public void drawLCAGraph(ArrayList<TrypticPeptide> peptide){
+	public void drawLCAGraph(ArrayList<TrypticPeptide> peptide, String fileName){
 		String sample;
 		//Counts the number of indentified rows within the Tryptic peptide arrayList
 		int countIdentRows = 0;
@@ -401,13 +415,46 @@ public class MetaProteomicAnalysis {
 		//setting the Jtable rowData and colNames for the TotalTaxon table
 		Object[][] rowData = new Object[totalResult.keySet().size()][2];
 		Object[] colNames = { "Identified Taxon", "Number of occurances" };
-		int index = 0, index2 = 0;
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		int index = 0, index2 = 0, totalOther = 0;
 		//will add button to allow sorting
 		totalResult = sortHashMapByValuesD(totalResult);
+		//System.out.println(totalResult.toString());
 		for (String key : totalResult.keySet()) {
-			rowData[index][0] = key;
-			rowData[index][1] = totalResult.get(key);
+			if(index < 14){
+				rowData[index][0] = key;
+				rowData[index][1] = totalResult.get(key);
+				dataset.setValue(key, totalResult.get(key));
+			}
+			else{
+				rowData[index][0] = key;
+				rowData[index][1] = totalResult.get(key);
+				totalOther += totalResult.get(key);
+				key = "Other";
+				if(index == totalResult.size()-1){
+					dataset.setValue(key, totalOther);
+				}
+			}
 			index++;
+		}
+		returnData.setDataset(dataset);
+		if(commandLineOn){
+			final JFreeChart chart = ChartFactory.createPieChart(fileName
+					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
+			PiePlot pie1 = (PiePlot) chart.getPlot();
+			pie1.setNoDataMessage("No data available");
+			pie1.setCircular(false);
+			pie1.setLabelGenerator(null);
+			try {
+				ChartUtilities.saveChartAsPNG(new File(new File(".").getAbsolutePath() + File.separator
+						+ "PieChart" + File.separator + fileName
+						+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
+				System.out.println("Pie Chart exported to " + File.separator
+						+ "PieChart" + File.separator + fileName
+						+ " Total Taxonomy" + ".png");
+			} catch (IOException e1) {
+				warningFrame("PieChart folder does not exist!");
+			}
 		}
 		//setting the Jtable rowData and colNames for the Summary table
 		Object[][] rowData2 = new Object[countIdentRows][3];
@@ -458,11 +505,31 @@ public class MetaProteomicAnalysis {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			//displays a popup if the words within the cell are to large
+			public String getToolTipText( MouseEvent e ){
+		       try{
+		        	int row = rowAtPoint( e.getPoint() );
+			        int column = columnAtPoint( e.getPoint() );
+
+			        Object value = getValueAt(row, column);
+			        return value == null ? null : value.toString();
+		       }
+		       catch(ArrayIndexOutOfBoundsException exe){
+		    	   return "";
+		       }
+				
+		    }
 		};
 		table.setFillsViewportHeight(true);
-		table.getColumn("Identified Taxon").setMinWidth(400);
-		//made into a button on a later date
-		exportExcel(table, "TotalTaxon");
+		
+		if(commandLineOn){
+			exportExcel(table, "TotalTaxon", fileName);
+			System.out.println("File exported to " +  File.separator
+					+ "Excel" + File.separator + fileName + "TotalTaxon" + ".xls");
+		}
+		returnData.setTable1(table);
+		returnData.setFileName(fileName);
+		
 		//creating table for Summary of data
 		DefaultTableModel tableModel2 = new DefaultTableModel(rowData2, colNames2);
 		JTable table2 = new JTable(tableModel2) {
@@ -471,36 +538,29 @@ public class MetaProteomicAnalysis {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			public String getToolTipText( MouseEvent e ){
+				try{
+		        	int row = rowAtPoint( e.getPoint() );
+			        int column = columnAtPoint( e.getPoint() );
+
+			        Object value = getValueAt(row, column);
+			        return value == null ? null : value.toString();
+		       }
+		       catch(ArrayIndexOutOfBoundsException exe){
+		    	   return "";
+		       }
+		    }
 		};
-		table2.getColumn("Sequence ID").setMinWidth(400);
-		table2.getColumn("Sample").setMinWidth(300);
 		table2.setFillsViewportHeight(true);
 		//made into a button on a later date
-		exportExcel(table2, "Summary");
-		
-		//Temporary UI visualzation for tables, until placement in main UI is made
-		JFrame frame = new JFrame(fileName);
-		JFrame frame2 = new JFrame(fileName);
-
-		JPanel panel = new JPanel();
-		JPanel panel2 = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel2.setLayout(new BorderLayout());
-
-		JScrollPane tableContainer = new JScrollPane(table);
-		JScrollPane tableContainer2 = new JScrollPane(table2);
-
-		panel.add(tableContainer, BorderLayout.CENTER);
-		panel2.add(tableContainer2, BorderLayout.CENTER);
-		frame.getContentPane().add(panel);
-		frame2.getContentPane().add(panel2);
-
-		frame.pack();
-		frame.setVisible(true);
-		frame2.pack();
-		frame2.setVisible(true);
-		
+		if(commandLineOn){
+			exportExcel(table2, "Summary", fileName);
+			System.out.println("File exported to " +  File.separator
+				+ "Excel" + File.separator + fileName + "Summary" + ".xls");
+		}
+		returnData.setTable2(table2);
 	}
+	
 	/**
 	 * This function tables in a JTable and exports the results into an excel file.
 	 * Majority of Code obtained at: http://niravjavadeveloper.blogspot.com/2011/05/java-swing-export-jtable-to-excel-file.html#ixzz3bWxHHaFQ
@@ -510,7 +570,7 @@ public class MetaProteomicAnalysis {
 	 * @author Jennifer Terpstra
 	 * 
 	 */
-	public void exportExcel(JTable table, String tableName){
+	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
 			 //saves the new excel file within the Excel folder
 			 	File file = new File(new File(".").getAbsolutePath() + File.separator
@@ -529,23 +589,27 @@ public class MetaProteomicAnalysis {
 	                	//determines if the cell value is a number or string. If the value is a number,
 	                	//it is stored as an number within the excel file
 	                	if(isNumeric(model.getValueAt(i, j).toString())){
-	                		Number number = new Number(j, i+1, ((int) model.getValueAt(i, j))/1.0); 
-	                		sheet1.addCell(number);
-	                	}
-	                	else{
-	                		Label row = new Label(j, i + 1,model.getValueAt(i, j).toString());
-	                		 sheet1.addCell(row);
-	                	}
-	                    
-	                   
-	                }
-	            }
-	            workbook1.write();
-	            workbook1.close();
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-	    }
+						Number number = new Number(j, i + 1,
+								((int) model.getValueAt(i, j)) / 1.0);
+						sheet1.addCell(number);
+					} else {
+						Label row = new Label(j, i + 1, model.getValueAt(i, j)
+								.toString());
+						sheet1.addCell(row);
+					}
+
+				}
+			}
+			workbook1.write();
+			workbook1.close();
+		} catch (Exception ex) {
+			warningFrame("Excel folder does not exist!");
+		}
+		if(!commandLineOn){
+			ActMatrixPane pane = new ActMatrixPane();
+			pane.infoFrame(File.separator + "Excel" + File.separator + fileName + tableName + ".xls", "Excel");
+		}
+	}
 	
 	/**
 	 * Used to determine if a string is in fact a number or just
@@ -604,6 +668,28 @@ public class MetaProteomicAnalysis {
 
 		}
 		return sortedMap;
+	}
+	
+	/**
+	 * Pops up whenever an exception occurs in a try/catch
+	 * @param strIN Error message to be displayed
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private void warningFrame(String strIN) {
+		JFrame wrngFrame = new JFrame();
+		wrngFrame.setBounds(200, 200, 400, 100);
+		wrngFrame.setLayout(null);
+		wrngFrame.setVisible(true);
+
+		JPanel backP = new JPanel();
+		backP.setBounds(0, 0, 400, 100);
+		backP.setLayout(null);
+		wrngFrame.add(backP);
+
+		JLabel label = new JLabel("Warning! " + strIN);
+		label.setBounds(25, 25, 400, 25);
+		backP.add(label);
 	}
 
 }

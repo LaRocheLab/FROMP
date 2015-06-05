@@ -23,13 +23,13 @@ public class LCAPanes extends JPanel{
 	private static final long serialVersionUID = 1L; 
 	Project activeProj_; // This is the active project
 	ArrayList<PathwayWithEc> pwList_; // List of pathways to which something is mapped
-	ArrayList<EcWithPathway> ecList_; // list of ec which map to some pathway
+	//ArrayList<EcWithPathway> ecList_; // list of ec which map to some pathway
 	DataProcessor proc_; // the data processor object which controlls the parsing of the input files allowing important information to be cleaned for analysis
 	JPanel showPanel_; 
 	JPanel optionsPanel_; // The options panel
 	JButton pathwaySort; // A button to choose to g to the PathwayEcMat panel
 	JButton ecSort_; // A button to go to the ActMatrixPane panel
-	PathwayEcMat pwEcMat; 
+	//PathwayEcMat pwEcMat; 
 	ActMatrixPane actMat_; 
 	int mode_; 
 	int xsize; 
@@ -40,7 +40,7 @@ public class LCAPanes extends JPanel{
 	public LCAPanes(Project activeProj, DataProcessor proc, Dimension dim) {
 		this.activeProj_ = activeProj;
 		this.pwList_ = proc.getPathwayList_();
-		this.ecList_ = DataProcessor.ecList_;
+		//this.ecList_ = DataProcessor.ecList_;
 		this.proc_ = proc;
 		this.xsize = (4000 + Project.samples_.size() * 300);
 		setSize(dim);
@@ -98,14 +98,14 @@ public class LCAPanes extends JPanel{
 			repaint();
 			break;
 		case 1:
-			if ((this.pwEcMat == null) || (Project.dataChanged)) {
-				this.pwEcMat = new PathwayEcMat(this.pwList_, this.activeProj_,
-						this.proc_, this.showPanel_.getSize());
-			}
-			this.showPanel_.add(this.pwEcMat);
-			invalidate();
-			validate();
-			repaint();
+//			if ((this.pwEcMat == null) || (Project.dataChanged)) {
+//				this.pwEcMat = new PathwayEcMat(this.pwList_, this.activeProj_,
+//						this.proc_, this.showPanel_.getSize());
+//			}
+//			this.showPanel_.add(this.pwEcMat);
+//			invalidate();
+//			validate();
+//			repaint();
 		}
 	}
 

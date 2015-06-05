@@ -7,12 +7,19 @@ import Objects.Line;
 import Objects.Pathway;
 import Objects.Project;
 import Objects.Sample;
+import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
+import Prog.NewFrompFrame;
+import Prog.tableAndChartData;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -22,6 +29,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -32,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
 
@@ -42,6 +51,13 @@ import java.util.LinkedHashMap;
 import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
 import org.biojava.nbio.core.sequence.io.FastaReader;
 import org.biojava.nbio.core.sequence.*;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
 
 //This is the activity Matrix Pane. Ec oriented part of the EC activity section. From here you can generate the Ec activity matrix
 public class ActMatrixPane extends JPanel {
@@ -63,9 +79,11 @@ public class ActMatrixPane extends JPanel {
 	private ArrayList<JLabel> nameLabels_; // ArrayList of labels
 	private Project actProj_; // The active project
 	private boolean sortedEc = false; 
+	private boolean drawChart = false; 
 	private final int xSize = 130; 
 	private final int ySize = 15; 
 	private int sumIndexSmp; 
+	private int numChart = 0;
 	private JButton resort_; // JBotton to resort the array
 	private ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
 	private Loadingframe lframe; // Loading frame
@@ -73,6 +91,7 @@ public class ActMatrixPane extends JPanel {
 	private Line mappedSum; 
 	private Line incompleteSum; 
 	private Line sums; 
+	private tableAndChartData returnData;
 	JPanel optionsPanel_; // Options panel
 	JPanel displayP_; // Panel which displays the ec matrix
 	JScrollPane showJPanel_; // Scroll pane which allows the user to scroll through the matrix if it is bigger than the allotted space
@@ -84,6 +103,8 @@ public class ActMatrixPane extends JPanel {
 	JPopupMenu ecMenuPopup;
 	int popupIndexY; // Coordinates to facilitate the exporting of sequence ids
 	int popupIndexX; 
+	int yIndex1 = 520;
+	int yIndex2 = 0;
 	String buttonName;
 	boolean exportAll = false;
 	public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList,
@@ -104,10 +125,14 @@ public class ActMatrixPane extends JPanel {
 		this.smpList_ = Project.samples_; 
 		this.sumIndexSmp = 0; 
 		setSelectedEc(); // Sets whether or not each sample is selected
-		prepMatrix(); // Builds the ec matrix
+		prepMatrix(); // Builds the ec matrixLoadingframe.close();
 		initMainPanels(); // Instanciates the options, display and scroll panels
 		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
 		Loadingframe.close(); // closes the loading frame
+	}
+	
+	public ActMatrixPane(){
+		
 	}
 	
 	public ActMatrixPane(Project actProj,DataProcessor proc, Dimension dim) {
@@ -148,9 +173,94 @@ public class ActMatrixPane extends JPanel {
 		removeAll(); // Removes everything on the backpanel
 		initMainPanels(); // instanciates the options, display, and scroll panels
 		addOptionsLCA(); // adds the buttons, labels, checkboxes etc to the options panel
+		if(drawChart==true){
+			drawChart();
+		}
 		invalidate(); 
 		validate(); 
 		repaint(); 
+	}
+	
+	/**
+	 * Draws the tables and pie chart for the determine Lowest Common Ancestor for a given EC number
+	 * or sample file.
+	 * 
+	 * @author Jennifer Terpstra.
+	 */
+	protected void drawChart(){
+		final MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		final JFreeChart chart = ChartFactory.createPieChart(returnData.getFileName()
+				+ " Total Taxonomy", returnData.getDataset(), true, true, false);
+		PiePlot pie1 = (PiePlot) chart.getPlot();
+		pie1.setNoDataMessage("No data available");
+		pie1.setCircular(false);
+		//pie1.setLabelGap(0.02);
+		//pie1.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} {2}"));
+		//pie1.setLabelFont(new Font("SansSerif", Font.PLAIN, 10));
+		pie1.setLabelGenerator(null);
+		
+		JPanel panel = new ChartPanel(chart);
+		JPanel panel2 = new JPanel(new BorderLayout());
+		JPanel panel4 = new JPanel(new BorderLayout());
+		JPanel panel3 = new JPanel(new BorderLayout());
+		
+		
+		JButton exportPie = new JButton("Export");
+		exportPie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ChartUtilities.saveChartAsPNG(new File(new File(".").getAbsolutePath() + File.separator
+							+ "PieChart" + File.separator + returnData.getFileName()
+							+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
+					infoFrame(File.separator+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
+				} catch (IOException e1) {
+					warningFrame("PieChart folder does not exist!");
+				}
+			}
+		});
+		JButton exportTable1 = new JButton("Export");
+		exportTable1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				meta.exportExcel(returnData.getTable1(),"TotalTaxa", returnData.getFileName());
+				System.out.println("Exported Total Taxa");
+			}
+		});
+		JButton exportTable2 = new JButton("Export");
+		exportTable2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				meta.exportExcel(returnData.getTable2(),"Summary", returnData.getFileName());
+				System.out.println("Exported Summary");
+			}
+		});
+		
+		panel3.add(exportPie, BorderLayout.SOUTH);
+		panel.setVisible(true);
+		panel3.setVisible(true);
+		panel.setLayout(null);
+		panel3.setBounds(520,250 + (1020)*numChart , 600, 600);
+		panel3.add(panel);
+		
+		JScrollPane tableContainer = new JScrollPane(returnData.getTable1());
+		panel2.add(tableContainer, BorderLayout.CENTER);
+		panel2.add(exportTable1, BorderLayout.NORTH);
+		panel2.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (), returnData.getFileName()+
+				"Total Taxonomy",TitledBorder.CENTER,TitledBorder.TOP));
+		panel2.setVisible(true);
+		panel2.setBounds(0, yIndex2 + (yIndex1 + 510)*numChart, 500,500);
+		
+		JScrollPane tableContainer2 = new JScrollPane(returnData.getTable2());
+		panel4.add(tableContainer2, BorderLayout.CENTER);
+		panel4.add(exportTable2, BorderLayout.NORTH);
+		panel4.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (), returnData.getFileName()+
+				" Summary",TitledBorder.CENTER,TitledBorder.TOP));
+		panel4.setVisible(true);
+		panel4.setBounds(0, yIndex1 + (yIndex1 + 510)*numChart, 500,500);
+		
+		displayP_.add(panel3, BorderLayout.LINE_END);
+		displayP_.add(panel2, BorderLayout.LINE_START);
+		displayP_.add(panel4, BorderLayout.LINE_START);
+		
+		numChart++;
 	}
 
 	private void initMainPanels() {// instanciates the options, display, and scroll panels
@@ -266,10 +376,9 @@ public class ActMatrixPane extends JPanel {
 		this.sums.setSum();
 		unCompleteMover();
 	}
+	
 	//Options panel for the Lowest Common Ancestor page
 	private void addOptionsLCA(){
-		this.lframe.bigStep("Adding options");
-		this.lframe.step("Buttons");
 		
 		this.export_ = new JButton("Find Lowest Common Ancestor");
 		this.export_.addActionListener(new ActionListener() {
@@ -301,12 +410,29 @@ public class ActMatrixPane extends JPanel {
 				});
 				fChoose_.showOpenDialog(getParent());
 				try {
-					MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-					meta.getTrypticPeptideAnaysis(meta.readFasta(fChoose_.getSelectedFile().getCanonicalPath()));
-					
+					if (fChoose_.getSelectedFile().getCanonicalPath() != null) {
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Calculating LCA..");
+						lframe.step(fChoose_.getSelectedFile()
+								.getCanonicalPath());
+						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+						returnData = meta.getTrypticPeptideAnaysis(meta
+								.readFasta(fChoose_.getSelectedFile()
+										.getCanonicalPath()), false);
+						drawChart = true;
+						if (numChart < 1) {
+							prepaintLCA();
+						} else {
+							drawChart();
+						}
+					}
+					Loadingframe.close();
+
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					warningFrame("Incorrect Sequence file format!");
+				} catch (NullPointerException p1) {
+					warningFrame("No file selected!");
+
 				}
 			}
 		});
@@ -314,9 +440,33 @@ public class ActMatrixPane extends JPanel {
 	this.export_.setVisible(true);
 	this.export_.setLayout(null);
 	this.export_.setForeground(Project.getFontColor_());
+	JButton clear = new JButton("Clear Screen");
+	clear.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			displayP_.removeAll();
+			displayP_.updateUI(); 
+			numChart = 0;
+			yIndex1 = 520;
+			yIndex2 = 0;
+		}
+	});
+	clear.setBounds(1000, 20, 150, 20);
+	clear.setVisible(true);
+	clear.setLayout(null);
+	clear.setForeground(Project.getFontColor_());
+
+	JLabel warning = new JLabel("Note: Sequence files that contain a large amount of sequences may take awhile to process");
+	warning.setBounds(20, 70, 700, 20);
+	warning.setVisible(true);
+	warning.setLayout(null);
+	warning.setForeground(Project.getFontColor_());
+
 
 	this.optionsPanel_.add(this.export_);
+	this.optionsPanel_.add(clear);
+	this.optionsPanel_.add(warning);
 	}
+	
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel
 		this.lframe.bigStep("Adding options");
 		this.lframe.step("Buttons");
@@ -1255,9 +1405,22 @@ public class ActMatrixPane extends JPanel {
 				}
 			});
 			if (this.includeRepseq_.isSelected()) {
-				JMenuItem mItem2 = new JMenuItem("Export all Sequences");
+				JMenuItem mItem2 = new JMenuItem("Without finding Lowest Common Ancestor");
+				JMenuItem mItem3 = new JMenuItem("Without finding Lowest Common Ancestor");
+				JMenuItem mItem4 = new JMenuItem("With finding Lowest Common Ancestor");
+				JMenuItem mItem5 = new JMenuItem("With finding Lowest Common Ancestor");
 				ecMenuPopup = new JPopupMenu();
-				ecMenuPopup.add(mItem2);
+				JMenu submenu = new JMenu("Export all Sequences to one file");
+			    submenu.add(mItem2);
+			    submenu.add(mItem4);
+			    
+			    
+			    JMenu submenu2 = new JMenu("Export all Sequences to individual files");
+			    submenu2.add(mItem3);
+			    submenu2.add(mItem5);
+			    
+			    ecMenuPopup.add(submenu);
+			    ecMenuPopup.add(submenu2);
 				
 				mItem2.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
@@ -1265,10 +1428,83 @@ public class ActMatrixPane extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = true;
+						//System.out.println(buttonName);
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Exporting Sequences..");
+						lframe.step(buttonName); 
 						cmdExportSequences(buttonName, exportAll);
-						System.out.println(buttonName);
 						exportAll = false;
+						Loadingframe.close();
 						
+					}
+					
+				});
+				mItem3.addActionListener(new ActionListener(){
+					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						exportAll = false;
+						//System.out.println(buttonName);
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Exporting Sequences..");
+						lframe.step(buttonName); 
+						cmdExportSequences(buttonName, exportAll);
+						Loadingframe.close();
+						
+					}
+					
+				});
+				mItem4.addActionListener(new ActionListener(){
+					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//System.out.println("export one file");
+						
+						String writePath = "";
+						exportAll = true;
+						//System.out.println(buttonName);
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Exporting Sequences..");
+						lframe.step(buttonName); 
+						writePath = cmdExportSequences(buttonName, exportAll).get(0);
+						System.out.println(writePath);
+						exportAll = false;
+						lframe.bigStep("Calculating LCA.."); 
+						lframe.step(writePath.substring(writePath.lastIndexOf("/")+1,writePath.lastIndexOf(".txt"))); 
+						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+						meta.getTrypticPeptideAnaysis(meta.readFasta(writePath), true);
+						Loadingframe.close();
+					}
+					
+				});
+				mItem5.addActionListener(new ActionListener(){
+					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//System.out.println("export multiple");
+						
+						ArrayList<String> pathList = new ArrayList<String>();
+						String writePath = "";
+						exportAll = false;
+						//System.out.println(buttonName);
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Exporting Sequences.."); 
+						lframe.step(buttonName);
+						pathList = cmdExportSequences(buttonName, exportAll);
+						Loadingframe.close();
+						for(int i = 0;i<pathList.size();i++){
+							lframe = new Loadingframe(); 
+							writePath = pathList.get(i);
+							System.out.println(writePath);
+							lframe.bigStep("Calculating LCA.."); 
+							lframe.step(writePath); 
+							MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+							meta.getTrypticPeptideAnaysis(meta.readFasta(writePath), true);
+							Loadingframe.close();
+						}
 					}
 					
 				});
@@ -1282,6 +1518,7 @@ public class ActMatrixPane extends JPanel {
 							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),
 									e.getX(), e.getY());
 							buttonName = e.getComponent().getName();
+							//System.out.println(buttonName);
 					
 						}
 					}
@@ -1731,12 +1968,16 @@ public class ActMatrixPane extends JPanel {
 	/*
 	 * Takes in command line calls to export sequences along with wheter or not to print all sequences samples into each EC number file
 	 */
-	public void cmdExportSequences(String ecName, boolean oneFile) {
+	public ArrayList<String> cmdExportSequences(String ecName, boolean oneFile) {
 		int index;
 		EcNr ecTmp;
+		ArrayList<String> writePathList = new ArrayList<String>();
 
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
-			if (ecName.contains(this.ecMatrix_.get(i).getEc_().name_)) {
+			//changed contains to equals!!
+			if (ecName.equals(this.ecMatrix_.get(i).getEc_().name_)) {
+				//System.out.println("cmd" + ecName);
+				//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 				ecTmp = new EcNr(
 						((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
 				for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++) {
@@ -1792,25 +2033,29 @@ public class ActMatrixPane extends JPanel {
 						if(oneFile){
 							//If the option to print all sequences per EC number is selected as true
 							System.out.println("Working....\n");
-							ExportSequencesOneFile(reps,ecTmp,sampName);
+							//System.out.println("before" + ecTmp.name_);
+							writePathList.add(ExportSequencesOneFile(reps,ecTmp,sampName));
 						}
 						else{
 							//print all sequences per sample EC number 
 							System.out.println("Working....\n");
-							ExportSequences(reps, ecTmp, sampName);
+							writePathList = ExportSequences(reps, ecTmp, sampName, writePathList);
 						}
 						
 					}
 				}
 			}
 		}
+		//System.out.println(writePathList.toString());
+		return writePathList;
 	}
 	/*
 	 * exports sequences from EC numbers from a sample to their own named file.
 	 */
-	public void ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
-			String sampName_) {
+	public ArrayList<String> ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
+			String sampName_, ArrayList<String> writePathList) {
 		String seqFilePath = "";
+		System.out.println(ecNr_.name_);
 		for (int i = 0; i < Project.samples_.size(); i++) {
 			if (sampName_.equals(Project.samples_.get(i).name_)) {
 				if (Project.samples_.get(i).getSequenceFile() != null
@@ -1869,6 +2114,9 @@ public class ActMatrixPane extends JPanel {
 							File file = new File(basePath_ + "Sequences"
 									+ File.separator + sampleName + "-"
 									+ ecNr_.name_ + "-Sequences" + ".txt");
+							writePathList.add (basePath_ + "Sequences"
+									+ File.separator + sampleName + "-"
+									+ ecNr_.name_ + "-Sequences" + ".txt");
 							//writes to a file named after the sample and EC number
 							PrintWriter printWriter = new PrintWriter(file);
 							if (text != null && text != "") {
@@ -1901,13 +2149,16 @@ public class ActMatrixPane extends JPanel {
 					.println("There is no sequence file associated with this sample ("
 							+ sampName_ + ")");
 		}
+		return writePathList;
 	}
 
 /*
  * Exports sequences of different samples that share the same EC number into a file of that EC number name
  */
-public void ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_) {
+public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_) {
 	String seqFilePath = "";
+	String writePath = "";
+	System.out.println(ecNr_.name_);
 	for (int i = 0; i < Project.samples_.size(); i++) {
 		if (sampName_.equals(Project.samples_.get(i).name_)) {
 			if (Project.samples_.get(i).getSequenceFile() != null
@@ -1965,7 +2216,9 @@ public void ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,Stri
 							sampleName = sampName_;
 						}
 						File file = new File(basePath_ + "Sequences"
-								+ File.separator + ecNr_.name_ +  "-Sequences" + ".txt");
+								+ File.separator + ecNr_.name_ + "-Sequences" + ".txt");
+						writePath = basePath_ + "Sequences"
+								+ File.separator + ecNr_.name_ + "-Sequences" + ".txt";
 						//This allows writing to the file of the same name to append to the file if created, creates file if not
 						PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 						if (text != null && text != "") {
@@ -1998,6 +2251,83 @@ public void ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,Stri
 				.println("There is no sequence file associated with this sample ("
 						+ sampName_ + ")");
 	}
+	return writePath;
+}
+public boolean isDrawChart() {
+	return drawChart;
+}
+
+public void setDrawChart(boolean drawChart) {
+	this.drawChart = drawChart;
+}
+
+/**
+ * Pops up whenever an exception occurs in a try/catch
+ * @param strIN Error message to be displayed
+ * 
+ * @author Jennifer Terpstra
+ */
+private void warningFrame(String strIN) {
+	JFrame wrngFrame = new JFrame();
+	wrngFrame.setBounds(200, 200, 350, 100);
+	wrngFrame.setLayout(null);
+	wrngFrame.setVisible(true);
+
+	JPanel backP = new JPanel();
+	backP.setBounds(0, 0, 350, 100);
+	backP.setLayout(null);
+	wrngFrame.add(backP);
+
+	JLabel label = new JLabel("Warning! " + strIN);
+	label.setBounds(25, 25, 300, 25);
+	backP.add(label);
+}
+
+/**
+ * Displays after a user exports tables or piechart with the file location, the location
+ * can then be displayed to the user.
+ * 
+ * @param strIN Filepath towards the exported file
+ * @param location Foler which the exported file is located
+ * 
+ * @author Jennifer Terpstra
+ * @return 
+ */
+public void infoFrame(String strIN, final String location) {
+	JFrame infoFrame = new JFrame();
+	infoFrame.setBounds(200, 200, 800, 200);
+	infoFrame.setLayout(null);
+	infoFrame.setVisible(true);
+
+	JPanel backP = new JPanel();
+	backP.setBounds(0, 0, 800, 80);
+	backP.setLayout(null);
+	infoFrame.add(backP);
+
+	JLabel label = new JLabel("File was saved at " + strIN);
+	label.setBounds(20, 20, 800, 50);
+	backP.add(label);
+	
+	JButton open = new JButton("Open file location");
+	open.setBounds(250, 80, 225, 30);
+	open.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			String path = "";
+			try {
+				path = new File("").getCanonicalPath();
+			} catch (IOException e1) {
+				
+			}
+			JFileChooser fChoose_ = new JFileChooser(path + File.separator
+					+ location);
+			fChoose_.setFileSelectionMode(0);
+			fChoose_.setBounds(100, 100, 200, 20);
+			fChoose_.setVisible(true);
+			fChoose_.showOpenDialog(getParent());
+		}
+		
+	});
+	infoFrame.add(open);
 }
 
 }

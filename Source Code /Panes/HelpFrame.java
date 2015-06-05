@@ -17,7 +17,8 @@ public class HelpFrame extends JFrame {
 		}
 		setTitle("Project summary");
 		setBounds(500, 400, 300, 450);
-		setVisible(true);
+		//set to false to try to not get the summary page to show up
+		setVisible(false);
 		setResizable(false);
 		setLayout(null);
 

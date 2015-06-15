@@ -63,6 +63,7 @@ public class CmdController {
 			this.inputPath_ = getInputPath();
 			System.out.println("input: " + this.inputPath_);
 		} else if (args_.length == 3) {
+			
 			System.out.println("len3\n");
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
@@ -142,8 +143,7 @@ public class CmdController {
 		 * all the file paths in the file, if the line starts with <userP> a new user path
 		 * is added. They are all added to a new project!
 		 */
-		} else if (this.inputPath_.endsWith(".lst"))
-		{
+		} else if (this.inputPath_.endsWith(".lst")){
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(
 						this.inputPath_));
@@ -266,11 +266,8 @@ public class CmdController {
 
 			Project.samples_.add(sample);
 		}
-
 		Controller.loadPathways(true);
-		Project.workpath_ = inputPath_.substring(
-				inputPath_.lastIndexOf(File.separator),
-				inputPath_.lastIndexOf("."));
+		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
 		if (Project.workpath_.contains(File.separator)) {
 			Project.workpath_ = Project.workpath_.replace(File.separator, "");
 		}

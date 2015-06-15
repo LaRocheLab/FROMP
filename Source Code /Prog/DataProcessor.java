@@ -331,7 +331,9 @@ public class DataProcessor {
 		ret[1] = "1"; // Number of this ipr with this sequence id
 		ret[2] = "X"; // Whether or not it is an ipr
 		ret[3] = "X"; // Sequence id
-		if (line.contains(seperator)) {
+		//added !line.contains("/t") for a strange index exception was occuring without
+		if (line.contains(seperator) && !line.contains("\t")) {
+			//System.out.println("If statement");
 			String interpro = findInterProInRaw(line);
 			if (interpro != null) {
 				Project.amountOfIPRs += 1;
@@ -346,14 +348,17 @@ public class DataProcessor {
 				ret[1] = tmp;
 			}
 		} else {
+			//System.out.println("Else statement");
 			if (line.contains("\t")) {
 				String repSeq = line.substring(0, line.indexOf("\t"));
+				//System.out.println("repseq " + repSeq);
 				ret[3] = repSeq;
 			}
 			String interpro = findInterProInRaw(line);
+			//System.out.println("interpro " + interpro);
 			if (interpro != null) {
 				Project.amountOfIPRs += 1;
-				System.out.println("IPR sucessfully saved");
+				//System.out.println("IPR sucessfully saved");
 				ret[0] = interpro;
 				ret[2] = "IPR";
 			} else {
@@ -421,7 +426,8 @@ public class DataProcessor {
 		// System.out.println("Sample");
 		String seperator = "";
 		String tmp = input;
-		if (input.contains(",")) {
+		//adding input.contains("\t"), might have to remove
+		if (input.contains(",") && !input.contains("\t")) {
 			seperator = ",";
 		}
 		if ((seperator.isEmpty()) && (input.contains("_"))) {
@@ -733,9 +739,7 @@ public class DataProcessor {
 					//Parses through the files to build the "Sample attributes"
 					while ((zeile = sample.sample_.readLine()) != null)
 					{
-						if (zeile
-								.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")
-								|| zeile.startsWith(">")) {
+						if (zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")|| zeile.startsWith(">")) {
 							i = ParseInterpro(i);
 
 							break;
@@ -810,7 +814,7 @@ public class DataProcessor {
 																		ecNr.amount_,
 																		0));
 												ecWP = findEcWPath(ecNr);
-												this.lFrame_.step("converted"
+												this.lFrame_.step("converted " 
 														+ newEnz[0]);
 												// if(!numOfConvertedPFs.contains(ecNr.name_)){
 												// numOfConvertedPFs.add(ecNr.name_);
@@ -1181,11 +1185,40 @@ public class DataProcessor {
 	public int ParseInterpro(int count) {
 		// System.out.println("Parse Interpro");
 		String zeile = "";
+		String seqPath = "";
+		System.out.println("Parse Interpro");
+		boolean hasSeq = false;
+		ArrayList<String> seqPaths = new ArrayList<String>();
 		int i = count;
 		for (i = count; i < Project.samples_.size(); i++) {
 			Sample sample = Project.samples_.get(i);
+			System.out.println(sample.getSequenceFile());
+			if(sample.getSequenceFile()!=""){
+				hasSeq = true;
+			}
+			else{
+				hasSeq = false;
+			}
+			System.out.println("hasSeq: " + hasSeq);
+			StringReader reader2 = new StringReader();
 			String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
+			if(hasSeq){
+				String seqFilePath = ((Sample) Project.samples_.get(i)).getSequenceFile();
+				BufferedReader seq = reader2.readTxt(seqFilePath);
+				System.out.println("File " + seqFilePath);
+				try {
+					while((seqPath = seq.readLine()) !=null){
+						seqPaths.add(seqPath);
+						System.out.println(seqPath);
+					}
+				} catch (IOException e1) {
+					System.out.println("No sequence file exists");
+				}
+			}
+			
 			sample.sample_ = this.reader.readTxt(tmp);
+			System.out.println("tmp" + tmp);
+			
 			try {
 				while ((zeile = sample.sample_.readLine()) != null) {
 					/*Important for interpro input where several samples are in the same
@@ -1194,8 +1227,10 @@ public class DataProcessor {
 					 */
 					if (zeile.startsWith(">")) {
 						if (Project.samples_.get(i).ecs_.isEmpty()) {
-							Project.samples_.get(i).name_ = zeile
-									.substring(zeile.indexOf(">") + 1);
+							Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
+							if(hasSeq){
+								Project.samples_.get(i).setSequenceFile(seqPaths.get(0));
+							}
 							continue;
 						} else {
 							Color tmpColor = new Color((float) Math.random(),
@@ -1204,10 +1239,17 @@ public class DataProcessor {
 							Sample tmpSample = new Sample(zeile.substring(zeile
 									.indexOf(">") + 1), sample.fullPath_,
 									tmpColor);
+							if (hasSeq) {
+								for (int k = 1; k < seqPaths.size(); k++) {
+										tmpSample.setSequenceFile(seqPaths
+												.get(k));
+								}
+							}
 							tmpSample.legitSample = true;
 							tmpSample.inUse = true;
-							Project.samples_.add(i + 1, tmpSample);
-							Project.legitSamples.add(i + 1, true);
+							//removed +1 from both may have to put back
+							Project.samples_.add(i+1, tmpSample);
+							Project.legitSamples.add(i+1, true);
 							i++;
 							// System.out.println("New Sample Added");
 							continue;
@@ -1242,7 +1284,7 @@ public class DataProcessor {
 																	ecNr.amount_,
 																	0));
 											ecWP = findEcWPath(ecNr);
-											this.lFrame_.step("converted"
+											this.lFrame_.step("converted "
 													+ newEnz[0]);
 
 										}
@@ -1258,9 +1300,20 @@ public class DataProcessor {
 												Project.samples_.get(i).addEc(
 														new EcWithPathway(ecWP,
 																ecNr));
-												Project.legitSamples.remove(i);
-												Project.legitSamples.add(i,
-														Boolean.valueOf(true));
+												//added to try to fix out of bounds exception!!
+												if(Project.legitSamples.size()==1){
+													Project.legitSamples.remove(0);
+													Project.legitSamples.add(0,Boolean.valueOf(true));
+												}
+												//added -1 to attempt to fix error
+												else if(Project.legitSamples.size()>1){
+													Project.legitSamples.remove(i);
+													Project.legitSamples.add(i,Boolean.valueOf(true));
+												}
+												else{
+													Project.legitSamples.add(0,Boolean.valueOf(true));
+												}
+												
 											}
 										} else {
 											if (!ecNr.isCompleteEc()) {

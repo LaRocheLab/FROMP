@@ -38,7 +38,7 @@ public class SampleNameFrame extends JFrame {
 		back.setLayout(null);
 		add(back);
 
-		JLabel info = new JLabel("change samplename");
+		JLabel info = new JLabel("Change Sample Name");
 		info.setBounds(10, 10, 220, 30);
 		back.add(info);
 

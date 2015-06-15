@@ -64,6 +64,7 @@ public class EditsamplesPane extends JPanel {
 	ArrayList<JButton> names_; // ArrayList of buttons which contain the names of the samples
 	StringReader reader; 
 	int xCol2 = 800; 
+	int iprCount = 0;
 
 	public EditsamplesPane(Project activeProj) {
 		this.reader = new StringReader();
@@ -267,15 +268,18 @@ public class EditsamplesPane extends JPanel {
 
 			this.delButt_[sampCnt] = new IndexButton(sampCnt);
 			this.delButt_[sampCnt].setText("x");
-			this.delButt_[sampCnt].setBounds(86 + nameL, 50 + colD * sampCnt,
-					50, 20);
+			this.delButt_[sampCnt].setBounds(86 + nameL, 50 + colD * sampCnt, 50, 20);
 			this.delButt_[sampCnt].setVisible(true);
 			this.delButt_[sampCnt].setBackground(Project.getBackColor_());
 			this.delButt_[sampCnt].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Project.dataChanged = true;
-					EditsamplesPane.this
-							.removeSample(EditsamplesPane.this.delButt_[cnt].SampleIndex_);
+					//if the .ipr file is deleted from the sample list, the user can put new .ipr file in or enter multiple individual samples
+					if(Project.samples_.get(EditsamplesPane.this.delButt_[cnt].SampleIndex_).fullPath_.contains("ipr")){
+						iprCount = 0;
+					}
+					
+					EditsamplesPane.this.removeSample(EditsamplesPane.this.delButt_[cnt].SampleIndex_);
 					EditsamplesPane.this.prepPaint();
 				}
 			});
@@ -325,17 +329,16 @@ public class EditsamplesPane extends JPanel {
 				EditsamplesPane.this.fChoose_.setVisible(true);
 				EditsamplesPane.this.fChoose_.setFileFilter(new FileFilter() {
 					public boolean accept(File f) {
-						if ((f.isDirectory())
-								|| (f.getName().toLowerCase().endsWith(".txt"))
-								|| (f.getName().toLowerCase().endsWith(".out"))
-								|| (f.getName().toLowerCase().endsWith(".tsv"))) {
+						if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))|| (f.getName().toLowerCase().endsWith(".out"))
+								|| (f.getName().toLowerCase().endsWith(".tsv"))||(f.getName().toLowerCase().endsWith(".tsv.cleaned"))
+								|| (f.getName().toLowerCase().endsWith(".ipr"))) {
 							return true;
 						}
 						return false;
 					}
 
 					public String getDescription() {
-						return ".txt";
+						return ".txt, .out, .tsv, .tsv.cleaned, .ipr";
 					}
 				});
 				if (EditsamplesPane.this.fChoose_
@@ -345,20 +348,34 @@ public class EditsamplesPane extends JPanel {
 								.getCurrentDirectory().toString();
 						EditsamplesPane.this.lastFile = EditsamplesPane.this.fChoose_
 								.getCurrentDirectory();
-
-						boolean legit = EditsamplesPane.this
-								.testSampleFile(EditsamplesPane.this.fChoose_
-										.getSelectedFile().getCanonicalPath());
-						Sample sample = new Sample(
-								EditsamplesPane.this.fChoose_.getSelectedFile()
-										.getName(),
-								EditsamplesPane.this.fChoose_.getSelectedFile()
-										.getCanonicalPath(),
-								EditsamplesPane.this.getColor(Project.samples_
-										.size()));
-						sample.legitSample = legit;
-						Project.samples_.add(sample);
-						Project.dataChanged = true;
+						//Checks to see if an .ipr file is already loaded. Only one .ipr file may exist in the sample list or errors will occur
+						if(iprCount != 1){
+							//Cannot have any other samples present when trying to load .ipr file
+							if (Project.samples_.size() > 0 && EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath().contains(".ipr")) {
+								openWarning(
+										"Warning!",
+										"<html><body>In order to load a multiple sample file there must be no "
+										+ "other samples present. Please remove the current samples.</body></html>");
+							} else {
+								//Once .ipr file is added iprCount is made to 1, this stops user from adding anymore samples
+								if(EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath().contains(".ipr")){
+									iprCount = 1;
+								}
+								boolean legit = EditsamplesPane.this.testSampleFile(EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath());
+								Sample sample = new Sample(EditsamplesPane.this.fChoose_.getSelectedFile().getName(),
+										EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath(),
+										EditsamplesPane.this.getColor(Project.samples_.size()));
+								sample.legitSample = legit;
+								Project.samples_.add(sample);
+								Project.dataChanged = true;
+							}
+						}
+						else{
+							openWarning(
+									"Warning!",
+									"<html><body>Only one multiple sample file can be loaded. Remove sample file "
+									+ "if you intend to load samples individually</body></html>");
+						}
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -634,7 +651,7 @@ public class EditsamplesPane extends JPanel {
 						EditsamplesPane.this
 								.openWarning(
 										"Warning!",
-										"<html><body>Be carefull with randomsampling and saving afterwards <br> only the reduced set of enzymes will be saved.</body></html>");
+										"<html><body>Be carefull with random sampling and saving afterwards <br> only the reduced set of enzymes will be saved.</body></html>");
 					}
 				}
 			});
@@ -682,20 +699,35 @@ public class EditsamplesPane extends JPanel {
 	private boolean testSampleFile(String samplePath) throws IOException {
 		int retries = 5;
 		int goodLines = 0;
-
+		boolean IPR = false;
+		
 		BufferedReader sample = this.reader.readTxt(samplePath);
 		DataProcessor tmpProc = new DataProcessor();
 		for (int i = 0; i < retries; i++) {
 			String zeile = sample.readLine();
+			//System.out.println("Line " + zeile);
 			if (zeile == null) {
 				break;
 			}
+			//added to ensure that files lines that contain many samples or those that are missing IPR are skipped
+			if(zeile.contains(">")){
+				IPR = true;
+				zeile = sample.readLine();
+			}
+			if (!zeile.contains("IPR") && IPR == true) {
+				while (!zeile.contains("IPR")) {
+					zeile = sample.readLine();
+				}
+			}	
 			String[] newEnz = tmpProc.getEnzFromSample(zeile);
 			if (!tmpProc.enzReadCorrectly(newEnz)) {
 				newEnz = tmpProc.getEnzFromRawSample(zeile);
+				
 			}
 			if (!tmpProc.enzReadCorrectly(newEnz)) {
 				newEnz = tmpProc.getEnzFromInterPro(zeile);
+				if(newEnz != null){
+				}
 			}
 			if (!tmpProc.enzReadCorrectly(newEnz)) {
 				System.err.println("no enzyme in sample line");
@@ -713,7 +745,7 @@ public class EditsamplesPane extends JPanel {
 								+ "Please check your file.</body></html>");
 			} else {
 				openWarning("Sample valid",
-						"<html><body>All good.</body></html>");
+						"<html><body>Sample file was read correctly.</body></html>");
 			}
 			return true;
 		}

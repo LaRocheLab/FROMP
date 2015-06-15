@@ -721,6 +721,10 @@ public class NewFrompFrame extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tmp = txField.getText();
+				//Attempting to get rid of Enter Project Name: being displayed in the actual project name
+				if(tmp.contains("Enter Project Name: ")){
+					tmp = tmp.replace("Enter Project Name: ", "");
+				}
 				System.out.println(tmp);
 				NewFrompFrame.this.control_.newProject(tmp);
 				NewFrompFrame.this.clearBack();

@@ -1,3 +1,4 @@
+/home/guest/git/FROMP/projects/Enter Project Name: TestProject.frp
 /home/guest/git/FROMP/projects/Enter Project Name: JenProject.frp
 /home/guest/Jennifer/JenTest.frp
 /home/guest/Documents/Kevan/FrompSourceNew/projects/NA-SA_test.frp

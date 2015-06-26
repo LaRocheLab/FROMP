@@ -16,6 +16,8 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
@@ -713,6 +715,14 @@ public class NewFrompFrame extends JFrame {
 
 		txField.setBounds(100, 200, 200, 25);
 		txField.setVisible(true);
+		
+		//When the user clicks to enter the project name, sets the text field to empty
+		txField.addMouseListener(new MouseAdapter() {
+			  @Override
+			  public void mouseClicked(MouseEvent e) {
+			    txField.setText("");
+			  }
+		});
 		newProjectPanel.add(txField);
 
 		button.setBounds(325, 200, 75, 25);
@@ -721,10 +731,6 @@ public class NewFrompFrame extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tmp = txField.getText();
-				//Attempting to get rid of Enter Project Name: being displayed in the actual project name
-				if(tmp.contains("Enter Project Name: ")){
-					tmp = tmp.replace("Enter Project Name: ", "");
-				}
 				System.out.println(tmp);
 				NewFrompFrame.this.control_.newProject(tmp);
 				NewFrompFrame.this.clearBack();

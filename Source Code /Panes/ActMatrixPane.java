@@ -1514,7 +1514,7 @@ public class ActMatrixPane extends JPanel {
 					public void mouseClicked(MouseEvent e) {
 						if (SwingUtilities.isRightMouseButton(e)
 								|| e.isControlDown()) {
-							System.out.println("Right Button Pressed");
+							//System.out.println("Right Button Pressed");
 							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),
 									e.getX(), e.getY());
 							buttonName = e.getComponent().getName();

@@ -743,10 +743,7 @@ public class EditsamplesPane extends JPanel {
 								+ retries + " lines " + (retries - goodLines)
 								+ " could not be read correctly.<br>"
 								+ "Please check your file.</body></html>");
-			} else {
-				openWarning("Sample valid",
-						"<html><body>Sample file was read correctly.</body></html>");
-			}
+			} 
 			return true;
 		}
 		openWarning(

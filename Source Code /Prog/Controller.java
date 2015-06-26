@@ -93,9 +93,11 @@ public class Controller {
 
 	public static void loadPathways(boolean fullLoad) {
 		if (processor_ == null) {
+			System.out.println("null");
 			processor_ = new DataProcessor(project_);
 		}
 		if (Project.dataChanged) {
+			System.out.println("Data changed");
 			if (DataProcessor.newBaseData) {
 				System.out.println("newBaseData");
 				if (processor_ == null) {

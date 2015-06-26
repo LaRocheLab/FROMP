@@ -209,11 +209,8 @@ public class DataProcessor {
 		String[] ret = new String[4];
 
 		ret[0] = "X"; // Ec name
-		//
 		ret[1] = "1"; // Number of this ec with this sequence id
-		//
 		ret[2] = "X"; // Whether or not it is a pf or if it is an ec
-		//
 		ret[3] = "X"; // Sequence ID
 		if (line.contains("_")) {
 			String tmp = line.substring(0, line.indexOf("_"));

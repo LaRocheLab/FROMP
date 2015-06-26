@@ -94,38 +94,42 @@ public class MetaProteomicAnalysis {
 		fileName = path.substring(path.lastIndexOf("/")+1,path.lastIndexOf(".txt"));
 		try {
 			trypticPeptide = new TrypticPeptide();
-			while ((line = rfile.readLine()) != null) {
-				//Save the unique identifier into tryptic peptide
-				if(line.startsWith(">")){
-					trypticPeptide.setUniqueIdentifier(line);
-				}
-				//the actual peptide sequence that needs to be digested
-				else if (!line.startsWith(">")) {
-					peptideList = new ArrayList<String>();
-					fasta = line;
-					String peptide;
-					int i = 0; 
-					int subfasa;
-					while (i < fasta.length()) {
-						subfasa = i;
-						while ((subfasa < fasta.length() - 1)
-								&& (((fasta.charAt(subfasa) == 'K' || fasta.charAt(subfasa) == 'R') && fasta
-										.charAt(subfasa + 1) == 'P') || (fasta.charAt(subfasa) != 'K' && fasta
-										.charAt(subfasa) != 'R'))) {
-							subfasa += 1;
-						}
-						peptide = fasta.substring(i, subfasa + 1);
-						if ((peptide.length() >= 5)) {
-							peptideList.add(peptide);
-						}
-						i = subfasa + 1;
+			if (rfile != null) {
+				while ((line = rfile.readLine()) != null) {
+					// Save the unique identifier into tryptic peptide
+					if (line.startsWith(">")) {
+						trypticPeptide.setUniqueIdentifier(line);
 					}
-					trypticPeptide.setPeptides(peptideList);
-					retList.add(trypticPeptide);
-					trypticPeptide = new TrypticPeptide();
+					// the actual peptide sequence that needs to be digested
+					else if (!line.startsWith(">")) {
+						peptideList = new ArrayList<String>();
+						fasta = line;
+						String peptide;
+						int i = 0;
+						int subfasa;
+						while (i < fasta.length()) {
+							subfasa = i;
+							while ((subfasa < fasta.length() - 1)
+									&& (((fasta.charAt(subfasa) == 'K' || fasta
+											.charAt(subfasa) == 'R') && fasta
+											.charAt(subfasa + 1) == 'P') || (fasta
+											.charAt(subfasa) != 'K' && fasta
+											.charAt(subfasa) != 'R'))) {
+								subfasa += 1;
+							}
+							peptide = fasta.substring(i, subfasa + 1);
+							if ((peptide.length() >= 5)) {
+								peptideList.add(peptide);
+							}
+							i = subfasa + 1;
+						}
+						trypticPeptide.setPeptides(peptideList);
+						retList.add(trypticPeptide);
+						trypticPeptide = new TrypticPeptide();
+					}
 				}
 			}
-			
+
 		} catch (IOException e) {
 			warningFrame("File " + path + " Not found!");
 		}

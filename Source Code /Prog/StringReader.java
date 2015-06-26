@@ -21,7 +21,7 @@ public class StringReader {
 			in = new BufferedReader(new FileReader(path));
 		} catch (IOException e) {
 			openWarning("Error", "File: pathway" + path + ".chn" + " not found");
-			e.printStackTrace();
+			System.out.println("File: pathway" + path + ".chn" + " not found");
 		}
 		return in;
 	}

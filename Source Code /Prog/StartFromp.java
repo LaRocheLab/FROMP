@@ -109,7 +109,7 @@ public class StartFromp {
 							CmdController cmd;
 							cmd = new CmdController(args);
 						}else {
-							System.out.println("1");
+							//System.out.println("1");
 							System.out.println("Wrong input");
 							System.out.println("check input/output-path");
 							System.out.println("inputPath: " + args[0]);
@@ -117,7 +117,7 @@ public class StartFromp {
 							printOptions();
 						}
 					} else {
-						System.out.println("2");
+						//System.out.println("2");
 						System.out.println("Wrong input");
 						System.out.println("check input/output-path");
 						System.out.println("inputPath: " + args[0]);
@@ -154,7 +154,7 @@ public class StartFromp {
 								&& checkEC(args[2]) && checkEC(args[3])) {
 							cmd = new CmdController(args);
 						} else {
-							System.out.println("1");
+							//System.out.println("1");
 							System.out.println("Wrong input");
 							System.out.println("check input/output-path");
 							System.out.println("inputPath: " + args[0]);
@@ -162,7 +162,7 @@ public class StartFromp {
 							printOptions();
 						}
 					} else {
-						System.out.println("2");
+						//System.out.println("2");
 						System.out.println("Wrong input");
 						System.out.println("check input/output-path");
 						System.out.println("inputPath: " + args[0]);
@@ -230,7 +230,7 @@ public class StartFromp {
 								printOptions();
 							}
 						} else {
-							System.out.println("1");
+							//System.out.println("1");
 							System.out.println("Wrong input");
 							System.out.println("check input/output-path");
 							System.out.println("inputPath: " + args[0]);
@@ -238,7 +238,7 @@ public class StartFromp {
 							printOptions();
 						}
 					} else {
-						System.out.println("2");
+						//System.out.println("2");
 						System.out.println("Wrong input");
 						System.out.println("check input/output-path");
 						System.out.println("inputPath: " + args[0]);
@@ -308,13 +308,6 @@ public class StartFromp {
 		if(options.contentEquals("lca")){
 			ret = true;
 		}
-		
-//		if(options.contentEquals("ecseq")){
-//			ret = true;
-//		}
-//		if(options.contentEquals("ecseqall")){
-//			ret = true;
-//		}
 		return ret;
 	}
 
@@ -354,7 +347,7 @@ public class StartFromp {
 		}
 		System.out.println("../java -jar FROMP.jar h for help");
 		System.out.println("../java -jar FROMP.jar d for the pathwaydesigner");
-		System.out.println("");
+		System.out.println();
 		System.out
 				.println("../java -jar FROMP.jar 'inputPath' 'outputPath' 'option'");
 		System.out.println("Options are:");
@@ -364,7 +357,7 @@ public class StartFromp {
 		System.out.println("'e' for the EC-activity-matrix");
 		System.out.println("'f' to export the project as a .frp file");
 		System.out.println("Exported .frp files will be saved in ~/projects");
-		System.out.println("");
+		System.out.println();
 		System.out
 				.println("'ec' to export a list of sequence IDs from a file of ec numbers from your input file");
 		System.out

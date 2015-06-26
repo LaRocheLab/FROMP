@@ -446,7 +446,7 @@ public class CmdController {
 						}
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("File does not exist");
 				}
 			}
 			//export picture commands

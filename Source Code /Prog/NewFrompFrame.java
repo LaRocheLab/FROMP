@@ -716,7 +716,7 @@ public class NewFrompFrame extends JFrame {
 		txField.setBounds(100, 200, 200, 25);
 		txField.setVisible(true);
 		
-		//When the user clicks to enter the project name, sets the text field to empty
+		//When the user clicks to enter the project name, sets the text field to empty.
 		txField.addMouseListener(new MouseAdapter() {
 			  @Override
 			  public void mouseClicked(MouseEvent e) {

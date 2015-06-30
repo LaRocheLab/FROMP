@@ -370,7 +370,7 @@ public class PathwayMatrix extends JPanel {
 	public void exportMat(String path, boolean inCsf) {// exports the pathway matrix to a file
 		String seperator = "\t";
 		if (inCsf) {
-			seperator = ",";
+			seperator = "\t";
 		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));

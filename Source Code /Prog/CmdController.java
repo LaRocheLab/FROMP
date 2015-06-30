@@ -80,7 +80,6 @@ public class CmdController {
 				this.ec_.add(args_[2]);
 			}
 			else {
-				System.out.println("Here\n");
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
 				this.outPutPath_ = getOutputPath();
@@ -169,12 +168,8 @@ public class CmdController {
 									controller.loadAnotherProjFile(line);
 									System.out.println("Project file added");
 									Project.workpath_ = inputPath_
-											.substring(
-													inputPath_
-															.lastIndexOf(File.separator),
-													inputPath_.lastIndexOf("."));
-									if (Project.workpath_
-											.contains(File.separator)) {
+											.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									if (Project.workpath_.contains(File.separator)) {
 										Project.workpath_ = Project.workpath_
 												.replace(File.separator, "");
 									}
@@ -504,6 +499,7 @@ public class CmdController {
 			if ((this.optionsCmd_.contentEquals("s"))
 					|| (this.optionsCmd_.contentEquals("a"))
 					|| (this.optionsCmd_.contentEquals("am"))) {
+				System.out.println("Here");
 				System.out.println("Pathway-score-matrix");
 				pwMAtrix = new PathwayMatrix(Project.samples_,
 						Project.overall_, DataProcessor.pathwayList_,

@@ -1725,7 +1725,7 @@ public class ActMatrixPane extends JPanel {
 	public void exportMat(String path, boolean inCsf) {
 		String separator = "\t";
 		if (inCsf) {
-			separator = ",";
+			separator = "\t";
 		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));

@@ -51,7 +51,7 @@ public class CmdController {
 		args_ = args;
 		this.ec_ = new ArrayList<String>();
 		if (args_.length == 2) {
-			System.out.println("len2\n");
+			//System.out.println("len2\n");
 			if (checkEC(args_[1])) {
 				this.ec_.add(args_[1]);
 			} else if (args_[1].contentEquals("seq")) {
@@ -64,7 +64,7 @@ public class CmdController {
 			System.out.println("input: " + this.inputPath_);
 		} else if (args_.length == 3) {
 			
-			System.out.println("len3\n");
+			//System.out.println("len3\n");
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -499,7 +499,6 @@ public class CmdController {
 			if ((this.optionsCmd_.contentEquals("s"))
 					|| (this.optionsCmd_.contentEquals("a"))
 					|| (this.optionsCmd_.contentEquals("am"))) {
-				System.out.println("Here");
 				System.out.println("Pathway-score-matrix");
 				pwMAtrix = new PathwayMatrix(Project.samples_,
 						Project.overall_, DataProcessor.pathwayList_,

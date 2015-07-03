@@ -335,7 +335,7 @@ public class Project {
 							.get(ecCnt);
 					out.write("EC*:" + tmpEc.name_ + ":" + tmpEc.amount_);
 					out.newLine();
-					System.out.println(tmpEc.repseqs_.size());
+					//System.out.println(tmpEc.repseqs_.size());
 					for (int repCnt = 0; repCnt < tmpSamp.conversions_.size(); repCnt++) {
 						if (((ConvertStat) tmpSamp.conversions_.get(repCnt)).ecNr_
 								.contentEquals(tmpEc.name_)) {

@@ -69,7 +69,6 @@ public class PngBuilder {
 
 	public void alterPathway(ArrayList<EcPosAndSize> posList, String pathwayId,
 			Sample sample) {
-		System.out.println("2");
 		Color col = sample.sampleCol_;
 		try {
 			this.image = ImageIO.read(new File("pics" + this.separator_
@@ -118,7 +117,6 @@ public class PngBuilder {
 	}
 
 	public void alterPathway(PathwayWithEc tmpPath, Sample sample) {
-		System.out.println("3");
 		Color col = sample.sampleCol_;
 
 		int stepper = 0;
@@ -198,7 +196,6 @@ public class PngBuilder {
 
 	public BufferedImage getAlteredPathway(PathwayWithEc tmpPath, Sample sample) {
 		Color col = sample.sampleCol_;
-		System.out.println("test 123");
 
 		int stepper = 0;
 		int statsCnt = 0;
@@ -233,9 +230,9 @@ public class PngBuilder {
 						col = tmpStats.col_;
 						stepper = 0;
 						perc = (double) tmpStats.amount_ / (double) statsSum;
-						System.out.println("tmpstats=" + tmpStats.amount_);
-						System.out.println("statsSum=" + statsSum);
-						System.out.println("perc=" + perc);
+						//System.out.println("tmpstats=" + tmpStats.amount_);
+						//System.out.println("statsSum=" + statsSum);
+						//System.out.println("perc=" + perc);
 					}
 					for (int x = xStart; x < xStart + tmpPos.width_; x++) {
 						if ((!sample.singleSample_)
@@ -248,10 +245,10 @@ public class PngBuilder {
 								col = tmpStats.col_;
 								perc = (double) tmpStats.amount_
 										/ (double) statsSum;
-								System.out.println("tmpstats="
-										+ tmpStats.amount_);
-								System.out.println("statsSum=" + statsSum);
-								System.out.println("perc=" + perc);
+								//System.out.println("tmpstats="
+										//+ tmpStats.amount_);
+								//System.out.println("statsSum=" + statsSum);
+								//System.out.println("perc=" + perc);
 							}
 						}
 						for (int y = yStart; y < yStart + tmpPos.height_; y++) {

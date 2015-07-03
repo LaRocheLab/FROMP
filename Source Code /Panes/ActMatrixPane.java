@@ -1724,6 +1724,7 @@ public class ActMatrixPane extends JPanel {
 	//exports the whole matrix to the input path
 	public void exportMat(String path, boolean inCsf) {
 		String separator = "\t";
+		String pathway = "";
 		if (inCsf) {
 			separator = "\t";
 		}
@@ -1737,6 +1738,7 @@ public class ActMatrixPane extends JPanel {
 					// out.write(separator);
 					out.write(((Sample) Project.samples_.get(smpCnt)).name_
 							+ separator);
+					//System.out.println(((Sample) Project.samples_.get(smpCnt)).name_);
 				}
 			}
 			out.newLine();
@@ -1746,6 +1748,14 @@ public class ActMatrixPane extends JPanel {
 						&& (!this.dispIncomplete_.isSelected())) {
 					break;
 				}
+				//adds the first pathway name associated with that EC number to the file
+				if (proc_.getPathwayEc(line.getEc_().name_) != null) {
+					pathway = proc_.getPathwayName(proc_.getPathwayEc(line
+							.getEc_().name_));
+				} else {
+					pathway = "unmapped";
+				}
+				out.write(pathway + separator);
 				out.write(line.getEc_().name_ + line.getEc_().nameSuppl()
 						+ separator);
 				for (int x = 0; x < line.getArrayLine_().length; x++) {

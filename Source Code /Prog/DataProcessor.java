@@ -46,6 +46,7 @@ public class DataProcessor {
 	String separator_;
 	//These lines are the conversion charts found in /list
 	static final String listPath = "list" + File.separator + "ec.list";
+	static final String pathwayList = "list" + File.separator + "pathway.list";
 	static final String ecNamesPath = "list" + File.separator + "ec2go.txt"; 
 	static final String rnListPath = "list" + File.separator + "rn.list"; 
 	static final String mapTitleList = "list" + File.separator
@@ -1921,10 +1922,13 @@ public class DataProcessor {
 			try {
 				this.ecList = this.reader.readTxt(listPath);
 				while ((zeile = this.ecList.readLine()) != null) {
+					//System.out.println(zeile);
 					tmp = getEcNrFromList(zeile);
+					//System.out.println("EC " + tmp);
 					newEc = Boolean.valueOf(true);
 
 					id = getPathwayFromList(zeile);
+					//System.out.println("id " + id);
 					if ((!id.equalsIgnoreCase("ec01120"))
 							&& (!id.equalsIgnoreCase("ec01110"))
 							&& (!id.equalsIgnoreCase("ec01100"))) {
@@ -1963,6 +1967,41 @@ public class DataProcessor {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * Given an ec number, returns the pathway number in order to find the appropriate pathway
+	 * 
+	 * @param ecNum EC number
+	 * @return Pathway number
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	public String getPathwayEc(String ecNum){
+		String zeile = "";
+		String tmp = "";
+		String id = "";
+		Map<String,String> eclist = new HashMap<String,String>();
+		this.ecList = this.reader.readTxt(listPath);
+		try {
+			while ((zeile = this.ecList.readLine()) != null) {
+				tmp = getEcNrFromList(zeile);
+				//System.out.println(tmp);
+				id = getPathwayFromList(zeile);
+				//System.out.println(id);
+				if(!id.equals("")&&!eclist.containsKey(tmp)){
+					eclist.put(tmp, id);
+				}
+			}
+			if(eclist.containsKey(ecNum)){
+				return eclist.get(ecNum);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 
 	private void setBioNameFromList(EcWithPathway ec) {

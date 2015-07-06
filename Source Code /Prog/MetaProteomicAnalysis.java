@@ -68,6 +68,7 @@ public class MetaProteomicAnalysis {
 	boolean commandLineOn = false;
 	
 	public MetaProteomicAnalysis(){
+		
 	}
 	
 	/**
@@ -211,8 +212,7 @@ public class MetaProteomicAnalysis {
 									obj = jsonarray.getJSONObject(k);
 									lca = new LowestCommonAncestor(
 											obj.getString("peptide"),
-											Integer.parseInt(obj
-													.getString("taxon_id")),
+											Integer.parseInt(obj.getString("taxon_id")),
 											obj.getString("taxon_name"),
 											obj.getString("taxon_rank"));
 									if(k==0){
@@ -249,7 +249,6 @@ public class MetaProteomicAnalysis {
 							}
 							query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 							qPep = "";
-							//reset=true;
 							p1.destroy();
 
 						}
@@ -316,6 +315,7 @@ public class MetaProteomicAnalysis {
 							JSONArray jsonarray = new JSONArray(line1);
 							JSONObject obj;
 							//for each LCA within the arraylist
+							System.out.println("Finding Lca....\n");
 							for (int j = 0; j < peptide.get(i).getLca().size(); j++) {
 								//for each element within the JSON array
 								for (int k = 0; k < jsonarray.length(); k++) {
@@ -335,14 +335,13 @@ public class MetaProteomicAnalysis {
 												int sampleTaxonID = peptide.get(i).getLca().get(j).getTaxon_id();
 												//obtaining current sample tryptic peptide LCA taxon name
 												String sampleName = peptide.get(i).getLca().get(j).getTaxon_name();
-												System.out.println("response "+ taxonID + ", " + taxonName);
-												System.out.println("sample "+ sampleTaxonID + ", " + sampleName);
+												//System.out.println("response "+ taxonID + ", " + taxonName);
+												//System.out.println("sample "+ sampleTaxonID + ", " + sampleName);
 												/*if the response taxonID is equal to the sample taxonID than the sample LCA is valid for the
 												 * tryptic peptides current lowest taxa 
 												 */
 												if (taxonID == sampleTaxonID
 														&& positive != false) {
-													// System.out.println("Positive!\n");
 													positive = true;
 												} else {
 													positive = false;
@@ -355,27 +354,21 @@ public class MetaProteomicAnalysis {
 								}
 							}
 							if (positive) {
-								//System.out.println(peptide.get(i).getUniqueIdentifier());
 								printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLowestClass());
 							} else {
 								/*If one of the LCA within the LCA arraylist fails the comparison with the lowest taxa taxonic
 								 * information than that Tryptic pepetides determined taxa is set to Inconclusive.
 								 */
-								//System.out.println(peptide.get(i).getUniqueIdentifier());
 								printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(new LowestCommonAncestor("",0,"Inconclusive",""));
 								positive = true;
 							}
-							//System.out.println(peptide.get(i).getIdentifiedTaxa());
 							printWriter.println(peptide.get(i).getIdentifiedTaxa());
-							// System.out.println(line1);
 							query = "";
 							line1 = "";
 						} catch (IOException | JSONException e) {
 						}
-						// System.out.println(peptide.get(i).getUniqueIdentifier());
-						// System.out.println(peptide.get(i).getLowestClass().getTaxon_rank());
 
 					}
 				}
@@ -395,6 +388,7 @@ public class MetaProteomicAnalysis {
 	 * the sample.
 	 * 
 	 * @param peptide Arraylist of Tryptic peptides for a given sample
+	 * 
 	 * @author Jennifer Terpstra
 	 */
 	public void drawLCAGraph(ArrayList<TrypticPeptide> peptide, String fileName){
@@ -556,7 +550,7 @@ public class MetaProteomicAnalysis {
 		    }
 		};
 		table2.setFillsViewportHeight(true);
-		//made into a button on a later date
+		
 		if(commandLineOn){
 			exportExcel(table2, "Summary", fileName);
 			System.out.println("File exported to " +  File.separator

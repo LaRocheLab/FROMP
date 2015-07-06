@@ -315,7 +315,7 @@ public class MetaProteomicAnalysis {
 							JSONArray jsonarray = new JSONArray(line1);
 							JSONObject obj;
 							//for each LCA within the arraylist
-							System.out.println("Finding Lca....\n");
+							System.out.println("Finding Lca of " + fileName + "....\n");
 							for (int j = 0; j < peptide.get(i).getLca().size(); j++) {
 								//for each element within the JSON array
 								for (int k = 0; k < jsonarray.length(); k++) {

@@ -1,3 +1,5 @@
+/home/guest/git/FROMP/projects/rwrw.frp
+/home/guest/git/FROMP/projects/testName.frp
 /home/guest/git/FROMP/ProjectList.frp
 /home/guest/git/FROMP/projects/Enter Project Name: TestProject.frp
 /home/guest/git/FROMP/projects/Enter Project Name: JenProject.frp

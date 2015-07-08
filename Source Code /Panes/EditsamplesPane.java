@@ -383,6 +383,18 @@ public class EditsamplesPane extends JPanel {
 				}
 			}
 		});
+		if (Project.samples_.size() > 0 && iprCount == 1) {
+			JButton load_IPR = new JButton();
+			load_IPR.setBounds(xCol2 - 200, 50, 150, 30);
+			load_IPR.setText("Load IPR");
+			add(load_IPR);
+			load_IPR.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Controller.loadPathways(true);
+					EditsamplesPane.this.prepPaint();
+				}
+			});
+		}
 	}
 	/*
 	 * Converts the check boxes next to the samples into data stored about the samples. If the boxes

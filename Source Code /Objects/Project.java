@@ -35,6 +35,7 @@ public class Project {
 	public static boolean imported = false; 
 	public static boolean dataChanged = true; 
 	public static boolean dataChanged2 = true; 
+	public static boolean iprNameChange = false;
 	public static ArrayList<Sample> samples_; // ArrayList of sample objects which stores the samples associated wth this project
 	public static ArrayList<String> removedSamples; 
 	public static Sample overall_; 

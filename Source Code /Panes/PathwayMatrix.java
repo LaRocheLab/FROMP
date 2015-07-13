@@ -184,14 +184,14 @@ public class PathwayMatrix extends JPanel {
 		this.mouseOverP.add(this.mouseOverDisp);
 	}
 
-	public void writeMatrix() {// writes the matrix to the display panel to be
-								// seen by the user
+	public void writeMatrix() {// writes the matrix to the display panel to be seen by the user
 		int counter = 0;
 		for (int i = 0; i < this.pathways_.size(); i++) {
 			final PathwayWithEc fPath = new PathwayWithEc(
 					(PathwayWithEc) this.overSample_.pathways_.get(i), false);
 			if (pwIsSelected(fPath)) {
-				if (fPath.score_ >= Project.minVisScore_) {
+				if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
+					System.out.println("Past fPath check 1");
 					PathButt pathNames = new PathButt(this.samples_,
 							this.overSample_,
 							(PathwayWithEc) this.overSample_.pathways_.get(i),
@@ -277,7 +277,8 @@ public class PathwayMatrix extends JPanel {
 				final PathwayWithEc fPath = new PathwayWithEc(
 						(PathwayWithEc) this.tmpPathways_.get(pathCnt), false);
 				if (pwIsSelected(fPath)) {
-					if (fPath.score_ >= Project.minVisScore_) {
+					if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
+						System.out.println("Past fPath check 2");
 						PathButt scores = new PathButt(this.samples_,
 								tmpSample, fPath, getBackground(), "", 1);
 

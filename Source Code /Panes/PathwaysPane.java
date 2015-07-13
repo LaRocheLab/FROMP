@@ -263,7 +263,7 @@ public class PathwaysPane extends JPanel {
 	private void getMaxVis() {
 		if (this.maxVisfield != null && isNumber(this.maxVisfield.getText())) {
 			double tmp = Double.parseDouble(this.maxVisfield.getText());
-			if (this.minVisScore_ != tmp) {
+			if (this.minVisScore_ != tmp && tmp > 0) {
 				this.minVisScore_ = tmp;
 			}
 		}

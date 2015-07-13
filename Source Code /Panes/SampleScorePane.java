@@ -265,9 +265,7 @@ public class SampleScorePane extends JPanel {
 			sortPathsById(tmpSample.pathways_);
 		}
 		for (int pathCnt = 0; pathCnt < tmpSample.pathways_.size(); pathCnt++) {
-			if (this.proc_.getPathway(
-					((PathwayWithEc) tmpSample.pathways_.get(pathCnt)).id_)
-					.isSelected()) {
+			if (this.proc_.getPathway(((PathwayWithEc) tmpSample.pathways_.get(pathCnt)).id_).isSelected()) {
 				tmpPath = (PathwayWithEc) tmpSample.pathways_.get(pathCnt);
 				if (tmpPath.name_.contentEquals("testPath")) {
 					System.err.println("PathButt");
@@ -275,7 +273,7 @@ public class SampleScorePane extends JPanel {
 				tmpWeight = String.valueOf(tmpPath.weight_);
 				if (((PathwayWithEc) tmpSample.pathways_.get(pathCnt))
 						.isSelected()) {
-					if (tmpPath.score_ >= this.maxVisScore) {
+					if (tmpPath.score_ >= this.maxVisScore && tmpPath.score_ > 0) {
 						if (tmpWeight.length() > 3) {
 							tmpWeight = tmpWeight.substring(0, 3);
 						}
@@ -421,7 +419,7 @@ public class SampleScorePane extends JPanel {
 			for (int pathCnt = 0; pathCnt < pathways.size(); pathCnt++) {
 				PathwayWithEc pathway = (PathwayWithEc) pathways.get(pathCnt);
 				if ((pathway.isSelected())
-						&& (pathway.score_ >= this.maxVisScore)) {
+						&& (pathway.score_ >= this.maxVisScore)&&(pathway.score_ > 0)) {
 					out.write(pathway.id_ + seperator + pathway.name_
 							+ seperator + pathway.score_);
 					out.newLine();

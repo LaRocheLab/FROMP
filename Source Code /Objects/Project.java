@@ -27,7 +27,7 @@ public class Project {
 	public static String workpath_; // The name of the project
 	public static ArrayList<String> userPathways; // User created pathways being used for this project
 	static final String VERS = "$$ver:"; 
-	public static int minVisScore_; 
+	public static double minVisScore_; 
 	public static boolean loaded = false; 
 	public static boolean listMode_ = false; 
 	public static boolean randMode_ = false; 

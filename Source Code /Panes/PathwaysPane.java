@@ -32,7 +32,7 @@ public class PathwaysPane extends JPanel {
 	DataProcessor proc_; // the data processor used to parse and compute what we need from the raw input files
 	JPanel showPanel_; 
 	int yOffset_; 
-	int minVisScore_ = 0; 
+	double minVisScore_ = 0; 
 	int xCol2 = 350; 
 	int xCol3 = 500; 
 	int mode = 0; 
@@ -224,11 +224,11 @@ public class PathwaysPane extends JPanel {
 	}
 
 	private void showMaxVis() {
-		JLabel maxvisl_ = new JLabel("Min. shown score:");
+		JLabel maxvisl_ = new JLabel("Minimum shown Pathway Score: ");
 		if (this.maxVisfield == null) {
-			this.maxVisfield = new JTextField(this.minVisScore_);
+			this.maxVisfield = new JTextField((int)this.minVisScore_);
 		}
-		maxvisl_.setBounds(10, 10, 200, 20);
+		maxvisl_.setBounds(10, 10, 400, 20);
 		this.optionsPanel_.add(maxvisl_);
 		this.maxVisfield.setBounds(10, 30, 200, 20);
 		this.maxVisfield.addActionListener(new ActionListener() {
@@ -261,14 +261,19 @@ public class PathwaysPane extends JPanel {
 	}
 
 	private void getMaxVis() {
-		if (this.maxVisfield != null) {
-			int tmp = convertStringtoInt(this.maxVisfield.getText());
+		if (this.maxVisfield != null && isNumber(this.maxVisfield.getText())) {
+			double tmp = Double.parseDouble(this.maxVisfield.getText());
 			if (this.minVisScore_ != tmp) {
 				this.minVisScore_ = tmp;
 			}
 		}
 		Project.minVisScore_ = this.minVisScore_;
 	}
+	
+	public static boolean isNumber(String tmp){
+	  return tmp.matches("-?\\d+(\\.\\d+)?");
+	}
+	
 	// Adds the buttons to select between the three pathway analysies: Show pathway-scores, Show score-matrix, and Show score-plot
 	private void addButtons() {
 		this.pwScores_ = new JButton("Show pathway-scores");

@@ -331,14 +331,14 @@ public class EditsamplesPane extends JPanel {
 					public boolean accept(File f) {
 						if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))|| (f.getName().toLowerCase().endsWith(".out"))
 								|| (f.getName().toLowerCase().endsWith(".tsv"))||(f.getName().toLowerCase().endsWith(".tsv.cleaned"))
-								|| (f.getName().toLowerCase().endsWith(".ipr"))) {
+								|| (f.getName().toLowerCase().endsWith(".ipr"))||(f.getName().toLowerCase().endsWith(".txt.cleaned"))) {
 							return true;
 						}
 						return false;
 					}
 
 					public String getDescription() {
-						return ".txt, .out, .tsv, .tsv.cleaned, .ipr";
+						return ".txt, .out, .tsv, .tsv.cleaned, .ipr, .txt.cleaned";
 					}
 				});
 				if (EditsamplesPane.this.fChoose_

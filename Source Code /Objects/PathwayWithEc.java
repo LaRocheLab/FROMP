@@ -2,6 +2,7 @@ package Objects;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 //An extension of the pathway class. Adds all of the ECs which can be mapped to a particular path in a convieniant ArrayList.
 
@@ -199,6 +200,7 @@ public class PathwayWithEc extends Pathway {
 		}
 		return null;
 	}
+	
 
 	public void printPath() {
 		System.out.println("-------------PrintPAth-----------------");
@@ -211,4 +213,11 @@ public class PathwayWithEc extends Pathway {
 		System.out
 				.println("///////-------------PrintPAth----------------/////////");
 	}
+
+//	@Override
+//	public int compareTo(Object arg0) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+
 }

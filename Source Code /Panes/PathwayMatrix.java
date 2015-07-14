@@ -190,7 +190,10 @@ public class PathwayMatrix extends JPanel {
 			final PathwayWithEc fPath = new PathwayWithEc(
 					(PathwayWithEc) this.overSample_.pathways_.get(i), false);
 			if (pwIsSelected(fPath)) {
-				if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
+				if(pathways_.get(i).score_<=0){
+					pathways_.remove(pathways_.get(i));
+				}
+				else if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
 					System.out.println("Past fPath check 1");
 					PathButt pathNames = new PathButt(this.samples_,
 							this.overSample_,
@@ -277,7 +280,11 @@ public class PathwayMatrix extends JPanel {
 				final PathwayWithEc fPath = new PathwayWithEc(
 						(PathwayWithEc) this.tmpPathways_.get(pathCnt), false);
 				if (pwIsSelected(fPath)) {
-					if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
+					//removing pathways that have a score less than 0 or is 0
+					if(fPath.score_<=0){
+						pathways_.remove(pathCnt);
+					}
+					else if(fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
 						System.out.println("Past fPath check 2");
 						PathButt scores = new PathButt(this.samples_,
 								tmpSample, fPath, getBackground(), "", 1);

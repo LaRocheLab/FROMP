@@ -65,4 +65,9 @@ public class Pathway {
 		}
 		return false;
 	}
+	
+	public String getName(){
+		return name_;
+	}
+
 }

@@ -6,6 +6,7 @@ import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -46,9 +50,11 @@ public class PathwaysPane extends JPanel {
 	JCheckBox chainCheck_; // the checkbox for chaining mode 1
 	JCheckBox chainCheck2_; // the checkbox for chaining mode 2
 	JCheckBox listCheck_; // the sort my score checkbox
+	JCheckBox listCheck_2;//sort by name
 	int activeChainingMode = 0; 
 	int xwidth; 
 	boolean checked; 
+	boolean checked2;
 	public JButton backButton_; // Button to take the user back to Analysis options
 
 	public PathwaysPane(Project activeProj, DataProcessor proc, Dimension dim) {
@@ -64,6 +70,7 @@ public class PathwaysPane extends JPanel {
 		setVisible(true);
 
 		checked = false;
+		checked2= false;
 
 		this.backButton_ = new JButton("< Back to the Analysis Options");
 		initMainPanels();
@@ -175,7 +182,7 @@ public class PathwaysPane extends JPanel {
 	}
 
 	public void showListMode() {
-		JLabel listl_ = new JLabel("Sort by Score:");
+		JLabel listl_ = new JLabel("Sort by Score ");
 
 		this.listCheck_ = new JCheckBox();
 
@@ -221,6 +228,43 @@ public class PathwaysPane extends JPanel {
 			}
 		});
 		this.optionsPanel_.add(this.listCheck_);
+		
+		JLabel listl_2 = new JLabel("Sort by Name ");
+
+		this.listCheck_2 = new JCheckBox();
+
+		listl_2.setBounds(this.xCol2 + 20, this.yLine1 + 20, 150, 20);
+		this.optionsPanel_.add(listl_2);
+		this.listCheck_2.setBounds(this.xCol2, this.yLine1 + 20, 20, 20);
+		
+		listCheck_2.setSelected(checked2);
+		this.listCheck_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (checked2) {
+					checked2 = false;
+				} else {
+					checked2 = true;
+				}
+
+				for (int i = 0; i < Project.samples_.size(); i++) {
+					if (PathwaysPane.this.listCheck_2.isSelected()) {
+						PathwaysPane.this.sortPathwaysByName(((Sample) Project.samples_.get(i)).pathways_);
+					} else {
+						PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_);
+					}
+				}
+				if (PathwaysPane.this.listCheck_2.isSelected()) {
+					PathwaysPane.this.sortPathwaysByName(Project.overall_.pathways_);
+				} else {
+					PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
+				}
+
+				PathwaysPane.this.redo();
+			}
+		});
+		this.optionsPanel_.add(this.listCheck_2);
+		
 	}
 
 	private void showMaxVis() {
@@ -387,12 +431,6 @@ public class PathwaysPane extends JPanel {
 	}
 
 	private void sortPathsById(ArrayList<PathwayWithEc> pathways) {
-		/*
-		 * Loadingframe lframe = new Loadingframe();
-		 * lframe.bigStep("Sorting pathways");
-		 * //quicksortPathsById(pathways,0,pathways.size()-1);
-		 * Loadingframe.close();
-		 */
 
 		int tmpCnt = 0;
 		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
@@ -406,26 +444,21 @@ public class PathwaysPane extends JPanel {
 			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
 			pathways.remove(tmpCnt + 1);
 		}
-
-		/*
-		 * boolean changed = true; Pathway path1 = null; Pathway path2 = null;
-		 * int pathCnt=0; for (; changed; pathCnt < pathways.size())
-		 * while(changed && (pathCnt < pathways.size())) { changed = false;
-		 * 
-		 * pathCnt = 0; continue; path1 = (Pathway)pathways.get(pathCnt); path2
-		 * = null; for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size();
-		 * pathCnt2++) { path2 = (Pathway)pathways.get(pathCnt2); if
-		 * (!path1.idBiggerId2(path2)) { break; } PathwayWithEc origPaths1 =
-		 * (PathwayWithEc)pathways.get(pathCnt); PathwayWithEc origPaths2 =
-		 * (PathwayWithEc)pathways.get(pathCnt2);
-		 * 
-		 * pathways.remove(pathCnt2); pathways.remove(pathCnt);
-		 * 
-		 * pathways.add(pathCnt, origPaths2); pathways.add(pathCnt2,
-		 * origPaths1);
-		 * 
-		 * pathCnt++; pathCnt2++; changed = true; } pathCnt++; }
-		 */
+	}
+	
+	private void sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
+		for (int pathCnt = 0; pathCnt < pathways.size(); pathCnt++) {
+			if ((pathways.get(pathCnt).score_ <= 0)) {
+				pathways.remove(pathCnt);
+			}
+		}
+		Collections.sort(pathways, new Comparator<PathwayWithEc>() {
+	        @Override public int compare(PathwayWithEc p1, PathwayWithEc p2) {
+	        	String name1 = p1.getName().toLowerCase();
+	        	String name2 = p2.getName().toLowerCase();
+	            return name1.compareTo(name2);
+	        }
+		});
 	}
 
 	private void quicksortPathsById(ArrayList<PathwayWithEc> path, int low,

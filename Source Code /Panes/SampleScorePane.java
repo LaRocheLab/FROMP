@@ -274,6 +274,7 @@ public class SampleScorePane extends JPanel {
 				tmpWeight = String.valueOf(tmpPath.weight_);
 				if (((PathwayWithEc) tmpSample.pathways_.get(pathCnt))
 						.isSelected()) {
+					//hides any pathway score that is zero or below
 					if(tmpPath.score_ >= this.maxVisScore && tmpPath.score_ > 0) {
 						if (tmpWeight.length() > 3) {
 							tmpWeight = tmpWeight.substring(0, 3);

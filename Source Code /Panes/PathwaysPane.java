@@ -446,6 +446,15 @@ public class PathwaysPane extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sorts the pathways by alphabetical order and returns the result. In order to do this
+	 * the zero entires are temporaily removed from the pathway arraylist (so as not to
+	 * affect the sorting) and then added to the end of the arraylist once the sorting is complete.
+	 * @param pathways Arraylist of PathwayWithEc
+	 * @return Arraylist of PathwayWithEC
+	 * 
+	 * @author Jennifer Terpstra
+	 */
 	private ArrayList<PathwayWithEc> sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
 		ArrayList<PathwayWithEc> tmplist = new ArrayList<PathwayWithEc>();
 		ArrayList<PathwayWithEc> removed = new ArrayList<PathwayWithEc>();

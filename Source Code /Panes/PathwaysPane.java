@@ -204,6 +204,7 @@ public class PathwaysPane extends JPanel {
 					checked = false;
 				} else {
 					checked = true;
+					checked2 = false;
 				}
 
 				for (int i = 0; i < Project.samples_.size(); i++) {
@@ -245,6 +246,7 @@ public class PathwaysPane extends JPanel {
 					checked2 = false;
 				} else {
 					checked2 = true;
+					checked = false;
 				}
 
 				for (int i = 0; i < Project.samples_.size(); i++) {

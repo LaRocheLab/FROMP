@@ -202,7 +202,7 @@ public class NewFrompFrame extends JFrame {
 		});
 		this.menu_.add(miItem);
 
-		miItem = new JMenuItem("Home", 86);
+		miItem = new JMenuItem("Project Menu", 86);
 		miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
 		miItem.getAccessibleContext().setAccessibleDescription("Home");
 		miItem.addActionListener(new ActionListener() {

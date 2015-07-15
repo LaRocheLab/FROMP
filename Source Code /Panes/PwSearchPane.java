@@ -105,10 +105,10 @@ public class PwSearchPane extends JPanel {
 		initMainPanels();
 		this.pathwIndexes_ = new ArrayList();
 		this.line_ = 0;
-		
+		//Button to go back to the anaylze options menu
 		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
 		this.optionsPanel_.add(backButton_);
-		
+		//Button to choose the type of search the user wants to perform
 		JLabel searchTitle = new JLabel("Choose Search Option: ");
 		searchTitle.setBounds(100,100,300, 50);
 		searchTitle.setVisible(true);
@@ -231,53 +231,10 @@ public class PwSearchPane extends JPanel {
 
 		this.pathwIndexes_ = new ArrayList();
 		this.line_ = 0;
-
-//		this.searchfield2 = new JTextField("Enter Ec-ID");
-//		this.searchfield2.setBounds(500, 200, 200, 25);
-//		this.searchfield2.setVisible(true);
-//		// When the user clicks to enter the project name, sets the text field
-//		// to empty.
-//		this.searchfield2.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				searchfield2.setText("");
-//			}
-//		});
-//		this.searchfield2.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				String tmp = PwSearchPane.this.searchfield2.getText();
-//				PwSearchPane.this.searchEc(tmp);
-//				if (PwSearchPane.this.ecIndexes_.size() > 0) {
-//					PwSearchPane.this.showEcs();
-//				}
-//				PwSearchPane.this.invalidate();
-//				PwSearchPane.this.validate();
-//				PwSearchPane.this.repaint();
-//			}
-//		});
-//		this.displayP_.add(this.searchfield2);
-//
-//		JButton button2_ = new JButton();
-//		button2_.setBounds(725, 200, 100, 25);
-//		button2_.setVisible(true);
-//		button2_.setText("search");
-//		button2_.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				String tmp = PwSearchPane.this.searchfield2.getText();
-//
-//				PwSearchPane.this.searchEc(tmp);
-//				if (PwSearchPane.this.ecIndexes_.size() > 0) {
-//					PwSearchPane.this.showEcs();
-//				}
-//				PwSearchPane.this.invalidate();
-//				PwSearchPane.this.validate();
-//				PwSearchPane.this.repaint();
-//			}
-//		});
-//		this.displayP_.add(button2_);
 	}
 
 	private void searchPw(String in) {
+		in = in.toLowerCase();
 		String lowcase = in.replaceFirst(in.substring(0, 1), in.substring(0, 1)
 				.toUpperCase());
 		String upCase = in.replaceFirst(in.substring(0, 1), in.substring(0, 1)
@@ -310,6 +267,11 @@ public class PwSearchPane extends JPanel {
 	}
 
 	private void searchEc(String in) {
+		//allows the user to enter in an EC number with ec infront of it, parses the ec out
+		in = in.toLowerCase();
+		if(in.contains("ec")){
+			in = in.replaceAll("ec\\s*", "");
+		}
 		this.ecIndexes_ = new ArrayList();
 		for (int ecCnt = 0; ecCnt < this.overSample_.ecs_.size(); ecCnt++) {
 			if (((EcWithPathway) this.overSample_.ecs_.get(ecCnt)).name_

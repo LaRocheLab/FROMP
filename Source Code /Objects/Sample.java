@@ -119,6 +119,15 @@ public class Sample {
 		this.sample_ = this.reader_.readTxt(this.fullPath_);
 	}
 
+	
+	public ArrayList<PathwayWithEc> getPathways_() {
+		return pathways_;
+	}
+
+	public void setPathways_(ArrayList<PathwayWithEc> pathways_) {
+		this.pathways_ = pathways_;
+	}
+
 	public void clearPaths() {
 		this.valuesSet = false;
 		this.pathways_ = new ArrayList();

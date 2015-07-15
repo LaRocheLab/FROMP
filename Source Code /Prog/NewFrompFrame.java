@@ -590,7 +590,7 @@ public class NewFrompFrame extends JFrame {
 		repaint();
 	}
 
-	private void selectPws() {// Opens the pathway selection panel
+	public void selectPws() {// Opens the pathway selection panel
 		if (Controller.processor_ == null) {
 			Controller.loadPathways(false);
 		}
@@ -671,7 +671,7 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-	//NEEDS EDITING
+
 	public void showLCAPanes() {
 		clearBack();
 		LCAPanes matrixP_ = new LCAPanes(Controller.project_,
@@ -693,6 +693,12 @@ public class NewFrompFrame extends JFrame {
 		this.control_.computeSampleScores();
 		PwSearchPane pwSearch = new PwSearchPane(Controller.project_,
 				Project.samples_, Project.overall_, getSize());
+		pwSearch.backButton_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewFrompFrame.this.clearBack();
+				NewFrompFrame.this.showAnalyseOptions();
+			}
+		});
 		this.back_.add(pwSearch);
 		invalidate();
 		validate();
@@ -743,7 +749,7 @@ public class NewFrompFrame extends JFrame {
 		repaint();
 	}
 
-	private void showAnalyseOptions() {// Opens the analysis options panel
+	public void showAnalyseOptions() {// Opens the analysis options panel
 		int xcol1 = 100;
 		int yOff = 100;
 		int ySize = 30;

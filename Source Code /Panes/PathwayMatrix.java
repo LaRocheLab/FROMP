@@ -187,14 +187,9 @@ public class PathwayMatrix extends JPanel {
 	public void writeMatrix() {// writes the matrix to the display panel to be seen by the user
 		int counter = 0;
 		for (int i = 0; i < this.pathways_.size(); i++) {
-			final PathwayWithEc fPath = new PathwayWithEc(
-					(PathwayWithEc) this.overSample_.pathways_.get(i), false);
+			final PathwayWithEc fPath = new PathwayWithEc((PathwayWithEc) this.overSample_.pathways_.get(i), false);
 			if (pwIsSelected(fPath)) {
-				if(pathways_.get(i).score_<=0){
-					pathways_.remove(pathways_.get(i));
-				}
-				else if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
-					System.out.println("Past fPath check 1");
+				if (fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
 					PathButt pathNames = new PathButt(this.samples_,
 							this.overSample_,
 							(PathwayWithEc) this.overSample_.pathways_.get(i),
@@ -280,12 +275,7 @@ public class PathwayMatrix extends JPanel {
 				final PathwayWithEc fPath = new PathwayWithEc(
 						(PathwayWithEc) this.tmpPathways_.get(pathCnt), false);
 				if (pwIsSelected(fPath)) {
-					//removing pathways that have a score less than 0 or is 0
-					if(fPath.score_<=0){
-						pathways_.remove(pathCnt);
-					}
-					else if(fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
-						System.out.println("Past fPath check 2");
+					if(fPath.score_ >= Project.minVisScore_ && fPath.score_ > 0) {
 						PathButt scores = new PathButt(this.samples_,
 								tmpSample, fPath, getBackground(), "", 1);
 

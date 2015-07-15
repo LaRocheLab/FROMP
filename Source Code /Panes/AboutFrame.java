@@ -62,5 +62,10 @@ public class AboutFrame extends JFrame {
 		idea.setBounds(30, 200, 200, 20);
 		idea.setVisible(true);
 		back.add(idea);
+		
+		idea = new JLabel("Jennifer Terpstra");
+		idea.setBounds(30, 230, 200, 20);
+		idea.setVisible(true);
+		back.add(idea);
 	}
 }

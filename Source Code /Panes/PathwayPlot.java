@@ -257,7 +257,7 @@ public class PathwayPlot extends JPanel {
 			for (int pwCnt = 0; pwCnt < tmpSamp.pathways_.size(); pwCnt++) {
 				tmpPath = (PathwayWithEc) tmpSamp.pathways_.get(pwCnt);
 				x = 30 + (pwCnt + 1) * xStep;
-				if (tmpPath.score_ > Project.minVisScore_) {
+				if (tmpPath.score_ > Project.minVisScore_ && tmpPath.score_ > 0) {
 					y = yOffset
 							+ (yStep * 100 - (int) (tmpPath.score_ * yStep));
 				} else {

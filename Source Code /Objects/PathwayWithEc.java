@@ -97,6 +97,10 @@ public class PathwayWithEc extends Pathway {
 	public String getEc(int index) {
 		return ((EcNr) this.ecNrs_.get(index)).name_;
 	}
+	
+	public double getScore(){
+		return score_;
+	}
 
 	public void removeRandomEc() {
 		double rand = Math.random();
@@ -201,6 +205,9 @@ public class PathwayWithEc extends Pathway {
 		return null;
 	}
 	
+	public String toString(){
+		return "Name: " + name_ + " Score: " + score_;
+	}
 
 	public void printPath() {
 		System.out.println("-------------PrintPAth-----------------");

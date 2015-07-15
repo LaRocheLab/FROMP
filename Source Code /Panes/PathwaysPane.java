@@ -249,13 +249,13 @@ public class PathwaysPane extends JPanel {
 
 				for (int i = 0; i < Project.samples_.size(); i++) {
 					if (PathwaysPane.this.listCheck_2.isSelected()) {
-						PathwaysPane.this.sortPathwaysByName(((Sample) Project.samples_.get(i)).pathways_);
+						Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathwaysByName(((Sample) Project.samples_.get(i)).pathways_));
 					} else {
 						PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_);
 					}
 				}
 				if (PathwaysPane.this.listCheck_2.isSelected()) {
-					PathwaysPane.this.sortPathwaysByName(Project.overall_.pathways_);
+					Project.overall_.setPathways_(PathwaysPane.this.sortPathwaysByName(Project.overall_.pathways_));
 				} else {
 					PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
 				}
@@ -446,19 +446,30 @@ public class PathwaysPane extends JPanel {
 		}
 	}
 	
-	private void sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
-		for (int pathCnt = 0; pathCnt < pathways.size(); pathCnt++) {
-			if ((pathways.get(pathCnt).score_ <= 0)) {
-				pathways.remove(pathCnt);
+	private ArrayList<PathwayWithEc> sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
+		ArrayList<PathwayWithEc> tmplist = new ArrayList<PathwayWithEc>();
+		ArrayList<PathwayWithEc> removed = new ArrayList<PathwayWithEc>();
+		for(int i = 0; i<pathways.size();i++){
+			if(pathways.get(i).getScore() <= 0.0){
+				removed.add(pathways.get(i));
+			}
+			else{
+				tmplist.add(pathways.get(i));
 			}
 		}
-		Collections.sort(pathways, new Comparator<PathwayWithEc>() {
+		
+		Collections.sort(tmplist, new Comparator<PathwayWithEc>() {
 	        @Override public int compare(PathwayWithEc p1, PathwayWithEc p2) {
 	        	String name1 = p1.getName().toLowerCase();
 	        	String name2 = p2.getName().toLowerCase();
 	            return name1.compareTo(name2);
 	        }
 		});
+		for(int j=0; j<removed.size(); j++){
+			tmplist.add(removed.get(j));
+		}
+		pathways = tmplist;
+		return pathways;
 	}
 
 	private void quicksortPathsById(ArrayList<PathwayWithEc> path, int low,

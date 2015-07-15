@@ -4,19 +4,26 @@ import Objects.EcWithPathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
+import Prog.NewFrompFrame;
 import Prog.PathButt;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -42,6 +49,9 @@ public class PwSearchPane extends JPanel {
 	private JScrollPane showJPanel_; // The scroll panel fro if the display panel gets too large for its allotted space
 	private JLabel mouseOverDisp; 
 	private JPanel mouseOverP; 
+	private boolean pathwaySelected = false;
+	private boolean ecSelected = false;
+	public JButton backButton_;
 
 	public PwSearchPane(Project proj, ArrayList<Sample> samples,
 			Sample overallSample, Dimension dim) {
@@ -55,6 +65,7 @@ public class PwSearchPane extends JPanel {
 		setLayout(new BorderLayout());
 		setBackground(Color.orange);
 		setSize(dim);
+		this.backButton_ = new JButton("< Back to the Analysis Options");
 
 		findPw();
 
@@ -94,38 +105,126 @@ public class PwSearchPane extends JPanel {
 		initMainPanels();
 		this.pathwIndexes_ = new ArrayList();
 		this.line_ = 0;
+		
+		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
+		this.optionsPanel_.add(backButton_);
+		
+		JLabel searchTitle = new JLabel("Choose Search Option: ");
+		searchTitle.setBounds(100,100,300, 50);
+		searchTitle.setVisible(true);
+		this.displayP_.add(searchTitle);
+		
+		final JRadioButton option1 = new JRadioButton("Search Pathways");
+        final JRadioButton option2 = new JRadioButton("Search EC numbers");
+        option1.setBounds(100,150,200,20);
+        option2.setBounds(100, 170,200,20);
+        option1.setVisible(true);
+        option2.setVisible(true);
+        
+        ButtonGroup group = new ButtonGroup();
+        group.add(option1);
+        group.add(option2);
+        
+		class RadioButtonActionListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				JRadioButton button = (JRadioButton) event.getSource();
 
-		this.searchfield = new JTextField("Enter Pathway-ID");
-		this.searchfield.setBounds(100, 200, 200, 25);
+				if (button == option1) {
+					pathwaySelected = true;
+					ecSelected = false;
+
+				} else if (button == option2) {
+					ecSelected = true;
+					pathwaySelected = false;
+				}
+			}
+		}
+		RadioButtonActionListener actionListener = new RadioButtonActionListener();
+		option1.addActionListener(actionListener);
+		option2.addActionListener(actionListener);
+        
+        this.displayP_.add(option1);
+        this.displayP_.add(option2);
+
+		this.searchfield = new JTextField("Enter Pathway-ID/Name or EC-ID");
+		this.searchfield.setBounds(100, 200, 230, 25);
 		this.searchfield.setVisible(true);
+		//When the user clicks to enter the project name, sets the text field to empty.
+		this.searchfield.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				searchfield.setText("");
+			}
+		});
 		this.searchfield.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(pathwaySelected){
 				String tmp = PwSearchPane.this.searchfield.getText();
 				PwSearchPane.this.searchPw(tmp);
-				if (PwSearchPane.this.pathwIndexes_.size() > 0) {
-					PwSearchPane.this.showAllPaths();
+					if (PwSearchPane.this.pathwIndexes_.size() > 0) {
+						PwSearchPane.this.showAllPaths();
+					}
+					else{
+						warningFrame("No results found");
+					}
+					PwSearchPane.this.invalidate();
+					PwSearchPane.this.validate();
+					PwSearchPane.this.repaint();
+				} else if (ecSelected) {
+					String tmp = PwSearchPane.this.searchfield.getText();
+					PwSearchPane.this.searchEc(tmp);
+					if (PwSearchPane.this.ecIndexes_.size() > 0) {
+						PwSearchPane.this.showEcs();
+					}
+					else{
+						warningFrame("No results found");
+					}
+					PwSearchPane.this.invalidate();
+					PwSearchPane.this.validate();
+					PwSearchPane.this.repaint();
 				}
-				PwSearchPane.this.invalidate();
-				PwSearchPane.this.validate();
-				PwSearchPane.this.repaint();
+				else{
+					warningFrame("No Search Option Selected!");
+				}
 			}
 		});
 		this.displayP_.add(this.searchfield);
 
 		JButton button_ = new JButton();
-		button_.setBounds(325, 200, 100, 25);
+		button_.setBounds(355, 200, 100, 25);
 		button_.setVisible(true);
 		button_.setText("search");
 		button_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(pathwaySelected){
 				String tmp = PwSearchPane.this.searchfield.getText();
 				PwSearchPane.this.searchPw(tmp);
 				if (PwSearchPane.this.pathwIndexes_.size() > 0) {
 					PwSearchPane.this.showAllPaths();
 				}
+				else{
+					warningFrame("No results found");
+				}
 				PwSearchPane.this.invalidate();
 				PwSearchPane.this.validate();
 				PwSearchPane.this.repaint();
+				}
+				else if(ecSelected){
+					String tmp = PwSearchPane.this.searchfield.getText();
+					PwSearchPane.this.searchEc(tmp);
+					if (PwSearchPane.this.ecIndexes_.size() > 0) {
+						PwSearchPane.this.showEcs();
+					}
+					else{
+						warningFrame("No results found");
+					}
+					PwSearchPane.this.invalidate();
+					PwSearchPane.this.validate();
+					PwSearchPane.this.repaint();
+				}
+				else{
+					warningFrame("No Search Option Selected!");
+				}
 			}
 		});
 		this.displayP_.add(button_);
@@ -133,41 +232,49 @@ public class PwSearchPane extends JPanel {
 		this.pathwIndexes_ = new ArrayList();
 		this.line_ = 0;
 
-		this.searchfield2 = new JTextField("Enter Ec-ID");
-		this.searchfield2.setBounds(500, 200, 200, 25);
-		this.searchfield2.setVisible(true);
-		this.searchfield2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String tmp = PwSearchPane.this.searchfield2.getText();
-				PwSearchPane.this.searchEc(tmp);
-				if (PwSearchPane.this.ecIndexes_.size() > 0) {
-					PwSearchPane.this.showEcs();
-				}
-				PwSearchPane.this.invalidate();
-				PwSearchPane.this.validate();
-				PwSearchPane.this.repaint();
-			}
-		});
-		this.displayP_.add(this.searchfield2);
-
-		JButton button2_ = new JButton();
-		button2_.setBounds(725, 200, 100, 25);
-		button2_.setVisible(true);
-		button2_.setText("search");
-		button2_.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String tmp = PwSearchPane.this.searchfield2.getText();
-
-				PwSearchPane.this.searchEc(tmp);
-				if (PwSearchPane.this.ecIndexes_.size() > 0) {
-					PwSearchPane.this.showEcs();
-				}
-				PwSearchPane.this.invalidate();
-				PwSearchPane.this.validate();
-				PwSearchPane.this.repaint();
-			}
-		});
-		this.displayP_.add(button2_);
+//		this.searchfield2 = new JTextField("Enter Ec-ID");
+//		this.searchfield2.setBounds(500, 200, 200, 25);
+//		this.searchfield2.setVisible(true);
+//		// When the user clicks to enter the project name, sets the text field
+//		// to empty.
+//		this.searchfield2.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				searchfield2.setText("");
+//			}
+//		});
+//		this.searchfield2.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				String tmp = PwSearchPane.this.searchfield2.getText();
+//				PwSearchPane.this.searchEc(tmp);
+//				if (PwSearchPane.this.ecIndexes_.size() > 0) {
+//					PwSearchPane.this.showEcs();
+//				}
+//				PwSearchPane.this.invalidate();
+//				PwSearchPane.this.validate();
+//				PwSearchPane.this.repaint();
+//			}
+//		});
+//		this.displayP_.add(this.searchfield2);
+//
+//		JButton button2_ = new JButton();
+//		button2_.setBounds(725, 200, 100, 25);
+//		button2_.setVisible(true);
+//		button2_.setText("search");
+//		button2_.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				String tmp = PwSearchPane.this.searchfield2.getText();
+//
+//				PwSearchPane.this.searchEc(tmp);
+//				if (PwSearchPane.this.ecIndexes_.size() > 0) {
+//					PwSearchPane.this.showEcs();
+//				}
+//				PwSearchPane.this.invalidate();
+//				PwSearchPane.this.validate();
+//				PwSearchPane.this.repaint();
+//			}
+//		});
+//		this.displayP_.add(button2_);
 	}
 
 	private void searchPw(String in) {
@@ -398,5 +505,21 @@ public class PwSearchPane extends JPanel {
 		this.mouseOverDisp.setText("<html>" + path.name_ + "<br>ID:" + path.id_
 				+ "<br> Wgt:" + path.weight_ + "| Scr:" + path.score_
 				+ "</html>");
+	}
+	
+	private void warningFrame(String strIN) {
+		JFrame wrngFrame = new JFrame();
+		wrngFrame.setBounds(200, 200, 400, 100);
+		wrngFrame.setLayout(null);
+		wrngFrame.setVisible(true);
+
+		JPanel backP = new JPanel();
+		backP.setBounds(0, 0, 400, 100);
+		backP.setLayout(null);
+		wrngFrame.add(backP);
+
+		JLabel label = new JLabel(strIN);
+		label.setBounds(25, 25, 400, 25);
+		backP.add(label);
 	}
 }

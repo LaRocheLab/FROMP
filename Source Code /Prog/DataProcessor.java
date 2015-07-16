@@ -1143,8 +1143,8 @@ public class DataProcessor {
 			}
 		}
 		Text = Text + "<br></body></html>";
-
-		HelpFrame helpF = new HelpFrame(Text);
+		//Commented out help frame as it is unnessary for general users. Useful for debugging
+		//HelpFrame helpF = new HelpFrame(Text);
 		System.out
 				.println("---------------------------------------------------------------------------------------------");
 		System.out.println("Finished processing the samples");

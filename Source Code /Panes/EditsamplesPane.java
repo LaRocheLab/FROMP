@@ -6,6 +6,7 @@ import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.IndexButton;
 import Prog.StringReader;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,19 +16,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.*;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
+
 import java.awt.Dimension;
 
 // This is the panel in between the start screen and the pathway selection screen where you are able to select 
@@ -488,9 +491,10 @@ public class EditsamplesPane extends JPanel {
 		help.setVisible(true);
 		help.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String Text = "<html><body>Add Ec-Matrix to the programm<br>a line in the input file should be of this form<br>(1.2.1.12,29,15,0)<br>Warning: no empty fields and no blanks</body></html>";
-
-				HelpFrame helpF = new HelpFrame(Text);
+				String Text = "<html><body>Add Ec-Matrix to the programm<br>a line in the input file should be of this form<br>(1.2.1.12,29,15,0)"
+						+ "<br>Warning: no empty fields and no blanks</body></html>";
+				openWarning("Help", Text);
+				//HelpFrame helpF = new HelpFrame(Text);
 			}
 		});
 		add(help);
@@ -679,28 +683,30 @@ public class EditsamplesPane extends JPanel {
 	}
 	//opens a warning frame, with the input title as the title and the input string as the body
 	private void openWarning(String title, String string) {
-		JFrame frame = new JFrame(title);
-		frame.setVisible(true);
-		frame.setBounds(200, 200, 350, 150);
-		frame.setLayout(null);
-		frame.setResizable(false);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 350, 150);
-		panel.setBackground(Color.lightGray);
-		panel.setVisible(true);
-		panel.setLayout(null);
-		frame.add(panel);
-
-		JLabel label = new JLabel(string);
-
-		label.setVisible(true);
-		label.setForeground(Color.black);
-		label.setBounds(0, 0, 350, 150);
-		label.setLayout(null);
-		panel.add(label);
-
-		frame.repaint();
+//		JFrame frame = new JFrame(title);
+//		frame.setVisible(true);
+//		frame.setBounds(200, 200, 350, 150);
+//		frame.setLayout(null);
+//		frame.setResizable(false);
+//
+//		JPanel panel = new JPanel();
+//		panel.setBounds(0, 0, 350, 150);
+//		panel.setBackground(Color.lightGray);
+//		panel.setVisible(true);
+//		panel.setLayout(null);
+//		frame.add(panel);
+//
+//		JLabel label = new JLabel(string);
+//
+//		label.setVisible(true);
+//		label.setForeground(Color.black);
+//		label.setBounds(0, 0, 350, 150);
+//		label.setLayout(null);
+//		panel.add(label);
+//
+//		frame.repaint();
+		JOptionPane.showMessageDialog(null,string, 
+			    title, JOptionPane.WARNING_MESSAGE);
 	}
 	/*
 	 * Tests the first five lines of a file, if none of them can be read the file

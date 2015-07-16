@@ -2277,8 +2277,8 @@ public void setDrawChart(boolean drawChart) {
  * 
  * @author Jennifer Terpstra
  */
-private void warningFrame(String strIN) {
-	JFrame wrngFrame = new JFrame();
+private void warningFrame(String strIN) { 
+	/*JFrame wrngFrame = new JFrame();
 	wrngFrame.setBounds(200, 200, 350, 100);
 	wrngFrame.setLayout(null);
 	wrngFrame.setVisible(true);
@@ -2290,7 +2290,9 @@ private void warningFrame(String strIN) {
 
 	JLabel label = new JLabel("Warning! " + strIN);
 	label.setBounds(25, 25, 300, 25);
-	backP.add(label);
+	backP.add(label);*/
+	JOptionPane.showMessageDialog(null,strIN, 
+		    "Warning", JOptionPane.WARNING_MESSAGE);
 }
 
 /**

@@ -22,6 +22,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -108,8 +109,28 @@ public class PwSearchPane extends JPanel {
 		//Button to go back to the anaylze options menu
 		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
 		this.optionsPanel_.add(backButton_);
+		//making help button in the options panel for the search page
+		JButton helpButton_ = new JButton("Help");
+		helpButton_.setBounds(350, 20, 70, this.linDis);
+		helpButton_.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JOptionPane.showMessageDialog(null,
+					    "To use the search bar you must choose the search option which corresponds to the type "
+					    + "of search you want to do.\nComplete the search by pressing the \"Search\" button."
+					    + "\n\nSearch Pathways: Used to find Pathways with the pathway name or ID\n"
+					    + "\n\tAccepted Formats: \"Glycolysis\", \"Gly\", \"ec0010\"\n\n"
+					    + "Seach EC Numbers: Used to find Pathways using an EC number\n\n\t"
+					    + "Accepted Formats: \"ec 1.1.1.1\", \"ec1.1.1.1\", \"EC1.1.1\", \"1.1.1.1\"", 
+					    "Help", JOptionPane.INFORMATION_MESSAGE);
+
+				
+			}
+		});
+		this.optionsPanel_.add(helpButton_);
+		
 		//Button to choose the type of search the user wants to perform
 		JLabel searchTitle = new JLabel("Choose Search Option: ");
+		searchTitle.setFont (searchTitle.getFont ().deriveFont (20.0f));
 		searchTitle.setBounds(100,100,300, 50);
 		searchTitle.setVisible(true);
 		this.displayP_.add(searchTitle);
@@ -470,18 +491,7 @@ public class PwSearchPane extends JPanel {
 	}
 	
 	private void warningFrame(String strIN) {
-		JFrame wrngFrame = new JFrame();
-		wrngFrame.setBounds(200, 200, 400, 100);
-		wrngFrame.setLayout(null);
-		wrngFrame.setVisible(true);
-
-		JPanel backP = new JPanel();
-		backP.setBounds(0, 0, 400, 100);
-		backP.setLayout(null);
-		wrngFrame.add(backP);
-
-		JLabel label = new JLabel(strIN);
-		label.setBounds(25, 25, 400, 25);
-		backP.add(label);
+		JOptionPane.showMessageDialog(null,strIN, 
+			    "", JOptionPane.WARNING_MESSAGE);
 	}
 }

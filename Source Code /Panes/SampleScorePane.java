@@ -6,6 +6,7 @@ import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
 import Prog.PathButt;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -259,13 +263,12 @@ public class SampleScorePane extends JPanel {
 			tmpSample = (Sample) Project.samples_.get(counter);
 		}
 		int listCount = 0;
-		if (Project.listMode_) {
-			sortPathwaysByScore(tmpSample.pathways_);
-		} else {
-			sortPathsById(tmpSample.pathways_);
-		}
+//		if (Project.listMode_) {
+//			tmpSample.pathways_ = sortPathwaysByScore(tmpSample.pathways_);
+//		} else {
+//			sortPathsById(tmpSample.pathways_);
+//		}
 		for (int pathCnt = 0; pathCnt < tmpSample.pathways_.size(); pathCnt++) {
-
 			if (this.proc_.getPathway(((PathwayWithEc) tmpSample.pathways_.get(pathCnt)).id_).isSelected()) {
 				tmpPath = (PathwayWithEc) tmpSample.pathways_.get(pathCnt);
 				if (tmpPath.name_.contentEquals("testPath")) {
@@ -274,7 +277,7 @@ public class SampleScorePane extends JPanel {
 				tmpWeight = String.valueOf(tmpPath.weight_);
 				if (((PathwayWithEc) tmpSample.pathways_.get(pathCnt))
 						.isSelected()) {
-					//hides any pathway score that is zero or below
+					//hides any pathway score that is zero or below  tmpPath.score_ > 0
 					if(tmpPath.score_ >= this.maxVisScore && tmpPath.score_ > 0) {
 						if (tmpWeight.length() > 3) {
 							tmpWeight = tmpWeight.substring(0, 3);
@@ -331,56 +334,68 @@ public class SampleScorePane extends JPanel {
 		}
 	}
 
-	private void sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
-		int tmpCnt = 0;
-		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
-			tmpCnt = pathCnt;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways
-						.get(pathCnt2)).score_) {
-					tmpCnt = pathCnt2;
-				}
-			}
-			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
-			pathways.remove(tmpCnt + 1);
-		}
-	}
-
-	private void sortPathsById(ArrayList<PathwayWithEc> pathways) {
-		boolean changed = true;
-		Pathway path1 = null;
-		Pathway path2 = null;
-		int pathCnt = 0;
-		// for (; changed; pathCnt < pathways.size())
-		while (changed && (pathCnt < pathways.size())) {
-			changed = false;
-
-			// pathCnt = 0; continue;
-			path1 = (Pathway) pathways.get(pathCnt);
-			path2 = null;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				path2 = (Pathway) pathways.get(pathCnt2);
-				if (!path1.idBiggerId2(path2)) {
-					break;
-				}
-				PathwayWithEc origPaths1 = (PathwayWithEc) pathways
-						.get(pathCnt);
-				PathwayWithEc origPaths2 = (PathwayWithEc) pathways
-						.get(pathCnt2);
-
-				pathways.remove(pathCnt2);
-				pathways.remove(pathCnt);
-
-				pathways.add(pathCnt, origPaths2);
-				pathways.add(pathCnt2, origPaths1);
-
-				pathCnt++;
-				pathCnt2++;
-				changed = true;
-			}
-			pathCnt++;
-		}
-	}
+//	private ArrayList<PathwayWithEc> sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
+//		System.out.println("Sort by Score Sample");
+////		int tmpCnt = 0;
+////		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
+////			tmpCnt = pathCnt;
+////			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+////				if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways
+////						.get(pathCnt2)).score_) {
+////					tmpCnt = pathCnt2;
+////				}
+////			}
+////			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
+////			pathways.remove(tmpCnt + 1);
+////		}
+//		Collections.sort(pathways, new Comparator<PathwayWithEc>() {
+//	        @Override public int compare(PathwayWithEc p1, PathwayWithEc p2) {
+//	        	 if (p1.getScore() > p2.getScore())
+//	                 return 1;
+//	             if (p1.getScore() < p2.getScore())
+//	                 return -1;
+//	             return 0;
+//	        }
+//		});
+//		Collections.reverse(pathways);
+//		return pathways;
+//	}
+//
+//	private void sortPathsById(ArrayList<PathwayWithEc> pathways) {
+//		boolean changed = true;
+//		Pathway path1 = null;
+//		Pathway path2 = null;
+//		int pathCnt = 0;
+//		// for (; changed; pathCnt < pathways.size())
+//		while (changed && (pathCnt < pathways.size())) {
+//			changed = false;
+//
+//			// pathCnt = 0; continue;
+//			path1 = (Pathway) pathways.get(pathCnt);
+//			path2 = null;
+//			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+//				path2 = (Pathway) pathways.get(pathCnt2);
+//				if (!path1.idBiggerId2(path2)) {
+//					break;
+//				}
+//				PathwayWithEc origPaths1 = (PathwayWithEc) pathways
+//						.get(pathCnt);
+//				PathwayWithEc origPaths2 = (PathwayWithEc) pathways
+//						.get(pathCnt2);
+//
+//				pathways.remove(pathCnt2);
+//				pathways.remove(pathCnt);
+//
+//				pathways.add(pathCnt, origPaths2);
+//				pathways.add(pathCnt2, origPaths1);
+//
+//				pathCnt++;
+//				pathCnt2++;
+//				changed = true;
+//			}
+//			pathCnt++;
+//		}
+//	}
 
 	private void setAdditionalInfo(PathwayWithEc path) {
 		this.mouseOverDisp.setText("<html>" + path.name_ + "<br>ID:" + path.id_

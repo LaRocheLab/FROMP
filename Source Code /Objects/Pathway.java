@@ -12,6 +12,14 @@ public class Pathway {
 	public boolean isSelected() {
 		return this.selected;
 	}
+	 
+	public String getId_() {
+		return id_;
+	}
+
+	public void setId_(String id_) {
+		this.id_ = id_;
+	}
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;

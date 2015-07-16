@@ -70,9 +70,13 @@ public class PathwaysPane extends JPanel {
 		setVisible(true);
 
 		checked = false;
-		checked2= false;
+		checked2 = false;
 
 		this.backButton_ = new JButton("< Back to the Analysis Options");
+		for (int i = 0; i < Project.samples_.size(); i++) {
+			Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_));
+		}
+		Project.overall_.setPathways_(PathwaysPane.this.sortPathsById(Project.overall_.pathways_));
 		initMainPanels();
 		initChainChecks();
 		addOptions();
@@ -202,6 +206,7 @@ public class PathwaysPane extends JPanel {
 
 				if (checked) {
 					checked = false;
+					checked2 = false;
 				} else {
 					checked = true;
 					checked2 = false;
@@ -209,21 +214,19 @@ public class PathwaysPane extends JPanel {
 
 				for (int i = 0; i < Project.samples_.size(); i++) {
 					if (PathwaysPane.this.listCheck_.isSelected()) {
-						PathwaysPane.this
-								.sortPathwaysByScore(((Sample) Project.samples_
-										.get(i)).pathways_);
+						Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathwaysByScore(((Sample) Project.samples_.get(i)).pathways_));
 					} else {
-						PathwaysPane.this
-								.sortPathsById(((Sample) Project.samples_
-										.get(i)).pathways_);
+						//PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_);
+						Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_));
 					}
 				}
 				if (PathwaysPane.this.listCheck_.isSelected()) {
-					PathwaysPane.this
-							.sortPathwaysByScore(Project.overall_.pathways_);
+					Project.overall_.setPathways_(PathwaysPane.this.sortPathwaysByScore(Project.overall_.pathways_));
 				} else {
-					PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
+					//PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
+					Project.overall_.setPathways_(PathwaysPane.this.sortPathsById(Project.overall_.pathways_));
 				}
+				
 
 				PathwaysPane.this.redo();
 			}
@@ -244,6 +247,7 @@ public class PathwaysPane extends JPanel {
 
 				if (checked2) {
 					checked2 = false;
+					checked = false;
 				} else {
 					checked2 = true;
 					checked = false;
@@ -253,13 +257,15 @@ public class PathwaysPane extends JPanel {
 					if (PathwaysPane.this.listCheck_2.isSelected()) {
 						Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathwaysByName(((Sample) Project.samples_.get(i)).pathways_));
 					} else {
-						PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_);
+						//PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_);
+						Project.samples_.get(i).setPathways_(PathwaysPane.this.sortPathsById(((Sample) Project.samples_.get(i)).pathways_));
 					}
 				}
 				if (PathwaysPane.this.listCheck_2.isSelected()) {
 					Project.overall_.setPathways_(PathwaysPane.this.sortPathwaysByName(Project.overall_.pathways_));
 				} else {
-					PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
+					//PathwaysPane.this.sortPathsById(Project.overall_.pathways_);
+					Project.overall_.setPathways_(PathwaysPane.this.sortPathsById(Project.overall_.pathways_));
 				}
 
 				PathwaysPane.this.redo();
@@ -408,20 +414,58 @@ public class PathwaysPane extends JPanel {
 	private void clear() {
 		this.showPanel_.removeAll();
 	}
-	//sorts the pathways by Pathways.score_
-	private void sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
-		int tmpCnt = 0;
-		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
-			tmpCnt = pathCnt;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways
-						.get(pathCnt2)).score_) {
-					tmpCnt = pathCnt2;
-				}
+	
+	/**
+	 * Sorts the pathways by their pathway scores (from highest to lowest) and returns the result.
+	 * In order to do this the zero entires are temporaily removed from the pathway arraylist (so as not to
+	 * affect the sorting) and then added to the end of the arraylist once the sorting is complete.
+	 * 
+	 * @param pathways Arraylist of PathwayWithEc
+	 * @return Arraylist of PathwayWithEC
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private ArrayList<PathwayWithEc> sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
+		System.out.println("Sort by Score Pathways");
+//		int tmpCnt = 0;
+//		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
+//			tmpCnt = pathCnt;
+//			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+//				if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways
+//						.get(pathCnt2)).score_) {
+//					tmpCnt = pathCnt2;
+//				}
+//			}
+//			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
+//			pathways.remove(tmpCnt + 1);
+//		}
+		ArrayList<PathwayWithEc> tmplist = new ArrayList<PathwayWithEc>();
+		ArrayList<PathwayWithEc> removed = new ArrayList<PathwayWithEc>();
+		for(int i = 0; i<pathways.size();i++){
+			if(pathways.get(i).getScore() <= 0.0 || pathways.get(i).getScore()==Double.NaN){
+				removed.add(pathways.get(i));
 			}
-			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
-			pathways.remove(tmpCnt + 1);
+			else{
+				tmplist.add(pathways.get(i));
+			}
 		}
+		
+		Collections.sort(tmplist, new Comparator<PathwayWithEc>() {
+	        @Override public int compare(PathwayWithEc p1, PathwayWithEc p2) {
+	        	 if (p1.getScore() > p2.getScore())
+	                 return 1;
+	             if (p1.getScore() < p2.getScore())
+	                 return -1;
+	             return 0;
+	        }
+		});
+		Collections.reverse(tmplist);
+		for(int j=0; j<removed.size(); j++){
+			tmplist.add(removed.get(j));
+		}
+		pathways = tmplist;
+		
+		return pathways;
 	}
 
 	public int getyOffset_() {
@@ -431,21 +475,53 @@ public class PathwaysPane extends JPanel {
 	public void setyOffset_(int yOffset_) {
 		this.yOffset_ = yOffset_;
 	}
+	
+	/**
+	 * Sorts the pathways by their Ids and returns the result. In order to do this
+	 * the zero entires are temporaily removed from the pathway arraylist (so as not to
+	 * affect the sorting) and then added to the end of the arraylist once the sorting is complete.
+	 * @param pathways Arraylist of PathwayWithEc
+	 * @return Arraylist of PathwayWithEC
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private ArrayList<PathwayWithEc> sortPathsById(ArrayList<PathwayWithEc> pathways) {
 
-	private void sortPathsById(ArrayList<PathwayWithEc> pathways) {
-
-		int tmpCnt = 0;
-		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
-			tmpCnt = pathCnt;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				if (((PathwayWithEc) pathways.get(tmpCnt))
-						.idBiggerId2(((PathwayWithEc) pathways.get(pathCnt2)))) {
-					tmpCnt = pathCnt2;
-				}
+//		int tmpCnt = 0;
+//		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
+//			tmpCnt = pathCnt;
+//			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+//				if (((PathwayWithEc) pathways.get(tmpCnt))
+//						.idBiggerId2(((PathwayWithEc) pathways.get(pathCnt2)))) {
+//					tmpCnt = pathCnt2;
+//				}
+//			}
+//			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
+//			pathways.remove(tmpCnt + 1);
+//		}
+		ArrayList<PathwayWithEc> tmplist = new ArrayList<PathwayWithEc>();
+		ArrayList<PathwayWithEc> removed = new ArrayList<PathwayWithEc>();
+		for(int i = 0; i<pathways.size();i++){
+			if(pathways.get(i).getScore() <= 0.0 || pathways.get(i).getScore()==Double.NaN){
+				removed.add(pathways.get(i));
 			}
-			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
-			pathways.remove(tmpCnt + 1);
+			else{
+				tmplist.add(pathways.get(i));
+			}
 		}
+		
+		Collections.sort(tmplist, new Comparator<PathwayWithEc>() {
+	        @Override public int compare(PathwayWithEc p1, PathwayWithEc p2) {
+	        	String Id1 = p1.getId_().toLowerCase();
+	        	String Id2 = p2.getId_().toLowerCase();
+	            return Id1.compareTo(Id2);
+	        }
+		});
+		for(int j=0; j<removed.size(); j++){
+			tmplist.add(removed.get(j));
+		}
+		pathways = tmplist;
+		return pathways;
 	}
 	
 	/**
@@ -461,7 +537,7 @@ public class PathwaysPane extends JPanel {
 		ArrayList<PathwayWithEc> tmplist = new ArrayList<PathwayWithEc>();
 		ArrayList<PathwayWithEc> removed = new ArrayList<PathwayWithEc>();
 		for(int i = 0; i<pathways.size();i++){
-			if(pathways.get(i).getScore() <= 0.0){
+			if(pathways.get(i).getScore() <= 0.0 || pathways.get(i).getScore()==Double.NaN){
 				removed.add(pathways.get(i));
 			}
 			else{
@@ -483,36 +559,36 @@ public class PathwaysPane extends JPanel {
 		return pathways;
 	}
 
-	private void quicksortPathsById(ArrayList<PathwayWithEc> path, int low,
-			int high) {
-		int i = low, j = high;
-		// if(i>=j){return;}
-		PathwayWithEc pivot = path.get(low + (high - low) / 2);
-		while (i <= j) {
-			while (path.get(i).idSmallerId2(pivot)) {
-				i++;
-			}
-			while (path.get(j).idBiggerId2(pivot)) {
-				j--;
-			}
-			if (i <= j) {
-				switchPaths(path, i, j);
-				i++;
-				j--;
-			}
-		}
-		if (low < j)
-			quicksortPathsById(path, low, j);
-		if (i < high)
-			quicksortPathsById(path, i, high);
-	}
+//	private void quicksortPathsById(ArrayList<PathwayWithEc> path, int low,
+//			int high) {
+//		int i = low, j = high;
+//		// if(i>=j){return;}
+//		PathwayWithEc pivot = path.get(low + (high - low) / 2);
+//		while (i <= j) {
+//			while (path.get(i).idSmallerId2(pivot)) {
+//				i++;
+//			}
+//			while (path.get(j).idBiggerId2(pivot)) {
+//				j--;
+//			}
+//			if (i <= j) {
+//				switchPaths(path, i, j);
+//				i++;
+//				j--;
+//			}
+//		}
+//		if (low < j)
+//			quicksortPathsById(path, low, j);
+//		if (i < high)
+//			quicksortPathsById(path, i, high);
+//	}
 
-	private void switchPaths(ArrayList<PathwayWithEc> path, int i, int j) {
-		PathwayWithEc tmp = path.get(i);
-
-		path.set(i, path.get(j));
-		path.set(j, tmp);
-	}
+//	private void switchPaths(ArrayList<PathwayWithEc> path, int i, int j) {
+//		PathwayWithEc tmp = path.get(i);
+//
+//		path.set(i, path.get(j));
+//		path.set(j, tmp);
+//	}
 
 	public int convertStringtoInt(String in) {
 		int ret = 0;

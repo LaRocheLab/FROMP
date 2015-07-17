@@ -511,7 +511,7 @@ public class NewFrompFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String file = NewFrompFrame.this.basePath_.substring(0,
 						NewFrompFrame.this.basePath_.length() - 2)
-						+ "fromp-users-guide.pdf";
+						+ "fromp-users-guide-current.pdf";
 				System.out.println(file);
 				NewFrompFrame.this.openPDf(file);
 			}
@@ -1121,8 +1121,9 @@ public class NewFrompFrame extends JFrame {
 
 	public void openPDf(String path) {
 		try {
+			///home/guest/git/FROMP/fromp-users-guide-current.pdf
 			File pdfFile = new File(path);
-			if (pdfFile.exists()) {
+			if (pdfFile.getAbsoluteFile().exists()) {
 				if (Desktop.isDesktopSupported()) {
 					Desktop.getDesktop().open(pdfFile);
 				} else {

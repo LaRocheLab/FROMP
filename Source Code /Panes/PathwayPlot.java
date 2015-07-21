@@ -5,12 +5,17 @@ import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
+
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,15 +26,43 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileFilter;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.SymbolAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleAnchor;
 
 // The "Show score-plot" tab of the pathway completeness analysis
 
@@ -45,11 +78,17 @@ public class PathwayPlot extends JPanel {
 	JCheckBox pointsBox_; 
 	JCheckBox vertLineBox_; 
 	JCheckBox linesBox_; 
+	JCheckBox showLegendScatter_;
+	JCheckBox showLegendBar_;
 	float scale_ = 0.5F; 
 	JButton scaleDown_; 
 	JButton scaleUp_; 
+	JButton scatter_;
+	JButton comboBar_;
 	JButton export_; 
 	DataProcessor proc_; 
+	boolean hasLegendScatter = false;
+	boolean hasLegendBar = false;
 
 	public PathwayPlot(Project proj, DataProcessor proc) {
 		this.proj_ = proj;
@@ -123,15 +162,33 @@ public class PathwayPlot extends JPanel {
 		this.toolbar_.add(this.scaleUp_);
 		this.toolbar_.add(this.scaleDown_);
 		this.toolbar_.add(this.export_);
+		
+		label = new JLabel("Show legend");
+		label.setBounds(560, 30, 100, 20);
+		label.setLayout(null);
+		label.setVisible(true);
+		this.toolbar_.add(label);
+		this.toolbar_.add(showLegendScatter_);
+		
+		this.toolbar_.add(this.scatter_);
+		
+		label = new JLabel("Show legend");
+		label.setBounds(800, 30, 100, 20);
+		label.setLayout(null);
+		label.setVisible(true);
+		this.toolbar_.add(label);
+		this.toolbar_.add(showLegendBar_);
+		
+		this.toolbar_.add(this.comboBar_);
 	}
 
 	public void initCheckBoxes() {// initiates all of the checkboxes and their actionlisteners, does not add them to the panel
+		
 		this.linesBox_ = new JCheckBox();
 		this.linesBox_.setBackground(Project.standard);
 		this.linesBox_.setBounds(120, 20, 17, 16);
 		this.linesBox_.setLayout(null);
 		this.linesBox_.setVisible(true);
-		this.linesBox_.setSelected(true);
 		this.linesBox_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PathwayPlot.this.prePaint();
@@ -147,6 +204,7 @@ public class PathwayPlot extends JPanel {
 		this.pointsBox_.setBackground(Project.standard);
 		this.pointsBox_.setBounds(20, 20, 17, 16);
 		this.pointsBox_.setLayout(null);
+		this.pointsBox_.setSelected(true);
 		this.pointsBox_.setVisible(true);
 		this.pointsBox_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,6 +221,7 @@ public class PathwayPlot extends JPanel {
 		this.vertLineBox_.setBackground(Project.standard);
 		this.vertLineBox_.setBounds(220, 20, 17, 16);
 		this.vertLineBox_.setLayout(null);
+		this.vertLineBox_.setSelected(true);
 		this.vertLineBox_.setVisible(true);
 		this.vertLineBox_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -198,12 +257,60 @@ public class PathwayPlot extends JPanel {
 				}
 			}
 		});
-		this.export_ = new JButton("Export");
-		this.export_.setBounds(220, 50, 100, 20);
+		this.export_ = new JButton("Export All");
+		this.export_.setBounds(1050, 10, 100, 30);
 		this.export_.setVisible(true);
 		this.export_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PathwayPlot.this.export();
+			}
+		});
+		this.scatter_ = new JButton("Show Scatter Plot");
+		this.scatter_.setBounds(560, 10, 200, 20);
+		this.scatter_.setVisible(true);
+		this.scatter_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PathwayPlot.this.drawPlot(1, hasLegendScatter);
+			}
+		});
+		this.showLegendScatter_ = new JCheckBox();
+		this.showLegendScatter_.setBackground(Project.standard);
+		this.showLegendScatter_.setBounds(560, 50, 17, 16);
+		this.showLegendScatter_.setLayout(null);
+		this.showLegendScatter_.setVisible(true);
+		this.showLegendScatter_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(showLegendScatter_.isSelected()){
+					hasLegendScatter = true;
+				}
+				else{
+					hasLegendScatter = false;
+				}
+				
+			}
+		});
+		this.comboBar_ = new JButton("Show Bar Graph");
+		this.comboBar_.setBounds(800, 10, 200, 20);
+		this.comboBar_.setVisible(true);
+		this.comboBar_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PathwayPlot.this.drawPlot(2, hasLegendBar);
+			}
+		});
+		this.showLegendBar_ = new JCheckBox();
+		this.showLegendBar_.setBackground(Project.standard);
+		this.showLegendBar_.setBounds(800, 50, 17, 16);
+		this.showLegendBar_.setLayout(null);
+		this.showLegendBar_.setVisible(true);
+		this.showLegendBar_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(showLegendBar_.isSelected()){
+					hasLegendBar = true;
+				}
+				else{
+					hasLegendBar = false;
+				}
+				
 			}
 		});
 	}
@@ -258,14 +365,14 @@ public class PathwayPlot extends JPanel {
 				tmpPath = (PathwayWithEc) tmpSamp.pathways_.get(pwCnt);
 				x = 30 + (pwCnt + 1) * xStep;
 				//hides any pathways with a score below 0 or is 0
-				if (tmpPath.score_ > Project.minVisScore_ && tmpPath.score_ > 0) {
+				if (tmpPath.score_ > Project.minVisScore_) {
 					y = yOffset
 							+ (yStep * 100 - (int) (tmpPath.score_ * yStep));
 				} else {
 					y = yOffset + yStep * 100;
 				}
 				if ((!this.proc_.getPathway(tmpPath.id_).isSelected())
-						|| (tmpPath.score_ < Project.minVisScore_)) {
+						|| (tmpPath.score_ < Project.minVisScore_ )) {
 					y = yOffset + yStep * 101;
 				}
 				Graphics2D g2 = (Graphics2D) g;
@@ -335,4 +442,112 @@ public class PathwayPlot extends JPanel {
 		validate();
 		repaint();
 	}
+	
+	/**
+	 * Used to draw the Scatter plot and Stacked bar chart for the pathway scores. Uses Jfree chart which can be found at
+	 * http://www.jfree.org/jfreechart/. 
+	 * @param mode Tells the method with graph to draw. 1 for scatter and 2 for bar.
+	 * @param showLegend Tells the method whether to draw a legend with the graphs
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	public void drawPlot(int mode, boolean showLegend){
+		//inputs all the pathway scores into the graph dataset
+		int totalSeries = Project.samples_.size();
+		DefaultCategoryDataset tmpseries = new DefaultCategoryDataset();
+		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+			Sample tmpSamp = Project.samples_.get(smpCnt);
+			for (int pathCnt = 0; pathCnt < tmpSamp.getPathways_().size(); pathCnt++) {
+				PathwayWithEc tmpPath = tmpSamp.getPathways_().get(pathCnt);
+				//pathway score must be greater than min score and 0 in order to be put into graph dataset
+				if (tmpPath.getScore() > Project.minVisScore_&& tmpPath.getScore() > 0) {
+					tmpseries.addValue(tmpPath.getScore(), tmpSamp.name_, tmpPath.getId_());
+				}
+			}
+
+		}
+		
+		JFreeChart chart;
+		CategoryAxis domainAxis;
+		CategoryPlot categoryplot;
+		
+		//drawing the scatterplot graph for the pathway scores
+		if (mode == 1) {
+			chart = ChartFactory.createLineChart("Pathway Scores", "Pathway",
+					"Scores", tmpseries, PlotOrientation.HORIZONTAL,
+					showLegend, true, false);
+
+			categoryplot = (CategoryPlot) chart.getPlot();
+
+			categoryplot.setBackgroundPaint(Color.LIGHT_GRAY);
+			categoryplot.setDomainGridlinePaint(Color.white);
+			categoryplot.setDomainGridlinesVisible(true);
+			categoryplot.setRangeGridlinesVisible(false);
+			categoryplot.setDomainCrosshairVisible(true);
+			categoryplot.setRangeCrosshairVisible(true);
+			categoryplot.setRangeCrosshairLockedOnData(true);
+
+			LineAndShapeRenderer renderer = (LineAndShapeRenderer) categoryplot
+					.getRenderer();
+			renderer.setBaseShapesVisible(true);
+			renderer.setLinesVisible(false);
+			//ensures that each series representing each sample contains the same colour as the original sample
+			for (int i = 0; i < totalSeries; i++) {
+				renderer.setSeriesFillPaint(i,(Project.samples_.get(i).sampleCol_));
+				renderer.setUseFillPaint(true);
+				renderer.setSeriesPaint(i, (Project.samples_.get(i).sampleCol_));
+			}
+
+			
+		}
+		//drawing the stacked bar graph for the pathway scores
+		else {
+			chart = ChartFactory.createStackedBarChart("Pathway Scores",
+					"Pathway", "Scores", tmpseries, PlotOrientation.HORIZONTAL,
+					showLegend, true, false);
+
+			categoryplot = (CategoryPlot) chart.getPlot();
+
+			categoryplot.setBackgroundPaint(Color.LIGHT_GRAY);
+			categoryplot.setDomainGridlinePaint(Color.white);
+			categoryplot.setDomainGridlinesVisible(true);
+			categoryplot.setRangeGridlinesVisible(false);
+
+			ValueAxis rangedAxis = categoryplot.getRangeAxis();
+			rangedAxis.setVisible(false);
+			rangedAxis.setVerticalTickLabels(false);
+
+			BarRenderer renderer = (BarRenderer) categoryplot.getRenderer();
+			renderer.setDrawBarOutline(false);
+			renderer.setItemMargin(0.1);
+			renderer.setMaximumBarWidth(0.1);
+			
+			//ensures that each series representing each sample contains the same colour as the original sample
+			for (int i = 0; i < totalSeries; i++) {
+				 final Paint gp0 = Project.samples_.get(i).sampleCol_;
+				 renderer.setSeriesPaint(i, gp0);
+			}
+		}
+		
+		domainAxis = categoryplot.getDomainAxis();
+		domainAxis.setLowerMargin(0.01);
+		domainAxis.setCategoryMargin(0.2);
+		
+		//setting domain font type and size so that it is easily readable
+		Font font = new Font("Dialog", Font.PLAIN, 7);
+		domainAxis.setTickLabelFont(font);
+		chart.setBackgroundPaint(Color.white);
+		//Frame which the graph is drawn on
+		JFrame showPlot = new JFrame();
+
+		JPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new Dimension(1000, 1000));
+		chartPanel.setVisible(true);
+		showPlot.getContentPane().setLayout(new FlowLayout());
+		showPlot.setContentPane(chartPanel);
+		showPlot.pack();
+		showPlot.setVisible(true);
+		 
+	}
+	
 }

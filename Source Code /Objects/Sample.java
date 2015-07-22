@@ -1,13 +1,18 @@
 package Objects;
 
 import Prog.StringReader;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Map;
+
+import javax.swing.JLabel;
 
 //This contains all of the pertinant data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
 //as well as many other important pieces of data like the sample name, etc.
@@ -17,6 +22,7 @@ public class Sample {
 	public String name_; // Name of the sample
 	public String fullPath_; // The file path to the sample
 	public Color sampleCol_; // the sample colour
+	public Map<String,URI> urlLabels_;
 	public BufferedReader sample_; // Buffered reader used to load new samples
 	public ArrayList<PathwayWithEc> pathways_; // Array list of pathways with ecs mapped to them in the sample
 	public ArrayList<EcWithPathway> ecs_; // Array list of ecs with pathways in the sample
@@ -118,8 +124,18 @@ public class Sample {
 	public void loadSample() {
 		this.sample_ = this.reader_.readTxt(this.fullPath_);
 	}
+	
+	
 
 	
+	public Map<String, URI> getUrlLabels_() {
+		return urlLabels_;
+	}
+
+	public void setUrlLabels_(Map<String, URI> urlLabels_) {
+		this.urlLabels_ = urlLabels_;
+	}
+
 	public ArrayList<PathwayWithEc> getPathways_() {
 		return pathways_;
 	}

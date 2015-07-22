@@ -2,7 +2,10 @@ package Panes;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
@@ -20,6 +23,17 @@ public class ImagePanel extends JPanel {
 
 	public static void showImage(BufferedImage image, String title) {
 		JFrame f = new JFrame(title);
+		f.add(new ImagePanel(image));
+		f.setLocation(100, 100);
+		f.setSize(image.getWidth(), image.getHeight() + 30);
+		f.setVisible(true);
+	}
+	
+	public static void showImage(BufferedImage image, String title, ArrayList<JLabel> labels) {
+		JFrame f = new JFrame(title);
+		for(int i = 0; i < labels.size(); i++){
+			f.add(labels.get(i));
+		}
 		f.add(new ImagePanel(image));
 		f.setLocation(100, 100);
 		f.setSize(image.getWidth(), image.getHeight() + 30);

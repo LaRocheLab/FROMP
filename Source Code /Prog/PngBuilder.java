@@ -5,13 +5,27 @@ import Objects.EcPosAndSize;
 import Objects.EcSampleStats;
 import Objects.PathwayWithEc;
 import Objects.Sample;
+import Objects.ecUrlLocation;
+import Panes.ImagePanel;
+
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+
 
 /**
  * Builds the PNG files which are outputted by FROMP
@@ -21,6 +35,7 @@ import javax.imageio.ImageIO;
 public class PngBuilder {
 	BufferedImage image; // The image being generated
 	String separator_ = File.separator; // the file seperator used by this OS
+	URI url;
 
 	public BufferedImage getAlteredPathway(ArrayList<EcPosAndSize> posList,
 			String pathwayId, Sample sample) {
@@ -195,6 +210,8 @@ public class PngBuilder {
 	}
 
 	public BufferedImage getAlteredPathway(PathwayWithEc tmpPath, Sample sample) {
+		ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+		final Map<String,URI> urlList = new HashMap<String,URI>();
 		Color col = sample.sampleCol_;
 
 		int stepper = 0;
@@ -207,11 +224,20 @@ public class PngBuilder {
 			reColorAllEcs(this.image, Color.white);
 			for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
 				EcNr tmpEc = (EcNr) tmpPath.ecNrs_.get(ecCnt);
+				//System.out.println(tmpEc.name_);
 
 				statsCnt = 0;
 				for (int i = 0; i < tmpEc.posSize_.size(); i++) {
 					statsCnt = 0;
 					EcPosAndSize tmpPos = (EcPosAndSize) tmpEc.posSize_.get(i);
+					try {
+						//System.out.println(tmpPos.ecURL_);
+						URI uri = new URI(tmpPos.ecURL_);
+						urlList.put(tmpEc.name_, uri);
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					int xStart = tmpPos.x_ - tmpPos.width_ / 2;
 					int yStart = tmpPos.y_ - tmpPos.height_ / 2;
 					int statsSum = 0;
@@ -260,6 +286,16 @@ public class PngBuilder {
 									if (this.image.getRGB(x, y) != Color.BLACK
 											.getRGB()) {
 										this.image.setRGB(x, y, col.getRGB());
+										final JLabel label = new JLabel();
+										label.setToolTipText(tmpEc.name_);
+										//label.setBounds(x, y, tmpPos.width_, tmpPos.height_);
+										ecUrlLocation tmpLocation = new ecUrlLocation(x, y, tmpPos.width_, tmpPos.height_);
+										labelList.add(label);
+										tmpEc.setEcLabel(label);
+										tmpEc.setEcLocation(tmpLocation);
+										
+										
+										
 									}
 								} else {
 									System.err.println("y-out");
@@ -285,6 +321,9 @@ public class PngBuilder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//ImagePanel pane = new ImagePanel(this.image);
+		//pane.showImage(this.image, "test", labelList);
+		sample.setUrlLabels_(urlList);
 		return this.image;
 	}
 

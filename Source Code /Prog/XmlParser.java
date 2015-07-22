@@ -21,6 +21,7 @@ public class XmlParser {
 									// positions and sizes
 		String tmpNr = "";
 		String tmp = "";
+		String tmpUrl = "";
 		int begin = 0;
 		int end = 0;
 		int tmpX = 0;
@@ -32,6 +33,17 @@ public class XmlParser {
 		String zeile = "";
 		try {
 			while ((zeile = in.readLine()) != null) {
+				if (zeile.contains("entry id=\"")&&zeile.contains(ecNr)){
+					if (((zeile = in.readLine()) != null)
+							&& (zeile.contains("link=\""))) {
+						tmp = "link=\"";
+						begin = zeile.indexOf(tmp) + tmp.length();
+						end = zeile.indexOf("\"", begin);
+						tmpNr = zeile.substring(begin, end);
+
+						tmpUrl = tmpNr;
+					}
+				}
 				if (zeile.contains("graphics name=\"" + ecNr + "\"")) {
 					if (((zeile = in.readLine()) != null)
 							&& (zeile.contains("type=\"rectangle\""))) {
@@ -64,7 +76,7 @@ public class XmlParser {
 						tmpW = convertStringtoInt(tmpNr);
 
 						EcPosAndSize tmpPos = new EcPosAndSize(tmpX, tmpY,
-								tmpH, tmpW);
+								tmpH, tmpW, tmpUrl);
 						ret.add(tmpPos);
 					}
 				}
@@ -102,7 +114,7 @@ public class XmlParser {
 								+ "\"")) {
 							String newLine = null;
 
-							offset = zeile.indexOf("fgcolor=") + 9;
+							offset = zeile.indexOf("fgcolorwindows 10 upgrade icon now showing=") + 9;
 							newLine = zeile.substring(0, offset) + "#FF0000"
 									+ zeile.substring(offset + 7);
 

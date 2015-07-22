@@ -5,13 +5,17 @@ import Objects.EcSampleStats;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -355,6 +360,7 @@ public class PathwayMapFrame extends JFrame {
 		this.image_.setName("Image");
 		this.image_.setBounds(0, 0, this.pathMap_.getWidth(),
 				this.pathMap_.getHeight() + 100);
+		
 
 		this.image_.setVisible(true);
 
@@ -456,6 +462,33 @@ public class PathwayMapFrame extends JFrame {
 		}
 		this.displayP_.add(this.ecAmounts);
 		this.image_.setLocation(0, 25);
+		/*
+		 * Adding url links for each mapped ec number in the Pathways
+		 */
+		for(int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++){
+			if(this.path_.ecNrs_.get(ecCnt).getEcLabel()!=null){
+				final JLabel tmpLabel = this.path_.ecNrs_.get(ecCnt).getEcLabel();
+				final int ec_x = this.path_.ecNrs_.get(ecCnt).getEcLocation().getX();
+				final int ec_y = this.path_.ecNrs_.get(ecCnt).getEcLocation().getY();
+				final int ec_width = this.path_.ecNrs_.get(ecCnt).getEcLocation().getWidth();
+				final int ec_height = this.path_.ecNrs_.get(ecCnt).getEcLocation().getHeight();
+				tmpLabel.setBounds(ec_x-45,ec_y+35,ec_width,ec_height);
+				tmpLabel.addMouseListener(new MouseAdapter() {
+					   public void mouseClicked(MouseEvent e) {
+					      if (e.getClickCount() > 0) {
+					                Desktop desktop = Desktop.getDesktop();
+					                try {
+					                   desktop.browse(samp_.getUrlLabels_().get(tmpLabel.getToolTipText()));
+					                } catch (IOException ex) {
+					                    ex.printStackTrace();
+					                }
+					        }
+					      }
+					   }
+					);
+				this.image_.add(tmpLabel);
+			}
+		}
 		this.displayP_.add(this.image_);
 
 		invalidate();
@@ -534,7 +567,7 @@ public class PathwayMapFrame extends JFrame {
 
 					step += ((EcSampleStats) tmpStats.get(stsCnt)).amount_;
 				}
-			}
+		}
 		}
 		for (int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++) {
 			numEcs++;
@@ -543,7 +576,7 @@ public class PathwayMapFrame extends JFrame {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ "*:", image.getWidth() + 20, 15 + colDist
 						* (numEcs + 2));
-			} else {
+		} else {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ ":", image.getWidth() + 20, 15 + colDist
 						* (numEcs + 2));

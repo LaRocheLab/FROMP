@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+
 //An Ec object. Contains most of the info you need to know about a particular EC.
 
 public class EcNr {
@@ -16,6 +18,8 @@ public class EcNr {
 	public int sampleNr_; 
 	public ArrayList<EcPosAndSize> posSize_; // arraylist of positions and sizes of ecs
 	public ArrayList<EcSampleStats> stats_; // arraylist of the sampleNr amount and colour of the ecs
+	public JLabel ecLabel;
+	public ecUrlLocation ecLocation;
 	public int[] nr_; 
 	public boolean unique_ = true; 
 	public boolean isPfam_ = false; 
@@ -113,6 +117,26 @@ public class EcNr {
 
 	public void setWeight(float w) {
 		this.weight_ = w;
+	}
+	
+	
+
+	public JLabel getEcLabel() {
+		return ecLabel;
+	}
+
+	public void setEcLabel(JLabel ecLabel) {
+		this.ecLabel = ecLabel;
+	}
+	
+	
+
+	public ecUrlLocation getEcLocation() {
+		return ecLocation;
+	}
+
+	public void setEcLocation(ecUrlLocation ecLocation) {
+		this.ecLocation = ecLocation;
 	}
 
 	public void adaptWeightToChain() {

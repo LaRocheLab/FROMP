@@ -1,0 +1,93 @@
+>HWI-M02691:4:000000000-ABPDV:1:1108:14345:14043-1:N:0:CATTGTGG_1_152_- ERR770959_MERGED_FASTQ_I5.tsv.cleaned
+peptide=, taxon_id=0, taxon_name=Inconclusive, taxon_rank=
+
+>HWI-M02691:4:000000000-ABPDV:1:2103:18451:16080-1:N:0:CATTGTGG_1_206_- ERR770959_MERGED_FASTQ_I5.tsv.cleaned
+peptide=VAFFR, taxon_id=1, taxon_name=root, taxon_rank=no rank
+
+>HWI-M02691:4:000000000-ABPDV:1:2104:9355:14092-1:N:0:CATTGTGG_1_271_- ERR770959_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SLNNGVR, taxon_id=1224, taxon_name=Proteobacteria, taxon_rank=phylum
+
+>HWI-M02024:110:000000000-A8H0K:1:1103:15754:17463-1:N:0:GTCATCCT_1_277_+ ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SGLLGFTK, taxon_id=90736, taxon_name=Moritella marina, taxon_rank=species
+
+>HWI-M02024:110:000000000-A8H0K:1:1107:4506:6262-1:N:0:GTCATCCT_1_209_- ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SGVVGLTR, taxon_id=1, taxon_name=root, taxon_rank=no rank
+
+>HWI-M02024:110:000000000-A8H0K:1:1114:21861:9741-1:N:0:GTCATCCT_1_106_+ ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=ILNVASVAGK, taxon_id=1284658, taxon_name=Planktomarina temperata, taxon_rank=species
+
+>HWI-M02024:110:000000000-A8H0K:1:1119:15468:11282-1:N:0:GTCATCCT_1_101_- ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=EGNPNASAYSASK, taxon_id=1224, taxon_name=Proteobacteria, taxon_rank=phylum
+
+>HWI-M02691:4:000000000-ABPDV:1:1102:10058:12324-2:N:0:GTCATCCT_1_233_- ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GAYNATK, taxon_id=2, taxon_name=Bacteria, taxon_rank=superkingdom
+
+>HWI-M02691:4:000000000-ABPDV:1:1117:21715:11637-1:N:0:GTCATCCT_1_274_+ ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=FGNADR, taxon_id=1, taxon_name=root, taxon_rank=no rank
+
+>HWI-M02691:4:000000000-ABPDV:1:2101:19603:7322-1:N:0:GTCATCCT_1_110_- ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=IINMASQAGR, taxon_id=2, taxon_name=Bacteria, taxon_rank=superkingdom
+
+>HWI-M02691:4:000000000-ABPDV:1:2109:23178:13868-2:N:0:GTCATCCT_1_230_+ ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=DQDPQGGR, taxon_id=2, taxon_name=Bacteria, taxon_rank=superkingdom
+
+>HWI-M02691:4:000000000-ABPDV:1:2117:26448:14995-1:N:0:GTCATCCT_1_194_+ ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=HAVVGMTK, taxon_id=1, taxon_name=root, taxon_rank=no rank
+
+>HWI-M02691:4:000000000-ABPDV:1:2119:13094:21187-1:N:0:GTCATCCT_1_149_- ERR770965_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GGLLALTK, taxon_id=1224, taxon_name=Proteobacteria, taxon_rank=phylum
+
+>HWI-M02024:110:000000000-A8H0K:1:1119:17025:7329-1:N:0:TCGGTAGT_1_364_- ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SVAVEYAR, taxon_id=286, taxon_name=Pseudomonas, taxon_rank=genus
+
+>HWI-M02024:110:000000000-A8H0K:1:2114:17801:23852-1:N:0:TCGGTAGT_1_256_- ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=LGNYVYGAAK, taxon_id=31989, taxon_name=Rhodobacteraceae, taxon_rank=family
+
+>HWI-M02024:110:000000000-A8H0K:1:2118:10736:11357-1:N:0:TCGGTAGT_1_175_- ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=INAVSPS, taxon_id=439334, taxon_name=Mycobacterium avium subsp. hominissuis, taxon_rank=subspecies
+
+>HWI-M02691:4:000000000-ABPDV:1:1103:7975:14172-1:N:0:TCGGTAGT_1_188_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=AGLVGFAR, taxon_id=2, taxon_name=Bacteria, taxon_rank=superkingdom
+
+>HWI-M02691:4:000000000-ABPDV:1:1104:23164:14655-2:N:0:TCGGTAGT_1_129_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=AGVDMMTK, taxon_id=1236, taxon_name=Gammaproteobacteria, taxon_rank=class
+
+>HWI-M02691:4:000000000-ABPDV:1:1108:14623:3138-1:N:0:TCGGTAGT_1_256_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SLAAEVASR, taxon_id=28211, taxon_name=Alphaproteobacteria, taxon_rank=class
+
+>HWI-M02691:4:000000000-ABPDV:1:1109:19277:12267-1:N:0:TCGGTAGT_1_326_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GAIASMALPAAR, taxon_id=31989, taxon_name=Rhodobacteraceae, taxon_rank=family
+
+>HWI-M02691:4:000000000-ABPDV:1:2102:17409:22898-2:N:0:TCGGTAGT_1_141_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GVVNSSR, taxon_id=1196095, taxon_name=Gilliamella apicola, taxon_rank=species
+
+>HWI-M02691:4:000000000-ABPDV:1:2104:26358:11672-2:N:0:TCGGTAGT_1_215_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=, taxon_id=0, taxon_name=Inconclusive, taxon_rank=
+
+>HWI-M02691:4:000000000-ABPDV:1:2119:21089:3718-1:N:0:TCGGTAGT_1_249_+ ERR770975_MERGED_FASTQ_I5.tsv.cleaned
+peptide=SGLVGMAR, taxon_id=2, taxon_name=Bacteria, taxon_rank=superkingdom
+
+>HWI-M02024:105:000000000-ABRAK:1:1117:26001:4851-1:N:0:GTGAATCC_1_261_+ ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=, taxon_id=0, taxon_name=Inconclusive, taxon_rank=
+
+>HWI-M02024:106:000000000-ABMTP:1:1103:19349:18205-2:N:0:GTGAATCC_1_256_+ ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=VDPFK, taxon_id=1, taxon_name=root, taxon_rank=no rank
+
+>HWI-M02024:106:000000000-ABMTP:1:1107:8118:23660-1:N:0:GTGAATCC_1_132_- ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GVIINTASIAGYEGQIGQSAYSASK, taxon_id=1236, taxon_name=Gammaproteobacteria, taxon_rank=class
+
+>HWI-M02024:107:000000000-ABPAB:1:1106:7476:8633-1:N:0:GTGAATCC_18_235_- ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=LGAELIDK, taxon_id=1236, taxon_name=Gammaproteobacteria, taxon_rank=class
+
+>HWI-M02024:107:000000000-ABPAB:1:1107:7611:22939-1:N:0:GTGAATCC_1_169_- ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=VCTIAP, taxon_id=144549, taxon_name=Mycobacterium fortuitum subsp. fortuitum, taxon_rank=subspecies
+
+>HWI-M02691:3:000000000-A8CV7:1:1105:14248:24444-1:N:0:GTGAATCC_1_124_- ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GAIHAFTR, taxon_id=1224, taxon_name=Proteobacteria, taxon_rank=phylum
+
+>HWI-M02691:3:000000000-A8CV7:1:1115:10021:14010-1:N:0:GTGAATCC_1_286_- ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=GAGAYSASK, taxon_id=404236, taxon_name=Maritimibacter alkaliphilus, taxon_rank=species
+
+>HWI-M02691:3:000000000-A8CV7:1:2118:22106:7713-1:N:0:GTGAATCC_1_387_+ ERR770987_MERGED_FASTQ_I5.tsv.cleaned
+peptide=EGNPNASAYSTSK, taxon_id=28211, taxon_name=Alphaproteobacteria, taxon_rank=class
+

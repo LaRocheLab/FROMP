@@ -18,8 +18,7 @@ public class EcNr {
 	public int sampleNr_; 
 	public ArrayList<EcPosAndSize> posSize_; // arraylist of positions and sizes of ecs
 	public ArrayList<EcSampleStats> stats_; // arraylist of the sampleNr amount and colour of the ecs
-	public JLabel ecLabel;
-	public ecUrlLocation ecLocation;
+	public ArrayList<JLabel> ecLabel;
 	public int[] nr_; 
 	public boolean unique_ = true; 
 	public boolean isPfam_ = false; 
@@ -43,6 +42,7 @@ public class EcNr {
 
 		this.posSize_ = new ArrayList();
 		this.stats_ = new ArrayList();
+		ecLabel = new ArrayList<JLabel>();
 		this.name_ = name[0];
 		if (isNumber(name[1])) {
 			this.amount_ = Integer.valueOf(name[1]).intValue();
@@ -69,6 +69,7 @@ public class EcNr {
 		this.repseqs_ = new ArrayList();
 		this.posSize_ = new ArrayList();
 		this.stats_ = new ArrayList();
+		ecLabel = new ArrayList<JLabel>();
 		this.name_ = name;
 		this.amount_ = 1;
 		this.nr_ = new int[4];
@@ -86,6 +87,7 @@ public class EcNr {
 		this.repseqs_ = new ArrayList();
 		this.posSize_ = new ArrayList();
 		this.stats_ = new ArrayList();
+		ecLabel = new ArrayList<JLabel>();
 		this.name_ = ecNr.name_;
 		this.weight_ = ecNr.weight_;
 		this.amount_ = ecNr.amount_;
@@ -121,22 +123,12 @@ public class EcNr {
 	
 	
 
-	public JLabel getEcLabel() {
+	public ArrayList<JLabel> getEcLabel() {
 		return ecLabel;
 	}
 
-	public void setEcLabel(JLabel ecLabel) {
+	public void setEcLabel(ArrayList<JLabel> ecLabel) {
 		this.ecLabel = ecLabel;
-	}
-	
-	
-
-	public ecUrlLocation getEcLocation() {
-		return ecLocation;
-	}
-
-	public void setEcLocation(ecUrlLocation ecLocation) {
-		this.ecLocation = ecLocation;
 	}
 
 	public void adaptWeightToChain() {

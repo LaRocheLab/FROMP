@@ -22,7 +22,6 @@ public class Sample {
 	public String name_; // Name of the sample
 	public String fullPath_; // The file path to the sample
 	public Color sampleCol_; // the sample colour
-	public Map<String,URI> urlLabels_;
 	public BufferedReader sample_; // Buffered reader used to load new samples
 	public ArrayList<PathwayWithEc> pathways_; // Array list of pathways with ecs mapped to them in the sample
 	public ArrayList<EcWithPathway> ecs_; // Array list of ecs with pathways in the sample
@@ -123,17 +122,6 @@ public class Sample {
 
 	public void loadSample() {
 		this.sample_ = this.reader_.readTxt(this.fullPath_);
-	}
-	
-	
-
-	
-	public Map<String, URI> getUrlLabels_() {
-		return urlLabels_;
-	}
-
-	public void setUrlLabels_(Map<String, URI> urlLabels_) {
-		this.urlLabels_ = urlLabels_;
 	}
 
 	public ArrayList<PathwayWithEc> getPathways_() {

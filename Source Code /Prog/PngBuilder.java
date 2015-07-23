@@ -5,7 +5,6 @@ import Objects.EcPosAndSize;
 import Objects.EcSampleStats;
 import Objects.PathwayWithEc;
 import Objects.Sample;
-import Objects.ecUrlLocation;
 import Panes.ImagePanel;
 
 import java.awt.Color;
@@ -13,6 +12,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -136,6 +136,7 @@ public class PngBuilder {
 
 		int stepper = 0;
 		int statsCnt = 0;
+	
 		EcSampleStats tmpStats = null;
 		try {
 			this.image = ImageIO.read(new File("pics" + this.separator_
@@ -211,6 +212,7 @@ public class PngBuilder {
 
 	public BufferedImage getAlteredPathway(PathwayWithEc tmpPath, Sample sample) {
 		ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+		
 		final Map<String,URI> urlList = new HashMap<String,URI>();
 		Color col = sample.sampleCol_;
 
@@ -240,6 +242,51 @@ public class PngBuilder {
 					}
 					int xStart = tmpPos.x_ - tmpPos.width_ / 2;
 					int yStart = tmpPos.y_ - tmpPos.height_ / 2;
+					
+					//making the coloured portions of the pathway picture clickable in order to open the ec numbers webpage
+					JLabel label = new JLabel();
+					label.setToolTipText(tmpEc.name_);
+					
+					MouseListener ml = new MouseListener() {
+						public void mouseClicked(java.awt.event.MouseEvent evt) {
+							if (evt.getClickCount() > 0) {
+								Desktop desktop = Desktop.getDesktop();
+								JLabel label = (JLabel) evt.getSource();
+								try {
+									desktop.browse(urlList.get(label.getToolTipText()));
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+
+							}
+						}
+
+						@Override
+						public void mouseEntered(MouseEvent e) {
+					
+						}
+
+						@Override
+						public void mouseExited(MouseEvent e) {
+						}
+
+						@Override
+						public void mousePressed(MouseEvent e) {
+						}
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+						}
+					};
+					
+					label.addMouseListener(ml);
+					labelList.add(label);
+					label.setBounds(xStart, yStart+50, tmpPos.width_, tmpPos.height_);
+					//if the pathway contains multiple instances of the same EC must be added to an arraylist of labels
+					if(!tmpEc.getEcLabel().contains(label)){
+						tmpEc.getEcLabel().add(label);
+					}
+					
 					int statsSum = 0;
 					for (int statCnt = 0; statCnt < tmpEc.stats_.size(); statCnt++) {
 						statsSum += ((EcSampleStats) tmpEc.stats_.get(statCnt)).amount_;
@@ -256,9 +303,6 @@ public class PngBuilder {
 						col = tmpStats.col_;
 						stepper = 0;
 						perc = (double) tmpStats.amount_ / (double) statsSum;
-						//System.out.println("tmpstats=" + tmpStats.amount_);
-						//System.out.println("statsSum=" + statsSum);
-						//System.out.println("perc=" + perc);
 					}
 					for (int x = xStart; x < xStart + tmpPos.width_; x++) {
 						if ((!sample.singleSample_)
@@ -271,10 +315,6 @@ public class PngBuilder {
 								col = tmpStats.col_;
 								perc = (double) tmpStats.amount_
 										/ (double) statsSum;
-								//System.out.println("tmpstats="
-										//+ tmpStats.amount_);
-								//System.out.println("statsSum=" + statsSum);
-								//System.out.println("perc=" + perc);
 							}
 						}
 						for (int y = yStart; y < yStart + tmpPos.height_; y++) {
@@ -283,18 +323,8 @@ public class PngBuilder {
 									col = Color.ORANGE;
 								}
 								if ((y > 0) && (y < this.image.getHeight())) {
-									if (this.image.getRGB(x, y) != Color.BLACK
-											.getRGB()) {
+									if (this.image.getRGB(x, y) != Color.BLACK.getRGB()) {
 										this.image.setRGB(x, y, col.getRGB());
-										final JLabel label = new JLabel();
-										label.setToolTipText(tmpEc.name_);
-										//label.setBounds(x, y, tmpPos.width_, tmpPos.height_);
-										ecUrlLocation tmpLocation = new ecUrlLocation(x, y, tmpPos.width_, tmpPos.height_);
-										labelList.add(label);
-										tmpEc.setEcLabel(label);
-										tmpEc.setEcLocation(tmpLocation);
-										
-										
 										
 									}
 								} else {
@@ -321,9 +351,6 @@ public class PngBuilder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//ImagePanel pane = new ImagePanel(this.image);
-		//pane.showImage(this.image, "test", labelList);
-		sample.setUrlLabels_(urlList);
 		return this.image;
 	}
 

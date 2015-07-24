@@ -143,8 +143,7 @@ public class MetaProteomicAnalysis {
 	 */
 	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline) {
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
-		File file = new File(new File(".").getAbsolutePath() + File.separator
-				+ "GetPost" + File.separator + fileName + ".sh");
+		File file = new File(new File(".").getAbsolutePath() + File.separator + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
 		// Main Get query line
 		String query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
@@ -258,7 +257,7 @@ public class MetaProteomicAnalysis {
 			}
 			printWriter.close();
 		} catch (FileNotFoundException e) {
-			warningFrame("getPost folder does not exist!");
+			warningFrame(file.getAbsolutePath());
 		}
 		return returnData;
 	}
@@ -276,8 +275,7 @@ public class MetaProteomicAnalysis {
 	 */
 	public void findCommonLCA(ArrayList<TrypticPeptide> peptide) {
 		//final taxa results get written to a file with a -LCA.txt postfix
-		File file = new File(new File(".").getAbsolutePath() + File.separator
-				+ "GetPost" + File.separator + fileName + "-LCA.txt");
+		File file = new File(new File(".").getAbsolutePath() + File.separator + "GetPost" + File.separator + fileName + "-LCA.txt");
 		String query = "";
 		Process p1 = null;
 		boolean positive = false;
@@ -335,8 +333,6 @@ public class MetaProteomicAnalysis {
 												int sampleTaxonID = peptide.get(i).getLca().get(j).getTaxon_id();
 												//obtaining current sample tryptic peptide LCA taxon name
 												String sampleName = peptide.get(i).getLca().get(j).getTaxon_name();
-												//System.out.println("response "+ taxonID + ", " + taxonName);
-												//System.out.println("sample "+ sampleTaxonID + ", " + sampleName);
 												/*if the response taxonID is equal to the sample taxonID than the sample LCA is valid for the
 												 * tryptic peptides current lowest taxa 
 												 */
@@ -377,7 +373,7 @@ public class MetaProteomicAnalysis {
 			printWriter.close();
 			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
-			warningFrame("GetPost folder does not exist!");
+			warningFrame(file.getAbsolutePath());
 		}
 	}
 	

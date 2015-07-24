@@ -93,7 +93,7 @@ public class MetaProteomicAnalysis {
 		String fasta = "";
 		String subfasta = "";
 		//Extracts the filename of each sequence file
-		fileName = path.substring(path.lastIndexOf("/")+1,path.lastIndexOf(".txt"));
+		fileName = path.substring(path.lastIndexOf(File.separator)+1,path.lastIndexOf(".txt"));
 		try {
 			trypticPeptide = new TrypticPeptide();
 			if (rfile != null) {

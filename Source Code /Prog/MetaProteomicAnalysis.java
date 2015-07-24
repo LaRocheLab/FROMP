@@ -66,6 +66,7 @@ public class MetaProteomicAnalysis {
 	String fileName = "";
 	tableAndChartData returnData = new tableAndChartData();
 	boolean commandLineOn = false;
+	final String basePath_ = new File(".").getAbsolutePath() + File.separator;
 	
 	public MetaProteomicAnalysis(){
 		
@@ -143,7 +144,7 @@ public class MetaProteomicAnalysis {
 	 */
 	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline) {
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
-		File file = new File(new File(".").getAbsolutePath() + File.separator + "GetPost" + File.separator + fileName + ".txt");
+		File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
 		// Main Get query line
 		String query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
@@ -257,7 +258,7 @@ public class MetaProteomicAnalysis {
 			}
 			printWriter.close();
 		} catch (FileNotFoundException e) {
-			warningFrame(file.getAbsolutePath());
+			warningFrame("File " + file.getAbsolutePath() + " not found");
 		}
 		return returnData;
 	}
@@ -275,7 +276,7 @@ public class MetaProteomicAnalysis {
 	 */
 	public void findCommonLCA(ArrayList<TrypticPeptide> peptide) {
 		//final taxa results get written to a file with a -LCA.txt postfix
-		File file = new File(new File(".").getAbsolutePath() + File.separator + "GetPost" + File.separator + fileName + "-LCA.txt");
+		File file = new File(basePath_ + "GetPost" + File.separator + fileName + "-LCA.txt");
 		String query = "";
 		Process p1 = null;
 		boolean positive = false;
@@ -373,7 +374,7 @@ public class MetaProteomicAnalysis {
 			printWriter.close();
 			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
-			warningFrame(file.getAbsolutePath());
+			warningFrame("File " + file.getAbsolutePath() + " not found");
 		}
 	}
 	
@@ -440,7 +441,7 @@ public class MetaProteomicAnalysis {
 			pie1.setCircular(false);
 			pie1.setLabelGenerator(null);
 			try {
-				ChartUtilities.saveChartAsPNG(new File(new File(".").getAbsolutePath() + File.separator
+				ChartUtilities.saveChartAsPNG(new File(basePath_
 						+ "PieChart" + File.separator + fileName
 						+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
 				System.out.println("Pie Chart exported to " + File.separator
@@ -567,8 +568,7 @@ public class MetaProteomicAnalysis {
 	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
 			 //saves the new excel file within the Excel folder
-			 	File file = new File(new File(".").getAbsolutePath() + File.separator
-				+ "Excel" + File.separator + fileName + tableName + ".xls");
+			 	File file = new File(basePath_ + "Excel" + File.separator + fileName + tableName + ".xls");
 	            WritableWorkbook workbook1 = Workbook.createWorkbook(file);
 	            WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
 	            TableModel model = table.getModel();
@@ -672,7 +672,7 @@ public class MetaProteomicAnalysis {
 	 */
 	private void warningFrame(String strIN) {
 		JFrame wrngFrame = new JFrame();
-		wrngFrame.setBounds(200, 200, 400, 100);
+		wrngFrame.setBounds(200, 200, 1000, 100);
 		wrngFrame.setLayout(null);
 		wrngFrame.setVisible(true);
 

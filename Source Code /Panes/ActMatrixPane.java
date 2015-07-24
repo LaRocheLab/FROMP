@@ -194,9 +194,6 @@ public class ActMatrixPane extends JPanel {
 		PiePlot pie1 = (PiePlot) chart.getPlot();
 		pie1.setNoDataMessage("No data available");
 		pie1.setCircular(false);
-		//pie1.setLabelGap(0.02);
-		//pie1.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} {2}"));
-		//pie1.setLabelFont(new Font("SansSerif", Font.PLAIN, 10));
 		pie1.setLabelGenerator(null);
 		
 		JPanel panel = new ChartPanel(chart);
@@ -413,12 +410,9 @@ public class ActMatrixPane extends JPanel {
 					if (fChoose_.getSelectedFile().getCanonicalPath() != null) {
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Calculating LCA..");
-						lframe.step(fChoose_.getSelectedFile()
-								.getCanonicalPath());
+						lframe.step(fChoose_.getSelectedFile().getCanonicalPath());
 						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-						returnData = meta.getTrypticPeptideAnaysis(meta
-								.readFasta(fChoose_.getSelectedFile()
-										.getCanonicalPath()), false);
+						returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(fChoose_.getSelectedFile().getCanonicalPath()), false);
 						drawChart = true;
 						if (numChart < 1) {
 							prepaintLCA();

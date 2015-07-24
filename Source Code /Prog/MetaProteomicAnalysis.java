@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -147,7 +150,7 @@ public class MetaProteomicAnalysis {
 		File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
 		// Main Get query line
-		String query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
+		String query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 		// Peptide sequences to query
 		String qPep = "";
 		int highestTaxa = 0;
@@ -190,15 +193,18 @@ public class MetaProteomicAnalysis {
 							query += qPep;
 							// Allows java to perform console calls
 							//System.out.println(query);
-							Process p1 = Runtime.getRuntime().exec(query);
+							//Process p1 = Runtime.getRuntime().exec(query);
+
+					        URL url = new URL(query);
+					        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
 							BufferedReader input1 = new BufferedReader(
-									new InputStreamReader(p1.getInputStream()));
+									new InputStreamReader(con.getInputStream()));
 							String line1 = input1.readLine();
 							// If the response isnt empty, write the response to a file
 							if (!line1.equals("[]")) {
 								if (num != i) {
-									printWriter.println(peptide.get(i)
-											.getUniqueIdentifier() + "\n");
+									printWriter.println(peptide.get(i).getUniqueIdentifier() + "\n");
 									num = i;
 								}
 								//used to parse the JSON format response from http://unipept.ugent.be/
@@ -247,9 +253,9 @@ public class MetaProteomicAnalysis {
 									findCommonLCA(peptide);
 								}
 							}
-							query = "GET http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
+							query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 							qPep = "";
-							p1.destroy();
+							//p1.destroy();
 
 						}
 					} catch (IOException | JSONException e) {
@@ -296,17 +302,21 @@ public class MetaProteomicAnalysis {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
 						 * id must be sent to http://api.unipept.ugent.be/api/v1/taxonomy.json to determine its taxon information.
 						 */
-						query = "GET http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
+						query = "http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
 								+ peptide.get(i).getLowestClass().getTaxon_id()+ "&extra=true&names=true";
-						try {
-							//sending the get request to the server
-							p1 = Runtime.getRuntime().exec(query);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							warningFrame("Error occured with GET request!");
-						}
+//						try {
+//							//sending the get request to the server
+//							//p1 = Runtime.getRuntime().exec(query);
+//
+//					       
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							warningFrame("Error occured with GET request!");
+//						}
+						URL url = new URL(query);
+					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
 						BufferedReader input1 = new BufferedReader(
-								new InputStreamReader(p1.getInputStream()));
+								new InputStreamReader(con.getInputStream()));
 						try {
 							//reading the response from the server
 							String line1 = input1.readLine();
@@ -375,6 +385,12 @@ public class MetaProteomicAnalysis {
 			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
 			warningFrame("File " + file.getAbsolutePath() + " not found");
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 	
@@ -672,17 +688,17 @@ public class MetaProteomicAnalysis {
 	 */
 	private void warningFrame(String strIN) {
 		JFrame wrngFrame = new JFrame();
-		wrngFrame.setBounds(200, 200, 1000, 100);
+		wrngFrame.setBounds(200, 200, 1500, 100);
 		wrngFrame.setLayout(null);
 		wrngFrame.setVisible(true);
 
 		JPanel backP = new JPanel();
-		backP.setBounds(0, 0, 1000, 100);
+		backP.setBounds(0, 0, 1500, 100);
 		backP.setLayout(null);
 		wrngFrame.add(backP);
 
 		JLabel label = new JLabel("Warning! " + strIN);
-		label.setBounds(25, 25, 1000, 25);
+		label.setBounds(25, 25, 1500, 25);
 		backP.add(label);
 	}
 

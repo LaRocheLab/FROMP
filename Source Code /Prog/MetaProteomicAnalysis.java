@@ -677,12 +677,12 @@ public class MetaProteomicAnalysis {
 		wrngFrame.setVisible(true);
 
 		JPanel backP = new JPanel();
-		backP.setBounds(0, 0, 400, 100);
+		backP.setBounds(0, 0, 1000, 100);
 		backP.setLayout(null);
 		wrngFrame.add(backP);
 
 		JLabel label = new JLabel("Warning! " + strIN);
-		label.setBounds(25, 25, 400, 25);
+		label.setBounds(25, 25, 1000, 25);
 		backP.add(label);
 	}
 

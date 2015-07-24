@@ -204,7 +204,7 @@ public class NewFrompFrame extends JFrame {
 
 		miItem = new JMenuItem("Project Menu", 86);
 		miItem.setAccelerator(KeyStroke.getKeyStroke(86, 8));
-		miItem.getAccessibleContext().setAccessibleDescription("Home");
+		miItem.getAccessibleContext().setAccessibleDescription("Project Menu");
 		miItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewFrompFrame.this.control_ = new Controller(
@@ -743,6 +743,25 @@ public class NewFrompFrame extends JFrame {
 				NewFrompFrame.this.newEditSamples();
 			}
 		});
+		
+		JButton backToMenu = new JButton("< Back to Project Menu");
+		backToMenu.setBounds(100, 150, 200, 30);
+		backToMenu.setVisible(true);
+		backToMenu.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				NewFrompFrame.this.control_ = new Controller(
+						NewFrompFrame.this.sysColor_);
+				clearBack();
+				addMenu();
+				loadRecentProj();
+				showNewProjPanel();
+				invalidate();
+				validate();
+				repaint();
+			}
+		});
+		
+		newProjectPanel.add(backToMenu);
 		newProjectPanel.add(button);
 		invalidate();
 		validate();
@@ -760,7 +779,7 @@ public class NewFrompFrame extends JFrame {
 		panel.setBackground(Project.getBackColor_());
 		panel.setBounds(0, 0, 400, 800);
 
-		JButton s = new JButton("< Back to PathwaySelction");
+		JButton s = new JButton("< Back to Pathway Selection");
 		s.setBounds(xcol1, yOff - ySize, xsize, ySize);
 		s.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

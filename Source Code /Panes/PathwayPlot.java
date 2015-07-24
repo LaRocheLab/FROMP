@@ -547,15 +547,15 @@ public class PathwayPlot extends JPanel {
 		//Frame which the graph is drawn on
 		
 		if(export==false){
-		JFrame showPlot = new JFrame();
+			JFrame showPlot = new JFrame();
 
-		JPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new Dimension(1000, 1000));
-		chartPanel.setVisible(true);
-		showPlot.getContentPane().setLayout(new FlowLayout());
-		showPlot.setContentPane(chartPanel);
-		showPlot.pack();
-		showPlot.setVisible(true);
+			JPanel chartPanel = new ChartPanel(chart);
+			chartPanel.setPreferredSize(new Dimension(1000, 1000));
+			chartPanel.setVisible(true);
+			showPlot.getContentPane().setLayout(new FlowLayout());
+			showPlot.setContentPane(chartPanel);
+			showPlot.pack();
+			showPlot.setVisible(true);
 		}
 		else{
 			//used to export the charts when the export all button is pressed

@@ -191,10 +191,8 @@ public class MetaProteomicAnalysis {
 						if (j == peptide.get(i).getPeptides().size() - 1) {
 							// combines the query format and the peptide sequences
 							query += qPep;
-							// Allows java to perform console calls
-							//System.out.println(query);
-							//Process p1 = Runtime.getRuntime().exec(query);
-
+							
+							//performing get request
 					        URL url = new URL(query);
 					        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -255,7 +253,6 @@ public class MetaProteomicAnalysis {
 							}
 							query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 							qPep = "";
-							//p1.destroy();
 
 						}
 					} catch (IOException | JSONException e) {
@@ -294,9 +291,7 @@ public class MetaProteomicAnalysis {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-						//System.out.println(peptide.get(i).getUniqueIdentifier());
 						printWriter.println(peptide.get(i).getUniqueIdentifier());
-						//System.out.println(peptide.get(i).getIdentifiedTaxa());
 						printWriter.println(peptide.get(i).getIdentifiedTaxa());
 					} else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
@@ -304,19 +299,11 @@ public class MetaProteomicAnalysis {
 						 */
 						query = "http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
 								+ peptide.get(i).getLowestClass().getTaxon_id()+ "&extra=true&names=true";
-//						try {
-//							//sending the get request to the server
-//							//p1 = Runtime.getRuntime().exec(query);
-//
-//					       
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							warningFrame("Error occured with GET request!");
-//						}
+						//get request
 						URL url = new URL(query);
 					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-						BufferedReader input1 = new BufferedReader(
-								new InputStreamReader(con.getInputStream()));
+					    
+						BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
 						try {
 							//reading the response from the server
 							String line1 = input1.readLine();
@@ -430,7 +417,7 @@ public class MetaProteomicAnalysis {
 		int index = 0, index2 = 0, totalOther = 0;
 		//will add button to allow sorting
 		totalResult = sortHashMapByValuesD(totalResult);
-		//System.out.println(totalResult.toString());
+		
 		for (String key : totalResult.keySet()) {
 			if(index < 14){
 				rowData[index][0] = key;

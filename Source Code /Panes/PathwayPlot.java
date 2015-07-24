@@ -42,6 +42,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -86,9 +87,12 @@ public class PathwayPlot extends JPanel {
 	JButton scatter_;
 	JButton comboBar_;
 	JButton export_; 
+	JFreeChart chart;
 	DataProcessor proc_; 
+	String basePath_ = "";
 	boolean hasLegendScatter = false;
 	boolean hasLegendBar = false;
+	boolean export = false;
 
 	public PathwayPlot(Project proj, DataProcessor proc) {
 		this.proj_ = proj;
@@ -263,6 +267,9 @@ public class PathwayPlot extends JPanel {
 		this.export_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PathwayPlot.this.export();
+				PathwayPlot.this.drawPlot(1, hasLegendScatter, true);
+				PathwayPlot.this.drawPlot(2, hasLegendBar, true);
+				
 			}
 		});
 		this.scatter_ = new JButton("Show Scatter Plot");
@@ -270,7 +277,7 @@ public class PathwayPlot extends JPanel {
 		this.scatter_.setVisible(true);
 		this.scatter_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PathwayPlot.this.drawPlot(1, hasLegendScatter);
+				PathwayPlot.this.drawPlot(1, hasLegendScatter, false);
 			}
 		});
 		this.showLegendScatter_ = new JCheckBox();
@@ -294,7 +301,7 @@ public class PathwayPlot extends JPanel {
 		this.comboBar_.setVisible(true);
 		this.comboBar_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PathwayPlot.this.drawPlot(2, hasLegendBar);
+				PathwayPlot.this.drawPlot(2, hasLegendBar, false);
 			}
 		});
 		this.showLegendBar_ = new JCheckBox();
@@ -420,6 +427,7 @@ public class PathwayPlot extends JPanel {
 		if (fChoose_.showSaveDialog(getParent()) == 0) {
 			try {
 				String path = fChoose_.getSelectedFile().getCanonicalPath();
+				basePath_ = path;
 				if (!path.endsWith(".png")) {
 					path = path + ".png";
 				}
@@ -451,7 +459,7 @@ public class PathwayPlot extends JPanel {
 	 * 
 	 * @author Jennifer Terpstra
 	 */
-	public void drawPlot(int mode, boolean showLegend){
+	public void drawPlot(int mode, boolean showLegend, boolean export){
 		//inputs all the pathway scores into the graph dataset
 		int totalSeries = Project.samples_.size();
 		DefaultCategoryDataset tmpseries = new DefaultCategoryDataset();
@@ -467,7 +475,6 @@ public class PathwayPlot extends JPanel {
 
 		}
 		
-		JFreeChart chart;
 		CategoryAxis domainAxis;
 		CategoryPlot categoryplot;
 		
@@ -538,6 +545,8 @@ public class PathwayPlot extends JPanel {
 		domainAxis.setTickLabelFont(font);
 		chart.setBackgroundPaint(Color.white);
 		//Frame which the graph is drawn on
+		
+		if(export==false){
 		JFrame showPlot = new JFrame();
 
 		JPanel chartPanel = new ChartPanel(chart);
@@ -547,6 +556,19 @@ public class PathwayPlot extends JPanel {
 		showPlot.setContentPane(chartPanel);
 		showPlot.pack();
 		showPlot.setVisible(true);
+		}
+		else{
+			//used to export the charts when the export all button is pressed
+			try {
+				if(mode == 1){
+					ChartUtilities.saveChartAsPNG(new File(basePath_ + " LineChart" + ".png"), chart, 1000, 1000);
+				}
+				else{
+					ChartUtilities.saveChartAsPNG(new File(basePath_ + " BarChart" + ".png"), chart, 1000, 1000);
+				}	
+			} catch (IOException e1) {
+			}
+		}
 		 
 	}
 	

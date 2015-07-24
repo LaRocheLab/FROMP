@@ -323,7 +323,7 @@ public class PwSearchPane extends JPanel {
 
 		this.line_ = 0;
 		JButton newSearch = new JButton("New Search");
-		newSearch.setBounds(40, 20, this.colDis, this.linDis);
+		newSearch.setBounds(100 + this.colDis, 20, this.colDis, this.linDis);
 		newSearch.setVisible(true);
 		newSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -335,6 +335,10 @@ public class PwSearchPane extends JPanel {
 			}
 		});
 		this.optionsPanel_.add(newSearch);
+		
+		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
+		this.optionsPanel_.add(backButton_);
+		
 		for (int indCnt = 0; indCnt < this.pathwIndexes_.size(); indCnt++) {
 			showPathway(((Integer) this.pathwIndexes_.get(indCnt)).intValue());
 		}
@@ -444,8 +448,8 @@ public class PwSearchPane extends JPanel {
 
 		this.line_ = 0;
 
-		JButton newSearch = new JButton("new search");
-		newSearch.setBounds(40, 20, this.colDis, this.linDis);
+		JButton newSearch = new JButton("New search");
+		newSearch.setBounds(100 + this.colDis, 20, this.colDis, this.linDis);
 		newSearch.setVisible(true);
 		newSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -457,6 +461,11 @@ public class PwSearchPane extends JPanel {
 			}
 		});
 		this.optionsPanel_.add(newSearch);
+		
+
+		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
+		this.optionsPanel_.add(backButton_);
+		
 		this.displayP_.setSize(getWidth(), 100 + this.ecIndexes_.size()
 				* this.linDis);
 		for (int ecCnt = 0; ecCnt < this.ecIndexes_.size(); ecCnt++) {

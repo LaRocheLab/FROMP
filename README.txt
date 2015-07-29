@@ -18,3 +18,7 @@ For command line:
 
 java -jar FROMP.jar <insert arguments here>
 
+Note: Using the "p" or "a" command with a large amount of samples may cause an "java.lang.OutOfMemoryError: Java heap space" error. You can try you can try
+changing the -Xmx option (which goes in front of the -jar) to -Xmx512m depending upon the RAM capacity of your machine. If this fails to work it is better to
+export your project and then open it in the GUI FROMP in order to export the desired pathway images. 
+

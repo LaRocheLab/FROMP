@@ -605,7 +605,11 @@ public class Project {
 				break;
 			}
 			if (!zeile.contentEquals("none")) {
-				samples_.get(i).setSequenceFile(zeile);
+				File tmp = new File(zeile);
+				if(tmp.exists()){
+					samples_.get(i).setSequenceFile(zeile);
+				}
+				
 			}
 			i++;
 		}
@@ -1175,4 +1179,12 @@ public class Project {
 		}
 		userPathways.add(userP);
 	}
+	public static boolean isIprNameChange() {
+		return iprNameChange;
+	}
+	public static void setIprNameChange(boolean iprNameChange) {
+		Project.iprNameChange = iprNameChange;
+	}
+	
+	
 }

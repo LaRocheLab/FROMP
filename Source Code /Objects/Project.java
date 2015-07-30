@@ -607,14 +607,14 @@ public class Project {
 			if (!zeile.contentEquals("none")) {
 				File tmp = new File(zeile);
 				
-				if(System.getProperty("os.name").equalsIgnoreCase("Linux")){
+				if(System.getProperty("os.name").contains("Linux")){
 					if(zeile.contains(File.separator)){
 						if(tmp.exists()){
 							samples_.get(i).setSequenceFile(zeile);
 						}
 					}
 				}
-				else if(System.getProperty("os.name").equalsIgnoreCase("Windows")){
+				else if(System.getProperty("os.name").contains("Windows")){
 					if(tmp.exists()){
 						samples_.get(i).setSequenceFile(zeile);
 					}

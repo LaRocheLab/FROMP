@@ -615,9 +615,12 @@ public class Project {
 					}
 				}
 				else if(System.getProperty("os.name").contains("Windows")){
-					if(tmp.exists()){
-						samples_.get(i).setSequenceFile(zeile);
+					if(zeile.contains(File.separator)){
+						if(tmp.exists()){
+							samples_.get(i).setSequenceFile(zeile);
+						}
 					}
+					
 				}
 				
 				

@@ -705,6 +705,7 @@ public class DataProcessor {
 	 * @author Kevan Lynch, Jennifer Terpstra
 	 */
 	public void allEcVsPathway() {
+		System.out.println("allEcVsPathway");
 		String zeile = "";
 		EcNr ecNr = null;
 
@@ -724,6 +725,7 @@ public class DataProcessor {
 				addUserNewPathsToSample(sample);
 			} else if (sample.imported) // if the sample was imported then fill the samples ECs
 			{
+				System.out.println("Imported");
 				fillSampleEcs((Sample) Project.samples_.get(i), i);
 				// If the sample name is empty than the sample hasn't been build yet, so build the sample from the sample file
 			} else if (!sample.name_.isEmpty()) 
@@ -737,9 +739,9 @@ public class DataProcessor {
 					//Parses through the files to build the "Sample attributes"
 					while ((zeile = sample.sample_.readLine()) != null)
 					{
+						
 						if (zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")|| zeile.startsWith(">")) {
 							i = ParseInterpro(i);
-
 							break;
 						}
 						/*important for interpro input formats where several samples are in the same file

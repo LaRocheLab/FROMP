@@ -317,14 +317,12 @@ public class EditsamplesPane extends JPanel {
 		this.button_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (EditsamplesPane.this.lastFile != null) {
-					EditsamplesPane.this.fChoose_
-							.setCurrentDirectory(EditsamplesPane.this.lastFile);
+					EditsamplesPane.this.fChoose_.setCurrentDirectory(EditsamplesPane.this.lastFile);
 				} else {
 					EditsamplesPane.this.lastFile = new File("");
 				}
 				try {
-					EditsamplesPane.this.lastPath_ = EditsamplesPane.this.fChoose_
-							.getCurrentDirectory().getCanonicalPath();
+					EditsamplesPane.this.lastPath_ = EditsamplesPane.this.fChoose_.getCurrentDirectory().getCanonicalPath();
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
@@ -344,8 +342,7 @@ public class EditsamplesPane extends JPanel {
 						return ".txt, .out, .tsv, .tsv.cleaned, .ipr, .txt.cleaned";
 					}
 				});
-				if (EditsamplesPane.this.fChoose_
-						.showOpenDialog(EditsamplesPane.this.getParent()) == 0) {
+				if (EditsamplesPane.this.fChoose_.showOpenDialog(EditsamplesPane.this.getParent()) == 0) {
 					try {
 						EditsamplesPane.this.lastPath_ = EditsamplesPane.this.fChoose_
 								.getCurrentDirectory().toString();
@@ -387,14 +384,16 @@ public class EditsamplesPane extends JPanel {
 			}
 		});
 		if (Project.samples_.size() > 0 && iprCount == 1) {
-			JButton load_IPR = new JButton();
+			final JButton load_IPR = new JButton();
 			load_IPR.setBounds(xCol2 - 200, 50, 150, 30);
 			load_IPR.setText("Load IPR");
+			load_IPR.setVisible(true);
 			add(load_IPR);
 			load_IPR.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Controller.loadPathways(true);
 					EditsamplesPane.this.prepPaint();
+					
 				}
 			});
 		}
@@ -683,28 +682,6 @@ public class EditsamplesPane extends JPanel {
 	}
 	//opens a warning frame, with the input title as the title and the input string as the body
 	private void openWarning(String title, String string) {
-//		JFrame frame = new JFrame(title);
-//		frame.setVisible(true);
-//		frame.setBounds(200, 200, 350, 150);
-//		frame.setLayout(null);
-//		frame.setResizable(false);
-//
-//		JPanel panel = new JPanel();
-//		panel.setBounds(0, 0, 350, 150);
-//		panel.setBackground(Color.lightGray);
-//		panel.setVisible(true);
-//		panel.setLayout(null);
-//		frame.add(panel);
-//
-//		JLabel label = new JLabel(string);
-//
-//		label.setVisible(true);
-//		label.setForeground(Color.black);
-//		label.setBounds(0, 0, 350, 150);
-//		label.setLayout(null);
-//		panel.add(label);
-//
-//		frame.repaint();
 		JOptionPane.showMessageDialog(null,string, 
 			    title, JOptionPane.WARNING_MESSAGE);
 	}

@@ -47,6 +47,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
 import Panes.ActMatrixPane;
 import jxl.*;
 import jxl.write.*;
@@ -86,6 +88,7 @@ public class MetaProteomicAnalysis {
 	 * @return ArrayList of the tryptic digested sequence
 	 */
 	public ArrayList<TrypticPeptide> readFasta(String path) {
+		System.out.println("readFasta");
 		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
 		TrypticPeptide trypticPeptide;
 		//Stores each digested piece of the peptide for each unqiue identifer
@@ -138,16 +141,69 @@ public class MetaProteomicAnalysis {
 		} catch (IOException e) {
 			warningFrame("File " + path + " Not found!");
 		}
+		
 		return retList;
 	}
+	
+	/**
+	 * Performs the extraction of the protien sequences from the provided sequence files
+	 * storing the digested results in TrypticPeptide class. Code for tryptic digest
+	 * was found at:
+	 * 
+	 * https://github.com/statisticalbiotechnology/NonlinearGradientsUI/blob/master/src/nonlineargradientsui/Protein.java. 
+	 * 
+	 */
+	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap seq, String sampleName) {
+		System.out.println("readFasta");
+		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
+		TrypticPeptide trypticPeptide = new TrypticPeptide();
+		//Stores each digested piece of the peptide for each unqiue identifer
+		ArrayList<String> peptideList = new ArrayList<String>();
+		fileName = sampleName;
+		//used to parse the long peptide into the tryptic digest
+		String fasta = "";
+		String subfasta = "";
+		// Save the unique identifier into tryptic peptide
+		Object[] keys  = seq.keySet().toArray();
+		for(int j = 0; j < keys.length; j++){
+			trypticPeptide.setUniqueIdentifier(keys[j].toString());
+			peptideList = new ArrayList<String>();
+			fasta = (String) seq.get(keys[j].toString());
+			String peptide;
+			int i = 0;
+			int subfasa;
+			while (i < fasta.length()) {
+				subfasa = i;
+				while ((subfasa < fasta.length() - 1)
+						&& (((fasta.charAt(subfasa) == 'K' || fasta
+								.charAt(subfasa) == 'R') && fasta
+								.charAt(subfasa + 1) == 'P') || (fasta
+								.charAt(subfasa) != 'K' && fasta
+								.charAt(subfasa) != 'R'))) {
+					subfasa += 1;
+				}
+				peptide = fasta.substring(i, subfasa + 1);
+				if ((peptide.length() >= 5)) {
+					peptideList.add(peptide);
+				}
+				i = subfasa + 1;
+			}
+			trypticPeptide.setPeptides(peptideList);
+			retList.add(trypticPeptide);
+			trypticPeptide = new TrypticPeptide();
+		}
+		return retList;
+	}
+	
 	/**
 	 * Returns the taxonomic lowest common ancestor for a given tryptic peptide with a query string (GET) format
 	 * 
 	 * @param peptide Arraylist of tryptic peptides to be anazyed for their lowest common ancestor
 	 */
 	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline) {
+		System.out.println("getPeptide");
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
-		File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
+		//File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
 		// Main Get query line
 		String query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
@@ -168,101 +224,95 @@ public class MetaProteomicAnalysis {
 			taxa_rank.add(taxa_id[i]);
 		}
 		int num = -1;
-		try {
-			PrintWriter printWriter = new PrintWriter(file);
-			for (int i = 0; i < peptide.size(); i++) {
-				for (int j = 0; j < peptide.get(i).getPeptides().size(); j++) {
-					try {
-						// Format nessary for the first peptide to be inserted into the query
-						if (peptide.get(i).getPeptides().size() > 0 && j == 0) {
+		//PrintWriter printWriter = new PrintWriter(file);
+		for (int i = 0; i < peptide.size(); i++) {
+			for (int j = 0; j < peptide.get(i).getPeptides().size(); j++) {
+				try {
+					// Format nessary for the first peptide to be inserted into the query
+					if (peptide.get(i).getPeptides().size() > 0 && j == 0) {
+						qPep += peptide.get(i).getPeptides().get(j);
+						// Format nessary for every subsequent peptide in
+						// the query
+					} else if (peptide.get(i).getPeptides().size() > 0) {
+						if (reset == true) {
 							qPep += peptide.get(i).getPeptides().get(j);
-							// Format nessary for every subsequent peptide in
-							// the query
-						} else if (peptide.get(i).getPeptides().size() > 0) {
-							if (reset == true) {
-								qPep += peptide.get(i).getPeptides().get(j);
-								//count = 1;
-								reset = false;
-							} else {
-								qPep += "&input[]="
-										+ peptide.get(i).getPeptides().get(j);
-							}
+							//count = 1;
+							reset = false;
+						} else {
+							qPep += "&input[]="
+									+ peptide.get(i).getPeptides().get(j);
 						}
-						if (j == peptide.get(i).getPeptides().size() - 1) {
-							// combines the query format and the peptide sequences
-							query += qPep;
-							
-							//performing get request
-					        URL url = new URL(query);
-					        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-							BufferedReader input1 = new BufferedReader(
-									new InputStreamReader(con.getInputStream()));
-							String line1 = input1.readLine();
-							// If the response isnt empty, write the response to a file
-							if (!line1.equals("[]")) {
-								if (num != i) {
-									printWriter.println(peptide.get(i).getUniqueIdentifier() + "\n");
-									num = i;
+					}
+					if (j == peptide.get(i).getPeptides().size() - 1) {
+						// combines the query format and the peptide sequences
+						query += qPep;
+						
+						//performing get request
+				        URL url = new URL(query);
+				        //System.out.println(query);
+				        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+				        BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				       // con.disconnect();
+						String line1 = input1.readLine();
+						//System.out.println(line1);
+						// If the response isnt empty, write the response to a file
+						if (!line1.equals("[]")) {
+							if (num != i) {
+								//printWriter.println(peptide.get(i).getUniqueIdentifier() + "\n");
+								num = i;
+							}
+							//used to parse the JSON format response from http://unipept.ugent.be/
+							JSONArray jsonarray = new JSONArray(line1);
+							JSONObject obj;
+							LowestCommonAncestor lca;
+							ArrayList<LowestCommonAncestor> lcaList = new ArrayList<LowestCommonAncestor>();
+							//Parses out the peptide, taxon id, name and rank from the response JSON file. 
+							//Stores the results in the LowestCommonAncestor class, which is then added to an arraylist.
+							for (int k = 0; k < jsonarray.length(); k++) {
+								obj = jsonarray.getJSONObject(k);
+								lca = new LowestCommonAncestor(
+										obj.getString("peptide"),
+										Integer.parseInt(obj.getString("taxon_id")),
+										obj.getString("taxon_name"),
+										obj.getString("taxon_rank"));
+								if(k==0){
+									//keeps track of the most specific taxa, if another peptide sequence taxa is more specific it replaces
+									highestTaxa = taxa_rank.indexOf(lca.getTaxon_rank());
+									lowestTaxa=lca;
 								}
-								//used to parse the JSON format response from http://unipept.ugent.be/
-								JSONArray jsonarray = new JSONArray(line1);
-								JSONObject obj;
-								LowestCommonAncestor lca;
-								ArrayList<LowestCommonAncestor> lcaList = new ArrayList<LowestCommonAncestor>();
-								//Parses out the peptide, taxon id, name and rank from the response JSON file. 
-								//Stores the results in the LowestCommonAncestor class, which is then added to an arraylist.
-								for (int k = 0; k < jsonarray.length(); k++) {
-									obj = jsonarray.getJSONObject(k);
-									lca = new LowestCommonAncestor(
-											obj.getString("peptide"),
-											Integer.parseInt(obj.getString("taxon_id")),
-											obj.getString("taxon_name"),
-											obj.getString("taxon_rank"));
-									if(k==0){
-										//keeps track of the most specific taxa, if another peptide sequence taxa is more specific it replaces
+								else{
+									if(taxa_rank.indexOf(lca.getTaxon_rank()) < highestTaxa){
 										highestTaxa = taxa_rank.indexOf(lca.getTaxon_rank());
 										lowestTaxa=lca;
 									}
-									else{
-										//System.out.println(lca.getTaxon_rank());
-										//System.out.println(taxa_rank.indexOf(lca.getTaxon_rank()));
-										if(taxa_rank.indexOf(lca.getTaxon_rank()) < highestTaxa){
-											highestTaxa = taxa_rank.indexOf(lca.getTaxon_rank());
-											lowestTaxa=lca;
-										}
-									}
-									lcaList.add(lca);
 								}
-								//setting each peptides lowest Class used to determine its final Lowest Common Ancestor
-								peptide.get(i).setLowestClass(lowestTaxa);
-								//adding the arraylist of lowest common ancestors for that unique identifer
-								peptide.get(i).setLca(lcaList);
-								System.out.println(fileName + " Working....\n");
-								//Printing out the contents of the lowest common ancestor search into a file
-								for (int p = 0; p < peptide.get(i).getLca()
-										.size(); p++) {
-									printWriter.println(peptide.get(i).getLca()
-											.get(p).toString());
-								}
-								//If on the last peptide array, notfy the user that results are finished
-								if (i == peptide.size() - 1) {
-									System.out.println(fileName + " Done\n");
-									findCommonLCA(peptide);
-								}
+								lcaList.add(lca);
 							}
-							query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
-							qPep = "";
-
+							//setting each peptides lowest Class used to determine its final Lowest Common Ancestor
+							peptide.get(i).setLowestClass(lowestTaxa);
+							//adding the arraylist of lowest common ancestors for that unique identifer
+							peptide.get(i).setLca(lcaList);
+							System.out.println(fileName + " Working....\n");
+							//Printing out the contents of the lowest common ancestor search into a file
+							for (int p = 0; p < peptide.get(i).getLca()
+									.size(); p++) {
+								//printWriter.println(peptide.get(i).getLca().get(p).toString());
+							}
+							//If on the last peptide array, notfy the user that results are finished
+							if (i == peptide.size() - 1) {
+								System.out.println(fileName + " Done\n");
+								findCommonLCA(peptide);
+							}
 						}
-					} catch (IOException | JSONException e) {
+						query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
+						qPep = "";
+
 					}
+				} catch (IOException | JSONException e) {
 				}
 			}
-			printWriter.close();
-		} catch (FileNotFoundException e) {
-			warningFrame("File " + file.getAbsolutePath() + " not found");
 		}
+		//printWriter.close();
 		return returnData;
 	}
 	
@@ -278,21 +328,22 @@ public class MetaProteomicAnalysis {
 	 * @author Jennifer Terpstra
 	 */
 	public void findCommonLCA(ArrayList<TrypticPeptide> peptide) {
+		System.out.println("Find common LCA");
 		//final taxa results get written to a file with a -LCA.txt postfix
-		File file = new File(basePath_ + "GetPost" + File.separator + fileName + "-LCA.txt");
+		//File file = new File(basePath_ + "GetPost" + File.separator + fileName + "-LCA.txt");
 		String query = "";
 		Process p1 = null;
 		boolean positive = false;
 		PrintWriter printWriter;
 		try {
-			printWriter = new PrintWriter(file);
+			//printWriter = new PrintWriter(file);
 			for (int i = 0; i < peptide.size(); i++) {
 				if (peptide.get(i).getLca() != null) {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-						printWriter.println(peptide.get(i).getUniqueIdentifier());
-						printWriter.println(peptide.get(i).getIdentifiedTaxa());
+						//printWriter.println(peptide.get(i).getUniqueIdentifier());
+						//printWriter.println(peptide.get(i).getIdentifiedTaxa());
 					} else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
 						 * id must be sent to http://api.unipept.ugent.be/api/v1/taxonomy.json to determine its taxon information.
@@ -302,8 +353,9 @@ public class MetaProteomicAnalysis {
 						//get request
 						URL url = new URL(query);
 					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-					    
+					
 						BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
+						
 						try {
 							//reading the response from the server
 							String line1 = input1.readLine();
@@ -347,18 +399,19 @@ public class MetaProteomicAnalysis {
 
 								}
 							}
+							//con.disconnect();
 							if (positive) {
-								printWriter.println(peptide.get(i).getUniqueIdentifier());
+								//printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLowestClass());
 							} else {
 								/*If one of the LCA within the LCA arraylist fails the comparison with the lowest taxa taxonic
 								 * information than that Tryptic pepetides determined taxa is set to Inconclusive.
 								 */
-								printWriter.println(peptide.get(i).getUniqueIdentifier());
+								//printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(new LowestCommonAncestor("",0,"Inconclusive",""));
 								positive = true;
 							}
-							printWriter.println(peptide.get(i).getIdentifiedTaxa());
+							//printWriter.println(peptide.get(i).getIdentifiedTaxa());
 							query = "";
 							line1 = "";
 						} catch (IOException | JSONException e) {
@@ -366,12 +419,12 @@ public class MetaProteomicAnalysis {
 
 					}
 				}
-
+				
 			}
-			printWriter.close();
+			//printWriter.close();
 			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
-			warningFrame("File " + file.getAbsolutePath() + " not found");
+			//warningFrame("File " + file.getAbsolutePath() + " not found");
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -392,6 +445,7 @@ public class MetaProteomicAnalysis {
 	 * @author Jennifer Terpstra
 	 */
 	public void drawLCAGraph(ArrayList<TrypticPeptide> peptide, String fileName){
+		System.out.println("Draw Graph");
 		String sample;
 		//Counts the number of indentified rows within the Tryptic peptide arrayList
 		int countIdentRows = 0;

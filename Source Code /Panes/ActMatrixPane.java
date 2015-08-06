@@ -107,6 +107,7 @@ public class ActMatrixPane extends JPanel {
 	int yIndex2 = 0;
 	String buttonName;
 	boolean exportAll = false;
+	boolean findLca = false;
 	public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList,
 			DataProcessor proc, Dimension dim) {
 		this.lframe = new Loadingframe(); // opens the loading frame
@@ -1426,7 +1427,7 @@ public class ActMatrixPane extends JPanel {
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
-						cmdExportSequences(buttonName, exportAll);
+						cmdExportSequences(buttonName, exportAll, findLca);
 						exportAll = false;
 						Loadingframe.close();
 						
@@ -1443,7 +1444,7 @@ public class ActMatrixPane extends JPanel {
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
-						cmdExportSequences(buttonName, exportAll);
+						cmdExportSequences(buttonName, exportAll, findLca);
 						Loadingframe.close();
 						
 					}
@@ -1454,21 +1455,15 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//System.out.println("export one file");
-						
-						String writePath = "";
 						exportAll = true;
-						//System.out.println(buttonName);
+						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
-						writePath = cmdExportSequences(buttonName, exportAll).get(0);
-						System.out.println(writePath);
+						cmdExportSequences(buttonName, exportAll, findLca).get(0);
 						exportAll = false;
+						findLca = false;
 						lframe.bigStep("Calculating LCA.."); 
-						lframe.step(writePath.substring(writePath.lastIndexOf("/")+1,writePath.lastIndexOf(".txt"))); 
-						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-						meta.getTrypticPeptideAnaysis(meta.readFasta(writePath), true);
 						Loadingframe.close();
 					}
 					
@@ -1478,27 +1473,14 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//System.out.println("export multiple");
-						
-						ArrayList<String> pathList = new ArrayList<String>();
-						String writePath = "";
 						exportAll = false;
-						//System.out.println(buttonName);
+						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences.."); 
 						lframe.step(buttonName);
-						pathList = cmdExportSequences(buttonName, exportAll);
+						cmdExportSequences(buttonName, exportAll,findLca);
+						findLca = false;
 						Loadingframe.close();
-						for(int i = 0;i<pathList.size();i++){
-							lframe = new Loadingframe(); 
-							writePath = pathList.get(i);
-							System.out.println(writePath);
-							lframe.bigStep("Calculating LCA.."); 
-							lframe.step(writePath); 
-							MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-							meta.getTrypticPeptideAnaysis(meta.readFasta(writePath), true);
-							Loadingframe.close();
-						}
 					}
 					
 				});
@@ -1972,7 +1954,7 @@ public class ActMatrixPane extends JPanel {
 	/*
 	 * Takes in command line calls to export sequences along with wheter or not to print all sequences samples into each EC number file
 	 */
-	public ArrayList<String> cmdExportSequences(String ecName, boolean oneFile) {
+	public ArrayList<String> cmdExportSequences(String ecName, boolean oneFile, boolean findLca) {
 		int index;
 		EcNr ecTmp;
 		ArrayList<String> writePathList = new ArrayList<String>();
@@ -2038,12 +2020,12 @@ public class ActMatrixPane extends JPanel {
 							//If the option to print all sequences per EC number is selected as true
 							System.out.println("Working....\n");
 							//System.out.println("before" + ecTmp.name_);
-							writePathList.add(ExportSequencesOneFile(reps,ecTmp,sampName));
+							writePathList.add(ExportSequencesOneFile(reps,ecTmp,sampName, findLca));
 						}
 						else{
 							//print all sequences per sample EC number 
 							System.out.println("Working....\n");
-							writePathList = ExportSequences(reps, ecTmp, sampName, writePathList);
+							writePathList = ExportSequences(reps, ecTmp, sampName, writePathList, findLca);
 						}
 						
 					}
@@ -2057,9 +2039,10 @@ public class ActMatrixPane extends JPanel {
 	 * exports sequences from EC numbers from a sample to their own named file.
 	 */
 	public ArrayList<String> ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
-			String sampName_, ArrayList<String> writePathList) {
+			String sampName_, ArrayList<String> writePathList, boolean findLca) {
 		String seqFilePath = "";
-		System.out.println(ecNr_.name_);
+		String desc, protien, file_name;
+		LinkedHashMap<String, String> seq_for_lca = new LinkedHashMap<String,String>();
 		for (int i = 0; i < Project.samples_.size(); i++) {
 			if (sampName_.equals(Project.samples_.get(i).name_)) {
 				if (Project.samples_.get(i).getSequenceFile() != null
@@ -2074,30 +2057,16 @@ public class ActMatrixPane extends JPanel {
 			if (seqFile.exists() && !seqFile.isDirectory()) {
 				LinkedHashMap<String, ProteinSequence> sequenceHash;
 				try {
-					sequenceHash = FastaReaderHelper
-							.readFastaProteinSequence(seqFile);
+					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
 					if (sequenceHash != null) {
-						// System.out.println("Seq File: "+seqFile);
-						// for (Map.Entry<String, ProteinSequence> entry :
-						// sequenceHash.entrySet()) {
-						// String key = entry.getKey();
-						// ProteinSequence value = entry.getValue();
-						// System.out.println(key+": "+value);
-						// }
 						String text = ">";
 						System.out.println("repCnt: " + reps_.size());
 						for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
-							if ((sequenceHash.get(((ConvertStat) reps_
-									.get(repCnt)).getDesc_())) != null) {
-								text = text
-										+ ((ConvertStat) reps_.get(repCnt))
-												.getDesc_()
-										+ "\n"
-										+ (sequenceHash
-												.get(((ConvertStat) reps_
-														.get(repCnt))
-														.getDesc_()))
-												.toString();
+							if ((sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())) != null) {
+								desc = ((ConvertStat) reps_.get(repCnt)).getDesc_();
+								protien = (sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())).toString();
+								text = text + desc + "\n" + protien;
+								seq_for_lca.put(desc, protien);
 								// ensures that there is a ">" character in front of every new sample
 								if (repCnt < reps_.size() - 1) {
 									text = text + "\n>";
@@ -2108,6 +2077,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
+						if(findLca == false){
 						try {
 							String sampleName;
 							if (sampName_.contains(".out")) {
@@ -2134,6 +2104,7 @@ public class ActMatrixPane extends JPanel {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
+						}
 					} else {
 						System.out
 								.println("The sequence file is not in the fasta format. ("
@@ -2153,16 +2124,22 @@ public class ActMatrixPane extends JPanel {
 					.println("There is no sequence file associated with this sample ("
 							+ sampName_ + ")");
 		}
+		if(findLca == true){
+			file_name = sampName_ + "-" + ecNr_.name_;
+			MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+			meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
+		}
 		return writePathList;
 	}
 
 /*
  * Exports sequences of different samples that share the same EC number into a file of that EC number name
  */
-public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_) {
+public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_, boolean findLca) {
 	String seqFilePath = "";
 	String writePath = "";
-	System.out.println(ecNr_.name_);
+	String desc, protien, file_name;
+	LinkedHashMap<String, String> seq_for_lca = new LinkedHashMap<String,String>();
 	for (int i = 0; i < Project.samples_.size(); i++) {
 		if (sampName_.equals(Project.samples_.get(i).name_)) {
 			if (Project.samples_.get(i).getSequenceFile() != null
@@ -2180,28 +2157,16 @@ public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,St
 				sequenceHash = FastaReaderHelper
 						.readFastaProteinSequence(seqFile);
 				if (sequenceHash != null) {
-					// System.out.println("Seq File: "+seqFile);
-					// for (Map.Entry<String, ProteinSequence> entry :
-					// sequenceHash.entrySet()) {
-					// String key = entry.getKey();
-					// ProteinSequence value = entry.getValue();
-					// System.out.println(key+": "+value);
-					// }
 					String text = ">";
 					System.out.println("repCnt: " + reps_.size());
 					for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
 						if ((sequenceHash.get(((ConvertStat) reps_
 								.get(repCnt)).getDesc_())) != null) {
 							//Adding the sample name to the descriptor of the sequence
-							text = text
-									+ ((ConvertStat) reps_.get(repCnt))
-											.getDesc_()
-									+ " " + sampName_+ "\n"
-									+ (sequenceHash
-											.get(((ConvertStat) reps_
-													.get(repCnt))
-													.getDesc_()))
-											.toString();
+							desc = ((ConvertStat) reps_.get(repCnt)).getDesc_();
+							protien = (sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())).toString();
+							text = text + desc + "\n" + protien;
+							seq_for_lca.put(desc, protien);
 							// ensures that there is a ">" character in front of every new sample
 							if (repCnt < reps_.size() - 1) {
 								text = text + "\n>";
@@ -2212,6 +2177,7 @@ public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,St
 							}
 						}
 					}
+					if(findLca == false){
 					try {
 						String sampleName;
 						if (sampName_.contains(".out")) {
@@ -2236,6 +2202,7 @@ public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,St
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+					}
 				} else {
 					System.out
 							.println("The sequence file is not in the fasta format. ("
@@ -2254,6 +2221,11 @@ public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,St
 		System.out
 				.println("There is no sequence file associated with this sample ("
 						+ sampName_ + ")");
+	}
+	if(findLca == true){
+		file_name = ""+ecNr_.name_+"-";
+		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
 	}
 	return writePath;
 }

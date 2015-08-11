@@ -160,6 +160,7 @@ public class MetaProteomicAnalysis {
 		//Stores each digested piece of the peptide for each unqiue identifer
 		ArrayList<String> peptideList = new ArrayList<String>();
 		fileName = sampleName;
+		System.out.println("FileName " + fileName);
 		//used to parse the long peptide into the tryptic digest
 		String fasta = "";
 		String subfasta = "";
@@ -192,6 +193,7 @@ public class MetaProteomicAnalysis {
 			retList.add(trypticPeptide);
 			trypticPeptide = new TrypticPeptide();
 		}
+		returnData.setFileName(fileName);
 		return retList;
 	}
 	
@@ -514,9 +516,9 @@ public class MetaProteomicAnalysis {
 		//If the file being read in is a sequence file per EC Sample, setting rowdata and colnames
 		if (!Character.isDigit(fileName.charAt(0))) {
 			//parsing out samplename from filename
-			sample = fileName.substring(fileName.indexOf(0) + 1,fileName.indexOf('-'));
 			for (int i = 0; i < peptide.size(); i++) {
 				if (peptide.get(i).getIdentifiedTaxa() != null) {
+					sample = peptide.get(i).getUniqueIdentifier().substring(peptide.get(i).getUniqueIdentifier().indexOf(" "));
 					rowData2[index2][0] = peptide.get(i).getUniqueIdentifier();
 					rowData2[index2][1] = sample;
 					rowData2[index2][2] = peptide.get(i).getIdentifiedTaxa().getTaxon_name();

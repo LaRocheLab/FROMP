@@ -66,6 +66,12 @@ public class Line {
 	public EcNr getEcNr_() {
 		return this.ecNr_;
 	}
+	
+	
+
+	public void setEc_(EcWithPathway ec_) {
+		this.ec_ = ec_;
+	}
 
 	public double getSum_() {
 		return this.sum_;

@@ -5,6 +5,7 @@ import Objects.EcNr;
 import Objects.EcWithPathway;
 import Objects.Line;
 import Objects.Pathway;
+import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.Controller;
@@ -32,6 +33,7 @@ import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -108,6 +110,13 @@ public class ActMatrixPane extends JPanel {
 	String buttonName;
 	boolean exportAll = false;
 	boolean findLca = false;
+	ArrayList<String> ec_list;
+	String fileName = "";
+	String sampleName = "";
+	String chosen_ec = "";
+	String chosen_sample = "";
+
+	
 	public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList,
 			DataProcessor proc, Dimension dim) {
 		this.lframe = new Loadingframe(); // opens the loading frame
@@ -124,6 +133,7 @@ public class ActMatrixPane extends JPanel {
 		setSize(dim); 
 						
 		this.smpList_ = Project.samples_; 
+		ec_list = new ArrayList<String>();
 		this.sumIndexSmp = 0; 
 		setSelectedEc(); // Sets whether or not each sample is selected
 		prepMatrix(); // Builds the ec matrixLoadingframe.close();
@@ -143,7 +153,7 @@ public class ActMatrixPane extends JPanel {
 									
 		this.actProj_ = actProj; // sets this active project
 		this.proc_ = proc; // stes this data processor
-							
+		ec_list = new ArrayList<String>();				
 							
 		setLayout(new BorderLayout()); 
 		setVisible(true); 
@@ -173,6 +183,7 @@ public class ActMatrixPane extends JPanel {
 	private void prepaintLCA() { // This method rebuids the back panel of the window
 		removeAll(); // Removes everything on the backpanel
 		initMainPanels(); // instanciates the options, display, and scroll panels
+		prepMatrix();
 		addOptionsLCA(); // adds the buttons, labels, checkboxes etc to the options panel
 		if(drawChart==true){
 			drawChart();
@@ -190,9 +201,18 @@ public class ActMatrixPane extends JPanel {
 	 */
 	protected void drawChart(){
 		final MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-		final JFreeChart chart = ChartFactory.createPieChart(returnData.getFileName()
-				+ " Total Taxonomy", returnData.getDataset(), true, true, false);
-		PiePlot pie1 = (PiePlot) chart.getPlot();
+		PiePlot pie1=null;
+		final JFreeChart chart;
+		System.out.println(returnData.getFileName());
+		if(returnData.getFileName()!=null){
+			chart = ChartFactory.createPieChart(returnData.getFileName()
+					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
+			pie1 = (PiePlot) chart.getPlot();
+		}
+		else{
+			chart=null;
+		}
+		
 		pie1.setNoDataMessage("No data available");
 		pie1.setCircular(false);
 		pie1.setLabelGenerator(null);
@@ -378,63 +398,119 @@ public class ActMatrixPane extends JPanel {
 	//Options panel for the Lowest Common Ancestor page
 	private void addOptionsLCA(){
 		
+		int ecCnt;
+		EcWithPathway ec_Path = null;
+		ec_list = new ArrayList<String>();
+		//adding all the ec numbers found within the ecMatrix to the LCA EC number combobox
+		for (ecCnt = 0; ecCnt < this.ecMatrix_.size(); ecCnt++) {
+			Line ecNr = (Line) this.ecMatrix_.get(ecCnt);
+			if (ecNr.getEc_().isCompleteEc()) {
+				if (ecNr.getEc_() != null) {
+					ec_Path = ecNr.getEc_();
+				}
+				if (ec_Path != null && ec_Path.getName_() != null) {
+					ec_list.add(ec_Path.getName_());
+				}
+			}
+		}
+		Collections.sort(ec_list);
+		
+		//Combo box of the various ec numbers to find their lowest common ancestor
+		final JComboBox<String> ecList = new JComboBox<String>();
+			System.out.println("ec list size: " + ec_list.size());
+			ecList.addItem("No EC Selected");
+			for (int i = 0; i < ec_list.size(); i++) {
+				if (ec_list.size() > 0) {
+					ecList.addItem(ec_list.get(i));
+				}
+			}
+		ecList.addActionListener(new ActionListener() {
+		 public void actionPerformed(ActionEvent e) {
+			 System.out.println(ecList.getSelectedItem().toString());
+			 chosen_ec = ecList.getSelectedItem().toString();
+		    }
+		  });
+		ecList.setSelectedItem(0);
+		ecList.setBounds(20,35,150,40);
+		ecList.setVisible(true);
+		
+		//combo box of all the samples present within the project, can choose to find lca of specific ec and sample
+		final JComboBox<String> sampleList = new JComboBox<String>();
+			//can find lca of all samples given just the ec number
+			sampleList.addItem("All Samples");
+			for (int j = 0; j < Project.samples_.size(); j++) {
+				sampleList.addItem(Project.samples_.get(j).name_);
+			}
+			sampleList.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 System.out.println(sampleList.getSelectedItem().toString());
+					chosen_sample = sampleList.getSelectedItem().toString();
+				}
+			});
+		sampleList.setSelectedItem(0);
+		sampleList.setBounds(210, 35, 350, 40);
+		sampleList.setVisible(true);
+		
 		this.export_ = new JButton("Find Lowest Common Ancestor");
 		this.export_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String path = "";
-				try {
-					path = new File("").getCanonicalPath();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				boolean oneFile = false;
+				if (!chosen_ec.equals("No EC Selected")&&!chosen_ec.equals("")) {
+				lframe = new Loadingframe(); // opens the loading frame
+				lframe.bigStep("Calculating LCA..");
+				lframe.step(chosen_ec);
+
+				LinkedHashMap<String,String> seq_for_lca;
+				//If the user did not choose a sample, export all the samples into one file
+				if(chosen_sample.equals("")||chosen_sample.equals("All Samples")){
+					oneFile = true;
+					exportAll = true;
 				}
-				JFileChooser fChoose_ = new JFileChooser(path + File.separator
-						+ "Sequences");
-				fChoose_.setFileSelectionMode(0);
-				fChoose_.setBounds(100, 100, 200, 20);
-				fChoose_.setVisible(true);
-				fChoose_.setFileFilter(new FileFilter() {
-					public boolean accept(File f) {
-						if ((f.isDirectory())
-								|| (f.getName().toLowerCase().endsWith(".txt"))) {
-							return true;
-						}
-						return false;
-					}
-
-					public String getDescription() {
-						return ".txt";
-					}
-				});
-				fChoose_.showOpenDialog(getParent());
-				try {
-					if (fChoose_.getSelectedFile().getCanonicalPath() != null) {
-						lframe = new Loadingframe(); // opens the loading frame
-						lframe.bigStep("Calculating LCA..");
-						lframe.step(fChoose_.getSelectedFile().getCanonicalPath());
-						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-						returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(fChoose_.getSelectedFile().getCanonicalPath()), false);
-						drawChart = true;
-						if (numChart < 1) {
-							prepaintLCA();
-						} else {
-							drawChart();
-						}
-					}
-					Loadingframe.close();
-
-				} catch (IOException e1) {
-					warningFrame("Incorrect Sequence file format!");
-				} catch (NullPointerException p1) {
-					warningFrame("No file selected!");
-
+				else{
+					oneFile = false;
+					exportAll = false;
 				}
+				seq_for_lca = cmdExportSequences(chosen_ec,sampleName, oneFile, findLca);
+				oneFile = false;
+				exportAll = false;
+				
+				if(((chosen_sample.equals("All Samples")||(chosen_sample.equals("")))&&!chosen_ec.equals("No EC Selected"))){
+					fileName = chosen_ec+"-";
+					
+				}
+				else if(((!chosen_sample.equals("All Samples"))||(!chosen_sample.equals(""))&&!chosen_ec.equals("No EC Selected"))){
+					fileName = chosen_sample + "-" + chosen_ec + "-";
+					lframe.step(chosen_sample + "-" + chosen_ec + "-");
+				}
+				if(!chosen_ec.equals("No EC Selected")&&!chosen_ec.equals("")){
+				//cannot find the lowest common ancestor of a unselected ec number and sample
+				System.out.println("Lowest Common Section");
+				MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), oneFile);
+				}
+
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} else {
+					drawChart();
+				}
+
+				Loadingframe.close();
+				}
+				else{
+					warningFrame("Please Select an EC");
+				}
+				
 			}
+				
 		});
-	this.export_.setBounds(20, 20, 300, 40);
+	this.export_.setBounds(600, 35, 300, 40);
 	this.export_.setVisible(true);
 	this.export_.setLayout(null);
 	this.export_.setForeground(Project.getFontColor_());
+	
+	//Button used to clear the screen of all graphs & charts
 	JButton clear = new JButton("Clear Screen");
 	clear.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
@@ -445,21 +521,36 @@ public class ActMatrixPane extends JPanel {
 			yIndex2 = 0;
 		}
 	});
-	clear.setBounds(1000, 20, 150, 20);
+	clear.setBounds(1000, 35, 150, 20);
 	clear.setVisible(true);
 	clear.setLayout(null);
 	clear.setForeground(Project.getFontColor_());
+	
 
+	
 	JLabel warning = new JLabel("Note: Sequence files that contain a large amount of sequences may take awhile to process");
-	warning.setBounds(20, 70, 700, 20);
+	warning.setBounds(20, 73, 700, 20);
 	warning.setVisible(true);
 	warning.setLayout(null);
 	warning.setForeground(Project.getFontColor_());
+	
+	JLabel ec_combo = new JLabel("Choose EC:");
+	ec_combo.setBounds(20,15,100,20);
+	ec_combo.setVisible(true);
+	
+	JLabel smp_combo = new JLabel("Choose Sample:");
+	smp_combo.setBounds(210,15,350,20);
+	smp_combo.setVisible(true);
 
 
 	this.optionsPanel_.add(this.export_);
 	this.optionsPanel_.add(clear);
 	this.optionsPanel_.add(warning);
+	this.optionsPanel_.add(ecList);
+	this.optionsPanel_.add(sampleList);
+	this.optionsPanel_.add(ec_combo);
+	this.optionsPanel_.add(smp_combo);
+	
 	}
 	
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel
@@ -1373,6 +1464,7 @@ public class ActMatrixPane extends JPanel {
 			this.names_ = new JButton(ecNr.getEc_().name_
 					+ ecNr.getEc_().nameSuppl());
 			this.names_.setName(ecNr.getEc_().name_);
+			ec_list.add(ecNr.getEc_().name_);
 			//System.out.println(ecNr.getEc_().name_
 					//+ ecNr.getEc_().nameSuppl());
 			int uncompleteOffset = 0;
@@ -1427,7 +1519,7 @@ public class ActMatrixPane extends JPanel {
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
-						cmdExportSequences(buttonName, exportAll, findLca);
+						cmdExportSequences(buttonName,sampleName, exportAll, findLca);
 						exportAll = false;
 						Loadingframe.close();
 						
@@ -1444,7 +1536,7 @@ public class ActMatrixPane extends JPanel {
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
-						cmdExportSequences(buttonName, exportAll, findLca);
+						cmdExportSequences(buttonName,sampleName, exportAll, findLca);
 						Loadingframe.close();
 						
 					}
@@ -1455,15 +1547,19 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						System.out.println("One file");
 						exportAll = true;
 						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
-						lframe.bigStep("Exporting Sequences..");
+						lframe.bigStep("Exporting Sequences/Finding Lca..");
 						lframe.step(buttonName); 
-						cmdExportSequences(buttonName, exportAll, findLca).get(0);
+						LinkedHashMap<String,String> seq_for_lca;
+						seq_for_lca = cmdExportSequences(buttonName,sampleName, exportAll, findLca);
+						String file_name = buttonName+"-";
+						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+						meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
 						exportAll = false;
 						findLca = false;
-						lframe.bigStep("Calculating LCA.."); 
 						Loadingframe.close();
 					}
 					
@@ -1473,12 +1569,13 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						System.out.println("Many File");
 						exportAll = false;
 						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
-						lframe.bigStep("Exporting Sequences.."); 
+						lframe.bigStep("Exporting Sequences/Finding Lca.."); 
 						lframe.step(buttonName);
-						cmdExportSequences(buttonName, exportAll,findLca);
+						cmdExportSequences(buttonName,sampleName, exportAll,findLca);
 						findLca = false;
 						Loadingframe.close();
 					}
@@ -1490,11 +1587,9 @@ public class ActMatrixPane extends JPanel {
 					public void mouseClicked(MouseEvent e) {
 						if (SwingUtilities.isRightMouseButton(e)
 								|| e.isControlDown()) {
-							//System.out.println("Right Button Pressed");
 							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),
 									e.getX(), e.getY());
 							buttonName = e.getComponent().getName();
-							//System.out.println(buttonName);
 					
 						}
 					}
@@ -1954,22 +2049,24 @@ public class ActMatrixPane extends JPanel {
 	/*
 	 * Takes in command line calls to export sequences along with wheter or not to print all sequences samples into each EC number file
 	 */
-	public ArrayList<String> cmdExportSequences(String ecName, boolean oneFile, boolean findLca) {
+	public LinkedHashMap<String,String> cmdExportSequences(String ecName,String sampleName, boolean oneFile, boolean findLca) {
+		System.out.println("cmdExport");
 		int index;
 		EcNr ecTmp;
-		ArrayList<String> writePathList = new ArrayList<String>();
+		ArrayList<ConvertStat> reps;
+		String sampName;
+		LinkedHashMap<String,String> seq_for_lca = null;
 
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
 			//changed contains to equals!!
 			if (ecName.equals(this.ecMatrix_.get(i).getEc_().name_)) {
 				//System.out.println("cmd" + ecName);
 				//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
-				ecTmp = new EcNr(
-						((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
+				ecTmp = new EcNr(((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
 				for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++) {
 					ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 							.get(i)).arrayLine_[smpCnt]);
-					ArrayList<ConvertStat> reps = new ArrayList();
+					reps = new ArrayList();
 					for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 							.get(smpCnt)).conversions_.size(); statsCnt++) {
 						String test = (((ConvertStat) ((Sample) Project.samples_
@@ -2014,35 +2111,37 @@ public class ActMatrixPane extends JPanel {
 							reps.remove(j);
 						}
 					}
-					String sampName = ((Sample) Project.samples_.get(smpCnt)).name_;
-					if (reps.size() > 0) {
-						if(oneFile){
-							//If the option to print all sequences per EC number is selected as true
-							System.out.println("Working....\n");
-							//System.out.println("before" + ecTmp.name_);
-							writePathList.add(ExportSequencesOneFile(reps,ecTmp,sampName, findLca));
-						}
-						else{
+					sampName = ((Sample) Project.samples_.get(smpCnt)).name_;
+						if(reps.size()>0&&((chosen_sample.equals("All Samples"))||(chosen_sample.equals("")))){
 							//print all sequences per sample EC number 
 							System.out.println("Working....\n");
-							writePathList = ExportSequences(reps, ecTmp, sampName, writePathList, findLca);
+							seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
+						}
+						//used if trying to find the lca from the LCA page instead of the EC Matrix page
+						else if(reps.size()>0 && chosen_sample.equals(sampName)){
+							System.out.println("Working....\n");
+							seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
 						}
 						
-					}
 				}
 			}
 		}
-		//System.out.println(writePathList.toString());
-		return writePathList;
+		return seq_for_lca;
 	}
 	/*
 	 * exports sequences from EC numbers from a sample to their own named file.
 	 */
-	public ArrayList<String> ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
-			String sampName_, ArrayList<String> writePathList, boolean findLca) {
+	public LinkedHashMap<String,String> ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
+			String sampName_, boolean oneFile, boolean findLca, LinkedHashMap<String,String> seqTmp) {
 		String seqFilePath = "";
 		String desc, protien, file_name;
-		LinkedHashMap<String, String> seq_for_lca = new LinkedHashMap<String,String>();
+		LinkedHashMap<String, String> seq_for_lca;
+		if(seqTmp==null||oneFile==false||exportAll==false){
+			seq_for_lca = new LinkedHashMap<String,String>();
+		}
+		else{
+			seq_for_lca = seqTmp;
+		}
 		for (int i = 0; i < Project.samples_.size(); i++) {
 			if (sampName_.equals(Project.samples_.get(i).name_)) {
 				if (Project.samples_.get(i).getSequenceFile() != null
@@ -2065,8 +2164,21 @@ public class ActMatrixPane extends JPanel {
 							if ((sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())) != null) {
 								desc = ((ConvertStat) reps_.get(repCnt)).getDesc_();
 								protien = (sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())).toString();
-								text = text + desc + "\n" + protien;
-								seq_for_lca.put(desc, protien);
+								if(oneFile){
+									text = text + desc + " " + sampName_ + "\n" + protien;
+									desc = desc + " " + sampName_;
+								}
+								else{
+									text = text + desc + "\n" + protien;
+									desc = desc + " " + sampName_;
+								}
+								//used to determine if a sample was picked in the "FindLca" page
+								if(chosen_sample.equals("All Samples")||chosen_sample.equals("")){
+									seq_for_lca.put(desc, protien);
+								}
+								else if(chosen_sample.equals(sampName_)){
+									seq_for_lca.put(desc, protien);
+								}
 								// ensures that there is a ">" character in front of every new sample
 								if (repCnt < reps_.size() - 1) {
 									text = text + "\n>";
@@ -2077,7 +2189,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
-						if(findLca == false){
+						if(findLca == false && oneFile == false){
 						try {
 							String sampleName;
 							if (sampName_.contains(".out")) {
@@ -2088,10 +2200,6 @@ public class ActMatrixPane extends JPanel {
 							File file = new File(basePath_ + "Sequences"
 									+ File.separator + sampleName + "-"
 									+ ecNr_.name_ + "-Sequences" + ".txt");
-							writePathList.add (basePath_ + "Sequences"
-									+ File.separator + sampleName + "-"
-									+ ecNr_.name_ + "-Sequences" + ".txt");
-							//writes to a file named after the sample and EC number
 							PrintWriter printWriter = new PrintWriter(file);
 							if (text != null && text != "") {
 								printWriter.println("" + text);
@@ -2104,6 +2212,30 @@ public class ActMatrixPane extends JPanel {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
+						}
+						else if(findLca == false && oneFile == true){
+							try {
+								String sampleName;
+								if (sampName_.contains(".out")) {
+									sampleName = sampName_.replace(".out", "");
+								} else {
+									sampleName = sampName_;
+								}
+								File file = new File(basePath_ + "Sequences"
+										+ File.separator + ecNr_.name_ + "-Sequences" + ".txt");
+								//This allows writing to the file of the same name to append to the file if created, creates file if not
+								PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+								if (text != null && text != "") {
+									printWriter.println("" + text);
+								} else {
+									printWriter
+											.println("No matching sequences in the file provided. ("
+													+ sampName_ + ")");
+								}
+								printWriter.close();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
 						}
 					} else {
 						System.out
@@ -2124,111 +2256,21 @@ public class ActMatrixPane extends JPanel {
 					.println("There is no sequence file associated with this sample ("
 							+ sampName_ + ")");
 		}
-		if(findLca == true){
-			file_name = sampName_ + "-" + ecNr_.name_;
+		//used to find the lowest common ancestor of all the samples for a particular ec in one table
+		if(findLca == true && oneFile == false){
+			if(chosen_sample.equals("All Samples")||chosen_sample.equals("")){
+				file_name = sampName_ + "-" + ecNr_.name_;
+			}
+			else{
+				file_name = chosen_sample + "-" + ecNr_.name_;
+			}
 			MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
 			meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
 		}
-		return writePathList;
+		fileName = sampName_;
+		return seq_for_lca;
 	}
 
-/*
- * Exports sequences of different samples that share the same EC number into a file of that EC number name
- */
-public String ExportSequencesOneFile(ArrayList<ConvertStat> reps_, EcNr ecNr_,String sampName_, boolean findLca) {
-	String seqFilePath = "";
-	String writePath = "";
-	String desc, protien, file_name;
-	LinkedHashMap<String, String> seq_for_lca = new LinkedHashMap<String,String>();
-	for (int i = 0; i < Project.samples_.size(); i++) {
-		if (sampName_.equals(Project.samples_.get(i).name_)) {
-			if (Project.samples_.get(i).getSequenceFile() != null
-					&& !Project.samples_.get(i).getSequenceFile()
-							.equals("")) {
-				seqFilePath = Project.samples_.get(i).getSequenceFile();
-			}
-		}
-	}
-	if (seqFilePath != null && !seqFilePath.equals("")) {
-		File seqFile = new File(seqFilePath);
-		if (seqFile.exists() && !seqFile.isDirectory()) {
-			LinkedHashMap<String, ProteinSequence> sequenceHash;
-			try {
-				sequenceHash = FastaReaderHelper
-						.readFastaProteinSequence(seqFile);
-				if (sequenceHash != null) {
-					String text = ">";
-					System.out.println("repCnt: " + reps_.size());
-					for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
-						if ((sequenceHash.get(((ConvertStat) reps_
-								.get(repCnt)).getDesc_())) != null) {
-							//Adding the sample name to the descriptor of the sequence
-							desc = ((ConvertStat) reps_.get(repCnt)).getDesc_();
-							protien = (sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())).toString();
-							text = text + desc + "\n" + protien;
-							seq_for_lca.put(desc, protien);
-							// ensures that there is a ">" character in front of every new sample
-							if (repCnt < reps_.size() - 1) {
-								text = text + "\n>";
-							}
-							// Don't want the ">" character on the last newline with no sample
-							else if (repCnt == reps_.size()) {
-								text = text + "\n";
-							}
-						}
-					}
-					if(findLca == false){
-					try {
-						String sampleName;
-						if (sampName_.contains(".out")) {
-							sampleName = sampName_.replace(".out", "");
-						} else {
-							sampleName = sampName_;
-						}
-						File file = new File(basePath_ + "Sequences"
-								+ File.separator + ecNr_.name_ + "-Sequences" + ".txt");
-						writePath = basePath_ + "Sequences"
-								+ File.separator + ecNr_.name_ + "-Sequences" + ".txt";
-						//This allows writing to the file of the same name to append to the file if created, creates file if not
-						PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
-						if (text != null && text != "") {
-							printWriter.println("" + text);
-						} else {
-							printWriter
-									.println("No matching sequences in the file provided. ("
-											+ sampName_ + ")");
-						}
-						printWriter.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					}
-				} else {
-					System.out
-							.println("The sequence file is not in the fasta format. ("
-									+ sampName_ + ")");
-				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-		} else {
-			System.out
-					.println("The sequence file associated with this sample ("
-							+ sampName_ + ") does not exist");
-		}
-	} else {
-		System.out
-				.println("There is no sequence file associated with this sample ("
-						+ sampName_ + ")");
-	}
-	if(findLca == true){
-		file_name = ""+ecNr_.name_+"-";
-		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-		meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
-	}
-	return writePath;
-}
 public boolean isDrawChart() {
 	return drawChart;
 }
@@ -2244,19 +2286,7 @@ public void setDrawChart(boolean drawChart) {
  * @author Jennifer Terpstra
  */
 private void warningFrame(String strIN) { 
-	/*JFrame wrngFrame = new JFrame();
-	wrngFrame.setBounds(200, 200, 350, 100);
-	wrngFrame.setLayout(null);
-	wrngFrame.setVisible(true);
 
-	JPanel backP = new JPanel();
-	backP.setBounds(0, 0, 350, 100);
-	backP.setLayout(null);
-	wrngFrame.add(backP);
-
-	JLabel label = new JLabel("Warning! " + strIN);
-	label.setBounds(25, 25, 300, 25);
-	backP.add(label);*/
 	JOptionPane.showMessageDialog(null,strIN, 
 		    "Warning", JOptionPane.WARNING_MESSAGE);
 }

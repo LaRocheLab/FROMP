@@ -283,6 +283,16 @@ public class EcNr {
 	public String getFullName() {
 		return this.name_ + nameSuppl();
 	}
+	
+	
+
+	public String getName_() {
+		return name_;
+	}
+
+	public void setName_(String name_) {
+		this.name_ = name_;
+	}
 
 	public boolean couldBeEc() {
 		if (this.name_ == null) {

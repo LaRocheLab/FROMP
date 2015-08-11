@@ -364,7 +364,7 @@ public class CmdController {
 				System.out.println("Sequences will be saved at: " + basePath_
 						+ "Sequences/");
 				for (int i = 0; i < ec_.size(); i++) {
-					pane.cmdExportSequences(this.ec_.get(i), false, false);
+					pane.cmdExportSequences(this.ec_.get(i),"", false, false);
 				}
 				if ((this.optionsCmd_.contentEquals("seq"))) {
 					System.exit(0);
@@ -381,7 +381,7 @@ public class CmdController {
 				try {
 					while ((line = this.ecList.readLine()) != null) {
 						if (checkEC(line)) {
-							pane.cmdExportSequences(line, false, false);
+							pane.cmdExportSequences(line,"", false, false);
 						}
 					}
 				} catch (IOException e) {
@@ -396,7 +396,7 @@ public class CmdController {
 				System.out.println("Sequences will be saved at: " + basePath_
 						+ "Sequences/");
 				for (int i = 0; i < ec_.size(); i++) {
-					pane.cmdExportSequences(this.ec_.get(i), true, false);
+					pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 				}
 				if ((this.optionsCmd_.contentEquals("seq"))) {
 					System.exit(0);
@@ -414,7 +414,7 @@ public class CmdController {
 				try {
 					while ((line = this.ecList.readLine()) != null) {
 						if (checkEC(line)) {
-							pane.cmdExportSequences(line, true, false);
+							pane.cmdExportSequences(line,"", true, false);
 						}
 					}
 				} catch (IOException e) {

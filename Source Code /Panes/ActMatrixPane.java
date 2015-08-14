@@ -804,7 +804,6 @@ public class ActMatrixPane extends JPanel {
 		
 		if (this.bySumcheck_ != null||this.useGeoDist_!=null||this.useOddsrat_!=null) {
 			if (this.bySumcheck_.isSelected()) {
-				System.out.println("one");
 				this.sort_by_lowest_Geo.setSelected(false);
 				this.sort_odds_by_lowest.setSelected(false);
 				System.out.println("\nquicksort\n");
@@ -814,38 +813,32 @@ public class ActMatrixPane extends JPanel {
 				System.out.println("bySum");
 			}
 			else {
-				System.out.println("two");
 				sortEcsbyNameQuickSort();
 				this.ecMatrix_ = removeDuplicates();
 				System.out.println("byName");
 			}
 			if(this.useGeoDist_.isSelected()){
-				System.out.println("three");
 				this.useOddsrat_.setSelected(false);
 				this.sort_odds_by_lowest.setSelected(false);
 				if(this.sort_by_lowest_Geo.isSelected()){
-					System.out.println("four");
 					this.bySumcheck_.setSelected(false);
 					System.out.println("by Dist");
 					quicksortGeoDist();
 					this.ecMatrix_ = removeDuplicates();
 				}
 				else if(this.bySumcheck_.isSelected()){
-					System.out.println("five");
 					quicksortSum();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("\nquicksort done\n");
 					System.out.println("bySum");
 				}
 				else{
-					System.out.println("six");
 					sortEcsbyNameQuickSort();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("byName");
 				}
 			}
 			if(this.useOddsrat_.isSelected()){
-				System.out.println("seven");
 				this.useGeoDist_.setSelected(false);
 				this.sort_by_lowest_Geo.setSelected(false);
 				if(this.sort_odds_by_lowest.isSelected()){
@@ -856,14 +849,12 @@ public class ActMatrixPane extends JPanel {
 					this.ecMatrix_ = removeDuplicates();
 				}
 				else if(this.bySumcheck_.isSelected()){
-					System.out.println("nine");
 					quicksortSum();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("\nquicksort done\n");
 					System.out.println("bySum");
 				}
 				else{
-					System.out.println("ten");
 					sortEcsbyNameQuickSort();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("byName");
@@ -871,7 +862,6 @@ public class ActMatrixPane extends JPanel {
 			}
 		} 
 		else {
-			System.out.println("eleven");
 			sortEcsbyNameQuickSort();
 			this.ecMatrix_ = removeDuplicates();
 			System.out.println("byName");

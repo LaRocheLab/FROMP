@@ -9,6 +9,7 @@ import Objects.Sample;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -474,6 +475,7 @@ public class PathwayMapFrame extends JFrame {
 				for(int i = 0; i < this.path_.ecNrs_.get(ecCnt).getEcLabel().size(); i++){
 					JLabel tmpLabel = new JLabel();
 					tmpLabel = this.path_.ecNrs_.get(ecCnt).getEcLabel().get(i);
+					tmpLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					this.image_.add(tmpLabel);
 				}
 			}

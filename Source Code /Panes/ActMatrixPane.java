@@ -16,6 +16,7 @@ import Prog.tableAndChartData;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -34,6 +35,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -50,6 +52,9 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import jxl.format.Colour;
+
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
 import org.biojava.nbio.core.sequence.io.FastaReader;
 import org.biojava.nbio.core.sequence.*;
@@ -69,8 +74,10 @@ public class ActMatrixPane extends JPanel {
 	private JButton names_; // Tmp variable for building a a list of EC buttons
 	private JLabel label_; 
 	private JCheckBox bySumcheck_; // Check box used to sort matrix by sum
-	private JCheckBox useOddsrat_; // Checkbox to include the odds-ratio in the
-									// calculation of the matrix
+	private JCheckBox useOddsrat_; // Checkbox to include the odds-ratio in the calculation of the matrix
+	private JCheckBox sort_odds_by_lowest;
+	private JCheckBox useGeoDist_;
+	private JCheckBox sort_by_lowest_Geo;
 	private JCheckBox moveUnmappedToEnd; // Checkbox to moved unmapped ecs to the end of the list. Default is checked
 	private JCheckBox includeRepseq_; // Checkbox to include the ability to click on ecs from samples and see the sequence ids which are associated with that ec
 	private JCheckBox showOptions_; // Checkbox to show the options panel
@@ -273,7 +280,6 @@ public class ActMatrixPane extends JPanel {
 				" Summary",TitledBorder.CENTER,TitledBorder.TOP));
 		panel4.setVisible(true);
 		panel4.setBounds(0, yIndex1 + (yIndex1 + 510)*numChart, 500,500);
-		
 		displayP_.add(panel3, BorderLayout.LINE_END);
 		displayP_.add(panel2, BorderLayout.LINE_START);
 		displayP_.add(panel4, BorderLayout.LINE_START);
@@ -557,49 +563,27 @@ public class ActMatrixPane extends JPanel {
 		this.lframe.bigStep("Adding options");
 		this.lframe.step("Buttons");
 		this.optionsPanel_.removeAll();
-		if (this.bySumcheck_ != null) {
-			if (this.bySumcheck_.isSelected()) {
-				// sortEcsbySumBubble();
-				System.out.println("\nquicksort\n");
-				quicksortSum();
-				this.ecMatrix_ = removeDuplicates();
-				System.out.println("\nquicksort done\n");
-				System.out.println("bySum");
-			} else {
-				sortEcsbyNameQuickSort();
-				this.ecMatrix_ = removeDuplicates();
-				System.out.println("byName");
-			}
-		} else {
-			sortEcsbyNameQuickSort();
-			this.ecMatrix_ = removeDuplicates();
-			System.out.println("byName");
-		}
-		if (this.showOptions_ == null) {
-			this.showOptions_ = new JCheckBox("Show options");
-			this.showOptions_.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ActMatrixPane.this.switchOptionsMode();
-				}
-			});
-		}
-		this.showOptions_.setVisible(true);
-		this.showOptions_.setSelected(true);
-		this.showOptions_.setBackground(this.optionsPanel_.getBackground());
-		this.showOptions_.setForeground(Project.getFontColor_());
-		this.showOptions_.setLayout(null);
-		this.showOptions_.setBounds(200, 10, 150, 15);
-
-		this.optionsPanel_.add(this.showOptions_);
+		
+		JLabel geo_dist_label = new JLabel("Enrichment Options:");
+		geo_dist_label.setBounds(200,1,150,15);
+		geo_dist_label.setVisible(true);
+		this.optionsPanel_.add(geo_dist_label);
+		
+		JLabel general_label = new JLabel("General Options:");
+		general_label.setBounds(500,1,200,15);
+		general_label.setVisible(true);
+		this.optionsPanel_.add(general_label);
+		
 		if (this.bySumcheck_ == null) {
-			this.bySumcheck_ = new JCheckBox("Sort by sum");
+			this.bySumcheck_ = new JCheckBox("Sort by EC sum");
 		}
 		this.bySumcheck_.setVisible(true);
 		this.bySumcheck_.setLayout(null);
 		this.bySumcheck_.setBackground(this.optionsPanel_.getBackground());
 		this.bySumcheck_.setForeground(Project.getFontColor_());
-		this.bySumcheck_.setBounds(350, 10, 150, 15);
+		this.bySumcheck_.setBounds(500, 20, 200, 15);
 		this.optionsPanel_.add(this.bySumcheck_);
+		
 		if (this.useOddsrat_ == null) {
 			this.useOddsrat_ = new JCheckBox("Odds-ratio");
 		}
@@ -607,8 +591,39 @@ public class ActMatrixPane extends JPanel {
 		this.useOddsrat_.setLayout(null);
 		this.useOddsrat_.setBackground(this.optionsPanel_.getBackground());
 		this.useOddsrat_.setForeground(Project.getFontColor_());
-		this.useOddsrat_.setBounds(350, 27, 150, 15);
+		this.useOddsrat_.setBounds(200, 20, 230, 15);
 		this.optionsPanel_.add(this.useOddsrat_);
+		
+		if (this.sort_odds_by_lowest == null) {
+			this.sort_odds_by_lowest = new JCheckBox("Sort by Lowest Odds");
+		}
+		this.sort_odds_by_lowest.setVisible(true);
+		this.sort_odds_by_lowest.setLayout(null);
+		this.sort_odds_by_lowest.setBackground(this.optionsPanel_.getBackground());
+		this.sort_odds_by_lowest.setForeground(Project.getFontColor_());
+		this.sort_odds_by_lowest.setBounds(200, 37, 230, 15);
+		this.optionsPanel_.add(this.sort_odds_by_lowest);
+		
+		if (this.useGeoDist_ == null) {
+			this.useGeoDist_ = new JCheckBox("Hypergeometric P-Value");
+		}
+		this.useGeoDist_.setVisible(true);
+		this.useGeoDist_.setLayout(null);
+		this.useGeoDist_.setBackground(this.optionsPanel_.getBackground());
+		this.useGeoDist_.setForeground(Project.getFontColor_());
+		this.useGeoDist_.setBounds(200, 61, 250, 15);
+		this.optionsPanel_.add(this.useGeoDist_);
+		
+		if (this.sort_by_lowest_Geo == null) {
+			this.sort_by_lowest_Geo = new JCheckBox("Sort by Lowest P-Value");
+		}
+		this.sort_by_lowest_Geo.setVisible(true);
+		this.sort_by_lowest_Geo.setLayout(null);
+		this.sort_by_lowest_Geo.setBackground(this.optionsPanel_.getBackground());
+		this.sort_by_lowest_Geo.setForeground(Project.getFontColor_());
+		this.sort_by_lowest_Geo.setBounds(200, 78, 250, 15);
+		this.optionsPanel_.add(sort_by_lowest_Geo);
+		
 		if (this.useCsf_ == null) {
 			this.useCsf_ = new JCheckBox("CSF");
 		}
@@ -618,6 +633,7 @@ public class ActMatrixPane extends JPanel {
 		this.useCsf_.setForeground(Project.getFontColor_());
 		this.useCsf_.setBounds(10, 44, 100, 15);
 		this.optionsPanel_.add(this.useCsf_);
+		
 		/*
 		 * More powerful than the "Apply Options" button, doesn't just resort
 		 * the matrix but instead rebuilds the entire matrix along with the back panel.
@@ -626,7 +642,6 @@ public class ActMatrixPane extends JPanel {
 		 * noticable with large samples, but much less noticable with small samples.
 		 */
 		this.resort_ = new JButton("Rebuild"); 
-
 		this.resort_.setBounds(700, 50, 200, 30);
 		this.resort_.setVisible(true);
 		this.resort_.setLayout(null);
@@ -658,7 +673,7 @@ public class ActMatrixPane extends JPanel {
 					JLabel label = new JLabel("Warning! You must view at least");
 					label.setBounds(10, 10, 280, 15);
 					backP.add(label);
-					JLabel label3 = new JLabel("one sample at a time.");
+					JLabel label3 = new JLabel("One sample at a time.");
 					label3.setBounds(10, 25, 280, 15);
 					backP.add(label3);
 
@@ -732,19 +747,19 @@ public class ActMatrixPane extends JPanel {
 		this.export_.setVisible(true);
 		this.export_.setLayout(null);
 		this.export_.setForeground(Project.getFontColor_());
-
 		this.optionsPanel_.add(this.export_);
+		
 		if (this.moveUnmappedToEnd == null) {
 			this.moveUnmappedToEnd = new JCheckBox("Unmapped at end of list");
 			this.moveUnmappedToEnd.setSelected(true);
 		}
 		this.moveUnmappedToEnd.setVisible(true);
 		this.moveUnmappedToEnd.setLayout(null);
-		this.moveUnmappedToEnd
-				.setBackground(this.optionsPanel_.getBackground());
+		this.moveUnmappedToEnd.setBackground(this.optionsPanel_.getBackground());
 		this.moveUnmappedToEnd.setForeground(Project.getFontColor_());
-		this.moveUnmappedToEnd.setBounds(500, 10, 200, 15);
+		this.moveUnmappedToEnd.setBounds(500, 78, 200, 15);
 		this.optionsPanel_.add(this.moveUnmappedToEnd);
+		
 		if (this.includeRepseq_ == null) {
 			this.includeRepseq_ = new JCheckBox("Include Sequence-Ids");
 			this.includeRepseq_.setSelected(false);
@@ -753,8 +768,9 @@ public class ActMatrixPane extends JPanel {
 		this.includeRepseq_.setLayout(null);
 		this.includeRepseq_.setForeground(Project.getFontColor_());
 		this.includeRepseq_.setBackground(this.optionsPanel_.getBackground());
-		this.includeRepseq_.setBounds(500, 27, 200, 15);
+		this.includeRepseq_.setBounds(500, 44, 200, 15);
 		this.optionsPanel_.add(this.includeRepseq_);
+		
 		if (this.dispIncomplete_ == null) {
 			this.dispIncomplete_ = new JCheckBox("Display incomplete ECs");
 			this.dispIncomplete_.setSelected(false);
@@ -763,8 +779,9 @@ public class ActMatrixPane extends JPanel {
 		this.dispIncomplete_.setLayout(null);
 		this.dispIncomplete_.setForeground(Project.getFontColor_());
 		this.dispIncomplete_.setBackground(this.optionsPanel_.getBackground());
-		this.dispIncomplete_.setBounds(500, 44, 200, 15);
+		this.dispIncomplete_.setBounds(500, 61, 200, 15);
 		this.optionsPanel_.add(this.dispIncomplete_);
+		
 		if (this.maxVisField_ == null) {
 			this.maxVisField_ = new JTextField(
 					(int) Math.round(this.maxVisVal_));
@@ -774,7 +791,6 @@ public class ActMatrixPane extends JPanel {
 		this.maxVisField_.setVisible(true);
 
 		this.resort_ = new JButton("Apply options");
-
 		this.resort_.setBounds(700, 10, 200, 30);
 		this.resort_.setVisible(true);
 		this.resort_.setLayout(null);
@@ -785,6 +801,81 @@ public class ActMatrixPane extends JPanel {
 			}
 		});
 		this.optionsPanel_.add(this.resort_);
+		
+		if (this.bySumcheck_ != null||this.useGeoDist_!=null||this.useOddsrat_!=null) {
+			if (this.bySumcheck_.isSelected()) {
+				System.out.println("one");
+				this.sort_by_lowest_Geo.setSelected(false);
+				this.sort_odds_by_lowest.setSelected(false);
+				System.out.println("\nquicksort\n");
+				quicksortSum();
+				this.ecMatrix_ = removeDuplicates();
+				System.out.println("\nquicksort done\n");
+				System.out.println("bySum");
+			}
+			else {
+				System.out.println("two");
+				sortEcsbyNameQuickSort();
+				this.ecMatrix_ = removeDuplicates();
+				System.out.println("byName");
+			}
+			if(this.useGeoDist_.isSelected()){
+				System.out.println("three");
+				this.useOddsrat_.setSelected(false);
+				this.sort_odds_by_lowest.setSelected(false);
+				if(this.sort_by_lowest_Geo.isSelected()){
+					System.out.println("four");
+					this.bySumcheck_.setSelected(false);
+					System.out.println("by Dist");
+					quicksortGeoDist();
+					this.ecMatrix_ = removeDuplicates();
+				}
+				else if(this.bySumcheck_.isSelected()){
+					System.out.println("five");
+					quicksortSum();
+					this.ecMatrix_ = removeDuplicates();
+					System.out.println("\nquicksort done\n");
+					System.out.println("bySum");
+				}
+				else{
+					System.out.println("six");
+					sortEcsbyNameQuickSort();
+					this.ecMatrix_ = removeDuplicates();
+					System.out.println("byName");
+				}
+			}
+			if(this.useOddsrat_.isSelected()){
+				System.out.println("seven");
+				this.useGeoDist_.setSelected(false);
+				this.sort_by_lowest_Geo.setSelected(false);
+				if(this.sort_odds_by_lowest.isSelected()){
+					System.out.println("eight");
+					this.bySumcheck_.setSelected(false);
+					System.out.println("sort by Odds");
+					quicksortOdds();
+					this.ecMatrix_ = removeDuplicates();
+				}
+				else if(this.bySumcheck_.isSelected()){
+					System.out.println("nine");
+					quicksortSum();
+					this.ecMatrix_ = removeDuplicates();
+					System.out.println("\nquicksort done\n");
+					System.out.println("bySum");
+				}
+				else{
+					System.out.println("ten");
+					sortEcsbyNameQuickSort();
+					this.ecMatrix_ = removeDuplicates();
+					System.out.println("byName");
+				}
+			}
+		} 
+		else {
+			System.out.println("eleven");
+			sortEcsbyNameQuickSort();
+			this.ecMatrix_ = removeDuplicates();
+			System.out.println("byName");
+		}
 	}
 
 	private void resort() {
@@ -949,9 +1040,29 @@ public class ActMatrixPane extends JPanel {
 				}
 			}
 			addEcButton(ecNr, ecCnt);
-			if (this.useOddsrat_.isSelected()) {
+			
+			if(this.useOddsrat_.isSelected()){
+				this.useGeoDist_.setSelected(false);
+			}
+			else if(this.useGeoDist_.isSelected()){
+				this.useOddsrat_.setSelected(false);
+			}
+			
+			if (this.useOddsrat_.isSelected()&&!this.useGeoDist_.isSelected()) {
+				//System.out.println("Odds ratio");
 				showOdds(ecNr, ecCnt);
-			} else {
+			} 
+			else if(!this.useOddsrat_.isSelected()&&!this.useGeoDist_.isSelected()){
+				//System.out.println("not odds");
+				showValues(ecNr, ecCnt);
+			}
+			
+			if (this.useGeoDist_.isSelected()&&!this.useOddsrat_.isSelected()) {
+				showHypergeometricDistribution(ecNr, ecCnt);
+				//System.out.println("Hyper");
+			}
+			else if(!this.useGeoDist_.isSelected()&&!this.useOddsrat_.isSelected()){
+				//System.out.println("not hyper");
 				showValues(ecNr, ecCnt);
 			}
 		}
@@ -967,11 +1078,14 @@ public class ActMatrixPane extends JPanel {
 	}
 	//prints the ec matrix, but in place of the ecs the odds ratios are used
 	private void showOdds(Line ecNr, int index) {
+		
 		if (ecNr.isSumline_()) {
 			addSumLineVals(ecNr, index);
 			return;
 		}
 		int uncompleteOffset = 0;
+		ArrayList<Double> odds_list = new ArrayList<Double>();
+		ArrayList<JLabel> odd_labels = new ArrayList<JLabel>();
 		if (!ecNr.getEc_().isCompleteEc()) {
 			uncompleteOffset = 50;
 		}
@@ -981,7 +1095,15 @@ public class ActMatrixPane extends JPanel {
 				float b = (float) (this.sums.arrayLine_[smpCnt] - a);
 				float c = ecNr.sum_ - a;
 				float d = this.sums.sum_ - a - b - c;
+				
+				odds_list.add(Double.parseDouble(String.valueOf(odds(a, b, c, d))));
 				this.label_ = new JLabel(String.valueOf(odds(a, b, c, d)));
+				odd_labels.add(this.label_);
+				
+				if(this.includeRepseq_.isSelected()){
+					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				}
+				
 				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
 				if (this.includeRepseq_.isSelected()) {
 					final int indexY = index;
@@ -995,11 +1117,9 @@ public class ActMatrixPane extends JPanel {
 					 * Popup menu that comes up when you right click any of the ECs when
 					 * the "include sequence id" option in selected
 					 */
-					mItem.addActionListener(new ActionListener()
-					{
+					mItem.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
-							EcNr ecTmp = new EcNr(
-									((Line) ActMatrixPane.this.ecMatrix_
+							EcNr ecTmp = new EcNr(((Line) ActMatrixPane.this.ecMatrix_
 											.get(popupIndexY)).getEc_());
 							ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 									.get(popupIndexY)).arrayLine_[indexX]);
@@ -1163,6 +1283,10 @@ public class ActMatrixPane extends JPanel {
 			this.label_.setLayout(null);
 			this.displayP_.add(this.label_);
 		}
+		ecNr.setOdd_nums(odds_list);
+		ecNr.setOdds_labels(odd_labels);
+		add_Odd_Colour(ecNr);
+		
 		if (ecNr.sum_ != 0) {
 			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
 			this.lframe.step("adding " + ecNr.sum_);
@@ -1174,8 +1298,257 @@ public class ActMatrixPane extends JPanel {
 		this.label_.setVisible(true);
 		this.label_.setLayout(null);
 		this.displayP_.add(this.label_);
+		
 	}
+	
+	private void add_Odd_Colour(Line ecNr){
+		for(int i = 0;i<ecNr.getOdds_labels().size();i++){
+			if (!ecNr.getOdds_labels().get(i).getText().equals("Infinity")) {
+				double odd_Num = Double.parseDouble(ecNr.getOdds_labels().get(i).getText());
+				if (odd_Num == ecNr.getLowest_odds()) {
+					ecNr.getOdds_labels().get(i).setBackground(Color.YELLOW);
+					ecNr.getOdds_labels().get(i).setOpaque(true);
+				}
+			}
+		}
+	}
+	
+	private void showHypergeometricDistribution(Line ecNr, int index){
+		int total_ec = 0;
+		ArrayList<Double> hype_dist = new ArrayList<Double>(); 
+		ArrayList<JLabel> geo_labels = new ArrayList<JLabel>();
+		if (ecNr.isSumline_()) {
+			addSumLineVals(ecNr, index);
+			return;
+		}
+		int uncompleteOffset = 0;
+		if (!ecNr.getEc_().isCompleteEc()) {
+			uncompleteOffset = 50;
+		}
+		//finding the total amount of ec's found in all the samples
+		for(int i = 0; i<ecNr.arrayLine_.length; i++){
+			total_ec += (float) (this.sums.arrayLine_[i]);
+		}
+		for (int smpCnt = 0; smpCnt < ecNr.arrayLine_.length; smpCnt++) {
+				float x = (float) ecNr.arrayLine_[smpCnt];
+				float n = (float) (this.sums.arrayLine_[smpCnt]);
+				float K = ecNr.sum_;
+				float M = total_ec;
+				
+				HypergeometricDistribution tmp_dist = new HypergeometricDistribution((int)M,(int)K,(int)n);
+				hype_dist.add(tmp_dist.probability((int)x));
+				this.label_ = new JLabel(String.valueOf((tmp_dist.probability((int)x))));
+				geo_labels.add(this.label_);
+				if(this.includeRepseq_.isSelected()){
+					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				}
+				this.label_.setToolTipText(String.valueOf((tmp_dist.probability((int)x))));
+				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
+				if (this.includeRepseq_.isSelected()) {
+					final int indexY = index;
+					final int indexX = smpCnt;
+					JMenuItem mItem = new JMenuItem("Export");
+					menuPopup = new JPopupMenu();
 
+					menuPopup.add(mItem);
+					ActMatrixPane.this.setComponentPopupMenu(menuPopup);
+					/*
+					 * Popup menu that comes up when you right click any of the ECs when
+					 * the "include sequence id" option in selected
+					 */
+					mItem.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e) {
+							EcNr ecTmp = new EcNr(((Line) ActMatrixPane.this.ecMatrix_
+											.get(popupIndexY)).getEc_());
+							ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
+									.get(popupIndexY)).arrayLine_[indexX]);
+							ArrayList<ConvertStat> reps = new ArrayList();
+							for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
+									.get(popupIndexX)).conversions_.size(); statsCnt++) {
+								String test = (((ConvertStat) ((Sample) Project.samples_
+										.get(popupIndexX)).conversions_
+										.get(statsCnt)).getDesc_());
+								if ((ecTmp.name_
+										.contentEquals(((ConvertStat) ((Sample) Project.samples_
+												.get(popupIndexX)).conversions_
+												.get(statsCnt)).getEcNr_()))
+										&& !test.contains("\t")) {
+									reps.add((ConvertStat) ((Sample) Project.samples_
+											.get(popupIndexX)).conversions_
+											.get(statsCnt));
+								}
+							}
+
+							String test = "";
+							String test2 = "";
+							for (int i = reps.size() - 1; i >= 0; i--) {
+								if ((reps.get(i) == null)) {
+								} else {
+									test = ((ConvertStat) reps.get(i))
+											.getDesc_();
+									// System.out.println("1  "+test);
+									if (test.contains("\t")) {
+										reps.set(i, null);
+									} else {
+										// innerloop:
+										for (int j = i - 1; j >= 0; j--) {
+											if ((reps.get(j) == null)) {
+											} else {
+												test2 = ((ConvertStat) reps
+														.get(j)).getDesc_();
+												// System.out.println("2  "+
+												// test2);
+												if (test.contains(test2)) {
+													reps.set(j, null);
+												}
+											}
+										}
+									}
+								}
+							}
+							for (int i = reps.size() - 1; i >= 0; i--) {
+								if (reps.get(i) == null) {
+									reps.remove(i);
+								}
+							}
+
+							String sampName = ((Sample) Project.samples_
+									.get(popupIndexX)).name_;
+							ExportReps(reps, ecTmp, sampName);
+						}
+					});
+					/*
+					 * Opens up the window when you left click the ECs with "include sequence ids"
+					 * selected
+					 */
+					this.label_.addMouseListener(new MouseListener()
+							{
+								public void mouseClicked(MouseEvent e) {
+									if (SwingUtilities.isRightMouseButton(e)
+											|| e.isControlDown()) {
+										System.out
+												.println("Right Button Pressed");
+										ActMatrixPane.this.menuPopup.show(
+												e.getComponent(), e.getX(),
+												e.getY());
+										popupIndexY = indexY;
+										popupIndexX = indexX;
+									} else {
+										EcNr ecTmp = new EcNr(
+												((Line) ActMatrixPane.this.ecMatrix_
+														.get(indexY)).getEc_());
+										ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
+												.get(indexY)).arrayLine_[indexX]);
+										ArrayList<ConvertStat> reps = new ArrayList();
+										for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
+												.get(indexX)).conversions_
+												.size(); statsCnt++) {
+											String test = (((ConvertStat) ((Sample) Project.samples_
+													.get(indexX)).conversions_
+													.get(statsCnt)).getDesc_());
+											if ((ecTmp.name_
+													.contentEquals(((ConvertStat) ((Sample) Project.samples_
+															.get(indexX)).conversions_
+															.get(statsCnt))
+															.getEcNr_()))
+													&& !test.contains("\t")) {
+												reps.add((ConvertStat) ((Sample) Project.samples_
+														.get(indexX)).conversions_
+														.get(statsCnt));
+											}
+										}
+
+										String test = "";
+										String test2 = "";
+										for (int i = reps.size() - 1; i >= 0; i--) {
+											if ((reps.get(i) == null)) {
+											} else {
+												test = ((ConvertStat) reps
+														.get(i)).getDesc_();
+												// System.out.println("1  "+test);
+												if (test.contains("\t")) {
+													reps.set(i, null);
+												} else {
+													// innerloop:
+													for (int j = i - 1; j >= 0; j--) {
+														if ((reps.get(j) == null)) {
+														} else {
+															test2 = ((ConvertStat) reps
+																	.get(j))
+																	.getDesc_();
+															// System.out.println("2  "+
+															// test2);
+															if (test.contains(test2)) {
+																reps.set(j,
+																		null);
+															}
+														}
+													}
+												}
+											}
+										}
+										for (int i = reps.size() - 1; i >= 0; i--) {
+											if (reps.get(i) == null) {
+												reps.remove(i);
+											}
+										}
+
+										String sampName = ((Sample) Project.samples_
+												.get(indexX)).name_;
+										RepseqFrame repFrame = new RepseqFrame(
+												reps, ecTmp, sampName);
+									}
+								}
+
+								public void mouseEntered(MouseEvent e) {
+								}
+
+								public void mouseExited(MouseEvent e) {
+								}
+
+								public void mousePressed(MouseEvent e) {
+								}
+
+								public void mouseReleased(MouseEvent e) {
+								}
+							});
+				}
+			this.label_.setBounds(50 + (smpCnt + 1) * 130, uncompleteOffset
+					+ 50 + index * 15, 130, 15);
+			this.label_.setVisible(true);
+			this.label_.setLayout(null);
+			this.displayP_.add(this.label_);
+		}
+		
+		ecNr.setDist_nums(hype_dist);
+		ecNr.setGeo_labels(geo_labels);
+		add_Geo_Dist_Colour(ecNr);
+		
+		if (ecNr.sum_ != 0) {
+			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
+			this.lframe.step("adding " + ecNr.sum_);
+		} else {
+			this.label_ = new JLabel("0");
+		}
+		this.label_.setBounds(50 + (ecNr.arrayLine_.length + 1) * 130,
+				uncompleteOffset + 50 + index * 15, 130, 15);
+		this.label_.setVisible(true);
+		this.label_.setLayout(null);
+		this.displayP_.add(this.label_);
+		
+	}
+	
+	private void add_Geo_Dist_Colour(Line ecNr){
+		for(int i = 0;i<ecNr.getGeo_labels().size();i++){
+			double geo_Num = Double.parseDouble(ecNr.getGeo_labels().get(i).getText());
+			if(geo_Num==ecNr.getLowest_dist_num()){
+				ecNr.getGeo_labels().get(i).setBackground(Color.YELLOW);
+				ecNr.getGeo_labels().get(i).setOpaque(true);
+			}
+		}
+	}
+	
 	private void showValues(Line ecNr, int index) {// Prints the ec matrix
 		if (ecNr.isSumline_()) {
 			addSumLineVals(ecNr, index);
@@ -1188,8 +1561,10 @@ public class ActMatrixPane extends JPanel {
 		}
 		for (int smpCnt = 0; smpCnt < ecNr.arrayLine_.length; smpCnt++) {
 			if (ecNr.arrayLine_[smpCnt] != 0.0D) {
-				this.label_ = new JLabel(
-						String.valueOf((int) ecNr.arrayLine_[smpCnt]));
+				this.label_ = new JLabel(String.valueOf((int) ecNr.arrayLine_[smpCnt]));
+				if(this.includeRepseq_.isSelected()){
+					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				}
 				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
 				if (this.includeRepseq_.isSelected()) {
 					final int indexY = index;
@@ -1431,8 +1806,7 @@ public class ActMatrixPane extends JPanel {
 		}
 		for (int smpCnt = 0; smpCnt < ecNr.arrayLine_.length; smpCnt++) {
 			if (ecNr.arrayLine_[smpCnt] != 0.0D) {
-				this.label_ = new JLabel(
-						String.valueOf((int) ecNr.arrayLine_[smpCnt]));
+				this.label_ = new JLabel(String.valueOf((int) ecNr.arrayLine_[smpCnt]));
 				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
 			} else {
 				this.label_ = new JLabel("0");
@@ -1896,8 +2270,47 @@ public class ActMatrixPane extends JPanel {
 		unCompleteMover();
 		Loadingframe.close();
 	}
+	
+	private void quicksortGeoDist() {
+		this.lframe.bigStep("Sorting ECs");
+		System.out.println("Sorting ECs by Geometric Distribution");
+		quicksortDist(0, this.ecMatrix_.size() - 1);
+		//reverseMatrix();
+		this.ecMatrix_ = removeDuplicates();
+		System.out.println("Done Sorting");
+		if (this.moveUnmappedToEnd != null) {
+			if (this.moveUnmappedToEnd.isSelected()) {
+				unmappedMover();
+			}
+		} else {
+			unmappedMover();
+		}
+
+		unCompleteMover();
+		Loadingframe.close();
+	}
+	
+	private void quicksortOdds(){
+		this.lframe.bigStep("Sorting ECs");
+		System.out.println("Sorting ECs by Odds");
+		quicksortOdds(0, this.ecMatrix_.size() - 1);
+		//reverseMatrix();
+		this.ecMatrix_ = removeDuplicates();
+		System.out.println("Done Sorting");
+		if (this.moveUnmappedToEnd != null) {
+			if (this.moveUnmappedToEnd.isSelected()) {
+				unmappedMover();
+			}
+		} else {
+			unmappedMover();
+		}
+
+		unCompleteMover();
+		Loadingframe.close();
+	}
 
 	private void quicksort(int low, int high) {
+		System.out.println("quicksort");
 		int i = low, j = high;
 		int pivot = this.ecMatrix_.get(high - 1).sum_;
 		while (i <= j) {
@@ -1917,6 +2330,50 @@ public class ActMatrixPane extends JPanel {
 			quicksort(low, j);
 		if (i < high)
 			quicksort(i, high);
+	}
+	
+	private void quicksortDist(int low, int high) {
+		int i = low, j = high;
+		double pivot = this.ecMatrix_.get(high - 1).lowest_dist_num;
+		while (i <= j) {
+			while (this.ecMatrix_.get(i).lowest_dist_num < pivot) {
+				i++;
+			}
+			while (this.ecMatrix_.get(j).lowest_dist_num > pivot) {
+				j--;
+			}
+			if (i <= j) {
+				switchEcs(i, j);
+				i++;
+				j--;
+			}
+		}
+		if (low < j)
+			quicksortDist(low, j);
+		if (i < high)
+			quicksortDist(i, high);
+	}
+	
+	private void quicksortOdds(int low, int high) {
+		int i = low, j = high;
+		double pivot = this.ecMatrix_.get(high - 1).lowest_odds;
+		while (i <= j) {
+			while (this.ecMatrix_.get(i).lowest_odds < pivot) {
+				i++;
+			}
+			while (this.ecMatrix_.get(j).lowest_odds > pivot) {
+				j--;
+			}
+			if (i <= j) {
+				switchEcs(i, j);
+				i++;
+				j--;
+			}
+		}
+		if (low < j)
+			quicksortOdds(low, j);
+		if (i < high)
+			quicksortOdds(i, high);
 	}
 
 	private void reverseMatrix() {

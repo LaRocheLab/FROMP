@@ -8,6 +8,8 @@ import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
 import Prog.PathButt;
+import Panes.ActMatrixPane;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,12 +23,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 public class PathwayEcMat extends JPanel {
@@ -41,6 +46,7 @@ public class PathwayEcMat extends JPanel {
 	boolean dataChanged_; // Boolean to state whether or not the data has been changed
 	int activesamps_; // The number of active samples
 	DataProcessor proc_; // DataProcessor object to parse through the sample files and do the heavy computations required to build this matrix
+	ActMatrixPane actMat_;
 	boolean allset = true; 
 	int xWidth; 
 	int yOffset_; 
@@ -56,6 +62,7 @@ public class PathwayEcMat extends JPanel {
 	private JLabel mouseOverDisp; // A label which displays more information about what the user is mousing over
 	private JPanel mouseOverP; 
 	private JCheckBox useCsf_; 
+	JPopupMenu ecMenuPopup;
 	boolean firstTime = true; 
 	private JButton rebuild; // A button added to the options panel used to fully rebuild this matrix as well as the options
 
@@ -88,6 +95,20 @@ public class PathwayEcMat extends JPanel {
 		System.out.println("finished 0");
 		this.allset = true;
 	}
+	
+	
+
+	public ActMatrixPane getActMat_() {
+		return actMat_;
+	}
+
+
+
+	public void setActMat_(ActMatrixPane actMat_) {
+		this.actMat_ = actMat_;
+	}
+
+
 
 	private void prepaint() {
 		removeAll(); // Removes everything from the back panel
@@ -195,19 +216,6 @@ public class PathwayEcMat extends JPanel {
 
 			lframe.step("Sorting path:"
 					+ ((PathwayWithEc) this.origPaths_.get(pthCnt)).id_);
-			/*
-			 * int ecCnt=0; for (; changed; ecCnt < arr1.size()) while(changed
-			 * && (ecCnt < arr1.size())) { changed = false; ecCnt = 0; continue;
-			 * if (((Line)arr1.get(ecCnt)).sum_ == 0) {
-			 * ((Line)arr1.get(ecCnt)).setSum(); } double sum1 =
-			 * ((Line)arr1.get(ecCnt)).sum_; double sum2 = 0.0D; for (int
-			 * pathCnt2 = ecCnt + 1; pathCnt2 < arr1.size(); pathCnt2++)merge
-			 * sort java { if (((Line)arr1.get(pathCnt2)).sum_ == 0) {
-			 * ((Line)arr1.get(pathCnt2)).setSum(); } sum2 =
-			 * ((Line)arr1.get(pathCnt2)).sum_; if (sum1 >= sum2) { break; }
-			 * switchLines(arr1, ecCnt, pathCnt2); ecCnt++; pathCnt2++; changed
-			 * = true; lframe.step("Switch"); } ecCnt++; }
-			 */
 			quicksortEcsBySum(arr1, 0, arr1.size() - 1);
 			int j = 0;
 			for (int i = arr1.size() - 1; i > j; i--) {
@@ -261,17 +269,6 @@ public class PathwayEcMat extends JPanel {
 			lframe.step("Sorting path:"
 					+ ((PathwayWithEc) this.origPaths_.get(pthCnt)).id_);
 			quicksortEcsByName(arr1, 0, arr1.size() - 1);
-			/*
-			 * int ecCnt1=0; for (; changed; ecCnt1 < arr1.size()) while(changed
-			 * && (ecCnt1 < arr1.size())) { changed = false; ecCnt1 = 0;
-			 * continue; Line line1 = (Line)arr1.get(ecCnt1); EcNr sum1 =
-			 * line1.getEcNr_(); for (int ecCnt2 = ecCnt1 + 1; ecCnt2 <
-			 * arr1.size(); ecCnt2++) { lframe.step("comparing"); Line line2 =
-			 * (Line)arr1.get(ecCnt2); EcNr sum2 = line2.getEcNr_(); if
-			 * (sum1.name_.compareTo(sum2.name_) <= 0) { break; }
-			 * switchLines(arr1, ecCnt1, ecCnt2); ecCnt1++; ecCnt2++; changed =
-			 * true; } ecCnt1++; }
-			 */
 		}
 		Loadingframe.close();
 		System.out.println("sortbyName");
@@ -313,17 +310,6 @@ public class PathwayEcMat extends JPanel {
 		setsums();
 
 		QuickSortPathsBySum(0, this.pwSums_.length - 1);
-		/*
-		 * int pathCnt=0; for (; changed; pathCnt < this.pwSums_.length)
-		 * while(changed && (pathCnt < this.pwSums_.length)) { changed = false;
-		 * pathCnt = 0; continue; lframe.step("Sorting path:" +
-		 * ((PathwayWithEc)this.origPaths_.get(pathCnt)).id_); sum1 =
-		 * this.pwSums_[pathCnt]; sum2 = 0.0D; for (int pathCnt2 = pathCnt + 1;
-		 * pathCnt2 < this.pwSums_.length; pathCnt2++) { sum2 =
-		 * this.pwSums_[pathCnt2]; if (sum1 >= sum2) { break; }
-		 * switchPaths(pathCnt, pathCnt2); pathCnt++; pathCnt2++; changed =
-		 * true; } pathCnt++; }
-		 */
 		int j = 0;
 		for (int i = pwSums_.length - 1; i > j; i--) {
 			switchPaths(i, j);
@@ -372,19 +358,6 @@ public class PathwayEcMat extends JPanel {
 
 	private void sortPathsByName() {
 		quicksortPathsByName(0, origPaths_.size() - 1);
-		/*
-		 * boolean changed = true; String sum1 = ""; String sum2 = ""; int
-		 * pathCnt=0; for (; changed; pathCnt < this.arrays_.size())
-		 * while(changed && (pathCnt < this.arrays_.size())) { changed = false;
-		 * 
-		 * pathCnt = 0; continue; sum1 =
-		 * ((PathwayWithEc)this.origPaths_.get(pathCnt)).id_; sum2 = ""; for
-		 * (int pathCnt2 = pathCnt + 1; pathCnt2 < this.arrays_.size();
-		 * pathCnt2++) { sum2 =
-		 * ((PathwayWithEc)this.origPaths_.get(pathCnt2)).id_; if
-		 * (!id1Bigger(sum1, sum2)) { break; } switchPaths(pathCnt, pathCnt2);
-		 * pathCnt++; pathCnt2++; changed = true; } pathCnt++; }
-		 */
 	}
 
 	private void quicksortPathsByName(int low, int high) {
@@ -725,6 +698,7 @@ public class PathwayEcMat extends JPanel {
 								.getFullName();
 						lframe.step("drawing " + line);
 						JButton ecButt = new JButton(line);
+						ecButt.setText(line);
 						ecButt.setBounds(10, 50 + lineH * lineCounter + arrH
 								* arrCounter + smpNameSpace * smpSpaceCnt,
 								xdist, lineH);
@@ -733,8 +707,7 @@ public class PathwayEcMat extends JPanel {
 						ecButt.setLayout(null);
 						ecButt.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								EcWithPathway ecWp = PathwayEcMat.this.proc_
-										.getEc(((EcNr) ((PathwayWithEc) PathwayEcMat.this.origPaths_
+								EcWithPathway ecWp = PathwayEcMat.this.proc_.getEc(((EcNr) ((PathwayWithEc) PathwayEcMat.this.origPaths_
 												.get(pathIndex)).ecNrs_
 												.get(ecIndex)).name_);
 								if (ecWp != null) {
@@ -744,6 +717,32 @@ public class PathwayEcMat extends JPanel {
 								} else {
 									System.out.println("no paths");
 								}
+							}
+						});
+						
+						ecButt.addMouseListener(new MouseListener(){
+							//ability to export seqence files and file lca from the pathway ec matrix
+							public void mouseClicked(MouseEvent e) {
+								if (SwingUtilities.isRightMouseButton(e)|| e.isControlDown()) {
+									if (actMat_.includeRepseq_.isSelected()) {
+										actMat_.ecMenuPopup.show(e.getComponent(), e.getX(),e.getY());
+										JButton  button1 = (JButton) e.getComponent();
+										System.out.println(button1.getText());
+										actMat_.buttonName = button1.getText();
+									}
+								}
+							}
+							
+							public void mousePressed(MouseEvent paramMouseEvent) {
+							}
+							
+							public void mouseReleased(MouseEvent paramMouseEvent) {
+							}
+							
+							public void mouseEntered(MouseEvent paramMouseEvent) {	
+							}
+							
+							public void mouseExited(MouseEvent paramMouseEvent) {	
 							}
 						});
 						this.displayP_.add(ecButt);

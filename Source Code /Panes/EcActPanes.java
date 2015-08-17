@@ -150,6 +150,7 @@ public class EcActPanes extends JPanel {
 			if ((this.pwEcMat == null) || (Project.dataChanged)) {
 				this.pwEcMat = new PathwayEcMat(this.pwList_, this.activeProj_,
 						this.proc_, this.showPanel_.getSize());
+				this.pwEcMat.setActMat_(this.actMat_);
 			}
 			this.showPanel_.add(this.pwEcMat);
 			invalidate();

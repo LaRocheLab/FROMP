@@ -79,7 +79,7 @@ public class ActMatrixPane extends JPanel {
 	private JCheckBox useGeoDist_;
 	private JCheckBox sort_by_lowest_Geo;
 	private JCheckBox moveUnmappedToEnd; // Checkbox to moved unmapped ecs to the end of the list. Default is checked
-	private JCheckBox includeRepseq_; // Checkbox to include the ability to click on ecs from samples and see the sequence ids which are associated with that ec
+	public JCheckBox includeRepseq_; // Checkbox to include the ability to click on ecs from samples and see the sequence ids which are associated with that ec
 	private JCheckBox showOptions_; // Checkbox to show the options panel
 	private JCheckBox dispIncomplete_; // Checkbox to display incomplete ecs
 	private JCheckBox useCsf_; // Checkbox to use CSF
@@ -109,12 +109,12 @@ public class ActMatrixPane extends JPanel {
 	JLabel selectedSampText; 
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
 	JPopupMenu menuPopup;// Popup menu used for right clicking and exporting sequence ids
-	JPopupMenu ecMenuPopup;
+	static JPopupMenu ecMenuPopup;
 	int popupIndexY; // Coordinates to facilitate the exporting of sequence ids
 	int popupIndexX; 
 	int yIndex1 = 520;
 	int yIndex2 = 0;
-	String buttonName;
+	static String buttonName;
 	boolean exportAll = false;
 	boolean findLca = false;
 	ArrayList<String> ec_list;
@@ -1763,13 +1763,9 @@ public class ActMatrixPane extends JPanel {
 			if (((ConvertStat) reps.get(repCnt)).getPfamToEcAmount_() > amount) {
 				amount = ((ConvertStat) reps.get(repCnt)).getPfamToEcAmount_();
 			}
-			// test=((ConvertStat)reps.get(repCnt)).getDesc_();
-			// if(!test.contains("\t")){
 			text = text + ((ConvertStat) reps.get(repCnt)).getDesc_();
 			text = text + "\n";
-			// }
 		}
-		// System.out.println("Text:\n"+text);
 		try {
 			String sampleName;
 			if (sampName.contains(".out")) {
@@ -1779,10 +1775,8 @@ public class ActMatrixPane extends JPanel {
 			}
 			File file = new File(basePath_ + "RepSeqIDs" + File.separator
 					+ sampleName + "-" + ecNr.name_ + ".txt");
-			// file.getParentFile().mkdirs();
 			PrintWriter printWriter = new PrintWriter(file);
 			printWriter.println("" + text);
-			// System.out.println("Text:\n"+text);
 			printWriter.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -1829,8 +1823,6 @@ public class ActMatrixPane extends JPanel {
 					+ ecNr.getEc_().nameSuppl());
 			this.names_.setName(ecNr.getEc_().name_);
 			ec_list.add(ecNr.getEc_().name_);
-			//System.out.println(ecNr.getEc_().name_
-					//+ ecNr.getEc_().nameSuppl());
 			int uncompleteOffset = 0;
 			if (!ecNr.getEc_().isCompleteEc()) {
 				uncompleteOffset = 50;
@@ -1841,7 +1833,6 @@ public class ActMatrixPane extends JPanel {
 			this.names_.setLayout(null);
 			this.names_.setForeground(Project.getFontColor_());
 			this.lframe.step(this.names_.getText());
-			//System.out.println(names_.getText());
 			final int i = index;
 			ecNr.getEc_().amount_ = ecNr.sum_;
 			
@@ -1850,30 +1841,24 @@ public class ActMatrixPane extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					PwInfoFrame frame = new PwInfoFrame(
 							((Line) ActMatrixPane.this.ecMatrix_.get(i))
-									.getEc_(), ActMatrixPane.this.actProj_,
-							Project.overall_);
+									.getEc_(), ActMatrixPane.this.actProj_,Project.overall_);
 					
 				}
 			});
 			if (this.includeRepseq_.isSelected()) {
-				JMenuItem mItem2 = new JMenuItem("Without finding Lowest Common Ancestor");
-				JMenuItem mItem3 = new JMenuItem("Without finding Lowest Common Ancestor");
-				JMenuItem mItem4 = new JMenuItem("With finding Lowest Common Ancestor");
-				JMenuItem mItem5 = new JMenuItem("With finding Lowest Common Ancestor");
 				ecMenuPopup = new JPopupMenu();
-				JMenu submenu = new JMenu("Export all Sequences to one file");
-			    submenu.add(mItem2);
-			    submenu.add(mItem4);
+				JMenuItem export_one = new JMenuItem("Export all Sequences to one file");
+				JMenuItem lca_one = new JMenuItem("Find Lowest Common Ancestor of all Sequences to one file");
+			    JMenuItem export_individual = new JMenuItem("Export all Sequences to individual files");
+			    JMenuItem lca_individual = new JMenuItem("Find Lowest Common Ancestor of all Sequences to individual files");
+			   
 			    
-			    
-			    JMenu submenu2 = new JMenu("Export all Sequences to individual files");
-			    submenu2.add(mItem3);
-			    submenu2.add(mItem5);
-			    
-			    ecMenuPopup.add(submenu);
-			    ecMenuPopup.add(submenu2);
+			    ecMenuPopup.add(export_one);
+			    ecMenuPopup.add(export_individual);
+			    ecMenuPopup.add(lca_one);
+			    ecMenuPopup.add(lca_individual);
 				
-				mItem2.addActionListener(new ActionListener(){
+				export_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
@@ -1890,7 +1875,7 @@ public class ActMatrixPane extends JPanel {
 					}
 					
 				});
-				mItem3.addActionListener(new ActionListener(){
+				export_individual.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
@@ -1906,7 +1891,7 @@ public class ActMatrixPane extends JPanel {
 					}
 					
 				});
-				mItem4.addActionListener(new ActionListener(){
+				lca_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
@@ -1928,7 +1913,7 @@ public class ActMatrixPane extends JPanel {
 					}
 					
 				});
-				mItem5.addActionListener(new ActionListener(){
+				lca_individual.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
@@ -1949,10 +1934,8 @@ public class ActMatrixPane extends JPanel {
 				//export all sequences for that EC number
 				this.names_.addMouseListener(new MouseListener() {
 					public void mouseClicked(MouseEvent e) {
-						if (SwingUtilities.isRightMouseButton(e)
-								|| e.isControlDown()) {
-							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),
-									e.getX(), e.getY());
+						if (SwingUtilities.isRightMouseButton(e)|| e.isControlDown()) {
+							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),e.getX(), e.getY());
 							buttonName = e.getComponent().getName();
 					
 						}

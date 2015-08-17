@@ -114,10 +114,11 @@ public class ActMatrixPane extends JPanel {
 	int popupIndexX; 
 	int yIndex1 = 520;
 	int yIndex2 = 0;
-	static String buttonName;
+	String buttonName;
 	boolean exportAll = false;
 	boolean findLca = false;
 	ArrayList<String> ec_list;
+	ArrayList<String> ec_batch;
 	String fileName = "";
 	String sampleName = "";
 	String chosen_ec = "";
@@ -1851,12 +1852,14 @@ public class ActMatrixPane extends JPanel {
 				JMenuItem lca_one = new JMenuItem("Find Lowest Common Ancestor of all Sequences to one file");
 			    JMenuItem export_individual = new JMenuItem("Export all Sequences to individual files");
 			    JMenuItem lca_individual = new JMenuItem("Find Lowest Common Ancestor of all Sequences to individual files");
+			    JMenuItem add_to_batch = new JMenuItem("Add EC to batch find LCA");
 			   
 			    
 			    ecMenuPopup.add(export_one);
 			    ecMenuPopup.add(export_individual);
 			    ecMenuPopup.add(lca_one);
 			    ecMenuPopup.add(lca_individual);
+			    ecMenuPopup.add(add_to_batch);
 				
 				export_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
@@ -1926,6 +1929,18 @@ public class ActMatrixPane extends JPanel {
 						lframe.step(buttonName);
 						cmdExportSequences(buttonName,sampleName, exportAll,findLca);
 						findLca = false;
+						Loadingframe.close();
+					}
+					
+				});
+				add_to_batch.addActionListener(new ActionListener(){
+					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						lframe = new Loadingframe(); // opens the loading frame
+						lframe.bigStep("Exporting Sequences/Finding Lca.."); 
+						lframe.step(buttonName);
 						Loadingframe.close();
 					}
 					

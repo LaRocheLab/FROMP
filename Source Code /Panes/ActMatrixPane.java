@@ -855,6 +855,18 @@ public class ActMatrixPane extends JPanel {
 			this.exportEcs_ = new JButton("Write ECs to file");
 			this.exportEcs_.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					//JFrame frame =  new JFrame("Write Ecs to file");
+					//frame.setVisible(true);
+					//JOptionPane.showMessageDialog(null,strIN, "Warning", JOptionPane.WARNING_MESSAGE);
+					String numExport = JOptionPane.showInputDialog(null,"Enter Number of Ecs to export","All");
+					if(checkValidExportNum(numExport)){
+						if(numExport.equalsIgnoreCase("all")){
+							num_export_ec = 0;
+						}
+						else{
+							num_export_ec = Integer.parseInt(numExport);
+						}
+					
 					JFileChooser fChoose_ = new JFileChooser(Project.workpath_);
 					fChoose_.setFileSelectionMode(0);
 					fChoose_.setBounds(100, 100, 200, 20);
@@ -888,6 +900,7 @@ public class ActMatrixPane extends JPanel {
 							e1.printStackTrace();
 						}
 					}
+				}
 				}
 			});
 		}
@@ -936,6 +949,7 @@ public class ActMatrixPane extends JPanel {
 						}
 					}
 				}
+				
 			});
 		}
 		this.export_.setBounds(10, 10, 170, 20);
@@ -1491,6 +1505,12 @@ public class ActMatrixPane extends JPanel {
 		
 	}
 	
+	/**
+	 * Colours the lowest found odd ratios in each Ec number between the samples yellow
+	 * 
+	 * @param ecNr Ec Number being considered
+	 * @author Jennifer Terpstra
+	 */
 	private void add_Odd_Colour(Line ecNr){
 		for(int i = 0;i<ecNr.getOdds_labels().size();i++){
 			if (!ecNr.getOdds_labels().get(i).getText().equals("Infinity")) {
@@ -1503,6 +1523,14 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	
+	/**
+	 * Displays all calculated hypergeometric distribution p values for each
+	 * each per sample. 
+	 * @param ecNr Ec number
+	 * @param index
+	 * 
+	 * @author Jennifer Terpstra
+	 */
 	public void showHypergeometricDistribution(Line ecNr, int index){
 		int total_ec = 0;
 		ArrayList<Double> hype_dist = new ArrayList<Double>(); 
@@ -1729,6 +1757,12 @@ public class ActMatrixPane extends JPanel {
 		
 	}
 	
+	/**
+	 * Colours the lowest found p values in each Ec number between the samples yellow
+	 * 
+	 * @param ecNr Ec Number being considered
+	 * @author Jennifer Terpstra
+	 */
 	private void add_Geo_Dist_Colour(Line ecNr){
 		for(int i = 0;i<ecNr.getGeo_labels().size();i++){
 			double geo_Num = Double.parseDouble(ecNr.getGeo_labels().get(i).getText());
@@ -2014,7 +2048,6 @@ public class ActMatrixPane extends JPanel {
 		this.displayP_.add(this.label_);
 	}
 	//adds all of the EC name buttons on the left hand side of the ec matrix
-	//ADD EC BUTTON
 	private void addEcButton(Line ecNr, int index) {
 		this.lframe.bigStep("Adding ecButtons");
 		if (!ecNr.isSumline_()) {
@@ -2061,7 +2094,7 @@ public class ActMatrixPane extends JPanel {
 			  
 				
 				export_one.addActionListener(new ActionListener(){
-					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//If the user clicks on the "Export all Sequences to one file" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -2078,7 +2111,7 @@ public class ActMatrixPane extends JPanel {
 					
 				});
 				export_individual.addActionListener(new ActionListener(){
-					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//If the user clicks on the "Export all Sequences to individual files" in the popup menu, sets the exportAll boolean to false
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -2094,7 +2127,7 @@ public class ActMatrixPane extends JPanel {
 					
 				});
 				lca_one.addActionListener(new ActionListener(){
-					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//If the user clicks on the "Find Lowest Common Ancestor of all Sequences to one file" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -2116,7 +2149,7 @@ public class ActMatrixPane extends JPanel {
 					
 				});
 				lca_individual.addActionListener(new ActionListener(){
-					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
+					//If the user clicks on the "Find Lowest Common Ancestor of all Sequences to individual files" in the popup menu, sets the exportAll boolean to false
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -2202,10 +2235,6 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 
-	// This method is no longer implemented in Bubble Sort, I just left the name
-	// incase unforeseen parts of the program were dependant upon it
-	// changed method name from sortEcsbyNameQuickSort() to
-	// sortEcsbyNameBubble()
 	private void sortEcsbyNameQuickSort() {
 		if (this.sortedEc) {
 			return;
@@ -2341,6 +2370,7 @@ public class ActMatrixPane extends JPanel {
 			tmp++;
 		}
 	}
+	
 	//exports the whole matrix to the input path
 	public void exportMat(String path, boolean inCsf) {
 		String separator = "\t";
@@ -2427,13 +2457,23 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	
+	/**
+	 * Method is used to export all the ec numbers from the ec matrix into a
+	 * .txt file. The number of ecs to be exported can be specified.
+	 * @param path Filepath to where the .txt will be saved
+	 * @param numEc Number of ECs to export from the ec matrix
+	 * 
+	 * @author Jennifer Terpstra
+	 */
 	public void exportEcNums(String path, int numEc){
 		System.out.println("Export ecs");
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
 			out.write("Ec Activity EC Numbers");
-			System.out.println("Writing file");
 			int exportNum = 0;
+			/*Used for command line to check if the input entered for the number of
+			 * ec to be exported is a valid input.
+			 */
 			if(numEc == 0){
 				exportNum = this.ecMatrix_.size();
 			}
@@ -2441,6 +2481,7 @@ public class ActMatrixPane extends JPanel {
 				exportNum = numEc;
 			}
 			else{
+				//exits the program if the input is found to be a invalid input
 				System.out.println("Number of exported EC's cannot be less than 0 or greater than total number of EC's");
 				System.exit(0);
 			}
@@ -2985,6 +3026,42 @@ private void warningFrame(String strIN) {
 
 	JOptionPane.showMessageDialog(null,strIN, 
 		    "Warning", JOptionPane.WARNING_MESSAGE);
+}
+
+/**
+ * Checks the user input for how many ecs to export to see if it is a valid number
+ * or if they wish to export all ecs. 
+ * 
+ * @param strIN User input into the input message
+ * @return If the string is a valid input for exporting ecs
+ * 
+ * @author Jennifer Terpstra
+ */
+private boolean checkValidExportNum(String strIN){
+	if(strIN==null){
+		return false;
+	}
+	if(strIN.equalsIgnoreCase("all")){
+		return true;
+	}
+	try{
+		int num = Integer.parseInt(strIN);
+		if(num < 0){
+			warningFrame("Number cannot be less than 0");
+			return false;
+		}
+		else if(num > this.ecMatrix_.size()){
+			warningFrame("Number cannot be greater than the number of Ecs in the matrix");
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	catch (NumberFormatException e){
+		warningFrame("Input must be a number");
+		return false;
+	}
 }
 
 /**

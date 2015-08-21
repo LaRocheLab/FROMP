@@ -127,7 +127,8 @@ public class StartFromp {
 				} else if (args.length == 4) {
 					if ((checkPath(args[0])) && (checkPath(args[1]))) {
 						CmdController cmd;
-						if (checkOptions(args[2]) && checkEC(args[3])) {
+						if (checkOptions(args[2]) && (checkEC(args[3])||
+								((args[2].contentEquals("pvalue")||args[2].contentEquals("eclist"))&&checkNum(args[3])))) {
 							cmd = new CmdController(args);
 						} else {
 							System.out.println("Wrong option or ec input");
@@ -308,6 +309,12 @@ public class StartFromp {
 		if(options.contentEquals("lca")){
 			ret = true;
 		}
+		if(options.contentEquals("eclist")){
+			ret = true;
+		}
+		if(options.contentEquals("pvalue")){
+			ret = true;
+		}
 		return ret;
 	}
 
@@ -338,6 +345,16 @@ public class StartFromp {
 			}
 		}
 		return ret;
+	}
+	
+	private static boolean checkNum(String options){
+		try{
+			Integer.parseInt(options);
+		}
+		catch(NumberFormatException e){
+			return false;
+		}
+		return true;
 	}
 
 	private static void printOptions() { // Prints out the options for this program to the cmdline

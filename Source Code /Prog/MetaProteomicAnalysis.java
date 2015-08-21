@@ -10,6 +10,7 @@ import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -71,6 +72,7 @@ public class MetaProteomicAnalysis {
 	String fileName = "";
 	tableAndChartData returnData = new tableAndChartData();
 	boolean commandLineOn = false;
+	boolean batchCommandOn = false;
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator;
 	
 	public MetaProteomicAnalysis(){
@@ -165,7 +167,13 @@ public class MetaProteomicAnalysis {
 		String fasta = "";
 		String subfasta = "";
 		// Save the unique identifier into tryptic peptide
-		Object[] keys  = seq.keySet().toArray();
+		Object[] keys = null;
+		try {
+			keys  = seq.keySet().toArray();
+		} catch(NullPointerException e){
+			System.out.println("No values found within sequence file for ec: " + sampleName);
+			System.exit(0);
+		}
 		for(int j = 0; j < keys.length; j++){
 			trypticPeptide.setUniqueIdentifier(keys[j].toString());
 			peptideList = new ArrayList<String>();
@@ -202,11 +210,12 @@ public class MetaProteomicAnalysis {
 	 * 
 	 * @param peptide Arraylist of tryptic peptides to be anazyed for their lowest common ancestor
 	 */
-	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline) {
+	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline, boolean batchCommand) {
 		System.out.println("getPeptide");
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
 		//File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
+		batchCommandOn = batchCommand;
 		// Main Get query line
 		String query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 		// Peptide sequences to query
@@ -581,6 +590,7 @@ public class MetaProteomicAnalysis {
 			System.out.println("File exported to " +  File.separator
 					+ "Excel" + File.separator + fileName + "TotalTaxon" + ".xls");
 		}
+		
 		returnData.setTable1(table);
 		returnData.setFileName(fileName);
 		
@@ -611,6 +621,11 @@ public class MetaProteomicAnalysis {
 			exportExcel(table2, "Summary", fileName);
 			System.out.println("File exported to " +  File.separator
 				+ "Excel" + File.separator + fileName + "Summary" + ".xls");
+		}
+		else if(batchCommandOn){
+			exportTableTxt(table2, "TotalTaxon", fileName);
+			System.out.println("File exported to " +  File.separator
+					+ "Tables" + File.separator + fileName + "Summary" + ".txt");
 		}
 		returnData.setTable2(table2);
 	}
@@ -662,6 +677,40 @@ public class MetaProteomicAnalysis {
 			ActMatrixPane pane = new ActMatrixPane();
 			pane.infoFrame(File.separator + "Excel" + File.separator + fileName + tableName + ".xls", "Excel");
 		}
+	}
+	
+	public void exportTableTxt(JTable table, String tableName, String fileName){
+		File file = new File(basePath_ + "Tables" + File.separator + fileName + tableName + ".txt");
+		StringBuffer tableContent = new StringBuffer();
+		TableModel model = table.getModel();
+		String separator = "\t";
+		try {
+			FileWriter fileWriter = new FileWriter(file);
+			String column = "";
+			for (int i = 0; i < model.getColumnCount(); i++) {
+                column += model.getColumnName(i) + separator;
+            }
+			fileWriter.write(column + "\n");
+		    int j = 0;
+		    String data = "";
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (j = 0; j < model.getColumnCount(); j++) {
+                	if(j!=model.getColumnCount()-1){
+                		data += model.getValueAt(i, j).toString() + separator;
+                	}
+                	else{
+                		data += model.getValueAt(i, j).toString() + "\n";
+                	}
+                	
+                }
+                fileWriter.write(data);
+             }
+            fileWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**

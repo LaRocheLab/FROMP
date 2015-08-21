@@ -26,8 +26,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -71,6 +74,7 @@ public class ActMatrixPane extends JPanel {
 	private static final long serialVersionUID = 1L; //
 	private ArrayList<Sample> smpList_; // ArrayList of samples to be used to generate the matrix
 	private JButton export_; // Button to export the matrix to a file
+	private JButton exportEcs_; //button to export just the ec numbers from the matrix into a file
 	private JButton names_; // Tmp variable for building a a list of EC buttons
 	private JLabel label_; 
 	private JCheckBox bySumcheck_; // Check box used to sort matrix by sum
@@ -94,7 +98,7 @@ public class ActMatrixPane extends JPanel {
 	private int sumIndexSmp; 
 	private int numChart = 0;
 	private JButton resort_; // JBotton to resort the array
-	private ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
+	public ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
 	private Loadingframe lframe; // Loading frame
 	private Line unmappedSum; 
 	private Line mappedSum; 
@@ -114,9 +118,11 @@ public class ActMatrixPane extends JPanel {
 	int popupIndexX; 
 	int yIndex1 = 520;
 	int yIndex2 = 0;
+	int num_export_ec = 0;
 	String buttonName;
 	boolean exportAll = false;
 	boolean findLca = false;
+	boolean batchCommand = false;
 	ArrayList<String> ec_list;
 	ArrayList<String> ec_batch;
 	String fileName = "";
@@ -493,7 +499,7 @@ public class ActMatrixPane extends JPanel {
 				//cannot find the lowest common ancestor of a unselected ec number and sample
 				System.out.println("Lowest Common Section");
 				MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), oneFile);
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), oneFile, batchCommand);
 				}
 
 				drawChart = true;
@@ -528,10 +534,61 @@ public class ActMatrixPane extends JPanel {
 			yIndex2 = 0;
 		}
 	});
-	clear.setBounds(1000, 35, 150, 20);
+	clear.setBounds(1000, 35, 170, 20);
 	clear.setVisible(true);
 	clear.setLayout(null);
 	clear.setForeground(Project.getFontColor_());
+	
+	JButton load_Ec_Batch = new JButton("Load EC Batch file");
+	load_Ec_Batch.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Load EC Batch file");
+			String path_ = "";
+			try {
+				path_ = new File("").getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			JFileChooser fChoose_ = new JFileChooser(path_);
+			fChoose_.setFileSelectionMode(0);
+			fChoose_.setBounds(100, 100, 200, 20);
+			fChoose_.setVisible(true);
+			File file = new File(path_);
+			fChoose_.setSelectedFile(file);;
+			fChoose_.setFileFilter(new FileFilter() {
+				public boolean accept(File f) {
+					if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))){
+						return true;
+					}
+					return false;
+				}
+
+				public String getDescription() {
+					return ".txt";
+				}
+			});
+			if (fChoose_.showSaveDialog(ActMatrixPane.this.getParent()) == 0) {
+				try {
+					String path = fChoose_.getSelectedFile().getCanonicalPath();
+					File filename = new File(path);
+					boolean isBatch = checkBatchFile(filename);
+					if(isBatch){
+						System.out.println("Is batch");
+						runLcaBatchFile(filename);
+					}
+					else{
+						warningFrame("This is not a EC number batch file!");
+					}
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		
+			}
+		}
+	});
+	load_Ec_Batch.setBounds(1000, 60, 170, 20);
+	load_Ec_Batch.setVisible(true);
 	
 
 	
@@ -557,9 +614,100 @@ public class ActMatrixPane extends JPanel {
 	this.optionsPanel_.add(sampleList);
 	this.optionsPanel_.add(ec_combo);
 	this.optionsPanel_.add(smp_combo);
+	this.optionsPanel_.add(load_Ec_Batch);
 	
 	}
 	
+	/**
+	 * Returns true if the loaded batch file into find lowest common ancestor is
+	 * in the proper format for a read in batch file of ec numbers
+	 * @param filename File to be read
+	 * @return true if the file is in the correct format of an ec numbers batch file
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private boolean checkBatchFile(File filename){
+		try {
+			if (filename != null) {
+				BufferedReader reader = new BufferedReader(new FileReader(
+						filename));
+				StringBuilder sb = new StringBuilder();
+				// reading in the first two lines of the buffered file. The
+				// correct format is a desciption string at the start
+				// followed by a number in the format #.#.#.#
+				String line = reader.readLine();
+				if(line==null){
+					line = "";
+				}
+				if (!line.isEmpty() && (line != null)) {
+					if (line.contains("Ec Activity EC Numbers")) {
+						line = reader.readLine();
+						System.out.println(line);
+						if (line.matches("[0-999].[0-999].[0-999].[0-999]")) {
+							return true;
+						} else {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				}
+			}
+			else{
+				return false;	
+			}
+			
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private void runLcaBatchFile(File filename){
+		LinkedHashMap<String,String> seq_for_lca;
+		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		if (filename != null) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(
+						filename));
+				StringBuilder sb = new StringBuilder();
+				//skipping the desciption line
+				reader.readLine();
+				String line = reader.readLine();
+				//skipping the desciption line of the batch file
+				while(line!=null){
+					lframe = new Loadingframe(); // opens the loading frame
+					lframe.bigStep("Calculating LCA..");
+					lframe.step(line);
+					exportAll = true;
+					seq_for_lca = cmdExportSequences(line,sampleName, true, false);
+					fileName = line +  "-";
+					returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
+					Loadingframe.close();
+					drawChart = true;
+					if (numChart < 1) {
+						prepaintLCA();
+					} else {
+						drawChart();
+					}
+					line = reader.readLine();
+				}
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel
 		this.lframe.bigStep("Adding options");
 		this.lframe.step("Buttons");
@@ -632,7 +780,7 @@ public class ActMatrixPane extends JPanel {
 		this.useCsf_.setLayout(null);
 		this.useCsf_.setBackground(this.optionsPanel_.getBackground());
 		this.useCsf_.setForeground(Project.getFontColor_());
-		this.useCsf_.setBounds(10, 44, 100, 15);
+		this.useCsf_.setBounds(10, 61, 100, 15);
 		this.optionsPanel_.add(this.useCsf_);
 		
 		/*
@@ -703,8 +851,54 @@ public class ActMatrixPane extends JPanel {
 		});
 		this.optionsPanel_.add(this.resort_);
 
+		if (this.exportEcs_ == null) {
+			this.exportEcs_ = new JButton("Write ECs to file");
+			this.exportEcs_.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fChoose_ = new JFileChooser(Project.workpath_);
+					fChoose_.setFileSelectionMode(0);
+					fChoose_.setBounds(100, 100, 200, 20);
+					fChoose_.setVisible(true);
+					File file = new File(Project.workpath_);
+					fChoose_.setSelectedFile(file);
+					fChoose_.setFileFilter(new FileFilter() {
+						public boolean accept(File f) {
+							if ((f.isDirectory())
+									|| (f.getName().toLowerCase()
+											.endsWith(".txt"))) {
+								return true;
+							}
+							return false;
+						}
+
+						public String getDescription() {
+							return ".txt";
+						}
+					});
+					if (fChoose_.showSaveDialog(null) == 0) {
+						try {
+							String path = fChoose_.getSelectedFile()
+									.getCanonicalPath();
+							if (!path.endsWith(".txt")) {
+								path = path + ".txt";
+								System.out.println(".txt");
+							}
+							ActMatrixPane.this.exportEcNums(path, num_export_ec);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			});
+		}
+		this.exportEcs_.setBounds(10, 38, 170, 20);
+		this.exportEcs_.setVisible(true);
+		this.exportEcs_.setLayout(null);
+		this.exportEcs_.setForeground(Project.getFontColor_());
+		this.optionsPanel_.add(this.exportEcs_);
+		
 		if (this.export_ == null) {
-			this.export_ = new JButton("Write to file");
+			this.export_ = new JButton("Write Matrix to file");
 			this.export_.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser fChoose_ = new JFileChooser(Project.workpath_);
@@ -744,11 +938,12 @@ public class ActMatrixPane extends JPanel {
 				}
 			});
 		}
-		this.export_.setBounds(10, 10, 150, 20);
+		this.export_.setBounds(10, 10, 170, 20);
 		this.export_.setVisible(true);
 		this.export_.setLayout(null);
 		this.export_.setForeground(Project.getFontColor_());
 		this.optionsPanel_.add(this.export_);
+		
 		
 		if (this.moveUnmappedToEnd == null) {
 			this.moveUnmappedToEnd = new JCheckBox("Unmapped at end of list");
@@ -814,6 +1009,7 @@ public class ActMatrixPane extends JPanel {
 				System.out.println("bySum");
 			}
 			else {
+				System.out.println("one");
 				sortEcsbyNameQuickSort();
 				this.ecMatrix_ = removeDuplicates();
 				System.out.println("byName");
@@ -834,6 +1030,7 @@ public class ActMatrixPane extends JPanel {
 					System.out.println("bySum");
 				}
 				else{
+					System.out.println("two");
 					sortEcsbyNameQuickSort();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("byName");
@@ -856,6 +1053,7 @@ public class ActMatrixPane extends JPanel {
 					System.out.println("bySum");
 				}
 				else{
+					System.out.println("three");
 					sortEcsbyNameQuickSort();
 					this.ecMatrix_ = removeDuplicates();
 					System.out.println("byName");
@@ -863,6 +1061,7 @@ public class ActMatrixPane extends JPanel {
 			}
 		} 
 		else {
+			System.out.println("four");
 			sortEcsbyNameQuickSort();
 			this.ecMatrix_ = removeDuplicates();
 			System.out.println("byName");
@@ -1304,7 +1503,7 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	
-	private void showHypergeometricDistribution(Line ecNr, int index){
+	public void showHypergeometricDistribution(Line ecNr, int index){
 		int total_ec = 0;
 		ArrayList<Double> hype_dist = new ArrayList<Double>(); 
 		ArrayList<JLabel> geo_labels = new ArrayList<JLabel>();
@@ -1852,14 +2051,14 @@ public class ActMatrixPane extends JPanel {
 				JMenuItem lca_one = new JMenuItem("Find Lowest Common Ancestor of all Sequences to one file");
 			    JMenuItem export_individual = new JMenuItem("Export all Sequences to individual files");
 			    JMenuItem lca_individual = new JMenuItem("Find Lowest Common Ancestor of all Sequences to individual files");
-			    JMenuItem add_to_batch = new JMenuItem("Add EC to batch find LCA");
+			  
 			   
 			    
 			    ecMenuPopup.add(export_one);
 			    ecMenuPopup.add(export_individual);
 			    ecMenuPopup.add(lca_one);
 			    ecMenuPopup.add(lca_individual);
-			    ecMenuPopup.add(add_to_batch);
+			  
 				
 				export_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
@@ -1909,7 +2108,7 @@ public class ActMatrixPane extends JPanel {
 						seq_for_lca = cmdExportSequences(buttonName,sampleName, exportAll, findLca);
 						String file_name = buttonName+"-";
 						MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-						meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
+						meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true, batchCommand);
 						exportAll = false;
 						findLca = false;
 						Loadingframe.close();
@@ -1929,18 +2128,6 @@ public class ActMatrixPane extends JPanel {
 						lframe.step(buttonName);
 						cmdExportSequences(buttonName,sampleName, exportAll,findLca);
 						findLca = false;
-						Loadingframe.close();
-					}
-					
-				});
-				add_to_batch.addActionListener(new ActionListener(){
-					//If the user clicks on the "Export all Sequences" in the popup menu, sets the exportAll boolean to true
-					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						lframe = new Loadingframe(); // opens the loading frame
-						lframe.bigStep("Exporting Sequences/Finding Lca.."); 
-						lframe.step(buttonName);
 						Loadingframe.close();
 					}
 					
@@ -2061,7 +2248,7 @@ public class ActMatrixPane extends JPanel {
 			quicksortNames(i, high);
 	}
 
-	private ArrayList<Line> removeDuplicates() {
+	public ArrayList<Line> removeDuplicates() {
 		ArrayList<Line> tempLine = new ArrayList<Line>();
 		ArrayList<String> tempName = new ArrayList<String>();
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
@@ -2239,6 +2426,71 @@ public class ActMatrixPane extends JPanel {
 			exportMat(path, inCsf);
 		}
 	}
+	
+	public void exportEcNums(String path, int numEc){
+		System.out.println("Export ecs");
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			out.write("Ec Activity EC Numbers");
+			System.out.println("Writing file");
+			int exportNum = 0;
+			if(numEc == 0){
+				exportNum = this.ecMatrix_.size();
+			}
+			else if(numEc > 0&& numEc <= this.ecMatrix_.size()){
+				exportNum = numEc;
+			}
+			else{
+				System.out.println("Number of exported EC's cannot be less than 0 or greater than total number of EC's");
+				System.exit(0);
+			}
+			for (int y = 0; y < exportNum; y++) {
+				Line line = (Line) this.ecMatrix_.get(y);
+				if ((!line.getEc_().isCompleteEc())
+						&& (!this.dispIncomplete_.isSelected())) {
+					break;
+				}
+				out.newLine();
+				out.write(line.getEc_().name_);
+				
+			}
+			out.close();
+		} catch (IOException e) {
+			File f = new File(path);
+			f.mkdirs();
+			if (!path.endsWith(".txt")) {
+				Calendar cal = Calendar.getInstance();
+
+				int day = cal.get(5);
+				int month = cal.get(2) + 1;
+				int year = cal.get(1);
+
+				String date = day + "." + month + "." + year;
+				path = path + File.separator + "EcActMat" + "."
+						+ Project.workpath_ + "." + date;
+			}
+			String tmpPath = path + ".txt";
+			File file1 = new File(tmpPath);
+			if (file1.exists() && !file1.isDirectory()) {
+				int i = 1;
+				while ("Pigs" != "Fly") {// loop forever
+					tmpPath = path + "(" + i + ")" + ".txt";
+					File file2 = new File(tmpPath);
+					if (file2.exists() && !file2.isDirectory()) {
+						i++;
+						continue;
+					} else {
+						path = path + "(" + i + ")";
+						break;
+					}
+				}
+			}
+			path = path + ".txt";
+			System.out.println("Here");
+			exportEcNums(path, numEc);
+		}
+		
+	}
 
 	private void quicksortSum() {
 		this.lframe.bigStep("Sorting ECs");
@@ -2259,11 +2511,10 @@ public class ActMatrixPane extends JPanel {
 		Loadingframe.close();
 	}
 	
-	private void quicksortGeoDist() {
+	public void quicksortGeoDist() {
 		this.lframe.bigStep("Sorting ECs");
 		System.out.println("Sorting ECs by Geometric Distribution");
 		quicksortDist(0, this.ecMatrix_.size() - 1);
-		//reverseMatrix();
 		this.ecMatrix_ = removeDuplicates();
 		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
@@ -2282,7 +2533,7 @@ public class ActMatrixPane extends JPanel {
 		this.lframe.bigStep("Sorting ECs");
 		System.out.println("Sorting ECs by Odds");
 		quicksortOdds(0, this.ecMatrix_.size() - 1);
-		//reverseMatrix();
+		
 		this.ecMatrix_ = removeDuplicates();
 		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
@@ -2710,7 +2961,7 @@ public class ActMatrixPane extends JPanel {
 				file_name = chosen_sample + "-" + ecNr_.name_;
 			}
 			MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-			meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true);
+			meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true, batchCommand);
 		}
 		fileName = sampName_;
 		return seq_for_lca;

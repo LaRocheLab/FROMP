@@ -49,14 +49,11 @@ public class DataProcessor {
 	static final String pathwayList = "list" + File.separator + "pathway.list";
 	static final String ecNamesPath = "list" + File.separator + "ec2go.txt"; 
 	static final String rnListPath = "list" + File.separator + "rn.list"; 
-	static final String mapTitleList = "list" + File.separator
-			+ "map_title.tab"; //
-	static final String pfamToRnToEcPath_ = "list" + File.separator
-			+ "pfam2Ec2Rn.txt"; //
-	static final String interproToGOPath_ = "list" + File.separator
-			+ "interpro2GO.txt"; //
-	static final String interproToECPath_ = "list" + File.separator
-			+ "interPro_kegg.tsv"; 
+	static final String mapTitleList = "list" + File.separator + "map_title.tab"; //
+	static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt"; //
+	static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt"; //
+	static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
+	static final String cog2GO_ = "list" + File.separator + "cog2go.txt";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -859,59 +856,7 @@ public class DataProcessor {
 									}
 								}
 							}
-							/*
-							 * //NOT IMPORTANT else if
-							 * (newEnz[2].equalsIgnoreCase("IPR")){//if the
-							 * sequence was taken in as an Interpro.
-							 * System.out.println
-							 * ("newEnz[2].equalsIgnoreCase(\"IPR\")");
-							 * System.out.println("IPR name: "+newEnz[0]);
-							 * ArrayList<String[]> enzL =
-							 * convertInterpro(newEnz);//If you chance this to
-							 * "enzL = convertInterproOld(newEnz)" Then it will
-							 * change from direct to indirect mapping of
-							 * Interpro reads
-							 * System.out.println("enzL size: "+enzL.size());
-							 * for(int cnt=0;cnt<enzL.size();cnt++){ newEnz =
-							 * (String[])enzL.get(cnt); System.out.println(
-							 * "Looping for IPR conversions to be set into samples"
-							 * ); if (!newEnz[0].isEmpty()) {
-							 * System.out.println("IPR not empty"); ecNr = new
-							 * EcNr(newEnz);
-							 * 
-							 * EcWithPathway ecWP = null; if
-							 * (!ecNr.type_.contentEquals("X")) { if
-							 * ((ecNr.type_.contentEquals("EC")) &&
-							 * (isEc(ecNr.name_))) { System.out.println(
-							 * "Conversion has given good results");
-							 * Project.samples_.get(i).addConvStats(new
-							 * ConvertStat(newEnz[3], ecNr.name_, 0,
-							 * ecNr.amount_, 0)); ecWP = findEcWPath(ecNr);
-							 * this.lFrame_.step("converted" + newEnz[0]); } if
-							 * (ecWP != null) {
-							 * System.out.println("EC Has Pathway"); if
-							 * (!ecNr.isCompleteEc()) { ecNr.incomplete = true;
-							 * } if (isEc(ecNr.name_)) {
-							 * System.out.println("EC added");
-							 * Project.samples_.get(i).addEc(new
-							 * EcWithPathway(ecWP, ecNr));
-							 * Project.legitSamples.remove(i);
-							 * Project.legitSamples.add(i,
-							 * Boolean.valueOf(true)); } } else { if
-							 * (!ecNr.isCompleteEc()) { ecNr.incomplete = true;
-							 * } ecNr.unmapped = true; EcWithPathway unmatched =
-							 * new EcWithPathway(ecNr);
-							 * unmatched.addPathway((Pathway
-							 * )getPathwayList_().get(this.unmatchedIndex));
-							 * Project.samples_.get(i).addEc(unmatched);
-							 * System.out.println("Unmatched EC added");
-							 * 
-							 * } }
-							 * 
-							 * } System.out.println("IPR empty");
-							 * 
-							 * } }
-							 */
+							
 							else if (!newEnz[0].isEmpty()) {
 								ecNr = new EcNr(newEnz);
 								if (ecNr.couldBeEc()) {
@@ -1461,17 +1406,6 @@ public class DataProcessor {
 				retList.add(tmpNr);
 			}
 		}
-
-		// if(!retList.isEmpty()){
-		// System.out.println("Conversion Successful");
-		// for(int i=0;i<retList.size();i++){
-		// String[] strings=retList.get(i);
-		// System.out.println("tmpNr[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3]
-		// );
-		// }
-		// } else{
-		// System.out.println("Conversion unsuccessful");
-		// }
 		return retList;
 	}
 

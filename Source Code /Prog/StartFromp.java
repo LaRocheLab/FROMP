@@ -359,48 +359,58 @@ public class StartFromp {
 
 	private static void printOptions() { // Prints out the options for this program to the cmdline
 		if (arg1 != "h") {
-			System.out.println("The arguements used are invalid!!");
+			System.out.println("The arguements used are invalid");
+			System.out.println();
 			System.out.println("The correct arguements are:");
 		}
 		System.out.println("../java -jar FROMP.jar h for help");
 		System.out.println("../java -jar FROMP.jar d for the pathwaydesigner");
 		System.out.println();
-		System.out
-				.println("../java -jar FROMP.jar 'inputPath' 'outputPath' 'option'");
+		System.out.println("../java -jar FROMP.jar 'inputPath' 'outputPath' 'option'");
 		System.out.println("Options are:");
-		System.out.println("'P' for the pathway pictures");
+		System.out.println("'p' for the pathway pictures");
 		System.out.println("'s' for the pathway-score-matrix");
 		System.out.println("'m' for the pathway-activity-matrix");
 		System.out.println("'e' for the EC-activity-matrix");
 		System.out.println("'f' to export the project as a .frp file");
 		System.out.println("Exported .frp files will be saved in ~/projects");
-		System.out.println();
-		System.out
-				.println("'ec' to export a list of sequence IDs from a file of ec numbers from your input file");
-		System.out
-				.println("To include sequence IDs without a file of ec numbers, add the ec numbers");
-		System.out
-				.println("who's sequence ID you are interested in to your command");
-		System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");
-		System.out.println("");
-		System.out
-				.println("'seq' to export a file of sequences from a .frp file which has the sequence files related to the samples");
-		System.out.println("Sequences will be stored in ~/Sequences");
-		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seq");
-		System.out
-				.println("'seqall' to export a file of sequences from a .frp file which has the sequence files related to the samples into one file per EC number");
-		System.out.println("Sequences will be stored in ~/Sequences");
-		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seqall");
-		System.out.println("");
 		System.out.println("'a' all options");
-		System.out
-				.println("'am' for pathway-score-matrix, pathway-activity-matrix, EC-activity-matrix, and to export as a .frp file");
+		System.out.println("'am' for pathway-score-matrix, pathway-activity-matrix, EC-activity-matrix, and to export as a .frp file");
 		System.out.println("'op' only multisample pictures");
 		System.out.println("'up' only userpathway multisample pictures");
-		System.out.println("");
-		System.out.println("");
-		System.out
-				.println("blanks in the input-path or output-path will lead to errors");
+		System.out.println();
+		System.out.println("'ec' to export a list of sequence IDs from a file of ec numbers from your input file");
+		System.out.println("To include sequence IDs without a file of ec numbers, add the ec numbers");
+		System.out.println("who's sequence ID you are interested in to your command");
+		System.out.println("Sequence ID's will be stored in ~/RepSeqIDs");
+		System.out.println();
+		System.out.println("'seq' to export a file of sequences from a .frp file which has the sequence files related to the samples");
+		System.out.println("Sequences will be stored in ~/Sequences");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seq");
+		System.out.println("'seqall' to export a file of sequences from a .frp file which has the sequence files related to the samples into one file per EC number");
+		System.out.println("Sequences will be stored in ~/Sequences");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' seqall");
+		System.out.println("'eclist' to export all ec numbers from the ec matrix");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' eclist");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' eclist 'number of ecs'");
+		System.out.println("'pvalue' to export all ec numbers from the ec matrix that have been sorted according to lowest hypergeometric distribution pvalue");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' pvalue");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' pvalue 'number of ecs'");
+		System.out.println("'lca' to find the lowest common ancestor for a given sequence file (or list of sequence file paths)."
+				+ "Once the lowest common ancestor is determined the results are exported as both an excel file and a pie chart.");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'sequencePath' lca");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'sequenceListPath' lca");
+		System.out.println("Excel files will be stored in ~/Excel");
+		System.out.println("Piecharts will be stores in ~/PieChart");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'ecNumberListPath' lca");
+		System.out.println("Total Taxon results will be stores in ~/Tables");
+		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' lca 'ec number'");
+		
+		System.out.println();
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("blanks in the input-path or output-path will lead to errors");
 		System.out.println("to solve use braces: (\"inputPath\")");
 	}
 }

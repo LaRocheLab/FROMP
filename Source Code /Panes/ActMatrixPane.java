@@ -1351,18 +1351,14 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									test = ((ConvertStat) reps.get(i))
 											.getDesc_();
-									// System.out.println("1  "+test);
 									if (test.contains("\t")) {
 										reps.set(i, null);
 									} else {
-										// innerloop:
 										for (int j = i - 1; j >= 0; j--) {
 											if ((reps.get(j) == null)) {
 											} else {
 												test2 = ((ConvertStat) reps
 														.get(j)).getDesc_();
-												// System.out.println("2  "+
-												// test2);
 												if (test.contains(test2)) {
 													reps.set(j, null);
 												}
@@ -1391,8 +1387,6 @@ public class ActMatrixPane extends JPanel {
 								public void mouseClicked(MouseEvent e) {
 									if (SwingUtilities.isRightMouseButton(e)
 											|| e.isControlDown()) {
-										System.out
-												.println("Right Button Pressed");
 										ActMatrixPane.this.menuPopup.show(
 												e.getComponent(), e.getX(),
 												e.getY());
@@ -1430,19 +1424,15 @@ public class ActMatrixPane extends JPanel {
 											} else {
 												test = ((ConvertStat) reps
 														.get(i)).getDesc_();
-												// System.out.println("1  "+test);
 												if (test.contains("\t")) {
 													reps.set(i, null);
 												} else {
-													// innerloop:
 													for (int j = i - 1; j >= 0; j--) {
 														if ((reps.get(j) == null)) {
 														} else {
 															test2 = ((ConvertStat) reps
 																	.get(j))
 																	.getDesc_();
-															// System.out.println("2  "+
-															// test2);
 															if (test.contains(test2)) {
 																reps.set(j,
 																		null);
@@ -1605,18 +1595,14 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									test = ((ConvertStat) reps.get(i))
 											.getDesc_();
-									// System.out.println("1  "+test);
 									if (test.contains("\t")) {
 										reps.set(i, null);
 									} else {
-										// innerloop:
 										for (int j = i - 1; j >= 0; j--) {
 											if ((reps.get(j) == null)) {
 											} else {
 												test2 = ((ConvertStat) reps
 														.get(j)).getDesc_();
-												// System.out.println("2  "+
-												// test2);
 												if (test.contains(test2)) {
 													reps.set(j, null);
 												}
@@ -1684,19 +1670,15 @@ public class ActMatrixPane extends JPanel {
 											} else {
 												test = ((ConvertStat) reps
 														.get(i)).getDesc_();
-												// System.out.println("1  "+test);
 												if (test.contains("\t")) {
 													reps.set(i, null);
 												} else {
-													// innerloop:
 													for (int j = i - 1; j >= 0; j--) {
 														if ((reps.get(j) == null)) {
 														} else {
 															test2 = ((ConvertStat) reps
 																	.get(j))
 																	.getDesc_();
-															// System.out.println("2  "+
-															// test2);
 															if (test.contains(test2)) {
 																reps.set(j,
 																		null);
@@ -1842,18 +1824,14 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									test = ((ConvertStat) reps.get(i))
 											.getDesc_();
-									// System.out.println("1  "+test);
 									if (test.contains("\t")) {
 										reps.set(i, null);
 									} else {
-										// innerloop:
 										for (int j = i - 1; j >= 0; j--) {
 											if ((reps.get(j) == null)) {
 											} else {
 												test2 = ((ConvertStat) reps
 														.get(j)).getDesc_();
-												// System.out.println("2  "+
-												// test2);
 												if (test.contains(test2)) {
 													reps.set(j, null);
 												}
@@ -1917,19 +1895,15 @@ public class ActMatrixPane extends JPanel {
 											} else {
 												test = ((ConvertStat) reps
 														.get(i)).getDesc_();
-												// System.out.println("1  "+test);
 												if (test.contains("\t")) {
 													reps.set(i, null);
 												} else {
-													// innerloop:
 													for (int j = i - 1; j >= 0; j--) {
 														if ((reps.get(j) == null)) {
 														} else {
 															test2 = ((ConvertStat) reps
 																	.get(j))
 																	.getDesc_();
-															// System.out.println("2  "+
-															// test2);
 															if (test.contains(test2)) {
 																reps.set(j,
 																		null);
@@ -2085,21 +2059,17 @@ public class ActMatrixPane extends JPanel {
 			    JMenuItem export_individual = new JMenuItem("Export all Sequences to individual files");
 			    JMenuItem lca_individual = new JMenuItem("Find Lowest Common Ancestor of all Sequences to individual files");
 			  
-			   
-			    
 			    ecMenuPopup.add(export_one);
 			    ecMenuPopup.add(export_individual);
 			    ecMenuPopup.add(lca_one);
 			    ecMenuPopup.add(lca_individual);
 			  
-				
 				export_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences to one file" in the popup menu, sets the exportAll boolean to true
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = true;
-						//System.out.println(buttonName);
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
@@ -2116,7 +2086,6 @@ public class ActMatrixPane extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = false;
-						//System.out.println(buttonName);
 						lframe = new Loadingframe(); // opens the loading frame
 						lframe.bigStep("Exporting Sequences..");
 						lframe.step(buttonName); 
@@ -2131,7 +2100,6 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("One file");
 						exportAll = true;
 						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
@@ -2153,7 +2121,6 @@ public class ActMatrixPane extends JPanel {
 					//sends the buttons EC number into cmdExportSequences to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("Many File");
 						exportAll = false;
 						findLca = true;
 						lframe = new Loadingframe(); // opens the loading frame
@@ -2240,7 +2207,6 @@ public class ActMatrixPane extends JPanel {
 			return;
 		}
 		this.lframe.bigStep("Sorting ECs");
-		System.out.println("Sorting ECs");
 		quicksortNames(0, this.ecMatrix_.size() - 1);
 		this.ecMatrix_ = removeDuplicates();
 		System.out.println("Done Sorting");
@@ -2315,7 +2281,6 @@ public class ActMatrixPane extends JPanel {
 	}
 
 	private void sortEcsbySumBubble() {
-		System.out.println("Sum Bubble");
 		if (this.sortedEc) {
 			return;
 		}
@@ -2385,10 +2350,8 @@ public class ActMatrixPane extends JPanel {
 			out.newLine();
 			for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
 				if (((Sample) Project.samples_.get(smpCnt)).inUse) {
-					// out.write(separator);
 					out.write(((Sample) Project.samples_.get(smpCnt)).name_
 							+ separator);
-					//System.out.println(((Sample) Project.samples_.get(smpCnt)).name_);
 				}
 			}
 			out.newLine();
@@ -2466,7 +2429,6 @@ public class ActMatrixPane extends JPanel {
 	 * @author Jennifer Terpstra
 	 */
 	public void exportEcNums(String path, int numEc){
-		System.out.println("Export ecs");
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
 			out.write("Ec Activity EC Numbers");
@@ -2527,7 +2489,6 @@ public class ActMatrixPane extends JPanel {
 				}
 			}
 			path = path + ".txt";
-			System.out.println("Here");
 			exportEcNums(path, numEc);
 		}
 		
@@ -2535,11 +2496,9 @@ public class ActMatrixPane extends JPanel {
 
 	private void quicksortSum() {
 		this.lframe.bigStep("Sorting ECs");
-		System.out.println("Sorting ECs by sum");
 		quicksort(0, this.ecMatrix_.size() - 1);
 		reverseMatrix();
 		this.ecMatrix_ = removeDuplicates();
-		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
 			if (this.moveUnmappedToEnd.isSelected()) {
 				unmappedMover();
@@ -2554,10 +2513,8 @@ public class ActMatrixPane extends JPanel {
 	
 	public void quicksortGeoDist() {
 		this.lframe.bigStep("Sorting ECs");
-		System.out.println("Sorting ECs by Geometric Distribution");
 		quicksortDist(0, this.ecMatrix_.size() - 1);
 		this.ecMatrix_ = removeDuplicates();
-		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
 			if (this.moveUnmappedToEnd.isSelected()) {
 				unmappedMover();
@@ -2572,11 +2529,9 @@ public class ActMatrixPane extends JPanel {
 	
 	private void quicksortOdds(){
 		this.lframe.bigStep("Sorting ECs");
-		System.out.println("Sorting ECs by Odds");
 		quicksortOdds(0, this.ecMatrix_.size() - 1);
 		
 		this.ecMatrix_ = removeDuplicates();
-		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
 			if (this.moveUnmappedToEnd.isSelected()) {
 				unmappedMover();
@@ -2590,7 +2545,6 @@ public class ActMatrixPane extends JPanel {
 	}
 
 	private void quicksort(int low, int high) {
-		System.out.println("quicksort");
 		int i = low, j = high;
 		int pivot = this.ecMatrix_.get(high - 1).sum_;
 		while (i <= j) {
@@ -2723,7 +2677,6 @@ public class ActMatrixPane extends JPanel {
 		EcNr ecTmp;
 
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
-			// System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 			if (ecName.contains(this.ecMatrix_.get(i).getEc_().name_)) {
 				ecTmp = new EcNr(
 						((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
@@ -2751,17 +2704,14 @@ public class ActMatrixPane extends JPanel {
 						if ((reps.get(j) == null)) {
 						} else {
 							test = ((ConvertStat) reps.get(j)).getDesc_();
-							// System.out.println("1  "+test);
 							if (test.contains("\t")) {
 								reps.set(j, null);
 							} else {
-								// innerloop:
 								for (int k = j - 1; k >= 0; k--) {
 									if ((reps.get(k) == null)) {
 									} else {
 										test2 = ((ConvertStat) reps.get(k))
 												.getDesc_();
-										// System.out.println("2  "+ test2);
 										if (test.contains(test2)) {
 											reps.set(k, null);
 										}
@@ -2797,8 +2747,6 @@ public class ActMatrixPane extends JPanel {
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
 			//changed contains to equals!!
 			if (ecName.equals(this.ecMatrix_.get(i).getEc_().name_)) {
-				//System.out.println("cmd" + ecName);
-				//System.out.println(this.ecMatrix_.get(i).getEc_().name_);
 				ecTmp = new EcNr(((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
 				for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++) {
 					ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
@@ -2824,17 +2772,14 @@ public class ActMatrixPane extends JPanel {
 						if ((reps.get(j) == null)) {
 						} else {
 							test = ((ConvertStat) reps.get(j)).getDesc_();
-							// System.out.println("1  "+test);
 							if (test.contains("\t")) {
 								reps.set(j, null);
 							} else {
-								// innerloop:
 								for (int k = j - 1; k >= 0; k--) {
 									if ((reps.get(k) == null)) {
 									} else {
 										test2 = ((ConvertStat) reps.get(k))
 												.getDesc_();
-										// System.out.println("2  "+ test2);
 										if (test.contains(test2)) {
 											reps.set(k, null);
 										}

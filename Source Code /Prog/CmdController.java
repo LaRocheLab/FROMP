@@ -55,7 +55,6 @@ public class CmdController {
 		args_ = args;
 		this.ec_ = new ArrayList<String>();
 		if (args_.length == 2) {
-			//System.out.println("len2\n");
 			if (checkEC(args_[1])) {
 				this.ec_.add(args_[1]);
 			} else if (args_[1].contentEquals("seq")) {
@@ -70,8 +69,6 @@ public class CmdController {
 			this.inputPath_ = getInputPath();
 			System.out.println("input: " + this.inputPath_);
 		} else if (args_.length == 3) {
-			
-			System.out.println("len3\n");
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -137,12 +134,10 @@ public class CmdController {
 					System.out.println(args_[i]);
 				}
 			}else if (args_[2].contentEquals("eclist")||args_[2].contentEquals("pvalue")){
-				System.out.println("add num");
 				this.inputPath_ = getInputPath();
 				this.outPutPath_ = getOutputPath();
 				this.optionsCmd_ = args_[2];
 				System.out.println("input: " + this.inputPath_);
-				System.out.println("eclist or pvalue");
 				this.num_ec_exported = Integer.parseInt(args_[3]);
 				System.out.println("Number " + num_ec_exported);
 			}else {
@@ -179,9 +174,7 @@ public class CmdController {
 
 				String comp = "<userP>";
 				String line = in.readLine();
-				// System.out.println("Entering while loop");
 				while ((line) != null) {
-					// System.out.println("Looping");
 					try {
 						// String line;
 						if (((line) != null) && line.startsWith(comp)) {
@@ -206,7 +199,6 @@ public class CmdController {
 								} else if (f.exists() && !f.isDirectory()) {
 									String name = line.substring(line
 											.lastIndexOf(File.separator));
-									// System.out.println("substring");
 									Color col = new Color(
 											(float) Math.random(),
 											(float) Math.random(),
@@ -239,7 +231,6 @@ public class CmdController {
 									String name = sampleString
 											.substring(sampleString
 													.lastIndexOf(File.separator));
-									// System.out.println("substring");
 									Color col = new Color(
 											(float) Math.random(),
 											(float) Math.random(),
@@ -298,7 +289,6 @@ public class CmdController {
 					ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 							DataProcessor.ecList_, Controller.processor_,
 							new Dimension(12, 12));
-					System.out.println("Place 1\n");
 					System.out.println("Repseqs will be saved at: " + basePath_
 							+ "RepSeqIDs/");
 					for (int i = 0; i < ec_.size(); i++) {
@@ -309,7 +299,6 @@ public class CmdController {
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
 						new Dimension(12, 12));
-				System.out.println("Place 2\n");
 				System.out.println("Repseqs will be saved at: " + basePath_
 						+ "RepSeqIDs/");
 				for (int i = 0; i < ec_.size(); i++) {
@@ -324,7 +313,6 @@ public class CmdController {
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
 						new Dimension(12, 12));
-				System.out.println("Place 3\n");
 				System.out.println("Repseqs will be saved at: " + basePath_
 						+ "RepSeqIDs/");
 				String line = "";
@@ -564,7 +552,7 @@ public class CmdController {
 				}
 			}
 			if ((this.optionsCmd_.contentEquals("eclist"))||this.optionsCmd_.contentEquals("pvalue")){
-				System.out.println("ec list or pvalue");
+				System.out.println("EC list or Pvalue");
 				
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
@@ -606,7 +594,6 @@ public class CmdController {
 				}
 				String tmpPath = projPath + File.separator + "projects"
 						+ File.separator + inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf(".")) + ".frp";
-				System.out.println(tmpPath);
 				controller.saveProject(tmpPath);
 				if (this.optionsCmd_.contentEquals("f")) {
 					System.exit(0);

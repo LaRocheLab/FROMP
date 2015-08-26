@@ -53,7 +53,7 @@ public class DataProcessor {
 	static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt"; //
 	static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt"; //
 	static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
-	static final String cog2GO_ = "list" + File.separator + "cog2go.txt";
+	static final String cog2GOPath_ = "list" + File.separator + "cog2go.txt";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -61,6 +61,7 @@ public class DataProcessor {
 	static final String PF = "Pf"; 
 	static final String RN = "Rn"; 
 	static final String IPR = "IPR"; 
+	static final String COG = "COG";
 	XmlParser parser; // An XML parser, Prog.XMLParser
 	int offCounter = 0; 
 	int counter = 0; 
@@ -88,16 +89,14 @@ public class DataProcessor {
 	BufferedReader pfamToRnToEc_; 
 	BufferedReader interproToGOTxt_;
 	BufferedReader interproToECTxt_; 
+	BufferedReader cogToGoTxt_;
 	PngBuilder build; // PngBuilder to draw the graphics
 	Color sysCol_; 
 	public static ArrayList<PathwayWithEc> pathwayList_; // Array list containing the pathways
 	private static ArrayList<PathwayWithEc> newUserPathList_; // Array list containing the user pathways
 	public static ArrayList<EcWithPathway> ecList_; // Array list containg the ECs
-	boolean reduce = false; //
-							//
-	ArrayList<String> numEcs = new ArrayList<String>(); // Arraylists to
-														// facilitate conversion
-														// statistics
+	boolean reduce = false; 
+	ArrayList<String> numEcs = new ArrayList<String>(); // Arraylists to facilitate conversion statistics
 	ArrayList<String> numPfams = new ArrayList<String>(); 
 	ArrayList<String> totalnumPfams = new ArrayList<String>(); 
 	//Hash of IPR -> EC conversion															
@@ -106,6 +105,8 @@ public class DataProcessor {
 	Hashtable<String, ArrayList<String>> IPRToGOHash = new Hashtable<String, ArrayList<String>>();
 	//Hash of GO -> EC conversion
 	Hashtable<String, ArrayList<String>> GOToECHash = new Hashtable<String, ArrayList<String>>();
+	//Hash of COG -> GO conversion
+	Hashtable<String, ArrayList<String>> COGToGoHash = new Hashtable<String, ArrayList<String>>();
 
 	public DataProcessor(Project actProj) {// Builds the data processor object for the active project
 		this.activeProj_ = actProj;
@@ -299,8 +300,6 @@ public class DataProcessor {
 				return ret;
 
 			}
-			// String tmp;
-			// boolean empty=false;
 			if (tmp != null) {
 				while (tmp.startsWith(" ")) {
 					tmp = tmp.substring(1);
@@ -319,7 +318,6 @@ public class DataProcessor {
 			return null;
 		}
 		String seperator = ",";
-		// System.out.println("Inter Pro");
 		String[] ret = new String[4];
 
 		ret[0] = "X"; // IPR name
@@ -328,7 +326,6 @@ public class DataProcessor {
 		ret[3] = "X"; // Sequence id
 		//added !line.contains("/t") for a strange index exception was occuring without
 		if (line.contains(seperator) && !line.contains("\t")) {
-			//System.out.println("If statement");
 			String interpro = findInterProInRaw(line);
 			if (interpro != null) {
 				Project.amountOfIPRs += 1;
@@ -343,21 +340,61 @@ public class DataProcessor {
 				ret[1] = tmp;
 			}
 		} else {
-			//System.out.println("Else statement");
 			if (line.contains("\t")) {
 				String repSeq = line.substring(0, line.indexOf("\t"));
-				//System.out.println("repseq " + repSeq);
 				ret[3] = repSeq;
 			}
 			String interpro = findInterProInRaw(line);
-			//System.out.println("interpro " + interpro);
 			if (interpro != null) {
 				Project.amountOfIPRs += 1;
-				//System.out.println("IPR sucessfully saved");
 				ret[0] = interpro;
 				ret[2] = "IPR";
 			} else {
 				System.out.println("IPR save was unsuccessful");
+			}
+		}
+		return ret;
+	}
+	
+	public String[] getEnzFromCog(String line){
+
+		if (!line.matches(".*COG[0-9][0-9][0-9][0-9].*")) {
+			return null;
+		}
+		String seperator = ",";
+		String[] ret = new String[4];
+
+		ret[0] = "X"; // COG name
+		ret[1] = "1"; // Number of this COG with this sequence id
+		ret[2] = "X"; // Whether or not it is an COG
+		ret[3] = "X"; // Sequence id
+		//added !line.contains("/t") for a strange index exception was occuring without
+		if (line.contains(seperator) && !line.contains("\t")) {
+			String cog = findInterProInRaw(line);
+			if (cog != null) {
+				Project.amountOfCOGs += 1;
+				ret[0] = cog;
+				ret[2] = "COG";
+			}
+			String tmp = line.substring(line.indexOf(seperator) + 1);
+			if (tmp.contains(seperator)) {
+				ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+				ret[3] = tmp.substring(line.indexOf(seperator) + 1);
+			} else if (tmp != null) {
+				ret[1] = tmp;
+			}
+		} else {
+			if (line.contains("\t")) {
+				String repSeq = line.substring(0, line.indexOf("\t"));
+				ret[3] = repSeq;
+			}
+			String cog = findCOGInRaw(line);
+			if (cog != null) {
+				Project.amountOfCOGs += 1;
+				ret[0] = cog;
+				ret[2] = "COG";
+			} else {
+				System.out.println("COG save was unsuccessful");
 			}
 		}
 		return ret;
@@ -398,14 +435,27 @@ public class DataProcessor {
 			interpro = tmp
 					.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
 			if (interpro.matches("IPR[0-9][0-9][0-9][0-9][0-9][0-9]")) {
-				// System.out.println("IPR Found Successfully");
 				return interpro;
 			} else {
 				tmp = tmp.substring(tmp.indexOf("IPR") + 3);
 			}
 		}
-		// System.out.println("IPR not found");
 		return null;
+	}
+	
+	private String findCOGInRaw(String input) {
+		String cog = "";
+		String tmp = input;
+		while (tmp.contains("IPR")) {
+			cog = tmp.substring(tmp.indexOf("COG"), tmp.indexOf("COG") + 7);
+			if (cog.matches("COG[0-9][0-9][0-9][0-9]")) {
+				return cog;
+			} else {
+				tmp = tmp.substring(tmp.indexOf("COG") + 3);
+			}
+		}
+		return null;
+		
 	}
 
 	/**
@@ -418,7 +468,9 @@ public class DataProcessor {
 		if (input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
 			return getEnzFromInterPro(input);
 		}
-		// System.out.println("Sample");
+		if (input.matches(".*COG[0-9][0-9][0-9][0-9].*")){
+			return getEnzFromCog(input);
+		}
 		String seperator = "";
 		String tmp = input;
 		//adding input.contains("\t"), might have to remove
@@ -469,7 +521,6 @@ public class DataProcessor {
 						for (int i = 0; i < nump2.size(); i++) {
 							if (!numPfams.contains(nump2.get(i)[0])) {
 								numPfams.add(nump2.get(i)[0]);
-								// System.out.println(nump2.get(i)[0]);
 							}
 						}
 					}
@@ -498,7 +549,6 @@ public class DataProcessor {
 				}
 			}
 		} else if (isPfambool(input) || isEc(input) || isInterProBool(input)) {// one column format
-			// System.out.println("One column");
 			ret[0] = input;
 			if (isEc(ret[0])) {
 				ret[2] = "EC";
@@ -519,13 +569,11 @@ public class DataProcessor {
 				for (int i = 0; i < nump2.size(); i++) {// adds to the total number of converted pfams
 					if (!numPfams.contains(nump2.get(i)[0])) {
 						numPfams.add(nump2.get(i)[0]);
-						// System.out.println(nump2.get(i)[0]);
 					}
 				}
 			}
 			String interpro = isInterPro(ret[0]);
 			if (interpro != null) {
-				// System.out.println("One column IPR");
 				ret[0] = interpro;
 				ret[1] = "1";
 				ret[2] = "IPR";
@@ -577,6 +625,24 @@ public class DataProcessor {
 		}
 		return null;
 	}
+	
+	/*If the input string is deteremined to be COG the method outputs the cog. Else returns null */
+	public String isCOG(String cog){
+		String tmp = cog;
+		if (tmp.contains("COG")) {
+			tmp = tmp.substring(tmp.indexOf("COG"));
+			if (tmp.length() == 7) {
+				if (isNumber(tmp.substring(3))) {
+					return tmp;
+				}
+			} else if (tmp.length() >= 7) {
+				tmp = tmp.substring(3);
+				isCOG(tmp);
+			}
+		}
+		return null;
+	}
+	
 	// returns a boolean variable which is the awnser to whether or not the string is a pfam
 	public boolean isPfambool(String pfam) {
 		String tmp = pfam;
@@ -590,6 +656,15 @@ public class DataProcessor {
 	public boolean isInterProBool(String interpro) {
 		String tmp = interpro;
 		if ((tmp.startsWith("IPR")) && (tmp.length() == 9)
+				&& (isNumber(tmp.substring(3)))) {
+			return true;
+		}
+		return false;
+	}
+	//returns a boolean variable which is the answer to whether or not the string is COG
+	public boolean isCOGBool(String cog){
+		String tmp = cog;
+		if ((tmp.startsWith("COG")) && (tmp.length() == 7)
 				&& (isNumber(tmp.substring(3)))) {
 			return true;
 		}
@@ -709,30 +784,25 @@ public class DataProcessor {
 		int counter = 0;
 		this.lFrame_.bigStep("all EC Vs Pathway");
 		final long startTime = System.currentTimeMillis();
-		outerloop: for (int i = 0; i < Project.samples_.size(); i++)// For each of the samples in the project														
-		{
+		outerloop: for (int i = 0; i < Project.samples_.size(); i++) {// For each of the samples in the project														
 			this.lFrame_.bigStep(((Sample) Project.samples_.get(i)).name_);
 
 			Sample sample = (Sample) Project.samples_.get(i);
 			ArrayList<Sample> sampleArray = new ArrayList(); // Needed for the matrix input format
 
-			if (sample.valuesSet) // If the sample has already had its values set then simply add paths to the samples
-			{
-				System.out.println("ValueSet");
+			if (sample.valuesSet) {// If the sample has already had its values set then simply add paths to the samples
 				addUserNewPathsToSample(sample);
-			} else if (sample.imported) // if the sample was imported then fill the samples ECs
-			{
-				System.out.println("Imported");
+			}
+			else if (sample.imported){ // if the sample was imported then fill the samples ECs
 				fillSampleEcs((Sample) Project.samples_.get(i), i);
 				// If the sample name is empty than the sample hasn't been build yet, so build the sample from the sample file
-			} else if (!sample.name_.isEmpty()) 
-			{
+			} 
+			else if (!sample.name_.isEmpty()) {
 				String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
 				sample.sample_ = this.reader.readTxt(tmp);
 				sample.clearPaths();
 				Project.legitSamples.add(Boolean.valueOf(false));
 				try {
-					// System.out.println("Parsing");
 					//Parses through the files to build the "Sample attributes"
 					while ((zeile = sample.sample_.readLine()) != null)
 					{
@@ -746,17 +816,11 @@ public class DataProcessor {
 						 */
 						if (zeile.startsWith(">")) {
 							if (Project.samples_.get(i).ecs_.isEmpty()) {
-								Project.samples_.get(i).name_ = zeile
-										.substring(zeile.indexOf(">") + 1);
+								Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
 								continue;
 							} else {
-								Color tmpColor = new Color(
-										(float) Math.random(),
-										(float) Math.random(),
-										(float) Math.random());
-								Sample tmpSample = new Sample(
-										zeile.substring(zeile.indexOf(">") + 1),
-										sample.fullPath_, tmpColor);
+								Color tmpColor = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+								Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">") + 1),sample.fullPath_, tmpColor);
 								tmpSample.legitSample = true;
 								tmpSample.inUse = true;
 								Project.samples_.add(i + 1, tmpSample);
@@ -801,56 +865,29 @@ public class DataProcessor {
 										if (!ecNr.type_.contentEquals("X")) {
 											if ((ecNr.type_.contentEquals("EC"))
 													&& (isEc(ecNr.name_))) {
-												Project.samples_
-														.get(i)
-														.addConvStats(
-																new ConvertStat(
-																		newEnz[3],
-																		ecNr.name_,
-																		0,
-																		ecNr.amount_,
-																		0));
+												Project.samples_.get(i).addConvStats(new ConvertStat(
+														newEnz[3],ecNr.name_,0,ecNr.amount_,0));
 												ecWP = findEcWPath(ecNr);
 												this.lFrame_.step("converted " 
 														+ newEnz[0]);
-												// if(!numOfConvertedPFs.contains(ecNr.name_)){
-												// numOfConvertedPFs.add(ecNr.name_);
-												// }
-												// Project.numOfConvertedPFs +=
-												// ecNr.amount_;
 											}
 											if (ecWP != null) {
 												if (!ecNr.isCompleteEc()) {
 													ecNr.incomplete = true;
 												}
 												if (isEc(ecNr.name_)) {
-													Project.samples_
-															.get(i)
-															.addEc(new EcWithPathway(
-																	ecWP, ecNr));
-													// if(!numOfConvPfsUsable.contains(ecNr.name_)){
-													// numOfConvPfsUsable.add(ecNr.name_);
-													// }
-													// Project.numOfConvPfsUsable
-													// += ecNr.amount_;
-													Project.legitSamples
-															.remove(i);
-													Project.legitSamples
-															.add(i,
-																	Boolean.valueOf(true));
+													Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
+													Project.legitSamples.remove(i);
+													Project.legitSamples.add(i,Boolean.valueOf(true));
 												}
 											} else {
 												if (!ecNr.isCompleteEc()) {
 													ecNr.incomplete = true;
 												}
 												ecNr.unmapped = true;
-												EcWithPathway unmatched = new EcWithPathway(
-														ecNr);
-												unmatched
-														.addPathway((Pathway) getPathwayList_()
-																.get(this.unmatchedIndex));
-												Project.samples_.get(i).addEc(
-														unmatched);
+												EcWithPathway unmatched = new EcWithPathway(ecNr);
+												unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+												Project.samples_.get(i).addEc(unmatched);
 											}
 										}
 									}
@@ -860,26 +897,13 @@ public class DataProcessor {
 							else if (!newEnz[0].isEmpty()) {
 								ecNr = new EcNr(newEnz);
 								if (ecNr.couldBeEc()) {
-									// if(!amountOfEcs.contains(ecNr.name_)){
-									// amountOfEcs.add(ecNr.name_);
-									// }
-									// Project.amountOfEcs += ecNr.amount_;
 									if (!ecNr.isCompleteEc()) {
 										ecNr.incomplete = true;
 									}
-									Project.samples_.get(i).addConvStats(
-											new ConvertStat(newEnz[3],
-													ecNr.name_, ecNr.amount_,
-													0, 0));
+									Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3],ecNr.name_, ecNr.amount_,0, 0));
 									EcWithPathway ecWP = findEcWPath(ecNr);
 									if (ecWP != null) {
-										Project.samples_.get(i).addEc(
-												new EcWithPathway(ecWP, ecNr));
-										// if(!numOfUsableEcs.contains(ecNr.name_)){
-										// numOfUsableEcs.add(ecNr.name_);
-										// }
-										// Project.numOfUsableEcs +=
-										// ecNr.amount_;
+										Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 										Project.legitSamples.remove(i);
 										Project.legitSamples.add(i,
 												Boolean.valueOf(true));
@@ -888,13 +912,9 @@ public class DataProcessor {
 											ecNr.incomplete = true;
 										}
 										ecNr.unmapped = true;
-										EcWithPathway unmatched = new EcWithPathway(
-												ecNr);
-										unmatched
-												.addPathway((Pathway) getPathwayList_()
-														.get(this.unmatchedIndex));
-										Project.samples_.get(i)
-												.addEc(unmatched);
+										EcWithPathway unmatched = new EcWithPathway(ecNr);
+										unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+										Project.samples_.get(i).addEc(unmatched);
 									}
 								}
 							}
@@ -910,8 +930,7 @@ public class DataProcessor {
 			}
 		}
 		final long endTime = System.currentTimeMillis();
-		System.out.println("Total execution time(milliseconds): "
-				+ (endTime - startTime));
+		System.out.println("Total execution time(milliseconds): " + (endTime - startTime));
 
 		ArrayList<String> comptotecs = new ArrayList<String>();
 		ArrayList<String> allecs = new ArrayList<String>();
@@ -922,30 +941,19 @@ public class DataProcessor {
 		String testStr3;
 		for (int i = 0; i < Project.samples_.size(); i++) {// adds to the number of total complete ecs
 			for (int k = 0; k < Project.samples_.get(i).ecs_.size(); k++) {
-				// System.out.println(Project.samples_.get(i).ecs_.get(k).name_);
-				if (!comptotecs
-						.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
-					if (Project.samples_.get(i).ecs_.get(k).name_
-							.matches("[0-9].*")) {
-						if (Project.samples_.get(i).ecs_.get(k).name_
-								.contains(".")) {
-							testStr1 = Project.samples_.get(i).ecs_.get(k).name_
-									.substring(Project.samples_.get(i).ecs_
+				if (!comptotecs.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
+					if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
+						if (Project.samples_.get(i).ecs_.get(k).name_.contains(".")) {
+							testStr1 = Project.samples_.get(i).ecs_.get(k).name_.substring(Project.samples_.get(i).ecs_
 											.get(k).name_.indexOf(".") + 1);
 							if (testStr1.matches("[0-9].*")) {
 								if (testStr1.contains(".")) {
-									testStr2 = testStr1.substring(testStr1
-											.indexOf(".") + 1);
+									testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
 									if (testStr2.matches("[0-9].*")) {
 										if (testStr2.contains(".")) {
-											testStr3 = testStr2
-													.substring(testStr2
-															.indexOf(".") + 1);
+											testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
 											if (testStr3.matches("[0-9]*")) {
-												comptotecs
-														.add(Project.samples_
-																.get(i).ecs_
-																.get(k).name_);
+												comptotecs.add(Project.samples_.get(i).ecs_.get(k).name_);
 											}
 										}
 									}
@@ -962,15 +970,13 @@ public class DataProcessor {
 				}
 				if (!ecmapped
 						.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& numEcs
-								.contains(Project.samples_.get(i).ecs_.get(k).name_)
+						&& numEcs.contains(Project.samples_.get(i).ecs_.get(k).name_)
 						&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
 					ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_); // adds to the number of mapped ecs
 				}
 				if (!pfammapped
 						.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& numPfams.contains(Project.samples_.get(i).ecs_
-								.get(k).name_)
+						&& numPfams.contains(Project.samples_.get(i).ecs_.get(k).name_)
 						&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
 					pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);// adds to the number of mapped pfams							
 				}
@@ -981,16 +987,13 @@ public class DataProcessor {
 		for (int i = 0; i < numPfams.size(); i++) {
 			if (numPfams.get(i).matches("[0-9].*")) {
 				if (numPfams.get(i).contains(".")) {
-					testStr1 = numPfams.get(i).substring(
-							numPfams.get(i).indexOf(".") + 1);
+					testStr1 = numPfams.get(i).substring(numPfams.get(i).indexOf(".") + 1);
 					if (testStr1.matches("[0-9].*")) {
 						if (testStr1.contains(".")) {
-							testStr2 = testStr1
-									.substring(testStr1.indexOf(".") + 1);
+							testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
 							if (testStr2.matches("[0-9].*")) {
 								if (testStr2.contains(".")) {
-									testStr3 = testStr2.substring(testStr2
-											.indexOf(".") + 1);
+									testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
 									if (testStr3.matches("[0-9]*")) {
 										completepfams++;// adds to the number of complete pfams
 									}
@@ -1004,16 +1007,13 @@ public class DataProcessor {
 		for (int i = 0; i < numEcs.size(); i++) {
 			if (numEcs.get(i).matches("[0-9].*")) {
 				if (numEcs.get(i).contains(".")) {
-					testStr1 = numEcs.get(i).substring(
-							numEcs.get(i).indexOf(".") + 1);
+					testStr1 = numEcs.get(i).substring(numEcs.get(i).indexOf(".") + 1);
 					if (testStr1.matches("[0-9].*")) {
 						if (testStr1.contains(".")) {
-							testStr2 = testStr1
-									.substring(testStr1.indexOf(".") + 1);
+							testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
 							if (testStr2.matches("[0-9].*")) {
 								if (testStr2.contains(".")) {
-									testStr3 = testStr2.substring(testStr2
-											.indexOf(".") + 1);
+									testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
 									if (testStr3.matches("[0-9]*")) {
 										completeecs++;// adds to the number of complete ecs
 									}
@@ -1083,8 +1083,7 @@ public class DataProcessor {
 				+ "Sample that seem to be valid: "
 				+ "<br>";
 		for (int i = 0; i < Project.samples_.size(); i++) {
-			Text = Text + (i + 1) + ":" + Project.samples_.get(i).legitSample
-					+ " ";
+			Text = Text + (i + 1) + ":" + Project.samples_.get(i).legitSample + " ";
 			if ((i % 5 == 0) && (i != 0)) {
 				Text = Text + "<br>";
 			}
@@ -1092,22 +1091,17 @@ public class DataProcessor {
 		Text = Text + "<br></body></html>";
 		//Commented out help frame as it is unnessary for general users. Useful for debugging
 		//HelpFrame helpF = new HelpFrame(Text);
-		System.out
-				.println("---------------------------------------------------------------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------------------");
 		System.out.println("Finished processing the samples");
-		System.out.println("Total icomplete ECs (including converted pfams): "
-				+ comptotecs.size());
-		System.out.println("Total incomplete ECs (including converted pfams): "
-				+ incomptotecs);
+		System.out.println("Total icomplete ECs (including converted pfams): " + comptotecs.size());
+		System.out.println("Total incomplete ECs (including converted pfams): " + incomptotecs);
 		System.out.println("ECs: " + Project.amountOfEcs);
 		System.out.println("Complete ECs: " + Project.numOfCompleteEcs);
 		System.out.println("Mapped ECs: " + Project.numOfMappedEcs);
 		System.out.println("Pfams: " + Project.amountOfPfs);
 		System.out.println("Converted Pfams: " + Project.numOfConvertedPFs);
-		System.out.println("Complete converted Pfams: "
-				+ Project.numOfConvPfsComplete);
-		System.out.println("Mapped converted Pfams: "
-				+ Project.numOfConvPfsMapped);
+		System.out.println("Complete converted Pfams: " + Project.numOfConvPfsComplete);
+		System.out.println("Mapped converted Pfams: " + Project.numOfConvPfsMapped);
 
 		System.out.println("Sample that seem to be valid:");
 		for (int i = 0; i < Project.samples_.size(); i++) {
@@ -1128,7 +1122,6 @@ public class DataProcessor {
 	 * @author Kevan Lynch, Jennifer Terpstra
 	 */
 	public int ParseInterpro(int count) {
-		// System.out.println("Parse Interpro");
 		String zeile = "";
 		String seqPath = "";
 		System.out.println("Parse Interpro");
@@ -1137,24 +1130,20 @@ public class DataProcessor {
 		int i = count;
 		for (i = count; i < Project.samples_.size(); i++) {
 			Sample sample = Project.samples_.get(i);
-			System.out.println(sample.getSequenceFile());
 			if(sample.getSequenceFile()!=""){
 				hasSeq = true;
 			}
 			else{
 				hasSeq = false;
 			}
-			System.out.println("hasSeq: " + hasSeq);
 			StringReader reader2 = new StringReader();
 			String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
 			if(hasSeq){
 				String seqFilePath = ((Sample) Project.samples_.get(i)).getSequenceFile();
 				BufferedReader seq = reader2.readTxt(seqFilePath);
-				System.out.println("File " + seqFilePath);
 				try {
 					while((seqPath = seq.readLine()) !=null){
 						seqPaths.add(seqPath);
-						System.out.println(seqPath);
 					}
 				} catch (IOException e1) {
 					System.out.println("No sequence file exists");
@@ -1162,7 +1151,6 @@ public class DataProcessor {
 			}
 			
 			sample.sample_ = this.reader.readTxt(tmp);
-			System.out.println("tmp" + tmp);
 			
 			try {
 				while ((zeile = sample.sample_.readLine()) != null) {
@@ -1186,23 +1174,19 @@ public class DataProcessor {
 									tmpColor);
 							if (hasSeq) {
 								for (int k = 1; k < seqPaths.size(); k++) {
-										tmpSample.setSequenceFile(seqPaths
-												.get(k));
+										tmpSample.setSequenceFile(seqPaths.get(k));
 								}
 							}
 							tmpSample.legitSample = true;
 							tmpSample.inUse = true;
-							//removed +1 from both may have to put back
 							Project.samples_.add(i+1, tmpSample);
 							Project.legitSamples.add(i+1, true);
 							i++;
-							// System.out.println("New Sample Added");
 							continue;
 						}
 					}
 
-					else if (zeile
-							.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
+					else if (zeile.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
 
 						String[] newEnz = getEnzFromInterPro(zeile);
 						if (newEnz[2].equalsIgnoreCase("IPR")) {
@@ -1217,30 +1201,18 @@ public class DataProcessor {
 
 									EcWithPathway ecWP = null;
 									if (!ecNr.type_.contentEquals("X")) {
-										if ((ecNr.type_.contentEquals("EC"))
-												&& (isEc(ecNr.name_))) {
-											Project.samples_
-													.get(i)
-													.addConvStats(
-															new ConvertStat(
-																	newEnz[3],
-																	ecNr.name_,
-																	0,
-																	ecNr.amount_,
-																	0));
+										if ((ecNr.type_.contentEquals("EC"))&& (isEc(ecNr.name_))) {
+											Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3],ecNr.name_,0,ecNr.amount_,0));
 											ecWP = findEcWPath(ecNr);
-											this.lFrame_.step("converted "
-													+ newEnz[0]);
+											this.lFrame_.step("converted " + newEnz[0]);
 
 										}
 										if (ecWP != null) {
-											// System.out.println("EC Has Pathway");
 											Project.numOfConvIPRsMapped += 1;
 											if (!ecNr.isCompleteEc()) {
 												ecNr.incomplete = true;
 											}
 											if (isEc(ecNr.name_)) {
-												// System.out.println("EC added");
 												Project.numOfConvIPRsComplete += 1;
 												Project.samples_.get(i).addEc(
 														new EcWithPathway(ecWP,
@@ -1272,14 +1244,10 @@ public class DataProcessor {
 															.get(this.unmatchedIndex));
 											Project.samples_.get(i).addEc(
 													unmatched);
-											// System.out.println("Unmatched EC added");
 
 										}
 									}
 								}
-								// else{
-								// System.out.println("newEnz is empty");
-								// }
 							}
 						}
 
@@ -1292,17 +1260,20 @@ public class DataProcessor {
 		}
 		return i;
 	}
+	
+	public int parseCog(int count){
+		int i = 0;
+		return i;
+	}
 	//returns true if element 0 of the array is either ec,ipr or pfam and the element 1 is an int
 	public boolean enzReadCorrectly(String[] newEnz) {
 		if (newEnz == null) {
 			return false;
 		}
 		boolean ret = false;
-		if ((isEc(newEnz[0])) || (isPfambool(newEnz[0]))
-				|| (isInterProBool(newEnz[0]))) {
+		if ((isEc(newEnz[0])) || (isPfambool(newEnz[0]))|| (isInterProBool(newEnz[0])|| (isCOGBool(newEnz[0])))) {
 			ret = true;
 		} else {
-			// System.out.println("enz read incorrectly");
 			return false;
 		}
 		try {
@@ -1311,11 +1282,6 @@ public class DataProcessor {
 			int num;
 			ret = false;
 		}
-		// if(ret){
-		// System.out.println("enz read correctly");
-		// } else{
-		// System.out.println("enz read incorrectly");
-		// }
 		return ret;
 	}
 
@@ -1345,9 +1311,7 @@ public class DataProcessor {
 		try {
 			while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
-					if (pfamNr == Integer.valueOf(
-							zeile.substring(zeile.indexOf(":PF") + 3,
-									zeile.indexOf(":PF") + 8)).intValue()) {
+					if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3,zeile.indexOf(":PF") + 8)).intValue()) {
 						tmpNr = new String[4];
 						tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
 						tmpNr[1] = pfam[1];
@@ -1362,13 +1326,10 @@ public class DataProcessor {
 							retList.add(tmpNr);
 							if (!numPfams.contains(tmpNr[0])) {
 								numPfams.add(tmpNr[0]);
-								// System.out.println(tmpNr[0]);
 							}
 						}
 					}
-					if (pfamNr < Integer.valueOf(
-							zeile.substring(zeile.indexOf(":PF") + 3,
-									zeile.indexOf(":PF") + 8)).intValue()) {
+					if (pfamNr < Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3,zeile.indexOf(":PF") + 8)).intValue()) {
 						break;
 					}
 				}
@@ -1409,64 +1370,38 @@ public class DataProcessor {
 		return retList;
 	}
 
-	private ArrayList<String[]> convertInterproOld(String[] interpro) {//conversion step using ipr->go, go->ec
+	private ArrayList<String[]> convertCOG(String[] cog) {//conversion step using ipr->go, go->ec
 																		
-		if (IPRToGOHash.isEmpty() || GOToECHash.isEmpty()) {
-			DigitizeConversionFilesOld();
+		if (COGToGoHash.isEmpty() || GOToECHash.isEmpty()) {
+			DigitizeConversionFilesCog();
 		}
 		ArrayList<String[]> retList = new ArrayList();
 		ArrayList<String> tmpList = new ArrayList();
 
 		String zeile = "";
 		String[] tmpNr = new String[4];
-		tmpNr[3] = interpro[3];
-		String interproNr = interpro[0];
+		tmpNr[3] = cog[3];
+		String cogNr = cog[0];
 
-		if (this.IPRToGOHash.containsKey(interproNr)) {
-			for (int i = 0; i < this.IPRToGOHash.get(interproNr).size(); i++) {
-				tmpList.add(this.IPRToGOHash.get(interproNr).get(i));
+		if (this.COGToGoHash.containsKey(cogNr)) {
+			for (int i = 0; i < this.COGToGoHash.get(cogNr).size(); i++) {
+				tmpList.add(this.COGToGoHash.get(cogNr).get(i));
 			}
 		}
-
-		// if(!tmpList.isEmpty()){
-		// System.out.println("IPR->GO Conversion Successful");
-		// for(int i=0;i<tmpList.size();i++){
-		// System.out.println("IPR->GO: "+interproNr+"->"+tmpList.get(i));
-		// }
-		// }else{
-		// System.out.println("IPR->GO Conversion unsuccessful");
-		// }
-		// System.out.println("tmplist.size(): "+tmpList.size());
 
 		for (int i = 0; i < tmpList.size(); i++) {
 			String key = tmpList.get(i);
 			if (this.GOToECHash.get(key) != null
 					&& this.GOToECHash.containsKey(key)) {
-				// System.out.println("GOToECHash.containsKey: "+key);
 				for (int j = 0; j < this.GOToECHash.get(key).size(); j++) {
 					tmpNr[0] = this.GOToECHash.get(key).get(j);
-					tmpNr[1] = interpro[1];
+					tmpNr[1] = cog[1];
 					tmpNr[2] = "EC";
-					tmpNr[3] = interpro[3];
-
-					// System.out.println("Added to ret list[0],[1],[2],[3]: "+tmpNr[0]+","+tmpNr[1]+","+tmpNr[2]+","+tmpNr[3]
-					// );
-
+					tmpNr[3] = cog[3];
 					retList.add(tmpNr);
 				}
 			}
 		}
-
-		// if(!retList.isEmpty()){
-		// System.out.println("GO->EC Conversion Successful");
-		// for(int i=0;i<retList.size();i++){
-		// String[] strings=retList.get(i);
-		// System.out.println("GO->EC[0],[1],[2],[3]: "+strings[0]+","+strings[1]+","+strings[2]+","+strings[3]
-		// );
-		// }
-		// } else{
-		// System.out.println("GO->EC Conversion unsuccessful");
-		// }
 
 		return retList;
 	}
@@ -1492,7 +1427,6 @@ public class DataProcessor {
 							}
 							tmpECS.add(tmpEC);
 						}
-						// System.out.println("Digitized: "+tmpIPR+"Maps to: "+tmpECS.toString());
 						tmpIPRToEC.put(tmpIPR, tmpECS);
 					}
 				}
@@ -1504,45 +1438,37 @@ public class DataProcessor {
 		this.IPRToECHash = tmpIPRToEC;
 	}
 
-	// Not going to be called, extra
-	private void DigitizeConversionFilesOld() {// Takes the IPR->GO and GO->EC conversion files into memory as hashtables
-		this.interproToGOTxt_ = this.reader.readTxt(interproToGOPath_);
+	private void DigitizeConversionFilesCog() {// Takes the COG->GO and GO->EC conversion files into memory as hashtables
+		this.cogToGoTxt_ = this.reader.readTxt(cog2GOPath_);
 		this.ecToGoTxt_ = this.reader.readTxt(ecNamesPath);
-		Hashtable<String, ArrayList<String>> tmpIPRToGO = new Hashtable<String, ArrayList<String>>();
+		Hashtable<String, ArrayList<String>> tmpCOGToGO = new Hashtable<String, ArrayList<String>>();
 		Hashtable<String, ArrayList<String>> tmpECToGO = new Hashtable<String, ArrayList<String>>();
 
 		String zeile = "";
 		try {
-			while ((zeile = this.interproToGOTxt_.readLine()) != null) {
+			while ((zeile = this.cogToGoTxt_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
-					if (zeile.contains("InterPro:IPR")
-							&& zeile.contains("; GO:")) {
-						String tmpIPR = zeile.substring(
-								zeile.indexOf("InterPro:IPR") + 9,
-								zeile.indexOf("InterPro:IPR") + 18);
-						String tmpGO = zeile.substring(
-								zeile.indexOf("; GO:") + 2,
-								zeile.indexOf("; GO:") + 12);
+					if (zeile.contains("COG:")&& zeile.contains("; GO:")) {
+						String tmpCOG = zeile.substring(zeile.indexOf("COG:") + 9,zeile.indexOf("COG:") + 18);
+						String tmpGO = zeile.substring(zeile.indexOf("; GO:") + 2,zeile.indexOf("; GO:") + 12);
 
-						if (tmpIPR != null && tmpIPRToGO.get(tmpIPR) != null
-								&& tmpGO != null) {
-							ArrayList<String> tmpValue = tmpIPRToGO.get(tmpIPR);
+						if (tmpCOG != null && tmpCOGToGO.get(tmpCOG) != null && tmpGO != null) {
+							ArrayList<String> tmpValue = tmpCOGToGO.get(tmpCOG);
 							tmpValue.add(tmpGO);
-							tmpIPRToGO.remove(tmpIPR);
-							tmpIPRToGO.put(tmpIPR, tmpValue);
-						} else if (tmpIPR != null && tmpGO != null) {
+							tmpCOGToGO.remove(tmpCOG);
+							tmpCOGToGO.put(tmpCOG, tmpValue);
+						} else if (tmpCOG != null && tmpGO != null) {
 							ArrayList<String> tmpValue = new ArrayList<String>();
 							tmpValue.add(tmpGO);
-							tmpIPRToGO.put(tmpIPR, tmpValue);
+							tmpCOGToGO.put(tmpCOG, tmpValue);
 						}
 
 					}
 				}
 			}
-			this.interproToGOTxt_.close();
+			this.cogToGoTxt_.close();
 		} catch (IOException e) {
-			openWarning("Error", "File" + interproToGOPath_ + " not found");
-			e.printStackTrace();
+			openWarning("Error", "File" + cog2GOPath_ + " not found");
 		}
 
 		try {
@@ -1573,11 +1499,8 @@ public class DataProcessor {
 			this.ecToGoTxt_.close();
 		} catch (IOException e) {
 			openWarning("Error", "File" + ecNamesPath + " not found");
-			e.printStackTrace();
 		}
-		// System.out.println("IPRToGOHash: "+tmpIPRToGO.toString());
-		// System.out.println("GOToECHash: "+tmpECToGO.toString());
-		this.IPRToGOHash = tmpIPRToGO;
+		this.COGToGoHash = tmpCOGToGO;
 		this.GOToECHash = tmpECToGO;
 
 	}
@@ -1658,8 +1581,6 @@ public class DataProcessor {
 	// this will only happen if random sampling is selected
 	private void removeRandomEc() {// removes randome ecs for prepping during random sampling
 		Random generator = new Random();
-
-		System.out.println("removeRandomEc");
 
 		int sumOfEcs = 0;
 		int[] sumsOfEcsArr = new int[Project.samples_.size()];
@@ -1809,7 +1730,6 @@ public class DataProcessor {
 					tmpPwS = (PathwayWithEc) tmpSmp.pathways_.get(pwCnt);
 					tmpPwD = Project.overall_.getPath(tmpPwS.id_);
 					if (tmpPwD == null) {
-						System.out.println("tmpwd is null" + tmpPwS.id_);
 						Project.overall_.pathways_
 								.add(new PathwayWithEc(tmpPwS));
 						tmpPwD = Project.overall_.getPath(tmpPwS.id_);
@@ -1858,13 +1778,11 @@ public class DataProcessor {
 			try {
 				this.ecList = this.reader.readTxt(listPath);
 				while ((zeile = this.ecList.readLine()) != null) {
-					//System.out.println(zeile);
 					tmp = getEcNrFromList(zeile);
-					//System.out.println("EC " + tmp);
 					newEc = Boolean.valueOf(true);
 
 					id = getPathwayFromList(zeile);
-					//System.out.println("id " + id);
+					
 					if ((!id.equalsIgnoreCase("ec01120"))
 							&& (!id.equalsIgnoreCase("ec01110"))
 							&& (!id.equalsIgnoreCase("ec01100"))) {
@@ -1922,9 +1840,7 @@ public class DataProcessor {
 		try {
 			while ((zeile = this.ecList.readLine()) != null) {
 				tmp = getEcNrFromList(zeile);
-				//System.out.println(tmp);
 				id = getPathwayFromList(zeile);
-				//System.out.println(id);
 				if(!id.equals("")&&!eclist.containsKey(tmp)){
 					eclist.put(tmp, id);
 				}
@@ -2024,13 +1940,11 @@ public class DataProcessor {
 	}
 
 	private void prepUserEc() {
-		System.out.println("prepUserEc");
 
 		boolean ecFound = false;
 		for (int i = 0; i < getPathwayList_().size(); i++) {
 			PathwayWithEc pathway = (PathwayWithEc) getPathwayList_().get(i);
 			if (pathway.userPathway) {
-				System.out.println("userPathwayToec");
 				ecFound = false;
 				for (int j = 0; j < pathway.ecNrs_.size(); j++) {
 					EcNr ecNr = (EcNr) pathway.ecNrs_.get(j);
@@ -2047,11 +1961,10 @@ public class DataProcessor {
 				}
 			}
 		}
-		System.out.println("end prepUserEc");
 	}
 
 	private void prepUserPathList() {
-		System.out.println("prepUserPathList");
+		
 		if (this.activeProj_ == null) {
 			return;
 		}
@@ -2063,11 +1976,9 @@ public class DataProcessor {
 			String path = (String) Project.userPathways.get(i);
 			readUserPathway(path);
 		}
-		System.out.println("End prepUserPathList");
 	}
 
 	private void readUserPathway(String path) {
-		System.out.println("reading userPaths");
 
 		Pathway actPathway = new Pathway("", "");
 		PathwayWithEc finPAth = new PathwayWithEc(actPathway);
@@ -2123,12 +2034,9 @@ public class DataProcessor {
 					+ " not found");
 			System.out.println("Userfilepath not found");
 		}
-		System.out.println("end reading userPaths");
 	}
 
-	private PathwayWithEc addNodes(PathwayWithEc path, BufferedReader in)
-			throws IOException {
-		System.out.println("addNode");
+	private PathwayWithEc addNodes(PathwayWithEc path, BufferedReader in) throws IOException {
 
 		PathwayWithEc finPAth = new PathwayWithEc(path);
 		EcNr ec = null;
@@ -2136,7 +2044,6 @@ public class DataProcessor {
 		boolean comment = false;
 		String zeile;
 		while ((zeile = in.readLine()) != null) {
-			// String zeile;
 			String comp = "<name>";
 			if (zeile.startsWith(comp)) {
 				String ecName = zeile.substring(zeile.indexOf(">") + 1);
@@ -2203,8 +2110,6 @@ public class DataProcessor {
 			openWarning("Error", "File: " + listPath + " not found");
 			e.printStackTrace();
 		}
-		// System.out.println("computeWeights " + totaluniqueEc + " " +
-		// ecList_.size());
 		for (int i = 0; i < totaluniqueEc; i++) {
 			if (!((EcWithPathway) ecList_.get(i)).weightsSet) {
 				nrOfPaths = 0.0F;

@@ -53,7 +53,12 @@ public class Project {
 	public static int amountOfIPRs = 0; 
 	public static int numOfConvertedIPRs = 0; 
 	public static int numOfConvIPRsComplete = 0; 
-	public static int numOfConvIPRsMapped = 0; 
+	public static int numOfConvIPRsMapped = 0;
+	public static int amountOfCOGs = 0;
+	public static int numOfConvertedCOGs = 0;
+	public static int numOfConvCOGsComplete = 0;
+	public static int numofConvCOGsMapped = 0;
+	
 	//ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
 	public static ArrayList<Boolean> legitSamples = new ArrayList(); 
 	final static String basePath_ = new File(".").getAbsolutePath()
@@ -99,10 +104,8 @@ public class Project {
 		try {
 			if ((zeile = projectFile.readLine()) != null) {
 				if (zeile.contains("$$ver:1")) {
-					System.out.println("Vers1");
 					return loadProjectv0(projectFile, zeile, 1);
 				}
-				System.out.println("Vers0");
 				return loadProjectv0(projectFile, zeile, 0);
 			}
 		} catch (IOException e) {
@@ -170,7 +173,6 @@ public class Project {
 	}
 	// Writes out a project file. To my knowledge this method is never used as the exportProject method is prefered. Writes to a .prj file
 	public void writeProject() {
-		System.out.println(projectPath_);
 		try {
 			BufferedWriter out = null;
 			if (projectPath_.endsWith(".prj")) {
@@ -214,7 +216,6 @@ public class Project {
 	}
 
 	public String exportProj(String path) {// The actual method to write the project out to a file. Builds a .frp file
-		System.out.println("exportProj");
 		if (path == null) {
 			path = projectPath_;
 			if (!path.endsWith(".frp")) {

@@ -1,12 +1,6 @@
 package Prog;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,22 +18,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
@@ -47,8 +34,6 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import Panes.ActMatrixPane;
 import jxl.*;
@@ -90,7 +75,6 @@ public class MetaProteomicAnalysis {
 	 * @return ArrayList of the tryptic digested sequence
 	 */
 	public ArrayList<TrypticPeptide> readFasta(String path) {
-		System.out.println("readFasta");
 		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
 		TrypticPeptide trypticPeptide;
 		//Stores each digested piece of the peptide for each unqiue identifer
@@ -99,7 +83,6 @@ public class MetaProteomicAnalysis {
 		//used to parse the long peptide into the tryptic digest
 		String line = "";
 		String fasta = "";
-		String subfasta = "";
 		//Extracts the filename of each sequence file
 		fileName = path.substring(path.lastIndexOf(File.separator)+1,path.lastIndexOf(".txt"));
 		try {
@@ -156,16 +139,13 @@ public class MetaProteomicAnalysis {
 	 * 
 	 */
 	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap seq, String sampleName) {
-		System.out.println("readFasta");
 		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
 		TrypticPeptide trypticPeptide = new TrypticPeptide();
 		//Stores each digested piece of the peptide for each unqiue identifer
 		ArrayList<String> peptideList = new ArrayList<String>();
 		fileName = sampleName;
-		System.out.println("FileName " + fileName);
 		//used to parse the long peptide into the tryptic digest
 		String fasta = "";
-		String subfasta = "";
 		// Save the unique identifier into tryptic peptide
 		Object[] keys = null;
 		try {
@@ -213,7 +193,6 @@ public class MetaProteomicAnalysis {
 	public tableAndChartData getTrypticPeptideAnaysis(ArrayList<TrypticPeptide> peptide, boolean commandline, boolean batchCommand) {
 		System.out.println("getPeptide");
 		// Saves the results of the lowest common ancestor search in a file within the /GetPost folder
-		//File file = new File(basePath_ + "GetPost" + File.separator + fileName + ".txt");
 		commandLineOn = commandline;
 		batchCommandOn = batchCommand;
 		// Main Get query line
@@ -235,19 +214,16 @@ public class MetaProteomicAnalysis {
 			taxa_rank.add(taxa_id[i]);
 		}
 		int num = -1;
-		//PrintWriter printWriter = new PrintWriter(file);
 		for (int i = 0; i < peptide.size(); i++) {
 			for (int j = 0; j < peptide.get(i).getPeptides().size(); j++) {
 				try {
 					// Format nessary for the first peptide to be inserted into the query
 					if (peptide.get(i).getPeptides().size() > 0 && j == 0) {
 						qPep += peptide.get(i).getPeptides().get(j);
-						// Format nessary for every subsequent peptide in
-						// the query
+						// Format nessary for every subsequent peptide in the query
 					} else if (peptide.get(i).getPeptides().size() > 0) {
 						if (reset == true) {
 							qPep += peptide.get(i).getPeptides().get(j);
-							//count = 1;
 							reset = false;
 						} else {
 							qPep += "&input[]="
@@ -260,16 +236,12 @@ public class MetaProteomicAnalysis {
 						
 						//performing get request
 				        URL url = new URL(query);
-				        //System.out.println(query);
 				        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 				        BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
-				       // con.disconnect();
 						String line1 = input1.readLine();
-						//System.out.println(line1);
 						// If the response isnt empty, write the response to a file
 						if (!line1.equals("[]")) {
 							if (num != i) {
-								//printWriter.println(peptide.get(i).getUniqueIdentifier() + "\n");
 								num = i;
 							}
 							//used to parse the JSON format response from http://unipept.ugent.be/
@@ -305,9 +277,7 @@ public class MetaProteomicAnalysis {
 							peptide.get(i).setLca(lcaList);
 							System.out.println(fileName + " Working....\n");
 							//Printing out the contents of the lowest common ancestor search into a file
-							for (int p = 0; p < peptide.get(i).getLca()
-									.size(); p++) {
-								//printWriter.println(peptide.get(i).getLca().get(p).toString());
+							for (int p = 0; p < peptide.get(i).getLca().size(); p++) {
 							}
 							//If on the last peptide array, notfy the user that results are finished
 							if (i == peptide.size() - 1) {
@@ -323,7 +293,6 @@ public class MetaProteomicAnalysis {
 				}
 			}
 		}
-		//printWriter.close();
 		return returnData;
 	}
 	
@@ -341,20 +310,16 @@ public class MetaProteomicAnalysis {
 	public void findCommonLCA(ArrayList<TrypticPeptide> peptide) {
 		System.out.println("Find common LCA");
 		//final taxa results get written to a file with a -LCA.txt postfix
-		//File file = new File(basePath_ + "GetPost" + File.separator + fileName + "-LCA.txt");
 		String query = "";
 		Process p1 = null;
 		boolean positive = false;
 		PrintWriter printWriter;
 		try {
-			//printWriter = new PrintWriter(file);
 			for (int i = 0; i < peptide.size(); i++) {
 				if (peptide.get(i).getLca() != null) {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-						//printWriter.println(peptide.get(i).getUniqueIdentifier());
-						//printWriter.println(peptide.get(i).getIdentifiedTaxa());
 					} else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
 						 * id must be sent to http://api.unipept.ugent.be/api/v1/taxonomy.json to determine its taxon information.
@@ -410,19 +375,15 @@ public class MetaProteomicAnalysis {
 
 								}
 							}
-							//con.disconnect();
 							if (positive) {
-								//printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLowestClass());
 							} else {
 								/*If one of the LCA within the LCA arraylist fails the comparison with the lowest taxa taxonic
 								 * information than that Tryptic pepetides determined taxa is set to Inconclusive.
 								 */
-								//printWriter.println(peptide.get(i).getUniqueIdentifier());
 								peptide.get(i).setIdentifiedTaxa(new LowestCommonAncestor("",0,"Inconclusive",""));
 								positive = true;
 							}
-							//printWriter.println(peptide.get(i).getIdentifiedTaxa());
 							query = "";
 							line1 = "";
 						} catch (IOException | JSONException e) {
@@ -432,7 +393,6 @@ public class MetaProteomicAnalysis {
 				}
 				
 			}
-			//printWriter.close();
 			drawLCAGraph(peptide, fileName);
 		} catch (FileNotFoundException e1) {
 			//warningFrame("File " + file.getAbsolutePath() + " not found");

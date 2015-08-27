@@ -643,7 +643,7 @@ public class ActMatrixPane extends JPanel {
 					if (line.contains("Ec Activity EC Numbers")) {
 						line = reader.readLine();
 						System.out.println(line);
-						if (line.matches("[0-999].[0-999].[0-999].[0-999]")) {
+						if (line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")) {
 							return true;
 						} else {
 							return false;

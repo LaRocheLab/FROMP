@@ -8,8 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +37,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sun.org.mozilla.javascript.JavaScriptException;
 import Panes.ActMatrixPane;
+import Panes.SampleNameFrame;
 import jxl.*;
 import jxl.write.*;
 import jxl.write.Number;
@@ -59,6 +63,7 @@ public class MetaProteomicAnalysis {
 	boolean commandLineOn = false;
 	boolean batchCommandOn = false;
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator;
+	ArrayList<String> timedOut = new ArrayList<String>();
 	
 	public MetaProteomicAnalysis(){
 		
@@ -236,9 +241,13 @@ public class MetaProteomicAnalysis {
 						
 						//performing get request
 				        URL url = new URL(query);
+				        
 				        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 				        BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
 						String line1 = input1.readLine();
+						con.disconnect();
+						input1.close();
+						
 						// If the response isnt empty, write the response to a file
 						if (!line1.equals("[]")) {
 							if (num != i) {
@@ -289,7 +298,9 @@ public class MetaProteomicAnalysis {
 						qPep = "";
 
 					}
-				} catch (IOException | JSONException e) {
+				} catch (IOException| JSONException b) {
+					System.out.println("Connection Timeout " + fileName);
+					timedOut.add(fileName);
 				}
 			}
 		}
@@ -320,21 +331,25 @@ public class MetaProteomicAnalysis {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-					} else {
+					}
+					else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
 						 * id must be sent to http://api.unipept.ugent.be/api/v1/taxonomy.json to determine its taxon information.
 						 */
 						query = "http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
 								+ peptide.get(i).getLowestClass().getTaxon_id()+ "&extra=true&names=true";
 						//get request
+						System.out.println(query);
 						URL url = new URL(query);
 					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-					
-						BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
+					    con.setRequestMethod("GET");
+					    BufferedReader input1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
 						
 						try {
 							//reading the response from the server
 							String line1 = input1.readLine();
+							con.disconnect();
+							input1.close();
 							//parsing stringt response into a JSONArray so that it can be processed
 							JSONArray jsonarray = new JSONArray(line1);
 							JSONObject obj;
@@ -386,9 +401,10 @@ public class MetaProteomicAnalysis {
 							}
 							query = "";
 							line1 = "";
-						} catch (IOException | JSONException e) {
+						} catch (IOException | JSONException a) {
 						}
-
+						//added to try to fix timeout
+						
 					}
 				}
 				
@@ -400,8 +416,8 @@ public class MetaProteomicAnalysis {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.out.println("Connection Timeout for " + fileName);
+			timedOut.add(fileName);
 		}
 	}
 	
@@ -752,6 +768,10 @@ public class MetaProteomicAnalysis {
 		JLabel label = new JLabel("Warning! " + strIN);
 		label.setBounds(25, 25, 1500, 25);
 		backP.add(label);
+	}
+	
+	public ArrayList<String> getTimedOut(){
+		return timedOut;
 	}
 
 }

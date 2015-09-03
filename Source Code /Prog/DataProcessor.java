@@ -53,7 +53,7 @@ public class DataProcessor {
 	static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt"; //
 	static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt"; //
 	static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
-	static final String cog2GOPath_ = "list" + File.separator + "cog2go.txt";
+	static final String uni2GOPath_ = "list" + File.separator + "idmapping_selected_reduced.tab";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -61,7 +61,7 @@ public class DataProcessor {
 	static final String PF = "Pf"; 
 	static final String RN = "Rn"; 
 	static final String IPR = "IPR"; 
-	static final String COG = "COG";
+	
 	XmlParser parser; // An XML parser, Prog.XMLParser
 	int offCounter = 0; 
 	int counter = 0; 
@@ -89,7 +89,7 @@ public class DataProcessor {
 	BufferedReader pfamToRnToEc_; 
 	BufferedReader interproToGOTxt_;
 	BufferedReader interproToECTxt_; 
-	BufferedReader cogToGoTxt_;
+	BufferedReader uniToGoTxt_;
 	PngBuilder build; // PngBuilder to draw the graphics
 	Color sysCol_; 
 	public static ArrayList<PathwayWithEc> pathwayList_; // Array list containing the pathways
@@ -105,8 +105,8 @@ public class DataProcessor {
 	Hashtable<String, ArrayList<String>> IPRToGOHash = new Hashtable<String, ArrayList<String>>();
 	//Hash of GO -> EC conversion
 	Hashtable<String, ArrayList<String>> GOToECHash = new Hashtable<String, ArrayList<String>>();
-	//Hash of COG -> GO conversion
-	Hashtable<String, ArrayList<String>> COGToGoHash = new Hashtable<String, ArrayList<String>>();
+	//Hash of UNI -> GO conversion
+	Hashtable<String, ArrayList<String>> UniToGoHash = new Hashtable<String, ArrayList<String>>();
 
 	public DataProcessor(Project actProj) {// Builds the data processor object for the active project
 		this.activeProj_ = actProj;
@@ -356,25 +356,25 @@ public class DataProcessor {
 		return ret;
 	}
 	
-	public String[] getEnzFromCog(String line){
+	public String[] getEnzFromUni(String line){
 
-		if (!line.matches(".*COG[0-9][0-9][0-9][0-9].*")) {
+		if (!line.matches(".*UniRef90_*")) {
 			return null;
 		}
 		String seperator = ",";
 		String[] ret = new String[4];
 
-		ret[0] = "X"; // COG name
-		ret[1] = "1"; // Number of this COG with this sequence id
-		ret[2] = "X"; // Whether or not it is an COG
+		ret[0] = "X"; // UniRef name
+		ret[1] = "1"; // Number of this UniRef with this sequence id
+		ret[2] = "X"; // Whether or not it is an UniRef
 		ret[3] = "X"; // Sequence id
 		//added !line.contains("/t") for a strange index exception was occuring without
 		if (line.contains(seperator) && !line.contains("\t")) {
-			String cog = findInterProInRaw(line);
-			if (cog != null) {
-				Project.amountOfCOGs += 1;
-				ret[0] = cog;
-				ret[2] = "COG";
+			String uni = findInterProInRaw(line);
+			if (uni != null) {
+				Project.amountOfUNIs += 1;
+				ret[0] = uni;
+				ret[2] = "UniRef";
 			}
 			String tmp = line.substring(line.indexOf(seperator) + 1);
 			if (tmp.contains(seperator)) {
@@ -388,13 +388,13 @@ public class DataProcessor {
 				String repSeq = line.substring(0, line.indexOf("\t"));
 				ret[3] = repSeq;
 			}
-			String cog = findCOGInRaw(line);
-			if (cog != null) {
-				Project.amountOfCOGs += 1;
-				ret[0] = cog;
-				ret[2] = "COG";
+			String uni = findUNIInRaw(line);
+			if (uni != null) {
+				Project.amountOfUNIs += 1;
+				ret[0] = uni;
+				ret[2] = "UniRef";
 			} else {
-				System.out.println("COG save was unsuccessful");
+				System.out.println("UniRef save was unsuccessful");
 			}
 		}
 		return ret;
@@ -443,15 +443,15 @@ public class DataProcessor {
 		return null;
 	}
 	
-	private String findCOGInRaw(String input) {
-		String cog = "";
+	private String findUNIInRaw(String input) {
+		String uni = "";
 		String tmp = input;
-		while (tmp.contains("IPR")) {
-			cog = tmp.substring(tmp.indexOf("COG"), tmp.indexOf("COG") + 7);
-			if (cog.matches("COG[0-9][0-9][0-9][0-9]")) {
-				return cog;
+		while (tmp.contains("UniRef")) {
+			uni = tmp.substring(tmp.indexOf("UniRef"), tmp.indexOf("UniRef") + 7);
+			if (uni.matches("UniRef_")) {
+				return uni;
 			} else {
-				tmp = tmp.substring(tmp.indexOf("COG") + 3);
+				tmp = tmp.substring(tmp.indexOf("UniRef") + 3);
 			}
 		}
 		return null;
@@ -468,8 +468,8 @@ public class DataProcessor {
 		if (input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
 			return getEnzFromInterPro(input);
 		}
-		if (input.matches(".*COG[0-9][0-9][0-9][0-9].*")){
-			return getEnzFromCog(input);
+		if (input.matches(".*UniRef_*")){
+			return getEnzFromUni(input);
 		}
 		String seperator = "";
 		String tmp = input;
@@ -626,18 +626,18 @@ public class DataProcessor {
 		return null;
 	}
 	
-	/*If the input string is deteremined to be COG the method outputs the cog. Else returns null */
-	public String isCOG(String cog){
-		String tmp = cog;
-		if (tmp.contains("COG")) {
-			tmp = tmp.substring(tmp.indexOf("COG"));
+	/*If the input string is deteremined to be UNI the method outputs the uni. Else returns null */
+	public String isUNI(String uni){
+		String tmp = uni;
+		if (tmp.contains("UniRef90")) {
+			tmp = tmp.substring(tmp.indexOf("UniRef90_"));
 			if (tmp.length() == 7) {
 				if (isNumber(tmp.substring(3))) {
 					return tmp;
 				}
 			} else if (tmp.length() >= 7) {
 				tmp = tmp.substring(3);
-				isCOG(tmp);
+				isUNI(tmp);
 			}
 		}
 		return null;
@@ -661,10 +661,10 @@ public class DataProcessor {
 		}
 		return false;
 	}
-	//returns a boolean variable which is the answer to whether or not the string is COG
-	public boolean isCOGBool(String cog){
-		String tmp = cog;
-		if ((tmp.startsWith("COG")) && (tmp.length() == 7)
+	//returns a boolean variable which is the answer to whether or not the string is UniRef
+	public boolean isUNIBool(String uni){
+		String tmp = uni;
+		if ((tmp.startsWith("UniRef")) && (tmp.length() == 7)
 				&& (isNumber(tmp.substring(3)))) {
 			return true;
 		}
@@ -1261,7 +1261,7 @@ public class DataProcessor {
 		return i;
 	}
 	
-	public int parseCog(int count){
+	public int parseUni(int count){
 		int i = 0;
 		return i;
 	}
@@ -1271,7 +1271,7 @@ public class DataProcessor {
 			return false;
 		}
 		boolean ret = false;
-		if ((isEc(newEnz[0])) || (isPfambool(newEnz[0]))|| (isInterProBool(newEnz[0])|| (isCOGBool(newEnz[0])))) {
+		if ((isEc(newEnz[0])) || (isPfambool(newEnz[0]))|| (isInterProBool(newEnz[0])|| (isUNIBool(newEnz[0])))) {
 			ret = true;
 		} else {
 			return false;
@@ -1370,22 +1370,22 @@ public class DataProcessor {
 		return retList;
 	}
 
-	private ArrayList<String[]> convertCOG(String[] cog) {//conversion step using ipr->go, go->ec
+	private ArrayList<String[]> convertUni(String[] uni) {//conversion step using ipr->go, go->ec
 																		
-		if (COGToGoHash.isEmpty() || GOToECHash.isEmpty()) {
-			DigitizeConversionFilesCog();
+		if (UniToGoHash.isEmpty() || GOToECHash.isEmpty()) {
+			DigitizeConversionFilesUni();
 		}
 		ArrayList<String[]> retList = new ArrayList();
 		ArrayList<String> tmpList = new ArrayList();
 
 		String zeile = "";
 		String[] tmpNr = new String[4];
-		tmpNr[3] = cog[3];
-		String cogNr = cog[0];
+		tmpNr[3] = uni[3];
+		String uniNr = uni[0];
 
-		if (this.COGToGoHash.containsKey(cogNr)) {
-			for (int i = 0; i < this.COGToGoHash.get(cogNr).size(); i++) {
-				tmpList.add(this.COGToGoHash.get(cogNr).get(i));
+		if (this.UniToGoHash.containsKey(uniNr)) {
+			for (int i = 0; i < this.UniToGoHash.get(uniNr).size(); i++) {
+				tmpList.add(this.UniToGoHash.get(uniNr).get(i));
 			}
 		}
 
@@ -1395,9 +1395,9 @@ public class DataProcessor {
 					&& this.GOToECHash.containsKey(key)) {
 				for (int j = 0; j < this.GOToECHash.get(key).size(); j++) {
 					tmpNr[0] = this.GOToECHash.get(key).get(j);
-					tmpNr[1] = cog[1];
+					tmpNr[1] = uni[1];
 					tmpNr[2] = "EC";
-					tmpNr[3] = cog[3];
+					tmpNr[3] = uni[3];
 					retList.add(tmpNr);
 				}
 			}
@@ -1438,37 +1438,37 @@ public class DataProcessor {
 		this.IPRToECHash = tmpIPRToEC;
 	}
 
-	private void DigitizeConversionFilesCog() {// Takes the COG->GO and GO->EC conversion files into memory as hashtables
-		this.cogToGoTxt_ = this.reader.readTxt(cog2GOPath_);
+	private void DigitizeConversionFilesUni() {// Takes the UniRef->GO and GO->EC conversion files into memory as hashtables
+		this.uniToGoTxt_ = this.reader.readTxt(uni2GOPath_);
 		this.ecToGoTxt_ = this.reader.readTxt(ecNamesPath);
-		Hashtable<String, ArrayList<String>> tmpCOGToGO = new Hashtable<String, ArrayList<String>>();
+		Hashtable<String, ArrayList<String>> tmpUNIToGO = new Hashtable<String, ArrayList<String>>();
 		Hashtable<String, ArrayList<String>> tmpECToGO = new Hashtable<String, ArrayList<String>>();
 
 		String zeile = "";
 		try {
-			while ((zeile = this.cogToGoTxt_.readLine()) != null) {
+			while ((zeile = this.uniToGoTxt_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
-					if (zeile.contains("COG:")&& zeile.contains("; GO:")) {
-						String tmpCOG = zeile.substring(zeile.indexOf("COG:") + 9,zeile.indexOf("COG:") + 18);
-						String tmpGO = zeile.substring(zeile.indexOf("; GO:") + 2,zeile.indexOf("; GO:") + 12);
+					if (zeile.contains("UniRef90")&& zeile.contains("GO:")) {
+						String tmpUNI = zeile.substring(zeile.indexOf("UniRef90"), zeile.indexOf("\t"));
+						String tmpGO = zeile.substring(zeile.indexOf("GO:"),zeile.indexOf("GO:") + 8);
 
-						if (tmpCOG != null && tmpCOGToGO.get(tmpCOG) != null && tmpGO != null) {
-							ArrayList<String> tmpValue = tmpCOGToGO.get(tmpCOG);
+						if (tmpUNI != null && tmpUNIToGO.get(tmpUNI) != null && tmpGO != null) {
+							ArrayList<String> tmpValue = tmpUNIToGO.get(tmpUNI);
 							tmpValue.add(tmpGO);
-							tmpCOGToGO.remove(tmpCOG);
-							tmpCOGToGO.put(tmpCOG, tmpValue);
-						} else if (tmpCOG != null && tmpGO != null) {
+							tmpUNIToGO.remove(tmpUNI);
+							tmpUNIToGO.put(tmpUNI, tmpValue);
+						} else if (tmpUNI != null && tmpGO != null) {
 							ArrayList<String> tmpValue = new ArrayList<String>();
 							tmpValue.add(tmpGO);
-							tmpCOGToGO.put(tmpCOG, tmpValue);
+							tmpUNIToGO.put(tmpUNI, tmpValue);
 						}
 
 					}
 				}
 			}
-			this.cogToGoTxt_.close();
+			this.uniToGoTxt_.close();
 		} catch (IOException e) {
-			openWarning("Error", "File" + cog2GOPath_ + " not found");
+			openWarning("Error", "File" + uni2GOPath_ + " not found");
 		}
 
 		try {
@@ -1500,7 +1500,7 @@ public class DataProcessor {
 		} catch (IOException e) {
 			openWarning("Error", "File" + ecNamesPath + " not found");
 		}
-		this.COGToGoHash = tmpCOGToGO;
+		this.UniToGoHash = tmpUNIToGO;
 		this.GOToECHash = tmpECToGO;
 
 	}

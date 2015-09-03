@@ -401,6 +401,7 @@ public class CmdController {
 				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
 				String line = "";
 				try {
+					ArrayList<String> timedOut;
 					long startTime = System.currentTimeMillis();
 					while ((line = this.sequenceList.readLine()) != null) {
 						//If the line contains a > it is not a file containing a list of sequence files
@@ -417,24 +418,40 @@ public class CmdController {
 							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
 							String fileName = line +  "-";
 							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
+							
 							batchCommand = false;
 						}
 						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
+							
 							batchCommand = true;
 							String sampleName = "";
 							LinkedHashMap<String,String> seq_for_lca;
 							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
 							String fileName = line +  "-";
 							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
+							
 							batchCommand = false;
 						}
 						else{
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
 						}
-						
 					}
+					System.out.println("LCA Done");
+					//checking for any timed out ec numbers
+					checkTimedOut(metapro);
+					
 					long endTime   = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
+					timedOut = metapro.getTimedOut();
+					if(!timedOut.isEmpty()){
+						System.out.println("Files that timed out:");
+						for(int i = 0; i < timedOut.size(); i++){
+							System.out.println(timedOut.get(i));
+						}
+					}
+					else{
+						System.out.println("All files executed successfully");
+					}
 					System.out.println("Time" + " " + totalTime);
 				} catch (IOException e) {
 					System.out.println("File does not exist");
@@ -456,6 +473,8 @@ public class CmdController {
 								getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
 					}
 				}
+				System.out.println("Done LCA");
+				checkTimedOut(metapro);
 			}
 			//export picture commands
 			if ((this.optionsCmd_.contentEquals("p"))
@@ -603,7 +622,45 @@ public class CmdController {
 
 		System.exit(0);
 	}
-
+	
+	/**
+	 * This method performs the ability to try re-running timed out ec numbers from the find lowest
+	 * common ancestor operation.
+	 * 
+	 * @param meta MetaProteomicAnalysis class used which holds the timed out ec numbers
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private void checkTimedOut(MetaProteomicAnalysis meta){
+		
+		if(meta.getTimedOut()==null){
+			System.out.println("All Ec's LCA Successful");
+			return;
+		}
+		//no timeout occured
+		if(meta.getTimedOut().size()==0){
+			System.out.println("All Ec's LCA Successful");
+			return;
+		}
+		//timeout has occured try to re-run timed out ecs
+		else{
+			System.out.println("Timeout has occured!");
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,
+					new Dimension(12, 12));
+			String sampleName = "";
+			for (int ec = 0; ec < meta.getTimedOut().size(); ec++) {
+				String ecNum = meta.getTimedOut().get(ec).substring(0, meta.getTimedOut().get(ec).indexOf("-"));
+				System.out.println(ecNum);
+				if (checkEC(ecNum)) {
+					LinkedHashMap<String,String> seq_for_lca;
+					seq_for_lca = pane.cmdExportSequences(ecNum,sampleName, true, false);
+					String fileName = ecNum +  "-";
+					tableAndChartData returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), true, batchCommand);
+				}
+			}
+		}
+	}
+	
 	private String getInputPath() {
 		return args_[0];
 	}

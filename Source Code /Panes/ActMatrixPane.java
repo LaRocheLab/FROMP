@@ -118,6 +118,7 @@ public class ActMatrixPane extends JPanel {
 	int popupIndexX; 
 	int yIndex1 = 520;
 	int yIndex2 = 0;
+	int scrollChartPos = 0;
 	int num_export_ec = 0;
 	String buttonName;
 	boolean exportAll = false;
@@ -206,6 +207,31 @@ public class ActMatrixPane extends JPanel {
 		validate(); 
 		repaint(); 
 	}
+
+	private void initMainPanels() {// instanciates the options, display, and scroll panels
+		this.optionsPanel_ = new JPanel();
+		this.optionsPanel_.setPreferredSize(new Dimension(getWidth(), 100));
+		this.optionsPanel_.setLocation(0, 0);
+		this.optionsPanel_.setBackground(Project.standard);
+		this.optionsPanel_.setVisible(true);
+		this.optionsPanel_.setLayout(null);
+		add(this.optionsPanel_, "First");
+
+		this.displayP_ = new JPanel();
+		this.displayP_.setLocation(0, 0);
+		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
+		this.displayP_.setSize(getPreferredSize());
+		this.displayP_.setBackground(Project.getBackColor_());
+		this.displayP_.setVisible(true);
+		this.displayP_.setLayout(null);
+
+		this.showJPanel_ = new JScrollPane(this.displayP_);
+		this.showJPanel_.setVisible(true);
+		this.showJPanel_.setVerticalScrollBarPolicy(20);
+		this.showJPanel_.setHorizontalScrollBarPolicy(30);
+
+		add("Center", this.showJPanel_);
+	}
 	
 	/**
 	 * Draws the tables and pie chart for the determine Lowest Common Ancestor for a given EC number
@@ -218,13 +244,15 @@ public class ActMatrixPane extends JPanel {
 		PiePlot pie1=null;
 		final JFreeChart chart;
 		System.out.println(returnData.getFileName());
-		if(returnData.getFileName()!=null){
+		if(returnData.getFileName()!=null&&returnData.getDataset()!=null&&returnData.getTable1()!=null&&returnData.getTable2()!=null){
 			chart = ChartFactory.createPieChart(returnData.getFileName()
 					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
 			pie1 = (PiePlot) chart.getPlot();
 		}
 		else{
+			System.out.println("No data");
 			chart=null;
+			return;
 		}
 		
 		pie1.setNoDataMessage("No data available");
@@ -271,7 +299,7 @@ public class ActMatrixPane extends JPanel {
 		panel.setLayout(null);
 		panel3.setBounds(520,250 + (1020)*numChart , 600, 600);
 		panel3.add(panel);
-		
+	
 		JScrollPane tableContainer = new JScrollPane(returnData.getTable1());
 		panel2.add(tableContainer, BorderLayout.CENTER);
 		panel2.add(exportTable1, BorderLayout.NORTH);
@@ -287,38 +315,21 @@ public class ActMatrixPane extends JPanel {
 				" Summary",TitledBorder.CENTER,TitledBorder.TOP));
 		panel4.setVisible(true);
 		panel4.setBounds(0, yIndex1 + (yIndex1 + 510)*numChart, 500,500);
+		numChart++;
+		
+		//extending the scrollbar in the find lowest common ancestor pane as more charts are added
+		scrollChartPos = yIndex1 + (yIndex1 + 510)*numChart;
+		displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,scrollChartPos));
+		this.showJPanel_.setViewportView(displayP_);
+		this.showJPanel_.setVisible(true);
+		this.showJPanel_.setVerticalScrollBarPolicy(20);
+		this.showJPanel_.setHorizontalScrollBarPolicy(30);
+		
 		displayP_.add(panel3, BorderLayout.LINE_END);
 		displayP_.add(panel2, BorderLayout.LINE_START);
 		displayP_.add(panel4, BorderLayout.LINE_START);
 		
-		numChart++;
-	}
-
-	private void initMainPanels() {// instanciates the options, display, and scroll panels
-		this.optionsPanel_ = new JPanel();
-		this.optionsPanel_.setPreferredSize(new Dimension(getWidth(), 100));
-		this.optionsPanel_.setLocation(0, 0);
-		this.optionsPanel_.setBackground(Project.standard);
-		this.optionsPanel_.setVisible(true);
-		this.optionsPanel_.setLayout(null);
-		add(this.optionsPanel_, "First");
-
-		this.displayP_ = new JPanel();
-		this.displayP_.setLocation(0, 0);
-		this.displayP_.setPreferredSize(new Dimension(
-				(Project.samples_.size() + 2) * 130,
-				(this.ecMatrix_.size() + 2) * 15 + 100));
-		this.displayP_.setSize(getPreferredSize());
-		this.displayP_.setBackground(Project.getBackColor_());
-		this.displayP_.setVisible(true);
-		this.displayP_.setLayout(null);
-
-		this.showJPanel_ = new JScrollPane(this.displayP_);
-		this.showJPanel_.setVisible(true);
-		this.showJPanel_.setVerticalScrollBarPolicy(20);
-		this.showJPanel_.setHorizontalScrollBarPolicy(30);
-
-		add("Center", this.showJPanel_);
+		
 	}
 
 	private void prepMatrix() {// This preps the onscreen matrix using the arrayline_[] variable in the line object.

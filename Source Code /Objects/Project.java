@@ -54,7 +54,7 @@ public class Project {
 	public static int numOfConvertedIPRs = 0; 
 	public static int numOfConvIPRsComplete = 0; 
 	public static int numOfConvIPRsMapped = 0;
-	public static int amountOfCOGs = 0;
+	public static int amountOfUNIs = 0;
 	public static int numOfConvertedCOGs = 0;
 	public static int numOfConvCOGsComplete = 0;
 	public static int numofConvCOGsMapped = 0;

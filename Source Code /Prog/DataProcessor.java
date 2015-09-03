@@ -11,6 +11,7 @@ import Objects.Project;
 import Objects.Sample;
 import Panes.HelpFrame;
 import Panes.Loadingframe;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -22,11 +23,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.util.Arrays;
+
 import java.util.*;
 
 /**
@@ -53,7 +55,7 @@ public class DataProcessor {
 	static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt"; //
 	static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt"; //
 	static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
-	static final String uni2GOPath_ = "list" + File.separator + "idmapping_selected_reduced.tab";
+	static final String uni2ECPath_ = "list" + File.separator + "uniref2ec.txt";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -89,7 +91,7 @@ public class DataProcessor {
 	BufferedReader pfamToRnToEc_; 
 	BufferedReader interproToGOTxt_;
 	BufferedReader interproToECTxt_; 
-	BufferedReader uniToGoTxt_;
+	BufferedReader uniToEcTxt_;
 	PngBuilder build; // PngBuilder to draw the graphics
 	Color sysCol_; 
 	public static ArrayList<PathwayWithEc> pathwayList_; // Array list containing the pathways
@@ -106,7 +108,7 @@ public class DataProcessor {
 	//Hash of GO -> EC conversion
 	Hashtable<String, ArrayList<String>> GOToECHash = new Hashtable<String, ArrayList<String>>();
 	//Hash of UNI -> GO conversion
-	Hashtable<String, ArrayList<String>> UniToGoHash = new Hashtable<String, ArrayList<String>>();
+	Hashtable<String, ArrayList<String>> UniToECHash = new Hashtable<String, ArrayList<String>>();
 
 	public DataProcessor(Project actProj) {// Builds the data processor object for the active project
 		this.activeProj_ = actProj;
@@ -1372,7 +1374,7 @@ public class DataProcessor {
 
 	private ArrayList<String[]> convertUni(String[] uni) {//conversion step using ipr->go, go->ec
 																		
-		if (UniToGoHash.isEmpty() || GOToECHash.isEmpty()) {
+		if (UniToECHash.isEmpty() || GOToECHash.isEmpty()) {
 			DigitizeConversionFilesUni();
 		}
 		ArrayList<String[]> retList = new ArrayList();
@@ -1383,9 +1385,9 @@ public class DataProcessor {
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];
 
-		if (this.UniToGoHash.containsKey(uniNr)) {
-			for (int i = 0; i < this.UniToGoHash.get(uniNr).size(); i++) {
-				tmpList.add(this.UniToGoHash.get(uniNr).get(i));
+		if (this.UniToECHash.containsKey(uniNr)) {
+			for (int i = 0; i < this.UniToECHash.get(uniNr).size(); i++) {
+				tmpList.add(this.UniToECHash.get(uniNr).get(i));
 			}
 		}
 
@@ -1439,70 +1441,37 @@ public class DataProcessor {
 	}
 
 	private void DigitizeConversionFilesUni() {// Takes the UniRef->GO and GO->EC conversion files into memory as hashtables
-		this.uniToGoTxt_ = this.reader.readTxt(uni2GOPath_);
-		this.ecToGoTxt_ = this.reader.readTxt(ecNamesPath);
-		Hashtable<String, ArrayList<String>> tmpUNIToGO = new Hashtable<String, ArrayList<String>>();
-		Hashtable<String, ArrayList<String>> tmpECToGO = new Hashtable<String, ArrayList<String>>();
-
+		this.uniToEcTxt_ = this.reader.readTxt(uni2ECPath_);
+		Hashtable<String, ArrayList<String>> tmpUNIToEC = new Hashtable<String, ArrayList<String>>();
 		String zeile = "";
+		String[] uni_args = null;
+		String[] ec_nums = null;
 		try {
-			while ((zeile = this.uniToGoTxt_.readLine()) != null) {
+			while ((zeile = this.uniToEcTxt_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
-					if (zeile.contains("UniRef90")&& zeile.contains("GO:")) {
-						String tmpUNI = zeile.substring(zeile.indexOf("UniRef90"), zeile.indexOf("\t"));
-						String tmpGO = zeile.substring(zeile.indexOf("GO:"),zeile.indexOf("GO:") + 8);
-
-						if (tmpUNI != null && tmpUNIToGO.get(tmpUNI) != null && tmpGO != null) {
-							ArrayList<String> tmpValue = tmpUNIToGO.get(tmpUNI);
-							tmpValue.add(tmpGO);
-							tmpUNIToGO.remove(tmpUNI);
-							tmpUNIToGO.put(tmpUNI, tmpValue);
-						} else if (tmpUNI != null && tmpGO != null) {
-							ArrayList<String> tmpValue = new ArrayList<String>();
-							tmpValue.add(tmpGO);
-							tmpUNIToGO.put(tmpUNI, tmpValue);
+					if (zeile.contains("UniRef90")&& zeile.matches(".*[0-9]+.[0-9]+.[0-9]+.[0-9]+.*")) {
+						uni_args = zeile.split("\\t");
+						String tmpUni = uni_args[0];
+						ArrayList<String> tmpECS = new ArrayList<String>();
+						if(uni_args[1].contains(" ")){
+							ec_nums = uni_args[1].split("\\s");
+							for(String ec: ec_nums){
+								if(ec != ""){
+									tmpECS.add(ec);
+								}
+							}
+							tmpUNIToEC.put(tmpUni, tmpECS);
 						}
-
 					}
 				}
+				uni_args = null;
+				ec_nums = null;
 			}
-			this.uniToGoTxt_.close();
+			this.uniToEcTxt_.close();
 		} catch (IOException e) {
-			openWarning("Error", "File" + uni2GOPath_ + " not found");
+			openWarning("Error", "File" + uni2ECPath_ + " not found");
 		}
-
-		try {
-			while ((zeile = this.ecToGoTxt_.readLine()) != null) {
-				if (!zeile.startsWith("!")) {
-					if (zeile.contains("EC:") && zeile.contains("; GO:")) {
-						String tmpEC = zeile.substring(
-								zeile.indexOf("EC:") + 3, zeile.indexOf(" "));
-						String tmpGO = zeile.substring(
-								zeile.indexOf("; GO:") + 2,
-								zeile.indexOf("; GO:") + 12);
-
-						if (tmpGO != null && tmpECToGO.get(tmpGO) != null
-								&& tmpEC != null) {
-							ArrayList<String> tmpValue = tmpECToGO.get(tmpGO);
-							tmpValue.add(tmpEC);
-							tmpECToGO.remove(tmpGO);
-							tmpECToGO.put(tmpGO, tmpValue);
-						} else if (tmpEC != null && tmpGO != null) {
-							ArrayList<String> tmpValue = new ArrayList<String>();
-							tmpValue.add(tmpEC);
-							tmpECToGO.put(tmpGO, tmpValue);
-						}
-
-					}
-				}
-			}
-			this.ecToGoTxt_.close();
-		} catch (IOException e) {
-			openWarning("Error", "File" + ecNamesPath + " not found");
-		}
-		this.UniToGoHash = tmpUNIToGO;
-		this.GOToECHash = tmpECToGO;
-
+		this.UniToECHash = tmpUNIToEC;
 	}
 
 	private void fillSampleEcs(Sample sample, int sampleIndex) {//

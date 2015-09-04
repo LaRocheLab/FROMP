@@ -1372,39 +1372,28 @@ public class DataProcessor {
 		return retList;
 	}
 
-	private ArrayList<String[]> convertUni(String[] uni) {//conversion step using ipr->go, go->ec
-																		
-		if (UniToECHash.isEmpty() || GOToECHash.isEmpty()) {
+	private ArrayList<String[]> convertUni(String[] uni) {//conversion step using uniref -> EC
+		
+		ArrayList<String[]> retList = new ArrayList();
+		if (UniToECHash.isEmpty()) {
 			DigitizeConversionFilesUni();
 		}
-		ArrayList<String[]> retList = new ArrayList();
-		ArrayList<String> tmpList = new ArrayList();
 
 		String zeile = "";
 		String[] tmpNr = new String[4];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];
 
-		if (this.UniToECHash.containsKey(uniNr)) {
-			for (int i = 0; i < this.UniToECHash.get(uniNr).size(); i++) {
-				tmpList.add(this.UniToECHash.get(uniNr).get(i));
+		if (this.IPRToECHash.containsKey(uniNr)) {
+			for (int i = 0; i < IPRToECHash.get(uniNr).size(); i++) {
+				tmpNr[0] = UniToECHash.get(uniNr).get(i);
+				tmpNr[1] = uni[1];
+				tmpNr[2] = "EC";
+				tmpNr[3] = uni[3];
+				Project.numOfConvertedUNIs += 1;
+				retList.add(tmpNr);
 			}
 		}
-
-		for (int i = 0; i < tmpList.size(); i++) {
-			String key = tmpList.get(i);
-			if (this.GOToECHash.get(key) != null
-					&& this.GOToECHash.containsKey(key)) {
-				for (int j = 0; j < this.GOToECHash.get(key).size(); j++) {
-					tmpNr[0] = this.GOToECHash.get(key).get(j);
-					tmpNr[1] = uni[1];
-					tmpNr[2] = "EC";
-					tmpNr[3] = uni[3];
-					retList.add(tmpNr);
-				}
-			}
-		}
-
 		return retList;
 	}
 

@@ -55,9 +55,9 @@ public class Project {
 	public static int numOfConvIPRsComplete = 0; 
 	public static int numOfConvIPRsMapped = 0;
 	public static int amountOfUNIs = 0;
-	public static int numOfConvertedCOGs = 0;
-	public static int numOfConvCOGsComplete = 0;
-	public static int numofConvCOGsMapped = 0;
+	public static int numOfConvertedUNIs = 0;
+	public static int numOfConvUNIsComplete = 0;
+	public static int numofConvUNIsMapped = 0;
 	
 	//ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
 	public static ArrayList<Boolean> legitSamples = new ArrayList(); 

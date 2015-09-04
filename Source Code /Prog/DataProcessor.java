@@ -206,7 +206,10 @@ public class DataProcessor {
 		if (line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
 			return getEnzFromInterPro(line);
 		}
-		System.out.println("Raw Sample");
+		if (line.matches(".*UniRef90_.*")){
+			System.out.println("Raw Uni");
+			return getEnzFromUni(line);
+		}
 		String[] ret = new String[4];
 
 		ret[0] = "X"; // Ec name
@@ -360,35 +363,19 @@ public class DataProcessor {
 	
 	public String[] getEnzFromUni(String line){
 
-		if (!line.matches(".*UniRef90_*")) {
+		if (!line.matches(".*UniRef90_.*")) {
+			System.out.println("returned null");
 			return null;
 		}
 		String seperator = ",";
 		String[] ret = new String[4];
-
 		ret[0] = "X"; // UniRef name
 		ret[1] = "1"; // Number of this UniRef with this sequence id
 		ret[2] = "X"; // Whether or not it is an UniRef
 		ret[3] = "X"; // Sequence id
-		//added !line.contains("\t") for a strange index exception was occuring without
-		/*if (line.contains(seperator) && !line.contains("\t")) {
-			String uni = findInterProInRaw(line);
-			if (uni != null) {
-				Project.amountOfUNIs += 1;
-				ret[0] = uni;
-				ret[2] = "UniRef";
-			}
-			String tmp = line.substring(line.indexOf(seperator) + 1);
-			if (tmp.contains(seperator)) {
-				ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-				ret[3] = tmp.substring(line.indexOf(seperator) + 1);
-			} else if (tmp != null) {
-				ret[1] = tmp;
-			}
-		} else {*/
-			if (line.contains("\t")) {
-				String[] repSeq = line.split("\\t");
-				ret[3] = repSeq[0];
+		if (line.contains("\t")) {
+			String[] repSeq = line.split("\\t");
+			ret[3] = repSeq[0];
 			String uni = findUNIInRaw(line);
 			if (uni != null) {
 				Project.amountOfUNIs += 1;
@@ -450,7 +437,7 @@ public class DataProcessor {
 		while (tmp.contains("UniRef")) {
 			uniref = tmp.split("\\t");
 			uni = uniref[1];
-			if (uni.matches("UniRef_")) {
+			if (uni.matches(".*UniRef90_.*")) {
 				return uni;
 			}
 		}
@@ -468,7 +455,7 @@ public class DataProcessor {
 		if (input.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
 			return getEnzFromInterPro(input);
 		}
-		if (input.matches(".*UniRef_*")){
+		if (input.matches(".*UniRef90_.*")){
 			return getEnzFromUni(input);
 		}
 		String seperator = "";
@@ -661,8 +648,7 @@ public class DataProcessor {
 	//returns a boolean variable which is the answer to whether or not the string is UniRef
 	public boolean isUNIBool(String uni){
 		String tmp = uni;
-		if ((tmp.startsWith("UniRef")) && (tmp.length() == 7)
-				&& (isNumber(tmp.substring(3)))) {
+		if ((tmp.matches(".*UniRef90_.*"))) {
 			return true;
 		}
 		return false;
@@ -885,6 +871,48 @@ public class DataProcessor {
 										}
 									}
 								}
+							}
+							//testing if works!
+							else if(newEnz[2].equalsIgnoreCase("uniref")){
+								if (!newEnz[1].isEmpty()) {
+									Project.amountOfUNIs += Integer.valueOf(newEnz[1]).intValue();
+								}
+								ArrayList<String[]> enzL = convertUni(newEnz);
+								System.out.println(enzL);
+								for (int cnt = 0; cnt < enzL.size(); cnt++) {
+									newEnz = (String[]) enzL.get(cnt);
+									if (!newEnz[0].isEmpty()) {
+										ecNr = new EcNr(newEnz);
+
+										EcWithPathway ecWP = null;
+										if (!ecNr.type_.contentEquals("X")) {
+											if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_))) {
+												Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3],ecNr.name_,0,ecNr.amount_,0));
+												ecWP = findEcWPath(ecNr);
+												this.lFrame_.step("converted " + newEnz[0]);
+											}
+											if (ecWP != null) {
+												if (!ecNr.isCompleteEc()) {
+													ecNr.incomplete = true;
+												}
+												if (isEc(ecNr.name_)) {
+													Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
+													Project.legitSamples.remove(i);
+													Project.legitSamples.add(i,Boolean.valueOf(true));
+												}
+											} else {
+												if (!ecNr.isCompleteEc()) {
+													ecNr.incomplete = true;
+												}
+												ecNr.unmapped = true;
+												EcWithPathway unmatched = new EcWithPathway(ecNr);
+												unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+												Project.samples_.get(i).addEc(unmatched);
+											}
+										}
+									}
+								}
+								
 							}
 							else if (!newEnz[0].isEmpty()) {
 								ecNr = new EcNr(newEnz);
@@ -1369,9 +1397,11 @@ public class DataProcessor {
 		String[] tmpNr = new String[4];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];
+		System.out.println(uniNr);
 
-		if (this.IPRToECHash.containsKey(uniNr)) {
-			for (int i = 0; i < IPRToECHash.get(uniNr).size(); i++) {
+		if (this.UniToECHash.containsKey(uniNr)) {
+			System.out.println("Found UniRef");
+			for (int i = 0; i < UniToECHash.get(uniNr).size(); i++) {
 				tmpNr[0] = UniToECHash.get(uniNr).get(i);
 				tmpNr[1] = uni[1];
 				tmpNr[2] = "EC";

@@ -362,6 +362,7 @@ public class EditsamplesPane extends JPanel {
 									iprCount = 1;
 								}
 								boolean legit = EditsamplesPane.this.testSampleFile(EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath());
+								System.out.println(legit);
 								Sample sample = new Sample(EditsamplesPane.this.fChoose_.getSelectedFile().getName(),
 										EditsamplesPane.this.fChoose_.getSelectedFile().getCanonicalPath(),
 										EditsamplesPane.this.getColor(Project.samples_.size()));

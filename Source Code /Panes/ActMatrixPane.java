@@ -2218,7 +2218,9 @@ public class ActMatrixPane extends JPanel {
 			return;
 		}
 		this.lframe.bigStep("Sorting ECs");
-		quicksortNames(0, this.ecMatrix_.size() - 1);
+		if (this.ecMatrix_.size() > 0) {
+			quicksortNames(0, this.ecMatrix_.size() - 1);
+		}
 		this.ecMatrix_ = removeDuplicates();
 		System.out.println("Done Sorting");
 		if (this.moveUnmappedToEnd != null) {
@@ -2507,7 +2509,9 @@ public class ActMatrixPane extends JPanel {
 
 	private void quicksortSum() {
 		this.lframe.bigStep("Sorting ECs");
-		quicksort(0, this.ecMatrix_.size() - 1);
+		if (this.ecMatrix_.size() > 0) {
+			quicksort(0, this.ecMatrix_.size() - 1);
+		}
 		reverseMatrix();
 		this.ecMatrix_ = removeDuplicates();
 		if (this.moveUnmappedToEnd != null) {
@@ -2524,7 +2528,9 @@ public class ActMatrixPane extends JPanel {
 	
 	public void quicksortGeoDist() {
 		this.lframe.bigStep("Sorting ECs");
-		quicksortDist(0, this.ecMatrix_.size() - 1);
+		if(this.ecMatrix_.size()>0){
+			quicksortDist(0, this.ecMatrix_.size() - 1);
+		}
 		this.ecMatrix_ = removeDuplicates();
 		if (this.moveUnmappedToEnd != null) {
 			if (this.moveUnmappedToEnd.isSelected()) {
@@ -2540,8 +2546,9 @@ public class ActMatrixPane extends JPanel {
 	
 	private void quicksortOdds(){
 		this.lframe.bigStep("Sorting ECs");
-		quicksortOdds(0, this.ecMatrix_.size() - 1);
-		
+		if(this.ecMatrix_.size()>0){
+			quicksortOdds(0, this.ecMatrix_.size() - 1);
+		}
 		this.ecMatrix_ = removeDuplicates();
 		if (this.moveUnmappedToEnd != null) {
 			if (this.moveUnmappedToEnd.isSelected()) {

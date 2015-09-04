@@ -436,6 +436,7 @@ public class CmdController {
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
 						}
 					}
+					
 					System.out.println("LCA Done");
 					//checking for any timed out ec numbers
 					checkTimedOut(metapro);
@@ -443,10 +444,11 @@ public class CmdController {
 					long endTime   = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
 					timedOut = metapro.getTimedOut();
+					//printing out the names of the files that timed out
 					if(!timedOut.isEmpty()){
 						System.out.println("Files that timed out:");
 						for(int i = 0; i < timedOut.size(); i++){
-							System.out.println(timedOut.get(i));
+							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
 						}
 					}
 					else{

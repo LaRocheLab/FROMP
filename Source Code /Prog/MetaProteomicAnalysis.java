@@ -300,7 +300,9 @@ public class MetaProteomicAnalysis {
 					}
 				} catch (IOException| JSONException b) {
 					System.out.println("Connection Timeout " + fileName);
-					timedOut.add(fileName);
+					if(!timedOut.contains(fileName)){
+						timedOut.add(fileName);
+					}
 				}
 			}
 		}
@@ -417,7 +419,10 @@ public class MetaProteomicAnalysis {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			System.out.println("Connection Timeout for " + fileName);
-			timedOut.add(fileName);
+			if(!timedOut.contains(fileName)){
+				timedOut.add(fileName);
+			}
+		
 		}
 	}
 	

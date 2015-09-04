@@ -370,8 +370,8 @@ public class DataProcessor {
 		ret[1] = "1"; // Number of this UniRef with this sequence id
 		ret[2] = "X"; // Whether or not it is an UniRef
 		ret[3] = "X"; // Sequence id
-		//added !line.contains("/t") for a strange index exception was occuring without
-		if (line.contains(seperator) && !line.contains("\t")) {
+		//added !line.contains("\t") for a strange index exception was occuring without
+		/*if (line.contains(seperator) && !line.contains("\t")) {
 			String uni = findInterProInRaw(line);
 			if (uni != null) {
 				Project.amountOfUNIs += 1;
@@ -385,11 +385,10 @@ public class DataProcessor {
 			} else if (tmp != null) {
 				ret[1] = tmp;
 			}
-		} else {
+		} else {*/
 			if (line.contains("\t")) {
-				String repSeq = line.substring(0, line.indexOf("\t"));
-				ret[3] = repSeq;
-			}
+				String[] repSeq = line.split("\\t");
+				ret[3] = repSeq[0];
 			String uni = findUNIInRaw(line);
 			if (uni != null) {
 				Project.amountOfUNIs += 1;
@@ -434,8 +433,7 @@ public class DataProcessor {
 		String interpro = "";
 		String tmp = input;
 		while (tmp.contains("IPR")) {
-			interpro = tmp
-					.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
+			interpro = tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
 			if (interpro.matches("IPR[0-9][0-9][0-9][0-9][0-9][0-9]")) {
 				return interpro;
 			} else {
@@ -447,13 +445,13 @@ public class DataProcessor {
 	
 	private String findUNIInRaw(String input) {
 		String uni = "";
+		String[] uniref;
 		String tmp = input;
 		while (tmp.contains("UniRef")) {
-			uni = tmp.substring(tmp.indexOf("UniRef"), tmp.indexOf("UniRef") + 7);
+			uniref = tmp.split("\\t");
+			uni = uniref[1];
 			if (uni.matches("UniRef_")) {
 				return uni;
-			} else {
-				tmp = tmp.substring(tmp.indexOf("UniRef") + 3);
 			}
 		}
 		return null;
@@ -631,15 +629,12 @@ public class DataProcessor {
 	/*If the input string is deteremined to be UNI the method outputs the uni. Else returns null */
 	public String isUNI(String uni){
 		String tmp = uni;
-		if (tmp.contains("UniRef90")) {
-			tmp = tmp.substring(tmp.indexOf("UniRef90_"));
-			if (tmp.length() == 7) {
-				if (isNumber(tmp.substring(3))) {
-					return tmp;
-				}
-			} else if (tmp.length() >= 7) {
-				tmp = tmp.substring(3);
-				isUNI(tmp);
+		String[] uniref;
+		if (tmp.contains("UniRef90_")) {
+			uniref = tmp.split("\\t");
+			tmp = uniref[1];
+			if(tmp.contains("UniRef90_")){
+				return tmp;
 			}
 		}
 		return null;
@@ -837,25 +832,21 @@ public class DataProcessor {
 						}
 						if (!enzReadCorrectly(newEnz)) {
 							Debug.addnoEnzymeLine(sample.name_ + " " + zeile);
-						} else {
+						} 
+						else {
 							if (newEnz[2] == "EC") {// if the sequence was already an EC
-								Debug.addEc(sample.name_ + " id: " + newEnz[0]
-										+ " repseq: " + newEnz[3] + " amount: "
-										+ newEnz[1]);
+								Debug.addEc(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
 							} else {
-								Debug.addPf(sample.name_ + " id: " + newEnz[0]
-										+ " repseq: " + newEnz[3] + " amount: "
-										+ newEnz[1]);
+								Debug.addPf(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: " + newEnz[1]);
 							}
-
 							counter++;
 							this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
 							this.lFrame_.updateCounter(counter);
-							if (newEnz[2].equalsIgnoreCase("PF"))// If the sequence was taken in as a pfam
-							{
+							
+							//If the sequence was taken in as a pfam
+							if (newEnz[2].equalsIgnoreCase("PF")){
 								if (!newEnz[1].isEmpty()) {
-									Project.amountOfPfs += Integer.valueOf(
-											newEnz[1]).intValue();
+									Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
 								}
 								ArrayList<String[]> enzL = convertPfam(newEnz);
 								for (int cnt = 0; cnt < enzL.size(); cnt++) {
@@ -895,7 +886,6 @@ public class DataProcessor {
 									}
 								}
 							}
-							
 							else if (!newEnz[0].isEmpty()) {
 								ecNr = new EcNr(newEnz);
 								if (ecNr.couldBeEc()) {
@@ -1263,10 +1253,6 @@ public class DataProcessor {
 		return i;
 	}
 	
-	public int parseUni(int count){
-		int i = 0;
-		return i;
-	}
 	//returns true if element 0 of the array is either ec,ipr or pfam and the element 1 is an int
 	public boolean enzReadCorrectly(String[] newEnz) {
 		if (newEnz == null) {

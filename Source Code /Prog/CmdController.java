@@ -591,7 +591,11 @@ public class CmdController {
 					outPutPath_ += File.separator + Project.workpath_+"-pvalue-eclist.txt";
 				}
 				else{
-					outPutPath_ += File.separator + Project.workpath_+"-eclist.txt";
+					//add number of  Ec, it won't overwrite origin-file. It will plus a number at the end of file's name.
+					if(num_ec_exported == 0)
+						outPutPath_ += File.separator + Project.workpath_+"-eclist-all.txt";
+					else
+						outPutPath_ += File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
 				}
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 				if (this.optionsCmd_.contentEquals("eclist")) {

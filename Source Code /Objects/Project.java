@@ -1190,7 +1190,7 @@ public class Project {
 
 	public static void addUserP(String userP) {
 		if (userPathways == null) {
-			userPathways = new ArrayList();
+			userPathways = new ArrayList<String>();
 		}
 		userPathways.add(userP);
 	}

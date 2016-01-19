@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import sun.org.mozilla.javascript.json.JsonParser;
-
+import java.io.IOException;
 /**
  * Used for command line FROMP functions. Processes all command line user input
  * into FROMP.
@@ -51,9 +51,12 @@ public class CmdController {
 
 	public CmdController(String[] args) {
 		System.out.println("Starting cmdFromp");
-
+		/*
+		 * args length start from 2, 1arg cmd has executed at StartFromp.java.such like h,d.
+		 */
 		args_ = args;
 		this.ec_ = new ArrayList<String>();
+		//args = 2 ,  'inputPath'  &  'ec#/seq/seqall/lca' -- !!seq/seqall/lca not working!!
 		if (args_.length == 2) {
 			if (checkEC(args_[1])) {
 				this.ec_.add(args_[1]);
@@ -68,26 +71,31 @@ public class CmdController {
 			}
 			this.inputPath_ = getInputPath();
 			System.out.println("input: " + this.inputPath_);
-		} else if (args_.length == 3) {
+		}
+		//args = 3 , 'inputPath' & 'ec#/seq/seqall/lca' & 'ec#'
+		else if (args_.length == 3) {	
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
 				this.ec_.add(args_[1]);
 				this.ec_.add(args_[2]);
-			} else if (args_[1].contentEquals("seq")) {
+			} 	
+			else if (args_[1].contentEquals("seq")) {			
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
-				this.ec_.add(args_[2]);
-			} else if (args_[1].contentEquals("seqall")) {
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				this.ec_.add(args_[2]);
-			}else if (args_[1].contentEquals("lca")) {
+				this.ec_.add(args_[2]);	
+			} 
+			else if (args_[1].contentEquals("seqall")) {	
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
 				this.ec_.add(args_[2]);
 			}
-			
+			else if (args_[1].contentEquals("lca")) {
+				this.inputPath_ = getInputPath();
+				this.optionsCmd_ = args_[1];
+				this.ec_.add(args_[2]);
+			}
+			//if arg1   !=   ec#/seq/seqall/lca , just print inputPath
 			else {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -97,7 +105,13 @@ public class CmdController {
 				System.out.println("option: " + this.optionsCmd_);
 
 			}
-		} else if (args.length >= 4) {
+			
+			
+		} 
+		//args =4  or more.  
+		else if (args.length >= 4) {
+			
+			//'inputPath' & 'ec#' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
 			if (checkEC(args_[1])) {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -106,41 +120,51 @@ public class CmdController {
 					this.ec_.add(args_[i]);
 					System.out.println(args_[i]);
 				}
-			} else if (args_[1].contentEquals("seq")) {
+			} 
+			// 'inputPath' & 'seq' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
+			else if (args_[1].contentEquals("seq")) {
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
 				System.out.println("input: " + this.inputPath_);
 				System.out.println("Seqs");
-				for (int i = 1; i < args.length; i++) {
+				for (int i = 2; i < args.length; i++) {
 					this.ec_.add(args_[i]);
-					System.out.println(args_[i]);
+					System.out.println("mount" +args_[i]);
 				}
-			} else if (args_[1].contentEquals("seqall")) {
+			} 
+			// 'inputPath' & 'seqall' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
+			else if (args_[1].contentEquals("seqall")) {
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
 				System.out.println("input: " + this.inputPath_);
 				System.out.println("Seqall");
-				for (int i = 1; i < args.length; i++) {
+				for (int i = 2; i < args.length; i++) {
 					this.ec_.add(args_[i]);
 					System.out.println(args_[i]);
 				}
-			} else if (args_[1].contentEquals("lca")) {
+			} 
+			//'inputPath' & 'lca' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
+			else if (args_[1].contentEquals("lca")) {
 				this.inputPath_ = getInputPath();
 				this.optionsCmd_ = args_[1];
 				System.out.println("input: " + this.inputPath_);
 				System.out.println("lca");
-				for (int i = 1; i < args.length; i++) {
+				for (int i = 2; i < args.length; i++) {
 					this.ec_.add(args_[i]);
 					System.out.println(args_[i]);
 				}
-			}else if (args_[2].contentEquals("eclist")||args_[2].contentEquals("pvalue")){
+			}
+			//'inputPath' & 'eclistPath/outputPath' & 'eclist/pvalue'
+			else if (args_[2].contentEquals("eclist")||args_[2].contentEquals("pvalue")){
 				this.inputPath_ = getInputPath();
 				this.outPutPath_ = getOutputPath();
 				this.optionsCmd_ = args_[2];
 				System.out.println("input: " + this.inputPath_);
 				this.num_ec_exported = Integer.parseInt(args_[3]);
 				System.out.println("Number " + num_ec_exported);
-			}else {
+			}
+			//'inputPath' & 'a path' & ‘a cmd’  &  'ec#' & 'ec#'  & 'ec#'......
+			else {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
 				this.outPutPath_ = getOutputPath();
@@ -161,16 +185,28 @@ public class CmdController {
 		Panes.HelpFrame.showSummary = false;
 		if (this.inputPath_.endsWith(".frp")) // If the input file is of the the project file type, load the project
 		{
-			controller.loadProjFile(this.inputPath_);
+			//add try-catch for check input file.
+			try{
+				File f = new File(inputPath_);
+				if (f.exists() && !f.isDirectory()) {
+					controller.loadProjFile(this.inputPath_);
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("wrong .frp file");
+			}
+			
 		/*
 		 * If the input file is of the .lst type, iterate through the file and build samples for
 		 * all the file paths in the file, if the line starts with <userP> a new user path
 		 * is added. They are all added to a new project!
 		 */
-		} else if (this.inputPath_.endsWith(".lst")){
+		}
+		
+		else if (this.inputPath_.endsWith(".lst")){
 			try {
-				BufferedReader in = new BufferedReader(new FileReader(
-						this.inputPath_));
+				BufferedReader in = new BufferedReader(new FileReader(this.inputPath_));
 
 				String comp = "<userP>";
 				String line = in.readLine();
@@ -182,52 +218,54 @@ public class CmdController {
 							System.out.println("user pathway made");
 							Project.addUserP(userP);
 							System.out.println("pathway added");
-						} else if ((line) != null) {
+						}
+						else if ((line) != null) {
 							//if the line doesn't contain a tab then assume it is just the path to the project or sample files
 							if (!line.contains("\t")) { 
 								File f = new File(line);
-								if (f.exists() && !f.isDirectory()
-										&& line.endsWith(".frp")) {
+								if (f.exists() && !f.isDirectory()&& line.endsWith(".frp")) {
 									controller.loadAnotherProjFile(line);
 									System.out.println("Project file added");
-									Project.workpath_ = inputPath_
-											.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc
+									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									
+									//check any"/" in project name.
 									if (Project.workpath_.contains(File.separator)) {
-										Project.workpath_ = Project.workpath_
-												.replace(File.separator, "");
+										Project.workpath_ = Project.workpath_.replace(File.separator, "");
 									}
-								} else if (f.exists() && !f.isDirectory()) {
-									String name = line.substring(line
-											.lastIndexOf(File.separator));
-									Color col = new Color(
-											(float) Math.random(),
-											(float) Math.random(),
-											(float) Math.random());
+									
+								}
+								//if the file file not ends with ".frp". such like .txt / .lst
+								else if (f.exists() && !f.isDirectory()) {
+									//get filename.filetype.  such like abc.txt
+									String name = line.substring(line.lastIndexOf(File.separator));
+									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
 									Sample sample = new Sample(name, line, col);
 
 									Project.samples_.add(sample);
 									System.out.println("sample added");
-								} else {
+								} 
+								else {
 									System.out.println("file does not exist");
 								}
-							} else { // If the line does contain a tab then split the line into the the sample file and the sequence file
-								String sampleString = line.substring(0,
-										line.indexOf("\t"));
-								String sequenceString = line.substring(line
-										.indexOf("\t"));
+							} 
+							
+							else { // If the line does contain a tab then split the line into the the sample file and the sequence file
+								String sampleString = line.substring(0,line.indexOf("\t"));
+								String sequenceString = line.substring(line.indexOf("\t"));
 								String tmpName = "";
 								Boolean newSample = false;
 								File f = new File(sampleString);
-								if (f.exists() && !f.isDirectory()
-										&& sampleString.endsWith(".frp")) {
+								if (f.exists() && !f.isDirectory()&& sampleString.endsWith(".frp")) {
 									controller.loadAnotherProjFile(sampleString);
 									System.out.println("Project file added");
-									Project.workpath_ = inputPath_.substring(inputPath_
-											.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									
 									if (Project.workpath_.contains(File.separator)) {
 										Project.workpath_ = Project.workpath_.replace(File.separator, "");
 									}
-								} else if (f.exists() && !f.isDirectory()) {
+								} 
+								else if (f.exists() && !f.isDirectory()) {
 									String name = sampleString
 											.substring(sampleString
 													.lastIndexOf(File.separator));
@@ -264,7 +302,8 @@ public class CmdController {
 					}
 					line = in.readLine();
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

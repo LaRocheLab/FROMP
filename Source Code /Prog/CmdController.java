@@ -221,13 +221,15 @@ public class CmdController {
 						}
 						else if ((line) != null) {
 							//if the line doesn't contain a tab then assume it is just the path to the project or sample files
+							//no sequence file
 							if (!line.contains("\t")) { 
 								File f = new File(line);
+								//the file ends with ".frp"
 								if (f.exists() && !f.isDirectory()&& line.endsWith(".frp")) {
 									controller.loadAnotherProjFile(line);
 									System.out.println("Project file added");
-									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc
-									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc.need+1
+									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
 									
 									//check any"/" in project name.
 									if (Project.workpath_.contains(File.separator)) {
@@ -237,22 +239,24 @@ public class CmdController {
 								}
 								//if the file file not ends with ".frp". such like .txt / .lst
 								else if (f.exists() && !f.isDirectory()) {
-									//get filename.filetype.  such like abc.txt
-									String name = line.substring(line.lastIndexOf(File.separator));
+									//get filename.filetype.  such like abc.txt, need +1
+									String name = line.substring(line.lastIndexOf(File.separator)+1);
 									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
 									Sample sample = new Sample(name, line, col);
 
 									Project.samples_.add(sample);
 									System.out.println("sample added");
 								} 
+								//if file not exists or it is a folder
 								else {
 									System.out.println("file does not exist");
 								}
 							} 
-							
+							//line contains "\t" -- tab, means it include sample and sequence 
 							else { // If the line does contain a tab then split the line into the the sample file and the sequence file
 								String sampleString = line.substring(0,line.indexOf("\t"));
-								String sequenceString = line.substring(line.indexOf("\t"));
+								//sequence file should not include "\t".so it need +1
+								String sequenceString = line.substring(line.indexOf("\t")+1);
 								String tmpName = "";
 								Boolean newSample = false;
 								File f = new File(sampleString);
@@ -266,9 +270,8 @@ public class CmdController {
 									}
 								} 
 								else if (f.exists() && !f.isDirectory()) {
-									String name = sampleString
-											.substring(sampleString
-													.lastIndexOf(File.separator));
+									//need+1
+									String name = sampleString.substring(sampleString.lastIndexOf(File.separator)+1);
 									Color col = new Color(
 											(float) Math.random(),
 											(float) Math.random(),
@@ -309,8 +312,8 @@ public class CmdController {
 		}
 
 		else {
-			String name = this.inputPath_.substring(this.inputPath_
-					.lastIndexOf(File.separator));
+			//need +1
+			String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator)+1);
 			Sample sample = new Sample(name, this.inputPath_, Color.red);
 
 			Project.samples_.add(sample);

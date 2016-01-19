@@ -2,6 +2,7 @@ package Objects;
 
 import Prog.StringReader;
 
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,7 +12,6 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
-
 import javax.swing.JLabel;
 
 //This contains all of the pertinant data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
@@ -65,7 +65,7 @@ public class Sample {
 		this.rnPathways_ = new ArrayList();
 		this.conversions_ = new ArrayList();
 	}
-
+	
 	public Sample(String name, String fullpath, Color col) {
 		this.name_ = name;
 		this.fullPath_ = fullpath;

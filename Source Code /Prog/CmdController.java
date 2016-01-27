@@ -48,7 +48,11 @@ public class CmdController {
 	boolean batchCommand = false;
 	private String inputPath;
 	private String optionsCmd;
-
+	
+	//for inti
+	public CmdController(){
+		
+	}
 	public CmdController(String[] args) {
 		System.out.println("Starting cmdFromp");
 		/*
@@ -95,7 +99,7 @@ public class CmdController {
 				this.optionsCmd_ = args_[1];
 				this.ec_.add(args_[2]);
 			}
-			//if arg1   !=   ec#/seq/seqall/lca , just print inputPath
+			//if arg1   !=   ec#/seq/seqall/lca , just print inputPath and set set optionsCmd = arg[2](might : p,s,m,e,f,a,am,op,up,ec)
 			else {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -163,7 +167,7 @@ public class CmdController {
 				this.num_ec_exported = Integer.parseInt(args_[3]);
 				System.out.println("Number " + num_ec_exported);
 			}
-			//'inputPath' & 'a path' & ‘a cmd’  &  'ec#' & 'ec#'  & 'ec#'......
+			//'inputPath' & 'a path' & ‘a cmd’  &  'ec#' & 'ec#'  & 'ec#'...... (cmd might : p,s,m,e,f,a,am,op,up,ec)
 			else {
 				this.inputPath_ = getInputPath();
 				System.out.println("input: " + this.inputPath_);
@@ -178,11 +182,12 @@ public class CmdController {
 				}
 			}
 		}
-
+		// for loading file.
 		controller = new Controller(Color.black);
 
 		Panes.Loadingframe.showLoading = false;
 		Panes.HelpFrame.showSummary = false;
+		//input is a .frp file
 		if (this.inputPath_.endsWith(".frp")) // If the input file is of the the project file type, load the project
 		{
 			//add try-catch for check input file.
@@ -202,8 +207,8 @@ public class CmdController {
 		 * all the file paths in the file, if the line starts with <userP> a new user path
 		 * is added. They are all added to a new project!
 		 */
-		}
-		
+		}// .frp finish
+		//input is a .lst file
 		else if (this.inputPath_.endsWith(".lst")){
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(this.inputPath_));
@@ -228,20 +233,21 @@ public class CmdController {
 								if (f.exists() && !f.isDirectory()&& line.endsWith(".frp")) {
 									controller.loadAnotherProjFile(line);
 									System.out.println("Project file added");
-									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc.need+1
+									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc.also need+1 at first index
 									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
 									
-									//check any"/" in project name.
+									//check any"/" in project name. no need,
 									if (Project.workpath_.contains(File.separator)) {
 										Project.workpath_ = Project.workpath_.replace(File.separator, "");
 									}
 									
 								}
-								//if the file file not ends with ".frp". such like .txt / .lst
+								//if the file file not ends with ".frp". such like .txt or other in .lst file
 								else if (f.exists() && !f.isDirectory()) {
 									//get filename.filetype.  such like abc.txt, need +1
 									String name = line.substring(line.lastIndexOf(File.separator)+1);
 									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+									//line = sample's path
 									Sample sample = new Sample(name, line, col);
 
 									Project.samples_.add(sample);
@@ -260,6 +266,7 @@ public class CmdController {
 								String tmpName = "";
 								Boolean newSample = false;
 								File f = new File(sampleString);
+								
 								if (f.exists() && !f.isDirectory()&& sampleString.endsWith(".frp")) {
 									controller.loadAnotherProjFile(sampleString);
 									System.out.println("Project file added");
@@ -269,13 +276,11 @@ public class CmdController {
 										Project.workpath_ = Project.workpath_.replace(File.separator, "");
 									}
 								} 
+								//if it is not a .frp
 								else if (f.exists() && !f.isDirectory()) {
 									//need+1
 									String name = sampleString.substring(sampleString.lastIndexOf(File.separator)+1);
-									Color col = new Color(
-											(float) Math.random(),
-											(float) Math.random(),
-											(float) Math.random());
+									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
 									Sample sample = new Sample(name,
 											sampleString, col);
 									newSample = true;
@@ -290,16 +295,18 @@ public class CmdController {
 								if (f.exists() && !f.isDirectory() && newSample
 										&& tmpName != null && tmpName != "") {
 									for (int i = 0; i < Project.samples_.size(); i++) {
-										if (Project.samples_.get(i).name_
-												.contentEquals(tmpName)) {
-
+										
+										// not finish to add sequence.
+										if (Project.samples_.get(i).name_.contentEquals(tmpName)) {
+											//more
 										}
 									}
 								}
 							}
 						}
 
-					} catch (Exception e) {
+					} 
+					catch (Exception e) {
 						e.printStackTrace();
 						continue;
 					}
@@ -309,35 +316,44 @@ public class CmdController {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-
+		}//.lst finish
+		
+		//input is NOT a .frp or .lst file (may be .txt or .out . tsv .....)
 		else {
 			//need +1
 			String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator)+1);
+			//should random color, but it is ok in cmd line.
 			Sample sample = new Sample(name, this.inputPath_, Color.red);
-
+			//add sample into sample list
 			Project.samples_.add(sample);
 		}
+		//if ture = full load . all samples have loaded.
 		Controller.loadPathways(true);
-		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
+		//need +1 , set project name.
+		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
+		//no need, it is already fixed after+1 
 		if (Project.workpath_.contains(File.separator)) {
 			Project.workpath_ = Project.workpath_.replace(File.separator, "");
 		}
-
+		//if ec_ != null. means some cmd may be ec,seq,seqall,lca. will not be p,s,m,e,f,a,am,op,up,eclist,pvalue.
 		if (!ec_.isEmpty()) {
+			// it is not only ec#
 			if (this.optionsCmd_ != null) {
-				if (!this.optionsCmd_.contentEquals("seq") && !this.optionsCmd_.contentEquals("seqall") &&
-						!this.optionsCmd_.contentEquals("eclist")&& !this.optionsCmd_.contentEquals("pvalue")) {
-					ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-							DataProcessor.ecList_, Controller.processor_,
-							new Dimension(12, 12));
-					System.out.println("Repseqs will be saved at: " + basePath_
-							+ "RepSeqIDs/");
+				//if cmd != seq /seqall/eclist/pvalue &  ec_ != null (cmd might : lca,ec)
+				if (!this.optionsCmd_.contentEquals("seq") && !this.optionsCmd_.contentEquals("seqall")  &&  !this.optionsCmd_.contentEquals("eclist") && !this.optionsCmd_.contentEquals("pvalue")) {
+					//initialization
+					ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+					//code means may be the cmd is ec.
+					System.out.println("Repseqs will be saved at: " + basePath_ + "RepSeqIDs/");
+					
+					//output --  all ecs
 					for (int i = 0; i < ec_.size(); i++) {
 						pane.cmdExportRepseqs(this.ec_.get(i));
 					}
 				}
-			} else {
+			} 
+			//if optionsCmd_ = null & ec_  !=  null. do ec funtion without ec cmd.  inputpath ec#.........
+			else {
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
 						new Dimension(12, 12));
@@ -348,7 +364,9 @@ public class CmdController {
 				}
 			}
 		}
+		//if  optionsCmd_    !=   null (may be use else if) ec_ may null or not.
 		if (this.optionsCmd_ != null) {
+			//ec
 			if (this.optionsCmd_.contentEquals("ec")) {
 				this.reader = new StringReader();
 				this.ecList = this.reader.readTxt(outPutPath_);
@@ -364,11 +382,13 @@ public class CmdController {
 							pane.cmdExportRepseqs(line);
 						}
 					}
-				} catch (IOException e) {
+				} 
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 				System.exit(0);
 			}
+			//seq  with ec# -- it will read ec from ec_
 			if ((this.optionsCmd_.contentEquals("seq")) && !ec_.isEmpty()) {
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
@@ -376,13 +396,19 @@ public class CmdController {
 				System.out.println("Sequences will be saved at: " + basePath_
 						+ "Sequences/");
 				for (int i = 0; i < ec_.size(); i++) {
+					//4 args (chosen_ec , sampleName , oneFile(seqall) , fina Lca )
 					pane.cmdExportSequences(this.ec_.get(i),"", false, false);
 				}
+				//if not ec, ec_ is null , exit
 				if ((this.optionsCmd_.contentEquals("seq"))) {
 					System.exit(0);
 				}
-			} else if ((this.optionsCmd_.contentEquals("seq"))) {
+			} 
+			// seq without ec# -- it will read ec from eclist.txt(output path)
+			//may no need this method,  all file import to ec_ already
+			else if ((this.optionsCmd_.contentEquals("seq"))) {
 				this.reader = new StringReader();
+				//buffreader ecList != DataProcessor.ecList_
 				this.ecList = this.reader.readTxt(outPutPath_);
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
@@ -396,11 +422,13 @@ public class CmdController {
 							pane.cmdExportSequences(line,"", false, false);
 						}
 					}
-				} catch (IOException e) {
+				} 
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 				System.exit(0);
 			}
+			// seqall with ec# -- it will read ec from ec_
 			else if((this.optionsCmd_.contentEquals("seqall")) && !ec_.isEmpty()) {
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
 						DataProcessor.ecList_, Controller.processor_,
@@ -411,9 +439,11 @@ public class CmdController {
 					pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 				}
 				if ((this.optionsCmd_.contentEquals("seq"))) {
-					System.exit(0);
+					System.exit
+					else if ((this.optionsCmd_.contentEquals("seq"))) {(0);
 				}
 			}
+			// seqall without ec# -- it will read ec from eclist.txt(output path)
 			else if((this.optionsCmd_.contentEquals("seqall"))){
 				this.reader = new StringReader();
 				this.ecList = this.reader.readTxt(outPutPath_);
@@ -434,6 +464,7 @@ public class CmdController {
 				}
 				System.exit(0);
 			}
+			// lca without  ec#(with sequence) -- it will read sequencelist.txt (output path)
 			else if((this.optionsCmd_.contentEquals("lca"))&&ec_.isEmpty()){
 				this.reader = new StringReader();
 				this.sequenceList = this.reader.readTxt(outPutPath_);
@@ -451,8 +482,9 @@ public class CmdController {
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true, batchCommand);
 							break;
 						}
+						//Top seq in eclist file. it means if read a eclist.txt file.
 						else if(line.contains("Ec Activity EC Numbers")){
-							
+							//?
 							batchCommand = true;
 							line = sequenceList.readLine();
 							String sampleName = "";
@@ -463,6 +495,7 @@ public class CmdController {
 							
 							batchCommand = false;
 						}
+						//ec#. under "Ec Activity EC Numbers"
 						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
 							
 							batchCommand = true;
@@ -474,6 +507,7 @@ public class CmdController {
 							
 							batchCommand = false;
 						}
+						//not eclist, ec# or ">"
 						else{
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
 						}
@@ -493,6 +527,7 @@ public class CmdController {
 							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
 						}
 					}
+					// no time out.
 					else{
 						System.out.println("All files executed successfully");
 					}
@@ -501,14 +536,17 @@ public class CmdController {
 					System.out.println("File does not exist");
 				}
 			}
+			// lca with  ec# -- it will read from ec_
 			else if((this.optionsCmd_.contentEquals("lca"))&&!ec_.isEmpty()){
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,
 						new Dimension(12, 12));
 				String sampleName = "";
 				String line = "";
+				
 				for (int i = 0;i<this.ec_.size();i++) {
 					line = ""+ec_.get(i);
+					//line =  a ec , then check is it ec
 					if (checkEC(line)) {
 						LinkedHashMap<String,String> seq_for_lca;
 						seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
@@ -537,16 +575,20 @@ public class CmdController {
 					System.out.println("PathwayPics will be saved at: "
 							+ tmpPAth);
 					pwMAtrix.exportPics(tmpPAth, false, false);
+				
+				}
 				//if the p command is selected export all of the pathway pictures, then exit
-				} else if (this.optionsCmd_.contentEquals("p")) {
+				else if (this.optionsCmd_.contentEquals("p")) {
 					String tmpPAth = this.outPutPath_ + File.separator
 							+ "pathwayPics";
 					System.out.println("PathwayPics will be saved at: "
 							+ tmpPAth);
 					pwMAtrix.exportPics(tmpPAth, false, false);
 					System.exit(0);
+				
+				}
 				//if the op command is selected export all the multi-pathway pictures, then exit
-				} else if (this.optionsCmd_.contentEquals("op")) {
+				else if (this.optionsCmd_.contentEquals("op")) {
 					String tmpPAth = this.outPutPath_ + File.separator
 							+ "multiPathwayPics";
 					//true in the exportPics call. There was no false in the previous calls.
@@ -554,8 +596,10 @@ public class CmdController {
 							+ tmpPAth);
 					pwMAtrix.exportPics(tmpPAth, true, false);
 					System.exit(0);
+				
+				}
 				//if the up command is selected then export only the user pathway picture, then exit.
-				} else if (this.optionsCmd_.contentEquals("up")) {
+				else if (this.optionsCmd_.contentEquals("up")) {
 					String tmpPAth = this.outPutPath_ + File.separator
 							+ "userPathwayPics";
 					System.out.println("PathwayPics will be saved at: "

@@ -111,7 +111,7 @@ public class ActMatrixPane extends JPanel {
 	DataProcessor proc_; // Data Processor which allows the input files to be parsed and for relivent data to be computed from them
 	int selectedSampIndex_ = -1; 
 	JLabel selectedSampText; 
-	final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
+	final String basePath_ = new File(".").getAbsolutePath() + File.separator; //File(".") = current directory
 	JPopupMenu menuPopup;// Popup menu used for right clicking and exporting sequence ids
 	static JPopupMenu ecMenuPopup;
 	int popupIndexY; // Coordinates to facilitate the exporting of sequence ids
@@ -1972,8 +1972,7 @@ public class ActMatrixPane extends JPanel {
 		this.displayP_.add(this.label_);
 	}
 	//exports the sequence ids of a particular EC to RepSeqIDs
-	public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr,
-			String sampName) {
+	public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr,String sampName) {
 		String text = "";
 		String test = "";
 		System.out.println("Reps:" + reps.size());
@@ -2695,13 +2694,13 @@ public class ActMatrixPane extends JPanel {
 		EcNr ecTmp;
 
 		for (int i = 0; i < this.ecMatrix_.size(); i++) {
+			//check matching of ecName and ecMatrix
 			if (ecName.contains(this.ecMatrix_.get(i).getEc_().name_)) {
-				ecTmp = new EcNr(
-						((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
+				ecTmp = new EcNr(((Line) ActMatrixPane.this.ecMatrix_.get(i)).getEc_());
 				for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++) {
 					ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 							.get(i)).arrayLine_[smpCnt]);
-					ArrayList<ConvertStat> reps = new ArrayList();
+					ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 					for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 							.get(smpCnt)).conversions_.size(); statsCnt++) {
 						String test = (((ConvertStat) ((Sample) Project.samples_
@@ -2769,7 +2768,7 @@ public class ActMatrixPane extends JPanel {
 				for (int smpCnt = 0; smpCnt < ecMatrix_.get(i).arrayLine_.length; smpCnt++) {
 					ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 							.get(i)).arrayLine_[smpCnt]);
-					reps = new ArrayList();
+					reps = new ArrayList<ConvertStat>();
 					for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 							.get(smpCnt)).conversions_.size(); statsCnt++) {
 						String test = (((ConvertStat) ((Sample) Project.samples_

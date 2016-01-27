@@ -1,1 +1,2 @@
 /home/song/git/FROMP/projects/default.frp
+/home/song/git/FROMP/TestIn/zs-seq.frp

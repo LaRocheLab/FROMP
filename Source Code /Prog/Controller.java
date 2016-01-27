@@ -11,7 +11,7 @@ import java.util.ArrayList;
 //This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.	
 
 public class Controller {
-	public static Project project_; // The current project
+	public static Project project_=new Project(""); // The current project
 	//data processor which does all parsing and hard computation of raw input files
 	public static DataProcessor processor_; 
 	StringReader reader_; // Used for reading inputfiles. Not java's native method. Found at Prog.StringReader
@@ -32,7 +32,7 @@ public class Controller {
 	}
 
 	public int loadProjFile(String path) {
-		project_ = new Project("");
+		//project_ = new Project("");
 		if (path.endsWith(".frp")) {
 			project_.importProj(path);
 			System.out.println("import");
@@ -40,7 +40,7 @@ public class Controller {
 		}
 		return project_.loadProject(this.reader_.readTxt(path));
 	}
-
+/*
 	public int loadAnotherProjFile(String path) {
 		if (path.endsWith(".frp")) {
 			project_.importProj(path);
@@ -49,7 +49,7 @@ public class Controller {
 		}
 		return project_.loadProject(this.reader_.readTxt(path));
 	}
-
+*/
 	public void openProject() {
 		clearProcessor();
 	}

@@ -66,7 +66,7 @@ public class CmdController1 {
 		readInputFile(inputPath_);
 		//process all samples
 		processing();
-		
+		System.out.println("Done cmdFromp");
 		
 	}
 	
@@ -117,7 +117,7 @@ public class CmdController1 {
 			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
 			//IP = sample's path
 			Sample sample = new Sample(name, IP, col);
-			//samples_ is  static <Sample> arraylist in project.java 
+			//samples_ is  static <Sample> Arraylist in project.java 
 			Project.samples_.add(sample);
 			System.out.println(IP+"   sample added");
 			
@@ -145,7 +145,7 @@ public class CmdController1 {
 				System.out.println("wrong .lst file:   "+IP );
 			}
 		}
-	}
+	}//finish sample input work.
 		
 	//main processing method.
 	private void processing(){	
@@ -153,14 +153,14 @@ public class CmdController1 {
 		// p 
 		if (optionsCmd_.contentEquals("p")){
 				System.out.println("Pathway-score-matrix");
-				//builds a pathway matrix object which will be used to generate pathway pictues
+				//builds a pathway matrix object which will be used to generate pathway pictures
 				pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
 				
-				
-			
-				
-				
-			
+				String tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
+				System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+				pwMAtrix.exportPics(tmpPAth, false, false);
+				System.exit(0);
+		
 		}
 		// s
 		// m

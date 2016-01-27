@@ -40,7 +40,7 @@ public class Controller {
 		}
 		return project_.loadProject(this.reader_.readTxt(path));
 	}
-/*
+//no need
 	public int loadAnotherProjFile(String path) {
 		if (path.endsWith(".frp")) {
 			project_.importProj(path);
@@ -49,7 +49,7 @@ public class Controller {
 		}
 		return project_.loadProject(this.reader_.readTxt(path));
 	}
-*/
+
 	public void openProject() {
 		clearProcessor();
 	}

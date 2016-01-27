@@ -439,9 +439,8 @@ public class CmdController {
 					pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 				}
 				if ((this.optionsCmd_.contentEquals("seq"))) {
-					System.exit
-					else if ((this.optionsCmd_.contentEquals("seq"))) {(0);
-				}
+					System.exit(0);
+				}	
 			}
 			// seqall without ec# -- it will read ec from eclist.txt(output path)
 			else if((this.optionsCmd_.contentEquals("seqall"))){

@@ -37,7 +37,7 @@ public class CmdController {
 	String outPutPath_; // The output path given in by the user
 	String optionsCmd_; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
-	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
+	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list.=0 output all
 	static Controller controller; // The controller. Allows user to save, load etc.
 	static PathwayMatrix pwMAtrix; // the Pathway Matrix
 	//Basepath of the FROMP software. Necessary for all relative paths to function
@@ -699,7 +699,8 @@ public class CmdController {
 				if (Project.projectPath_.contains("projects")) {
 					projPath = Project.projectPath_.substring(0,
 							Project.projectPath_.indexOf("projects") - 1);
-				} else {
+				} 
+				else {
 					projPath = Project.projectPath_;
 				}
 				String tmpPath = projPath + File.separator + "projects"

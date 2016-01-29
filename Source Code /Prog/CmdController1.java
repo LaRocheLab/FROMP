@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import sun.org.mozilla.javascript.json.JsonParser;
 import java.io.IOException;
+import java.util.Date;
 /**
  * Used for command line FROMP functions. Processes all command line user input
  * into FROMP.
@@ -42,7 +45,7 @@ public class CmdController1 {
 	static Controller controller; // The controller. Allows user to save, load etc.
 	static PathwayMatrix pwMAtrix; // the Pathway Matrix
 	//Basepath of the FROMP software. Necessary for all relative paths to function
-	final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
+	//final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
 	BufferedReader ecList; // Buffered reader used to read in the ec numbers listed in a file
 	BufferedReader sequenceList;// buffered reader user to read in the sequence filenames listed in a file
 	StringReader reader; // String reader to assist in the reading of the
@@ -50,7 +53,7 @@ public class CmdController1 {
 	private String inputPath;
 	private String optionsCmd;
 	int cmdCode;
-	
+	final String basePath_ = new File("").getAbsolutePath() + File.separator+"Output"+File.separator;
 	//for inti
 	public CmdController1(){
 		
@@ -64,6 +67,8 @@ public class CmdController1 {
 		System.out.println("Starting cmdFromp");
 		//add all samples
 		readInputFile(inputPath_);
+		//check load finish
+		Controller.loadPathways(true);
 		//process all samples
 		processing();
 		System.out.println("Done cmdFromp");
@@ -150,437 +155,240 @@ public class CmdController1 {
 	//main processing method.
 	private void processing(){	
 		
-		// p 
-		if (optionsCmd_.contentEquals("p")){
-				System.out.println("Pathway-score-matrix");
-				//builds a pathway matrix object which will be used to generate pathway pictures
-				pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
+		// p or a
+		if (optionsCmd_.contentEquals("p")|| optionsCmd_.contentEquals("a")){
+			System.out.println("Pathway-score-matrix");
+			//builds a pathway matrix object which will be used to generate pathway pictures
+			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
+			String tmpPAth = "";
+			if (outPutPath_.contentEquals("def")){
+				tmpPAth= basePath_+"p";	
+			}
+			else{
+				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";	
+			}
+			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			// export pictures
+			pwMAtrix.exportPics(tmpPAth, false, false);
+			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			//System.exit(0);	
+		}
+		// s or a or am
+		if (optionsCmd_.contentEquals("s")||optionsCmd_.contentEquals("a")||optionsCmd_.contentEquals("am")){
+			System.out.println("Pathway-score-matrix");
+			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
+			//export matrix. exportMat(path,ecf is selected)
+			if (outPutPath_.contentEquals("def")){
+				pwMAtrix.exportMat(basePath_+"s", true);				
+			}
+			else{
+				pwMAtrix.exportMat(this.outPutPath_, true);
+			}			
+		}
+		// m or a or am
+		if (optionsCmd_.contentEquals("m") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
+			System.out.println("Pathway-activity-matrix");
+			PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(Controller.processor_, Controller.project_,new Dimension(23, 23));
+			if (outPutPath_.contentEquals("def")){
+				pane.exportMat(false,basePath_+"m");			
+			}
+			else{
+				pane.exportMat(false, this.outPutPath_);
+			}
+		}
+		// e or a or am
+		if  (optionsCmd_.contentEquals("e") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
+			System.out.println("EC-activity-matrix");
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			
+			if (outPutPath_.contentEquals("def")){
+				pane.exportMat(basePath_+"e", true);		
+			}
+			else{
+				pane.exportMat(this.outPutPath_, true);		
+			}
+		}
+		// f export the project as a .frp file. (it was  .txt + .out + .frp = new one .frp file ) need add def function
+		//f or a 
+		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
+			Date d = new Date();
+			System.out.println("Export as .frp file");
+			//project path
+			String projPath = "";
+			if(outPutPath_.contentEquals("def")){
+				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				projPath=basePath_+"f"+File.separator+"New Project - "+d.toString()+".frp";
+			}
+			//competed path. /xx/xx.frp
+			else if (outPutPath_.endsWith(".frp")){
+				projPath=outPutPath_;
+			}
+			//no name, creat one. /xx/ --> /xx/new project.frp
+			else if (outPutPath_.endsWith(File.separator)){
 				
-				String tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
-				System.out.println("PathwayPics will be saved at: "+ tmpPAth);
-				pwMAtrix.exportPics(tmpPAth, false, false);
-				System.exit(0);
-		
+				projPath=outPutPath_+"New Project - "+d.toString()+".frp";	
+			}
+			
+			// not a .frp . /xx/out --> /xx/out.frp
+			else{
+				projPath=outPutPath_+".frp";
+			}
+			Controller.saveProject(projPath);
+			System.out.println("New Project File at : "+projPath);
 		}
-		// s
-		// m
-		// e
-		// f
-		// a
-		// am
 		// op
+		else if (optionsCmd_.contentEquals("op")){
+			System.out.println("Pathway-score-matrix");
+			//builds a pathway matrix object which will be used to generate pathway pictures
+			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
+			String tmpPAth = "";
+			if (outPutPath_.contentEquals("def")){
+				tmpPAth= basePath_+"op";	
+			}
+			else{
+				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
+				
+			}
+			
+			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			// export pictures
+			pwMAtrix.exportPics(tmpPAth, true, false);
+			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			//System.exit(0);
+			
+		}
 		// up
-		// ec
+		else if (optionsCmd_.contentEquals("up")){
+			System.out.println("Pathway-score-matrix");
+			//builds a pathway matrix object which will be used to generate pathway pictures
+			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
+			String tmpPAth = "";
+			if (outPutPath_.contentEquals("def")){
+				tmpPAth= basePath_+"op";	
+			}
+			else{
+				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
+				
+			}
+			
+			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			System.out.println("onlyUserPaths");
+			// export pictures
+			pwMAtrix.exportPics(tmpPAth, true, true);
+			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			//System.exit(0);	
+		}
+		// ec ---------need add def !!!!!!!!!!!!!!
+		else if (optionsCmd_.contentEquals("ec")){
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+			for (int i = 0; i < ec_.size(); i++) {
+				
+				pane.cmdExportRepseqs(this.ec_.get(i));
+			}
+			System.out.println("Repseqs saved at: " + basePath_ + "RepSeqIDs/");
+		}
 		// seq
+		else if (optionsCmd_.contentEquals("seq")){
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
+			
+			for (int i = 0; i < ec_.size(); i++) {
+				
+				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
+			}
+		}
 		// seqall
-		// eclist
+		else if (optionsCmd_.contentEquals("seqall")){
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
+			
+			for (int i = 0; i < ec_.size(); i++) {
+				
+				pane.cmdExportSequences(this.ec_.get(i),"", true, false);
+			}
+			
+		}
+		// eclist or eclist#such like.ecliset20
+		else if (optionsCmd_.startsWith ("eclist")){
+			//initialization
+			System.out.println("EC list");
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			
+			//output all
+			if(optionsCmd_.contentEquals("eclist")){
+				//num_ec_exported=0;
+				if(outPutPath_.contentEquals("def")){
+					outPutPath_=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all.txt";;	
+				}
+				else{
+					outPutPath_ += File.separator + Project.workpath_+"-eclist-all.txt";
+				}
+				pane.exportEcNums(outPutPath_, this.num_ec_exported);
+			}
+			//output by assgined # 
+			else{
+				num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
+				System.out.println("check #:"+num_ec_exported);
+				
+				if(outPutPath_.contentEquals("def")){
+					outPutPath_=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";	
+				}
+				else{
+					outPutPath_ += File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
+				}
+				pane.exportEcNums(outPutPath_, this.num_ec_exported);
+			}
+		}
 		// pvalue
-		// lca
-		
-	}
-		/*
-		 * args length start from 2, 1arg cmd has executed at StartFromp.java.such like h,d.
-		 */
-		//args_ = args;
-		//this.ec_ = new ArrayList<String>();
-		/*
-		//args = 2 ,  'inputPath'  &  'ec#/seq/seqall/lca' -- !!seq/seqall/lca not working!!
-		if (args_.length == 2) {
-			if (checkEC(args_[1])) {
-				this.ec_.add(args_[1]);
-			} else if (args_[1].contentEquals("seq")) {
-				this.optionsCmd_ = args_[1];
+		else if (optionsCmd_.startsWith("pvalue")){
+			//initialization
+			System.out.println("Pvalue");
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			//need to make the matrix have the geometric distribution p values before sorting
+			int ecCnt = 0;
+			for (ecCnt = 0; ecCnt < pane.ecMatrix_.size(); ecCnt++) {
+				Line ecNr = (Line) pane.ecMatrix_.get(ecCnt);
+				pane.showHypergeometricDistribution(ecNr, ecCnt);
 			}
-			else if (args_[1].contentEquals("seqall")) {
-				this.optionsCmd_ = args_[1];
+			//sort by lowest p value, lowest p value to highest p value throughout all samples
+			pane.quicksortGeoDist();
+			pane.ecMatrix_ = pane.removeDuplicates();
+			
+			//output all
+			if(optionsCmd_.contentEquals("Pvalue")){
+				//num_ec_exported=0;
+				if(outPutPath_.contentEquals("def")){
+					outPutPath_=basePath_+"Pvalue"+File.separator + Project.workpath_+"-Pvalue-eclist-all.txt";;	
+				}
+				else{
+					outPutPath_ += File.separator + Project.workpath_+"-Pvalue-eclist-all.txt";
+				}
+				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
-			else if (args_[1].contentEquals("lca")) {
-				this.optionsCmd_= args_[1];
-			}
-			this.inputPath_ = getInputPath();
-			System.out.println("input: " + this.inputPath_);
-		}
-		//args = 3 , 'inputPath' & 'ec#/seq/seqall/lca' & 'ec#'
-		else if (args_.length == 3) {	
-			if (checkEC(args_[1])) {
-				this.inputPath_ = getInputPath();
-				System.out.println("input: " + this.inputPath_);
-				this.ec_.add(args_[1]);
-				this.ec_.add(args_[2]);
-			} 	
-			else if (args_[1].contentEquals("seq")) {			
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				this.ec_.add(args_[2]);	
-			} 
-			else if (args_[1].contentEquals("seqall")) {	
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				this.ec_.add(args_[2]);
-			}
-			else if (args_[1].contentEquals("lca")) {
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				this.ec_.add(args_[2]);
-			}
-			//if arg1   !=   ec#/seq/seqall/lca , just print inputPath and set set optionsCmd = arg[2](might : p,s,m,e,f,a,am,op,up,ec)
-			else {
-				this.inputPath_ = getInputPath();
-				System.out.println("input: " + this.inputPath_);
-				this.outPutPath_ = getOutputPath();
-				System.out.println("output: " + this.outPutPath_);
-				this.optionsCmd_ = getOptionCmd();
-				System.out.println("option: " + this.optionsCmd_);
-
+			//output by assgined # 
+			else{
+				num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
+				System.out.println("check pvalue #:"+num_ec_exported);
+				
+				if(outPutPath_.contentEquals("def")){
+					outPutPath_=basePath_+"Pvalue"+File.separator + Project.workpath_+"-Pvalue-eclist"+"-"+num_ec_exported+".txt";	
+				}
+				else{
+					outPutPath_ += File.separator + Project.workpath_+"-Pvalue-eclist"+"-"+num_ec_exported+".txt";
+				}
+				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
 			
+			//outPutPath_ += File.separator + Project.workpath_+"-pvalue-eclist.txt";
+			pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			
-		} 
-		//args =4  or more.  
-		else if (args.length >= 4) {
+		}
+		// lca. need def -----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		else if (optionsCmd_.contentEquals("lca")){
 			
-			//'inputPath' & 'ec#' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
-			if (checkEC(args_[1])) {
-				this.inputPath_ = getInputPath();
-				System.out.println("input: " + this.inputPath_);
-				System.out.println("ECs");
-				for (int i = 1; i < args.length; i++) {
-					this.ec_.add(args_[i]);
-					System.out.println(args_[i]);
-				}
-			} 
-			// 'inputPath' & 'seq' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
-			else if (args_[1].contentEquals("seq")) {
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				System.out.println("input: " + this.inputPath_);
-				System.out.println("Seqs");
-				for (int i = 2; i < args.length; i++) {
-					this.ec_.add(args_[i]);
-					System.out.println("mount" +args_[i]);
-				}
-			} 
-			// 'inputPath' & 'seqall' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
-			else if (args_[1].contentEquals("seqall")) {
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				System.out.println("input: " + this.inputPath_);
-				System.out.println("Seqall");
-				for (int i = 2; i < args.length; i++) {
-					this.ec_.add(args_[i]);
-					System.out.println(args_[i]);
-				}
-			} 
-			//'inputPath' & 'lca' & 'ec#'  & 'ec#' & 'ec#' & 'ec#'  & 'ec#'......
-			else if (args_[1].contentEquals("lca")) {
-				this.inputPath_ = getInputPath();
-				this.optionsCmd_ = args_[1];
-				System.out.println("input: " + this.inputPath_);
-				System.out.println("lca");
-				for (int i = 2; i < args.length; i++) {
-					this.ec_.add(args_[i]);
-					System.out.println(args_[i]);
-				}
-			}
-			//'inputPath' & 'eclistPath/outputPath' & 'eclist/pvalue'
-			else if (args_[2].contentEquals("eclist")||args_[2].contentEquals("pvalue")){
-				this.inputPath_ = getInputPath();
-				this.outPutPath_ = getOutputPath();
-				this.optionsCmd_ = args_[2];
-				System.out.println("input: " + this.inputPath_);
-				this.num_ec_exported = Integer.parseInt(args_[3]);
-				System.out.println("Number " + num_ec_exported);
-			}
-			//'inputPath' & 'a path' & ‘a cmd’  &  'ec#' & 'ec#'  & 'ec#'...... (cmd might : p,s,m,e,f,a,am,op,up,ec)
-			else {
-				this.inputPath_ = getInputPath();
-				System.out.println("input: " + this.inputPath_);
-				this.outPutPath_ = getOutputPath();
-				System.out.println("output: " + this.outPutPath_);
-				this.optionsCmd_ = getOptionCmd();
-				System.out.println("option: " + this.optionsCmd_);
-				System.out.println("ECs");
-				for (int i = 3; i < args.length; i++) {
-					this.ec_.add(args_[i]);
-					System.out.println(args_[i]);
-				}
-			}
-		}
-		// for loading file.
-		controller = new Controller(Color.black);
+			//read sequence file. ec# = null
+			if(ec_.isEmpty()){
 
-		Panes.Loadingframe.showLoading = false;
-		Panes.HelpFrame.showSummary = false;
-		//input is a .frp file
-		if (this.inputPath_.endsWith(".frp")) // If the input file is of the the project file type, load the project
-		{
-			//add try-catch for check input file.
-			try{
-				File f = new File(inputPath_);
-				if (f.exists() && !f.isDirectory()) {
-					controller.loadProjFile(this.inputPath_);
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("wrong .frp file");
-			}
-			
-		/*
-		 * If the input file is of the .lst type, iterate through the file and build samples for
-		 * all the file paths in the file, if the line starts with <userP> a new user path
-		 * is added. They are all added to a new project!
-		 
-		}// .frp finish
-		//input is a .lst file
-		else if (this.inputPath_.endsWith(".lst")){
-			try {
-				BufferedReader in = new BufferedReader(new FileReader(this.inputPath_));
-
-				String comp = "<userP>";
-				String line = in.readLine();
-				while ((line) != null) {
-					try {
-						// String line;
-						if (((line) != null) && line.startsWith(comp)) {
-							String userP = line.substring(comp.length());
-							System.out.println("user pathway made");
-							Project.addUserP(userP);
-							System.out.println("pathway added");
-						}
-						else if ((line) != null) {
-							//if the line doesn't contain a tab then assume it is just the path to the project or sample files
-							//no sequence file
-							if (!line.contains("\t")) { 
-								File f = new File(line);
-								//the file ends with ".frp"
-								if (f.exists() && !f.isDirectory()&& line.endsWith(".frp")) {
-									controller.loadAnotherProjFile(line);
-									System.out.println("Project file added");
-									//get project name from a path. such like /xx/xx/abc.txt --> after last / and before last . --> it will get abc.need+1
-									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
-									
-									//check any"/" in project name.
-									if (Project.workpath_.contains(File.separator)) {
-										Project.workpath_ = Project.workpath_.replace(File.separator, "");
-									}
-									
-								}
-								//if the file file not ends with ".frp". such like .txt or other in .lst file
-								else if (f.exists() && !f.isDirectory()) {
-									//get filename.filetype.  such like abc.txt, need +1
-									String name = line.substring(line.lastIndexOf(File.separator)+1);
-									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-									Sample sample = new Sample(name, line, col);
-
-									Project.samples_.add(sample);
-									System.out.println("sample added");
-								} 
-								//if file not exists or it is a folder
-								else {
-									System.out.println("file does not exist");
-								}
-							} 
-							//line contains "\t" -- tab, means it include sample and sequence 
-							else { // If the line does contain a tab then split the line into the the sample file and the sequence file
-								String sampleString = line.substring(0,line.indexOf("\t"));
-								//sequence file should not include "\t".so it need +1
-								String sequenceString = line.substring(line.indexOf("\t")+1);
-								String tmpName = "";
-								Boolean newSample = false;
-								File f = new File(sampleString);
-								
-								if (f.exists() && !f.isDirectory()&& sampleString.endsWith(".frp")) {
-									controller.loadAnotherProjFile(sampleString);
-									System.out.println("Project file added");
-									Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf("."));
-									
-									if (Project.workpath_.contains(File.separator)) {
-										Project.workpath_ = Project.workpath_.replace(File.separator, "");
-									}
-								} 
-								//if it is not a .frp
-								else if (f.exists() && !f.isDirectory()) {
-									//need+1
-									String name = sampleString.substring(sampleString.lastIndexOf(File.separator)+1);
-									Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-									Sample sample = new Sample(name,
-											sampleString, col);
-									newSample = true;
-									tmpName = name;
-									Project.samples_.add(sample);
-									System.out.println("sample added");
-								} else {
-									System.out.println("file does not exist");
-								}
-
-								File f1 = new File(sequenceString);
-								if (f.exists() && !f.isDirectory() && newSample
-										&& tmpName != null && tmpName != "") {
-									for (int i = 0; i < Project.samples_.size(); i++) {
-										if (Project.samples_.get(i).name_
-												.contentEquals(tmpName)) {
-
-										}
-									}
-								}
-							}
-						}
-
-					} 
-					catch (Exception e) {
-						e.printStackTrace();
-						continue;
-					}
-					line = in.readLine();
-				}
-			} 
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}//.lst finish
-		
-		//input is NOT a .frp or .lst file (may be .txt or other)
-		else {
-			//need +1
-			String name = this.inputPath_.substring(this.inputPath_.lastIndexOf(File.separator)+1);
-			//should random color, but it is ok in cmd line.
-			Sample sample = new Sample(name, this.inputPath_, Color.red);
-			//add sample into sample list
-			Project.samples_.add(sample);
-		}
-		
-		Controller.loadPathways(true);
-		//need +1
-		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
-		//no need, after+1
-		if (Project.workpath_.contains(File.separator)) {
-			Project.workpath_ = Project.workpath_.replace(File.separator, "");
-		}
-		//if ec_ != null. means some cmd is matched on top
-		if (!ec_.isEmpty()) {
-			if (this.optionsCmd_ != null) {// it is not only ec#
-				//if cmd != seq /seqall/eclist/pvalue    &  ec_ != null (cmd might : lca)
-				if (!this.optionsCmd_.contentEquals("seq") && !this.optionsCmd_.contentEquals("seqall")  &&  !this.optionsCmd_.contentEquals("eclist") && !this.optionsCmd_.contentEquals("pvalue")) {
-					//initialization
-					ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
-					
-					System.out.println("Repseqs will be saved at: " + basePath_ + "RepSeqIDs/");
-					
-					//output --  all ecs
-					for (int i = 0; i < ec_.size(); i++) {
-						pane.cmdExportRepseqs(this.ec_.get(i));
-					}
-				}
-			} 
-			//if optionsCmd_ = null & ec_  !=  null
-			else {
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Repseqs will be saved at: " + basePath_
-						+ "RepSeqIDs/");
-				for (int i = 0; i < ec_.size(); i++) {
-					pane.cmdExportRepseqs(this.ec_.get(i));
-				}
-			}
-		}
-		//if  optionsCmd_    !=   null (may be else if)
-		if (this.optionsCmd_ != null) {
-			if (this.optionsCmd_.contentEquals("ec")) {
-				this.reader = new StringReader();
-				this.ecList = this.reader.readTxt(outPutPath_);
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Repseqs will be saved at: " + basePath_
-						+ "RepSeqIDs/");
-				String line = "";
-				try {
-					while ((line = this.ecList.readLine()) != null) {
-						if (checkEC(line)) {
-							pane.cmdExportRepseqs(line);
-						}
-					}
-				} 
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.exit(0);
-			}
-			//seq  with ec# -- it will read ec from ec_
-			if ((this.optionsCmd_.contentEquals("seq")) && !ec_.isEmpty()) {
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Sequences will be saved at: " + basePath_
-						+ "Sequences/");
-				for (int i = 0; i < ec_.size(); i++) {
-					pane.cmdExportSequences(this.ec_.get(i),"", false, false);
-				}
-				if ((this.optionsCmd_.contentEquals("seq"))) {
-					System.exit(0);
-				}
-			} 
-			// seq without ec# -- it will read ec from eclist.txt(output path)
-			else if ((this.optionsCmd_.contentEquals("seq"))) {
-				this.reader = new StringReader();
-				this.ecList = this.reader.readTxt(outPutPath_);
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Sequences will be saved at: " + basePath_
-						+ "Sequences/");
-				String line = "";
-				try {
-					while ((line = this.ecList.readLine()) != null) {
-						if (checkEC(line)) {
-							pane.cmdExportSequences(line,"", false, false);
-						}
-					}
-				} 
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.exit(0);
-			}
-			// seqall with ec# -- it will read ec from ec_
-			else if((this.optionsCmd_.contentEquals("seqall")) && !ec_.isEmpty()) {
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Sequences will be saved at: " + basePath_
-						+ "Sequences/");
-				for (int i = 0; i < ec_.size(); i++) {
-					pane.cmdExportSequences(this.ec_.get(i),"", true, false);
-				}
-				if ((this.optionsCmd_.contentEquals("seq"))) {
-					System.exit(0);
-				}
-			}
-			// seqall without ec# -- it will read ec from eclist.txt(output path)
-			else if((this.optionsCmd_.contentEquals("seqall"))){
-				this.reader = new StringReader();
-				this.ecList = this.reader.readTxt(outPutPath_);
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				System.out.println("Sequences will be saved at: " + basePath_
-						+ "Sequences/");
-				String line = "";
-				try {
-					while ((line = this.ecList.readLine()) != null) {
-						if (checkEC(line)) {
-							pane.cmdExportSequences(line,"", true, false);
-						}
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.exit(0);
-			}
-			// lca without  ec# -- it will read sequencelist.txt (output path)
-			else if((this.optionsCmd_.contentEquals("lca"))&&ec_.isEmpty()){
 				this.reader = new StringReader();
 				this.sequenceList = this.reader.readTxt(outPutPath_);
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
@@ -597,8 +405,9 @@ public class CmdController1 {
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true, batchCommand);
 							break;
 						}
+						//Top seq in eclist file. it means if read a eclist.txt file.
 						else if(line.contains("Ec Activity EC Numbers")){
-							
+							//?
 							batchCommand = true;
 							line = sequenceList.readLine();
 							String sampleName = "";
@@ -609,6 +418,7 @@ public class CmdController1 {
 							
 							batchCommand = false;
 						}
+						//ec#. under "Ec Activity EC Numbers"
 						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
 							
 							batchCommand = true;
@@ -620,6 +430,7 @@ public class CmdController1 {
 							
 							batchCommand = false;
 						}
+						//not eclist, ec# or ">"
 						else{
 							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
 						}
@@ -639,6 +450,7 @@ public class CmdController1 {
 							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
 						}
 					}
+					// no time out.
 					else{
 						System.out.println("All files executed successfully");
 					}
@@ -647,186 +459,30 @@ public class CmdController1 {
 					System.out.println("File does not exist");
 				}
 			}
-			// lca with  ec# -- it will read ec_
-			else if((this.optionsCmd_.contentEquals("lca"))&&!ec_.isEmpty()){
+			//read ec# file , sequence = null
+			else{
+
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
+				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 				String sampleName = "";
 				String line = "";
 				
 				for (int i = 0;i<this.ec_.size();i++) {
 					line = ""+ec_.get(i);
-					//add a ec , then check ec one time.
-					if (checkEC(line)) {
+					//line =  a ec , then check is it ec
+					
 						LinkedHashMap<String,String> seq_for_lca;
 						seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
 						String fileName = line +  "-";
-						tableAndChartData returnData = metapro.
-								getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
-					}
+						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+					
 				}
 				System.out.println("Done LCA");
 				checkTimedOut(metapro);
 			}
-			//export picture commands
-			if ((this.optionsCmd_.contentEquals("p"))
-					|| (this.optionsCmd_.contentEquals("op"))
-					|| (this.optionsCmd_.contentEquals("up"))
-					|| (this.optionsCmd_.contentEquals("a"))) {
-				System.out.println("Pathway-score-matrix");
-				//builds a pathway matrix object which will be used to generate pathway pictues
-				pwMAtrix = new PathwayMatrix(Project.samples_,
-						Project.overall_, DataProcessor.pathwayList_,
-						Controller.project_);
-				//if the a command is selected export all of the pathway pictures 
-				if (this.optionsCmd_.contentEquals("a")) {
-					String tmpPAth = this.outPutPath_ + File.separator
-							+ "pathwayPics";
-					System.out.println("PathwayPics will be saved at: "
-							+ tmpPAth);
-					pwMAtrix.exportPics(tmpPAth, false, false);
-				
-				}
-				//if the p command is selected export all of the pathway pictures, then exit
-				else if (this.optionsCmd_.contentEquals("p")) {
-					String tmpPAth = this.outPutPath_ + File.separator
-							+ "pathwayPics";
-					System.out.println("PathwayPics will be saved at: "
-							+ tmpPAth);
-					pwMAtrix.exportPics(tmpPAth, false, false);
-					System.exit(0);
-				
-				}
-				//if the op command is selected export all the multi-pathway pictures, then exit
-				else if (this.optionsCmd_.contentEquals("op")) {
-					String tmpPAth = this.outPutPath_ + File.separator
-							+ "multiPathwayPics";
-					//true in the exportPics call. There was no false in the previous calls.
-					System.out.println("PathwayPics will be saved at: "
-							+ tmpPAth);
-					pwMAtrix.exportPics(tmpPAth, true, false);
-					System.exit(0);
-				
-				}
-				//if the up command is selected then export only the user pathway picture, then exit.
-				else if (this.optionsCmd_.contentEquals("up")) {
-					String tmpPAth = this.outPutPath_ + File.separator
-							+ "userPathwayPics";
-					System.out.println("PathwayPics will be saved at: "
-							+ tmpPAth);
-					System.out.println("onlyUserPaths");
-					pwMAtrix.exportPics(tmpPAth, true, true);
-					System.exit(0);
-				}
-				if (this.optionsCmd_.contentEquals("p")) {
-					System.exit(0);
-				}
-			}
-			/*
-			 * exports the pathway score matrix for the corresponding commands. If s is selected it
-			 * exits afterwards.
-			 
-			if ((this.optionsCmd_.contentEquals("s"))
-					|| (this.optionsCmd_.contentEquals("a"))
-					|| (this.optionsCmd_.contentEquals("am"))) {
-				System.out.println("Pathway-score-matrix");
-				pwMAtrix = new PathwayMatrix(Project.samples_,
-						Project.overall_, DataProcessor.pathwayList_,
-						Controller.project_);
-				pwMAtrix.exportMat(this.outPutPath_, true);
-				if (this.optionsCmd_.contentEquals("s")) {
-					System.exit(0);
-				}
-			}
-			/*exports the pathway activity for the corresponding commands. If m
-			 * is selected it exits afterward
-			 
-			if ((this.optionsCmd_.contentEquals("m"))
-					|| (this.optionsCmd_.contentEquals("a"))
-					|| (this.optionsCmd_.contentEquals("am"))) {
-				System.out.println("Pathway-activity-matrix");
-				PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(
-						Controller.processor_, Controller.project_,
-						new Dimension(23, 23));
-				pane.exportMat(false, this.outPutPath_);
-				if (this.optionsCmd_.contentEquals("m")) {
-					System.exit(0);
-				}
-			}
-			/*exports the EC-activity matrix for the corresponding commands.
-			 * If e is selected it exits afterwards
-			 
-			if ((this.optionsCmd_.contentEquals("e"))
-					|| (this.optionsCmd_.contentEquals("a"))
-					|| (this.optionsCmd_.contentEquals("am"))) {
-				System.out.println("EC-activity-matrix");
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				pane.exportMat(this.outPutPath_, true);
-				if (this.optionsCmd_.contentEquals("e")) {
-					System.exit(0);
-				}
-			}
-			if ((this.optionsCmd_.contentEquals("eclist"))||this.optionsCmd_.contentEquals("pvalue")){
-				System.out.println("EC list or Pvalue");
-				
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,
-						DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
-				if(optionsCmd_.contentEquals("pvalue")){
-					//need to make the matrix have the geometric distribution p values before sorting
-					int ecCnt = 0;
-					for (ecCnt = 0; ecCnt < pane.ecMatrix_.size(); ecCnt++) {
-						Line ecNr = (Line) pane.ecMatrix_.get(ecCnt);
-						pane.showHypergeometricDistribution(ecNr, ecCnt);
-					}
-					//sort by lowest p value, lowest p value to highest p value throughout all samples
-					pane.quicksortGeoDist();
-					pane.ecMatrix_ = pane.removeDuplicates();
-					outPutPath_ += File.separator + Project.workpath_+"-pvalue-eclist.txt";
-				}
-				else{
-					//add number of  Ec, it won't overwrite origin-file. It will plus a number at the end of file's name.
-					if(num_ec_exported == 0)
-						outPutPath_ += File.separator + Project.workpath_+"-eclist-all.txt";
-					else
-						outPutPath_ += File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
-				}
-				pane.exportEcNums(outPutPath_, this.num_ec_exported);
-				if (this.optionsCmd_.contentEquals("eclist")) {
-					System.exit(0);
-				}
-			}
-			/*exports the samples as a .frp file so that it can be used
-			 * in the GUI later. If f is selected it exists afterwards
-			 
-			if ((this.optionsCmd_.contentEquals("f"))
-					|| (this.optionsCmd_.contentEquals("a"))
-					|| (this.optionsCmd_.contentEquals("am"))) {
-				System.out.println("Export as .frp file");
-
-				String projPath = "";
-				if (Project.projectPath_.contains("projects")) {
-					projPath = Project.projectPath_.substring(0,
-							Project.projectPath_.indexOf("projects") - 1);
-				} else {
-					projPath = Project.projectPath_;
-				}
-				String tmpPath = projPath + File.separator + "projects"
-						+ File.separator + inputPath_.substring(inputPath_.lastIndexOf(File.separator),inputPath_.lastIndexOf(".")) + ".frp";
-				controller.saveProject(tmpPath);
-				if (this.optionsCmd_.contentEquals("f")) {
-					System.exit(0);
-				}
-			}
 		}
+	}
 
-		System.exit(0);
-		*/
-	
-	
 	/**
 	 * This method performs the ability to try re-running timed out ec numbers from the find lowest
 	 * common ancestor operation.
@@ -855,7 +511,7 @@ public class CmdController1 {
 			for (int ec = 0; ec < meta.getTimedOut().size(); ec++) {
 				String ecNum = meta.getTimedOut().get(ec).substring(0, meta.getTimedOut().get(ec).indexOf("-"));
 				System.out.println(ecNum);
-				if (checkEC(ecNum)) {
+				if (StartFromp1.checkEC(ecNum)) {
 					LinkedHashMap<String,String> seq_for_lca;
 					seq_for_lca = pane.cmdExportSequences(ecNum,sampleName, true, false);
 					String fileName = ecNum +  "-";
@@ -865,45 +521,7 @@ public class CmdController1 {
 		}
 	}
 	
-	private String getInputPath() {
-		return args_[0];
-	}
 
-	private String getOutputPath() {
-		return args_[1];
-	}
 
-	private String getOptionCmd() {
-		return args_[2];
-	}
-
-	private static boolean checkEC(String options) {// checks that the EC is complete
-		System.out.println("Check Ec");
-		boolean ret = false;
-		String testStr1;
-		String testStr2;
-		String testStr3;
-
-		if (options.matches("[0-9].*")) {
-			if (options.contains(".")) {
-				testStr1 = options.substring(options.indexOf(".") + 1);
-				if (testStr1.matches("[0-9].*")) {
-					if (testStr1.contains(".")) {
-						testStr2 = testStr1
-								.substring(testStr1.indexOf(".") + 1);
-						if (testStr2.matches("[0-9].*")) {
-							if (testStr2.contains(".")) {
-								testStr3 = testStr2.substring(testStr2
-										.indexOf(".") + 1);
-								if (testStr3.matches("[0-9]*")) {
-									ret = true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return ret;
-	}
+	
 }

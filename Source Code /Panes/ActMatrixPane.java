@@ -8,6 +8,7 @@ import Objects.Pathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
+import Prog.CmdController1;
 import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
@@ -1991,8 +1992,7 @@ public class ActMatrixPane extends JPanel {
 			} else {
 				sampleName = sampName;
 			}
-			File file = new File(basePath_ + "RepSeqIDs" + File.separator
-					+ sampleName + "-" + ecNr.name_ + ".txt");
+			File file = new File(CmdController1.outPutPath_+ sampleName + "-" + ecNr.name_ + ".txt");
 			PrintWriter printWriter = new PrintWriter(file);
 			printWriter.println("" + text);
 			printWriter.close();
@@ -2813,12 +2813,12 @@ public class ActMatrixPane extends JPanel {
 					sampName = ((Sample) Project.samples_.get(smpCnt)).name_;
 						if(reps.size()>0&&((chosen_sample.equals("All Samples"))||(chosen_sample.equals("")))){
 							//print all sequences per sample EC number 
-							System.out.println("Working....\n");
+							System.out.println("Working1....\n");
 							seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
 						}
 						//used if trying to find the lca from the LCA page instead of the EC Matrix page
 						else if(reps.size()>0 && chosen_sample.equals(sampName)){
-							System.out.println("Working....\n");
+							System.out.println("Working2....\n");
 							seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
 						}
 						
@@ -2896,8 +2896,8 @@ public class ActMatrixPane extends JPanel {
 							} else {
 								sampleName = sampName_;
 							}
-							File file = new File(basePath_ + "Sequences"
-									+ File.separator + sampleName + "-"
+							File file = new File(CmdController1.outPutPath_
+									+ File.separator +sampleName + "-"
 									+ ecNr_.name_ + "-Sequences" + ".txt");
 							PrintWriter printWriter = new PrintWriter(file);
 							if (text != null && text != "") {
@@ -2920,8 +2920,8 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									sampleName = sampName_;
 								}
-								File file = new File(basePath_ + "Sequences"
-										+ File.separator + ecNr_.name_ + "-Sequences" + ".txt");
+								//lca sequence file path
+								File file = new File(CmdController1.outPutPath_ + File.separator +"Sequences"+File.separator+ ecNr_.name_ + "-Sequences" + ".txt");
 								//This allows writing to the file of the same name to append to the file if created, creates file if not
 								PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 								if (text != null && text != "") {
@@ -2945,12 +2945,14 @@ public class ActMatrixPane extends JPanel {
 					e1.printStackTrace();
 				}
 
-			} else {
+			} 
+			else {
 				System.out
 						.println("The sequence file associated with this sample ("
 								+ sampName_ + ") does not exist");
 			}
-		} else {
+		} 
+		else {
 			System.out
 					.println("There is no sequence file associated with this sample ("
 							+ sampName_ + ")");

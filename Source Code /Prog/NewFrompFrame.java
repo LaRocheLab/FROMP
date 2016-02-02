@@ -118,7 +118,9 @@ public class NewFrompFrame extends JFrame {
 		addBackPanel();
 		try {
 			this.path_ = new File("").getCanonicalPath();
-		} catch (IOException e1) {
+		} 
+		
+		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		addMenu(); // Adds the drop down menu

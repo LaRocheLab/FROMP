@@ -38,7 +38,7 @@ import java.util.Date;
 public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
 	String inputPath_; // The inputpath given by the user
-	String outPutPath_; // The output path given in by the user
+	public static String outPutPath_; // The output path given in by the user
 	String optionsCmd_; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
@@ -74,12 +74,10 @@ public class CmdController1 {
 		System.out.println("Done cmdFromp");
 		
 	}
-	
 	//read input file or  path.  IP=input path
 	private void readInputFile(String IP) {
 		// for loading file.
 		controller = new Controller(Color.black);
-
 		Panes.Loadingframe.showLoading = false;
 		Panes.HelpFrame.showSummary = false;
 		//input is a .frp file
@@ -280,33 +278,45 @@ public class CmdController1 {
 		}
 		// ec ---------need add def !!!!!!!!!!!!!!
 		else if (optionsCmd_.contentEquals("ec")){
+			if(outPutPath_.contains("def")){		
+				outPutPath_ = basePath_+"ec"+File.separator;
+			}
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 			for (int i = 0; i < ec_.size(); i++) {
 				
 				pane.cmdExportRepseqs(this.ec_.get(i));
 			}
-			System.out.println("Repseqs saved at: " + basePath_ + "RepSeqIDs/");
+			System.out.println("Repseqs saved at: "+ outPutPath_ );
 		}
 		// seq
 		else if (optionsCmd_.contentEquals("seq")){
+			if(outPutPath_.contains("def")){		
+				outPutPath_ = basePath_+"seq"+File.separator;
+			}
+	
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
+			//System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
 			
 			for (int i = 0; i < ec_.size(); i++) {
 				
 				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
 			}
+			System.out.println("Files saved at: "+ outPutPath_ );
 		}
 		// seqall
 		else if (optionsCmd_.contentEquals("seqall")){
+			if(outPutPath_.contains("def")){		
+				outPutPath_ = basePath_+"seqall"+File.separator;
+			}
+			
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
+			//System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
 			
 			for (int i = 0; i < ec_.size(); i++) {
 				
 				pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 			}
-			
+			System.out.println("Files saved at: "+ outPutPath_ );
 		}
 		// eclist or eclist#such like.ecliset20
 		else if (optionsCmd_.startsWith ("eclist")){
@@ -383,17 +393,23 @@ public class CmdController1 {
 			pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			
 		}
-		// lca. need def -----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// lca.
 		else if (optionsCmd_.contentEquals("lca")){
 			
-			//read sequence file. ec# = null
+			//set output path
+			if(outPutPath_.contains("def")){		
+				outPutPath_ = basePath_+"lca"+File.separator;
+			}
+			
+			
+			//read sequence file.it means, connect sequence  file with project file.  ec# = null , it means use all ec# in project
 			if(ec_.isEmpty()){
 
 				this.reader = new StringReader();
+				//bufferReader
 				this.sequenceList = this.reader.readTxt(outPutPath_);
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,
-						new Dimension(12, 12));
+				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
 				String line = "";
 				try {

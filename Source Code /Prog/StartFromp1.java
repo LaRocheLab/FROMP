@@ -62,7 +62,7 @@ public class StartFromp1 {
 		String[] arg1= args;
 		//args = 0. start GUI		
 		if(args.length  == 0){
-			System.out.println("Welcome to  Fromp.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");
+			System.out.println("Welcome to  FROMP.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");
 			newFrame = new NewFrompFrame();
 			
 		}

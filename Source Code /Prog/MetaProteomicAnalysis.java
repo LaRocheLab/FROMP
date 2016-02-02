@@ -62,7 +62,7 @@ public class MetaProteomicAnalysis {
 	tableAndChartData returnData = new tableAndChartData();
 	boolean commandLineOn = false;
 	boolean batchCommandOn = false;
-	final String basePath_ = new File(".").getAbsolutePath() + File.separator;
+	//final String basePath_ = new File(".").getAbsolutePath() + File.separator;
 	ArrayList<String> timedOut = new ArrayList<String>();
 	
 	public MetaProteomicAnalysis(){
@@ -490,7 +490,7 @@ public class MetaProteomicAnalysis {
 			pie1.setCircular(false);
 			pie1.setLabelGenerator(null);
 			try {
-				ChartUtilities.saveChartAsPNG(new File(basePath_
+				ChartUtilities.saveChartAsPNG(new File(CmdController1.outPutPath_
 						+ "PieChart" + File.separator + fileName
 						+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
 				System.out.println("Pie Chart exported to " + File.separator
@@ -623,7 +623,7 @@ public class MetaProteomicAnalysis {
 	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
 			 //saves the new excel file within the Excel folder
-			 	File file = new File(basePath_ + "Excel" + File.separator + fileName + tableName + ".xls");
+			 	File file = new File(CmdController1.outPutPath_ + "Excel" + File.separator + fileName + tableName + ".xls");
 	            WritableWorkbook workbook1 = Workbook.createWorkbook(file);
 	            WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
 	            TableModel model = table.getModel();
@@ -661,7 +661,7 @@ public class MetaProteomicAnalysis {
 	}
 	
 	public void exportTableTxt(JTable table, String tableName, String fileName){
-		File file = new File(basePath_ + "Tables" + File.separator + fileName + tableName + ".txt");
+		File file = new File(CmdController1.outPutPath_ + "Tables" + File.separator + fileName + tableName + ".txt");
 		StringBuffer tableContent = new StringBuffer();
 		TableModel model = table.getModel();
 		String separator = "\t";

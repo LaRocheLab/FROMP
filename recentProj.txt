@@ -1,3 +1,9 @@
+/home/song/git/FROMP/projects/song(4).frp
+/home/song/git/FROMP/projects/song(3).frp
+/home/song/git/FROMP/projects/song(2).frp
+/home/song/git/FROMP/projects/song(1).frp
+/home/song/git/FROMP/projects/song.frp
+/home/song/git/FROMP/projects/default(1).frp
 /home/song/git/FROMP/TestIn/default.frp
 /home/song/git/FROMP/projects/default.frp
 /home/song/git/FROMP/TestIn/zs-seq.frp

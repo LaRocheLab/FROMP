@@ -78,7 +78,8 @@ public class Project {
 		File file = new File("");
 		try {
 			projectPath_ = file.getCanonicalPath(); // Sets the path to the project file
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		imported = false;

@@ -102,7 +102,8 @@ public class Controller {
 				System.out.println("newBaseData");
 				if (processor_ == null) {
 					processor_ = new DataProcessor(project_);
-				} else {
+				} 
+				else {
 					processor_.prepData();
 				}
 			}
@@ -116,7 +117,8 @@ public class Controller {
 			processor_.processProject();
 			dataChanged = false;
 			Project.dataChanged = false;
-		} else {
+		} 
+		else {
 			return;
 		}
 	}

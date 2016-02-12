@@ -79,7 +79,7 @@ public class NewFrompFrame extends JFrame {
 		setBounds(20, 20, 1200, 800);
 
 		setDefaultCloseOperation(0);
-		// Adds an action listner to the close button of the the JFrame which
+		// Adds an action listener to the close button of the the JFrame which
 		// prints "Window Closing" when it is closed and
 		// opens a warning that you will lose all unsaved data by closing before
 		// you close.
@@ -97,6 +97,7 @@ public class NewFrompFrame extends JFrame {
 			}
 
 			public void windowClosing(WindowEvent arg0) {
+				//openClosingFrame() is a warning window, for reminding to save current work
 				NewFrompFrame.this.openClosingFrame();
 			}
 
@@ -125,12 +126,12 @@ public class NewFrompFrame extends JFrame {
 		}
 		addMenu(); // Adds the drop down menu
 		loadRecentProj(); // Adds the list of "Recent Projects"
-		showNewProjPanel(); // Shows the statring panel of Fromp. Includes 'Project Options' , and 'Recent Projects'
+		showNewProjPanel(); // Shows the starting panel of Fromp. Includes 'Project Options' , and 'Recent Projects'
 		invalidate(); // Next three commands in combination reload the JFrame
 		validate(); 
 		repaint(); 
 	}
-
+	
 	private void addMenu() {// adds the drop down menu bar and all of its elements
 		this.menuBar_ = new JMenuBar();
 
@@ -156,8 +157,7 @@ public class NewFrompFrame extends JFrame {
 
 		JMenuItem miItem = new JMenuItem("New Project", 78);
 		miItem.setAccelerator(KeyStroke.getKeyStroke(78, 8));
-		miItem.getAccessibleContext().setAccessibleDescription(
-				"Start a new project");
+		miItem.getAccessibleContext().setAccessibleDescription("Start a new project");
 		miItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewFrompFrame.this.newProjectName();
@@ -178,8 +178,7 @@ public class NewFrompFrame extends JFrame {
 
 		miItem = new JMenuItem("Save Project", 83);
 		miItem.setAccelerator(KeyStroke.getKeyStroke(83, 8));
-		miItem.getAccessibleContext().setAccessibleDescription(
-				"Save your project");
+		miItem.getAccessibleContext().setAccessibleDescription("Save your project");
 		miItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// NewFrompFrame.this.clearBack();
@@ -318,22 +317,22 @@ public class NewFrompFrame extends JFrame {
 
 		mItem = new JMenuItem("Pathway Activity", 80);
 		mItem.setAccelerator(KeyStroke.getKeyStroke(80, 8));
-		mItem.getAccessibleContext().setAccessibleDescription(
-				"Pathway Activity Analysis");
+		mItem.getAccessibleContext().setAccessibleDescription("Pathway Activity Analysis");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Pathway Activity");
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
-					if (!NewFrompFrame.this.control_.processor_
-							.selectedPathways()) {
+					if (!NewFrompFrame.this.control_.processor_.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
-					} else {
+					} 
+					else {
 						NewFrompFrame.this.showPathwayActMatrix();
 					}
-				} else {
+				} 
+				else {
 					warningFrame();
 				}
 			}
@@ -377,10 +376,12 @@ public class NewFrompFrame extends JFrame {
 							.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
-					} else {
+					} 
+					else {
 						NewFrompFrame.this.showLCAPanes();
 					}
-				} else {
+				} 
+				else {
 					warningFrame();
 				}
 				System.out.println("Compare Samples");
@@ -563,24 +564,31 @@ public class NewFrompFrame extends JFrame {
 		Controller.dataChanged = true;
 		Project.dataChanged = true;
 		EditsamplesPane samplesP_ = new EditsamplesPane(Controller.project_);
+		//backButton = Back to Project Menu
 		samplesP_.backButton_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewFrompFrame.this.clearBack();
 				NewFrompFrame.this.showNewProjPanel();
 			}
 		});
+		//nextButton = go to pathway selection
 		samplesP_.nextButton_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//if project != !null --> project = null
 				if (!NewFrompFrame.this.control_.gotSamples()) {
 					warningFrame();
-				} else {
+				} 
+				//if project exists,
+				else {
+					//clear old pane
 					NewFrompFrame.this.clearBack();
-
+					//load new pane = select pathway pane.
 					NewFrompFrame.this.selectPws();
 				}
 			}
 		});
-
+		
 		this.showJPanel_ = new JScrollPane(samplesP_);
 		this.showJPanel_.setVisible(true);
 		this.showJPanel_.setVerticalScrollBarPolicy(20);
@@ -591,14 +599,14 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-
-	public void selectPws() {// Opens the pathway selection panel
+	// Opens the pathway selection panel
+	public void selectPws() {
+		//if no data 
 		if (Controller.processor_ == null) {
 			Controller.loadPathways(false);
 		}
 		clearBack();
-		final PathwaySelectP selectP = new PathwaySelectP(
-				Controller.processor_.getPathwayList_());
+		final PathwaySelectP selectP = new PathwaySelectP(Controller.processor_.getPathwayList_());
 		selectP.back_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewFrompFrame.this.clearBack();
@@ -608,13 +616,16 @@ public class NewFrompFrame extends JFrame {
 		selectP.next_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Boolean noPathways = true;
+				
 				if (selectP.pathSelected()) {
 					noPathways = false;
 				}
+				//if pathways exists 
 				if (!noPathways) {
 					NewFrompFrame.this.clearBack();
 					NewFrompFrame.this.showAnalyseOptions();
-				} else {
+				} 
+				else {
 					warningFrame("No pathways selected!");
 				}
 			}
@@ -676,8 +687,7 @@ public class NewFrompFrame extends JFrame {
 
 	public void showLCAPanes() {
 		clearBack();
-		LCAPanes matrixP_ = new LCAPanes(Controller.project_,
-				Controller.processor_, getSize());
+		LCAPanes matrixP_ = new LCAPanes(Controller.project_,Controller.processor_, getSize());
 		matrixP_.backButton_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewFrompFrame.this.clearBack();
@@ -740,6 +750,7 @@ public class NewFrompFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String tmp = txField.getText();
 				System.out.println(tmp);
+				//tmp = workpath = The name of the project
 				NewFrompFrame.this.control_.newProject(tmp);
 				NewFrompFrame.this.clearBack();
 				NewFrompFrame.this.newEditSamples();
@@ -769,8 +780,9 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-
-	public void showAnalyseOptions() {// Opens the analysis options panel
+	
+	// Opens the analysis options panel
+	public void showAnalyseOptions() {
 		int xcol1 = 100;
 		int yOff = 100;
 		int ySize = 30;
@@ -827,7 +839,8 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
 					NewFrompFrame.this.showPathwayScorePane();
-				} else {
+				} 
+				else {
 					warningFrame();
 				}
 			}
@@ -892,8 +905,12 @@ public class NewFrompFrame extends JFrame {
 	}
 
 	private void showNewProjPanel() {
+		//x pos of project options
 		int xcol1 = 100;
+		//int xcol1 = getWidth()/10;
+		//y pos of project options
 		int yOff = 100;
+		//button size
 		int ySize = 30;
 		int xsize = 400;
 

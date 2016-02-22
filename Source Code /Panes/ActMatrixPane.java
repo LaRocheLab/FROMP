@@ -1993,16 +1993,8 @@ public class ActMatrixPane extends JPanel {
 			} else {
 				sampleName = sampName;
 			}
-			//choose file name, if exists a assigned file name, use it.If not, use a default file name.
-			String s = "";
-			if(CmdController1.outPutPath_.endsWith(File.separator)){
-				s=CmdController1.outPutPath_+ sampleName + "-" + ecNr.name_ + ".txt";
-			}
-			else{
-				s=CmdController1.outPutPath_;
-			}
-			File file = new File(s);
-			//-----------------------------------------------------------------------------------------
+			
+			File file = new File(CmdController1.tmpPath+ sampleName + "-" + ecNr.name_ + ".txt");
 			PrintWriter printWriter = new PrintWriter(file);
 			printWriter.println("" + text);
 			printWriter.close();

@@ -60,6 +60,7 @@ public class StartFromp1 {
 	public static void main(String[] args) {
 		
 		String[] arg1= args;
+		
 		//args = 0. start GUI		
 		if(args.length  == 0){
 			System.out.println("Welcome to  FROMP.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");
@@ -80,24 +81,6 @@ public class StartFromp1 {
 				argsError();	
 			}		
 		}
-		/*
-		//args =2, only inputPath + one ec #
-		else if (args.length == 2){
-			//check input path & ec#
-			if(!checkPath(args[0],1) || !checkEC(args[1])){
-				argsError();
-			}
-			
-			System.out.println("cmd pass");
-			//set cmd code(more detail of cmd code in /FROMP/cmd-info) and put ec # into set
-			cmdCode=24;
-			if(!ecSet.contains(line)){
-				ecSet.add(args[1]);
-			}
-			cmd = new CmdController1(cmdCode,ecSet,in,out);
-			
-		}
-		*/
 		
 		//args = 3. it may p,s,m,e,f,a,am,op,up,eclist(all),pvalue(all)
 		else if (args.length == 3){
@@ -112,7 +95,7 @@ public class StartFromp1 {
 					
 					cmdCode=args[2];
 					in = args[0];
-					out = args[1];
+					//out = args[1];
 					//push to CmdController1
 					cmd = new CmdController1(cmdCode,ecSet,in,out);			
 					//System.out.println("cmd pass");
@@ -131,7 +114,7 @@ public class StartFromp1 {
 		else if (args.length >3){
 			if (checkPath(args[0],1) && checkPath(args[1],2)){
 				in = args[0];
-				out = args[1];
+				//out = args[1];
 				//arg = eclist or pvalue
 				if(args[2].contentEquals("eclist") || args[2].contentEquals("pvalue")){
 					// if is not 4 args or 4th args not a #
@@ -232,19 +215,28 @@ public class StartFromp1 {
 		//output file i=2
 		else if(i==2)	{
 			//default path
-			if(path.contentEquals("def"))
+			if(path.contentEquals("def")){
+				out="def";
 				return true;
-			//only check path, do not check file name.
-			String bPath = path.substring(0, path.lastIndexOf(File.separator)+1);	
-			//System.out.println(bPath);
-			//System.out.println(path);
-			File f = new File(bPath);
-			return f.exists();	
+			}
+				
+			//check path, do not allow to assign a file name.
+			//if out path without "/",add a "/"
+			if (!path.endsWith(File.separator)){
+				path+=File.separator;
+			}
+			File f = new File(path);
+			if(f.exists()){
+				out=path;
+				return true;
+			}
+			else {
+				System.out.println("wrong outputfile:  " +out );
+				return false;
+			}
+				
 		}				
-		else{
-			System.out.println("wrong outputfile:  " +path );
-			return false;
-		}
+		return false;
 	}
 	
 	public static boolean checkEC(String options) {// checks that the EC is complete, ie is an ec number

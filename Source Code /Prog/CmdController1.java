@@ -53,6 +53,7 @@ public class CmdController1 {
 	private String inputPath;
 	private String optionsCmd;
 	int cmdCode;
+	public static String tmpPath = "";
 	final String basePath_ = new File("").getAbsolutePath() + File.separator+"Output"+File.separator;
 	//for inti
 	public CmdController1(){
@@ -112,24 +113,6 @@ public class CmdController1 {
 			}
 			
 		}	
-		//input is a normal sample. txt or .out
-		else if(IP.endsWith(".txt")||IP.endsWith(".out")){
-			//get filename.filetype.  such like abc.txt, need +1
-			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
-			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
-			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-			//IP = sample's path
-			Sample sample = new Sample(name, IP, col);
-			//samples_ is  static <Sample> Arraylist in project.java 
-			Project.samples_.add(sample);
-			System.out.println(IP+"   sample added");
-			
-		}
-		//input is a normal sample (.txt or .out) with a sequence path.
-		//1. (group samples) .frp file with  a sequence list file
-		//2. (single sample) .txt or .out file with a single sequence file.
-		
-		
 		//input is a .lst file . it may include all above type files and .lst. 
 		else if(IP.endsWith(".lst")){
 			try{
@@ -147,67 +130,103 @@ public class CmdController1 {
 			catch(Exception e){
 				System.out.println("wrong .lst file:   "+IP );
 			}
+		}		
+		
+		
+		//input is a normal sample. txt or .out or other
+		//else if(IP.endsWith(".txt")||IP.endsWith(".out")){
+			else if(IP.endsWith(".txt")||IP.endsWith(".out")||IP.endsWith(".*")){
+			//get filename.filetype.  such like abc.txt, need +1
+			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
+			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
+			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+			//IP = sample's path
+			Sample sample = new Sample(name, IP, col);
+			//samples_ is  static <Sample> Arraylist in project.java 
+			Project.samples_.add(sample);
+			System.out.println(IP+"   sample added");
+			
 		}
+		//input is a normal sample (.txt or .out) with a sequence path.
+		//1. (group samples) .frp file with  a sequence list file
+		//2. (single sample) .txt or .out file with a single sequence file.
+		
+		
+		
 	}//finish sample input work.
 		
 	//main processing method.
 	private void processing(){	
 		
-		// p or a
+		// p or a --checked out put path.
 		if (optionsCmd_.contentEquals("p")|| optionsCmd_.contentEquals("a")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
-			String tmpPAth = "";
+			
 			if (outPutPath_.contentEquals("def")){
-				tmpPAth= basePath_+"p";	
+				tmpPath = basePath_+"p";	
 			}
 			else{
-				tmpPAth = outPutPath_ + File.separator+ "pathwayPics";	
+				tmpPath = outPutPath_ + "pathwayPics";	
 			}
-			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			//System.out.println("PathwayPics will be saved at: "+ tmpPath);
 			// export pictures
-			pwMAtrix.exportPics(tmpPAth, false, false);
-			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			pwMAtrix.exportPics(tmpPath, false, false);
+			System.out.println("PathwayPics were saved at: "+ tmpPath);
 			//System.exit(0);	
 		}
-		// s or a or am
+		// s or a or am --checked output path
 		if (optionsCmd_.contentEquals("s")||optionsCmd_.contentEquals("a")||optionsCmd_.contentEquals("am")){
 			System.out.println("Pathway-score-matrix");
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
 			//export matrix. exportMat(path,ecf is selected)
 			if (outPutPath_.contentEquals("def")){
-				pwMAtrix.exportMat(basePath_+"s", true);				
+				tmpPath = basePath_+"s";
+							
 			}
 			else{
-				pwMAtrix.exportMat(this.outPutPath_, true);
-			}			
+				tmpPath = outPutPath_.substring(0,outPutPath_.length()-1);
+
+			}
+			
+			pwMAtrix.exportMat(tmpPath, true);	
+			System.out.println("Output files were saved at: "+ tmpPath);
 		}
-		// m or a or am
+		// m or a or am --checked output path
 		if (optionsCmd_.contentEquals("m") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("Pathway-activity-matrix");
 			PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(Controller.processor_, Controller.project_,new Dimension(23, 23));
 			if (outPutPath_.contentEquals("def")){
-				pane.exportMat(false,basePath_+"m");			
+				tmpPath = basePath_+"m";
+						
 			}
 			else{
-				pane.exportMat(false, this.outPutPath_);
+				tmpPath= outPutPath_.substring(0,outPutPath_.length()-1);
+				
 			}
+			pane.exportMat(false,tmpPath);
+			System.out.println("Output files were saved at: "+ tmpPath);
+			
 		}
-		// e or a or am
+		// e or a or am --checked output path
 		if  (optionsCmd_.contentEquals("e") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("EC-activity-matrix");
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			
 			if (outPutPath_.contentEquals("def")){
-				pane.exportMat(basePath_+"e", true);		
+				tmpPath = basePath_+"e";
+					
 			}
 			else{
-				pane.exportMat(this.outPutPath_, true);		
+				tmpPath= outPutPath_.substring(0,outPutPath_.length()-1);
+						
 			}
+			pane.exportMat(tmpPath, true);
+			System.out.println("Output files were saved at: "+ tmpPath);
 		}
 		// f export the project as a .frp file. (it was  .txt + .out + .frp = new one .frp file ) need add def function
-		//f or a 
+		//f or a --checked out path
 		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
 			Date d = new Date();
 			System.out.println("Export as .frp file");
@@ -217,76 +236,80 @@ public class CmdController1 {
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				projPath=basePath_+"f"+File.separator+"New Project - "+d.toString()+".frp";
 			}
-			//competed path. /xx/xx.frp
-			else if (outPutPath_.endsWith(".frp")){
-				projPath=outPutPath_;
-			}
+//			//competed path. /xx/xx.frp
+//			else if (outPutPath_.endsWith(".frp")){
+//				projPath=outPutPath_;
+//			}
 			//no name, creat one. /xx/ --> /xx/new project.frp
-			else if (outPutPath_.endsWith(File.separator)){
+			else {
 				
 				projPath=outPutPath_+"New Project - "+d.toString()+".frp";	
 			}
 			
-			// not a .frp . /xx/out --> /xx/out.frp
-			else{
-				projPath=outPutPath_+".frp";
-			}
+//			// not a .frp . /xx/out --> /xx/out.frp
+//			else{
+//				projPath=outPutPath_+".frp";
+//			}
+			
 			Controller.saveProject(projPath);
 			System.out.println("New Project File at : "+projPath);
 		}
-		// op
+		// op --checked out path
 		else if (optionsCmd_.contentEquals("op")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
-			String tmpPAth = "";
+			
 			if (outPutPath_.contentEquals("def")){
-				tmpPAth= basePath_+"op";	
+				tmpPath= basePath_+"op";	
 			}
 			else{
-				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
+				tmpPath = outPutPath_ + "pathwayPics";
 				
 			}
 			
-			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			//System.out.println("PathwayPics will be saved at: "+ tmpPath);
 			// export pictures
-			pwMAtrix.exportPics(tmpPAth, true, false);
-			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			pwMAtrix.exportPics(tmpPath, true, false);
+			System.out.println("PathwayPics were saved at: "+ tmpPath);
 			//System.exit(0);
 			
 		}
-		// up
+		// up - user pathway --checked out put path
 		else if (optionsCmd_.contentEquals("up")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
-			String tmpPAth = "";
+			
 			if (outPutPath_.contentEquals("def")){
-				tmpPAth= basePath_+"op";	
+				tmpPath= basePath_+"up";	
 			}
 			else{
-				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";
+				tmpPath = outPutPath_ + "pathwayPics";
 				
 			}
 			
-			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
+			//System.out.println("PathwayPics will be saved at: "+ tmpPath);
 			System.out.println("onlyUserPaths");
 			// export pictures
-			pwMAtrix.exportPics(tmpPAth, true, true);
-			System.out.println("PathwayPics were saved at: "+ tmpPAth);
+			pwMAtrix.exportPics(tmpPath, true, true);
+			System.out.println("PathwayPics were saved at: "+ tmpPath);
 			//System.exit(0);	
 		}
-		// ec ---------need add def !!!!!!!!!!!!!!
+		// ec --checked out put path
 		else if (optionsCmd_.contentEquals("ec")){
 			if(outPutPath_.contains("def")){		
-				outPutPath_ = basePath_+"ec"+File.separator;
+				tmpPath = basePath_+"ec"+File.separator;
+			}
+			else{
+				tmpPath = outPutPath_;
 			}
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
 			for (int i = 0; i < ec_.size(); i++) {
 				
 				pane.cmdExportRepseqs(this.ec_.get(i));
 			}
-			System.out.println("Repseqs saved at: "+ outPutPath_ );
+			System.out.println("Repseqs saved at: "+ tmpPath );
 		}
 		// seq - checked out path. it can not assign file name, only can assign folder name, because it will generate many files.
 		else if (optionsCmd_.contentEquals("seq")){
@@ -337,10 +360,12 @@ public class CmdController1 {
 				if(outPutPath_.contentEquals("def")){
 					outPutPath_=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all.txt";;	
 				}
-				//if no assigned file name.
-				else if (outPutPath_.endsWith(File.separator)){
+				//if it is a assgined path.
+				else{
 					outPutPath_ += Project.workpath_+"-eclist-all.txt";
 				}
+					
+				
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
 			//output by assgined # 

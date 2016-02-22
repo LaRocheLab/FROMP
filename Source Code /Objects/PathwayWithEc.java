@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-//An extension of the pathway class. Adds all of the ECs which can be mapped to a particular path in a convieniant ArrayList.
+//An extension of the pathway class. Adds all of the ECs which can be mapped to a particular path in a convenient ArrayList.
 
 public class PathwayWithEc extends Pathway {
 	public ArrayList<EcNr> ecNrs_; // Arraylist of ecs which map to this pathway

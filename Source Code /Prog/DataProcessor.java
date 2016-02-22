@@ -121,7 +121,7 @@ public class DataProcessor {
 		this.parser = new XmlParser();
 		this.lFrame_ = new Loadingframe();
 
-		newUserPathList_ = new ArrayList();
+		newUserPathList_ = new ArrayList<PathwayWithEc>();
 		pathwayList_ = null;
 
 		prepData(); // Prepares everything for the data processor
@@ -301,7 +301,8 @@ public class DataProcessor {
 					tmp = tmp.substring(1);
 				}
 				ret = getEnzFromRawSample(tmp);
-			} catch (StringIndexOutOfBoundsException e) {
+			} 
+			catch (StringIndexOutOfBoundsException e) {
 				return ret;
 
 			}
@@ -2167,7 +2168,7 @@ public class DataProcessor {
 		String next = " --> ";
 		String chainEc = "";
 		String ecName = ecNr.name_;
-		ArrayList<EcNr> chain = new ArrayList();
+		ArrayList<EcNr> chain = new ArrayList<EcNr>();
 		boolean lastHit = false;
 		int tempChainLenght = 1;
 		try {
@@ -2220,7 +2221,8 @@ public class DataProcessor {
 					}
 				}
 			}
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			openWarning("Error", "File: pathway" + File.separator + path.id_
 					+ ".chn" + " not found");
 			e.printStackTrace();

@@ -37,7 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sun.org.mozilla.javascript.JavaScriptException;
+//import sun.org.mozilla.javascript.JavaScriptException;
 import Panes.ActMatrixPane;
 import Panes.SampleNameFrame;
 import jxl.*;

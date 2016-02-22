@@ -25,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sun.org.mozilla.javascript.json.JsonParser;
+//import sun.org.mozilla.javascript.json.JsonParser;
 import java.io.IOException;
 import java.util.Date;
 /**
@@ -163,7 +163,7 @@ public class CmdController1 {
 				tmpPAth= basePath_+"p";	
 			}
 			else{
-				tmpPAth = this.outPutPath_ + File.separator+ "pathwayPics";	
+				tmpPAth = outPutPath_ + File.separator+ "pathwayPics";	
 			}
 			System.out.println("PathwayPics will be saved at: "+ tmpPAth);
 			// export pictures
@@ -288,12 +288,15 @@ public class CmdController1 {
 			}
 			System.out.println("Repseqs saved at: "+ outPutPath_ );
 		}
-		// seq
+		// seq - checked out path. it can not assign file name, only can assign folder name, because it will generate many files.
 		else if (optionsCmd_.contentEquals("seq")){
 			if(outPutPath_.contains("def")){		
 				outPutPath_ = basePath_+"seq"+File.separator;
 			}
-	
+			//if it is not a folder.create a folder.
+			else if (!outPutPath_.endsWith(File.separator)){
+				outPutPath_ += File.separator;
+			}
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			//System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
 			
@@ -308,6 +311,10 @@ public class CmdController1 {
 			if(outPutPath_.contains("def")){		
 				outPutPath_ = basePath_+"seqall"+File.separator;
 			}
+			//if no assigned file name.
+			else if (outPutPath_.endsWith(File.separator)){
+				outPutPath_ += Project.workpath_+"-seqall.txt";
+			}
 			
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			//System.out.println("Sequences will be saved at: " + basePath_+ "Sequences/");
@@ -318,7 +325,7 @@ public class CmdController1 {
 			}
 			System.out.println("Files saved at: "+ outPutPath_ );
 		}
-		// eclist or eclist#such like.ecliset20
+		// eclist or eclist#such like.ecliset20 - checked out path
 		else if (optionsCmd_.startsWith ("eclist")){
 			//initialization
 			System.out.println("EC list");
@@ -330,8 +337,9 @@ public class CmdController1 {
 				if(outPutPath_.contentEquals("def")){
 					outPutPath_=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all.txt";;	
 				}
-				else{
-					outPutPath_ += File.separator + Project.workpath_+"-eclist-all.txt";
+				//if no assigned file name.
+				else if (outPutPath_.endsWith(File.separator)){
+					outPutPath_ += Project.workpath_+"-eclist-all.txt";
 				}
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
@@ -343,16 +351,17 @@ public class CmdController1 {
 				if(outPutPath_.contentEquals("def")){
 					outPutPath_=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";	
 				}
-				else{
-					outPutPath_ += File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
+				//if no assigned file name.
+				else if (outPutPath_.endsWith(File.separator)){
+					outPutPath_ += Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
 				}
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
 		}
-		// pvalue
+		// pvalue - checked out path
 		else if (optionsCmd_.startsWith("pvalue")){
 			//initialization
-			System.out.println("Pvalue");
+			System.out.println("pvalue");
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			//need to make the matrix have the geometric distribution p values before sorting
 			int ecCnt = 0;
@@ -365,13 +374,14 @@ public class CmdController1 {
 			pane.ecMatrix_ = pane.removeDuplicates();
 			
 			//output all
-			if(optionsCmd_.contentEquals("Pvalue")){
+			if(optionsCmd_.contentEquals("pvalue")){
 				//num_ec_exported=0;
 				if(outPutPath_.contentEquals("def")){
-					outPutPath_=basePath_+"Pvalue"+File.separator + Project.workpath_+"-Pvalue-eclist-all.txt";;	
+					outPutPath_=basePath_+"pvalue"+File.separator + Project.workpath_+"-pvalue-eclist-all.txt";;	
 				}
-				else{
-					outPutPath_ += File.separator + Project.workpath_+"-Pvalue-eclist-all.txt";
+				//if no assigned file name.
+				else if (outPutPath_.endsWith(File.separator)){
+					outPutPath_ += Project.workpath_+"-pvalue-eclist-all.txt";
 				}
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}
@@ -381,10 +391,11 @@ public class CmdController1 {
 				System.out.println("check pvalue #:"+num_ec_exported);
 				
 				if(outPutPath_.contentEquals("def")){
-					outPutPath_=basePath_+"Pvalue"+File.separator + Project.workpath_+"-Pvalue-eclist"+"-"+num_ec_exported+".txt";	
+					outPutPath_=basePath_+"pvalue"+File.separator + Project.workpath_+"-pvalue-eclist"+"-"+num_ec_exported+".txt";	
 				}
-				else{
-					outPutPath_ += File.separator + Project.workpath_+"-Pvalue-eclist"+"-"+num_ec_exported+".txt";
+				//if no assigned file name.
+				else if (outPutPath_.endsWith(File.separator)){
+					outPutPath_ += Project.workpath_+"-pvalue-eclist"+"-"+num_ec_exported+".txt";
 				}
 				pane.exportEcNums(outPutPath_, this.num_ec_exported);
 			}

@@ -86,7 +86,7 @@ public class Project {
 		minVisScore_ = 0;
 		workpath_ = workPath;
 
-		samples_ = new ArrayList();
+		samples_ = new ArrayList<Sample>();
 		overall_ = new Sample("overAll", "");
 		overall_.sampleCol_ = Color.black;
 		overall_.singleSample_ = false;
@@ -130,7 +130,7 @@ public class Project {
 			openWarning("Error", "File: " + projectPath_ + " not found");
 			e.printStackTrace();
 		}
-		samples_ = new ArrayList();
+		samples_ = new ArrayList<Sample>();
 		overall_ = new Sample("overAll", "");
 		overall_.sampleCol_ = Color.black;
 		overall_.singleSample_ = false;
@@ -546,7 +546,7 @@ public class Project {
 	public void loadUserPAths(BufferedReader in, boolean newList)
 			throws IOException {// loads the user paths from the project file
 		if (userPathways == null) {
-			userPathways = new ArrayList();
+			userPathways = new ArrayList<String>();
 		}
 		String zeile;
 		while ((zeile = in.readLine()) != null) {
@@ -790,7 +790,7 @@ public class Project {
 	}
 
 	private ArrayList<String> convertInterpro(String interpro) {// This is the conversion step using ipr->kegg.
-		ArrayList<String> retList = new ArrayList();
+		ArrayList<String> retList = new ArrayList<String>();
 		if (this.IPRToECHash.isEmpty()) {
 			DigitizeConversionFiles();
 		}
@@ -876,7 +876,7 @@ public class Project {
 	}
 
 	public void importProj(String path) {// Imports the project file at a given file path
-		legitSamples = new ArrayList();
+		legitSamples = new ArrayList<Boolean>();
 		BufferedReader in = null;
 		projectPath_ = path;
 		imported = true;
@@ -885,6 +885,7 @@ public class Project {
 		try {
 			in = new BufferedReader(new FileReader(path));
 			if (!in.readLine().contentEquals("$$ver:$EXP1$")) {
+				in.close();
 				return;
 			}
 			String tmpLine = "";
@@ -948,7 +949,7 @@ public class Project {
 				}
 				if (finishedStart) {
 					if (samples_ == null) {
-						samples_ = new ArrayList();
+						samples_ = new ArrayList<Sample>();
 					}
 					if (tmpLine.startsWith("SMP*:")) {
 						tmpLine = tmpLine.substring("SMP*:".length());
@@ -1056,7 +1057,7 @@ public class Project {
 	}
 
 	public void clearSamples() {// removes all the samples stored by this project object
-		samples_ = new ArrayList();
+		samples_ = new ArrayList<Sample>();
 	}
 
 	public int convertStringtoInt(String in) {

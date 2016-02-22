@@ -138,6 +138,7 @@ public class EcActPanes extends JPanel {
 		switch (this.mode_) {
 		case 0:
 			if ((this.actMat_ == null) || (Project.dataChanged)) {
+				//go to actMatrixPane finally. same to use cmd.
 				this.actMat_ = new ActMatrixPane(this.activeProj_,
 						this.ecList_, this.proc_, this.showPanel_.getSize());
 			}

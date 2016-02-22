@@ -348,6 +348,7 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
+					//check, is sample added?
 					if (!NewFrompFrame.this.control_.processor_
 							.selectedPathways()) {
 						warningFrame("No pathways selected!");
@@ -434,8 +435,7 @@ public class NewFrompFrame extends JFrame {
 				"Set Background Color");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewFrompFrame.this.backCol_ = JColorChooser.showDialog(
-						NewFrompFrame.this.getParent(),
+				NewFrompFrame.this.backCol_ = JColorChooser.showDialog(NewFrompFrame.this.getParent(),
 						"Choose BackgroundColor", NewFrompFrame.this.backCol_);
 				Project.setBackColor_(NewFrompFrame.this.backCol_);
 				NewFrompFrame.this.back_
@@ -458,9 +458,8 @@ public class NewFrompFrame extends JFrame {
 				"Set System Color");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewFrompFrame.this.sysColor_ = JColorChooser.showDialog(
-						NewFrompFrame.this.getParent(), "Choose System Color",
-						NewFrompFrame.this.sysColor_);
+				NewFrompFrame.this.sysColor_ = JColorChooser.showDialog(NewFrompFrame.this.getParent(), 
+						"Choose System Color",NewFrompFrame.this.sysColor_);
 				Project.setFontColor_(NewFrompFrame.this.sysColor_);
 				NewFrompFrame.this.invalidate();
 				NewFrompFrame.this.validate();
@@ -475,9 +474,8 @@ public class NewFrompFrame extends JFrame {
 				"Set Overall Sample Color");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewFrompFrame.this.overallSampCol = JColorChooser.showDialog(
-						NewFrompFrame.this.getParent(), "Choose Overall Color",
-						NewFrompFrame.this.overallSampCol);
+				NewFrompFrame.this.overallSampCol = JColorChooser.showDialog(NewFrompFrame.this.getParent(),
+						"Choose Overall Color",NewFrompFrame.this.overallSampCol);
 				Project.setOverAllColor_(NewFrompFrame.this.overallSampCol);
 			}
 		});
@@ -991,7 +989,7 @@ public class NewFrompFrame extends JFrame {
 			}
 		}
 	}
-
+	// read recent project list from recentProj.txt, then save it into arrayList recentProj_
 	private void loadRecentProj() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(

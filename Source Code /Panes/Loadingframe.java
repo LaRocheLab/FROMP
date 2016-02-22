@@ -30,7 +30,7 @@ public class Loadingframe extends Thread {
 		init();
 		start();
 	}
-
+	
 	private void init() {
 		if (!showLoading) {
 			return;
@@ -42,8 +42,7 @@ public class Loadingframe extends Thread {
 		this.frame_.setVisible(true);
 
 		this.backGround_ = new JPanel();
-		this.backGround_.setBounds(0, 0, this.frame_.getWidth() + 50,
-				this.frame_.getHeight() + 50);
+		this.backGround_.setBounds(0, 0, this.frame_.getWidth() + 50,this.frame_.getHeight() + 50);
 		this.backGround_.setBackground(Project.getBackColor_());
 		this.backGround_.setVisible(true);
 		this.backGround_.setLayout(null);

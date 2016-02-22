@@ -135,12 +135,13 @@ public class ActMatrixPane extends JPanel {
 	
 	public ActMatrixPane(Project actProj, ArrayList<EcWithPathway> ecList,
 			DataProcessor proc, Dimension dim) {
-		this.lframe = new Loadingframe(); // opens the loading frame
+		// opens the loading frame
+		this.lframe = new Loadingframe(); 
 		this.lframe.bigStep("Preparing Panel"); 
 		this.lframe.step("Init"); 
 									
 		this.actProj_ = actProj; // sets this active project
-		this.proc_ = proc; // stes this data processor
+		this.proc_ = proc; // sets this data processor
 							
 							
 		setLayout(new BorderLayout()); 
@@ -153,7 +154,7 @@ public class ActMatrixPane extends JPanel {
 		this.sumIndexSmp = 0; 
 		setSelectedEc(); // Sets whether or not each sample is selected
 		prepMatrix(); // Builds the ec matrixLoadingframe.close();
-		initMainPanels(); // Instanciates the options, display and scroll panels
+		initMainPanels(); // Instantiates the options, display and scroll panels
 		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
 		Loadingframe.close(); // closes the loading frame
 	}
@@ -1992,11 +1993,21 @@ public class ActMatrixPane extends JPanel {
 			} else {
 				sampleName = sampName;
 			}
-			File file = new File(CmdController1.outPutPath_+ sampleName + "-" + ecNr.name_ + ".txt");
+			//choose file name, if exists a assigned file name, use it.If not, use a default file name.
+			String s = "";
+			if(CmdController1.outPutPath_.endsWith(File.separator)){
+				s=CmdController1.outPutPath_+ sampleName + "-" + ecNr.name_ + ".txt";
+			}
+			else{
+				s=CmdController1.outPutPath_;
+			}
+			File file = new File(s);
+			//-----------------------------------------------------------------------------------------
 			PrintWriter printWriter = new PrintWriter(file);
 			printWriter.println("" + text);
 			printWriter.close();
-		} catch (IOException e1) {
+		} 
+		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}

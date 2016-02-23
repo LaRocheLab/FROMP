@@ -2891,6 +2891,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
+						//seq
 						if(findLca == false && oneFile == false){
 						try {
 							String sampleName;
@@ -2899,8 +2900,8 @@ public class ActMatrixPane extends JPanel {
 							} else {
 								sampleName = sampName_;
 							}
-							File file = new File(CmdController1.outPutPath_
-									+ File.separator +sampleName + "-"
+							File file = new File(CmdController1.tmpPath
+								    +sampleName + "-"
 									+ ecNr_.name_ + "-Sequences" + ".txt");
 							PrintWriter printWriter = new PrintWriter(file);
 							if (text != null && text != "") {
@@ -2915,6 +2916,7 @@ public class ActMatrixPane extends JPanel {
 							e1.printStackTrace();
 						}
 						}
+						//seqall
 						else if(findLca == false && oneFile == true){
 							try {
 								String sampleName;
@@ -2924,7 +2926,7 @@ public class ActMatrixPane extends JPanel {
 									sampleName = sampName_;
 								}
 								//lca sequence file path
-								File file = new File(CmdController1.outPutPath_ + File.separator +"Sequences"+File.separator+ ecNr_.name_ + "-Sequences" + ".txt");
+								File file = new File(CmdController1.tmpPath+Project.workpath_+"-"+ ecNr_.name_ + "-Sequences" + ".txt");
 								//This allows writing to the file of the same name to append to the file if created, creates file if not
 								PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 								if (text != null && text != "") {

@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -68,10 +67,20 @@ public class CmdController1 {
 		outPutPath_=out;
 		//processing();
 		System.out.println("Starting cmdFromp");
+		
+		//inti
+		
+		controller = new Controller(Color.black);
+		
+		Panes.Loadingframe.showLoading = false;
+		Panes.HelpFrame.showSummary = false;
 		//add all samples
 		readInputFile(inputPath_);
+		
 		//check load finish
 		Controller.loadPathways(true);
+		//set out put file name.
+		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
 		//process all samples
 		processing();
 		System.out.println("Done cmdFromp");
@@ -80,9 +89,7 @@ public class CmdController1 {
 	//read input file or  path.  IP=input path
 	private void readInputFile(String IP) {
 		// for loading file.
-		controller = new Controller(Color.black);
-		Panes.Loadingframe.showLoading = false;
-		Panes.HelpFrame.showSummary = false;
+		
 		//input is a .frp file
 		if (IP.endsWith(".frp")) {
 			//add try-catch for check input file.
@@ -115,8 +122,8 @@ public class CmdController1 {
 			}
 			
 		}	
-		//input is a .lst file . it may include all above type files and .lst. 
-		else if(IP.endsWith(".lst")){
+		//input is a .lst/.list file . it may include all above type files and .lst. 
+		else if(IP.endsWith(".lst")|| IP.endsWith(".list")){
 			try{
 				BufferedReader in = new BufferedReader(new FileReader(IP));
 				String line = in.readLine();
@@ -136,8 +143,22 @@ public class CmdController1 {
 		
 		
 		//input is a normal sample. txt or .out or other
-		//else if(IP.endsWith(".txt")||IP.endsWith(".out")){
-			else if(IP.endsWith(".txt")||IP.endsWith(".out")||IP.endsWith(".*")){
+		else if(IP.endsWith(".txt")||IP.endsWith(".out")){
+			//get filename.filetype.  such like abc.txt, need +1
+			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
+			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
+			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+			//IP = sample's path
+			Sample sample = new Sample(name, IP, col);
+			
+			//samples_ is  static <Sample> Arraylist in project.java 
+			Project.samples_.add(sample);
+			System.out.println(IP+"   sample added");
+			
+		}
+		//other type files. *.*
+		else{
+			System.out.println("111"+Project.workpath_);
 			//get filename.filetype.  such like abc.txt, need +1
 			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
 			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
@@ -148,7 +169,11 @@ public class CmdController1 {
 			Project.samples_.add(sample);
 			System.out.println(IP+"   sample added");
 			
+			
+			System.out.println(Project.workpath_);
 		}
+		
+		
 		//input is a normal sample (.txt or .out) with a sequence path.
 		//1. (group samples) .frp file with  a sequence list file
 		//2. (single sample) .txt or .out file with a single sequence file.
@@ -231,7 +256,6 @@ public class CmdController1 {
 		//f or a --checked out path
 		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
 			Date d = new Date();
-			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
 			
 			System.out.println("Export as .frp file");
@@ -240,23 +264,13 @@ public class CmdController1 {
 			if(outPutPath_.contentEquals("def")){
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				projPath=basePath_+"f"+File.separator+"New Project -"+sdf.format(d)+".frp";
-//				projPath=basePath_+"f"+File.separator+"New Project.frp";
+
 			}
-//			//competed path. /xx/xx.frp
-//			else if (outPutPath_.endsWith(".frp")){
-//				projPath=outPutPath_;
-//			}
-			//no name, creat one. /xx/ --> /xx/new project.frp
+
 			else {
 				
-//				projPath=outPutPath_+"New Project - "+d.toString()+".frp";	
-				projPath=outPutPath_+"New Project.frp";	
+				projPath=outPutPath_+"New Project -"+sdf.format(d)+".frp";
 			}
-			
-//			// not a .frp . /xx/out --> /xx/out.frp
-//			else{
-//				projPath=outPutPath_+".frp";
-//			}
 			
 			Controller.saveProject(projPath);
 			System.out.println("New Project File at : "+projPath);
@@ -275,7 +289,6 @@ public class CmdController1 {
 				
 			}
 			
-			//System.out.println("PathwayPics will be saved at: "+ tmpPath);
 			// export pictures
 			pwMAtrix.exportPics(tmpPath, true, false);
 			System.out.println("PathwayPics were saved at: "+ tmpPath);
@@ -354,7 +367,7 @@ public class CmdController1 {
 			}
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
-		// eclist or eclist#such like.ecliset20 - checked out path
+		// eclist or eclist# - checked out path
 		else if (optionsCmd_.startsWith ("eclist")){
 			//initialization
 			System.out.println("EC list");
@@ -386,10 +399,11 @@ public class CmdController1 {
 				}
 				//pane.exportEcNums(tmpPath, this.num_ec_exported);
 			}
+			
 			pane.exportEcNums(tmpPath, this.num_ec_exported);
 			
 		}
-		// pvalue - checked out path
+		// pvalue or pvalue#- checked out path
 		else if (optionsCmd_.startsWith("pvalue")){
 			//initialization
 			System.out.println("pvalue");

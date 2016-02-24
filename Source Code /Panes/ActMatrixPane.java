@@ -2445,7 +2445,9 @@ public class ActMatrixPane extends JPanel {
 	 */
 	public void exportEcNums(String path, int numEc){
 		try {
-			System.out.println("check 0");
+			
+			System.out.println("exportEcNums");
+			
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
 			out.write("Ec Activity EC Numbers");
 			int exportNum = 0;
@@ -2464,12 +2466,9 @@ public class ActMatrixPane extends JPanel {
 				System.out.println("Number of exported EC's cannot be less than 0 or greater than total number of EC's");
 				System.exit(0);
 			}
-			System.out.println("check 1");
+			
 			for (int y = 0; y < exportNum; y++) {
 				Line line = (Line) this.ecMatrix_.get(y);
-				
-				System.out.println("check 2");
-				System.out.println(line);
 				
 				if ((!line.getEc_().isCompleteEc())
 						&& (!this.dispIncomplete_.isSelected())) {

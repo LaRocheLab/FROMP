@@ -7,4 +7,3 @@
 /home/song/git/FROMP/projects/song.frp
 /home/song/git/FROMP/projects/default(1).frp
 /home/song/git/FROMP/TestIn/default.frp
-/home/song/git/FROMP/projects/default.frp

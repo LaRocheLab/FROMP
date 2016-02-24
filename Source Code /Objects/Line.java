@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import javax.swing.JLabel;
 
-// This class is used in many of the classes which display matricies. It contains the values of all of the matrix elements in the line (arrayline_[]) 
+// This class is used in many of the classes which display matrices. It contains the values of all of the matrix elements in the line (arrayline_[]) 
 // as well as the total sum of the line (sumline_).	This object is a literal "Line" of the matrix.
 
 public class Line {

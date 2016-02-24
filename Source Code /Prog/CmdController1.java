@@ -14,10 +14,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -229,12 +231,16 @@ public class CmdController1 {
 		//f or a --checked out path
 		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
 			Date d = new Date();
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
+			
 			System.out.println("Export as .frp file");
 			//project path
 			String projPath = "";
 			if(outPutPath_.contentEquals("def")){
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				projPath=basePath_+"f"+File.separator+"New Project - "+d.toString()+".frp";
+				projPath=basePath_+"f"+File.separator+"New Project -"+sdf.format(d)+".frp";
+//				projPath=basePath_+"f"+File.separator+"New Project.frp";
 			}
 //			//competed path. /xx/xx.frp
 //			else if (outPutPath_.endsWith(".frp")){
@@ -243,7 +249,8 @@ public class CmdController1 {
 			//no name, creat one. /xx/ --> /xx/new project.frp
 			else {
 				
-				projPath=outPutPath_+"New Project - "+d.toString()+".frp";	
+//				projPath=outPutPath_+"New Project - "+d.toString()+".frp";	
+				projPath=outPutPath_+"New Project.frp";	
 			}
 			
 //			// not a .frp . /xx/out --> /xx/out.frp

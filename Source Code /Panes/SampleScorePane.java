@@ -257,11 +257,15 @@ public class SampleScorePane extends JPanel {
 		PathwayWithEc tmpPath = null;
 
 		JButton pathButt = null;
+		
 		if (counter == Project.samples_.size()) {
 			tmpSample = Project.overall_;
-		} else {
+		} 
+		
+		else {
 			tmpSample = (Sample) Project.samples_.get(counter);
 		}
+		
 		int listCount = 0;
 //		if (Project.listMode_) {
 //			tmpSample.pathways_ = sortPathwaysByScore(tmpSample.pathways_);

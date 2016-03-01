@@ -325,18 +325,23 @@ public class PathwayPlot extends JPanel {
 	public void plot() {// builds the plot
 		int size = (int) (10.0F * this.scale_);
 		int xStep = (int) (10.0F * this.scale_);
-		int yStep = (int) (10.0F * this.scale_);
+		int yStep = (int) (30.0F * this.scale_);
 		int yOffset = 20;
-		int lastX = 30;
-		int lastY = yOffset + yStep * 100;
-		int x = 30;
-		int y = yOffset + yStep * 100;
+		int xOffset = 20*3;
+		
+		int lastX = 0;
+		int lastY = 30;
+		
+		int x = 0;
+		int y = 30;
 
 		this.canvas_ = null;
 
 		System.gc();
+		
 		this.canvas_ = new BufferedImage((int) (1600.0F * this.scale_),
-				(int) (1200.0F * this.scale_), 2);
+				(int) (Project.samples_.get(0).pathways_.size()*yStep*3 * this.scale_), 2);
+		
 		this.canvas_.createGraphics();
 		Sample tmpSamp = (Sample) Project.samples_.get(0);
 		PathwayWithEc tmpPath = null;
@@ -346,42 +351,56 @@ public class PathwayPlot extends JPanel {
 				(int) (2100.0F * this.scale_));
 
 		g.setColor(Color.black);
-		g.drawString("Score", 0, 20);
+		//draw word "score" at x axis
+		g.drawString("Score", xOffset+xStep*100, 20);
+		//from top to bottom
 		for (int i = 0; i < 10; i++) {
-			g.drawString(String.valueOf(100 - i * 10), 10, i * yStep * 10);
+			//values of x axis(90 ,80,70......)
+			g.drawString(String.valueOf(i * 10), xOffset+i * xStep * 10,20);
 		}
-		g.drawLine(30, yOffset, 30, yOffset + yStep * 100);
-
-		g.drawLine(20, yOffset + yStep * 100, xStep * tmpSamp.pathways_.size(),
-				yOffset + yStep * 100);
-
-		g.drawString("Pathway", xStep * tmpSamp.pathways_.size(), yOffset
-				+ yStep * 101);
+		//draw line y axis. 0 to "score"
+		g.drawLine(xOffset,30, xOffset + xStep * 100,30);
+		//draw line x axis. 0 to pathway
+		g.drawLine(xOffset, 30, xOffset,yStep * tmpSamp.pathways_.size()+90);
+		//draw word "Pathway" at x axis
+		g.drawString("Pathway", 0,yStep * tmpSamp.pathways_.size()+120);
+		//draw pathway id (ec00010 ....)
 		for (int i = 0; i < tmpSamp.pathways_.size(); i++) {
-			g.drawString(((PathwayWithEc) tmpSamp.pathways_.get(i)).id_,
-					(i + 1) * xStep + 30, yOffset
-							+ (yStep * 101 + 10 * (i % 10)) + 20);
+			g.drawString(((PathwayWithEc) tmpSamp.pathways_.get(i)).id_,0,(i + 1) * yStep+30);
 		}
+		//draw all samples
 		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
 			tmpSamp = (Sample) Project.samples_.get(smpCnt);
-			lastX = 30;
-			lastY = yOffset + yStep * 100;
+			//the position of last sample
+			lastX = xOffset;
+			lastY = 30;
 
 			g.setColor(tmpSamp.sampleCol_);
+			
+			//all pathway score for each sample.
 			for (int pwCnt = 0; pwCnt < tmpSamp.pathways_.size(); pwCnt++) {
 				tmpPath = (PathwayWithEc) tmpSamp.pathways_.get(pwCnt);
-				x = 30 + (pwCnt + 1) * xStep;
+				
+				// pathway - line y position
+				y = (int)((pwCnt + 1) * yStep + 25);
+				
 				//hides any pathways with a score below 0 or is 0
 				if (tmpPath.score_ > Project.minVisScore_) {
-					y = yOffset
-							+ (yStep * 100 - (int) (tmpPath.score_ * yStep));
-				} else {
-					y = yOffset + yStep * 100;
+					x = xOffset
+							+  (int) (tmpPath.score_ * xStep);
+				} 
+				//pathway <= 0
+				else {
+					//y = yOffset + yStep * 100;
+					x = xOffset;
 				}
+				//the project do not use this pathway or pathway score < minVisScore
 				if ((!this.proc_.getPathway(tmpPath.id_).isSelected())
 						|| (tmpPath.score_ < Project.minVisScore_ )) {
-					y = yOffset + yStep * 101;
+					//y = yOffset + yStep * 101;
+					x = xOffset;
 				}
+				//
 				Graphics2D g2 = (Graphics2D) g;
 				if (this.linesBox_.isSelected()) {
 					g2.setStroke(new BasicStroke(2.0F));
@@ -389,11 +408,12 @@ public class PathwayPlot extends JPanel {
 				}
 				if (this.vertLineBox_.isSelected()) {
 					g2.setStroke(new BasicStroke(2.0F));
-					g2.drawLine(x, yOffset + yStep * 100, x, y);
+					g2.drawLine(xOffset, y, x, y);
 				}
 				if (this.pointsBox_.isSelected()) {
 					g2.setStroke(new BasicStroke(2.0F));
 					g2.fillOval(x - size / 2, y - size / 2, size, size);
+					
 				}
 				lastX = x;
 				lastY = y;
@@ -460,7 +480,7 @@ public class PathwayPlot extends JPanel {
 	 * @author Jennifer Terpstra
 	 */
 	public void drawPlot(int mode, boolean showLegend, boolean export){
-		//inputs all the pathway scores into the graph dataset
+		//inputs all the pathway scores into the graph data set
 		int totalSeries = Project.samples_.size();
 		DefaultCategoryDataset tmpseries = new DefaultCategoryDataset();
 		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
@@ -478,7 +498,7 @@ public class PathwayPlot extends JPanel {
 		CategoryAxis domainAxis;
 		CategoryPlot categoryplot;
 		
-		//drawing the scatterplot graph for the pathway scores
+		//drawing the scatter plot graph for the pathway scores
 		if (mode == 1) {
 			chart = ChartFactory.createLineChart("Pathway Scores", "Pathway",
 					"Scores", tmpseries, PlotOrientation.HORIZONTAL,
@@ -566,7 +586,8 @@ public class PathwayPlot extends JPanel {
 				else{
 					ChartUtilities.saveChartAsPNG(new File(basePath_ + " BarChart" + ".png"), chart, 1000, 1000);
 				}	
-			} catch (IOException e1) {
+			} 
+			catch (IOException e1) {
 			}
 		}
 		 

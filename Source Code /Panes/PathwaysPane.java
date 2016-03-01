@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// The class which switches between all three analysies in the pathway completeness section
+// The class which switches between all three analysis in the pathway completeness section
 
 public class PathwaysPane extends JPanel {
 	private static final long serialVersionUID = 1L; 
@@ -326,7 +326,10 @@ public class PathwaysPane extends JPanel {
 	  return tmp.matches("-?\\d+(\\.\\d+)?");
 	}
 	
-	// Adds the buttons to select between the three pathway analysies: Show pathway-scores, Show score-matrix, and Show score-plot
+	// Adds the buttons to select between the three pathway analysis: Show pathway-scores, Show score-matrix, and Show score-plot
+	//mode = 0 : Show pathway-scores
+	//mode = 1 : Show score-matrix
+	//mode = 3 : Show score-plot
 	private void addButtons() {
 		this.pwScores_ = new JButton("Show pathway-scores");
 		this.pwScores_.setBounds(0, 80, 200, 20);

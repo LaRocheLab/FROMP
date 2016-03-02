@@ -157,7 +157,7 @@ public class MetaProteomicAnalysis {
 			keys  = seq.keySet().toArray();
 		} catch(NullPointerException e){
 			System.out.println("No values found within sequence file for ec: " + sampleName);
-			System.exit(0);
+			//System.exit(0);
 		}
 		for(int j = 0; j < keys.length; j++){
 			trypticPeptide.setUniqueIdentifier(keys[j].toString());

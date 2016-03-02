@@ -414,6 +414,7 @@ public class PathwayPlot extends JPanel {
 					g2.setStroke(new BasicStroke(2.0F));
 					g2.fillOval(x - size / 2, y - size / 2, size, size);
 					
+					
 				}
 				lastX = x;
 				lastY = y;

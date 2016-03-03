@@ -36,13 +36,13 @@ import javax.swing.filechooser.FileFilter;
 
 public class PathwayEcMat extends JPanel {
 	private static final long serialVersionUID = 1L;
-	//An array list of array lists of line objects. each array list of line objects is a matrix so it is an arraylist of matricies 
+	//An array list of array lists of line objects. each array list of line objects is a matrix so it is an arrayList of matrices 
 	private ArrayList<ArrayList<Line>> arrays_; 
-	private double[] pwSums_; // An array or doubles which serves as the last oline of the matrix. Each element is the sum of its corresponding line
-	ArrayList<PathwayWithEc> origPaths_; // Arraylist of pathways
+	private double[] pwSums_; // An array or doubles which serves as the last online of the matrix. Each element is the sum of its corresponding line
+	ArrayList<PathwayWithEc> origPaths_; // ArrayList of pathways
 	Project actProj_; // The active project
-	JCheckBox sortPathesBySum_; // Checkbox to sort paths by sum... I have no idea why paths has an 'e' in it though... I didn't write that variable
-	JCheckBox sortEcsBySum_; // Checkbot to sort Ec's by sum
+	JCheckBox sortPathesBySum_; // Check box to sort paths by sum... I have no idea why paths has an 'e' in it though... I didn't write that variable
+	JCheckBox sortEcsBySum_; // Check box to sort Ec's by sum
 	boolean dataChanged_; // Boolean to state whether or not the data has been changed
 	int activesamps_; // The number of active samples
 	DataProcessor proc_; // DataProcessor object to parse through the sample files and do the heavy computations required to build this matrix
@@ -77,7 +77,7 @@ public class PathwayEcMat extends JPanel {
 							
 		this.xWidth = (4000 + Project.samples_.size() * 300); 
 																	
-		createArrays(); // Creates the array list of array lists. Does not fill the inner arraylists with line objects
+		createArrays(); // Creates the array list of array lists. Does not fill the inner arrayLists with line objects
 		fillArrays(); // Builds the line objects and fills the array lists with line objects
 										
 		setSize(dim); 
@@ -156,10 +156,10 @@ public class PathwayEcMat extends JPanel {
 				this.activesamps_ += 1;
 			}
 		}
-		this.arrays_ = new ArrayList();
-		ArrayList<Line> array = new ArrayList();
+		this.arrays_ = new ArrayList<ArrayList<Line>>();
+		ArrayList<Line> array = new ArrayList<Line>();
 		for (int origCnt = 0; origCnt < this.origPaths_.size(); origCnt++) {
-			array = new ArrayList();
+			array = new ArrayList<Line>();
 			this.arrays_.add(array);
 		}
 		Loadingframe.close();
@@ -209,6 +209,7 @@ public class PathwayEcMat extends JPanel {
 		Loadingframe lframe = new Loadingframe();
 
 		lframe.bigStep("sorting ecs");
+		setsums();
 		for (int pthCnt = 0; pthCnt < this.arrays_.size(); pthCnt++) {
 			ArrayList<Line> arr1 = (ArrayList) this.arrays_.get(pthCnt);
 

@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+// pop out window when click ec# at ec activity
 public class PwInfoFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -21,9 +21,11 @@ public class PwInfoFrame extends JFrame {
 		setBounds(100, 100, 400, 50 + lineDis * ec.pathways_.size());
 		setVisible(true);
 		setLayout(null);
-		if ((ec.amount_ <= 1) && (samp != null)) {
-			ec.amount_ = samp.getEc(ec.name_).amount_;
-		}
+	
+//		if ((ec.amount_ <= 1) && (samp_ != null)) {
+//			
+//			ec.amount_ = samp_.getEc(ec.name_).amount_;
+//		}
 		setTitle(ec.name_ + "(" + ec.bioName_ + ")" + " * " + ec.amount_);
 
 		JPanel back = new JPanel();

@@ -65,7 +65,7 @@ public class PathwayEcMat extends JPanel {
 	JPopupMenu ecMenuPopup;
 	boolean firstTime = true; 
 	private JButton rebuild; // A button added to the options panel used to fully rebuild this matrix as well as the options
-
+	
 	public PathwayEcMat(ArrayList<PathwayWithEc> origPaths, Project actProj,
 			DataProcessor proc, Dimension dim) {
 		System.out.println("pathwayecmat"); 
@@ -156,8 +156,11 @@ public class PathwayEcMat extends JPanel {
 				this.activesamps_ += 1;
 			}
 		}
+		//pathway list
 		this.arrays_ = new ArrayList<ArrayList<Line>>();
+		//Ec # lines in each pathway.
 		ArrayList<Line> array = new ArrayList<Line>();
+		//creat empty pathway list
 		for (int origCnt = 0; origCnt < this.origPaths_.size(); origCnt++) {
 			array = new ArrayList<Line>();
 			this.arrays_.add(array);
@@ -171,8 +174,10 @@ public class PathwayEcMat extends JPanel {
 		lframe.bigStep("creating Arrays");
 
 		this.pwSums_ = new double[this.arrays_.size()];
+		//pathway 
 		for (int origCnt = 0; origCnt < this.origPaths_.size(); origCnt++) {
 			int activCnt = 0;
+			//ec line
 			for (int ecCnt = 0; ecCnt < ((PathwayWithEc) this.origPaths_
 					.get(origCnt)).ecNrs_.size(); ecCnt++) {
 				EcNr ecNr = (EcNr) ((PathwayWithEc) this.origPaths_
@@ -209,9 +214,9 @@ public class PathwayEcMat extends JPanel {
 		Loadingframe lframe = new Loadingframe();
 
 		lframe.bigStep("sorting ecs");
-		setsums();
+		
 		for (int pthCnt = 0; pthCnt < this.arrays_.size(); pthCnt++) {
-			ArrayList<Line> arr1 = (ArrayList) this.arrays_.get(pthCnt);
+			ArrayList<Line> arr1 = this.arrays_.get(pthCnt);
 
 			// changed = true;
 
@@ -234,12 +239,12 @@ public class PathwayEcMat extends JPanel {
 		if (i >= j) {
 			return;
 		}
-		double pivot = ((Line) arr.get(low + (high - low) / 2)).sum_;
+		double pivot = (arr.get(low + (high - low) / 2)).sum_;
 		while (i <= j) {
-			while (((Line) arr.get(i)).sum_ < pivot) {
+			while (arr.get(i).sum_ < pivot) {
 				i++;
 			}
-			while (((Line) arr.get(j)).sum_ > pivot) {
+			while (arr.get(j).sum_ > pivot) {
 				j--;
 			}
 			if (i <= j) {
@@ -542,7 +547,7 @@ public class PathwayEcMat extends JPanel {
 
 		System.out.println("finished 1");
 	}
-
+	//Ec activity -> Pathway orientated -> main chart
 	private void drawArr() {
 		double time = System.currentTimeMillis();
 		System.out.println("drawArr");
@@ -551,15 +556,19 @@ public class PathwayEcMat extends JPanel {
 		if (this.sortPathesBySum_.isSelected()) {
 			sortPathsBySum();
 			this.dataChanged_ = true;
-		} else {
+		} 
+		
+		else {
 			sortPathsByName();
 		}
 		this.allset = false;
 		if (this.sortEcsBySum_.isSelected()) {
 			sortEcsBySum();
-		} else if (this.firstTime) {
+		} 
+		else if (this.firstTime) {
 			this.firstTime = false;
-		} else {
+		} 
+		else {
 			sortEcsByName();
 		}
 		Loadingframe lframe = new Loadingframe();
@@ -681,20 +690,21 @@ public class PathwayEcMat extends JPanel {
 					}
 				}
 				lineCounter++;
+				//
 				for (int oriEcCnt = 0; oriEcCnt < ((PathwayWithEc) this.origPaths_
 						.get(origCnt)).ecNrs_.size(); oriEcCnt++) {
-					if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+					if (((Line) (this.arrays_.get(origCnt))
 							.get(oriEcCnt)).getSum_() == 0.0D) {
-						((Line) ((ArrayList) this.arrays_.get(origCnt))
+						((Line) (this.arrays_.get(origCnt))
 								.get(oriEcCnt)).setSum();
 					}
-					if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+					if (((Line) (this.arrays_.get(origCnt))
 							.get(oriEcCnt)).sum_ > 0) {
 						final int ecIndex = oriEcCnt;
 						final int pathIndex = origCnt;
 
 						line = this.proc_.findEcWPath(
-								((Line) ((ArrayList) this.arrays_.get(origCnt))
+								((Line) (this.arrays_.get(origCnt))
 										.get(oriEcCnt)).getEcNr_())
 								.getFullName();
 						lframe.step("drawing " + line);
@@ -708,14 +718,25 @@ public class PathwayEcMat extends JPanel {
 						ecButt.setLayout(null);
 						ecButt.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								EcWithPathway ecWp = PathwayEcMat.this.proc_.getEc(((EcNr) ((PathwayWithEc) PathwayEcMat.this.origPaths_
-												.get(pathIndex)).ecNrs_
-												.get(ecIndex)).name_);
+								
+								
+//								//it will get bug when sorting ecs by sum.
+//								EcWithPathway ecWp = PathwayEcMat.this.proc_.getEc(PathwayEcMat.this.origPaths_
+//												.get(pathIndex).ecNrs_
+//												.get(ecIndex).name_);
+								
+								EcWithPathway ecWp = PathwayEcMat.this.proc_.getEc(proc_.findEcWPath(
+										((Line) (arrays_.get(pathIndex))
+												.get(ecIndex)).getEcNr_()).name_);
+								
 								if (ecWp != null) {
 									new PwInfoFrame(ecWp,
 											PathwayEcMat.this.actProj_,
 											Project.overall_);
-								} else {
+								} 
+								
+								
+								else {
 									System.out.println("no paths");
 								}
 							}

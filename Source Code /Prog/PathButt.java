@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import pathwayLayout.PathLayoutGrid;
-
+//path button
 public class PathButt extends JButton {
 	private static final long serialVersionUID = 1L;
 	final Sample samp_;

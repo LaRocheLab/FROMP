@@ -653,18 +653,21 @@ public class ActMatrixPane extends JPanel {
 					line = "";
 				}
 				if (!line.isEmpty() && (line != null)) {
-					if (line.contains("Ec Activity EC Numbers")) {
+					//if (line.contains("Ec Activity EC Numbers")) {
 						line = reader.readLine();
 						System.out.println(line);
 						if (line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")) {
 							return true;
-						} else {
+						} 
+						else {
 							return false;
 						}
-					} else {
-						return false;
-					}
+					//} 
+//					else {
+//						return false;
+//					}
 				}
+				
 			}
 			else{
 				return false;	

@@ -12,7 +12,9 @@ public class PathwayWithEc extends Pathway {
 	public double score_; // the pathway score
 	public boolean weightSet;
 	public int sumOfEC_; // the sum of the number of ecs
-
+	//select for exporting
+	public boolean selected = false;
+	
 	public PathwayWithEc(Pathway pathway) {
 		super(pathway);
 		this.ecNrs_ = new ArrayList();

@@ -16,8 +16,12 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
@@ -25,6 +29,7 @@ import java.beans.VetoableChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -67,7 +72,7 @@ import org.jfree.ui.RectangleAnchor;
 
 // The "Show score-plot" tab of the pathway completeness analysis
 
-public class PathwayPlot extends JPanel {
+public class PathwayPlot extends JPanel{
 	private static final long serialVersionUID = 1L; 
 	Project proj_; // the current project
 	BufferedImage canvas_; 
@@ -110,7 +115,7 @@ public class PathwayPlot extends JPanel {
 		prePaint();
 	}
 
-	private void initPanels() {// innitiates the toolbar_ and the imageLabel_
+	private void initPanels() {// initiates the toolbar_ and the imageLabel_
 		this.toolbar_ = new JPanel();
 
 		this.toolbar_.setPreferredSize(new Dimension(getWidth() - 20, 100));
@@ -244,7 +249,7 @@ public class PathwayPlot extends JPanel {
 		this.scaleUp_.setVisible(true);
 		this.scaleUp_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (PathwayPlot.this.scale_ < 5.0F) {
+				if (PathwayPlot.this.scale_ < 1.5F) {
 					PathwayPlot.this.scale_ += 0.25F;
 					PathwayPlot.this.prePaint();
 				}
@@ -347,8 +352,10 @@ public class PathwayPlot extends JPanel {
 		PathwayWithEc tmpPath = null;
 		Graphics g = this.canvas_.getGraphics();
 		g.setColor(Project.getBackColor_());
-		g.fillRect(0, 0, (int) (2100.0F * this.scale_),
-				(int) (2100.0F * this.scale_));
+//		g.fillRect(0, 0, (int) (2100.0F * this.scale_),
+//				(int) (2100.0F * this.scale_));
+		g.fillRect(0, 0, (int) (1600.0F * this.scale_),
+				(int) (Project.samples_.get(0).pathways_.size()*yStep*3 * this.scale_));
 
 		g.setColor(Color.black);
 		//draw word "score" at x axis
@@ -411,8 +418,58 @@ public class PathwayPlot extends JPanel {
 					g2.drawLine(xOffset, y, x, y);
 				}
 				if (this.pointsBox_.isSelected()) {
-					g2.setStroke(new BasicStroke(2.0F));
-					g2.fillOval(x - size / 2, y - size / 2, size, size);
+//					g2.setStroke(new BasicStroke(2.0F));
+//					g2.fillOval(x - size / 2, y - size / 2, size, size);
+					Ellipse2D circle = new Ellipse2D.Double(x - size / 2, y - size / 2, size, size);
+					
+//					addMouseListener(new MouseListener() {
+//			            
+//						@Override
+//						public void mouseClicked(MouseEvent e) {
+//							// TODO Auto-generated method stub
+//							if(circle.contains(e.getPoint())){
+//								setToolTipText("Inside rect");
+//								
+//							}
+//						}
+//
+//						@Override
+//						public void mouseEntered(MouseEvent e) {
+//							
+//							if(circle.contains(e.getPoint())){
+//								setToolTipText("Inside rect");
+//								
+//							}
+//							// TODO Auto-generated method stub
+//							
+//						}
+//
+//						@Override
+//						public void mouseExited(MouseEvent e) {
+//							// TODO Auto-generated method stub
+//							
+//						}
+//
+//						@Override
+//						public void mousePressed(MouseEvent e) {
+//							// TODO Auto-generated method stub
+//							
+//						}
+//
+//						@Override
+//						public void mouseReleased(MouseEvent e) {
+//							// TODO Auto-generated method stub
+//							
+//						}
+//			        });
+	
+					
+					g2.fill(circle);
+//					DecimalFormat f = new DecimalFormat("#.#");
+//					g2.drawString(""+f.format(tmpPath.score_), x - size / 2, (y - size / 2)+30);
+					
+					
+					
 					
 					
 				}
@@ -423,6 +480,10 @@ public class PathwayPlot extends JPanel {
 		this.image_ = new ImageIcon(this.canvas_);
 
 		this.imageLabel_ = new JLabel(this.image_);
+		
+		
+       
+		
 	}
 
 	private void export() {// exports the plot as a picture file
@@ -593,5 +654,7 @@ public class PathwayPlot extends JPanel {
 		}
 		 
 	}
+
+	
 	
 }

@@ -22,10 +22,10 @@ public class PwInfoFrame extends JFrame {
 		setVisible(true);
 		setLayout(null);
 	
-//		if ((ec.amount_ <= 1) && (samp_ != null)) {
-//			
-//			ec.amount_ = samp_.getEc(ec.name_).amount_;
-//		}
+		if ((ec.amount_ <= 1) && (samp_ != null)) {
+			
+			ec.amount_ = samp_.getEc(ec.name_).amount_;
+		}
 		setTitle(ec.name_ + "(" + ec.bioName_ + ")" + " * " + ec.amount_);
 
 		JPanel back = new JPanel();

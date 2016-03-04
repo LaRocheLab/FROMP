@@ -65,7 +65,7 @@ public class PathwayEcMat extends JPanel {
 	JPopupMenu ecMenuPopup;
 	boolean firstTime = true; 
 	private JButton rebuild; // A button added to the options panel used to fully rebuild this matrix as well as the options
-	
+	int origCnt1;
 	public PathwayEcMat(ArrayList<PathwayWithEc> origPaths, Project actProj,
 			DataProcessor proc, Dimension dim) {
 		System.out.println("pathwayecmat"); 
@@ -444,7 +444,53 @@ public class PathwayEcMat extends JPanel {
 					out.newLine();
 				}
 			}
+			out.close();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void writeOutSelectedArr(String path, boolean inCsf) {
+		String seperator = "\t";
+		if (inCsf) {
+			seperator = ",";
+		}
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			for (int origCnt = 0; origCnt < this.origPaths_.size(); origCnt++) {
+				if (this.origPaths_.get(origCnt).selected == true){
+					
+					out.write(((PathwayWithEc) this.origPaths_.get(origCnt)).id_
+							+ seperator);
+					out.newLine();
+					for (int oriEcCnt = 0; oriEcCnt < ((PathwayWithEc) this.origPaths_
+							.get(origCnt)).ecNrs_.size(); oriEcCnt++) {
+						out.write(((EcNr) ((PathwayWithEc) this.origPaths_
+								.get(origCnt)).ecNrs_.get(oriEcCnt)).name_
+								+ ((EcNr) ((PathwayWithEc) this.origPaths_
+										.get(origCnt)).ecNrs_.get(oriEcCnt))
+										.nameSuppl() + seperator);
+						for (int smpCnt = 0; smpCnt < this.activesamps_; smpCnt++) {
+							if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+									.get(oriEcCnt)).getEntry(smpCnt) == 0.0D) {
+								out.write("0" + seperator);
+							} 
+							else {
+								out.write(((Line) ((ArrayList) this.arrays_
+										.get(origCnt)).get(oriEcCnt))
+										.getEntry(smpCnt)
+										+ seperator);
+							}
+						}
+						out.newLine();
+						out.newLine();
+					}	
+					//this.origPaths_.get(origCnt).selected = false;
+				}	
+			}
+			out.close();
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -457,11 +503,11 @@ public class PathwayEcMat extends JPanel {
 		this.useCsf_.setLayout(null);
 		this.useCsf_.setBackground(this.optionsPanel_.getBackground());
 		this.useCsf_.setForeground(Project.getFontColor_());
-		this.useCsf_.setBounds(10, 44, 100, 15);
+		this.useCsf_.setBounds(230, 50, 100, 20);
 		this.optionsPanel_.add(this.useCsf_);
-
-		JButton export = new JButton("Export values");
-		export.setBounds(10, 10, 150, 20);
+		//"Export ALL values" button at Pathway orientated section
+		JButton export = new JButton("Export ALL values");
+		export.setBounds(10, 10, 210, 20);
 		export.setVisible(true);
 		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -500,14 +546,66 @@ public class PathwayEcMat extends JPanel {
 				}
 			}
 		});
-		this.optionsPanel_.add(export);
+		//"Export SELECTED values" button at Pathway orientated section
+		JButton export2 = new JButton("Export SELECTED values");
+		export2.setBounds(10, 40, 210, 20);
+		export2.setVisible(true);
+		export2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fChoose_ = new JFileChooser(Project.workpath_);
+				fChoose_.setFileSelectionMode(0);
+				fChoose_.setBounds(100, 100, 200, 20);
+				fChoose_.setVisible(true);
+				File file = new File(Project.workpath_);
+				fChoose_.setSelectedFile(file);
+				fChoose_.setFileFilter(new FileFilter() {
+					public boolean accept(File f) {
+						if ((f.isDirectory())
+								|| (f.getName().toLowerCase().endsWith(".txt"))) {
+							return true;
+						}
+						return false;
+					}
 
-		this.sortPathesBySum_.setBounds(200, 10, 250, 20);
+					public String getDescription() {
+						return ".txt";
+					}
+				});
+				if (fChoose_.showSaveDialog(null) == 0) {
+					try {
+						String path = fChoose_.getSelectedFile()
+								.getCanonicalPath();
+						if (!path.endsWith(".txt")) {
+							path = path + ".txt";
+							System.out.println(".txt");
+						}
+						PathwayEcMat.this.writeOutSelectedArr(path,
+								PathwayEcMat.this.useCsf_.isSelected());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		this.optionsPanel_.add(export);
+		this.optionsPanel_.add(export2);
+		this.sortPathesBySum_.setBounds(230, 10, 250, 20);
 		this.sortPathesBySum_.setBackground(this.optionsPanel_.getBackground());
 
 		this.optionsPanel_.add(this.sortPathesBySum_);
 
-		this.sortEcsBySum_.setBounds(200, 30, 200, 20);
+		this.sortEcsBySum_.setBounds(230, 30, 200, 20);
 		this.sortEcsBySum_.setBackground(this.optionsPanel_.getBackground());
 
 		this.optionsPanel_.add(this.sortEcsBySum_);
@@ -548,7 +646,7 @@ public class PathwayEcMat extends JPanel {
 		System.out.println("finished 1");
 	}
 	//Ec activity -> Pathway orientated -> main chart
-	private void drawArr() {
+	public void drawArr() {
 		double time = System.currentTimeMillis();
 		System.out.println("drawArr");
 
@@ -585,7 +683,7 @@ public class PathwayEcMat extends JPanel {
 		String line = "";
 
 		lineCounter = 0;
-
+		
 		System.out.println("starting " + (System.currentTimeMillis() - time));
 		for (int origCnt = 0; origCnt < this.origPaths_.size(); origCnt++) {
 			lframe.bigStep("drawing "
@@ -624,6 +722,23 @@ public class PathwayEcMat extends JPanel {
 
 					}
 				});
+				//pathway select box for exporting
+				JCheckBox tmpBox = new JCheckBox ();
+				tmpBox.setBounds(30, 10 + lineH * lineCounter + arrH
+						* arrCounter + smpNameSpace * smpSpaceCnt,20,20);
+				tmpBox.setVisible(true);
+				final int origCnt2=origCnt;
+				tmpBox.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (tmpBox.isSelected()){
+							origPaths_.get(origCnt2).selected = true;
+						}
+						else{
+							origPaths_.get(origCnt2).selected = false;
+						}
+					}
+				});
+				this.displayP_.add(tmpBox);
 				this.displayP_.add(pathButt);
 				lineCounter++;
 				line = "";

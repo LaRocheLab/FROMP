@@ -331,7 +331,7 @@ public class CmdController1 {
 			}
 			System.out.println("Repseqs saved at: "+ tmpPath );
 		}
-		// seq -- checked out put path.
+		// seq -- checked out put path. --checking seq file
 		else if (optionsCmd_.contentEquals("seq")){
 			if(outPutPath_.contains("def")){		
 				tmpPath = basePath_+"seq"+File.separator;
@@ -349,7 +349,7 @@ public class CmdController1 {
 			
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
-		// seqall --checked output path
+		// seqall --checked output path --checking seq file
 		else if (optionsCmd_.contentEquals("seqall")){
 			if(outPutPath_.contains("def")){	
 				
@@ -449,7 +449,7 @@ public class CmdController1 {
 			pane.exportEcNums(tmpPath, this.num_ec_exported);
 			
 		}
-		// lca.
+		// lca.- checked out path--checking seq file
 		else if (optionsCmd_.contentEquals("lca")){
 			
 			//set output path
@@ -458,11 +458,12 @@ public class CmdController1 {
 			}
 			
 			
-			//read sequence file.it means, connect sequence  file with project file.  ec# = null , it means use all ec# in project
+			
+			//ec# = null means use all ec# in project
 			if(ec_.isEmpty()){
 
 				this.reader = new StringReader();
-				//bufferReader
+				//read sequence file.For connecting sequence  file with project file.  
 				this.sequenceList = this.reader.readTxt(outPutPath_);
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));

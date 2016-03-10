@@ -83,7 +83,7 @@ public class EditsamplesPane extends JPanel {
 		this.delButt_ = new IndexButton[Project.samples_.size()];
 		this.seqButt_ = new IndexButton[Project.samples_.size()];
 		this.fChoose_ = new MyChooser(this.lastPath_);
-		this.checks_ = new ArrayList();
+		this.checks_ = new ArrayList<JCheckBox>();
 
 		this.backButton_ = new JButton("< Back to Project Menu");
 		this.nextButton_ = new JButton("Go to Pathway Selection >");
@@ -100,7 +100,7 @@ public class EditsamplesPane extends JPanel {
 	private void addSamples() {// Adds all the samples on screen as buttons
 		setBackground(Project.getBackColor_());
 
-		this.names_ = new ArrayList();
+		this.names_ = new ArrayList<JButton>();
 
 		this.colButton_ = new IndexButton[Project.samples_.size()];
 		this.delButt_ = new IndexButton[Project.samples_.size()];

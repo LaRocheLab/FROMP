@@ -150,15 +150,15 @@ public class PathwayPlot extends JPanel{
 		this.toolbar_.add(this.pointsBox_);
 
 		label = new JLabel("Plot lines");
-		label.setBounds(120, 0, 100, 20);
+		label.setBounds(120, 40, 100, 20);
 		label.setLayout(null);
 		label.setVisible(true);
 		this.toolbar_.add(label);
 
 		this.toolbar_.add(this.linesBox_);
 
-		label = new JLabel("Plot vertical");
-		label.setBounds(220, 0, 100, 20);
+		label = new JLabel("Plot horizontal");
+		label.setBounds(120, 0, 120, 20);
 		label.setLayout(null);
 		label.setVisible(true);
 		this.toolbar_.add(label);
@@ -203,7 +203,7 @@ public class PathwayPlot extends JPanel{
 		
 		this.linesBox_ = new JCheckBox();
 		this.linesBox_.setBackground(Project.standard);
-		this.linesBox_.setBounds(120, 20, 17, 16);
+		this.linesBox_.setBounds(120, 60, 17, 16);
 		this.linesBox_.setLayout(null);
 		this.linesBox_.setVisible(true);
 		this.linesBox_.addActionListener(new ActionListener() {
@@ -257,7 +257,7 @@ public class PathwayPlot extends JPanel{
 		//plot scores button
 		this.vertLineBox_ = new JCheckBox();
 		this.vertLineBox_.setBackground(Project.standard);
-		this.vertLineBox_.setBounds(220, 20, 17, 16);
+		this.vertLineBox_.setBounds(120, 20, 17, 16);
 		this.vertLineBox_.setLayout(null);
 		this.vertLineBox_.setSelected(true);
 		this.vertLineBox_.setVisible(true);
@@ -393,14 +393,14 @@ public class PathwayPlot extends JPanel{
 
 		g.setColor(Color.black);
 		//draw word "score" at x axis
-		g.drawString("Score", xOffset+xStep*100, 20);
+		g.drawString("Score", xOffset+xStep*100+60, 20);
 		//from top to bottom
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 11; i++) {
 			//values of x axis(90 ,80,70......)
 			g.drawString(String.valueOf(i * 10), xOffset+i * xStep * 10,20);
 		}
 		//draw line y axis. 0 to "score"
-		g.drawLine(xOffset,30, xOffset + xStep * 100,30);
+		g.drawLine(xOffset,30, xOffset + xStep * 100+60,30);
 		//draw line x axis. 0 to pathway
 		g.drawLine(xOffset, 30, xOffset,yStep * tmpSamp.pathways_.size()+90);
 		//draw word "Pathway" at x axis
@@ -417,7 +417,7 @@ public class PathwayPlot extends JPanel{
 			lastY = 30;
 
 			g.setColor(tmpSamp.sampleCol_);
-			
+			g.drawString(tmpSamp.name_,xOffset+xStep*100+60,(smpCnt + 1) * yStep+30);
 			//all pathway score for each sample.
 			for (int pwCnt = 0; pwCnt < tmpSamp.pathways_.size(); pwCnt++) {
 				tmpPath = (PathwayWithEc) tmpSamp.pathways_.get(pwCnt);
@@ -455,10 +455,13 @@ public class PathwayPlot extends JPanel{
 					if(tmpPath.score_ > 0){
 						
 						g2.setStroke(new BasicStroke(2.0F));
+						//narrow word size, reduce overlap 
 						Font score = new Font ("Dialog", Font.PLAIN, 10);
 						g2.setFont(score);
 						g2.drawString(""+Math.round(tmpPath.score_), (x - size/2), (y + 2*size));
-						
+						//back to default word size 
+						Font score1 = new Font ("Dialog", Font.PLAIN, 12);
+						g2.setFont(score1);
 					}
 					
 				}

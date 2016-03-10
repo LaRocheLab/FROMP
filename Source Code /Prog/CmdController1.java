@@ -583,7 +583,7 @@ public class CmdController1 {
 			for (int ec = 0; ec < meta.getTimedOut().size(); ec++) {
 				String ecNum = meta.getTimedOut().get(ec).substring(0, meta.getTimedOut().get(ec).indexOf("-"));
 				System.out.println(ecNum);
-				if (StartFromp1.checkEC(ecNum)) {
+				if (!StartFromp1.checkEC(ecNum).contentEquals("-1")) {
 					LinkedHashMap<String,String> seq_for_lca;
 					seq_for_lca = pane.cmdExportSequences(ecNum,sampleName, true, false);
 					String fileName = ecNum +  "-";

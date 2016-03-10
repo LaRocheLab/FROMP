@@ -32,7 +32,7 @@ public class StartFromp1 {
 	static CmdController1 cmd = new CmdController1();
 	//static String arg1 = "";
 	 //the totally number of  ecs need pass to cmdController for processing.
-	static ArrayList<String> ecSet =new ArrayList<String>();
+	public static ArrayList<String> ecSet =new ArrayList<String>();
 	static String in;
 	static String out;
 	//static BufferedReader fileIn;
@@ -163,13 +163,14 @@ public class StartFromp1 {
 	//store ec# from Multiple sources.
 	public static  void EcFileReader(String EcOrList){
 			// if it is a ec#
-			if (checkEC(EcOrList)){
-				if( !ecSet.contains(EcOrList)){
-					ecSet.add(EcOrList);
-					System.out.println(EcOrList+"  is added.continue...");
+			String ec = checkEC(EcOrList);
+			if (!ec.contentEquals("-1")){
+				if( !ecSet.contains(ec)){
+					ecSet.add(ec);
+					System.out.println(ec+"  is added.continue...");
 				}
 				else
-					System.out.println(EcOrList+"  has added already.pass...");
+					System.out.println(ec+"  has added already.pass...");
 				
 			}
 			// if is a file path
@@ -239,25 +240,35 @@ public class StartFromp1 {
 		return false;
 	}
 	
-	public static boolean checkEC(String options) {// checks that the EC is complete, ie is an ec number
-		boolean ret = false;
+	public static String checkEC(String options) {// checks that the EC is complete, ie is an ec number
+		//String ret = false;
 		String testStr1;
 		String testStr2;
 		String testStr3;
+		String testStr4;
 
 		if (options.matches("[1-9].*")) {
 			if (options.contains(".")) {
 				testStr1 = options.substring(options.indexOf(".") + 1);
 				if (testStr1.matches("[0-9].*")) {
 					if (testStr1.contains(".")) {
-						testStr2 = testStr1
-								.substring(testStr1.indexOf(".") + 1);
+						testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
 						if (testStr2.matches("[0-9].*")) {
 							if (testStr2.contains(".")) {
-								testStr3 = testStr2.substring(testStr2
-										.indexOf(".") + 1);
+								testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
 								if (testStr3.matches("[0-9]*")) {
-									ret = true;
+									return options;
+								}
+								else if (testStr3.matches("[0-9](.*)")){
+									
+									while(testStr3.matches("[0-9](.*)")){
+										testStr3=testStr3.substring(1);
+										
+									}
+									
+									options = options.substring(0,options.indexOf(testStr3));
+									
+									return options;
 								}
 							}
 						}
@@ -265,7 +276,7 @@ public class StartFromp1 {
 				}
 			}
 		}
-		return ret;
+		return ""+-1;
 	}
 	
 	private static boolean checkNum(String options){

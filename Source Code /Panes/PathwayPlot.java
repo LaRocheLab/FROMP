@@ -84,6 +84,7 @@ public class PathwayPlot extends JPanel{
 	JCheckBox pointsBox_; 
 	JCheckBox vertLineBox_; 
 	JCheckBox linesBox_; 
+	JCheckBox scoresBox_;
 	JCheckBox showLegendScatter_;
 	JCheckBox showLegendBar_;
 	float scale_ = 0.5F; 
@@ -162,6 +163,13 @@ public class PathwayPlot extends JPanel{
 		label.setVisible(true);
 		this.toolbar_.add(label);
 		this.toolbar_.add(this.vertLineBox_);
+		
+		label = new JLabel("Plot scores");
+		label.setBounds(20, 40, 100, 20);
+		label.setLayout(null);
+		label.setVisible(true);
+		this.toolbar_.add(label);
+		this.toolbar_.add(this.scoresBox_);
 
 		label = new JLabel("Scale " + this.scale_ * 100.0F);
 		label.setBounds(320, 30, 100, 20);
@@ -226,6 +234,27 @@ public class PathwayPlot extends JPanel{
 				PathwayPlot.this.prePaint();
 			}
 		});
+		//set scores box
+		this.scoresBox_ = new JCheckBox();
+		this.scoresBox_.setBackground(Project.standard);
+		this.scoresBox_.setBounds(20, 60, 17, 16);
+		this.scoresBox_.setLayout(null);
+		this.scoresBox_.setSelected(false);
+		this.scoresBox_.setVisible(true);
+		this.scoresBox_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PathwayPlot.this.prePaint();
+			}
+		});
+		this.scoresBox_.addVetoableChangeListener(new VetoableChangeListener() {
+			public void vetoableChange(PropertyChangeEvent evt)
+					throws PropertyVetoException {
+				PathwayPlot.this.prePaint();
+			}
+		});
+		
+		
+		//plot scores button
 		this.vertLineBox_ = new JCheckBox();
 		this.vertLineBox_.setBackground(Project.standard);
 		this.vertLineBox_.setBounds(220, 20, 17, 16);
@@ -244,6 +273,7 @@ public class PathwayPlot extends JPanel{
 						PathwayPlot.this.prePaint();
 					}
 				});
+		
 		this.scaleUp_ = new JButton("Scale Up");
 		this.scaleUp_.setBounds(320, 10, 150, 20);
 		this.scaleUp_.setVisible(true);
@@ -346,12 +376,16 @@ public class PathwayPlot extends JPanel{
 		
 		this.canvas_ = new BufferedImage((int) (1600.0F * this.scale_),
 				(int) (Project.samples_.get(0).pathways_.size()*yStep*3 * this.scale_), 2);
-		
+	
 		this.canvas_.createGraphics();
 		Sample tmpSamp = (Sample) Project.samples_.get(0);
 		PathwayWithEc tmpPath = null;
 		Graphics g = this.canvas_.getGraphics();
 		g.setColor(Project.getBackColor_());
+//		if (scoresBox_.isSelected()){
+//			g.setColor(Color.white);
+//		}
+		
 //		g.fillRect(0, 0, (int) (2100.0F * this.scale_),
 //				(int) (2100.0F * this.scale_));
 		g.fillRect(0, 0, (int) (1600.0F * this.scale_),
@@ -407,7 +441,7 @@ public class PathwayPlot extends JPanel{
 					//y = yOffset + yStep * 101;
 					x = xOffset;
 				}
-				//
+				//draw picture
 				Graphics2D g2 = (Graphics2D) g;
 				if (this.linesBox_.isSelected()) {
 					g2.setStroke(new BasicStroke(2.0F));
@@ -417,61 +451,20 @@ public class PathwayPlot extends JPanel{
 					g2.setStroke(new BasicStroke(2.0F));
 					g2.drawLine(xOffset, y, x, y);
 				}
+				if (this.scoresBox_.isSelected()) {
+					if(tmpPath.score_ > 0){
+						
+						g2.setStroke(new BasicStroke(2.0F));
+						Font score = new Font ("Dialog", Font.PLAIN, 10);
+						g2.setFont(score);
+						g2.drawString(""+Math.round(tmpPath.score_), (x - size/2), (y + 2*size));
+						
+					}
+					
+				}
 				if (this.pointsBox_.isSelected()) {
-//					g2.setStroke(new BasicStroke(2.0F));
-//					g2.fillOval(x - size / 2, y - size / 2, size, size);
-					Ellipse2D circle = new Ellipse2D.Double(x - size / 2, y - size / 2, size, size);
-					
-//					addMouseListener(new MouseListener() {
-//			            
-//						@Override
-//						public void mouseClicked(MouseEvent e) {
-//							// TODO Auto-generated method stub
-//							if(circle.contains(e.getPoint())){
-//								setToolTipText("Inside rect");
-//								
-//							}
-//						}
-//
-//						@Override
-//						public void mouseEntered(MouseEvent e) {
-//							
-//							if(circle.contains(e.getPoint())){
-//								setToolTipText("Inside rect");
-//								
-//							}
-//							// TODO Auto-generated method stub
-//							
-//						}
-//
-//						@Override
-//						public void mouseExited(MouseEvent e) {
-//							// TODO Auto-generated method stub
-//							
-//						}
-//
-//						@Override
-//						public void mousePressed(MouseEvent e) {
-//							// TODO Auto-generated method stub
-//							
-//						}
-//
-//						@Override
-//						public void mouseReleased(MouseEvent e) {
-//							// TODO Auto-generated method stub
-//							
-//						}
-//			        });
-	
-					
-					g2.fill(circle);
-//					DecimalFormat f = new DecimalFormat("#.#");
-//					g2.drawString(""+f.format(tmpPath.score_), x - size / 2, (y - size / 2)+30);
-					
-					
-					
-					
-					
+					g2.setStroke(new BasicStroke(2.0F));
+					g2.fillOval(x - size / 2, y - size / 2, size, size);				
 				}
 				lastX = x;
 				lastY = y;

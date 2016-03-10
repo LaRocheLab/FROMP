@@ -13,6 +13,7 @@ import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
 import Prog.NewFrompFrame;
+import Prog.StartFromp1;
 import Prog.tableAndChartData;
 
 import java.awt.BorderLayout;
@@ -580,20 +581,26 @@ public class ActMatrixPane extends JPanel {
 					return ".txt";
 				}
 			});
+			//using EcFileReader to read a  batch of ec file.
 			if (fChoose_.showSaveDialog(ActMatrixPane.this.getParent()) == 0) {
 				try {
 					String path = fChoose_.getSelectedFile().getCanonicalPath();
-					File filename = new File(path);
-					boolean isBatch = checkBatchFile(filename);
-					if(isBatch){
+					//File filename = new File(path);
+					
+					StartFromp1.ecSet =new ArrayList<String>();;
+					StartFromp1.EcFileReader(path);
+					
+					//boolean isBatch = checkBatchFile(filename);
+					if(StartFromp1.ecSet!=null){
 						System.out.println("Is batch");
-						runLcaBatchFile(filename);
+						runLcaBatchFile(StartFromp1.ecSet);
 					}
 					else{
 						warningFrame("This is not a EC number batch file!");
 					}
 					
-				} catch (IOException e1) {
+				} 
+				catch (IOException e1) {
 					e1.printStackTrace();
 				}
 		
@@ -646,27 +653,28 @@ public class ActMatrixPane extends JPanel {
 						filename));
 				StringBuilder sb = new StringBuilder();
 				// reading in the first two lines of the buffered file. The
-				// correct format is a desciption string at the start
+				// correct format is a description string at the start
 				// followed by a number in the format #.#.#.#
 				String line = reader.readLine();
 				if(line==null){
 					line = "";
 				}
 				if (!line.isEmpty() && (line != null)) {
-					//if (line.contains("Ec Activity EC Numbers")) {
-						line = reader.readLine();
-						System.out.println(line);
-						if (line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")) {
-							return true;
-						} 
-						else {
-							return false;
-						}
-					//} 
-//					else {
-//						return false;
-//					}
+					
+					line = reader.readLine();
+					System.out.println(line);
+					if (line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")) {
+						
+						return true;
+						
+					} 
+					else {
+						return false;
+					}
+					
+					
 				}
+				reader.close();
 				
 			}
 			else{
@@ -683,45 +691,36 @@ public class ActMatrixPane extends JPanel {
 		}
 		return false;
 	}
-	
-	private void runLcaBatchFile(File filename){
+	//load ec#'s for lca function
+	private void runLcaBatchFile(ArrayList<String> ecset){
 		LinkedHashMap<String,String> seq_for_lca;
 		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
-		if (filename != null) {
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(
-						filename));
-				StringBuilder sb = new StringBuilder();
-				//skipping the desciption line
-				reader.readLine();
-				String line = reader.readLine();
-				//skipping the desciption line of the batch file
-				while(line!=null){
-					lframe = new Loadingframe(); // opens the loading frame
-					lframe.bigStep("Calculating LCA..");
-					lframe.step(line);
-					exportAll = true;
-					seq_for_lca = cmdExportSequences(line,sampleName, true, false);
-					fileName = line +  "-";
-					returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
-					Loadingframe.close();
-					drawChart = true;
-					if (numChart < 1) {
-						prepaintLCA();
-					} else {
-						drawChart();
-					}
-					line = reader.readLine();
-				}
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try{
+			for(int i = 0; i < ecset.size();i++){
+				String line = ecset.get(i);
+				lframe = new Loadingframe(); // opens the loading frame
+				lframe.bigStep("Calculating LCA..");
+				lframe.step(line);
+				exportAll = true;
+				seq_for_lca = cmdExportSequences(line,sampleName, true, false);
+				fileName = line +  "-";
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
+				Loadingframe.close();
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} 
+				else {
+					drawChart();
+				}	
+			}	
 		}
+		
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 	}
 
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel

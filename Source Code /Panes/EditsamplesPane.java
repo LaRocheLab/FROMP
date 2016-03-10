@@ -205,19 +205,21 @@ public class EditsamplesPane extends JPanel {
 			add(this.colButton_[sampCnt]);
 
 			this.seqButt_[sampCnt] = new IndexButton(sampCnt);
+			//determine there are sequence file or not.
 			if (Project.samples_.get(sampCnt).getSequenceFile() != null
 					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
 				this.seqButt_[sampCnt].setText("Y");
-			} else {
+			} 
+			else {
 				this.seqButt_[sampCnt].setText("N");
 			}
-			this.seqButt_[sampCnt].setBounds(142 + nameL, 50 + colD * sampCnt,
-					50, 20);
+			this.seqButt_[sampCnt].setBounds(142 + nameL, 50 + colD * sampCnt, 50, 20);
 			this.seqButt_[sampCnt].setVisible(true);
 			if (Project.samples_.get(cnt).getSequenceFile() != null
 					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
 				this.seqButt_[sampCnt].setBackground(Color.green);
-			} else {
+			} 
+			else {
 				this.seqButt_[sampCnt].setBackground(Color.red);
 			}
 			this.seqButt_[sampCnt].addActionListener(new ActionListener() {
@@ -227,7 +229,8 @@ public class EditsamplesPane extends JPanel {
 					String path_ = "";
 					try {
 						path_ = new File("").getCanonicalPath();
-					} catch (IOException e1) {
+					} 
+					catch (IOException e1) {
 						e1.printStackTrace();
 					}
 					JFileChooser fChoose_ = new JFileChooser(path_);
@@ -254,13 +257,15 @@ public class EditsamplesPane extends JPanel {
 							return ".fasta/.fas/.faa";
 						}
 					});
+					// if did not save seq file path.
 					if (fChoose_.showSaveDialog(EditsamplesPane.this
 							.getParent()) == 0) {
 						try {
 							String path = fChoose_.getSelectedFile()
 									.getCanonicalPath();
 							Project.samples_.get(cnt).setSequenceFile(path);
-						} catch (IOException e1) {
+						} 
+						catch (IOException e1) {
 							e1.printStackTrace();
 						}
 						EditsamplesPane.this.prepPaint();
@@ -300,7 +305,8 @@ public class EditsamplesPane extends JPanel {
 			JPanel legitP = new JPanel();
 			if ((this.tmpSamp_.legitSample) || (this.tmpSamp_.imported)) {
 				legitP.setBackground(Color.green);
-			} else {
+			} 
+			else {
 				legitP.setBackground(Color.red);
 			}
 			legitP.setBounds(63 + nameL, 50 + colD * sampCnt, 20, 20);
@@ -318,7 +324,8 @@ public class EditsamplesPane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (EditsamplesPane.this.lastFile != null) {
 					EditsamplesPane.this.fChoose_.setCurrentDirectory(EditsamplesPane.this.lastFile);
-				} else {
+				} 
+				else {
 					EditsamplesPane.this.lastFile = new File("");
 				}
 				try {

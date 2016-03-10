@@ -228,7 +228,7 @@ public class Project {
 				//file name will generate a file name for a file that does not exist
 				if (file1.exists() && !file1.isDirectory()) { 
 					int i = 1; 
-					//This is my favourite infinite loop condition (next to "Hell" != "Frozen over")
+					//This is my favorite infinite loop condition (next to "Hell" != "Frozen over")
 					while ("Pigs" != "Fly") { 
 						tmpPath = path + "(" + i + ")" + ".frp"; //
 						File file2 = new File(tmpPath); //
@@ -237,7 +237,8 @@ public class Project {
 							i++; 
 							continue; 
 						//If there is no file with this name that exists than this name is okay for the generated file.
-						} else { 
+						} 
+						else { 
 							path = path + "(" + i + ")"; 
 							break; 
 						} 
@@ -246,7 +247,8 @@ public class Project {
 				path = path + ".frp"; // Appends the file extension
 			}
 			System.out.println(path);
-		} else if (path.isEmpty()) {
+		} 
+		else if (path.isEmpty()) {
 			System.out.println(projectPath_);
 			System.out.println(workpath_);
 			path = projectPath_ + File.separator + "projects" + File.separator
@@ -323,6 +325,7 @@ public class Project {
 						+ overAllColor_.getBlue());
 				out.newLine();
 			}
+			//all samples write to file.
 			for (int smpCnt = 0; smpCnt < samples_.size(); smpCnt++) {
 				Sample tmpSamp = (Sample) samples_.get(smpCnt);
 				out.write("SMP*:" + tmpSamp.name_);
@@ -352,10 +355,11 @@ public class Project {
 											.get(repCnt)).pfamToEcAmount_ + ";");
 						}
 					}
+					//new line for each ec
 					out.newLine();
 				}
 			}
-			saveUserPAths(out); // Writes the userpaths (if any) to the end of the file
+			saveUserPAths(out); // Writes the user paths (if any) to the end of the file
 			saveConvStats(out); // Writes the conversion statistics (if any) to the end of the file
 			//Writes the sequence files to the end of the file. If a particular sample
 			//dosn't have a sequence file associated with it then it is replace with "none"

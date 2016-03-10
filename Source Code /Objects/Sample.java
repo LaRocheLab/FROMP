@@ -14,20 +14,20 @@ import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JLabel;
 
-//This contains all of the pertinant data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
+//This contains all of the pertinent data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
 //as well as many other important pieces of data like the sample name, etc.
 
 public class Sample {
 	StringReader reader_; // String reader used to load new samples
 	public String name_; // Name of the sample
 	public String fullPath_; // The file path to the sample
-	public Color sampleCol_; // the sample colour
+	public Color sampleCol_; // the sample color
 	public BufferedReader sample_; // Buffered reader used to load new samples
 	public ArrayList<PathwayWithEc> pathways_; // Array list of pathways with ecs mapped to them in the sample
 	public ArrayList<EcWithPathway> ecs_; // Array list of ecs with pathways in the sample
 	public ArrayList<PathwayWithEc> rnPathways_; 
 	public ArrayList<EcWithPathway> rns_; 
-	public ArrayList<ConvertStat> conversions_; // the conversion statistrics for ecs in this sample
+	public ArrayList<ConvertStat> conversions_; // the conversion statistics for ecs in this sample
 	public boolean imported; 
 	public boolean matrixSample = false; 
 	public boolean inUse; 
@@ -36,6 +36,7 @@ public class Sample {
 	public boolean legitSample = false; 
 	public int indexNr = 0; 
 	public boolean onoff = true; // Used for display purposes in the GUI
+	//seq file path
 	private String sequenceFile; 
 
 	public Sample() {

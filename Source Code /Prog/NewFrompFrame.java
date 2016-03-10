@@ -972,20 +972,27 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-
+	//remove same path was in the recent list
 	private void removeRecentDoubles() {
 		if (recentProj_ == null) {
 			recentProj_ = new ArrayList();
 		}
-		for (int i = 0; i < recentProj_.size(); i++) {
-			String comp = (String) recentProj_.get(i);
-			for (int j = 0; j < recentProj_.size(); j++) {
-				if (i != j) {
-					if (((String) recentProj_.get(j)).contentEquals(comp)) {
-						recentProj_.remove(j);
-						j--;
-					}
-				}
+//		for (int i = 0; i < recentProj_.size(); i++) {
+//			String comp = (String) recentProj_.get(i);
+//			for (int j = 0; j < recentProj_.size(); j++) {
+//				if (i != j) {
+//					if (((String) recentProj_.get(j)).contentEquals(comp)) {
+//						recentProj_.remove(j);
+//						j--;
+//					}
+//				}
+//			}
+//		}
+		//rewrite function
+		for (int i =1; i < recentProj_.size(); i++){
+			if ((recentProj_.get(i)).contentEquals(recentProj_.get(0))) {
+				recentProj_.remove(i);
+				break;
 			}
 		}
 	}

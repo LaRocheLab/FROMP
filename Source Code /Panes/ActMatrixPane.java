@@ -99,6 +99,7 @@ public class ActMatrixPane extends JPanel {
 	private final int ySize = 15; 
 	private int sumIndexSmp; 
 	private int numChart = 0;
+	private int NoDataChart = 0;
 	private JButton resort_; // JBotton to resort the array
 	public ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
 	private Loadingframe lframe; // Loading frame
@@ -118,7 +119,7 @@ public class ActMatrixPane extends JPanel {
 	static JPopupMenu ecMenuPopup;
 	int popupIndexY; // Coordinates to facilitate the exporting of sequence ids
 	int popupIndexX; 
-	int yIndex1 = 520;
+	int yIndex1 = 0;
 	int yIndex2 = 0;
 	int scrollChartPos = 0;
 	int num_export_ec = 0;
@@ -222,7 +223,8 @@ public class ActMatrixPane extends JPanel {
 
 		this.displayP_ = new JPanel();
 		this.displayP_.setLocation(0, 0);
-		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
+//		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
+		this.displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
 		this.displayP_.setSize(getPreferredSize());
 		this.displayP_.setBackground(Project.getBackColor_());
 		this.displayP_.setVisible(true);
@@ -230,8 +232,8 @@ public class ActMatrixPane extends JPanel {
 
 		this.showJPanel_ = new JScrollPane(this.displayP_);
 		this.showJPanel_.setVisible(true);
-		this.showJPanel_.setVerticalScrollBarPolicy(20);
-		this.showJPanel_.setHorizontalScrollBarPolicy(30);
+		this.showJPanel_.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		add("Center", this.showJPanel_);
 	}
@@ -248,14 +250,22 @@ public class ActMatrixPane extends JPanel {
 		final JFreeChart chart;
 		System.out.println(returnData.getFileName());
 		if(returnData.getFileName()!=null&&returnData.getDataset()!=null&&returnData.getTable1()!=null&&returnData.getTable2()!=null){
-			chart = ChartFactory.createPieChart(returnData.getFileName()
-					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
+//			chart = ChartFactory.createPieChart(returnData.getFileName()
+//					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
+			chart = ChartFactory.createPieChart("", returnData.getDataset(), true, true, false);
 			pie1 = (PiePlot) chart.getPlot();
 		}
 		else{
 			System.out.println("No data");
 			chart=null;
-			return;
+			JPanel NoDatapanel = new JPanel(new BorderLayout());
+			NoDatapanel.setBorder (BorderFactory.createTitledBorder 
+					(BorderFactory.createEtchedBorder (), returnData.getFileName()+"No Data ",TitledBorder.CENTER,TitledBorder.TOP));
+			NoDatapanel.setVisible(true);
+			NoDatapanel.setBounds(0, yIndex2 + (yIndex1 + 530)*numChart + 80*NoDataChart, 500,50);
+			displayP_.add(NoDatapanel, BorderLayout.LINE_START);
+			NoDataChart++;
+			return;  
 		}
 		
 		pie1.setNoDataMessage("No data available");
@@ -296,11 +306,14 @@ public class ActMatrixPane extends JPanel {
 			}
 		});
 		
-		panel3.add(exportPie, BorderLayout.SOUTH);
 		panel.setVisible(true);
-		panel3.setVisible(true);
 		panel.setLayout(null);
-		panel3.setBounds(520,250 + (1020)*numChart , 600, 600);
+		
+		panel3.add(exportPie, BorderLayout.NORTH);		
+		panel3.setVisible(true);		
+		panel3.setBounds(1020,yIndex2 + (yIndex1 + 530)*numChart + 80*NoDataChart , 500, 500);
+		panel3.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (), returnData.getFileName()+
+				"Pie Chart",TitledBorder.CENTER,TitledBorder.TOP));
 		panel3.add(panel);
 	
 		JScrollPane tableContainer = new JScrollPane(returnData.getTable1());
@@ -309,7 +322,7 @@ public class ActMatrixPane extends JPanel {
 		panel2.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (), returnData.getFileName()+
 				"Total Taxonomy",TitledBorder.CENTER,TitledBorder.TOP));
 		panel2.setVisible(true);
-		panel2.setBounds(0, yIndex2 + (yIndex1 + 510)*numChart, 500,500);
+		panel2.setBounds(0, yIndex2 + (yIndex1 + 530)*numChart + 80*NoDataChart, 500,500);
 		
 		JScrollPane tableContainer2 = new JScrollPane(returnData.getTable2());
 		panel4.add(tableContainer2, BorderLayout.CENTER);
@@ -317,20 +330,25 @@ public class ActMatrixPane extends JPanel {
 		panel4.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (), returnData.getFileName()+
 				" Summary",TitledBorder.CENTER,TitledBorder.TOP));
 		panel4.setVisible(true);
-		panel4.setBounds(0, yIndex1 + (yIndex1 + 510)*numChart, 500,500);
+		panel4.setBounds(510, yIndex2 + (yIndex1 + 530)*numChart + 80*NoDataChart, 500,500);
 		numChart++;
 		
-		//extending the scrollbar in the find lowest common ancestor pane as more charts are added
-		scrollChartPos = yIndex1 + (yIndex1 + 510)*numChart;
-		displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,scrollChartPos));
-		this.showJPanel_.setViewportView(displayP_);
-		this.showJPanel_.setVisible(true);
-		this.showJPanel_.setVerticalScrollBarPolicy(20);
-		this.showJPanel_.setHorizontalScrollBarPolicy(30);
+		//extending the scroll bar in the find lowest common ancestor pane as more charts are added
+		scrollChartPos = yIndex1 + (yIndex1 + 530)*numChart + 80*NoDataChart;
+		displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
 		
-		displayP_.add(panel3, BorderLayout.LINE_END);
+		
+		displayP_.add(panel3, BorderLayout.LINE_START);
 		displayP_.add(panel2, BorderLayout.LINE_START);
 		displayP_.add(panel4, BorderLayout.LINE_START);
+		
+		//this.displayP_.setSize(getPreferredSize());
+		this.showJPanel_.setViewportView(displayP_);
+		this.showJPanel_.setVisible(true);
+		this.showJPanel_.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+
 		
 		
 	}
@@ -544,6 +562,7 @@ public class ActMatrixPane extends JPanel {
 			displayP_.removeAll();
 			displayP_.updateUI(); 
 			numChart = 0;
+			NoDataChart = 0;
 			yIndex1 = 520;
 			yIndex2 = 0;
 		}
@@ -696,16 +715,21 @@ public class ActMatrixPane extends JPanel {
 		LinkedHashMap<String,String> seq_for_lca;
 		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
 		try{
+			
+			
+			lframe = new Loadingframe(); // opens the loading frame
+			lframe.bigStep("Calculating LCA..");
+			
 			for(int i = 0; i < ecset.size();i++){
 				String line = ecset.get(i);
-				lframe = new Loadingframe(); // opens the loading frame
-				lframe.bigStep("Calculating LCA..");
 				lframe.step(line);
 				exportAll = true;
+				//equal to cmd seqall.
 				seq_for_lca = cmdExportSequences(line,sampleName, true, false);
 				fileName = line +  "-";
+				meta = new MetaProteomicAnalysis();
 				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
-				Loadingframe.close();
+				
 				drawChart = true;
 				if (numChart < 1) {
 					prepaintLCA();
@@ -713,7 +737,9 @@ public class ActMatrixPane extends JPanel {
 				else {
 					drawChart();
 				}	
+				
 			}	
+			Loadingframe.close();
 		}
 		
 		catch (Exception e) {
@@ -2762,7 +2788,7 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	/*
-	 * Takes in command line calls to export sequences along with wheter or not to print all sequences samples into each EC number file
+	 * Takes in command line calls to export sequences along with whether or not to print all sequences samples into each EC number file
 	 */
 	public LinkedHashMap<String,String> cmdExportSequences(String ecName,String sampleName, boolean oneFile, boolean findLca) {
 		System.out.println("cmdExport");

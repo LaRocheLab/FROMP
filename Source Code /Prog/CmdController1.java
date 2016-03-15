@@ -16,7 +16,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-
+import java.util.Scanner;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,10 +83,10 @@ public class CmdController1 {
 		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
 		//process all samples
 		processing();
-		System.out.println("Done cmdFromp");
+		System.out.println("ALL Done.");
 		
 	}
-	//read input file or  path.  IP=input path
+	//read input file or path.  IP=input path
 	private void readInputFile(String IP) {
 		// for loading file.
 		
@@ -333,6 +333,9 @@ public class CmdController1 {
 		}
 		// seq -- checked out put path. --checking seq file
 		else if (optionsCmd_.contentEquals("seq")){
+			
+			checkSeqFile();
+			
 			if(outPutPath_.contains("def")){		
 				tmpPath = basePath_+"seq"+File.separator;
 			}
@@ -555,7 +558,108 @@ public class CmdController1 {
 			}
 		}
 	}
-
+	// checking is there a sequence file connect with sample file.
+	private void checkSeqFile() {
+		
+		System.out.println("Checking sequence file...");
+		ArrayList<String>sampleWithoutSeq = new ArrayList<String>();
+		
+		for (int i =0 ; i < Project.samples_.size();i++){	
+			
+			if(Project.samples_.get(i).getSequenceFile()== null || 
+					Project.samples_.get(i).getSequenceFile().contentEquals("")){
+				
+				sampleWithoutSeq.add(i, Project.samples_.get(i).name_);
+			
+			}
+			
+		}
+		
+	
+		if (sampleWithoutSeq.size()!=0){
+			System.err.println("\nNo sequence file found for the samples below:\n");
+			
+			for (int i = 0 ; i < sampleWithoutSeq.size();i++){
+				if (sampleWithoutSeq.get(i)!=null){
+					System.out.println(sampleWithoutSeq.get(i));
+				}
+			}
+			System.out.println("\nSequence file is needed for cmd :'seq' 'seqall' and 'lca'");
+			System.out.print("Add sequence file for the samples?(y/n):");
+			boolean pass = false;
+			Scanner kb = new Scanner(System.in);
+			String key = kb.nextLine();
+			key = key.toLowerCase();
+			System.out.println();
+			while (!pass){
+				//add seq file
+				if (key.contentEquals("y")){
+					//add seq file in order to all samples without seq.
+					for (int i = 0 ; i < sampleWithoutSeq.size();i++){
+						if (sampleWithoutSeq.get(i)!=null){
+							while(!pass){
+								
+								System.out.println("\nAdding sequence file for: "+sampleWithoutSeq.get(i));
+								// pass until input correct.
+								System.out.print("\nInput sequence file path('n' to skip current sample):");
+								key = kb.nextLine();
+								System.out.println();
+								//if input is a path , not n or N;
+								if(!key.contentEquals("n")&&!key.contentEquals("N")){
+									//check path first
+									if(StartFromp1.checkPath(key, 1)){
+										Project.samples_.get(i).setSequenceFile(key);
+										System.out.println("Sequence file has added");
+										pass=true;
+									}
+									else {
+										pass = false;
+									}
+								}
+								//n to skip current sample
+								else{
+									System.out.println(sampleWithoutSeq.get(i)+" has skipped");
+									pass = true;
+								}
+								
+							}
+							pass = false;
+						
+						}
+					}
+					key = "y";
+					pass=true;
+				}
+				//do not add seq file- continue or quit
+				else if (key.contains("n")){
+					while(!pass){
+						
+						System.out.print("\nContinue without sequence file(y) or quit(n) (y/n):");
+						key = kb.nextLine();
+						key = key.toLowerCase();
+						System.out.println();
+						if (key.contentEquals("y")){
+							pass = true;
+						}
+						else if (key.contentEquals("n")){
+							System.exit(0);
+						}
+						else{
+							pass =false;
+						}				
+					}
+		
+				}
+				// input was not y or n
+				else {
+					pass = false;
+				}		
+			}//loop for adding seq or not. 
+			kb.close();
+			
+		}
+	
+	}
 	/**
 	 * This method performs the ability to try re-running timed out ec numbers from the find lowest
 	 * common ancestor operation.

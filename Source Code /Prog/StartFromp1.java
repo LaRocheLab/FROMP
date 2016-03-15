@@ -30,13 +30,10 @@ import java.util.Date;
 public class StartFromp1 {
 	static NewFrompFrame newFrame;
 	static CmdController1 cmd = new CmdController1();
-	//static String arg1 = "";
 	 //the totally number of  ecs need pass to cmdController for processing.
 	public static ArrayList<String> ecSet =new ArrayList<String>();
 	static String in;
 	static String out;
-	//static BufferedReader fileIn;
-	 //cmd code.
 	static String cmdCode;
 	String data="";
 	
@@ -59,8 +56,6 @@ public class StartFromp1 {
 	 */
 	public static void main(String[] args) {
 		
-		String[] arg1= args;
-		
 		//args = 0. start GUI		
 		if(args.length  == 0){
 			System.out.println("Welcome to  FROMP.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");
@@ -69,8 +64,7 @@ public class StartFromp1 {
 		}
 		//args = 1 , only h or d
 		else if(args.length == 1){		
-			//arg1 = args[0];
-			//checkOptions(args[0]);
+
 			if(args[0].contentEquals("h")){
 				printOptions();	
 			}
@@ -133,7 +127,7 @@ public class StartFromp1 {
 						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")  ){
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
-						EcFileReader(arg1[i]);
+						EcFileReader(args[i]);
 					}
 					//sorting
 					System.out.println("Sorting...");
@@ -206,7 +200,7 @@ public class StartFromp1 {
 			File f = new File(path);
 			//no file or wrong file
 			if(path.endsWith(File.separator) ||  !f.exists()){
-				System.out.println("wrong inputfile:  " +path );
+				System.out.println("The Path of Input file was WRONG or NOT EXISTS. Issue at:" +path );
 				return false;
 			}
 				
@@ -232,7 +226,7 @@ public class StartFromp1 {
 				return true;
 			}
 			else {
-				System.out.println("wrong outputfile:  " +out );
+				System.out.println("The Path of Output file was WRONG or NOT EXISTS. Issue at:" + path );
 				return false;
 			}
 				
@@ -241,11 +235,10 @@ public class StartFromp1 {
 	}
 	
 	public static String checkEC(String options) {// checks that the EC is complete, ie is an ec number
-		//String ret = false;
+		
 		String testStr1;
 		String testStr2;
 		String testStr3;
-		String testStr4;
 
 		if (options.matches("[1-9].*")) {
 			if (options.contains(".")) {
@@ -290,15 +283,15 @@ public class StartFromp1 {
 	}
 	private static void argsError(){
 		
-		System.out.println("The arguements used are invalid.Plase check Manual or  type Help cmd blew.\njava -jar FROMP.jar h");
+		System.out.println("\nThe arguements used are invalid.Plase check Manual or input Help command line blew.\njava -jar FROMP.jar h");
 		System.exit(0);
 	}
-	private static void printOptions() { // Prints out the options for this program to the cmdline
+	private static void printOptions() { // Prints out the options for this program to the cmd line
 		/*
 		if (args[0] != "h") {
-			System.out.println("The arguements used are invalid");
+			System.out.println("The arguments used are invalid");
 			System.out.println();
-			System.out.println("The correct arguements are:");
+			System.out.println("The correct arguments are:");
 		}
 		*/		
 		System.out.println("../java -jar FROMP.jar h for help");
@@ -343,9 +336,7 @@ public class StartFromp1 {
 		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'ecNumberListPath' lca");
 		System.out.println("Total Taxon results will be stores in ~/Tables");
 		System.out.println("Syntax: java -jar FROMP.jar 'inputPath' 'outputPath' lca 'ec number'");
-		
 		System.out.println();
-		
 		System.out.println();
 		System.out.println();
 		System.out.println("blanks in the input-path or output-path will lead to errors");

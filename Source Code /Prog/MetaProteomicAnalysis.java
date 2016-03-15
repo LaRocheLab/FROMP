@@ -157,7 +157,7 @@ public class MetaProteomicAnalysis {
 			keys  = seq.keySet().toArray();
 		} catch(NullPointerException e){
 			System.out.println("No values found within sequence file for ec: " + sampleName);
-			//System.exit(0);
+			System.exit(0);
 		}
 		for(int j = 0; j < keys.length; j++){
 			trypticPeptide.setUniqueIdentifier(keys[j].toString());
@@ -448,8 +448,8 @@ public class MetaProteomicAnalysis {
 				countIdentRows++;
 				String taxonName = peptide.get(i).getIdentifiedTaxa().getTaxon_name();
 				if (totalResult.containsKey(taxonName)) {
-					Integer count = totalResult.get(peptide.get(i)
-							.getIdentifiedTaxa().getTaxon_name());
+//					Integer count = totalResult.get(peptide.get(i).getIdentifiedTaxa().getTaxon_name());
+					Integer count = totalResult.get(taxonName);
 					totalResult.put(taxonName, count + 1);
 				} else {
 					totalResult.put(taxonName, 1);

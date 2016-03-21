@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import Prog.CmdController1;
 
 public class LayoutPane extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -297,7 +300,14 @@ public class LayoutPane extends JPanel {
 	private void addActiveNodeParts(Node node, int index, int xPos, int yPos,
 			int length) {
 		final int indexF = index;
-		ImageIcon icon = createImageIcon("images/del2.gif", "del Button gif");
+		ImageIcon icon = null;
+		try{
+			icon = new ImageIcon(CmdController1.outPutPath_+"images"+File.separator+"DoNotDelThis.gif", "del Button gif");
+		}
+		catch (Exception e){
+			System.out.println("Garbage can is gone!");
+			System.exit(0);
+		}
 		int size = (int) (this.yStepSize * this.buttonfac / 2.0D);
 		Image image = icon.getImage();
 		Image newimg = image.getScaledInstance(size, size, 4);
@@ -427,7 +437,7 @@ public class LayoutPane extends JPanel {
 		}
 		reDo();
 	}
-
+	//Not used
 	protected ImageIcon createImageIcon(String path, String description) {
 		ClassLoader cl = getClass().getClassLoader();
 		URL imgURL = cl.getResource(path);
@@ -436,5 +446,6 @@ public class LayoutPane extends JPanel {
 		}
 		System.err.println("Couldn't find file: " + path);
 		return null;
+		
 	}
 }

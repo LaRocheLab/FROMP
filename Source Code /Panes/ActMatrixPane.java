@@ -3095,26 +3095,27 @@ public void infoFrame(String strIN, final String location) {
 	label.setBounds(20, 20, 800, 50);
 	backP.add(label);
 	
-	JButton open = new JButton("Open file location");
-	open.setBounds(250, 80, 225, 30);
-	open.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
-			String path = "";
-			try {
-				path = new File("").getCanonicalPath();
-			} catch (IOException e1) {
-				
-			}
-			JFileChooser fChoose_ = new JFileChooser(path + File.separator
-					+ location);
-			fChoose_.setFileSelectionMode(0);
-			fChoose_.setBounds(100, 100, 200, 20);
-			fChoose_.setVisible(true);
-			fChoose_.showOpenDialog(getParent());
-		}
-		
-	});
-	infoFrame.add(open);
+//	JButton open = new JButton("Open file location");
+//	open.setBounds(250, 80, 225, 30);
+//	open.addActionListener(new ActionListener(){
+//		public void actionPerformed(ActionEvent e) {
+//			String path = "";
+//			try {
+//				path = new File("").getCanonicalPath();
+//			} catch (IOException e1) {
+//				
+//			}
+//			JFileChooser fChoose_ = new JFileChooser(path + File.separator
+//					+ location);
+//			fChoose_.setFileSelectionMode(0);
+//			fChoose_.setBounds(100, 100, 200, 20);
+//			fChoose_.setVisible(true);
+//			fChoose_.showOpenDialog(getParent());
+//			
+//		}
+//		
+//	});
+//	infoFrame.add(open);
 }
 
 }

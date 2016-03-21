@@ -44,7 +44,7 @@ import java.util.Date;
 public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
 	String inputPath_	; // The inputpath given by the user
-	public static String outPutPath_; // The output path given in by the user
+	public static String outPutPath_=new File("").getAbsolutePath() + File.separator; // The output path given in by the user
 	String optionsCmd_; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list

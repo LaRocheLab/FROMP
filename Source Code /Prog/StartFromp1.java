@@ -124,7 +124,7 @@ public class StartFromp1 {
 				}
 				//arg = ec,seq,seqall,lca)
 				else if (args[2].contentEquals("ec") ||args[2].contentEquals("seq") ||
-						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")  ){
+						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")||args[2].contentEquals("lca1")  ){
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
 						EcFileReader(args[i]);

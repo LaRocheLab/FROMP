@@ -949,6 +949,8 @@ public class DataProcessor {
 				Debug.writeOutAll("DebugLists.txt");
 				System.out.println("finished allecvsp");
 			}
+			//check status
+			
 		}
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Total execution time(milliseconds): " + (endTime - startTime));
@@ -1151,6 +1153,7 @@ public class DataProcessor {
 		int i = count;
 		for (i = count; i < Project.samples_.size(); i++) {
 			Sample sample = Project.samples_.get(i);
+			System.out.println(sample.name_+" is working");
 			if(sample.getSequenceFile()!=""){
 				hasSeq = true;
 			}

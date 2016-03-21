@@ -13,14 +13,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +89,7 @@ public class CmdController1 {
 		//process all samples
 		processing();
 		System.out.println("ALL Done.");
+		System.exit(0);
 		
 	}
 	//read input file or path.  IP=input path
@@ -128,10 +134,19 @@ public class CmdController1 {
 				BufferedReader in = new BufferedReader(new FileReader(IP));
 				String line = in.readLine();
 				while(line != null){
-					//need check input path, because .lst in .lst not checked in startFromp.
-					if( StartFromp1.checkPath(line, 1)){	
+					//if it is not a sample+seq file
+					if (!line.contains("\t")){
+						//need check input path, because that inside of .lst/.lst was not checked in startFromp.
+						if( StartFromp1.checkPath(line, 1)){	
+							readInputFile(line);
+						}
+						
+					}
+					//if it is a sample+seq file, will check input path by next step.
+					else{
 						readInputFile(line);
 					}
+					
 					line = in.readLine();
 				}
 				in.close();
@@ -142,32 +157,60 @@ public class CmdController1 {
 		}		
 		
 		
-		//input is a normal sample. txt or .out or other
-		else if(IP.endsWith(".txt")||IP.endsWith(".out")){
-			//get filename.filetype.  such like abc.txt, need +1
-			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
-			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
-			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-			//IP = sample's path
-			Sample sample = new Sample(name, IP, col);
-			
-			//samples_ is  static <Sample> Arraylist in project.java 
-			Project.samples_.add(sample);
-			System.out.println(IP+"   sample added");
-			
+		// if input is a (sample + sequence) path. add sample meanwhile add sequence
+		else if(IP.contains("\t")){
+			//get sample path and sequence path from the input path
+			String samplePath = IP.substring(0,IP.indexOf("\t"));
+			String seqPath = IP.substring(IP.lastIndexOf("\t")+1);
+			//check sample path,if pass add it.
+			if (StartFromp1.checkPath(samplePath, 1)){
+				//get filename.filetype.  such like abc.txt, need +1
+				String name = samplePath.substring(samplePath.lastIndexOf(File.separator)+1);
+				//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
+				Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+				//IP = sample's path
+				try{
+					Sample sample = new Sample(name, samplePath, col);
+					//add sample into sample list in project class.
+					
+					System.out.println(name+"   sample added");
+					// check sequence path, if pass,connect it with sample 
+					if(StartFromp1.checkPath(seqPath, 1)){
+						sample.setSequenceFile(seqPath);
+				
+					}
+					else{
+						seqPath = "No Sequence";
+					}			
+					Project.samples_.add(sample);		
+					System.out.println("sample: "+samplePath+" \nsequence: "+seqPath+"\n");
+				
+				}
+				catch (Exception e){
+					System.out.println("wrong sample");		
+				}	
+			}
+			else{
+				System.out.println("wrong sample");
+			}
 		}
-		//other type files. *.*
+		//input is a *.* sample files.
 		else{
-			System.out.println("111"+Project.workpath_);
+			//System.out.println("111"+Project.workpath_);
 			//get filename.filetype.  such like abc.txt, need +1
 			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
 			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
 			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
 			//IP = sample's path
-			Sample sample = new Sample(name, IP, col);
-			//samples_ is  static <Sample> Arraylist in project.java 
-			Project.samples_.add(sample);
-			System.out.println(IP+"   sample added");
+			try{
+				Sample sample = new Sample(name, IP, col);
+				//add sample into sample list in project class.
+				Project.samples_.add(sample);
+				System.out.println(IP+"   sample added");
+			}
+			catch (Exception e){
+				System.out.println("wrong sample");
+			}
 			
 			
 			System.out.println(Project.workpath_);
@@ -318,7 +361,7 @@ public class CmdController1 {
 		}
 		// ec --checked out put path
 		else if (optionsCmd_.contentEquals("ec")){
-			if(outPutPath_.contains("def")){		
+			if(outPutPath_.contentEquals("def")){		
 				tmpPath = basePath_+"ec"+File.separator;
 			}
 			else{
@@ -354,7 +397,10 @@ public class CmdController1 {
 		}
 		// seqall --checked output path --checking seq file
 		else if (optionsCmd_.contentEquals("seqall")){
-			if(outPutPath_.contains("def")){	
+			
+			checkSeqFile();
+			
+			if(outPutPath_.contentEquals("def")){	
 				
 				tmpPath = basePath_+"seqall"+File.separator;
 			}
@@ -455,88 +501,89 @@ public class CmdController1 {
 		// lca.- checked out path--checking seq file
 		else if (optionsCmd_.contentEquals("lca")){
 			
+			checkSeqFile();
 			//set output path
-			if(outPutPath_.contains("def")){		
+			if(outPutPath_.contentEquals("def")){		
 				outPutPath_ = basePath_+"lca"+File.separator;
 			}
 			
 			
 			
-			//ec# = null means use all ec# in project
-			if(ec_.isEmpty()){
-
-				this.reader = new StringReader();
-				//read sequence file.For connecting sequence  file with project file.  
-				this.sequenceList = this.reader.readTxt(outPutPath_);
-				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
-				String line = "";
-				try {
-					ArrayList<String> timedOut;
-					long startTime = System.currentTimeMillis();
-					while ((line = this.sequenceList.readLine()) != null) {
-						//If the line contains a > it is not a file containing a list of sequence files
-						if(line.contains(">")){
-							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true, batchCommand);
-							break;
-						}
-						//Top seq in eclist file. it means if read a eclist.txt file.
-						else if(line.contains("Ec Activity EC Numbers")){
-							//?
-							batchCommand = true;
-							line = sequenceList.readLine();
-							String sampleName = "";
-							LinkedHashMap<String,String> seq_for_lca;
-							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-							String fileName = line +  "-";
-							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
-							
-							batchCommand = false;
-						}
-						//ec#. under "Ec Activity EC Numbers"
-						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
-							
-							batchCommand = true;
-							String sampleName = "";
-							LinkedHashMap<String,String> seq_for_lca;
-							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-							String fileName = line +  "-";
-							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
-							
-							batchCommand = false;
-						}
-						//not eclist, ec# or ">"
-						else{
-							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
-						}
-					}
-					
-					System.out.println("LCA Done");
-					//checking for any timed out ec numbers
-					checkTimedOut(metapro);
-					
-					long endTime   = System.currentTimeMillis();
-					long totalTime = endTime - startTime;
-					timedOut = metapro.getTimedOut();
-					//printing out the names of the files that timed out
-					if(!timedOut.isEmpty()){
-						System.out.println("Files that timed out:");
-						for(int i = 0; i < timedOut.size(); i++){
-							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
-						}
-					}
-					// no time out.
-					else{
-						System.out.println("All files executed successfully");
-					}
-					System.out.println("Time" + " " + totalTime);
-				} catch (IOException e) {
-					System.out.println("File does not exist");
-				}
-			}
+			//Function for read seq file.
+//			if(ec_.isEmpty()){
+//
+//				this.reader = new StringReader();
+//				//read sequence file.For connecting sequence  file with project file.  
+//				this.sequenceList = this.reader.readTxt(outPutPath_);
+//				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
+//				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+//				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
+//				String line = "";
+//				try {
+//					ArrayList<String> timedOut;
+//					long startTime = System.currentTimeMillis();
+//					while ((line = this.sequenceList.readLine()) != null) {
+//						//If the line contains a > it is not a file containing a list of sequence files
+//						if(line.contains(">")){
+//							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true, batchCommand);
+//							break;
+//						}
+//						//Top seq in eclist file. it means if read a eclist.txt file.
+//						else if(line.contains("Ec Activity EC Numbers")){
+//							//?
+//							batchCommand = true;
+//							line = sequenceList.readLine();
+//							String sampleName = "";
+//							LinkedHashMap<String,String> seq_for_lca;
+//							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+//							String fileName = line +  "-";
+//							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
+//							
+//							batchCommand = false;
+//						}
+//						//ec#. under "Ec Activity EC Numbers"
+//						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
+//							
+//							batchCommand = true;
+//							String sampleName = "";
+//							LinkedHashMap<String,String> seq_for_lca;
+//							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+//							String fileName = line +  "-";
+//							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
+//							
+//							batchCommand = false;
+//						}
+//						//not eclist, ec# or ">"
+//						else{
+//							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
+//						}
+//					}
+//					
+//					System.out.println("LCA Done");
+//					//checking for any timed out ec numbers
+//					checkTimedOut(metapro);
+//					
+//					long endTime   = System.currentTimeMillis();
+//					long totalTime = endTime - startTime;
+//					timedOut = metapro.getTimedOut();
+//					//printing out the names of the files that timed out
+//					if(!timedOut.isEmpty()){
+//						System.out.println("Files that timed out:");
+//						for(int i = 0; i < timedOut.size(); i++){
+//							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
+//						}
+//					}
+//					// no time out.
+//					else{
+//						System.out.println("All files executed successfully");
+//					}
+//					System.out.println("Time" + " " + totalTime);
+//				} catch (IOException e) {
+//					System.out.println("File does not exist");
+//				}
+//			}
 			//read ec# file , sequence = null
-			else{
+//			else{
 
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
@@ -544,19 +591,134 @@ public class CmdController1 {
 				String line = "";
 				
 				for (int i = 0;i<this.ec_.size();i++) {
-					line = ""+ec_.get(i);
-					//line =  a ec , then check is it ec
 					
-						LinkedHashMap<String,String> seq_for_lca;
-						seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-						String fileName = line +  "-";
-						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+					line = ""+ec_.get(i);
+					LinkedHashMap<String,String> seq_for_lca;
+					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+					String fileName = line +  "-";
+					metapro = new MetaProteomicAnalysis();
+					batchCommand = true;
+					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
 					
 				}
 				System.out.println("Done LCA");
 				checkTimedOut(metapro);
-			}
+//			}
 		}
+		else if (optionsCmd_.contentEquals("lca1")){
+			
+			checkSeqFile();
+			
+			//set output path
+			if(outPutPath_.contentEquals("def")){		
+				outPutPath_ = basePath_+"lca"+File.separator;
+			}
+			
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
+			
+			String sampleName = "";
+			String line = "";
+			Date d = new Date();
+			File file = new File(outPutPath_+Project.workpath_+"-Taxa-all samples-"+d.toString()+".txt");
+			//StringBuffer tableContent = new StringBuffer();
+			String separator = "\t";
+			try{
+				FileWriter fileWriter = new FileWriter(file);
+				String writerLine = "SampleName/Ec-Taxa";
+				
+				for (int t =0 ; t < Project.samples_.size();t++){
+					
+					writerLine += separator+ Project.samples_.get(t).name_;
+				
+				}
+				//title finished.
+				fileWriter.write(writerLine+"\n");
+				
+				//writer each ec to line.
+				for (int i = 0;i<this.ec_.size();i++) {
+					
+					line = ""+ec_.get(i);
+					LinkedHashMap<String,String> seq_for_lca;
+					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+					String fileName = line +  "-";
+					metapro = new MetaProteomicAnalysis(); 
+					ArrayList<TrypticPeptide> peptide = metapro.readFasta(seq_for_lca, fileName); 
+					batchCommand = true;
+					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+					// Prepare printable  taxa table
+					HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
+					
+					
+					//each peptide
+					for (int j =0; j<peptide.size();j++){
+						System.out.println("peptide  is working");
+						
+						if (peptide.get(j).getIdentifiedTaxa() != null) {
+							String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
+							String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
+							int samIndex=0;
+							for (int s=0;s<Project.samples_.size();s++){
+//								System.out.println(Project.samples_.get(s).name_);
+								if (Project.samples_.get(s).name_.contentEquals(samName)){
+									samIndex = s;
+									break;	
+								}	
+							}
+							
+							System.out.println("ecTaxaName:"+ecTaxaName);
+							System.out.println("samName:"+samName);
+							System.out.println("samIndex:"+samIndex);
+							
+							
+							if (taxaTable.containsKey(ecTaxaName)){
+								int [] num = taxaTable.get(ecTaxaName);
+								num [samIndex] += 1;
+								taxaTable.put(ecTaxaName,num);
+								
+							}
+							else{
+								int [] num = new int [Project.samples_.size()];
+								num[samIndex]+=1;
+								taxaTable.put(ecTaxaName,num);	
+								
+							}
+						}	
+				
+					}
+					
+					for (String key : taxaTable.keySet() ){
+						String Line =key;
+						int [] num = taxaTable.get(key);
+						
+						for (int sam = 0 ; sam < num.length;sam++){
+							Line += "\t"+num[sam];
+							
+							
+						}
+						System.out.println("Line:"+Line);
+						fileWriter.write(Line+"\n");	
+						
+					}
+					// one empty line for each ec.
+					fileWriter.write("\n");	
+				}
+				fileWriter.close();
+				
+			}
+			
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+			
+			
+			
+		}
+	
 	}
 	// checking is there a sequence file connect with sample file.
 	private void checkSeqFile() {
@@ -570,12 +732,8 @@ public class CmdController1 {
 					Project.samples_.get(i).getSequenceFile().contentEquals("")){
 				
 				sampleWithoutSeq.add(i, Project.samples_.get(i).name_);
-			
-			}
-			
+			}	
 		}
-		
-	
 		if (sampleWithoutSeq.size()!=0){
 			System.err.println("\nNo sequence file found for the samples below:\n");
 			

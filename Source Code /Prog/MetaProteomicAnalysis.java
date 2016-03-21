@@ -424,6 +424,7 @@ public class MetaProteomicAnalysis {
 			}
 		
 		}
+
 	}
 	
 	/**
@@ -505,38 +506,48 @@ public class MetaProteomicAnalysis {
 		Object[] colNames2 = { "Sequence ID", "Sample", "Taxon Name" };
 		//If the file being read in is a sequence file per EC Sample, setting rowdata and colnames
 		if (!Character.isDigit(fileName.charAt(0))) {
-			//parsing out samplename from filename
+			//parsing out sample name from filename
 			for (int i = 0; i < peptide.size(); i++) {
 				if (peptide.get(i).getIdentifiedTaxa() != null) {
-					sample = peptide.get(i).getUniqueIdentifier().substring(peptide.get(i).getUniqueIdentifier().indexOf(" "));
+					sample = peptide.get(i).getUniqueIdentifier().substring(peptide.get(i).getUniqueIdentifier().indexOf(" ")+1);
 					rowData2[index2][0] = peptide.get(i).getUniqueIdentifier();
 					rowData2[index2][1] = sample;
 					rowData2[index2][2] = peptide.get(i).getIdentifiedTaxa().getTaxon_name();
 					index2++;
+
 				}
 			}
-		} else {
+		} 
+		else {
 			//if file being read in is a sequence file per EC (includes multiple samples)
 			for (int i = 0; i < peptide.size(); i++) {
 				if (peptide.get(i).getIdentifiedTaxa() != null) {
-					//gets unique identifer of sequence in case that the identifier ends with '-'
-					if (peptide.get(i).getUniqueIdentifier().lastIndexOf('-') > peptide
-							.get(i).getUniqueIdentifier().lastIndexOf('+')) {
+					//gets unique identifier of sequence in case that the identifier ends with '-'
+					if (peptide.get(i).getUniqueIdentifier().lastIndexOf('-') > peptide.get(i).getUniqueIdentifier().lastIndexOf('+')) {
+						
 						rowData2[index2][0] = peptide.get(i).getUniqueIdentifier().subSequence(peptide.get(i)
 							.getUniqueIdentifier().indexOf(peptide.get(i).getUniqueIdentifier()
 							.charAt(0)),peptide.get(i).getUniqueIdentifier().lastIndexOf('-') + 1);
 						rowData2[index2][1] = peptide.get(i).getUniqueIdentifier().substring(
-							peptide.get(i).getUniqueIdentifier().lastIndexOf('-') + 1);
-					} else {
-						//gets unique identifer of sequence in case that identifer ends with '+'
+							peptide.get(i).getUniqueIdentifier().lastIndexOf('-') + 2);
+					} 
+					
+					else {
+						//gets unique identifier of sequence in case that identifier ends with '+'
 						rowData2[index2][0] = peptide.get(i).getUniqueIdentifier().subSequence(
 							peptide.get(i).getUniqueIdentifier().indexOf(peptide.get(i)
 							.getUniqueIdentifier().charAt(0)),peptide.get(i).getUniqueIdentifier()
 							.lastIndexOf('+') + 1);
 						rowData2[index2][1] = peptide.get(i).getUniqueIdentifier().substring(
-							peptide.get(i).getUniqueIdentifier().lastIndexOf('+') + 1);
+							peptide.get(i).getUniqueIdentifier().lastIndexOf('+') + 2);
 					}
 					rowData2[index2][2] = peptide.get(i).getIdentifiedTaxa().getTaxon_name();
+					
+					System.out.println("TEST\n"+peptide.get(i).getUniqueIdentifier());
+					System.out.println(rowData2[index2][0]);
+					System.out.println(rowData2[index2][1]);
+					System.out.println(rowData2[index2][2]);
+					
 					index2++;
 				}
 			}

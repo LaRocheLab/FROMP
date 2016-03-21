@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * This class stores each sequence present within the sequence files that were
  * specified to be read. The sequence undergoes a tryptic digest which segments
  * the sequence at K or R into a tryptic peptide. The resulted tryptic peptides 
- * from this digest are stored in an arraylist per unique identifer. Finally, the
+ * from this digest are stored in an arraylist per unique identifier. Finally, the
  * tryptic peptides are sent to http://unipept.ugent.be/ to determine their lowest
- * common ancestor. Those results are also stored in an arraylist per unqie identifer. 
+ * common ancestor. Those results are also stored in an arraylist per unique identifier. 
  * 
  * @author Jennifer Terpstra
  *

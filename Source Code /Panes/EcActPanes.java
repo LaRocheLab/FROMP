@@ -27,7 +27,7 @@ public class EcActPanes extends JPanel {
 	JButton ecSort_; // A button to go to the ActMatrixPane panel
 	PathwayEcMat pwEcMat; 
 	ActMatrixPane actMat_; 
-	int mode_; 
+	int mode_; // mode =0 :ActMatrixPane / mode = 1 :PathwayEcMat
 	int xsize; 
 	int yOffset_; 
 	public JButton backButton_; // Button to go back to Analysis Options
@@ -136,17 +136,20 @@ public class EcActPanes extends JPanel {
 
 		switchmode();
 		switch (this.mode_) {
+		//ActMatrixPane
 		case 0:
 			if ((this.actMat_ == null) || (Project.dataChanged)) {
 				//go to actMatrixPane finally. same to use cmd.
 				this.actMat_ = new ActMatrixPane(this.activeProj_,
 						this.ecList_, this.proc_, this.showPanel_.getSize());
+				actMat_.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(actMat_.ecMatrix_.size() + 2) * 15 + 100));
 			}
 			this.showPanel_.add(this.actMat_);
 			invalidate();
 			validate();
 			repaint();
 			break;
+		//PathwayEcMat	
 		case 1:
 			if ((this.pwEcMat == null) || (Project.dataChanged)) {
 				this.pwEcMat = new PathwayEcMat(this.pwList_, this.activeProj_,

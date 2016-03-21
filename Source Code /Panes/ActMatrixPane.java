@@ -111,7 +111,7 @@ public class ActMatrixPane extends JPanel {
 	JPanel optionsPanel_; // Options panel
 	JPanel displayP_; // Panel which displays the ec matrix
 	JScrollPane showJPanel_; // Scroll pane which allows the user to scroll through the matrix if it is bigger than the allotted space
-	DataProcessor proc_; // Data Processor which allows the input files to be parsed and for relivent data to be computed from them
+	DataProcessor proc_; // Data Processor which allows the input files to be parsed and for relevant data to be computed from them
 	int selectedSampIndex_ = -1; 
 	JLabel selectedSampText; 
 	final String basePath_ = new File(".").getAbsolutePath() + File.separator; //File(".") = current directory
@@ -233,7 +233,9 @@ public class ActMatrixPane extends JPanel {
 		this.showJPanel_ = new JScrollPane(this.displayP_);
 		this.showJPanel_.setVisible(true);
 		this.showJPanel_.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		this.showJPanel_.setVerticalScrollBarPolicy(20);
+//		this.showJPanel_.setHorizontalScrollBarPolicy(30);
 
 		add("Center", this.showJPanel_);
 	}
@@ -342,12 +344,12 @@ public class ActMatrixPane extends JPanel {
 		displayP_.add(panel2, BorderLayout.LINE_START);
 		displayP_.add(panel4, BorderLayout.LINE_START);
 		
-		//this.displayP_.setSize(getPreferredSize());
 		this.showJPanel_.setViewportView(displayP_);
 		this.showJPanel_.setVisible(true);
 		this.showJPanel_.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
+//		this.showJPanel_.setVerticalScrollBarPolicy(20);
+//		this.showJPanel_.setHorizontalScrollBarPolicy(30);
 
 		
 		

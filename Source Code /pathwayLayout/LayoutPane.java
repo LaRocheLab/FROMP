@@ -302,7 +302,7 @@ public class LayoutPane extends JPanel {
 		final int indexF = index;
 		ImageIcon icon = null;
 		try{
-			icon = new ImageIcon(CmdController1.outPutPath_+"images"+File.separator+"DoNotDelThis.gif", "del Button gif");
+			icon = new ImageIcon(new File("").getAbsolutePath() + File.separator+"images"+File.separator+"DoNotDelThis.gif", "del Button gif");
 		}
 		catch (Exception e){
 			System.out.println("Garbage can is gone!");

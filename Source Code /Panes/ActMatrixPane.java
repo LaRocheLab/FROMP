@@ -124,7 +124,7 @@ public class ActMatrixPane extends JPanel {
 	int scrollChartPos = 0;
 	int num_export_ec = 0;
 	String buttonName;
-	boolean exportAll = false;
+	public boolean exportAll = false;
 	boolean findLca = false;
 	boolean batchCommand = false;
 	ArrayList<String> ec_list;
@@ -2874,6 +2874,7 @@ public class ActMatrixPane extends JPanel {
 		String seqFilePath = "";
 		String desc, protien, file_name;
 		LinkedHashMap<String, String> seq_for_lca;
+		//seq_for_lca will be reset,if is null or do not put all in file
 		if(seqTmp==null||oneFile==false||exportAll==false){
 			seq_for_lca = new LinkedHashMap<String,String>();
 		}

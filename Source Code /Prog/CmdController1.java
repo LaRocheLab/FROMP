@@ -587,6 +587,7 @@ public class CmdController1 {
 
 				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+				pane.exportAll = true;
 				String sampleName = "";
 				String line = "";
 				
@@ -615,6 +616,7 @@ public class CmdController1 {
 			}
 			
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			pane.exportAll = true;
 			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 			
 			String sampleName = "";
@@ -652,14 +654,12 @@ public class CmdController1 {
 					
 					//each peptide
 					for (int j =0; j<peptide.size();j++){
-						System.out.println("peptide  is working");
 						
 						if (peptide.get(j).getIdentifiedTaxa() != null) {
 							String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
 							String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
 							int samIndex=0;
 							for (int s=0;s<Project.samples_.size();s++){
-//								System.out.println(Project.samples_.get(s).name_);
 								if (Project.samples_.get(s).name_.contentEquals(samName)){
 									samIndex = s;
 									break;	
@@ -670,21 +670,21 @@ public class CmdController1 {
 							System.out.println("samName:"+samName);
 							System.out.println("samIndex:"+samIndex);
 							
-							
-							if (taxaTable.containsKey(ecTaxaName)){
-								int [] num = taxaTable.get(ecTaxaName);
-								num [samIndex] += 1;
-								taxaTable.put(ecTaxaName,num);
+							//no need root, Bacteria and Inconclusive
+							if(!ecTaxaName.contentEquals(fileName+"root") && !ecTaxaName.contentEquals(fileName+"Bacteria") && !ecTaxaName.contentEquals(fileName+"Inconclusive")){
 								
-							}
-							else{
-								int [] num = new int [Project.samples_.size()];
-								num[samIndex]+=1;
-								taxaTable.put(ecTaxaName,num);	
-								
+								if (taxaTable.containsKey(ecTaxaName)){
+									int [] num = taxaTable.get(ecTaxaName);
+									num [samIndex] += 1;
+									taxaTable.put(ecTaxaName,num);		
+								}
+								else{
+									int [] num = new int [Project.samples_.size()];
+									num[samIndex]+=1;
+									taxaTable.put(ecTaxaName,num);		
+								}	
 							}
 						}	
-				
 					}
 					
 					for (String key : taxaTable.keySet() ){
@@ -692,33 +692,24 @@ public class CmdController1 {
 						int [] num = taxaTable.get(key);
 						
 						for (int sam = 0 ; sam < num.length;sam++){
-							Line += "\t"+num[sam];
-							
-							
+							Line += "\t"+num[sam];	
 						}
 						System.out.println("Line:"+Line);
-						fileWriter.write(Line+"\n");	
-						
+						fileWriter.write(Line+"\n");		
 					}
 					// one empty line for each ec.
-					fileWriter.write("\n");	
+					if(!taxaTable.keySet().isEmpty()){
+						fileWriter.write("\t\n");
+						
+					}
+	
 				}
-				fileWriter.close();
-				
+				fileWriter.close();	
 			}
-			
 			catch(IOException e){
 				e.printStackTrace();
-			}
-			
-			
-			
-			
-			
-			
-			
+			}		
 		}
-	
 	}
 	// checking is there a sequence file connect with sample file.
 	private void checkSeqFile() {

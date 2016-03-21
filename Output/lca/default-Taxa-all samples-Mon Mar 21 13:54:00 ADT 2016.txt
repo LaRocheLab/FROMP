@@ -1,0 +1,14 @@
+SampleName/Ec-Taxa	ERR771019_MERGED_FASTQ_InterPro.tsv	ERR771060_MERGED_FASTQ_InterPro.tsv	ERR771064_MERGED_FASTQ_InterPro.tsv	ERR771070_MERGED_FASTQ_InterPro.tsv
+1.1.1.1-Actinobacteria	0	0	1	0
+1.1.1.1-Pseudomonas aeruginosa	0	2	0	0
+1.1.1.1-Herbaspirillum	0	0	0	1
+1.1.1.1-Gloeophyllum trabeum	1	0	0	0
+1.1.1.1-Pelagibacteraceae	0	0	0	1
+1.1.1.1-Porticoccaceae	1	0	0	0
+1.1.1.1-Treponema saccharophilum	0	0	1	0
+1.1.1.1-Gammaproteobacteria	1	0	0	1
+1.1.1.1-Alphaproteobacteria	0	0	1	0
+1.1.1.1-Sphingobacterium	1	0	0	0
+	
+1.1.1.193-Gammaproteobacteria	0	0	0	1
+	

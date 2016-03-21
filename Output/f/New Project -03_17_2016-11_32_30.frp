@@ -1,0 +1,19 @@
+$$ver:$EXP1$
+!! Thu Mar 17 11:32:30 ADT 2016 !!
+$PROJ$12sam+seq
+$back$233:233:233
+$font$0:0:0
+$oAll$255:0:0
+<userPathways>
+</userPathways>
+<ConvStats>
+<amountOfEcs>0
+<numOfCompleteEcs>0
+<numOfMappedEcs>0
+<amountOfPfs>0
+<numOfConvertedPFs>0
+<numOfConvPfsComplete>0
+<numOfConvPfsMapped>0
+</ConvStats>
+<SeqFiles>
+</SeqFiles>

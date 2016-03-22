@@ -93,8 +93,8 @@ public class EditsamplesPane extends JPanel {
 		setLayout(null);
 		setVisible(true);
 		setBackground(Project.getBackColor_());
-		setPreferredSize(new Dimension(getWidth(),
-				(Project.samples_.size() + 2) * 50 + 100));
+		setPreferredSize(new Dimension(getWidth()+1190,
+				(Project.samples_.size() + 2) * 50 + 400));
 		setSize(getPreferredSize());
 		prepPaint(); // Sets everything up for the EditSamplesPane
 	}

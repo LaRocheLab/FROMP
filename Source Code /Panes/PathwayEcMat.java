@@ -404,8 +404,8 @@ public class PathwayEcMat extends JPanel {
 		this.origPaths_.set(index1, origPaths2);
 		this.origPaths_.set(index2, origPaths1);
 
-		ArrayList<Line> line1 = (ArrayList) this.arrays_.get(index1);
-		ArrayList<Line> line2 = (ArrayList) this.arrays_.get(index2);
+		ArrayList<Line> line1 = this.arrays_.get(index1);
+		ArrayList<Line> line2 = this.arrays_.get(index2);
 
 		this.arrays_.set(index1, line2);
 		this.arrays_.set(index2, line1);
@@ -440,9 +440,10 @@ public class PathwayEcMat extends JPanel {
 									+ seperator);
 						}
 					}
-					out.newLine();
+					
 					out.newLine();
 				}
+				out.newLine();
 			}
 			out.close();
 		} catch (IOException e) {
@@ -483,8 +484,9 @@ public class PathwayEcMat extends JPanel {
 							}
 						}
 						out.newLine();
-						out.newLine();
+						
 					}	
+					out.newLine();
 					//this.origPaths_.get(origCnt).selected = false;
 				}	
 			}
@@ -536,10 +538,11 @@ public class PathwayEcMat extends JPanel {
 								.getCanonicalPath();
 						if (!path.endsWith(".txt")) {
 							path = path + ".txt";
-							System.out.println(".txt");
+							
 						}
 						PathwayEcMat.this.writeOutAllArr(path,
 								PathwayEcMat.this.useCsf_.isSelected());
+						System.out.println("File saved at: "+path);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -577,10 +580,11 @@ public class PathwayEcMat extends JPanel {
 								.getCanonicalPath();
 						if (!path.endsWith(".txt")) {
 							path = path + ".txt";
-							System.out.println(".txt");
+							
 						}
 						PathwayEcMat.this.writeOutSelectedArr(path,
 								PathwayEcMat.this.useCsf_.isSelected());
+						System.out.println("File saved at: "+path);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

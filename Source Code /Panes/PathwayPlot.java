@@ -407,7 +407,14 @@ public class PathwayPlot extends JPanel{
 		g.drawString("Pathway", 0,yStep * tmpSamp.pathways_.size()+120);
 		//draw pathway id (ec00010 ....)
 		for (int i = 0; i < tmpSamp.pathways_.size(); i++) {
-			g.drawString(((PathwayWithEc) tmpSamp.pathways_.get(i)).id_,0,(i + 1) * yStep+30);
+			
+			String Pname = tmpSamp.pathways_.get(i).id_;
+			//if path way' name too long. cut some.
+			if (Pname.length()>10){
+				Pname = Pname.substring(0,9);
+			}
+			
+			g.drawString(Pname,0,(i + 1) * yStep+30);
 		}
 		//draw all samples
 		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {

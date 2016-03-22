@@ -926,8 +926,7 @@ public class DataProcessor {
 									if (ecWP != null) {
 										Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 										Project.legitSamples.remove(i);
-										Project.legitSamples.add(i,
-												Boolean.valueOf(true));
+										Project.legitSamples.add(i,Boolean.valueOf(true));
 									} else {
 										if (!ecNr.isCompleteEc()) {
 											ecNr.incomplete = true;

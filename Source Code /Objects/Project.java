@@ -560,15 +560,15 @@ public class Project {
 			}
 			String zeile2;
 			String seperate = File.separator;
-			System.out.println("File separator:" + seperate);
+			//System.out.println("File separator:" + seperate);
 			if (seperate.compareTo("/") == 0) {
-				System.out.println("File separate 1");
+				//System.out.println("File separate 1");
 				zeile2 = zeile.replace("\\", "/");
 			} else if (seperate.compareTo("\\") == 0) {
-				System.out.println("File separate 2");
+				//System.out.println("File separate 2");
 				zeile2 = zeile.replace("/", "\\");
 			} else {
-				System.out.println("File separate 3");
+				//System.out.println("File separate 3");
 				zeile2 = zeile;
 			}
 

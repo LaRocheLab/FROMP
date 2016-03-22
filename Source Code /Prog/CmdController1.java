@@ -314,7 +314,7 @@ public class CmdController1 {
 				
 				projPath=outPutPath_+"New Project -"+sdf.format(d)+".frp";
 			}
-			
+			checkSeqFile();
 			Controller.saveProject(projPath);
 			System.out.println("New Project File at : "+projPath);
 		}
@@ -711,6 +711,41 @@ public class CmdController1 {
 			}		
 		}
 	}
+	
+	public static boolean checkSeqFileFormat(String seqFilePath){
+		
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(seqFilePath));
+			String line = in.readLine();
+			//test 20 lines
+			int count = 0 ;
+			while (line != null && count<=20){
+				
+				if (!line.startsWith(">")){
+					in.close();
+					return false;
+					
+				}
+				else {
+					
+					line = in.readLine();
+					if(!line.matches("[A-Za-z]*")){
+						in.close();
+						return false;
+					}
+				}
+				line = in.readLine();
+				count++;	
+			}
+			in.close();
+			return true;			
+		}
+		catch(Exception e){	
+			System.out.println("Wrong sequence file.");
+			return false;
+		}	
+	}
+	
 	// checking is there a sequence file connect with sample file.
 	private void checkSeqFile() {
 		
@@ -733,15 +768,15 @@ public class CmdController1 {
 					System.out.println(sampleWithoutSeq.get(i));
 				}
 			}
-			System.out.println("\nSequence file is needed for cmd :'seq' 'seqall' and 'lca'");
+			System.out.println("\nSequence file is needed for cmd :'seq' 'seqall' and 'lca'. optional for cmd :'f'");
 			System.out.print("Add sequence file for the samples?(y/n):");
 			boolean pass = false;
 			Scanner kb = new Scanner(System.in);
-			String key = kb.nextLine();
-			key = key.toLowerCase();
+			String key = kb.nextLine().toLowerCase();
 			System.out.println();
 			while (!pass){
 				//add seq file
+				
 				if (key.contentEquals("y")){
 					//add seq file in order to all samples without seq.
 					for (int i = 0 ; i < sampleWithoutSeq.size();i++){
@@ -757,9 +792,15 @@ public class CmdController1 {
 								if(!key.contentEquals("n")&&!key.contentEquals("N")){
 									//check path first
 									if(StartFromp1.checkPath(key, 1)){
-										Project.samples_.get(i).setSequenceFile(key);
-										System.out.println("Sequence file has added");
-										pass=true;
+										if (checkSeqFileFormat(key)){
+											Project.samples_.get(i).setSequenceFile(key);
+											System.out.println("Sequence file has added");
+											pass=true;
+										}
+										else{
+											System.out.println("It is not a valid sequence file");
+											pass=false;
+										}
 									}
 									else {
 										pass = false;
@@ -801,7 +842,11 @@ public class CmdController1 {
 				}
 				// input was not y or n
 				else {
+					
 					pass = false;
+					System.out.print("Add sequence file for the samples?(y/n):");
+					key = kb.nextLine().toLowerCase();
+					System.out.println();
 				}		
 			}//loop for adding seq or not. 
 			kb.close();

@@ -2,6 +2,7 @@ package Panes;
 
 import Objects.Project;
 import Objects.Sample;
+import Prog.CmdController1;
 import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.IndexButton;
@@ -45,6 +46,7 @@ public class EditsamplesPane extends JPanel {
 	IndexButton[] seqButt_; // Array of buttons used to add a sequence file to a sample
 	JButton button_; // Select sample button
 	JButton newColors_; // Set new colours button
+	JButton randomColors_;// Set new random colors
 	String lastPath_; // Temporary variable used to keep track of the last file path in the FileChooser
 	MyChooser fChoose_; // The afforementioned FileChooser
 	File lastFile; // The last file in the Project.samples_ arraylist
@@ -109,7 +111,7 @@ public class EditsamplesPane extends JPanel {
 		int colH = 20;
 		int colD = 25;
 
-		this.newColors_ = new JButton("Set new Colors");
+		this.newColors_ = new JButton("Set New Colors");
 		this.newColors_.setBounds(this.xCol2, 150, 150, 30);
 		this.newColors_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -120,6 +122,19 @@ public class EditsamplesPane extends JPanel {
 			}
 		});
 		add(this.newColors_);
+		
+		this.randomColors_ = new JButton("Random Colors");
+		this.randomColors_.setBounds(this.xCol2, 240, 150, 30);
+		
+		this.randomColors_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setRandomSampleColor();
+				EditsamplesPane.this.prepPaint();
+				Project.dataChanged = true;
+			}
+		});
+		
+		add(this.randomColors_);
 
 		loadSampleButton();
 		if (Project.samples_.size() > 0) {
@@ -208,20 +223,29 @@ public class EditsamplesPane extends JPanel {
 			//determine there are sequence file or not.
 			if (Project.samples_.get(sampCnt).getSequenceFile() != null
 					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
-				this.seqButt_[sampCnt].setText("Y");
+				this.seqButt_[sampCnt].setText("?");
+				this.seqButt_[sampCnt].setBackground(Color.yellow);
+				if(CmdController1.checkSeqFileFormat(Project.samples_.get(sampCnt).getSequenceFile())){
+					this.seqButt_[sampCnt].setText("Y");
+					this.seqButt_[sampCnt].setBackground(Color.green);
+				}
+				
 			} 
 			else {
 				this.seqButt_[sampCnt].setText("N");
+				this.seqButt_[sampCnt].setBackground(Color.red);
 			}
 			this.seqButt_[sampCnt].setBounds(142 + nameL, 50 + colD * sampCnt, 50, 20);
 			this.seqButt_[sampCnt].setVisible(true);
-			if (Project.samples_.get(cnt).getSequenceFile() != null
-					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
-				this.seqButt_[sampCnt].setBackground(Color.green);
-			} 
-			else {
-				this.seqButt_[sampCnt].setBackground(Color.red);
-			}
+			
+//			if (Project.samples_.get(cnt).getSequenceFile() != null
+//					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
+//				this.seqButt_[sampCnt].setBackground(Color.green);
+//			} 
+//			else {
+//				this.seqButt_[sampCnt].setBackground(Color.red);
+//			}
+			
 			this.seqButt_[sampCnt].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Project.dataChanged = true;
@@ -411,9 +435,9 @@ public class EditsamplesPane extends JPanel {
 	 * are checked than inUse for that sample equals true, else false
 	 */
 	private void convertChecks() {
-		System.out.println("convert");
+		System.out.println("Set new Colors - convert");
 		for (int i = 0; i < this.checks_.size(); i++) {
-			System.out.println(((JCheckBox) this.checks_.get(i)).isEnabled());
+			//System.out.println(((JCheckBox) this.checks_.get(i)).isEnabled());
 			if (((JCheckBox) this.checks_.get(i)).isSelected()) {
 				if ((i < Project.samples_.size())
 						&& (!((Sample) Project.samples_.get(i)).inUse)) {
@@ -590,7 +614,14 @@ public class EditsamplesPane extends JPanel {
 	private void removeSample(int sampIndex) {
 		Project.removeSample(sampIndex);
 	}
-
+	//set random colors for all samples.
+	private void setRandomSampleColor(){
+		
+		for (int sampCnt = 0; sampCnt < Project.samples_.size(); sampCnt++) {
+			Project.samples_.get(sampCnt).sampleCol_= new Color((float) Math.random(),(float) Math.random(),(float) Math.random());	
+		}
+		System.out.println("Set Random Colors - convert");	
+	}
 	private void setNewColorSet() {
 		for (int sampCnt = 0; sampCnt < Project.samples_.size(); sampCnt++) {
 			this.tmpSamp_ = ((Sample) Project.samples_.get(sampCnt));

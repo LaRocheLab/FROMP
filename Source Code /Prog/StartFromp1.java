@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -36,6 +37,7 @@ public class StartFromp1 {
 	static String out;
 	static String cmdCode;
 	String data="";
+	static String FolderPath = "";
 	
 	/**
 	 * Takes in a string array of arguments from the user which determines what
@@ -53,9 +55,13 @@ public class StartFromp1 {
 	 *            User input which depending on the input changes how FROMP
 	 *            works
 	 * @author Jennifer Terpstra, Kevan Lynch
+	 * @throws URISyntaxException 
 	 */
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws URISyntaxException {
+		File test = new File(StartFromp1.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String test1 = test.toString();
+		String folderPath = test1.substring(0, test1.lastIndexOf("FROMPt1.jar"));
+		FolderPath = folderPath;
 		//args = 0. start GUI		
 		if(args.length  == 0){
 			System.out.println("Welcome to  FROMP.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");

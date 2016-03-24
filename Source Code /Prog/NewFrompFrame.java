@@ -1000,7 +1000,7 @@ public class NewFrompFrame extends JFrame {
 	private void loadRecentProj() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
-					"recentProj.txt"));
+					StartFromp1.FolderPath+"recentProj.txt"));
 			recentProj_ = new ArrayList();
 			String line = "";
 			while ((line = in.readLine()) != null) {
@@ -1020,7 +1020,7 @@ public class NewFrompFrame extends JFrame {
 		removeRecentDoubles();
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(
-					"recentProj.txt"));
+					StartFromp1.FolderPath+"recentProj.txt"));
 			for (int i = 0; i < recentProj_.size(); i++) {
 				out.write((String) recentProj_.get(i));
 				System.out.println("Save " + (String) recentProj_.get(i));

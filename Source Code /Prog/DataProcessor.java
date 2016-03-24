@@ -47,15 +47,16 @@ public class DataProcessor {
 	String workpath_;
 	String separator_;
 	//These lines are the conversion charts found in /list
-	static final String listPath = "list" + File.separator + "ec.list";
-	static final String pathwayList = "list" + File.separator + "pathway.list";
-	static final String ecNamesPath = "list" + File.separator + "ec2go.txt"; 
-	static final String rnListPath = "list" + File.separator + "rn.list"; 
-	static final String mapTitleList = "list" + File.separator + "map_title.tab"; //
-	static final String pfamToRnToEcPath_ = "list" + File.separator + "pfam2Ec2Rn.txt"; //
-	static final String interproToGOPath_ = "list" + File.separator + "interpro2GO.txt"; //
-	static final String interproToECPath_ = "list" + File.separator + "interPro_kegg.tsv";
-	static final String uni2ECPath_ = "list" + File.separator + "uniref2ec.txt";
+	
+	static final String listPath = StartFromp1.FolderPath+"list" + File.separator + "ec.list";
+	static final String pathwayList = StartFromp1.FolderPath+"list" + File.separator + "pathway.list";
+	static final String ecNamesPath = StartFromp1.FolderPath+"list" + File.separator + "ec2go.txt"; 
+	static final String rnListPath = StartFromp1.FolderPath+"list" + File.separator + "rn.list"; 
+	static final String mapTitleList = StartFromp1.FolderPath+"list" + File.separator + "map_title.tab"; //
+	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath+"list" + File.separator + "pfam2Ec2Rn.txt"; //
+	static final String interproToGOPath_ = StartFromp1.FolderPath+"list" + File.separator + "interpro2GO.txt"; //
+	static final String interproToECPath_ = StartFromp1.FolderPath+"list" + File.separator + "interPro_kegg.tsv";
+	static final String uni2ECPath_ = StartFromp1.FolderPath+"list" + File.separator + "uniref2ec.txt";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -111,6 +112,7 @@ public class DataProcessor {
 	Hashtable<String, ArrayList<String>> UniToECHash = new Hashtable<String, ArrayList<String>>();
 
 	public DataProcessor(Project actProj) {// Builds the data processor object for the active project
+		
 		this.activeProj_ = actProj;
 
 		newUserData = true;
@@ -1874,6 +1876,7 @@ public class DataProcessor {
 		int index = -1;
 		if (getPathwayList_() == null) {
 			setPathwayList_(new ArrayList());
+			System.out.println(listPath);
 			this.ecList = this.reader.readTxt(listPath);
 			try {
 				while ((zeile = this.ecList.readLine()) != null) {
@@ -2163,7 +2166,7 @@ public class DataProcessor {
 		if (path.id_.contentEquals("-1")) {
 			return;
 		}
-		BufferedReader chainList = this.reader.readTxt("pathway"
+		BufferedReader chainList = this.reader.readTxt(StartFromp1.FolderPath+"pathway"
 				+ File.separator + path.id_ + ".chn");
 		String zeile = "";
 		String subLine = "";

@@ -727,7 +727,7 @@ public class PathwayEcMat extends JPanel {
 					}
 				});
 				//pathway select box for exporting
-				JCheckBox tmpBox = new JCheckBox ();
+				final JCheckBox tmpBox = new JCheckBox ();
 				tmpBox.setBounds(30, 10 + lineH * lineCounter + arrH
 						* arrCounter + smpNameSpace * smpSpaceCnt,20,20);
 				tmpBox.setVisible(true);

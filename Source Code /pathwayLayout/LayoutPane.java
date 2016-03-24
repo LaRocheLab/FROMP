@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Prog.CmdController1;
-
+// user path way pane.
 public class LayoutPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	PathLayoutGrid grid;
@@ -63,60 +63,66 @@ public class LayoutPane extends JPanel {
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
-				final int x = arg0.getX();
-				final int y = arg0.getY();
-				if (LayoutPane.this.activeNode != null) {
-					LayoutPane.this.activeNode.xPos = (x
-							/ LayoutPane.this.xStepSize - 1);
-					LayoutPane.this.activeNode.yPos = (y
-							/ LayoutPane.this.yStepSize - 1);
-					if (LayoutPane.this.activeNode.xPos < 0) {
-						LayoutPane.this.activeNode.xPos = 0;
-					}
-					if (LayoutPane.this.activeNode.yPos < 0) {
-						LayoutPane.this.activeNode.yPos = 0;
-					}
-					LayoutPane.this.adaptChildren(LayoutPane.this.activeNode);
-					LayoutPane.this.activeNode = null;
-					LayoutPane.this.reDo();
-				} else if (!LayoutPane.this.fieldOpen) {
-					LayoutPane.this.fieldOpen = true;
-					final JTextField field = new JTextField("Name");
-					field.setBounds(x, y, 100, 20);
-					field.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
-							System.out.println("actionPerformed");
-							LayoutPane.this.fieldOpen = false;
-							if (!field.getText().isEmpty()) {
-								Node node = new Node(field.getText());
-								node.xPos = (x / LayoutPane.this.xStepSize - 1);
-								node.yPos = (y / LayoutPane.this.yStepSize - 1);
-								if (node.xPos < 0) {
-									node.xPos = 0;
-								}
-								if (node.yPos < 0) {
-									node.yPos = 0;
-								}
-								if (LayoutPane.this.setComment) {
-									node.comment = LayoutPane.this.setComment;
-									LayoutPane.this.setComment = false;
-								}
-								LayoutPane.this.grid.addNode(node);
-								LayoutPane.this.remove(field);
-								LayoutPane.this.reDo();
-							} else {
-								LayoutPane.this.remove(field);
-								LayoutPane.this.invalidate();
-								LayoutPane.this.validate();
-								LayoutPane.this.repaint();
-							}
+				//double click add new node.
+//				if (arg0.getClickCount() == 2) {
+					final int x = arg0.getX();
+					final int y = arg0.getY();
+					System.out.println("x: "+x+"\ty: "+y);
+					if (LayoutPane.this.activeNode != null) {
+						LayoutPane.this.activeNode.xPos = (x / LayoutPane.this.xStepSize - 1);
+						LayoutPane.this.activeNode.yPos = (y / LayoutPane.this.yStepSize - 1);
+						if (LayoutPane.this.activeNode.xPos < 0) {
+							LayoutPane.this.activeNode.xPos = 0;
 						}
-					});
-					LayoutPane.this.add(field);
-					LayoutPane.this.invalidate();
-					LayoutPane.this.validate();
-					LayoutPane.this.repaint();
-				}
+						if (LayoutPane.this.activeNode.yPos < 0) {
+							LayoutPane.this.activeNode.yPos = 0;
+						}
+						LayoutPane.this.adaptChildren(LayoutPane.this.activeNode);
+						LayoutPane.this.activeNode = null;
+						LayoutPane.this.reDo();
+					} 
+					else if (!LayoutPane.this.fieldOpen) {
+						LayoutPane.this.fieldOpen = true;
+						final JTextField field = new JTextField("Name");
+						field.setBounds(x, y, 100, 20);
+						field.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								System.out.println("actionPerformed");
+								LayoutPane.this.fieldOpen = false;
+								if (!field.getText().isEmpty()) {
+									Node node = new Node(field.getText());
+									node.xPos = (x / LayoutPane.this.xStepSize - 1);
+									node.yPos = (y / LayoutPane.this.yStepSize - 1);
+									if (node.xPos < 0) {
+										node.xPos = 0;
+									}
+									if (node.yPos < 0) {
+										node.yPos = 0;
+									}
+									if (LayoutPane.this.setComment) {
+										node.comment = LayoutPane.this.setComment;
+										LayoutPane.this.setComment = false;
+									}
+									LayoutPane.this.grid.addNode(node);
+									LayoutPane.this.remove(field);
+									LayoutPane.this.reDo();
+								} 
+								else {
+									LayoutPane.this.remove(field);
+									LayoutPane.this.invalidate();
+									LayoutPane.this.validate();
+									LayoutPane.this.repaint();
+								}
+							}
+						});
+						LayoutPane.this.add(field);
+						LayoutPane.this.invalidate();
+						LayoutPane.this.validate();
+						LayoutPane.this.repaint();
+					}
+					
+//				}
+				
 			}
 		});
 	}

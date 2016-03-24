@@ -1,7 +1,7 @@
 package pathwayLayout;
 
 import java.util.ArrayList;
-
+//user pathway node(EC,Compound or Comment).
 public class Node {
 	public boolean comment = false;
 	public String name;
@@ -17,7 +17,7 @@ public class Node {
 
 	public Node(String name) {
 		this.name = name;
-		this.conections = new ArrayList();
+		this.conections = new ArrayList<Node>();
 		this.ownIndex = nodeIndexCnt;
 		nodeIndexCnt += 1;
 		this.xPos = -1;
@@ -26,7 +26,7 @@ public class Node {
 
 	public Node() {
 		this.name = "";
-		this.conections = new ArrayList();
+		this.conections = new ArrayList<Node>();
 		this.ownIndex = nodeIndexCnt;
 		nodeIndexCnt += 1;
 		this.xPos = -1;
@@ -35,7 +35,7 @@ public class Node {
 
 	public Node(Node node, boolean withConections) {
 		this.name = node.name;
-		this.conections = new ArrayList();
+		this.conections = new ArrayList<Node>();
 		if (withConections) {
 			for (int i = 0; i < node.conections.size(); i++) {
 				Node copy = new Node((Node) node.conections.get(i), false);
@@ -59,11 +59,11 @@ public class Node {
 		}
 		return false;
 	}
-
+	//connect to other nodes
 	public void addConnection(Node node) {
 		this.conections.add(node);
 	}
-
+	//replace node at same index.
 	public void adaptConnections(Node node) {
 		for (int i = 0; i < this.conections.size(); i++) {
 			Node coNode = (Node) this.conections.get(i);
@@ -87,7 +87,7 @@ public class Node {
 	public static void resetIndexCnt() {
 		nodeIndexCnt = 0;
 	}
-
+	//force layout
 	public float calcForceByConnections(ArrayList<Node> nodes) {
 		float pullConst = 0.04F;
 		for (int i = 0; i < this.conections.size(); i++) {

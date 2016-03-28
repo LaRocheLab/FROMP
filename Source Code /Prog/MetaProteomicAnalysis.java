@@ -634,7 +634,7 @@ public class MetaProteomicAnalysis {
 	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
 			 //saves the new excel file within the Excel folder
-			 	File file = new File(new File("").getAbsolutePath() + File.separator+ "Excel" + File.separator + fileName + tableName + ".xls");
+			 	File file = new File(StartFromp1.FolderPath+ "Excel" + File.separator + fileName + tableName + ".xls");
 	            WritableWorkbook workbook1 = Workbook.createWorkbook(file);
 	            WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
 	            TableModel model = table.getModel();
@@ -667,7 +667,7 @@ public class MetaProteomicAnalysis {
 		}
 		if(!commandLineOn){
 			ActMatrixPane pane = new ActMatrixPane();
-			pane.infoFrame(File.separator + "Excel" + File.separator + fileName + tableName + ".xls", "Excel");
+			pane.infoFrame(StartFromp1.FolderPath+ "Excel" + File.separator + fileName + tableName + ".xls", "Excel");
 		}
 	}
 	

@@ -1,5 +1,5 @@
-00010	Glycolysis / Gluconeogenesis
-00020	Citrate cycle (TCA cycle)
+00010	Glycolysis - Gluconeogenesis
+00020	Citrate cycle - TCA cycle
 00030	Pentose phosphate pathway
 00040	Pentose and glucuronate interconversions
 00051	Fructose and mannose metabolism
@@ -21,13 +21,13 @@
 00231	Puromycin biosynthesis
 00232	Caffeine metabolism
 00240	Pyrimidine metabolism
-00250	Alanine, aspartate and glutamate metabolism
+00250	Alanine - aspartate and glutamate metabolism
 00253	Tetracycline biosynthesis
-00260	Glycine, serine and threonine metabolism
+00260	Glycine - serine and threonine metabolism
 00270	Cysteine and methionine metabolism
-00280	Valine, leucine and isoleucine degradation
+00280	Valine - leucine and isoleucine degradation
 00281	Geraniol degradation
-00290	Valine, leucine and isoleucine biosynthesis
+00290	Valine - leucine and isoleucine biosynthesis
 00300	Lysine biosynthesis
 00310	Lysine degradation
 00311	Penicillin and cephalosporin biosynthesis
@@ -43,7 +43,7 @@
 00363	Bisphenol degradation
 00364	Fluorobenzoate degradation
 00380	Tryptophan metabolism
-00400	Phenylalanine, tyrosine and tryptophan biosynthesis
+00400	Phenylalanine tyrosine and tryptophan biosynthesis
 00401	Novobiocin biosynthesis
 00402	Benzoxazinoid biosynthesis
 00410	beta-Alanine metabolism
@@ -63,7 +63,7 @@
 00514	Other types of O-glycan biosynthesis
 00520	Amino sugar and nucleotide sugar metabolism
 00521	Streptomycin biosynthesis
-00522	Biosynthesis of 12-, 14- and 16-membered macrolides
+00522	Biosynthesis of 12- 14- and 16-membered macrolides
 00523	Polyketide sugar unit biosynthesis
 00524	Butirosin and neomycin biosynthesis
 00531	Glycosaminoglycan degradation
@@ -74,7 +74,7 @@
 00550	Peptidoglycan biosynthesis
 00561	Glycerolipid metabolism
 00562	Inositol phosphate metabolism
-00563	Glycosylphosphatidylinositol(GPI)-anchor biosynthesis
+00563	Glycosylphosphatidylinositol GPI-anchor biosynthesis
 00564	Glycerophospholipid metabolism
 00565	Ether lipid metabolism
 00590	Arachidonic acid metabolism
@@ -131,9 +131,9 @@
 00942	Anthocyanin biosynthesis
 00943	Isoflavonoid biosynthesis
 00944	Flavone and flavonol biosynthesis
-00945	Stilbenoid, diarylheptanoid and gingerol biosynthesis
+00945	Stilbenoid - diarylheptanoid and gingerol biosynthesis
 00950	Isoquinoline alkaloid biosynthesis
-00960	Tropane, piperidine and pyridine alkaloid biosynthesis
+00960	Tropane - piperidine and pyridine alkaloid biosynthesis
 00965	Betalain biosynthesis
 00966	Glucosinolate biosynthesis
 00970	Aminoacyl-tRNA biosynthesis
@@ -155,7 +155,7 @@
 01061	Biosynthesis of phenylpropanoids
 01062	Biosynthesis of terpenoids and steroids
 01063	Biosynthesis of alkaloids derived from shikimate pathway
-01064	Biosynthesis of alkaloids derived from ornithine, lysine and nicotinic acid
+01064	Biosynthesis of alkaloids derived from ornithine lysine and nicotinic acid
 01065	Biosynthesis of alkaloids derived from histidine and purine
 01066	Biosynthesis of alkaloids derived from terpenoid and polyketide
 01070	Biosynthesis of plant hormones
@@ -167,7 +167,7 @@
 02020	Two-component system
 02030	Bacterial chemotaxis
 02040	Flagellar assembly
-02060	Phosphotransferase system (PTS)
+02060	Phosphotransferase system PTS
 03008	Ribosome biogenesis in eukaryotes
 03010	Ribosome
 03013	RNA transport
@@ -225,7 +225,7 @@
 04380	Osteoclast differentiation
 04510	Focal adhesion
 04512	ECM-receptor interaction
-04514	Cell adhesion molecules (CAMs)
+04514	Cell adhesion molecules CAMs
 04520	Adherens junction
 04530	Tight junction
 04540	Gap junction
@@ -279,7 +279,7 @@
 04977	Vitamin digestion and absorption
 05010	Alzheimer's disease
 05012	Parkinson's disease
-05014	Amyotrophic lateral sclerosis (ALS)
+05014	Amyotrophic lateral sclerosis ALS
 05016	Huntington's disease
 05020	Prion diseases
 05100	Bacterial invasion of epithelial cells
@@ -289,7 +289,7 @@
 05130	Pathogenic Escherichia coli infection
 05131	Shigellosis
 05140	Leishmaniasis
-05142	Chagas disease (American trypanosomiasis)
+05142	Chagas disease American trypanosomiasis
 05143	African trypanosomiasis
 05144	Malaria
 05145	Toxoplasmosis
@@ -318,8 +318,8 @@
 05330	Allograft rejection
 05332	Graft-versus-host disease
 05340	Primary immunodeficiency
-05410	Hypertrophic cardiomyopathy (HCM)
-05412	Arrhythmogenic right ventricular cardiomyopathy (ARVC)
+05410	Hypertrophic cardiomyopathy HCM
+05412	Arrhythmogenic right ventricular cardiomyopathy ARVC
 05414	Dilated cardiomyopathy
 05416	Viral myocarditis
 07011	Penicillins
@@ -361,30 +361,30 @@
 07048	Antimigraines
 07110	Benzoic acid family
 07111	2-Aminothiazole family
-07112	1,2-Diphenyl substitution family
+07112	1 2-Diphenyl substitution family
 07113	Furan family
 07114	Naphthalene family
 07115	Sulfonamide family
 07116	Butyrophenone family
 07117	Benzodiazepine family
-07211	Serotonin receptor agonists/antagonists
+07211	Serotonin receptor agonists-antagonists
 07212	Histamine H1 receptor antagonists
-07213	Dopamine receptor agonists/antagonists
-07214	beta-Adrenergic receptor agonists/antagonists
-07215	alpha-Adrenergic receptor agonists/antagonists
+07213	Dopamine receptor agonists-antagonists
+07214	beta-Adrenergic receptor agonists-antagonists
+07215	alpha-Adrenergic receptor agonists-antagonists
 07216	Catecholamine transferase inhibitors
 07217	Renin-angiotensin system inhibitors
 07218	HIV protease inhibitors
 07219	Cyclooxygenase inhibitors
 07220	Cholinergic and anticholinergic drugs
 07221	Nicotinic cholinergic receptor antagonists
-07222	Peroxisome proliferator-activated receptor (PPAR) agonists
-07223	Retinoic acid receptor (RAR) and retinoid X receptor (RXR) agonists/antagonists
-07224	Opioid receptor agonists/antagonists
-07225	Glucocorticoid and meneralocorticoid receptor agonists/antagonists
-07226	Progesterone, androgen and estrogen receptor agonists/antagonists
-07227	Histamine H2/H3 receptor agonists/antagonists
-07228	Eicosanoid receptor agonists/antagonists
+07222	Peroxisome proliferator-activated receptor PPAR agonists
+07223	Retinoic acid receptor RAR and retinoid X receptor RXR agonists-antagonists
+07224	Opioid receptor agonists-antagonists
+07225	Glucocorticoid and meneralocorticoid receptor agonists-antagonists
+07226	Progesterone androgen and estrogen receptor agonists-antagonists
+07227	Histamine H2-H3 receptor agonists-antagonists
+07228	Eicosanoid receptor agonists-antagonists
 07229	Angiotensin receptor and endothelin receptor antagonists
-07230	GABA-A receptor agonists/antagonists
+07230	GABA-A receptor agonists-antagonists
 07231	Sodium channel blocking drugs

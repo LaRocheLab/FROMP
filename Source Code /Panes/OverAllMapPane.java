@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Prog.StartFromp1;
+
 public class OverAllMapPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel image_;
@@ -16,7 +18,7 @@ public class OverAllMapPane extends JPanel {
 	private BufferedImage pathMap_;
 
 	public OverAllMapPane() {
-		this.picPath_ = ("pics" + File.separator + "ec01100-50pro.png");
+		this.picPath_ = (StartFromp1.FolderPath+"pics" + File.separator + "ec01100-50pro.png");
 		try {
 			this.pathMap_ = ImageIO.read(new File(this.picPath_));
 		} catch (IOException e) {

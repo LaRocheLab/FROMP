@@ -7,6 +7,7 @@ import Objects.Project;
 import Objects.Sample;
 import Prog.PathButt;
 import Prog.PngBuilder;
+import Prog.StartFromp1;
 import Prog.StringReader;
 import Prog.XmlParser;
 import java.awt.BorderLayout;
@@ -548,7 +549,7 @@ public class PathwayMatrix extends JPanel {
 		}
 		try {
 			if (path.id_ != "-1") {
-				return ImageIO.read(new File("pics" + File.separator + path.id_
+				return ImageIO.read(new File(StartFromp1.FolderPath+"pics" + File.separator + path.id_
 						+ ".png"));
 			}
 		} catch (IOException e1) {
@@ -576,11 +577,11 @@ public class PathwayMatrix extends JPanel {
 		StringReader reader = new StringReader();
 		XmlParser parser = new XmlParser();
 
-		BufferedReader xmlPath = reader.readTxt("pathway" + File.separator
+		BufferedReader xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator
 				+ pathway.id_ + ".xml");
 		ArrayList<EcPosAndSize> tmppos = new ArrayList();
 		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
-			xmlPath = reader.readTxt("pathway" + File.separator + pathway.id_
+			xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator + pathway.id_
 					+ ".xml");
 			tmppos = parser.findEcPosAndSize(
 					((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
@@ -593,7 +594,7 @@ public class PathwayMatrix extends JPanel {
 			return builder_.getAlteredPathway(pathway, sample);
 		}
 		try {
-			return ImageIO.read(new File("pics" + File.separator + pathway.id_
+			return ImageIO.read(new File(StartFromp1.FolderPath+"pics" + File.separator + pathway.id_
 					+ ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();

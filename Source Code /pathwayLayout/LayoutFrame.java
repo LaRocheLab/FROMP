@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import Prog.StartFromp1;
+
 public class LayoutFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	PathLayoutGrid grid;
@@ -30,7 +32,7 @@ public class LayoutFrame extends JFrame {
 	LayoutPane pane;
 	JMenu menu_;
 	JMenuBar menuBar_;
-	final String basePath_ = new File("").getAbsolutePath() + File.separator;
+	final String basePath_ = StartFromp1.FolderPath;
 
 	public LayoutFrame(int xSize, int ySize, PathLayoutGrid Grid,
 			ArrayList<Node> nodes) {
@@ -94,8 +96,7 @@ public class LayoutFrame extends JFrame {
 				System.out.println("open");
 				System.out.println("basepath " + LayoutFrame.this.basePath_);
 				JFileChooser fChoose_ = new JFileChooser(
-						LayoutFrame.this.basePath_ + File.separator
-								+ "userPaths");
+						LayoutFrame.this.basePath_ + "userPaths");
 				fChoose_.setFileSelectionMode(0);
 				fChoose_.setBounds(100, 100, 200, 20);
 				fChoose_.setVisible(true);
@@ -201,7 +202,7 @@ public class LayoutFrame extends JFrame {
 	}
 
 	private void saveAs() {
-		JFileChooser fChoose_ = new JFileChooser(File.separator + "userPaths");
+		JFileChooser fChoose_ = new JFileChooser(StartFromp1.FolderPath+ "userPaths");
 		fChoose_.setFileSelectionMode(0);
 		fChoose_.setBounds(100, 100, 200, 20);
 		fChoose_.setVisible(true);

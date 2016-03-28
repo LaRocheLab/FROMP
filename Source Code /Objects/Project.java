@@ -15,6 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.util.*;
+
+import Prog.CmdController1;
+import Prog.StartFromp1;
 import Prog.StringReader;
 
 // Obviously this is where project files are stored. Serves mostly to store the data from the samples so it can be used elsewhere.
@@ -61,8 +64,9 @@ public class Project {
 	
 	//ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
 	public static ArrayList<Boolean> legitSamples = new ArrayList(); 
-	final static String basePath_ = new File(".").getAbsolutePath()
-			+ File.separator; // The base path of the Fromp software. Nessesairy for all relative paths to function
+//	final static String basePath_ = new File(".").getAbsolutePath()
+//			+ File.separator; // The base path of the Fromp software. Nessesairy for all relative paths to function
+	final static String basePath_ = StartFromp1.FolderPath; // The base path of the Fromp software. Nessesairy for all relative paths to function
 	//Hash which stores the IPR->EC conversion file
 	Hashtable<String, ArrayList<String>> IPRToECHash = new Hashtable<String, ArrayList<String>>(); 
 	Hashtable<String, String> PFamToECHash = new Hashtable<String, String>(); 

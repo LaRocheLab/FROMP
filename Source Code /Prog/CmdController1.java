@@ -306,13 +306,13 @@ public class CmdController1 {
 			String projPath = "";
 			if(outPutPath_.contentEquals("def")){
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				projPath=basePath_+"f"+File.separator+"New Project -"+sdf.format(d)+".frp";
+				projPath=basePath_+"f"+File.separator+"NewProject-"+sdf.format(d)+".frp";
 
 			}
 
 			else {
 				
-				projPath=outPutPath_+"New Project -"+sdf.format(d)+".frp";
+				projPath=outPutPath_+"NewProject-"+sdf.format(d)+".frp";
 			}
 			checkSeqFile();
 			Controller.saveProject(projPath);
@@ -606,7 +606,7 @@ public class CmdController1 {
 				checkTimedOut(metapro);
 //			}
 		}
-		else if (optionsCmd_.contentEquals("lca1")){
+		else if (optionsCmd_.contentEquals("lcamat")){
 			
 			checkSeqFile();
 			
@@ -627,7 +627,7 @@ public class CmdController1 {
 			String separator = "\t";
 			try{
 				FileWriter fileWriter = new FileWriter(file);
-				String writerLine = "SampleName/Ec-Taxa";
+				String writerLine = "Ec-Taxa";
 				
 				for (int t =0 ; t < Project.samples_.size();t++){
 					

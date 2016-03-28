@@ -42,7 +42,7 @@ public class PngBuilder {
 		System.out.println("1");
 		Color col = sample.sampleCol_;
 		try {
-			this.image = ImageIO.read(new File("pics" + this.separator_
+			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_
 					+ pathwayId + ".png"));
 			reColorAllEcs(this.image, Color.white);
 			for (int i = 0; i < posList.size(); i++) {
@@ -86,7 +86,7 @@ public class PngBuilder {
 			Sample sample) {
 		Color col = sample.sampleCol_;
 		try {
-			this.image = ImageIO.read(new File("pics" + this.separator_
+			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_
 					+ pathwayId + ".png"));
 			reColorAllEcs(this.image, Color.white);
 			for (int i = 0; i < posList.size(); i++) {
@@ -139,7 +139,7 @@ public class PngBuilder {
 	
 		EcSampleStats tmpStats = null;
 		try {
-			this.image = ImageIO.read(new File("pics" + this.separator_
+			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_
 					+ tmpPath.id_ + ".png"));
 			reColorAllEcs(this.image, Color.white);
 			for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
@@ -221,7 +221,7 @@ public class PngBuilder {
 		EcSampleStats tmpStats = null;
 		double perc = 0.0D;
 		try {
-			this.image = ImageIO.read(new File("pics" + this.separator_
+			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_
 					+ tmpPath.id_ + ".png"));
 			reColorAllEcs(this.image, Color.white);
 			for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {

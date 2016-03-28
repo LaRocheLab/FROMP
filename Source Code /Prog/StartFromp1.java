@@ -37,7 +37,7 @@ public class StartFromp1 {
 	static String out;
 	static String cmdCode;
 	String data="";
-	static String FolderPath = "";
+	public static String FolderPath = "";
 	
 	/**
 	 * Takes in a string array of arguments from the user which determines what
@@ -60,7 +60,14 @@ public class StartFromp1 {
 	public static void main(String[] args) throws URISyntaxException {
 		File test = new File(StartFromp1.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		String test1 = test.toString();
-		String folderPath = test1.substring(0, test1.lastIndexOf("FROMPt1.jar"));
+		String folderPath="";
+		if (test1.endsWith("bin")){
+			folderPath = test1.substring(0, test1.lastIndexOf("bin"));
+		}
+		else{
+			folderPath = test1.substring(0, test1.lastIndexOf("FROMPt1.jar"));
+		}
+		
 		FolderPath = folderPath;
 		//args = 0. start GUI		
 		if(args.length  == 0){
@@ -130,7 +137,7 @@ public class StartFromp1 {
 				}
 				//arg = ec,seq,seqall,lca)
 				else if (args[2].contentEquals("ec") ||args[2].contentEquals("seq") ||
-						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")||args[2].contentEquals("lca1")  ){
+						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")||args[2].contentEquals("lcamat")  ){
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
 						EcFileReader(args[i]);

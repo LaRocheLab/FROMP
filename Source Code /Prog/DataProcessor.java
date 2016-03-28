@@ -2352,11 +2352,11 @@ public class DataProcessor {
 		if (this.build == null) {
 			this.build = new PngBuilder();
 		}
-		BufferedReader xmlPath = this.reader.readTxt("pathway"
+		BufferedReader xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway"
 				+ this.separator_ + pathway.id_ + ".xml");
 		ArrayList<EcPosAndSize> tmppos = new ArrayList();
 		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
-			xmlPath = this.reader.readTxt("pathway" + this.separator_
+			xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway" + this.separator_
 					+ pathway.id_ + ".xml");
 			tmppos = this.parser.findEcPosAndSize(
 					((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
@@ -2372,7 +2372,7 @@ public class DataProcessor {
 			return this.build.getAlteredPathway(pathway, sample);
 		}
 		try {
-			return ImageIO.read(new File("pics" + this.separator_ + pathway.id_
+			return ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_ + pathway.id_
 					+ ".png"));
 		} catch (IOException e) {
 			openWarning("Error", "File: pics" + this.separator_ + pathway.id_
@@ -2392,13 +2392,13 @@ public class DataProcessor {
 		ArrayList<EcPosAndSize> pos = new ArrayList();
 		for (int pathCount = 0; pathCount < sample.pathways_.size(); pathCount++) {
 			tmpPath = (PathwayWithEc) sample.pathways_.get(pathCount);
-			xmlPath = this.reader.readTxt("pathway" + this.separator_
+			xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway" + this.separator_
 					+ tmpPath.id_ + ".xml");
 			while (pos.size() > 0) {
 				pos.remove(0);
 			}
 			for (int ecCount = 0; ecCount < tmpPath.ecNrs_.size(); ecCount++) {
-				xmlPath = this.reader.readTxt("pathway" + this.separator_
+				xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway" + this.separator_
 						+ tmpPath.id_ + ".xml");
 				tmppos = this.parser.findEcPosAndSize(
 						((EcNr) tmpPath.ecNrs_.get(ecCount)).name_, xmlPath);

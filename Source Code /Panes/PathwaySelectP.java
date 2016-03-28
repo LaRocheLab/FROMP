@@ -3,6 +3,8 @@ package Panes;
 import Objects.Pathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
+import Prog.StartFromp1;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -36,7 +38,7 @@ public class PathwaySelectP extends JPanel {
 	final String notSelected = "FALSE"; 
 	final String fileEnding = ".pcg"; 
 	final String userPathfileEnding = ".pwm"; 
-	final String basePath_ = new File(".").getAbsolutePath() + File.separator; // The path to the working directory
+	final String basePath_ = StartFromp1.FolderPath; // The path to the working directory
 																				
 	boolean selectAll; 
 	int xLine2 = 500; 
@@ -408,8 +410,7 @@ public class PathwaySelectP extends JPanel {
 	}
 
 	private void addUserPath() {
-		JFileChooser fChoose_ = new JFileChooser(this.basePath_
-				+ File.separator + "userPaths");
+		JFileChooser fChoose_ = new JFileChooser(this.basePath_+ "userPaths");
 		fChoose_.setFileSelectionMode(0);
 		fChoose_.setBounds(100, 100, 200, 20);
 		fChoose_.setVisible(true);

@@ -97,7 +97,7 @@ public class PathButt extends JButton {
 						if (PathButt.this.path_.id_ != "-1") {
 							System.out.println("else if this 3");
 							BufferedImage tmpImage = ImageIO
-									.read(new File("pics" + File.separator
+									.read(new File(StartFromp1.FolderPath+"pics" + File.separator
 											+ PathButt.this.path_.id_ + ".png"));
 							PathButt.this.pathMap = new PathwayMapFrame(
 									PathButt.this.samples_,
@@ -143,11 +143,11 @@ public class PathButt extends JButton {
 		if (this.parser == null) {
 			this.parser = new XmlParser();
 		}
-		BufferedReader xmlPath = this.reader.readTxt("pathway"
+		BufferedReader xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway"
 				+ this.separator_ + pathway.id_ + ".xml");
 		ArrayList<EcPosAndSize> tmppos = new ArrayList();
 		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
-			xmlPath = this.reader.readTxt("pathway" + this.separator_
+			xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway" + this.separator_
 					+ pathway.id_ + ".xml");
 			tmppos = this.parser.findEcPosAndSize(
 					((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
@@ -160,7 +160,7 @@ public class PathButt extends JButton {
 			return this.builder_.getAlteredPathway(pathway, sample);
 		}
 		try {
-			return ImageIO.read(new File("pics" + this.separator_ + pathway.id_
+			return ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_ + pathway.id_
 					+ ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();

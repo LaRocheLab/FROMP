@@ -2408,8 +2408,12 @@ public class ActMatrixPane extends JPanel {
 				}
 				//adds the first pathway name associated with that EC number to the file
 				if (proc_.getPathwayEc(line.getEc_().name_) != null) {
-					pathway = proc_.getPathwayName(proc_.getPathwayEc(line
-							.getEc_().name_));
+					
+					//remove special signal for using at Stamp.
+					String newName=PathwayMatrix.removeSpecialsignal( proc_.getPathwayName(proc_.getPathwayEc(line
+							.getEc_().name_)));
+					
+					pathway = newName;
 				} else {
 					pathway = "unmapped";
 				}

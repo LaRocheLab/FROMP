@@ -579,9 +579,11 @@ public class PathwayActivitymatrixPane extends JPanel {
 
 		ArrayList<String> yDesc = new ArrayList();
 		for (int pathCnt = 0; pathCnt < this.lineMatrix_.size(); pathCnt++) {
-			yDesc.add(((Line) this.lineMatrix_.get(pathCnt)).getPath_().id_
-					+ "-"
-					+ ((Line) this.lineMatrix_.get(pathCnt)).getPath_().name_);
+			
+			//remove special signal for using at Stamp.
+			String newName=PathwayMatrix.removeSpecialsignal(this.lineMatrix_.get(pathCnt).getPath_().name_);
+			
+			yDesc.add(((Line) this.lineMatrix_.get(pathCnt)).getPath_().id_ + "-" + newName);
 		}
 		ArrayList<String> xDesc = this.exp_
 				.getNameListFromSample(Project.samples_);

@@ -388,14 +388,17 @@ public class PathwayMatrix extends JPanel {
 			for (int pathCnt1 = 0; pathCnt1 < this.overSample_.pathways_.size(); pathCnt1++) {
 				PathwayWithEc pathway1 = (PathwayWithEc) this.overSample_.pathways_
 						.get(pathCnt1);
+				//remove special signal for using at Stamp.
+				String newName=PathwayMatrix.removeSpecialsignal(pathway1.name_);
 				if (!pathway1.isSelected()) {
-					out.write(pathway1.id_ +"-"+ pathway1.name_
+					
+					out.write(pathway1.id_ +"-"+ newName
 							+ seperator + "n.s.");
 					for (int smpCnt = 1; smpCnt < this.samples_.size(); smpCnt++) {
 						out.write(seperator + "n.s.");
 					}
 				} else {
-					out.write(pathway1.id_ +"-"+ pathway1.name_
+					out.write(pathway1.id_ +"-"+ newName
 							+ seperator + pathway1.score_);
 					for (int smpCnt = 1; smpCnt < this.samples_.size(); smpCnt++) {
 						Sample tmpSample = (Sample) this.samples_.get(smpCnt);
@@ -597,5 +600,34 @@ public class PathwayMatrix extends JPanel {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public static String removeSpecialsignal(String old){
+		String newone=old;
+		
+		if (newone.contains(" ")){
+			newone=newone.replaceAll(" ", "-");
+		}
+		if(newone.contains("/")){
+			newone=newone.replaceAll("/", "");	
+		}
+		if (newone.contains("(")){
+			newone=newone.replaceAll("\\(", "-");		
+		}
+		if (newone.contains(")")){
+			newone=newone.replaceAll("\\)", "-");		
+		}
+		if (newone.contains(",")){
+			newone=newone.replaceAll(",", "");		
+		}
+		if (newone.contains("---")){
+			newone=newone.replaceAll("---", "-");		
+		}
+		if (newone.contains("--")){
+			newone=newone.replaceAll("--", "-");		
+		}
+		
+		return newone;
+		
+		
 	}
 }

@@ -2390,9 +2390,9 @@ public class ActMatrixPane extends JPanel {
 		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write("EcActivity" + separator);
-			out.newLine();
-			out.newLine();
+			out.write("Pathway" + separator+"EC"+separator);
+//			out.newLine();
+//			out.newLine();
 			for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
 				if (((Sample) Project.samples_.get(smpCnt)).inUse) {
 					out.write(((Sample) Project.samples_.get(smpCnt)).name_
@@ -2449,13 +2449,13 @@ public class ActMatrixPane extends JPanel {
 			if (file1.exists() && !file1.isDirectory()) {
 				int i = 1;
 				while ("Pigs" != "Fly") {// loop forever
-					tmpPath = path + "(" + i + ")" + ".txt";
+					tmpPath = path + "-" + i + ".txt";
 					File file2 = new File(tmpPath);
 					if (file2.exists() && !file2.isDirectory()) {
 						i++;
 						continue;
 					} else {
-						path = path + "(" + i + ")";
+						path = path + "-" + i;
 						break;
 					}
 				}

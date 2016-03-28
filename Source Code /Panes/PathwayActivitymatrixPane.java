@@ -580,7 +580,7 @@ public class PathwayActivitymatrixPane extends JPanel {
 		ArrayList<String> yDesc = new ArrayList();
 		for (int pathCnt = 0; pathCnt < this.lineMatrix_.size(); pathCnt++) {
 			yDesc.add(((Line) this.lineMatrix_.get(pathCnt)).getPath_().id_
-					+ " / "
+					+ "-"
 					+ ((Line) this.lineMatrix_.get(pathCnt)).getPath_().name_);
 		}
 		ArrayList<String> xDesc = this.exp_
@@ -615,13 +615,13 @@ public class PathwayActivitymatrixPane extends JPanel {
 			if (file1.exists() && !file1.isDirectory()) {
 				int i = 1;
 				while ("Pigs" != "Fly") {// loop forever
-					tmpPath = path + "(" + i + ")" + ".txt";
+					tmpPath = path + "-" + i + ".txt";
 					File file2 = new File(tmpPath);
 					if (file2.exists() && !file2.isDirectory()) {
 						i++;
 						continue;
 					} else {
-						path = path + "(" + i + ")";
+						path = path + "-" + i;
 						break;
 					}
 				}

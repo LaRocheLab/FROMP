@@ -34,7 +34,7 @@ public class Exporter {
 		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(this.path_));
-			out.write(seperator);
+			out.write("Pathway"+seperator);
 			for (int x = 0; x < xDesc.size(); x++) {
 				out.write((String) xDesc.get(x) + seperator);
 			}

@@ -373,18 +373,15 @@ public class PathwayMatrix extends JPanel {
 		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-
-			out.write("**** n.s. = 'not selected' ******** n.a. = not above minScore matrix is resorted");
-			out.newLine();
-
-			out.write(Project.projectPath_ + "PathayScoreMatrix");
-
-			out.newLine();
-			out.newLine();
-			out.write(" " + seperator + "OverAll");
+//			out.write("**** n.s. = 'not selected' ******** n.a. = not above minScore matrix is resorted");
+//			out.newLine();
+//			out.write(Project.projectPath_ + "PathayScoreMatrix");
+//			out.newLine();
+//			out.newLine();
+			out.write("Pathway");
 			for (int i = 0; i < this.samples_.size(); i++) {
 				if (((Sample) this.samples_.get(i)).inUse) {
-					out.write(((Sample) this.samples_.get(i)).name_ + seperator);
+					out.write(seperator + ((Sample) this.samples_.get(i)).name_);
 				}
 			}
 			out.newLine();
@@ -392,15 +389,15 @@ public class PathwayMatrix extends JPanel {
 				PathwayWithEc pathway1 = (PathwayWithEc) this.overSample_.pathways_
 						.get(pathCnt1);
 				if (!pathway1.isSelected()) {
-					out.write(pathway1.id_ + seperator + pathway1.name_
+					out.write(pathway1.id_ +"-"+ pathway1.name_
 							+ seperator + "n.s.");
-					for (int smpCnt = 0; smpCnt < this.samples_.size(); smpCnt++) {
+					for (int smpCnt = 1; smpCnt < this.samples_.size(); smpCnt++) {
 						out.write(seperator + "n.s.");
 					}
 				} else {
-					out.write(pathway1.id_ + seperator + pathway1.name_
+					out.write(pathway1.id_ +"-"+ pathway1.name_
 							+ seperator + pathway1.score_);
-					for (int smpCnt = 0; smpCnt < this.samples_.size(); smpCnt++) {
+					for (int smpCnt = 1; smpCnt < this.samples_.size(); smpCnt++) {
 						Sample tmpSample = (Sample) this.samples_.get(smpCnt);
 						if (tmpSample.inUse) {
 							PathwayWithEc pathway2 = tmpSample

@@ -3,6 +3,7 @@ package Panes;
 import Objects.ConvertStat;
 import Objects.EcNr;
 import Objects.Project;
+import Prog.StartFromp1;
 
 import java.awt.Color;
 import java.awt.event.MouseWheelEvent;
@@ -44,7 +45,7 @@ public class RepseqFrame extends JFrame {
 	private static final long serialVersionUID = 1L; 
 	private JMenuBar menuBar_; // Drop down menu bar for the repseq frame
 	private JMenu menu_; // Menu item for the dropdown menu
-	final String basePath_ = new File(".").getAbsolutePath() + File.separator; // The current workpath
+	final String basePath_ = StartFromp1.FolderPath; // The current workpath
 	
 	EcNr ecNr_; // EC for which we are viewing the associated squence IDs
 	JLabel label_; 

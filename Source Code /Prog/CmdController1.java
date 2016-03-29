@@ -45,7 +45,7 @@ public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
 	String inputPath_	; // The inputpath given by the user
 	public static String outPutPath_=StartFromp1.FolderPath; // The output path given in by the user
-	String optionsCmd_; // The option denoted by the user. ie h for help, etc
+	static String optionsCmd_; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
 	static Controller controller; // The controller. Allows user to save, load etc.
@@ -501,6 +501,9 @@ public class CmdController1 {
 		// lca.- checked out path--checking seq file
 		else if (optionsCmd_.contentEquals("lca")){
 			
+			//tmp
+			//outPutPath_=StartFromp1.FolderPath;
+			
 			checkSeqFile();
 			//set output path
 			if(outPutPath_.contentEquals("def")){		
@@ -608,6 +611,9 @@ public class CmdController1 {
 		}
 		else if (optionsCmd_.contentEquals("lcamat")){
 			
+			//tmp
+			//outPutPath_=StartFromp1.FolderPath;
+			
 			checkSeqFile();
 			
 			//set output path
@@ -621,8 +627,16 @@ public class CmdController1 {
 			
 			String sampleName = "";
 			String line = "";
+		
+			
 			Date d = new Date();
-			File file = new File(outPutPath_+Project.workpath_+"-Taxa-all samples-"+d.toString()+".txt");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
+			
+			String path = outPutPath_+Project.workpath_+"-Taxa-allsamples-"+sdf.format(d)+".txt";
+			
+			
+			
+			File file = new File(path);
 			//StringBuffer tableContent = new StringBuffer();
 			String separator = "\t";
 			try{
@@ -705,6 +719,7 @@ public class CmdController1 {
 	
 				}
 				fileWriter.close();	
+				
 			}
 			catch(IOException e){
 				e.printStackTrace();

@@ -284,10 +284,10 @@ public class ActMatrixPane extends JPanel {
 		exportPie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ChartUtilities.saveChartAsPNG(new File(StartFromp1.FolderPath
-							+ "PieChart" + File.separator + returnData.getFileName()
-							+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
-					infoFrame(StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
+					String path = StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName()
+							+ " Total Taxonomy" + ".png";
+					ChartUtilities.saveChartAsPNG(new File(path), chart, 1000, 1000);
+					//infoFrame(StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
 				} catch (IOException e1) {
 					warningFrame("PieChart folder does not exist!");
 				}
@@ -2532,13 +2532,13 @@ public class ActMatrixPane extends JPanel {
 			if (file1.exists() && !file1.isDirectory()) {
 				int i = 1;
 				while ("Pigs" != "Fly") {// loop forever
-					tmpPath = path + "(" + i + ")" + ".txt";
+					tmpPath = path + "-" + i + ".txt";
 					File file2 = new File(tmpPath);
 					if (file2.exists() && !file2.isDirectory()) {
 						i++;
 						continue;
 					} else {
-						path = path + "(" + i + ")";
+						path = path + "-" + i ;
 						break;
 					}
 				}

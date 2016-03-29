@@ -234,7 +234,7 @@ public class Project {
 					int i = 1; 
 					//This is my favorite infinite loop condition (next to "Hell" != "Frozen over")
 					while ("Pigs" != "Fly") { 
-						tmpPath = path + "(" + i + ")" + ".frp"; //
+						tmpPath = path + "-" + i + ".frp"; //
 						File file2 = new File(tmpPath); //
 						//If the file with this name exists increment the int i and keep looping
 						if (file2.exists() && !file2.isDirectory()) { 
@@ -243,7 +243,7 @@ public class Project {
 						//If there is no file with this name that exists than this name is okay for the generated file.
 						} 
 						else { 
-							path = path + "(" + i + ")"; 
+							path = path + "-" + i; 
 							break; 
 						} 
 					} 
@@ -262,13 +262,13 @@ public class Project {
 			if (file1.exists() && !file1.isDirectory()) {
 				int i = 1;
 				while ("Pigs" != "Fly") {// loop forever
-					tmpPath = path + "(" + i + ")" + ".frp";
+					tmpPath = path + "-" + i+ ".frp";
 					File file2 = new File(tmpPath);
 					if (file2.exists() && !file2.isDirectory()) {
 						i++;
 						continue;
 					} else {
-						path = path + "(" + i + ")";
+						path = path + "-" + i;
 						break;
 					}
 				}

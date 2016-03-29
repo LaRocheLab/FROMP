@@ -435,13 +435,13 @@ public class PathwayMatrix extends JPanel {
 			if (file1.exists() && !file1.isDirectory()) {
 				int i = 1;
 				while ("Pigs" != "Fly") {// loop forever
-					tmpPath = path + "(" + i + ")" + ".txt";
+					tmpPath = path + "-" + i +".txt";
 					File file2 = new File(tmpPath);
 					if (file2.exists() && !file2.isDirectory()) {
 						i++;
 						continue;
 					} else {
-						path = path + "(" + i + ")";
+						path = path + "-" + i;
 						break;
 					}
 				}
@@ -620,6 +620,9 @@ public class PathwayMatrix extends JPanel {
 		}
 		if (newone.contains(",")){
 			newone=newone.replaceAll(",", "");		
+		}
+		if (newone.contains(":")){
+			newone=newone.replaceAll(":", "");		
 		}
 		if (newone.contains("---")){
 			newone=newone.replaceAll("---", "-");		

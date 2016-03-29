@@ -483,7 +483,7 @@ public class MetaProteomicAnalysis {
 			index++;
 		}
 		returnData.setDataset(dataset);
-		if(commandLineOn){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
 			final JFreeChart chart = ChartFactory.createPieChart(fileName
 					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
 			PiePlot pie1 = (PiePlot) chart.getPlot();
@@ -577,7 +577,7 @@ public class MetaProteomicAnalysis {
 		};
 		table.setFillsViewportHeight(true);
 		
-		if(commandLineOn){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
 			exportExcel(table, "TotalTaxon", fileName);
 			System.out.println("File exported to " +  File.separator
 					+ "Excel" + File.separator + fileName + "TotalTaxon" + ".xls");
@@ -609,7 +609,7 @@ public class MetaProteomicAnalysis {
 		};
 		table2.setFillsViewportHeight(true);
 		
-		if(commandLineOn){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
 			exportExcel(table2, "Summary", fileName);
 			System.out.println("File exported to " +  File.separator
 				+ "Excel" + File.separator + fileName + "Summary" + ".xls");
@@ -676,31 +676,35 @@ public class MetaProteomicAnalysis {
 		StringBuffer tableContent = new StringBuffer();
 		TableModel model = table.getModel();
 		String separator = "\t";
-		try {
-			FileWriter fileWriter = new FileWriter(file);
-			String column = "";
-			for (int i = 0; i < model.getColumnCount(); i++) {
-                column += model.getColumnName(i) + separator;
-            }
-			fileWriter.write(column + "\n");
-		    int j = 0;
-		    String data = "";
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (j = 0; j < model.getColumnCount(); j++) {
-                	if(j!=model.getColumnCount()-1){
-                		data += model.getValueAt(i, j).toString() + separator;
-                	}
-                	else{
-                		data += model.getValueAt(i, j).toString() + "\n";
-                	}
-                	
-                }
-                fileWriter.write(data);
-             }
-            fileWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!CmdController1.optionsCmd_.equals("lcamat")){
+			
+		
+			try {
+				FileWriter fileWriter = new FileWriter(file);
+				String column = "";
+				for (int i = 0; i < model.getColumnCount(); i++) {
+	                column += model.getColumnName(i) + separator;
+	            }
+				fileWriter.write(column + "\n");
+			    int j = 0;
+			    String data = "";
+	            for (int i = 0; i < model.getRowCount(); i++) {
+	                for (j = 0; j < model.getColumnCount(); j++) {
+	                	if(j!=model.getColumnCount()-1){
+	                		data += model.getValueAt(i, j).toString() + separator;
+	                	}
+	                	else{
+	                		data += model.getValueAt(i, j).toString() + "\n";
+	                	}
+	                	
+	                }
+	                fileWriter.write(data);
+	             }
+	            fileWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

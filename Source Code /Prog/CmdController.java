@@ -588,8 +588,7 @@ public class CmdController {
 				}
 				//if the op command is selected export all the multi-pathway pictures, then exit
 				else if (this.optionsCmd_.contentEquals("op")) {
-					String tmpPAth = this.outPutPath_ + File.separator
-							+ "multiPathwayPics";
+					String tmpPAth = this.outPutPath_ + "multiPathwayPics";
 					//true in the exportPics call. There was no false in the previous calls.
 					System.out.println("PathwayPics will be saved at: "
 							+ tmpPAth);

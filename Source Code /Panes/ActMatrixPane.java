@@ -284,10 +284,10 @@ public class ActMatrixPane extends JPanel {
 		exportPie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ChartUtilities.saveChartAsPNG(new File(new File(".").getAbsolutePath() + File.separator
+					ChartUtilities.saveChartAsPNG(new File(StartFromp1.FolderPath
 							+ "PieChart" + File.separator + returnData.getFileName()
 							+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
-					infoFrame(File.separator+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
+					infoFrame(StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
 				} catch (IOException e1) {
 					warningFrame("PieChart folder does not exist!");
 				}

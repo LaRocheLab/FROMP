@@ -325,7 +325,7 @@ public class CmdController1 {
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
 			
 			if (outPutPath_.contentEquals("def")){
-				tmpPath= basePath_+"op";	
+				tmpPath = basePath_+"op";	
 			}
 			else{
 				tmpPath = outPutPath_ + "pathwayPics";
@@ -335,7 +335,7 @@ public class CmdController1 {
 			// export pictures
 			pwMAtrix.exportPics(tmpPath, true, false);
 			System.out.println("PathwayPics were saved at: "+ tmpPath);
-			//System.exit(0);
+			
 			
 		}
 		// up - user pathway --checked out put path

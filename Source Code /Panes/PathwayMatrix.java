@@ -64,7 +64,7 @@ public class PathwayMatrix extends JPanel {
 
 	public PathwayMatrix(ArrayList<Sample> samples, Sample overallSample,
 			ArrayList<PathwayWithEc> pathways, Project actProj) {
-		this.samples_ = new ArrayList();
+		this.samples_ = new ArrayList<Sample>();
 		this.mouseOverDisp = new JLabel("Additional Pathway-information");
 		for (int smpCnt = 0; smpCnt < samples.size(); smpCnt++) {
 			this.samples_.add((Sample) samples.get(smpCnt));
@@ -453,6 +453,7 @@ public class PathwayMatrix extends JPanel {
 	}
 
 	public void exportPics(String path, boolean onlyOverall, boolean onlyUserP) {// exports the sample pictures
+		// pathway for each sample - p-op
 		if (!onlyOverall) {
 			for (int smpCnt = 0; smpCnt < this.samples_.size(); smpCnt++) {
 				Sample sample = (Sample) this.samples_.get(smpCnt);
@@ -464,9 +465,10 @@ public class PathwayMatrix extends JPanel {
 				for (int pwCnt = 0; pwCnt < pathways.size(); pwCnt++) {
 					PathwayWithEc pathway = (PathwayWithEc) pathways.get(pwCnt);
 					if ((!onlyUserP) || (pathway.userPathway)) {
+						//left side pathway image.
 						BufferedImage image = buildImage(pathway, sample);
 
-						System.out.println("Pathway: : " + pathway.id_ + " "
+						System.out.println("Pathway: " + pathway.id_ + " "
 								+ pathway.name_);
 						if (!pathway.id_.contentEquals("-1")) {
 							PathwayMapFrame mFrame = new PathwayMapFrame(
@@ -478,6 +480,7 @@ public class PathwayMatrix extends JPanel {
 				}
 			}
 		}
+		//over all pathway - op  
 		Sample sample = Project.overall_;
 		ArrayList<PathwayWithEc> pathways = sample.pathways_;
 		System.out.println("Exporting picture from sample: " + sample.name_);
@@ -485,7 +488,7 @@ public class PathwayMatrix extends JPanel {
 			PathwayWithEc pathway = (PathwayWithEc) pathways.get(pwCnt);
 			if ((!onlyUserP) || (pathway.userPathway)) {
 				BufferedImage image = buildImage(pathway, sample);
-				System.out.println("Pathway: : " + pathway.id_ + " "
+				System.out.println("Pathway: " + pathway.id_ + " "
 						+ pathway.name_);
 				if (!pathway.id_.contentEquals("-1")) {
 					PathwayMapFrame mFrame = new PathwayMapFrame(
@@ -495,6 +498,7 @@ public class PathwayMatrix extends JPanel {
 				exportPic(image, path, pathway, sample);
 			}
 		}
+		
 	}
 
 	private void exportPic(BufferedImage image, String path,
@@ -544,6 +548,7 @@ public class PathwayMatrix extends JPanel {
 			return tmpImage;
 		}
 		if (path.score_ > 0.0D) {
+			//left side pathway image
 			BufferedImage tmpImage = showPathwayMap(samp, path);
 			return tmpImage;
 		}
@@ -577,15 +582,12 @@ public class PathwayMatrix extends JPanel {
 		StringReader reader = new StringReader();
 		XmlParser parser = new XmlParser();
 
-		BufferedReader xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator
-				+ pathway.id_ + ".xml");
-		ArrayList<EcPosAndSize> tmppos = new ArrayList();
+		BufferedReader xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator + pathway.id_ + ".xml");
+		ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
 		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
-			xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator + pathway.id_
-					+ ".xml");
-			tmppos = parser.findEcPosAndSize(
-					((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
-			((EcNr) pathway.ecNrs_.get(ecCount)).addPos(tmppos);
+			xmlPath = reader.readTxt(StartFromp1.FolderPath+"pathway" + File.separator + pathway.id_+ ".xml");
+			tmppos = parser.findEcPosAndSize(pathway.ecNrs_.get(ecCount).name_, xmlPath);
+			pathway.ecNrs_.get(ecCount).addPos(tmppos);
 			if (tmppos != null) {
 				found = true;
 			}

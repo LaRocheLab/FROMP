@@ -221,8 +221,7 @@ public class PngBuilder {
 		EcSampleStats tmpStats = null;
 		double perc = 0.0D;
 		try {
-			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_
-					+ tmpPath.id_ + ".png"));
+			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_+ tmpPath.id_ + ".png"));
 			reColorAllEcs(this.image, Color.white);
 			for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
 				EcNr tmpEc = (EcNr) tmpPath.ecNrs_.get(ecCnt);
@@ -243,7 +242,7 @@ public class PngBuilder {
 					int xStart = tmpPos.x_ - tmpPos.width_ / 2;
 					int yStart = tmpPos.y_ - tmpPos.height_ / 2;
 					
-					//making the coloured portions of the pathway picture clickable in order to open the ec numbers webpage
+					//making the colored portions of the pathway picture click able in order to open the ec numbers web page
 					JLabel label = new JLabel();
 					label.setToolTipText(tmpEc.name_);
 					
@@ -282,7 +281,7 @@ public class PngBuilder {
 					label.addMouseListener(ml);
 					labelList.add(label);
 					label.setBounds(xStart, yStart+50, tmpPos.width_, tmpPos.height_);
-					//if the pathway contains multiple instances of the same EC must be added to an arraylist of labels
+					//if the pathway contains multiple instances of the same EC must be added to an arrayList of labels
 					if(!tmpEc.getEcLabel().contains(label)){
 						tmpEc.getEcLabel().add(label);
 					}

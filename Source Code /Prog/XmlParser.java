@@ -29,10 +29,11 @@ public class XmlParser {
 		int tmpW = 0;
 		int tmpH = 0;
 
-		ArrayList<EcPosAndSize> ret = new ArrayList();
+		ArrayList<EcPosAndSize> ret = new ArrayList<EcPosAndSize>();
 		String zeile = "";
 		try {
 			while ((zeile = in.readLine()) != null) {
+				//capture ec hyper link address - tmpurl 
 				if (zeile.contains("entry id=\"")&&zeile.contains(ecNr)){
 					if (((zeile = in.readLine()) != null)
 							&& (zeile.contains("link=\""))) {
@@ -44,6 +45,7 @@ public class XmlParser {
 						tmpUrl = tmpNr;
 					}
 				}
+				//
 				if (zeile.contains("graphics name=\"" + ecNr + "\"")) {
 					if (((zeile = in.readLine()) != null)
 							&& (zeile.contains("type=\"rectangle\""))) {

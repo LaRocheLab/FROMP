@@ -16,8 +16,8 @@ public class EcNr {
 	public int amount_; // The number of this ec that there are
 	public Color samColor_; // Sample colour
 	public int sampleNr_; 
-	public ArrayList<EcPosAndSize> posSize_; // arraylist of positions and sizes of ecs
-	public ArrayList<EcSampleStats> stats_; // arraylist of the sampleNr amount and colour of the ecs
+	public ArrayList<EcPosAndSize> posSize_; // arrayList of positions and sizes of ecs
+	public ArrayList<EcSampleStats> stats_; // arrayList of the sampleNr amount and colour of the ecs
 	public ArrayList<JLabel> ecLabel;
 	public int[] nr_; 
 	public boolean unique_ = true; 

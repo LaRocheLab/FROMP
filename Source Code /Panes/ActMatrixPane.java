@@ -2932,33 +2932,9 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
-						//seq
-						if(findLca == false && oneFile == false){
-						try {
-							String sampleName;
-							if (sampName_.contains(".out")) {
-								sampleName = sampName_.replace(".out", "");
-							} else {
-								sampleName = sampName_;
-							}
-							File file = new File(CmdController1.tmpPath
-								    +sampleName + "-"
-									+ ecNr_.name_ + "-Sequences" + ".txt");
-							PrintWriter printWriter = new PrintWriter(file);
-							if (text != null && text != "") {
-								printWriter.println("" + text);
-							} else {
-								printWriter
-										.println("No matching sequences in the file provided. ("
-												+ sampName_ + ")");
-							}
-							printWriter.close();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						}
-						//seqall
-						else if(findLca == false && oneFile == true){
+						if(!CmdController1.optionsCmd_.equals("lcamat")){
+							//seq
+							if(findLca == false && oneFile == false){
 							try {
 								String sampleName;
 								if (sampName_.contains(".out")) {
@@ -2966,10 +2942,10 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									sampleName = sampName_;
 								}
-								//lca sequence file path
-								File file = new File(CmdController1.tmpPath+Project.workpath_+"-"+ ecNr_.name_ + "-Sequences" + ".txt");
-								//This allows writing to the file of the same name to append to the file if created, creates file if not
-								PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+								File file = new File(CmdController1.tmpPath
+									    +sampleName + "-"
+										+ ecNr_.name_ + "-Sequences" + ".txt");
+								PrintWriter printWriter = new PrintWriter(file);
 								if (text != null && text != "") {
 									printWriter.println("" + text);
 								} else {
@@ -2981,8 +2957,37 @@ public class ActMatrixPane extends JPanel {
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
+							}
+							//seqall
+							else if(findLca == false && oneFile == true){
+								try {
+									String sampleName;
+									if (sampName_.contains(".out")) {
+										sampleName = sampName_.replace(".out", "");
+									} else {
+										sampleName = sampName_;
+									}
+									//lca sequence file path
+									File file = new File(CmdController1.tmpPath+Project.workpath_+"-"+ ecNr_.name_ + "-Sequences" + ".txt");
+									//This allows writing to the file of the same name to append to the file if created, creates file if not
+									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+									if (text != null && text != "") {
+										printWriter.println("" + text);
+									} else {
+										printWriter
+												.println("No matching sequences in the file provided. ("
+														+ sampName_ + ")");
+									}
+									printWriter.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							
 						}
-					} else {
+							
+					} 
+					else {
 						System.out
 								.println("The sequence file is not in the fasta format. ("
 										+ sampName_ + ")");

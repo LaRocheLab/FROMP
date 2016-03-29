@@ -526,6 +526,7 @@ public class PathwayMapFrame extends JFrame {
 				numEcs++;
 			}
 		}
+		// ec bar - right side
 		for (int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++) {
 			this.g_.setColor(Color.black);
 			numEcs++;

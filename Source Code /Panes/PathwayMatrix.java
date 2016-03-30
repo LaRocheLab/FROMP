@@ -603,6 +603,7 @@ public class PathwayMatrix extends JPanel {
 		}
 		return null;
 	}
+	//Remove special signs, suitable for STAMP
 	public static String removeSpecialsignal(String old){
 		String newone=old;
 		
@@ -622,7 +623,7 @@ public class PathwayMatrix extends JPanel {
 			newone=newone.replaceAll(",", "");		
 		}
 		if (newone.contains(":")){
-			newone=newone.replaceAll(":", "");		
+			newone=newone.replaceAll(":", "-");		
 		}
 		if (newone.contains("---")){
 			newone=newone.replaceAll("---", "-");		

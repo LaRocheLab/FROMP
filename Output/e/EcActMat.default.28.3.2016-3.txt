@@ -1,0 +1,530 @@
+Pathway	EC	ERR771019_MERGED_FASTQ_InterPro.tsv	ERR771060_MERGED_FASTQ_InterPro.tsv	ERR771064_MERGED_FASTQ_InterPro.tsv	ERR771070_MERGED_FASTQ_InterPro.tsv	
+Glycolysis-Gluconeogenesis	1.1.1.1	14.0	8.0	19.0	31.0	
+Pantothenate-and-CoA-biosynthesis	1.1.1.169 *	46.0	25.0	56.0	116.0	
+Fructose-and-mannose-metabolism	1.1.1.17 *	0.0	3.0	13.0	23.0	
+Riboflavin-metabolism	1.1.1.193 *	0.0	0.0	0.0	6.0	
+Histidine-metabolism	1.1.1.23 *	0.0	65.0	581.0	670.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	1.1.1.25 *	87.0	15.0	53.0	69.0	
+Vitamin-B6-metabolism	1.1.1.262 *	222.0	20.0	71.0	130.0	
+Terpenoid-backbone-biosynthesis	1.1.1.267 *	92.0	46.0	144.0	185.0	
+Pyruvate-metabolism	1.1.1.28 *	13.0	0.0	0.0	12.0	
+Vitamin-B6-metabolism	1.1.1.290 *	10.0	1.0	1.0	1.0	
+Glycine-serine-and-threonine-metabolism	1.1.1.3	0.0	3.0	154.0	179.0	
+Terpenoid-backbone-biosynthesis	1.1.1.34 *	97.0	2.0	62.0	141.0	
+Fatty-acid-elongation-in-mitochondria	1.1.1.35	280.0	44.0	445.0	478.0	
+Citrate-cycle-TCA-cycle-	1.1.1.37	0.0	4.0	11.0	18.0	
+Pyruvate-metabolism	1.1.1.38 *	0.0	24.0	43.0	37.0	
+Citrate-cycle-TCA-cycle-	1.1.1.42	0.0	41.0	91.0	175.0	
+Pentose-phosphate-pathway	1.1.1.44	69.0	14.0	109.0	90.0	
+Pentose-phosphate-pathway	1.1.1.49	140.0	69.0	178.0	262.0	
+Valine-leucine-and-isoleucine-biosynthesis	1.1.1.86	170.0	16.0	238.0	262.0	
+Glycerophospholipid-metabolism	1.1.1.94 *	269.0	20.0	280.0	260.0	
+Glycolysis-Gluconeogenesis	1.1.2.7	0.0	0.0	0.0	1.0	
+Pentose-phosphate-pathway	1.1.3.4 *	11.0	0.0	2.0	2.0	
+Galactose-metabolism	1.1.3.9 *	9.0	0.0	0.0	1.0	
+Glycerophospholipid-metabolism	1.1.5.3 *	40.0	30.0	62.0	59.0	
+Pyruvate-metabolism	1.1.5.4 *	0.0	23.0	62.0	17.0	
+Pentose-phosphate-pathway	1.1.99.3 *	0.0	10.0	10.0	15.0	
+Oxidative-phosphorylation	1.10.2.2 *	9.0	6.0	38.0	42.0	
+Tyrosine-metabolism	1.10.3.1	1.0	0.0	0.0	0.0	
+Carotenoid-biosynthesis	1.10.99.3 *	0.0	0.0	7.0	2.0	
+Glutathione-metabolism	1.11.1.15 *	35.0	66.0	365.0	458.0	
+Tryptophan-metabolism	1.11.1.6	31.0	57.0	5.0	15.0	
+Tryptophan-metabolism	1.13.11.11 *	0.0	12.0	47.0	28.0	
+Taurine-and-hypotaurine-metabolism	1.13.11.19 *	0.0	0.0	2.0	1.0	
+Cysteine-and-methionine-metabolism	1.13.11.20	8.0	0.0	0.0	9.0	
+Benzoate-degradation	1.13.11.3	2.0	1.0	2.0	1.0	
+Tyrosine-metabolism	1.13.11.5	0.0	18.0	9.0	41.0	
+Cysteine-and-methionine-metabolism	1.13.11.54 *	0.0	11.0	0.0	4.0	
+Tryptophan-metabolism	1.13.11.6 *	0.0	0.0	8.0	14.0	
+Benzoate-degradation	1.13.11.8	0.0	0.0	4.0	1.0	
+Nitrogen-metabolism	1.13.12.16 *	0.0	31.0	59.0	143.0	
+Ascorbate-and-aldarate-metabolism	1.13.99.1	18.0	0.0	14.0	9.0	
+Chlorocyclohexane-and-chlorobenzene-degradation	1.14.13.7	1.0	2.0	0.0	1.0	
+Porphyrin-and-chlorophyll-metabolism	1.14.13.81 *	0.0	0.0	2.0	3.0	
+Fatty-acid-biosynthesis	1.14.19.2	0.0	0.0	34.0	9.0	
+Porphyrin-and-chlorophyll-metabolism	1.14.99.3 *	0.0	0.0	40.0	26.0	
+Terpenoid-backbone-biosynthesis	1.17.1.2 *	0.0	19.0	182.0	215.0	
+Purine-metabolism	1.17.4.1	772.0	184.0	3612.0	2324.0	
+Terpenoid-backbone-biosynthesis	1.17.7.1 *	0.0	18.0	197.0	217.0	
+Chloroalkane-and-chloroalkene-degradation	1.18.6.1	1.0	8.0	0.0	0.0	
+Benzoate-degradation	1.2.1.10	13.0	4.0	6.0	18.0	
+Glycine-serine-and-threonine-metabolism	1.2.1.11	0.0	0.0	28.0	16.0	
+Arginine-and-proline-metabolism	1.2.1.38 *	250.0	15.0	194.0	199.0	
+Arginine-and-proline-metabolism	1.2.1.41 *	0.0	6.0	25.0	24.0	
+Porphyrin-and-chlorophyll-metabolism	1.2.1.70 *	148.0	7.0	62.0	100.0	
+Valine-leucine-and-isoleucine-degradation	1.2.4.4 *	0.0	0.0	1.0	0.0	
+Glycolysis-Gluconeogenesis	1.2.7.5	13.0	5.0	10.0	28.0	
+Nitrotoluene-degradation	1.2.99.2	5.0	0.0	1.0	3.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	1.3.1.12	0.0	10.0	112.0	121.0	
+Porphyrin-and-chlorophyll-metabolism	1.3.1.76 *	0.0	0.0	4.0	0.0	
+Porphyrin-and-chlorophyll-metabolism	1.3.1.80 *	5.0	0.0	0.0	0.0	
+Porphyrin-and-chlorophyll-metabolism	1.3.3.3 *	46.0	35.0	284.0	413.0	
+Porphyrin-and-chlorophyll-metabolism	1.3.3.4 *	25.0	0.0	18.0	14.0	
+Fatty-acid-metabolism	1.3.3.6	0.0	0.0	13.0	13.0	
+Citrate-cycle-TCA-cycle-	1.3.5.1	102.0	23.0	90.0	108.0	
+Alanine-aspartate-and-glutamate-metabolism	1.4.1.1	0.0	0.0	27.0	41.0	
+Alanine-aspartate-and-glutamate-metabolism	1.4.1.2	0.0	74.0	39.0	67.0	
+Nicotinate-and-nicotinamide-metabolism	1.4.1.21 *	4.0	0.0	2.0	5.0	
+Glycine-serine-and-threonine-metabolism	1.4.3.21	3.0	0.0	1.0	0.0	
+Vitamin-B6-metabolism	1.4.3.5 *	35.0	45.0	168.0	121.0	
+Glycine-serine-and-threonine-metabolism	1.4.4.2 *	338.0	34.0	237.0	298.0	
+Arginine-and-proline-metabolism	1.5.1.2 *	87.0	16.0	130.0	132.0	
+One-carbon-pool-by-folate	1.5.1.20	0.0	20.0	111.0	129.0	
+One-carbon-pool-by-folate	1.5.1.3	0.0	18.0	106.0	178.0	
+Glycine-serine-and-threonine-metabolism	1.5.3.1 *	115.0	3.0	23.0	77.0	
+Zeatin-biosynthesis	1.5.99.12 *	11.0	10.0	2.0	8.0	
+Nicotinate-and-nicotinamide-metabolism	1.6.1.2 *	280.0	46.0	337.0	399.0	
+Oxidative-phosphorylation	1.6.5.3 *	0.0	2.0	18.0	30.0	
+Nitrogen-metabolism	1.7.2.1	1.0	0.0	0.0	8.0	
+Nitrogen-metabolism	1.7.2.2 *	106.0	5.0	11.0	74.0	
+Purine-metabolism	1.7.3.3	1.0	0.0	1.0	1.0	
+Nitrogen-metabolism	1.7.99.1 *	16.0	0.0	2.0	42.0	
+Nitrogen-metabolism	1.7.99.4	2.0	16.0	14.0	12.0	
+Sulfur-metabolism	1.8.1.2	241.0	55.0	82.0	146.0	
+Oxidative-phosphorylation	1.9.3.1	751.0	396.0	1342.0	1829.0	
+Porphyrin-and-chlorophyll-metabolism	2.1.1.107 *	42.0	30.0	90.0	177.0	
+Porphyrin-and-chlorophyll-metabolism	2.1.1.11 *	9.0	0.0	6.0	7.0	
+Cysteine-and-methionine-metabolism	2.1.1.13	188.0	41.0	169.0	190.0	
+Cysteine-and-methionine-metabolism	2.1.1.14	59.0	18.0	151.0	103.0	
+Pyrimidine-metabolism	2.1.1.148	154.0	15.0	684.0	443.0	
+Ubiquinone-and-other-terpenoid-quinone-biosynthesis	2.1.1.163 *	1.0	13.0	178.0	173.0	
+Glycerophospholipid-metabolism	2.1.1.17 *	0.0	5.0	18.0	33.0	
+Cysteine-and-methionine-metabolism	2.1.1.37 *	28.0	16.0	194.0	83.0	
+Lysine-degradation	2.1.1.43 *	2.0	0.0	5.0	9.0	
+Pyrimidine-metabolism	2.1.1.45	139.0	19.0	617.0	589.0	
+Ubiquinone-and-other-terpenoid-quinone-biosynthesis	2.1.1.64 *	0.0	24.0	26.0	22.0	
+Drug-metabolism-other-enzymes	2.1.1.67 *	0.0	6.0	7.0	19.0	
+Methane-metabolism	2.1.1.86 *	2.0	0.0	0.0	0.0	
+Methane-metabolism	2.1.1.90 *	1.0	0.0	0.0	0.0	
+Glycine-serine-and-threonine-metabolism	2.1.2.1	0.0	34.0	400.0	412.0	
+Glycine-serine-and-threonine-metabolism	2.1.2.10	404.0	64.0	290.0	435.0	
+Pantothenate-and-CoA-biosynthesis	2.1.2.11 *	0.0	23.0	183.0	209.0	
+Purine-metabolism	2.1.2.2	0.0	1.0	0.0	1.0	
+Purine-metabolism	2.1.2.3	454.0	110.0	704.0	766.0	
+Histidine-metabolism	2.1.2.5	99.0	0.0	43.0	85.0	
+One-carbon-pool-by-folate	2.1.2.9	287.0	87.0	593.0	659.0	
+Pyrimidine-metabolism	2.1.3.2	0.0	16.0	76.0	69.0	
+Arginine-and-proline-metabolism	2.1.3.3 *	0.0	3.0	38.0	60.0	
+Pentose-phosphate-pathway	2.2.1.2 *	204.0	29.0	182.0	282.0	
+Valine-leucine-and-isoleucine-biosynthesis	2.2.1.6	22.0	6.0	77.0	80.0	
+Terpenoid-backbone-biosynthesis	2.2.1.7 *	213.0	68.0	637.0	652.0	
+Arginine-and-proline-metabolism	2.3.1.1 *	212.0	90.0	666.0	702.0	
+Arginine-and-proline-metabolism	2.3.1.109 *	28.0	13.0	3.0	6.0	
+Lysine-biosynthesis	2.3.1.117 *	14.0	6.0	50.0	99.0	
+Lipopolysaccharide-biosynthesis	2.3.1.129 *	48.0	18.0	35.0	81.0	
+Fatty-acid-biosynthesis	2.3.1.180 *	232.0	30.0	126.0	164.0	
+Lipoic-acid-metabolism	2.3.1.181 *	167.0	14.0	128.0	126.0	
+Glycerolipid-metabolism	2.3.1.20 *	75.0	9.0	32.0	20.0	
+Cysteine-and-methionine-metabolism	2.3.1.30	0.0	11.0	9.0	22.0	
+Cysteine-and-methionine-metabolism	2.3.1.46	0.0	0.0	18.0	30.0	
+Caffeine-metabolism	2.3.1.5	1.0	6.0	3.0	3.0	
+Glycerolipid-metabolism	2.3.1.51	0.0	0.0	1.0	1.0	
+Arginine-and-proline-metabolism	2.3.1.57 *	2.0	0.0	0.0	0.0	
+Glycosaminoglycan-degradation	2.3.1.78 *	34.0	4.0	8.0	9.0	
+Taurine-and-hypotaurine-metabolism	2.3.1.8	0.0	25.0	147.0	170.0	
+Taurine-and-hypotaurine-metabolism	2.3.2.2	464.0	107.0	287.0	625.0	
+Synthesis-and-degradation-of-ketone-bodies	2.3.3.10	13.0	0.0	2.0	3.0	
+Valine-leucine-and-isoleucine-biosynthesis	2.3.3.13	114.0	15.0	215.0	215.0	
+Pyruvate-metabolism	2.3.3.9	60.0	19.0	244.0	338.0	
+Starch-and-sucrose-metabolism	2.4.1.1 *	5.0	8.0	74.0	101.0	
+Starch-and-sucrose-metabolism	2.4.1.11 *	0.0	0.0	0.0	2.0	
+Starch-and-sucrose-metabolism	2.4.1.12 *	1.0	0.0	0.0	3.0	
+Peptidoglycan-biosynthesis	2.4.1.129 *	1.0	0.0	2.0	3.0	
+Starch-and-sucrose-metabolism	2.4.1.13 *	0.0	0.0	0.0	9.0	
+N-Glycan-biosynthesis	2.4.1.144 *	0.0	0.0	25.0	10.0	
+N-Glycan-biosynthesis	2.4.1.145	1.0	0.0	0.0	0.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	2.4.1.16 *	0.0	0.0	0.0	1.0	
+Starch-and-sucrose-metabolism	2.4.1.18 *	3.0	0.0	0.0	12.0	
+Lipopolysaccharide-biosynthesis	2.4.1.182 *	14.0	15.0	59.0	110.0	
+Glycosylphosphatidylinositol-GPI-anchor-biosynthesis	2.4.1.198 *	0.0	0.0	4.0	7.0	
+Starch-and-sucrose-metabolism	2.4.1.21 *	169.0	15.0	43.0	63.0	
+Fructose-and-mannose-metabolism	2.4.1.217 *	0.0	0.0	0.0	1.0	
+Other-types-of-O-glycan-biosynthesis	2.4.1.221 *	0.0	0.0	0.0	4.0	
+Peptidoglycan-biosynthesis	2.4.1.227 *	252.0	4.0	117.0	122.0	
+Starch-and-sucrose-metabolism	2.4.1.25 *	75.0	13.0	26.0	63.0	
+N-Glycan-biosynthesis	2.4.1.258	0.0	0.0	3.0	4.0	
+Starch-and-sucrose-metabolism	2.4.1.34 *	0.0	0.0	18.0	9.0	
+Starch-and-sucrose-metabolism	2.4.1.5 *	0.0	0.0	1.0	0.0	
+Glycosphingolipid-biosynthesis-lacto-and-neolacto-series	2.4.1.69	0.0	2.0	14.0	32.0	
+Sphingolipid-metabolism	2.4.1.80 *	0.0	6.0	6.0	5.0	
+Purine-metabolism	2.4.2.1	0.0	0.0	19.0	9.0	
+Pyrimidine-metabolism	2.4.2.10	0.0	1.0	1.0	5.0	
+Histidine-metabolism	2.4.2.17 *	8.0	24.0	159.0	132.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	2.4.2.18 *	0.0	0.0	0.0	1.0	
+Nicotinate-and-nicotinamide-metabolism	2.4.2.19 *	0.0	0.0	1.0	0.0	
+Porphyrin-and-chlorophyll-metabolism	2.4.2.21 *	56.0	7.0	17.0	30.0	
+Purine-metabolism	2.4.2.8	0.0	0.0	1.0	0.0	
+Folate-biosynthesis	2.5.1.15 *	0.0	0.0	1.0	1.0	
+Cysteine-and-methionine-metabolism	2.5.1.16	0.0	20.0	61.0	103.0	
+Porphyrin-and-chlorophyll-metabolism	2.5.1.17 *	63.0	37.0	155.0	174.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	2.5.1.19 *	0.0	0.0	57.0	56.0	
+Zeatin-biosynthesis	2.5.1.27 *	0.0	0.0	14.0	16.0	
+Thiamine-metabolism	2.5.1.3 *	0.0	20.0	54.0	93.0	
+Tropane-piperidine-and-pyridine-alkaloid-biosynthesis	2.5.1.44 *	0.0	9.0	24.0	4.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	2.5.1.54 *	164.0	32.0	179.0	172.0	
+Lipopolysaccharide-biosynthesis	2.5.1.55 *	454.0	30.0	222.0	311.0	
+Cysteine-and-methionine-metabolism	2.5.1.6 *	216.0	57.0	405.0	496.0	
+Porphyrin-and-chlorophyll-metabolism	2.5.1.61 *	135.0	35.0	296.0	405.0	
+Ubiquinone-and-other-terpenoid-quinone-biosynthesis	2.5.1.74 *	0.0	0.0	4.0	2.0	
+Zeatin-biosynthesis	2.5.1.75 *	0.0	5.0	137.0	135.0	
+Methane-metabolism	2.5.1.77 *	0.0	0.0	0.0	1.0	
+Riboflavin-metabolism	2.5.1.78 *	19.0	25.0	188.0	218.0	
+Riboflavin-metabolism	2.5.1.9 *	0.0	12.0	78.0	80.0	
+Alanine-aspartate-and-glutamate-metabolism	2.6.1.1	0.0	4.0	0.0	14.0	
+Vitamin-B6-metabolism	2.6.99.2 *	190.0	6.0	63.0	107.0	
+Glycolysis-Gluconeogenesis	2.7.1.1	6.0	0.0	2.0	11.0	
+Glycerolipid-metabolism	2.7.1.107	1.0	4.0	22.0	33.0	
+Glycolysis-Gluconeogenesis	2.7.1.11	188.0	1.0	327.0	223.0	
+Pentose-phosphate-pathway	2.7.1.12 *	0.0	3.0	0.0	0.0	
+Lipopolysaccharide-biosynthesis	2.7.1.130 *	0.0	23.0	65.0	112.0	
+Galactose-metabolism	2.7.1.144 *	1.0	0.0	0.0	2.0	
+Porphyrin-and-chlorophyll-metabolism	2.7.1.156 *	66.0	0.0	18.0	40.0	
+Inositol-phosphate-metabolism	2.7.1.158 *	0.0	0.0	4.0	2.0	
+Riboflavin-metabolism	2.7.1.161 *	2.0	0.0	0.0	1.0	
+Carbon-fixation-in-photosynthetic-organisms	2.7.1.19 *	0.0	7.0	25.0	19.0	
+Glycolysis-Gluconeogenesis	2.7.1.2	46.0	4.0	22.0	55.0	
+Purine-metabolism	2.7.1.20 *	0.0	0.0	7.0	9.0	
+Pyrimidine-metabolism	2.7.1.21	0.0	7.0	200.0	99.0	
+Nicotinate-and-nicotinamide-metabolism	2.7.1.23 *	92.0	26.0	257.0	288.0	
+Pantothenate-and-CoA-biosynthesis	2.7.1.24 *	0.0	10.0	103.0	105.0	
+Purine-metabolism	2.7.1.25	0.0	21.0	77.0	103.0	
+Glycerolipid-metabolism	2.7.1.30 *	1.0	10.0	56.0	52.0	
+Pantothenate-and-CoA-biosynthesis	2.7.1.33 *	95.0	37.0	101.0	95.0	
+Vitamin-B6-metabolism	2.7.1.35 *	0.0	5.0	0.0	0.0	
+Glycolysis-Gluconeogenesis	2.7.1.40	396.0	79.0	630.0	764.0	
+Pyrimidine-metabolism	2.7.1.48	0.0	0.0	5.0	26.0	
+Thiamine-metabolism	2.7.1.50 *	5.0	1.0	5.0	0.0	
+Galactose-metabolism	2.7.1.58 *	65.0	4.0	7.0	20.0	
+Galactose-metabolism	2.7.1.6	15.0	34.0	66.0	33.0	
+Glycolysis-Gluconeogenesis	2.7.1.69	22.0	15.0	55.0	38.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	2.7.1.71 *	107.0	43.0	228.0	312.0	
+Taurine-and-hypotaurine-metabolism	2.7.2.1	44.0	7.0	44.0	46.0	
+Arginine-and-proline-metabolism	2.7.2.11 *	0.0	4.0	21.0	20.0	
+Purine-metabolism	2.7.2.2	6.0	29.0	2.0	18.0	
+Glycolysis-Gluconeogenesis	2.7.2.3	307.0	99.0	869.0	959.0	
+Glycine-serine-and-threonine-metabolism	2.7.2.4	0.0	7.0	45.0	37.0	
+Oxidative-phosphorylation	2.7.4.1 *	244.0	69.0	360.0	282.0	
+Pentose-phosphate-pathway	2.7.4.23 *	11.0	0.0	1.0	1.0	
+Purine-metabolism	2.7.4.3 *	8.0	43.0	219.0	217.0	
+Purine-metabolism	2.7.4.6	123.0	30.0	406.0	374.0	
+Purine-metabolism	2.7.4.8 *	0.0	8.0	15.0	21.0	
+Pyrimidine-metabolism	2.7.4.9 *	0.0	3.0	27.0	21.0	
+Pentose-phosphate-pathway	2.7.6.1	119.0	18.0	220.0	239.0	
+Thiamine-metabolism	2.7.6.2 *	44.0	3.0	37.0	64.0	
+Folate-biosynthesis	2.7.6.3 *	34.0	64.0	189.0	168.0	
+Galactose-metabolism	2.7.7.12	53.0	2.0	39.0	20.0	
+Fructose-and-mannose-metabolism	2.7.7.13	0.0	38.0	81.0	99.0	
+Nicotinate-and-nicotinamide-metabolism	2.7.7.18 *	0.0	0.0	1.0	0.0	
+Riboflavin-metabolism	2.7.7.2 *	0.0	24.0	186.0	152.0	
+Starch-and-sucrose-metabolism	2.7.7.27	0.0	0.0	34.0	27.0	
+Pantothenate-and-CoA-biosynthesis	2.7.7.3 *	34.0	26.0	122.0	156.0	
+Lipopolysaccharide-biosynthesis	2.7.7.38 *	204.0	11.0	132.0	162.0	
+Purine-metabolism	2.7.7.4	28.0	3.0	22.0	55.0	
+Glycerophospholipid-metabolism	2.7.7.41 *	0.0	0.0	5.0	3.0	
+Purine-metabolism	2.7.7.53 *	0.0	0.0	0.0	1.0	
+Purine-metabolism	2.7.7.6	2275.0	376.0	2955.0	3280.0	
+Terpenoid-backbone-biosynthesis	2.7.7.60 *	0.0	8.0	115.0	142.0	
+Lipoic-acid-metabolism	2.7.7.63 *	2.0	0.0	0.0	0.0	
+Methane-metabolism	2.7.7.68 *	5.0	0.0	7.0	6.0	
+Purine-metabolism	2.7.7.7	1765.0	304.0	3980.0	3015.0	
+Purine-metabolism	2.7.7.8	87.0	6.0	129.0	120.0	
+Peptidoglycan-biosynthesis	2.7.8.13 *	0.0	23.0	251.0	254.0	
+Porphyrin-and-chlorophyll-metabolism	2.7.8.26 *	0.0	6.0	7.0	12.0	
+Glycerophospholipid-metabolism	2.7.8.5 *	0.0	2.0	1.0	1.0	
+Pantothenate-and-CoA-biosynthesis	2.7.8.7 *	97.0	26.0	140.0	165.0	
+Glycine-serine-and-threonine-metabolism	2.7.8.8	0.0	0.0	3.0	0.0	
+Selenocompound-metabolism	2.7.9.3 *	0.0	6.0	2.0	7.0	
+Biotin-metabolism	2.8.1.6 *	24.0	7.0	11.0	20.0	
+Methane-metabolism	2.8.4.1 *	1.0	0.0	0.0	0.0	
+Selenocompound-metabolism	2.9.1.1	6.0	3.0	14.0	60.0	
+Pentose-and-glucuronate-interconversions	3.1.1.11	5.0	0.0	5.0	1.0	
+Porphyrin-and-chlorophyll-metabolism	3.1.1.14 *	2.0	2.0	0.0	2.0	
+Bisphenol-degradation	3.1.1.2 *	8.0	0.0	0.0	0.0	
+Butanoate-metabolism	3.1.1.22 *	0.0	2.0	0.0	0.0	
+Glycerolipid-metabolism	3.1.1.3 *	0.0	2.0	5.0	3.0	
+Pentose-phosphate-pathway	3.1.1.31 *	0.0	6.0	14.0	23.0	
+Glycerophospholipid-metabolism	3.1.1.4	30.0	0.0	20.0	10.0	
+Ether-lipid-metabolism	3.1.1.47 *	12.0	0.0	11.0	11.0	
+Fatty-acid-biosynthesis	3.1.2.14 *	0.0	0.0	0.0	8.0	
+Aminobenzoate-degradation	3.1.3.1	0.0	7.0	18.0	71.0	
+Glycolysis-Gluconeogenesis	3.1.3.11	79.0	9.0	247.0	208.0	
+Aminobenzoate-degradation	3.1.3.2	1.0	0.0	3.0	3.0	
+Streptomycin-biosynthesis	3.1.3.25	11.0	2.0	8.0	20.0	
+Glycerophospholipid-metabolism	3.1.3.27 *	0.0	0.0	2.0	2.0	
+Glycine-serine-and-threonine-metabolism	3.1.3.3	27.0	0.0	26.0	23.0	
+Glycerolipid-metabolism	3.1.3.4	1.0	0.0	5.0	0.0	
+Fructose-and-mannose-metabolism	3.1.3.46 *	2.0	0.0	20.0	32.0	
+Purine-metabolism	3.1.3.5	87.0	24.0	129.0	194.0	
+Methane-metabolism	3.1.3.71 *	16.0	0.0	14.0	22.0	
+Cysteine-and-methionine-metabolism	3.1.3.77 *	0.0	3.0	0.0	1.0	
+Inositol-phosphate-metabolism	3.1.3.8 *	28.0	0.0	6.0	22.0	
+Inositol-phosphate-metabolism	3.1.4.11 *	0.0	0.0	4.0	2.0	
+Pantothenate-and-CoA-biosynthesis	3.1.4.14 *	39.0	0.0	5.0	1.0	
+Inositol-phosphate-metabolism	3.1.4.3	0.0	4.0	0.0	0.0	
+Purine-metabolism	3.1.4.53 *	0.0	0.0	0.0	1.0	
+Starch-and-sucrose-metabolism	3.2.1.1 *	1.0	0.0	4.0	6.0	
+N-Glycan-biosynthesis	3.2.1.106 *	0.0	0.0	5.0	1.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	3.2.1.132 *	7.0	0.0	6.0	1.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	3.2.1.14 *	0.0	3.0	20.0	11.0	
+Other-glycan-degradation	3.2.1.18	1.0	0.0	3.0	0.0	
+Starch-and-sucrose-metabolism	3.2.1.2 *	3.0	0.0	8.0	11.0	
+Galactose-metabolism	3.2.1.22	44.0	5.0	74.0	71.0	
+Galactose-metabolism	3.2.1.23	108.0	8.0	118.0	87.0	
+Galactose-metabolism	3.2.1.26	2.0	2.0	5.0	3.0	
+Starch-and-sucrose-metabolism	3.2.1.28 *	51.0	12.0	14.0	18.0	
+Starch-and-sucrose-metabolism	3.2.1.33 *	34.0	0.0	2.0	36.0	
+Glycosaminoglycan-degradation	3.2.1.35 *	0.0	0.0	1.0	4.0	
+Starch-and-sucrose-metabolism	3.2.1.39 *	0.0	3.0	1.0	3.0	
+Starch-and-sucrose-metabolism	3.2.1.4 *	0.0	9.0	10.0	8.0	
+Other-glycan-degradation	3.2.1.45	22.0	0.0	4.0	9.0	
+Sphingolipid-metabolism	3.2.1.46 *	0.0	0.0	3.0	5.0	
+Glycosaminoglycan-degradation	3.2.1.50 *	8.0	11.0	3.0	4.0	
+Other-glycan-degradation	3.2.1.51 *	208.0	11.0	50.0	58.0	
+Other-glycan-degradation	3.2.1.52	2.0	32.0	40.0	69.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	3.2.1.55 *	0.0	7.0	7.0	13.0	
+Fructose-and-mannose-metabolism	3.2.1.78 *	0.0	1.0	4.0	4.0	
+Other-glycan-degradation	3.2.1.96 *	0.0	0.0	1.0	0.0	
+Purine-metabolism	3.2.2.4 *	19.0	10.0	21.0	6.0	
+Nicotinate-and-nicotinamide-metabolism	3.2.2.6 *	0.0	0.0	1.0	0.0	
+Cysteine-and-methionine-metabolism	3.3.1.1 *	50.0	58.0	531.0	573.0	
+Arachidonic-acid-metabolism	3.3.2.6 *	10.0	3.0	3.0	3.0	
+Metabolism-of-xenobiotics-by-cytochrome-P450	3.3.2.9 *	15.0	0.0	5.0	29.0	
+Glutathione-metabolism	3.4.11.1 *	172.0	154.0	515.0	639.0	
+Glutathione-metabolism	3.4.11.23 *	7.0	5.0	0.0	0.0	
+Arginine-and-proline-metabolism	3.4.11.5 *	26.0	4.0	15.0	26.0	
+Peptidoglycan-biosynthesis	3.4.16.4 *	134.0	12.0	149.0	98.0	
+Glyoxylate-and-dicarboxylate-metabolism	3.5.1.10	0.0	22.0	70.0	43.0	
+Riboflavin-metabolism	3.5.1.102 *	29.0	14.0	69.0	100.0	
+Alanine-aspartate-and-glutamate-metabolism	3.5.1.2	38.0	2.0	2.0	5.0	
+Sphingolipid-metabolism	3.5.1.23 *	0.0	18.0	2.0	8.0	
+Purine-metabolism	3.5.1.5	43.0	6.0	119.0	133.0	
+Tryptophan-metabolism	3.5.1.9	0.0	0.0	27.0	37.0	
+Pyrimidine-metabolism	3.5.2.3 *	4.0	3.0	53.0	74.0	
+Penicillin-and-cephalosporin-biosynthesis	3.5.2.6	0.0	39.0	0.0	1.0	
+Arginine-and-proline-metabolism	3.5.3.12 *	0.0	17.0	91.0	57.0	
+Arginine-and-proline-metabolism	3.5.3.23 *	1.0	40.0	10.0	36.0	
+Purine-metabolism	3.5.3.4 *	0.0	16.0	20.0	38.0	
+Arginine-and-proline-metabolism	3.5.3.6 *	128.0	15.0	37.0	53.0	
+Purine-metabolism	3.5.4.10 *	3.0	0.0	0.0	3.0	
+Pyrimidine-metabolism	3.5.4.13 *	8.0	4.0	37.0	45.0	
+Folate-biosynthesis	3.5.4.16 *	130.0	25.0	383.0	348.0	
+Histidine-metabolism	3.5.4.19 *	0.0	3.0	62.0	69.0	
+Purine-metabolism	3.5.4.2 *	29.0	2.0	1.0	4.0	
+Riboflavin-metabolism	3.5.4.25 *	0.0	30.0	117.0	150.0	
+Pyrimidine-metabolism	3.5.4.5	10.0	0.0	8.0	11.0	
+One-carbon-pool-by-folate	3.5.4.9	388.0	158.0	1060.0	1186.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	3.5.99.6 *	0.0	12.0	54.0	52.0	
+Oxidative-phosphorylation	3.6.1.1 *	39.0	59.0	557.0	621.0	
+Purine-metabolism	3.6.1.13 *	0.0	2.0	8.0	4.0	
+Purine-metabolism	3.6.1.15	8.0	0.0	0.0	3.0	
+Purine-metabolism	3.6.1.19	1.0	25.0	111.0	145.0	
+Nicotinate-and-nicotinamide-metabolism	3.6.1.22 *	23.0	3.0	11.0	11.0	
+Pyrimidine-metabolism	3.6.1.23 *	0.0	3.0	31.0	18.0	
+Peptidoglycan-biosynthesis	3.6.1.27 *	247.0	23.0	133.0	131.0	
+Purine-metabolism	3.6.1.3 *	1.0	1.0	0.0	0.0	
+Histidine-metabolism	3.6.1.31 *	0.0	17.0	128.0	140.0	
+Purine-metabolism	3.6.1.40 *	0.0	7.0	87.0	69.0	
+Pyruvate-metabolism	3.6.1.7	22.0	8.0	11.0	35.0	
+Oxidative-phosphorylation	3.6.3.14	1504.0	130.0	1512.0	1761.0	
+Tyrosine-metabolism	3.7.1.2	16.0	2.0	4.0	24.0	
+Chlorocyclohexane-and-chlorobenzene-degradation	3.8.1.2	0.0	0.0	1.0	0.0	
+beta-Alanine-metabolism	4.1.1.11	0.0	5.0	26.0	41.0	
+Arginine-and-proline-metabolism	4.1.1.19 *	1.0	0.0	4.0	34.0	
+Lysine-biosynthesis	4.1.1.20 *	0.0	4.0	12.0	4.0	
+Pyrimidine-metabolism	4.1.1.23 *	152.0	16.0	109.0	162.0	
+Arginine-and-proline-metabolism	4.1.1.3	109.0	1.0	14.0	74.0	
+Pyruvate-metabolism	4.1.1.31	0.0	25.0	150.0	213.0	
+Glycolysis-Gluconeogenesis	4.1.1.32	0.0	16.0	155.0	92.0	
+Porphyrin-and-chlorophyll-metabolism	4.1.1.37 *	0.0	29.0	229.0	239.0	
+Glyoxylate-and-dicarboxylate-metabolism	4.1.1.39	48.0	84.0	276.0	316.0	
+Synthesis-and-degradation-of-ketone-bodies	4.1.1.4	10.0	11.0	5.0	21.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	4.1.1.48 *	0.0	15.0	145.0	164.0	
+Glycolysis-Gluconeogenesis	4.1.1.49	0.0	23.0	56.0	154.0	
+Butanoate-metabolism	4.1.1.5	0.0	0.0	15.0	4.0	
+Cysteine-and-methionine-metabolism	4.1.1.50	15.0	3.0	173.0	280.0	
+Glycerophospholipid-metabolism	4.1.1.65 *	0.0	22.0	57.0	106.0	
+beta-Alanine-metabolism	4.1.1.9	0.0	5.0	32.0	35.0	
+Glycolysis-Gluconeogenesis	4.1.2.13	0.0	13.0	120.0	111.0	
+Pentose-phosphate-pathway	4.1.2.14	137.0	39.0	57.0	60.0	
+Folate-biosynthesis	4.1.2.25 *	0.0	25.0	84.0	62.0	
+Pentose-phosphate-pathway	4.1.2.4 *	0.0	0.0	2.0	0.0	
+Pentose-and-glucuronate-interconversions	4.1.2.43	6.0	0.0	0.0	14.0	
+Glyoxylate-and-dicarboxylate-metabolism	4.1.3.1 *	0.0	24.0	155.0	136.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	4.1.3.27 *	184.0	27.0	214.0	227.0	
+Phenylalanine-metabolism	4.1.3.39	0.0	3.0	13.0	9.0	
+Synthesis-and-degradation-of-ketone-bodies	4.1.3.4	0.0	5.0	3.0	1.0	
+Ubiquinone-and-other-terpenoid-quinone-biosynthesis	4.1.3.40 *	0.0	6.0	1.0	10.0	
+Riboflavin-metabolism	4.1.99.12 *	0.0	29.0	135.0	174.0	
+Nitrogen-metabolism	4.2.1.1 *	43.0	35.0	187.0	136.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	4.2.1.10 *	4.0	9.0	212.0	217.0	
+Nitrogen-metabolism	4.2.1.104 *	3.0	23.0	0.0	11.0	
+Glycine-serine-and-threonine-metabolism	4.2.1.108 *	0.0	0.0	3.0	5.0	
+Glycolysis-Gluconeogenesis	4.2.1.11	140.0	40.0	447.0	565.0	
+Fatty-acid-elongation-in-mitochondria	4.2.1.17	156.0	19.0	114.0	135.0	
+Histidine-metabolism	4.2.1.19 *	0.0	11.0	173.0	209.0	
+Citrate-cycle-TCA-cycle-	4.2.1.2	0.0	26.0	33.0	47.0	
+Glycine-serine-and-threonine-metabolism	4.2.1.20	193.0	8.0	205.0	177.0	
+Porphyrin-and-chlorophyll-metabolism	4.2.1.24 *	139.0	63.0	340.0	425.0	
+Citrate-cycle-TCA-cycle-	4.2.1.3	29.0	3.0	35.0	68.0	
+Valine-leucine-and-isoleucine-biosynthesis	4.2.1.33 *	853.0	314.0	2178.0	2546.0	
+Histidine-metabolism	4.2.1.49 *	100.0	29.0	107.0	85.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	4.2.1.51 *	0.0	44.0	151.0	173.0	
+Pyrimidine-metabolism	4.2.1.70 *	57.0	5.0	89.0	32.0	
+Porphyrin-and-chlorophyll-metabolism	4.2.1.75 *	0.0	21.0	50.0	44.0	
+Pentose-and-glucuronate-interconversions	4.2.1.8 *	0.0	0.0	13.0	11.0	
+Fluorobenzoate-degradation	4.2.1.84	40.0	7.0	34.0	77.0	
+Valine-leucine-and-isoleucine-biosynthesis	4.2.1.9	0.0	85.0	711.0	824.0	
+Propanoate-metabolism	4.2.1.99 *	50.0	10.0	31.0	53.0	
+Pentose-and-glucuronate-interconversions	4.2.2.2 *	1.0	0.0	0.0	0.0	
+Fructose-and-mannose-metabolism	4.2.2.3 *	81.0	20.0	12.0	8.0	
+Pyruvate-metabolism	4.2.3.3 *	0.0	0.0	8.0	2.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	4.2.3.5 *	46.0	36.0	608.0	657.0	
+Glycine-serine-and-threonine-metabolism	4.3.1.17	25.0	4.0	10.0	23.0	
+Glycine-serine-and-threonine-metabolism	4.3.1.19	28.0	5.0	33.0	45.0	
+Phenylalanine-metabolism	4.3.1.24	0.0	0.0	0.0	2.0	
+Glycerophospholipid-metabolism	4.3.1.7 *	11.0	24.0	2.0	9.0	
+Alanine-aspartate-and-glutamate-metabolism	4.3.2.1	0.0	12.0	36.0	45.0	
+Purine-metabolism	4.3.2.2	0.0	2.0	85.0	68.0	
+Purine-metabolism	4.3.2.3 *	35.0	2.0	24.0	43.0	
+Porphyrin-and-chlorophyll-metabolism	4.4.1.17 *	0.0	0.0	6.0	9.0	
+Methane-metabolism	4.4.1.19 *	0.0	1.0	5.0	9.0	
+Methane-metabolism	4.4.1.22 *	68.0	32.0	35.0	132.0	
+Pyruvate-metabolism	4.4.1.5 *	0.0	0.0	22.0	28.0	
+Purine-metabolism	4.6.1.1 *	7.0	19.0	1.0	3.0	
+Terpenoid-backbone-biosynthesis	4.6.1.12 *	24.0	49.0	190.0	187.0	
+Purine-metabolism	4.6.1.2 *	4.0	0.0	7.0	28.0	
+Porphyrin-and-chlorophyll-metabolism	4.99.1.1 *	69.0	32.0	186.0	205.0	
+Porphyrin-and-chlorophyll-metabolism	4.99.1.3 *	20.0	0.0	12.0	18.0	
+D-Alanine-metabolism	5.1.1.1 *	342.0	73.0	515.0	466.0	
+D-Glutamine-and-D-glutamate-metabolism	5.1.1.3 *	107.0	35.0	203.0	180.0	
+Lysine-biosynthesis	5.1.1.7 *	0.0	25.0	132.0	155.0	
+Pentose-phosphate-pathway	5.1.3.1	186.0	23.0	235.0	210.0	
+Galactose-metabolism	5.1.3.2	52.0	0.0	30.0	34.0	
+Glycolysis-Gluconeogenesis	5.1.3.3 *	0.0	0.0	0.0	2.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	5.1.3.9 *	0.0	0.0	1.0	1.0	
+Valine-leucine-and-isoleucine-degradation	5.1.99.1	0.0	0.0	2.0	1.0	
+Glycolysis-Gluconeogenesis	5.3.1.1	0.0	11.0	170.0	196.0	
+Pentose-and-glucuronate-interconversions	5.3.1.12 *	22.0	4.0	9.0	26.0	
+Fructose-and-mannose-metabolism	5.3.1.14 *	0.0	0.0	0.0	1.0	
+Pentose-and-glucuronate-interconversions	5.3.1.17 *	19.0	4.0	16.0	24.0	
+Cysteine-and-methionine-metabolism	5.3.1.23 *	83.0	23.0	93.0	164.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	5.3.1.24 *	0.0	23.0	49.0	66.0	
+Fructose-and-mannose-metabolism	5.3.1.25 *	28.0	0.0	6.0	26.0	
+Galactose-metabolism	5.3.1.26 *	42.0	11.0	170.0	141.0	
+Pentose-and-glucuronate-interconversions	5.3.1.4 *	3.0	0.0	26.0	8.0	
+Pentose-and-glucuronate-interconversions	5.3.1.5	0.0	7.0	79.0	62.0	
+Pentose-phosphate-pathway	5.3.1.6	41.0	4.0	44.0	60.0	
+Fructose-and-mannose-metabolism	5.3.1.8	30.0	3.0	98.0	46.0	
+Glycolysis-Gluconeogenesis	5.3.1.9	43.0	52.0	293.0	299.0	
+Steroid-hormone-biosynthesis	5.3.3.1 *	2.0	3.0	2.0	1.0	
+Tyrosine-metabolism	5.3.3.10	0.0	8.0	2.0	3.0	
+Terpenoid-backbone-biosynthesis	5.3.3.2 *	0.0	0.0	5.0	0.0	
+Benzoate-degradation	5.3.3.4 *	0.0	3.0	1.0	0.0	
+Amino-sugar-and-nucleotide-sugar-metabolism	5.4.2.10 *	830.0	286.0	1508.0	1393.0	
+Pentose-phosphate-pathway	5.4.2.7	18.0	0.0	5.0	9.0	
+Fructose-and-mannose-metabolism	5.4.2.8	0.0	1.0	30.0	30.0	
+C5-Branched-dibasic-acid-metabolism	5.4.99.1 *	7.0	0.0	0.0	0.0	
+Valine-leucine-and-isoleucine-degradation	5.4.99.2	1.0	35.0	246.0	257.0	
+Phenylalanine-tyrosine-and-tryptophan-biosynthesis	5.4.99.5 *	113.0	26.0	76.0	91.0	
+Streptomycin-biosynthesis	5.5.1.4	0.0	0.0	82.0	57.0	
+Flavonoid-biosynthesis	5.5.1.6 *	4.0	0.0	3.0	2.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.1 *	0.0	0.0	101.0	123.0	
+Selenocompound-metabolism	6.1.1.10	26.0	10.0	92.0	94.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.11 *	115.0	30.0	281.0	280.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.14 *	327.0	64.0	492.0	470.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.15 *	61.0	64.0	306.0	336.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.16 *	64.0	69.0	371.0	348.0	
+Porphyrin-and-chlorophyll-metabolism	6.1.1.17	226.0	34.0	164.0	198.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.19 *	251.0	70.0	268.0	402.0	
+Tryptophan-metabolism	6.1.1.2	0.0	2.0	56.0	48.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.20 *	493.0	86.0	594.0	686.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.26 *	1.0	0.0	0.0	0.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.3 *	2.0	53.0	237.0	288.0	
+Valine-leucine-and-isoleucine-biosynthesis	6.1.1.4	0.0	65.0	266.0	327.0	
+Valine-leucine-and-isoleucine-biosynthesis	6.1.1.5	0.0	0.0	22.0	46.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.6 *	31.0	3.0	216.0	199.0	
+Aminoacyl-tRNA-biosynthesis	6.1.1.7 *	329.0	59.0	512.0	630.0	
+Valine-leucine-and-isoleucine-biosynthesis	6.1.1.9	73.0	30.0	75.0	139.0	
+Citrate-cycle-TCA-cycle-	6.2.1.5	355.0	74.0	583.0	663.0	
+Alanine-aspartate-and-glutamate-metabolism	6.3.1.1	0.0	0.0	1.0	7.0	
+Alanine-aspartate-and-glutamate-metabolism	6.3.1.2	612.0	111.0	589.0	709.0	
+Nicotinate-and-nicotinamide-metabolism	6.3.1.5	0.0	0.0	27.0	36.0	
+beta-Alanine-metabolism	6.3.2.1	0.0	19.0	118.0	137.0	
+Folate-biosynthesis	6.3.2.17 *	0.0	0.0	0.0	2.0	
+Glutathione-metabolism	6.3.2.2 *	0.0	25.0	57.0	122.0	
+Glutathione-metabolism	6.3.2.3 *	119.0	18.0	86.0	169.0	
+Methane-metabolism	6.3.2.34 *	0.0	12.0	56.0	84.0	
+D-Alanine-metabolism	6.3.2.4	195.0	62.0	264.0	232.0	
+Pantothenate-and-CoA-biosynthesis	6.3.2.5 *	199.0	26.0	232.0	212.0	
+Purine-metabolism	6.3.2.6 *	0.0	27.0	194.0	256.0	
+Biotin-metabolism	6.3.3.3 *	0.0	0.0	2.0	0.0	
+Purine-metabolism	6.3.4.13 *	311.0	45.0	374.0	482.0	
+Biotin-metabolism	6.3.4.15 *	15.0	9.0	17.0	8.0	
+Pyrimidine-metabolism	6.3.4.2 *	0.0	23.0	204.0	227.0	
+One-carbon-pool-by-folate	6.3.4.3	0.0	7.0	160.0	266.0	
+Purine-metabolism	6.3.4.4	0.0	32.0	420.0	513.0	
+Alanine-aspartate-and-glutamate-metabolism	6.3.4.5	36.0	61.0	445.0	453.0	
+Purine-metabolism	6.3.5.2	53.0	8.0	81.0	73.0	
+Purine-metabolism	6.3.5.3 *	28.0	6.0	139.0	97.0	
+Pyrimidine-metabolism	6.3.5.5	450.0	63.0	548.0	611.0	
+Aminoacyl-tRNA-biosynthesis	6.3.5.7 *	894.0	200.0	1130.0	1517.0	
+Fatty-acid-biosynthesis	6.4.1.2	134.0	111.0	731.0	906.0	
+Porphyrin-and-chlorophyll-metabolism	6.6.1.1 *	15.0	0.0	18.0	25.0	
+Porphyrin-and-chlorophyll-metabolism	6.6.1.2 *	125.0	12.0	73.0	128.0	
+unmapped	1.10.9.1 #	1.0	0.0	1.0	4.0	
+unmapped	1.11.1.21 #	12.0	4.0	66.0	76.0	
+unmapped	1.11.2.3 #	0.0	0.0	0.0	1.0	
+unmapped	1.14.12.22 #	0.0	0.0	0.0	1.0	
+unmapped	1.14.13.132 #	0.0	0.0	4.0	5.0	
+unmapped	1.17.1.8 #	0.0	9.0	223.0	172.0	
+unmapped	1.2.1.50 #	0.0	0.0	4.0	5.0	
+unmapped	1.2.1.88 #	87.0	12.0	50.0	112.0	
+unmapped	1.3.1.98 #	99.0	59.0	335.0	344.0	
+unmapped	1.3.5.3 #	0.0	5.0	0.0	3.0	
+unmapped	1.3.7.7 #	13.0	0.0	10.0	6.0	
+unmapped	1.4.1.24 #	0.0	0.0	2.0	4.0	
+unmapped	1.4.9.1 #	14.0	1.0	0.0	12.0	
+unmapped	1.5.5.2 #	0.0	18.0	70.0	86.0	
+unmapped	1.6.5.2 #	0.0	0.0	0.0	2.0	
+unmapped	1.7.1.13 #	2.0	12.0	49.0	55.0	
+unmapped	1.8.2.3 #	8.0	0.0	24.0	20.0	
+unmapped	1.8.5.2 #	3.0	0.0	2.0	0.0	
+unmapped	2.1.1.100 #	4.0	4.0	3.0	11.0	
+unmapped	2.1.1.195 #	11.0	0.0	1.0	11.0	
+unmapped	2.1.1.196 #	0.0	2.0	0.0	0.0	
+unmapped	2.1.1.248 #	0.0	0.0	0.0	3.0	
+unmapped	2.1.1.249 #	0.0	0.0	0.0	2.0	
+unmapped	2.1.1.250 #	0.0	14.0	115.0	207.0	
+unmapped	2.3.1.199 #	3.0	0.0	14.0	13.0	
+unmapped	2.3.1.222 #	6.0	0.0	3.0	5.0	
+unmapped	2.4.1.256 #	0.0	0.0	0.0	1.0	
+unmapped	2.4.99.12 #	0.0	6.0	38.0	64.0	
+unmapped	2.4.99.16 #	6.0	0.0	13.0	1.0	
+unmapped	2.4.99.18 #	0.0	0.0	4.0	1.0	
+unmapped	2.7.1.168 #	0.0	6.0	10.0	14.0	
+unmapped	2.7.8.37 #	3.0	1.0	1.0	1.0	
+unmapped	2.8.1.1 #	0.0	7.0	31.0	33.0	
+unmapped	2.8.1.10 #	21.0	16.0	65.0	133.0	
+unmapped	2.8.1.12 #	23.0	30.0	89.0	121.0	
+unmapped	3.5.3.26 #	25.0	9.0	10.0	11.0	
+unmapped	3.7.1.12 #	19.0	3.0	1.0	4.0	
+unmapped	4.1.1.90 #	0.0	0.0	0.0	17.0	
+unmapped	4.1.1.97 #	4.0	10.0	24.0	23.0	
+unmapped	4.1.99.17 #	0.0	7.0	35.0	115.0	
+unmapped	4.1.99.18 #	12.0	10.0	51.0	77.0	
+unmapped	4.1.99.5 #	1.0	0.0	1.0	6.0	
+unmapped	4.2.1.126 #	0.0	0.0	4.0	4.0	
+unmapped	4.2.1.134 #	1.0	0.0	3.0	7.0	
+unmapped	4.2.1.59 #	0.0	8.0	93.0	149.0	
+unmapped	4.3.3.7 #	0.0	15.0	41.0	61.0	
+unmapped	4.7.1.1 #	7.0	9.0	8.0	2.0	
+unmapped	5.2.1.14 #	1.0	0.0	8.0	4.0	
+unmapped	5.3.3.14 #	0.0	0.0	0.0	2.0	
+unmapped	5.4.2.11 #	0.0	2.0	42.0	29.0	
+unmapped	5.4.2.12 #	160.0	7.0	69.0	188.0	
+unmapped	5.4.99.9 #	0.0	0.0	40.0	20.0	
+unmapped	5.5.1.19 #	12.0	0.0	32.0	8.0	
+unmapped	6.3.4.20 #	53.0	9.0	54.0	82.0	
+unmapped	6.3.4.21 #	118.0	27.0	104.0	82.0	
+unmapped	6.3.4.23 #	6.0	0.0	0.0	6.0	

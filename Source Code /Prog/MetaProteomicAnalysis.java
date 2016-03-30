@@ -143,7 +143,7 @@ public class MetaProteomicAnalysis {
 	 * https://github.com/statisticalbiotechnology/NonlinearGradientsUI/blob/master/src/nonlineargradientsui/Protein.java. 
 	 * 
 	 */
-	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap seq, String sampleName) {
+	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap<?, ?> seq, String sampleName) {
 		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
 		TrypticPeptide trypticPeptide = new TrypticPeptide();
 		//Stores each digested piece of the peptide for each unqiue identifer
@@ -491,7 +491,11 @@ public class MetaProteomicAnalysis {
 			pie1.setCircular(false);
 			pie1.setLabelGenerator(null);
 			try {
-				ChartUtilities.saveChartAsPNG(new File(CmdController1.outPutPath_
+				File f = new File(CmdController1.tmpPath+ "PieChart");
+				if (!f.exists()) {
+			            f.mkdirs();
+			    }
+				ChartUtilities.saveChartAsPNG(new File(CmdController1.tmpPath
 						+ "PieChart" + File.separator + fileName
 						+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
 				System.out.println("Pie Chart exported to " + File.separator
@@ -614,7 +618,7 @@ public class MetaProteomicAnalysis {
 			System.out.println("File exported to " +  File.separator
 				+ "Excel" + File.separator + fileName + "Summary" + ".xls");
 		}
-		else if(batchCommandOn){
+		else if(batchCommandOn && !CmdController1.optionsCmd_.equals("lcamat")){
 			exportTableTxt(table2, "TotalTaxon", fileName);
 			System.out.println("File exported to " +  File.separator
 					+ "Tables" + File.separator + fileName + "Summary" + ".txt");
@@ -633,33 +637,39 @@ public class MetaProteomicAnalysis {
 	 */
 	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
+			 
+			 File f = new File(CmdController1.tmpPath + "Excel");
+			 if (!f.exists()) {
+				 f.mkdirs();
+			 }
 			 //saves the new excel file within the Excel folder
-			 	File file = new File(StartFromp1.FolderPath+ "Excel" + File.separator + fileName + tableName + ".xls");
-	            WritableWorkbook workbook1 = Workbook.createWorkbook(file);
-	            WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
-	            TableModel model = table.getModel();
+		 	File file = new File(CmdController1.tmpPath + "Excel" + File.separator + fileName + tableName + ".xls");
+            WritableWorkbook workbook1 = Workbook.createWorkbook(file);
+            WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
+            TableModel model = table.getModel();
 
-	            for (int i = 0; i < model.getColumnCount(); i++) {
-	                Label column = new Label(i, 0, model.getColumnName(i));
-	                sheet1.addCell(column);
-	            }
-	            int j = 0;
-	            for (int i = 0; i < model.getRowCount(); i++) {
-	                for (j = 0; j < model.getColumnCount(); j++) {
-	                	//determines if the cell value is a number or string. If the value is a number,
-	                	//it is stored as an number within the excel file
-	                	if(isNumeric(model.getValueAt(i, j).toString())){
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                Label column = new Label(i, 0, model.getColumnName(i));
+                sheet1.addCell(column);
+            }
+            int j = 0;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (j = 0; j < model.getColumnCount(); j++) {
+                	//determines if the cell value is a number or string. If the value is a number,
+                	//it is stored as an number within the excel file
+                	if(isNumeric(model.getValueAt(i, j).toString())){
 						Number number = new Number(j, i + 1,
 								((int) model.getValueAt(i, j)) / 1.0);
 						sheet1.addCell(number);
-					} else {
+                	} 
+                	else {
 						Label row = new Label(j, i + 1, model.getValueAt(i, j)
 								.toString());
 						sheet1.addCell(row);
-					}
+                	}
 
-				}
-			}
+                }
+            }
 			workbook1.write();
 			workbook1.close();
 		} catch (Exception ex) {
@@ -667,46 +677,50 @@ public class MetaProteomicAnalysis {
 		}
 		if(!commandLineOn){
 			ActMatrixPane pane = new ActMatrixPane();
-			pane.infoFrame(StartFromp1.FolderPath+ "Excel" + File.separator + fileName + tableName + ".xls", "Excel");
+			pane.infoFrame("Excel" + File.separator + fileName + tableName + ".xls", "Excel");
 		}
 	}
 	
 	public void exportTableTxt(JTable table, String tableName, String fileName){
-		File file = new File(CmdController1.outPutPath_ + "Tables" + File.separator + fileName + tableName + ".txt");
+		
+	
+		File f = new File(CmdController1.tmpPath+ "Tables");
+		if (!f.exists()) {
+	            f.mkdirs();
+	    }
+		
+		File file = new File(CmdController1.tmpPath + "Tables" + File.separator + fileName + tableName + ".txt");
 		StringBuffer tableContent = new StringBuffer();
 		TableModel model = table.getModel();
 		String separator = "\t";
-		if (!CmdController1.optionsCmd_.equals("lcamat")){
-			
-		
-			try {
-				FileWriter fileWriter = new FileWriter(file);
-				String column = "";
-				for (int i = 0; i < model.getColumnCount(); i++) {
-	                column += model.getColumnName(i) + separator;
-	            }
-				fileWriter.write(column + "\n");
-			    int j = 0;
-			    String data = "";
-	            for (int i = 0; i < model.getRowCount(); i++) {
-	                for (j = 0; j < model.getColumnCount(); j++) {
-	                	if(j!=model.getColumnCount()-1){
-	                		data += model.getValueAt(i, j).toString() + separator;
-	                	}
-	                	else{
-	                		data += model.getValueAt(i, j).toString() + "\n";
-	                	}
-	                	
-	                }
-	                fileWriter.write(data);
-	             }
-	            fileWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	
+		try {
+			FileWriter fileWriter = new FileWriter(file);
+			String column = "";
+			for (int i = 0; i < model.getColumnCount(); i++) {
+                column += model.getColumnName(i) + separator;
+            }
+			fileWriter.write(column + "\n");
+		    int j = 0;
+		    String data = "";
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (j = 0; j < model.getColumnCount(); j++) {
+                	if(j!=model.getColumnCount()-1){
+                		data += model.getValueAt(i, j).toString() + separator;
+                	}
+                	else{
+                		data += model.getValueAt(i, j).toString() + "\n";
+                	}
+                	
+                }
+                fileWriter.write(data);
+             }
+            fileWriter.close();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -735,20 +749,20 @@ public class MetaProteomicAnalysis {
 	 * @return sorted hashmap
 	 * @author Jennifer Terpstra
 	 */
-	public LinkedHashMap sortHashMapByValuesD(Map<String, Integer> totalResult) {
-		List mapKeys = new ArrayList(totalResult.keySet());
-		List mapValues = new ArrayList(totalResult.values());
+	public LinkedHashMap<String, Integer> sortHashMapByValuesD(Map<String, Integer> totalResult) {
+		List<String> mapKeys = new ArrayList<String>(totalResult.keySet());
+		List<Integer> mapValues = new ArrayList<Integer>(totalResult.values());
 		Collections.sort(mapValues);
 		Collections.sort(mapKeys);
 		Collections.reverse(mapValues);
 		Collections.reverse(mapKeys);
 
-		LinkedHashMap sortedMap = new LinkedHashMap();
+		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
 
-		Iterator valueIt = mapValues.iterator();
+		Iterator<Integer> valueIt = mapValues.iterator();
 		while (valueIt.hasNext()) {
 			Object val = valueIt.next();
-			Iterator keyIt = mapKeys.iterator();
+			Iterator<String> keyIt = mapKeys.iterator();
 
 			while (keyIt.hasNext()) {
 				Object key = keyIt.next();

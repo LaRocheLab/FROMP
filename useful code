@@ -1,0 +1,16 @@
+File f = new File(CmdController1.tmpPath+ "Sequences");
+								if (!f.exists()) {
+							            f.mkdirs();
+							    }
+
+!CmdController1.optionsCmd_.equals("lcamat")
+
+StartFromp1.FolderPath
+
+CmdController1.tmpPath
+
+CmdController1.outPutPath_
+
+File.separator
+
+Sequences

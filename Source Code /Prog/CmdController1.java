@@ -73,8 +73,6 @@ public class CmdController1 {
 		//processing();
 		System.out.println("Starting cmdFromp");
 		
-		//inti
-		
 		controller = new Controller(Color.black);
 		
 		Panes.Loadingframe.showLoading = false;
@@ -393,7 +391,7 @@ public class CmdController1 {
 				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
 			}
 			
-			System.out.println("Output files were saved at: "+ tmpPath);
+			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
 		}
 		// seqall --checked output path --checking seq file
 		else if (optionsCmd_.contentEquals("seqall")){
@@ -414,7 +412,7 @@ public class CmdController1 {
 				
 				pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 			}
-			System.out.println("Output files were saved at: "+ tmpPath);
+			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
 		}
 		// eclist or eclist# - checked out path
 		else if (optionsCmd_.startsWith ("eclist")){
@@ -501,124 +499,46 @@ public class CmdController1 {
 		// lca.- checked out path--checking seq file
 		else if (optionsCmd_.contentEquals("lca")){
 			
-			//tmp
-			//outPutPath_=StartFromp1.FolderPath;
-			
 			checkSeqFile();
 			//set output path
 			if(outPutPath_.contentEquals("def")){		
-				outPutPath_ = basePath_+"lca"+File.separator;
+				tmpPath = basePath_+"lca"+File.separator;
 			}
-			
-			
-			
-			//Function for read seq file.
-//			if(ec_.isEmpty()){
-//
-//				this.reader = new StringReader();
-//				//read sequence file.For connecting sequence  file with project file.  
-//				this.sequenceList = this.reader.readTxt(outPutPath_);
-//				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-//				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-//				System.out.println("Warning: Process may take awhile if there are a large amount of sequences\n");
-//				String line = "";
-//				try {
-//					ArrayList<String> timedOut;
-//					long startTime = System.currentTimeMillis();
-//					while ((line = this.sequenceList.readLine()) != null) {
-//						//If the line contains a > it is not a file containing a list of sequence files
-//						if(line.contains(">")){
-//							metapro.getTrypticPeptideAnaysis(metapro.readFasta(outPutPath_), true, batchCommand);
-//							break;
-//						}
-//						//Top seq in eclist file. it means if read a eclist.txt file.
-//						else if(line.contains("Ec Activity EC Numbers")){
-//							//?
-//							batchCommand = true;
-//							line = sequenceList.readLine();
-//							String sampleName = "";
-//							LinkedHashMap<String,String> seq_for_lca;
-//							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-//							String fileName = line +  "-";
-//							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
-//							
-//							batchCommand = false;
-//						}
-//						//ec#. under "Ec Activity EC Numbers"
-//						else if(line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")){
-//							
-//							batchCommand = true;
-//							String sampleName = "";
-//							LinkedHashMap<String,String> seq_for_lca;
-//							seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-//							String fileName = line +  "-";
-//							tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), false, batchCommand);
-//							
-//							batchCommand = false;
-//						}
-//						//not eclist, ec# or ">"
-//						else{
-//							metapro.getTrypticPeptideAnaysis(metapro.readFasta(line), true, batchCommand);
-//						}
-//					}
-//					
-//					System.out.println("LCA Done");
-//					//checking for any timed out ec numbers
-//					checkTimedOut(metapro);
-//					
-//					long endTime   = System.currentTimeMillis();
-//					long totalTime = endTime - startTime;
-//					timedOut = metapro.getTimedOut();
-//					//printing out the names of the files that timed out
-//					if(!timedOut.isEmpty()){
-//						System.out.println("Files that timed out:");
-//						for(int i = 0; i < timedOut.size(); i++){
-//							System.out.println(timedOut.get(i).substring(0, timedOut.get(i).indexOf("-")));
-//						}
-//					}
-//					// no time out.
-//					else{
-//						System.out.println("All files executed successfully");
-//					}
-//					System.out.println("Time" + " " + totalTime);
-//				} catch (IOException e) {
-//					System.out.println("File does not exist");
-//				}
-//			}
-			//read ec# file , sequence = null
-//			else{
+			else {
+				tmpPath = outPutPath_;
+			}
 
-				MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-				ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-				pane.exportAll = true;
-				String sampleName = "";
-				String line = "";
+			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			pane.exportAll = true;
+			String sampleName = "";
+			String line = "";
+			
+			for (int i = 0;i<this.ec_.size();i++) {
 				
-				for (int i = 0;i<this.ec_.size();i++) {
-					
-					line = ""+ec_.get(i);
-					LinkedHashMap<String,String> seq_for_lca;
-					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-					String fileName = line +  "-";
-					metapro = new MetaProteomicAnalysis();
-					batchCommand = true;
-					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
-					
-				}
-				System.out.println("Done LCA");
-				checkTimedOut(metapro);
-//			}
+				line = ""+ec_.get(i);
+				LinkedHashMap<String,String> seq_for_lca;
+				seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+				String fileName = line +  "-";
+				metapro = new MetaProteomicAnalysis();
+				batchCommand = true;
+				tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+				
+			}
+			System.out.println("Done LCA");
+			checkTimedOut(metapro);
+
 		}
 		else if (optionsCmd_.contentEquals("lcamat")){
 			
-			//tmp
-			//outPutPath_=StartFromp1.FolderPath;
-			
 			checkSeqFile();
 			
 			//set output path
 			if(outPutPath_.contentEquals("def")){		
-				outPutPath_ = basePath_+"lca"+File.separator;
+				tmpPath = basePath_+"lcamat"+File.separator;
+			}
+			else {
+				tmpPath = outPutPath_;
 			}
 			
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
@@ -627,14 +547,11 @@ public class CmdController1 {
 			
 			String sampleName = "";
 			String line = "";
-		
 			
 			Date d = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
 			
 			String path = outPutPath_+Project.workpath_+"-Taxa-allsamples-"+sdf.format(d)+".txt";
-			
-			
 			
 			File file = new File(path);
 			//StringBuffer tableContent = new StringBuffer();
@@ -716,14 +633,13 @@ public class CmdController1 {
 						fileWriter.write("\t\n");
 						
 					}
-	
 				}
-				fileWriter.close();	
-				
+				fileWriter.close();					
 			}
 			catch(IOException e){
 				e.printStackTrace();
-			}		
+			}	
+			System.out.println("Done Lca Matrix");
 		}
 	}
 	

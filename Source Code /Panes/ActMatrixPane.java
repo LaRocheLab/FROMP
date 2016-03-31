@@ -14,6 +14,7 @@ import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
 import Prog.NewFrompFrame;
 import Prog.StartFromp1;
+import Prog.seqWithFileName;
 import Prog.tableAndChartData;
 
 import java.awt.BorderLayout;
@@ -287,7 +288,7 @@ public class ActMatrixPane extends JPanel {
 					String path = StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName()
 							+ " Total Taxonomy" + ".png";
 					ChartUtilities.saveChartAsPNG(new File(path), chart, 1000, 1000);
-					//infoFrame(StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
+					infoFrame(StartFromp1.FolderPath+ "PieChart" + File.separator + returnData.getFileName(), "PieChart");
 				} catch (IOException e1) {
 					warningFrame("PieChart folder does not exist!");
 				}
@@ -559,6 +560,7 @@ public class ActMatrixPane extends JPanel {
 	
 	//Button used to clear the screen of all graphs & charts
 	JButton clear = new JButton("Clear Screen");
+
 	clear.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
 			displayP_.removeAll();
@@ -569,21 +571,84 @@ public class ActMatrixPane extends JPanel {
 			yIndex2 = 0;
 		}
 	});
-	clear.setBounds(1000, 35, 170, 20);
+	clear.setBounds(1000, 10, 170, 20);
 	clear.setVisible(true);
 	clear.setLayout(null);
-	clear.setForeground(Project.getFontColor_());
+	clear.setForeground(Color.red);
+	
+	JButton load_Seq_Batch = new JButton("Load Ec/Seq Batch file");
+	load_Seq_Batch.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Load Ec/Seq Batch file");
+			String path_ = "";
+			//path_ = new File("").getCanonicalPath();
+			path_ = StartFromp1.FolderPath+"/bin";
+			JFileChooser fChoose_ = new JFileChooser(path_);
+			fChoose_.setFileSelectionMode(0);
+			fChoose_.setBounds(100, 100, 200, 20);
+			fChoose_.setVisible(true);
+			File file = new File(path_);
+			fChoose_.setSelectedFile(file);;
+			fChoose_.setFileFilter(new FileFilter() {
+				public boolean accept(File f) {
+					if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))
+							|| (f.getName().toLowerCase().endsWith(".lst"))
+							|| (f.getName().toLowerCase().endsWith(".faa"))){
+						return true;
+					}
+					return false;
+				}
+
+				public String getDescription() {
+					return ".txt/.lst/.faa";
+				}
+			});
+			//using SeqFileReader to read a  batch of seq file.
+			if (fChoose_.showSaveDialog(ActMatrixPane.this.getParent()) == 0) {
+				try {
+					String path = fChoose_.getSelectedFile().getCanonicalPath();
+					
+					StartFromp1.ecSet = new ArrayList<String>();
+					StartFromp1.FileSetofSeq = new ArrayList<seqWithFileName>();
+					StartFromp1.EcFileReader(path);
+					if(StartFromp1.isSeq==true){
+						StartFromp1.SeqFileReader(path);
+						StartFromp1.isSeq=false;
+					
+					}
+					if(!StartFromp1.ecSet.isEmpty()){
+						System.out.println("Is Ec batch");
+						runLcaBatchFile(StartFromp1.ecSet);
+					}
+					else if(!StartFromp1.FileSetofSeq.isEmpty()){
+						System.out.println("Is Seq batch");
+						runLcaSeq(StartFromp1.FileSetofSeq);
+					}
+					else{
+						warningFrame("This is not a EC number or Seq batch file!");
+					}
+					
+				} 
+				catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		
+			}
+		}	
+	});
+	
+	load_Seq_Batch.setBounds(1000, 40, 170, 20);
+	load_Seq_Batch.setVisible(true);
+	load_Seq_Batch.setLayout(null);
+
 	
 	JButton load_Ec_Batch = new JButton("Load EC Batch file");
 	load_Ec_Batch.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
 			System.out.println("Load EC Batch file");
 			String path_ = "";
-			try {
-				path_ = new File("").getCanonicalPath();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			//path_ = new File("").getCanonicalPath();
+			path_ = StartFromp1.FolderPath+"/bin";
 			JFileChooser fChoose_ = new JFileChooser(path_);
 			fChoose_.setFileSelectionMode(0);
 			fChoose_.setBounds(100, 100, 200, 20);
@@ -608,7 +673,7 @@ public class ActMatrixPane extends JPanel {
 					String path = fChoose_.getSelectedFile().getCanonicalPath();
 					//File filename = new File(path);
 					
-					StartFromp1.ecSet =new ArrayList<String>();;
+					StartFromp1.ecSet =new ArrayList<String>();
 					StartFromp1.EcFileReader(path);
 					
 					//boolean isBatch = checkBatchFile(filename);
@@ -628,7 +693,7 @@ public class ActMatrixPane extends JPanel {
 			}
 		}
 	});
-	load_Ec_Batch.setBounds(1000, 60, 170, 20);
+	load_Ec_Batch.setBounds(1000, 70, 170, 20);
 	load_Ec_Batch.setVisible(true);
 	
 
@@ -656,7 +721,7 @@ public class ActMatrixPane extends JPanel {
 	this.optionsPanel_.add(ec_combo);
 	this.optionsPanel_.add(smp_combo);
 	this.optionsPanel_.add(load_Ec_Batch);
-	
+	this.optionsPanel_.add(load_Seq_Batch);
 	}
 	
 	/**
@@ -751,6 +816,44 @@ public class ActMatrixPane extends JPanel {
 			
 	}
 
+	private void runLcaSeq(ArrayList<seqWithFileName> fileSetofSeq) {
+		LinkedHashMap<String,String> seq_for_lca;
+		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		try{
+			
+			
+			lframe = new Loadingframe(); // opens the loading frame
+			lframe.bigStep("Calculating LCA..");
+			
+			for(int i = 0; i < fileSetofSeq.size();i++){
+				String line = fileSetofSeq.get(i).getFileName();
+				lframe.step(line);
+				exportAll = true;
+				//equal to cmd seqall.
+				seq_for_lca = fileSetofSeq.get(i).getIdSeq();
+				fileName = line +  "-";
+				meta = new MetaProteomicAnalysis();
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
+				
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} 
+				else {
+					drawChart();
+				}	
+				
+			}	
+			Loadingframe.close();
+		}
+		
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private void addOptions() {// adds the buttons, labels, checkboxes etc to the options panel
 		this.lframe.bigStep("Adding options");
 		this.lframe.step("Buttons");

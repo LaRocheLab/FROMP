@@ -22,3 +22,6 @@ git commit...
 
 cmdExport
 No values found within sequence file for ec: 1.1.1.27-
+
+StartFromp1.FolderPath+"/bin"  GUI
+path_ = new File("").getCanonicalPath();

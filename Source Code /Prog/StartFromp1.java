@@ -193,7 +193,7 @@ public class StartFromp1 {
 		}
 	}//main method finished.
 	//add all seq for lca
-	private static void SeqFileReader(String SeqOrList) {
+	public static void SeqFileReader(String SeqOrList) {
 		
 		// if is a file path
 		if(checkPath(SeqOrList,1)){

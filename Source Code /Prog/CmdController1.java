@@ -45,7 +45,7 @@ public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
 	String inputPath_	; // The inputpath given by the user
 	public static String outPutPath_=StartFromp1.FolderPath; // The output path given in by the user
-	public static String optionsCmd_; // The option denoted by the user. ie h for help, etc
+	public static String optionsCmd_=""; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
 	static Controller controller; // The controller. Allows user to save, load etc.
@@ -496,7 +496,7 @@ public class CmdController1 {
 			pane.exportEcNums(tmpPath, this.num_ec_exported);
 			
 		}
-		// lca.- checked out path--checking seq file
+		// lca.- checked out path--can read ec , ec file , seq file.
 		else if (optionsCmd_.contentEquals("lca")){
 			
 			checkSeqFile();
@@ -514,33 +514,48 @@ public class CmdController1 {
 			String sampleName = "";
 			String line = "";
 			
-			for (int i = 0;i<this.ec_.size();i++) {
+			if (!ec_.isEmpty()){
 				
-				line = ""+ec_.get(i);
-				LinkedHashMap<String,String> seq_for_lca;
-				seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-				String fileName = line +  "-";
-				metapro = new MetaProteomicAnalysis();
-				batchCommand = true;
-				tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+				for (int i = 0;i<this.ec_.size();i++) {
+					
+					line = ""+ec_.get(i);
+					LinkedHashMap<String,String> seq_for_lca;
+					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+					String fileName = line +  "-";
+					metapro = new MetaProteomicAnalysis();
+					batchCommand = true;
+					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+					
+				}
+			}
+			
+			if(!StartFromp1.FileSetofSeq.isEmpty()){
+				
+				for(int j=0;j< StartFromp1.FileSetofSeq.size();j++){
+					seqWithFileName seqFile = StartFromp1.FileSetofSeq.get(j);
+					metapro = new MetaProteomicAnalysis();
+					batchCommand = true;
+					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-"), true, batchCommand);
+					
+				}
 				
 			}
+			
 			System.out.println("Done LCA");
 			checkTimedOut(metapro);
 
 		}
+		// lcamat - can read ec , ec file , seq file.
 		else if (optionsCmd_.contentEquals("lcamat")){
 			
-			checkSeqFile();
-			
+			checkSeqFile();		
 			//set output path
 			if(outPutPath_.contentEquals("def")){		
 				tmpPath = basePath_+"lcamat"+File.separator;
 			}
 			else {
 				tmpPath = outPutPath_;
-			}
-			
+			}		
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			pane.exportAll = true;
 			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
@@ -551,94 +566,179 @@ public class CmdController1 {
 			Date d = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
 			
-			String path = outPutPath_+Project.workpath_+"-Taxa-allsamples-"+sdf.format(d)+".txt";
-			
-			File file = new File(path);
-			//StringBuffer tableContent = new StringBuffer();
-			String separator = "\t";
-			try{
-				FileWriter fileWriter = new FileWriter(file);
-				String writerLine = "Ec-Taxa";
+			//process ec file.
+			if (!ec_.isEmpty()){
+				String path = tmpPath+Project.workpath_+"-EC-Taxa-Matrix-"+sdf.format(d)+".txt";
 				
-				for (int t =0 ; t < Project.samples_.size();t++){
+				File file = new File(path);
+				//StringBuffer tableContent = new StringBuffer();
+				String separator = "\t";
+				try{
+					FileWriter fileWriter = new FileWriter(file);
+					String writerLine = "EC-Taxa";
 					
-					writerLine += separator+ Project.samples_.get(t).name_;
-				
-				}
-				//title finished.
-				fileWriter.write(writerLine+"\n");
-				
-				//writer each ec to line.
-				for (int i = 0;i<this.ec_.size();i++) {
-					
-					line = ""+ec_.get(i);
-					LinkedHashMap<String,String> seq_for_lca;
-					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
-					String fileName = line +  "-";
-					metapro = new MetaProteomicAnalysis(); 
-					ArrayList<TrypticPeptide> peptide = metapro.readFasta(seq_for_lca, fileName); 
-					batchCommand = true;
-					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
-					// Prepare printable  taxa table
-					HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
-					
-					
-					//each peptide
-					for (int j =0; j<peptide.size();j++){
+					for (int t =0 ; t < Project.samples_.size();t++){
 						
-						if (peptide.get(j).getIdentifiedTaxa() != null) {
-							String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
-							String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
-							int samIndex=0;
-							for (int s=0;s<Project.samples_.size();s++){
-								if (Project.samples_.get(s).name_.contentEquals(samName)){
-									samIndex = s;
-									break;	
-								}	
-							}
+						writerLine += separator+ Project.samples_.get(t).name_;
+					
+					}
+					//title finished.
+					fileWriter.write(writerLine+"\n");
+					
+					//writer each ec to line.
+					for (int i = 0;i<this.ec_.size();i++) {
+						
+						line = ""+ec_.get(i);
+						LinkedHashMap<String,String> seq_for_lca;
+						seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
+						String fileName = line +  "-";
+						metapro = new MetaProteomicAnalysis(); 
+						ArrayList<TrypticPeptide> peptide = metapro.readFasta(seq_for_lca, fileName); 
+						batchCommand = true;
+						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+						// Prepare printable  taxa table
+						HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
+						
+						
+						//each peptide
+						for (int j =0; j<peptide.size();j++){
 							
-							System.out.println("ecTaxaName:"+ecTaxaName);
-							System.out.println("samName:"+samName);
-							System.out.println("samIndex:"+samIndex);
-							
-							//no need root, Bacteria and Inconclusive
-							if(!ecTaxaName.contentEquals(fileName+"root") && !ecTaxaName.contentEquals(fileName+"Bacteria") && !ecTaxaName.contentEquals(fileName+"Inconclusive")){
-								
-								if (taxaTable.containsKey(ecTaxaName)){
-									int [] num = taxaTable.get(ecTaxaName);
-									num [samIndex] += 1;
-									taxaTable.put(ecTaxaName,num);		
+							if (peptide.get(j).getIdentifiedTaxa() != null) {
+								String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
+								String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
+								int samIndex=0;
+								for (int s=0;s<Project.samples_.size();s++){
+									if (Project.samples_.get(s).name_.contentEquals(samName)){
+										samIndex = s;
+										break;	
+									}	
 								}
-								else{
-									int [] num = new int [Project.samples_.size()];
-									num[samIndex]+=1;
-									taxaTable.put(ecTaxaName,num);		
-								}	
+								
+//								System.out.println("ecTaxaName:"+ecTaxaName);
+//								System.out.println("samName:"+samName);
+//								System.out.println("samIndex:"+samIndex);	
+								//no need root, Bacteria and Inconclusive
+								if(!ecTaxaName.contentEquals(fileName+"root") && !ecTaxaName.contentEquals(fileName+"Bacteria") && !ecTaxaName.contentEquals(fileName+"Inconclusive")){
+									
+									if (taxaTable.containsKey(ecTaxaName)){
+										int [] num = taxaTable.get(ecTaxaName);
+										num [samIndex] += 1;
+										taxaTable.put(ecTaxaName,num);		
+									}
+									else{
+										int [] num = new int [Project.samples_.size()];
+										num[samIndex]+=1;
+										taxaTable.put(ecTaxaName,num);		
+									}	
+								}
+							}	
+						}						
+						for (String key : taxaTable.keySet() ){
+							String Line =key;
+							int [] num = taxaTable.get(key);
+							
+							for (int sam = 0 ; sam < num.length;sam++){
+								Line += "\t"+num[sam];	
 							}
-						}	
-					}
-					
-					for (String key : taxaTable.keySet() ){
-						String Line =key;
-						int [] num = taxaTable.get(key);
-						
-						for (int sam = 0 ; sam < num.length;sam++){
-							Line += "\t"+num[sam];	
+							System.out.println("Line:"+Line);
+							fileWriter.write(Line+"\n");		
 						}
-						System.out.println("Line:"+Line);
-						fileWriter.write(Line+"\n");		
+						// one empty line for each ec.
+						if(!taxaTable.keySet().isEmpty()){
+							fileWriter.write("\t\n");
+							
+						}
 					}
-					// one empty line for each ec.
-					if(!taxaTable.keySet().isEmpty()){
-						fileWriter.write("\t\n");
-						
-					}
+					fileWriter.close();					
 				}
-				fileWriter.close();					
+				catch(IOException e){
+					e.printStackTrace();
+				}	
+				
 			}
-			catch(IOException e){
-				e.printStackTrace();
-			}	
+			// Process seq file.
+			if (!StartFromp1.FileSetofSeq.isEmpty()){
+				String path = tmpPath+Project.workpath_+"-Seq-Taxa-Matrix-"+sdf.format(d)+".txt";
+				
+				File file = new File(path);
+				//StringBuffer tableContent = new StringBuffer();
+				String separator = "\t";
+				try{
+					FileWriter fileWriter = new FileWriter(file);
+					String writerLine = "Seq-Taxa";
+					
+					for (int t =0 ; t < Project.samples_.size();t++){
+						
+						writerLine += separator+ Project.samples_.get(t).name_;
+					
+					}
+					//title finished.
+					fileWriter.write(writerLine+"\n");
+					
+					//writer each ec to line.
+					for (int i = 0;i< StartFromp1.FileSetofSeq.size();i++) {
+						
+						String fileName = StartFromp1.FileSetofSeq.get(i).getFileName() +  "-";
+						metapro = new MetaProteomicAnalysis(); 
+						ArrayList<TrypticPeptide> peptide = metapro.readFasta(StartFromp1.FileSetofSeq.get(i).getIdSeq(), fileName); 
+						batchCommand = true;
+						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+						// Prepare printable  taxa table
+						HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
+						
+						
+						//each peptide
+						for (int j =0; j<peptide.size();j++){	
+							if (peptide.get(j).getIdentifiedTaxa() != null) {
+								String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
+								String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
+								int samIndex=0;
+								for (int s=0;s<Project.samples_.size();s++){
+									if (Project.samples_.get(s).name_.contentEquals(samName)){
+										samIndex = s;
+										break;	
+									}	
+								}
+								//no need root, Bacteria and Inconclusive
+								if(!ecTaxaName.contentEquals(fileName+"root") && !ecTaxaName.contentEquals(fileName+"Bacteria") && !ecTaxaName.contentEquals(fileName+"Inconclusive")){
+									
+									if (taxaTable.containsKey(ecTaxaName)){
+										int [] num = taxaTable.get(ecTaxaName);
+										num [samIndex] += 1;
+										taxaTable.put(ecTaxaName,num);		
+									}
+									else{
+										int [] num = new int [Project.samples_.size()];
+										num[samIndex]+=1;
+										taxaTable.put(ecTaxaName,num);		
+									}	
+								}
+							}
+							
+						}
+						for (String key : taxaTable.keySet() ){
+							String Line =key;
+							int [] num = taxaTable.get(key);
+							
+							for (int sam = 0 ; sam < num.length;sam++){
+								Line += "\t"+num[sam];	
+							}
+							System.out.println("Line:"+Line);
+							fileWriter.write(Line+"\n");		
+						}
+						// one empty line for each ec.
+						if(!taxaTable.keySet().isEmpty()){
+							fileWriter.write("\t\n");
+							
+						}
+					}
+					fileWriter.close();					
+				}
+				catch(IOException e){
+					e.printStackTrace();
+				}					
+			}
+
 			System.out.println("Done Lca Matrix");
 		}
 	}
@@ -706,8 +806,7 @@ public class CmdController1 {
 			String key = kb.nextLine().toLowerCase();
 			System.out.println();
 			while (!pass){
-				//add seq file
-				
+				//add seq file	
 				if (key.contentEquals("y")){
 					//add seq file in order to all samples without seq.
 					for (int i = 0 ; i < sampleWithoutSeq.size();i++){
@@ -769,7 +868,6 @@ public class CmdController1 {
 							pass =false;
 						}				
 					}
-		
 				}
 				// input was not y or n
 				else {
@@ -780,10 +878,8 @@ public class CmdController1 {
 					System.out.println();
 				}		
 			}//loop for adding seq or not. 
-			kb.close();
-			
+			kb.close();		
 		}
-	
 	}
 	/**
 	 * This method performs the ability to try re-running timed out ec numbers from the find lowest
@@ -822,8 +918,4 @@ public class CmdController1 {
 			}
 		}
 	}
-	
-
-
-	
 }

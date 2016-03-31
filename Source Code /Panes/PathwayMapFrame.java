@@ -512,6 +512,7 @@ public class PathwayMapFrame extends JFrame {
 		int colDist = 20;
 
 		int numEcs = 1;
+		//right side part1 sample name - PathWay Pic
 		if (this.samp_.singleSample_) {
 			this.g_.setColor(this.samp_.sampleCol_);
 			this.g_.drawString("Sample: " + this.samp_.name_,
@@ -526,7 +527,7 @@ public class PathwayMapFrame extends JFrame {
 				numEcs++;
 			}
 		}
-		// ec bar - right side - output of op 
+		//right side part2 ec bar - PathWay Pic
 		for (int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++) {
 			this.g_.setColor(Color.black);
 			numEcs++;
@@ -534,33 +535,52 @@ public class PathwayMapFrame extends JFrame {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ "*:", image.getWidth() + 20,
 						15 + (colDist * numEcs + 1));
-			} else {
+			} 
+			else {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ ":", image.getWidth() + 20,
 						15 + (colDist * numEcs + 1));
 			}
+			// one sample or multiple samples
 			if (this.samp_.singleSample_) {
 				this.g_.setColor(this.samp_.sampleCol_);
-				this.g_.fillRect(image.getWidth() + 120, colDist * numEcs + 1,
-						((EcNr) this.path_.ecNrs_.get(ecCnt)).amount_,
-						colDist - 2);
-			} else {
+//				this.g_.fillRect(image.getWidth() + 120, colDist * numEcs + 1,
+//						((EcNr) this.path_.ecNrs_.get(ecCnt)).amount_,
+//						colDist - 2);
+				this.g_.fillRect(image.getWidth() + 120, colDist * numEcs + 1,200,colDist - 2);
+				
+			} 
+			else {
 				int step = 0;
 				ArrayList<EcSampleStats> tmpStats = ((EcNr) this.path_.ecNrs_
 						.get(ecCnt)).stats_;
+				// over all ec amount
+				int allAmount = 0;
+				for (int stsCnt = 0; stsCnt < tmpStats.size(); stsCnt++){
+					allAmount += tmpStats.get(stsCnt).amount_;
+					
+				}
+				
+				
 				for (int stsCnt = 0; stsCnt < tmpStats.size(); stsCnt++) {
 					col = ((EcSampleStats) tmpStats.get(stsCnt)).col_;
 
 					this.g_.setColor(col);
-					this.g_.fillRect(image.getWidth() + 120 + step, colDist
-							* numEcs + 1,
-							((EcSampleStats) tmpStats.get(stsCnt)).amount_,
-							colDist - 2);
+					double singleAmount = tmpStats.get(stsCnt).amount_;
+					singleAmount = tmpStats.get(stsCnt).amount_;
+					double weight = (singleAmount/allAmount)*100;
+					double w1 =weight *2;
+					this.g_.fillRect(image.getWidth() + 120 + step, colDist * numEcs + 1,(int)w1, colDist - 2);
+//					int w2 = (int)weight;
+//					this.g_.drawString(""+w2+"%", image.getWidth() + 120 + 200+stsCnt*30, colDist * numEcs + 1 + colDist - 4);
 
-					step += ((EcSampleStats) tmpStats.get(stsCnt)).amount_;
+//					step += ((EcSampleStats) tmpStats.get(stsCnt)).amount_;
+					step += w1;
 				}
+			}
 		}
-		}
+		
+		//right side part3 ec with numbers - PathWay Pic
 		for (int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++) {
 			numEcs++;
 			this.g_.setColor(Color.black);
@@ -568,7 +588,8 @@ public class PathwayMapFrame extends JFrame {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ "*:", image.getWidth() + 20, 15 + colDist
 						* (numEcs + 2));
-		} else {
+			} 
+			else {
 				this.g_.drawString(((EcNr) this.path_.ecNrs_.get(ecCnt)).name_
 						+ ":", image.getWidth() + 20, 15 + colDist
 						* (numEcs + 2));
@@ -577,7 +598,8 @@ public class PathwayMapFrame extends JFrame {
 				this.g_.drawString(String.valueOf(((EcNr) this.path_.ecNrs_
 						.get(ecCnt)).amount_), image.getWidth() + 80, 15
 						+ colDist * (numEcs + 2));
-			} else {
+			} 
+			else {
 				ArrayList<EcSampleStats> tmpStats = ((EcNr) this.path_.ecNrs_
 						.get(ecCnt)).stats_;
 				for (int stsCnt = 0; stsCnt < tmpStats.size(); stsCnt++) {

@@ -14,3 +14,11 @@ CmdController1.outPutPath_
 File.separator
 
 Sequences
+
+git reset HEAD^
+rm BADFILENAME
+git add -A
+git commit...
+
+cmdExport
+No values found within sequence file for ec: 1.1.1.27-

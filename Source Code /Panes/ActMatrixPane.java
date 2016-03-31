@@ -2935,7 +2935,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
-						if(!CmdController1.optionsCmd_.equals("lcamat")){
+						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamat")){
 							//seq
 							if(findLca == false && oneFile == false){
 							try {

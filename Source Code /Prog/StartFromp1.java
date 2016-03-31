@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import pathwayLayout.PathLayoutGrid;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the main method for FROMP. Its is what starts FROMP, and what decides
@@ -33,11 +35,13 @@ public class StartFromp1 {
 	static CmdController1 cmd = new CmdController1();
 	 //the totally number of  ecs need pass to cmdController for processing.
 	public static ArrayList<String> ecSet =new ArrayList<String>();
+	public static ArrayList<seqWithFileName> FileSetofSeq = new ArrayList<seqWithFileName>();
 	static String in;
 	static String out;
 	static String cmdCode;
 	String data="";
 	public static String FolderPath = "";
+	public static boolean isSeq = false;
 	
 	/**
 	 * Takes in a string array of arguments from the user which determines what
@@ -135,9 +139,9 @@ public class StartFromp1 {
 					}
 					
 				}
-				//arg = ec,seq,seqall,lca)
+				//arg = ec,seq,seqall)
 				else if (args[2].contentEquals("ec") ||args[2].contentEquals("seq") ||
-						args[2].contentEquals("seqall") ||args[2].contentEquals("lca")||args[2].contentEquals("lcamat")  ){
+						args[2].contentEquals("seqall")){
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
 						EcFileReader(args[i]);
@@ -150,6 +154,28 @@ public class StartFromp1 {
 					//push to cmdcontroller1
 					cmdCode=args[2];
 					cmd = new CmdController1(cmdCode,ecSet,in,out);			
+				}
+				//arg = lca , lcamat. collection ec or seq
+				else if (args[2].contentEquals("lca")||args[2].contentEquals("lcamat") ){
+					
+					//push all of input ec into ecset;
+					for(int i=3; i<args.length;i++){
+						EcFileReader(args[i]);
+						if(isSeq==true){
+							SeqFileReader(args[i]);
+							isSeq=false;
+						
+						}
+					}
+					//sorting
+					System.out.println("Sorting...");
+					Collections.sort(ecSet);		
+					//summary
+					System.out.println(ecSet+"\nTotally "+ecSet.size()+" ec#s in the list.\nDone...");
+					//push to cmdcontroller1
+					cmdCode=args[2];
+					cmd = new CmdController1(cmdCode,ecSet,in,out);	
+					
 				}
 				//arg = other,error
 				else{
@@ -166,41 +192,95 @@ public class StartFromp1 {
 			argsError();
 		}
 	}//main method finished.
-	
-	//store ec# from Multiple sources.
+	//add all seq for lca
+	private static void SeqFileReader(String SeqOrList) {
+		
+		// if is a file path
+		if(checkPath(SeqOrList,1)){
+			try{
+				BufferedReader fileIn = new BufferedReader(new FileReader(SeqOrList));
+				String line = fileIn.readLine();
+				while((line) != null){
+					if(line.startsWith(">")){
+						seqWithFileName seqFile = new seqWithFileName();
+						String name = SeqOrList.substring(SeqOrList.lastIndexOf(File.separator)+1);
+						seqFile.setFileName(name);
+						while((line) != null){	
+					
+							String ID = line;
+							line = fileIn.readLine();		
+							String Seq = line;
+							
+							seqFile.addtoMap(ID, Seq);
+							
+							line = fileIn.readLine();
+						}
+						
+						FileSetofSeq.add(seqFile);
+					}
+					
+					else{
+						
+						SeqFileReader(line);
+					}
+					line = fileIn.readLine();
+				}	
+				fileIn.close();
+			}
+			catch(Exception e){
+				System.out.println("Can not read file  '"+SeqOrList+"'   continue...");			
+			}	
+		}
+		else {
+			System.out.println("wrong sequence file : "+SeqOrList);
+		}
+		
+	}
+	//store ec# from Multiple sources.	
 	public static  void EcFileReader(String EcOrList){
-			// if it is a ec#
-			String ec = checkEC(EcOrList);
-			if (!ec.contentEquals("-1")){
-				if( !ecSet.contains(ec)){
-					ecSet.add(ec);
-					System.out.println(ec+"  is added.continue...");
+		//check is it a seq file.
+		if(EcOrList.startsWith(">")){
+			isSeq=true;
+			return;
+		}
+		// if it is a ec#
+		String ec = checkEC(EcOrList);
+		if (!ec.contentEquals("-1")){
+			if( !ecSet.contains(ec)){
+				ecSet.add(ec);
+				System.out.println(ec+"  is added.continue...");
+			}
+			else
+				System.out.println(ec+"  has added already.pass...");
+			
+		}
+		// if is a file path
+		else if(checkPath(EcOrList,1)){
+			try{
+				BufferedReader fileIn1 = new BufferedReader(new FileReader(EcOrList));
+				String line = fileIn1.readLine();
+				
+				while((line) != null){	
+					if(line.startsWith(">")){
+						isSeq=true;
+						return;
+					}
+					EcFileReader(line);
+					 line = fileIn1.readLine();					
 				}
-				else
-					System.out.println(ec+"  has added already.pass...");
+				fileIn1.close();
 				
 			}
-			// if is a file path
-			else if(checkPath(EcOrList,1)){
-				try{
-					BufferedReader fileIn1 = new BufferedReader(new FileReader(EcOrList));
-					String line = fileIn1.readLine();
-					
-					while((line) != null){		
-						EcFileReader(line);
-						 line = fileIn1.readLine();					
-					}
-					fileIn1.close();
-				}
-				catch(Exception e){
-					System.out.println("Can not read file  '"+EcOrList+"'   continue...");			
-				}	
-			}
+			catch(Exception e){
+				System.out.println("Can not read file  '"+EcOrList+"'   continue...");			
+			}	
 			
-			else{
-				System.out.println(EcOrList+"  is not a valid ec number.pass...");
-			}				
-	}
+		}
+		
+		else{
+			System.out.println(EcOrList+"  is not a valid ec number.pass...");
+		}				
+}
 
 	public static void run() { // runs gui fromp
 		newFrame = new NewFrompFrame();
@@ -282,6 +362,7 @@ public class StartFromp1 {
 				}
 			}
 		}
+
 		return ""+-1;
 	}
 	

@@ -12,3 +12,10 @@ CmdController1.tmpPath
 CmdController1.outPutPath_
 
 File.separator
+
+Sequences
+
+git reset HEAD^
+rm BADFILENAME
+git add -A
+git commit...

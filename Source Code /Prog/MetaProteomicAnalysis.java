@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -143,7 +144,7 @@ public class MetaProteomicAnalysis {
 	 * https://github.com/statisticalbiotechnology/NonlinearGradientsUI/blob/master/src/nonlineargradientsui/Protein.java. 
 	 * 
 	 */
-	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap<?, ?> seq, String sampleName) {
+	public ArrayList<TrypticPeptide> readFasta(LinkedHashMap<String, String> seq, String sampleName) {
 		ArrayList<TrypticPeptide> retList = new ArrayList<TrypticPeptide>();
 		TrypticPeptide trypticPeptide = new TrypticPeptide();
 		//Stores each digested piece of the peptide for each unqiue identifer
@@ -157,7 +158,8 @@ public class MetaProteomicAnalysis {
 			keys  = seq.keySet().toArray();
 		} catch(NullPointerException e){
 			System.out.println("No values found within sequence file for ec: " + sampleName);
-			System.exit(0);
+			keys= new Object [0];
+			//System.exit(0);
 		}
 		for(int j = 0; j < keys.length; j++){
 			trypticPeptide.setUniqueIdentifier(keys[j].toString());
@@ -547,8 +549,6 @@ public class MetaProteomicAnalysis {
 					}
 					rowData2[index2][2] = peptide.get(i).getIdentifiedTaxa().getTaxon_name();
 					
-					System.out.println("TEST\n"+peptide.get(i).getUniqueIdentifier());
-					System.out.println(rowData2[index2][0]);
 					System.out.println(rowData2[index2][1]);
 					System.out.println(rowData2[index2][2]);
 					

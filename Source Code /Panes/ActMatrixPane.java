@@ -358,6 +358,7 @@ public class ActMatrixPane extends JPanel {
 
 	private void prepMatrix() {// This preps the onscreen matrix using the arrayline_[] variable in the line object.
 		this.ecMatrix_ = new ArrayList<Line>();
+		this.lframe = new Loadingframe();
 		this.lframe.bigStep("Preparing Matrix");
 		this.lframe.step("Init");
 		this.sumIndexSmp = 0;
@@ -441,6 +442,7 @@ public class ActMatrixPane extends JPanel {
 		this.incompleteSum.setSum();
 		this.sums.setSum();
 		unCompleteMover();
+		Loadingframe.close();
 	}
 	
 	//Options panel for the Lowest Common Ancestor page
@@ -976,6 +978,7 @@ public class ActMatrixPane extends JPanel {
 				prepMatrix();
 				initMainPanels();
 				prepaint();
+				Loadingframe.close();
 				
 				/*
 				 * After this button is pressed all sample.onoff are reset to true so that
@@ -985,7 +988,7 @@ public class ActMatrixPane extends JPanel {
 				for (int i = 0; i < Project.samples_.size(); i++) {
 					Project.samples_.get(i).onoff = true;
 				}
-			}
+			}		
 		});
 		this.optionsPanel_.add(this.resort_);
 
@@ -1417,6 +1420,7 @@ public class ActMatrixPane extends JPanel {
 			addEcButton(this.sums, ecCnt);
 			showValues(this.sums, ecCnt);
 		}
+		
 	}
 	//prints the ec matrix, but in place of the ecs the odds ratios are used
 	private void showOdds(Line ecNr, int index) {
@@ -1446,7 +1450,7 @@ public class ActMatrixPane extends JPanel {
 					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				}
 				
-				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
+				this.lframe.step("adding1 " + ecNr.arrayLine_[smpCnt]);
 				if (this.includeRepseq_.isSelected()) {
 					final int indexY = index;
 					final int indexX = smpCnt;
@@ -1621,7 +1625,7 @@ public class ActMatrixPane extends JPanel {
 		
 		if (ecNr.sum_ != 0) {
 			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
-			this.lframe.step("adding " + ecNr.sum_);
+			this.lframe.step("adding2 " + ecNr.sum_);
 		} else {
 			this.label_ = new JLabel("0");
 		}
@@ -1689,7 +1693,7 @@ public class ActMatrixPane extends JPanel {
 					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				}
 				this.label_.setToolTipText(String.valueOf((tmp_dist.probability((int)x))));
-				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
+				this.lframe.step("adding3 " + ecNr.arrayLine_[smpCnt]);
 				if (this.includeRepseq_.isSelected()) {
 					final int indexY = index;
 					final int indexX = smpCnt;
@@ -1865,8 +1869,9 @@ public class ActMatrixPane extends JPanel {
 		
 		if (ecNr.sum_ != 0) {
 			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
-			this.lframe.step("adding " + ecNr.sum_);
-		} else {
+			this.lframe.step("adding4 " + ecNr.sum_);
+		} 
+		else {
 			this.label_ = new JLabel("0");
 		}
 		this.label_.setBounds(50 + (ecNr.arrayLine_.length + 1) * 130,
@@ -1896,6 +1901,7 @@ public class ActMatrixPane extends JPanel {
 	private void showValues(Line ecNr, int index) {// Prints the ec matrix
 		if (ecNr.isSumline_()) {
 			addSumLineVals(ecNr, index);
+			
 			return;
 		}
 		int uncompleteOffset = 0;
@@ -1909,7 +1915,7 @@ public class ActMatrixPane extends JPanel {
 				if(this.includeRepseq_.isSelected()){
 					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				}
-				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
+				this.lframe.step("adding5 " + ecNr.arrayLine_[smpCnt]);
 				if (this.includeRepseq_.isSelected()) {
 					final int indexY = index;
 					final int indexX = smpCnt;
@@ -1919,19 +1925,10 @@ public class ActMatrixPane extends JPanel {
 
 					menuPopup.add(mItem);
 					ActMatrixPane.this.setComponentPopupMenu(menuPopup);
-
-					mItem.addActionListener(new ActionListener()// this is the
-																// little popup
-																// menu that
-																// comes up when
-																// you right
-																// click any of
-																// the ECs when
-																// the
-																// "include repseqs"
-																// option is
-																// selected
-					{
+					// this is the little pop up menu that comes up when you right click 
+					// any of the ECs when the "include repseqs" option is selected
+					mItem.addActionListener(new ActionListener(){
+						
 						public void actionPerformed(ActionEvent e) {
 							EcNr ecTmp = new EcNr(
 									((Line) ActMatrixPane.this.ecMatrix_
@@ -2085,10 +2082,11 @@ public class ActMatrixPane extends JPanel {
 			this.label_.setVisible(true);
 			this.label_.setLayout(null);
 			this.displayP_.add(this.label_);
+		
 		}
 		if (ecNr.sum_ != 0) {
 			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
-			this.lframe.step("adding " + ecNr.sum_);
+			this.lframe.step("adding6 " + ecNr.sum_);
 		} else {
 			this.label_ = new JLabel("0");
 		}
@@ -2140,7 +2138,7 @@ public class ActMatrixPane extends JPanel {
 		for (int smpCnt = 0; smpCnt < ecNr.arrayLine_.length; smpCnt++) {
 			if (ecNr.arrayLine_[smpCnt] != 0.0D) {
 				this.label_ = new JLabel(String.valueOf((int) ecNr.arrayLine_[smpCnt]));
-				this.lframe.step("adding " + ecNr.arrayLine_[smpCnt]);
+				this.lframe.step("adding7 " + ecNr.arrayLine_[smpCnt]);
 			} else {
 				this.label_ = new JLabel("0");
 			}
@@ -2152,7 +2150,8 @@ public class ActMatrixPane extends JPanel {
 		}
 		if (ecNr.sum_ != 0) {
 			this.label_ = new JLabel(String.valueOf(ecNr.sum_));
-			this.lframe.step("adding " + ecNr.sum_);
+			this.lframe.step("adding8 " + ecNr.sum_);
+
 		} else {
 			this.label_ = new JLabel("0");
 		}
@@ -2161,6 +2160,7 @@ public class ActMatrixPane extends JPanel {
 		this.label_.setVisible(true);
 		this.label_.setLayout(null);
 		this.displayP_.add(this.label_);
+		
 	}
 	//adds all of the EC name buttons on the left hand side of the ec matrix
 	private void addEcButton(Line ecNr, int index) {
@@ -2302,7 +2302,8 @@ public class ActMatrixPane extends JPanel {
 					}
 				});
 			}
-		} else {
+		} 
+		else {
 			int uncompleteOffset = 0;
 			if (ecNr.isMappedSums_()) {
 				this.names_ = new JButton("MappedECs");
@@ -2322,6 +2323,7 @@ public class ActMatrixPane extends JPanel {
 			this.names_.setForeground(Project.getFontColor_());
 			this.lframe.step(this.names_.getText());
 		}
+		
 		this.displayP_.add(this.names_);
 		
 	}

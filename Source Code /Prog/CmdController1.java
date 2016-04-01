@@ -415,7 +415,7 @@ public class CmdController1 {
 			}
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
 		}
-		// eclist or eclist# - checked out path
+		// eclist(s) or eclist#(s) - checked out path
 		else if (optionsCmd_.startsWith ("eclist")){
 			//initialization
 			System.out.println("EC list");
@@ -427,11 +427,10 @@ public class CmdController1 {
 				if(outPutPath_.contentEquals("def")){
 					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all.txt";;	
 				}
-				//if it is a assgined path.
+				//if it is a assigned path.
 				else{
 					tmpPath = outPutPath_+Project.workpath_+"-eclist-all.txt";
 				}
-				//pane.exportEcNums(tmpPath, this.num_ec_exported);
 			}
 			//output all - sort by sum
 			else if(optionsCmd_.contentEquals("eclists")){
@@ -440,13 +439,13 @@ public class CmdController1 {
 				if(outPutPath_.contentEquals("def")){
 					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all-sortBySum.txt";;	
 				}
-				//if it is a assgined path.
+				//if it is a assigned path.
 				else{
 					tmpPath = outPutPath_+Project.workpath_+"-eclist-all-sortBySum.txt";
 				}
 				//pane.exportEcNums(tmpPath, this.num_ec_exported);
 			}
-			//output by assgined # 
+			//output by assigned # 
 			else{
 				String sortBySum ="";
 				if (optionsCmd_.endsWith("s")){
@@ -470,12 +469,8 @@ public class CmdController1 {
 					catch (Exception e){
 						System.out.println("Wrong eclise options");
 						System.exit(0);
-						
-					}
-					
+					}		
 				}
-				
-				
 				if(outPutPath_.contentEquals("def")){
 					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+sortBySum+".txt";	
 				}
@@ -483,11 +478,8 @@ public class CmdController1 {
 				else {
 					tmpPath = outPutPath_+ Project.workpath_+"-eclist"+"-"+num_ec_exported+sortBySum+".txt";
 				}
-				//pane.exportEcNums(tmpPath, this.num_ec_exported);
-			}
-			
-			pane.exportEcNums(tmpPath, this.num_ec_exported);
-			
+			}	
+			pane.exportEcNums(tmpPath, this.num_ec_exported);		
 		}
 		// pvalue or pvalue#- checked out path
 		else if (optionsCmd_.startsWith("pvalue")){
@@ -518,8 +510,15 @@ public class CmdController1 {
 			}
 			//output by assgined # 
 			else{
-				num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
-				System.out.println("check pvalue #:"+num_ec_exported);
+				try{
+					num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
+					System.out.println("check pvalue #:"+num_ec_exported);
+				}
+				catch(Exception e){
+					System.out.println("Wrong pvalue options. Quit");
+					System.exit(0);
+				}
+			
 				
 				if(outPutPath_.contentEquals("def")){
 					tmpPath = basePath_+"pvalue"+File.separator + Project.workpath_+"-pvalue-eclist"+"-"+num_ec_exported+".txt";	
@@ -530,8 +529,6 @@ public class CmdController1 {
 				}
 				
 			}
-			
-			
 			pane.exportEcNums(tmpPath, this.num_ec_exported);
 			
 		}

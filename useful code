@@ -26,10 +26,10 @@ No values found within sequence file for ec: 1.1.1.27-
 StartFromp1.FolderPath+"/bin"  GUI
 path_ = new File("").getCanonicalPath();
 
-
-
 Fix size not enough:
 displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(actMat_.ecMatrix_.size() + 2) * 15 + 100));
+
+Loadingframe.close();
 
 
 

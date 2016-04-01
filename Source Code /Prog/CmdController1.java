@@ -60,6 +60,7 @@ public class CmdController1 {
 	private String optionsCmd;
 	int cmdCode;
 	public static String tmpPath = "";
+	public static boolean elistSortSum=false;
 	final String basePath_ = StartFromp1.FolderPath+"Output"+File.separator;
 	//for inti
 	public CmdController1(){
@@ -432,17 +433,55 @@ public class CmdController1 {
 				}
 				//pane.exportEcNums(tmpPath, this.num_ec_exported);
 			}
+			//output all - sort by sum
+			else if(optionsCmd_.contentEquals("eclists")){
+				elistSortSum = true;
+				//num_ec_exported=0;
+				if(outPutPath_.contentEquals("def")){
+					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist-all-sortBySum.txt";;	
+				}
+				//if it is a assgined path.
+				else{
+					tmpPath = outPutPath_+Project.workpath_+"-eclist-all-sortBySum.txt";
+				}
+				//pane.exportEcNums(tmpPath, this.num_ec_exported);
+			}
 			//output by assgined # 
 			else{
-				num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
-				System.out.println("check #:"+num_ec_exported);
+				String sortBySum ="";
+				if (optionsCmd_.endsWith("s")){
+					elistSortSum = true;
+					sortBySum = "-sortBySum";
+					try{
+						num_ec_exported=Integer.parseInt(optionsCmd_.substring(6,optionsCmd_.length()-1));
+					}
+					
+					catch (Exception e){
+						System.out.println("Wrong eclist options");
+						System.exit(0);	
+					}		
+				}
+				// only number
+				else{
+					try{
+						num_ec_exported = Integer.parseInt(optionsCmd_.substring(6));
+						System.out.println("check #:"+num_ec_exported);
+					}
+					catch (Exception e){
+						System.out.println("Wrong eclise options");
+						System.exit(0);
+						
+					}
+					
+				}
+				
 				
 				if(outPutPath_.contentEquals("def")){
-					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";	
+					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-eclist"+"-"+num_ec_exported+sortBySum+".txt";	
 				}
 				//if no assigned file name.
 				else {
-					tmpPath = outPutPath_+ Project.workpath_+"-eclist"+"-"+num_ec_exported+".txt";
+					tmpPath = outPutPath_+ Project.workpath_+"-eclist"+"-"+num_ec_exported+sortBySum+".txt";
 				}
 				//pane.exportEcNums(tmpPath, this.num_ec_exported);
 			}

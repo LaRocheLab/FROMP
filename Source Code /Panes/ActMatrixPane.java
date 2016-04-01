@@ -224,8 +224,8 @@ public class ActMatrixPane extends JPanel {
 
 		this.displayP_ = new JPanel();
 		this.displayP_.setLocation(0, 0);
-//		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
-		this.displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
+		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
+//		this.displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
 		this.displayP_.setSize(getPreferredSize());
 		this.displayP_.setBackground(Project.getBackColor_());
 		this.displayP_.setVisible(true);
@@ -976,6 +976,7 @@ public class ActMatrixPane extends JPanel {
 				prepMatrix();
 				initMainPanels();
 				prepaint();
+				
 				/*
 				 * After this button is pressed all sample.onoff are reset to true so that
 				 * when the matrix is rebuilt again all samples will be there again. This way the user
@@ -2322,6 +2323,7 @@ public class ActMatrixPane extends JPanel {
 			this.lframe.step(this.names_.getText());
 		}
 		this.displayP_.add(this.names_);
+		
 	}
 
 	private void switchOptionsMode() {// Switches the option mode
@@ -2596,6 +2598,10 @@ public class ActMatrixPane extends JPanel {
 				//exits the program if the input is found to be a invalid input
 				System.out.println("Number of exported EC's cannot be less than 0 or greater than total number of EC's");
 				System.exit(0);
+			}
+			
+			if(CmdController1.elistSortSum == true){
+				quicksortSum();
 			}
 			
 			for (int y = 0; y < exportNum; y++) {

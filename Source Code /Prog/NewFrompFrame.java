@@ -874,8 +874,23 @@ public class NewFrompFrame extends JFrame {
 		});
 		panel.add(s);
 		
-		s = new JButton("Lowest Common Ancestor >");
+		s = new JButton("GO Activity >");
 		s.setBounds(xcol1, yOff + (ySize + 2) * 6, xsize, ySize);
+		s.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (NewFrompFrame.this.control_.gotSamples()) {
+					Controller.loadPathways(true);
+					//uncommented
+					NewFrompFrame.this.showEcActPanes();
+				} else {
+					warningFrame();
+				}
+			}
+		});
+		panel.add(s);
+		
+		s = new JButton("Lowest Common Ancestor >");
+		s.setBounds(xcol1, yOff + (ySize + 2) * 7, xsize, ySize);
 		s.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (NewFrompFrame.this.control_.gotSamples()) {

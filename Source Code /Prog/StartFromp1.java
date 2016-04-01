@@ -129,7 +129,8 @@ public class StartFromp1 {
 				//arg = eclist or pvalue
 				if(args[2].contentEquals("eclist") || args[2].contentEquals("pvalue")){
 					// if is not 4 args or 4th args not a #
-					if (args.length !=4 || !checkNum(args[3])){
+//					if (args.length !=4 || !checkNum(args[3])){
+					if (args.length !=4){
 						argsError();
 					}
 					else{

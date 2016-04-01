@@ -576,13 +576,13 @@ public class ActMatrixPane extends JPanel {
 	clear.setLayout(null);
 	clear.setForeground(Color.red);
 	
-	JButton load_Seq_Batch = new JButton("Load Ec/Seq Batch file");
+	JButton load_Seq_Batch = new JButton("Load Seq Batch file");
 	load_Seq_Batch.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
-			System.out.println("Load Ec/Seq Batch file");
+			System.out.println("Load Seq Batch file");
 			String path_ = "";
 			//path_ = new File("").getCanonicalPath();
-			path_ = StartFromp1.FolderPath+"/bin";
+			path_ = StartFromp1.FolderPath+"bin";
 			JFileChooser fChoose_ = new JFileChooser(path_);
 			fChoose_.setFileSelectionMode(0);
 			fChoose_.setBounds(100, 100, 200, 20);
@@ -610,24 +610,15 @@ public class ActMatrixPane extends JPanel {
 					
 					StartFromp1.ecSet = new ArrayList<String>();
 					StartFromp1.FileSetofSeq = new ArrayList<seqWithFileName>();
-					StartFromp1.EcFileReader(path);
-					if(StartFromp1.isSeq==true){
-						StartFromp1.SeqFileReader(path);
-						StartFromp1.isSeq=false;
+					StartFromp1.SeqFileReader(path);
 					
-					}
-					if(!StartFromp1.ecSet.isEmpty()){
-						System.out.println("Is Ec batch");
-						runLcaBatchFile(StartFromp1.ecSet);
-					}
-					else if(!StartFromp1.FileSetofSeq.isEmpty()){
+					if(!StartFromp1.FileSetofSeq.isEmpty()){
 						System.out.println("Is Seq batch");
 						runLcaSeq(StartFromp1.FileSetofSeq);
 					}
 					else{
-						warningFrame("This is not a EC number or Seq batch file!");
-					}
-					
+						warningFrame("This is not a Seq batch file!");
+					}	
 				} 
 				catch (IOException e1) {
 					e1.printStackTrace();
@@ -648,7 +639,7 @@ public class ActMatrixPane extends JPanel {
 			System.out.println("Load EC Batch file");
 			String path_ = "";
 			//path_ = new File("").getCanonicalPath();
-			path_ = StartFromp1.FolderPath+"/bin";
+			path_ = StartFromp1.FolderPath+"bin";
 			JFileChooser fChoose_ = new JFileChooser(path_);
 			fChoose_.setFileSelectionMode(0);
 			fChoose_.setBounds(100, 100, 200, 20);
@@ -678,7 +669,7 @@ public class ActMatrixPane extends JPanel {
 					
 					//boolean isBatch = checkBatchFile(filename);
 					if(StartFromp1.ecSet!=null){
-						System.out.println("Is batch");
+						System.out.println("Is ec batch");
 						runLcaBatchFile(StartFromp1.ecSet);
 					}
 					else{

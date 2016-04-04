@@ -159,6 +159,8 @@ public class MetaProteomicAnalysis {
 		} catch(NullPointerException e){
 			System.out.println("No values found within sequence file for ec: " + sampleName);
 			keys= new Object [0];
+			//Store outstanding ec, and print it while finishing.
+			CmdController1.unusedEc.add(sampleName);
 			//System.exit(0);
 		}
 		for(int j = 0; j < keys.length; j++){

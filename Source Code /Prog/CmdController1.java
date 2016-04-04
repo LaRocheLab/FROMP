@@ -62,7 +62,7 @@ public class CmdController1 {
 	public static String tmpPath = "";
 	public static boolean elistSortSum=false;
 	final String basePath_ = StartFromp1.FolderPath+"Output"+File.separator;
-	//for inti
+	static ArrayList <String> unusedEc = new ArrayList<String>();
 	public CmdController1(){
 		
 	}
@@ -87,6 +87,10 @@ public class CmdController1 {
 		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));
 		//process all samples
 		processing();
+		
+		if (unusedEc!=null){
+			System.out.println(unusedEc);	
+		}
 		System.out.println("ALL Done.");
 		System.exit(0);
 		

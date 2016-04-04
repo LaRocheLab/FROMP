@@ -52,11 +52,12 @@ public class DataProcessor {
 	static final String pathwayList = StartFromp1.FolderPath+"list" + File.separator + "pathway.list";
 	static final String ecNamesPath = StartFromp1.FolderPath+"list" + File.separator + "ec2go.txt"; 
 	static final String rnListPath = StartFromp1.FolderPath+"list" + File.separator + "rn.list"; 
-	static final String mapTitleList = StartFromp1.FolderPath+"list" + File.separator + "map_title.tab"; //
-	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath+"list" + File.separator + "pfam2Ec2Rn.txt"; //
-	static final String interproToGOPath_ = StartFromp1.FolderPath+"list" + File.separator + "interpro2GO.txt"; //
+	static final String mapTitleList = StartFromp1.FolderPath+"list" + File.separator + "map_title.tab"; 
+	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath+"list" + File.separator + "pfam2Ec2Rn.txt"; 
+	static final String interproToGOPath_ = StartFromp1.FolderPath+"list" + File.separator + "interpro2GO.txt"; 
 	static final String interproToECPath_ = StartFromp1.FolderPath+"list" + File.separator + "interPro_kegg.tsv";
 	static final String uni2ECPath_ = StartFromp1.FolderPath+"list" + File.separator + "uniref2ec.txt";
+	static final String uni2Go_ = StartFromp1.FolderPath+"list" + File.separator + "uniref90_2GO.txt";
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */

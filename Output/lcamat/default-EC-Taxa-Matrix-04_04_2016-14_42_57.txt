@@ -1,0 +1,920 @@
+EC-Taxa	ERR771019_MERGED_FASTQ_InterPro.tsv	ERR771060_MERGED_FASTQ_InterPro.tsv	ERR771064_MERGED_FASTQ_InterPro.tsv	ERR771070_MERGED_FASTQ_InterPro.tsv
+1.1.1.1-Actinobacteria	0	0	1	0
+1.1.1.1-Pseudomonas aeruginosa	0	2	0	0
+1.1.1.1-Herbaspirillum	0	0	0	1
+1.1.1.1-Gloeophyllum trabeum	1	0	0	0
+1.1.1.1-Pelagibacteraceae	0	0	0	1
+1.1.1.1-Porticoccaceae	1	0	0	0
+1.1.1.1-Treponema saccharophilum	0	0	1	0
+1.1.1.1-Gammaproteobacteria	1	0	0	1
+1.1.1.1-Alphaproteobacteria	0	0	1	0
+1.1.1.1-Sphingobacterium	1	0	0	0
+	
+1.1.1.193-Gammaproteobacteria	0	0	0	1
+	
+1.1.1.23-Cuculus canorus	0	0	1	0
+1.1.1.23-Bacteroidetes	0	0	2	0
+1.1.1.23-Betaproteobacteria	0	0	1	1
+1.1.1.23-Candidatus Microthrix parvicella	0	0	0	2
+1.1.1.23-Ilumatobacter coccineus	0	0	0	2
+1.1.1.23-Candidatus Woesebacteria	0	0	0	1
+1.1.1.23-Sulfitobacter mediterraneus	0	0	1	0
+1.1.1.23-Bradyrhizobiaceae	0	0	1	0
+1.1.1.23-Acetobacteraceae	0	0	0	1
+1.1.1.23-Bathycoccus prasinos	0	0	1	1
+1.1.1.23-Pelagibacterales	0	0	0	2
+1.1.1.23-Pseudovibrio	0	0	0	1
+1.1.1.23-Gammaproteobacteria	0	1	1	4
+1.1.1.23-Naumovozyma dairenensis	0	0	2	0
+1.1.1.23-Harpegnathos saltator	0	0	1	0
+1.1.1.23-Eukaryota	0	0	0	1
+1.1.1.23-Pseudomonas syringae	0	0	2	0
+1.1.1.23-Actibacterium mucosum	0	0	0	1
+1.1.1.23-Thioalkalimicrobium	0	0	1	0
+1.1.1.23-Duganella	0	0	1	0
+1.1.1.23-Pseudomonas	0	4	0	0
+1.1.1.23-Pelagibacteraceae	0	0	13	25
+1.1.1.23-Thiomonas	0	0	1	0
+1.1.1.23-Panicoideae	0	0	1	0
+1.1.1.23-Chlamydia trachomatis	0	0	1	0
+1.1.1.23-Bacillus	0	0	0	7
+1.1.1.23-Nitrincola lacisaponensis	0	0	0	1
+1.1.1.23-Acidimicrobium	0	0	10	0
+1.1.1.23-Fungi	0	0	1	0
+1.1.1.23-Acanthamoeba castellanii	0	0	1	0
+1.1.1.23-Hyphomonadaceae	0	0	0	1
+1.1.1.23-Sphingobium	0	0	1	0
+1.1.1.23-Octadecabacter antarcticus	0	0	2	0
+1.1.1.23-Cyanobium	0	0	0	2
+1.1.1.23-Rhizobium	0	0	1	0
+1.1.1.23-Achromobacter xylosoxidans	0	0	1	0
+1.1.1.23-Thioclava	0	0	0	1
+1.1.1.23-Kazachstania naganishii	0	0	0	1
+1.1.1.23-Flavobacteriaceae	0	0	0	1
+1.1.1.23-Labrenzia alba	0	0	0	1
+1.1.1.23-Buchnera aphidicola	0	0	0	1
+1.1.1.23-Verruconis gallopava	0	0	1	0
+1.1.1.23-Pseudoalteromonas luteoviolacea	0	0	1	0
+1.1.1.23-Ruegeria pomeroyi	0	0	0	1
+1.1.1.23-Phaeodactylum tricornutum	0	0	2	0
+1.1.1.23-Rhodobacteraceae	0	0	1	9
+1.1.1.23-Pseudomonas fluorescens	0	0	1	0
+1.1.1.23-Rhizoctonia solani	0	0	0	1
+1.1.1.23-Burkholderia phymatum	0	0	0	1
+1.1.1.23-Myceliophthora thermophila	0	0	0	1
+1.1.1.23-Sinorhizobium meliloti	0	0	1	0
+1.1.1.23-Labrenzia alexandrii	0	0	0	1
+1.1.1.23-Anolis carolinensis	0	0	1	0
+1.1.1.23-Proteobacteria	0	0	4	11
+1.1.1.23-Pseudomonas aeruginosa	0	4	0	0
+1.1.1.23-Photobacterium	0	0	1	0
+1.1.1.23-Candidatus Pelagibacter	0	0	6	6
+1.1.1.23-Haematobacter	0	0	0	1
+1.1.1.23-[Ruminococcus] torques	0	0	0	3
+1.1.1.23-Candidatus Puniceispirillum marinum	0	0	2	5
+1.1.1.23-Viridiplantae	0	0	1	0
+1.1.1.23-Ponticoccus	0	0	1	0
+1.1.1.23-Tetraselmis	0	0	1	0
+1.1.1.23-Caldilinea aerophila	0	0	0	1
+1.1.1.23-Pirellula staleyi	0	0	0	1
+1.1.1.23-Ostreococcus 'lucimarinus'	0	0	0	1
+1.1.1.23-Variibacter gotjawalensis	0	0	0	1
+1.1.1.23-Alphaproteobacteria	0	1	2	4
+1.1.1.23-Methylophilales	0	0	0	3
+1.1.1.23-Lactobacillus helveticus	0	0	0	1
+1.1.1.23-Actinobacteria	0	0	4	0
+1.1.1.23-Bulleidia extructa	0	0	1	0
+1.1.1.23-Candidatus Pelagibacter ubique	0	0	29	63
+1.1.1.23-Schizosaccharomyces japonicus	0	0	0	1
+1.1.1.23-Paenibacillus	0	0	0	1
+1.1.1.23-Erwinia iniecta	0	0	1	0
+1.1.1.23-Polaribacter	0	0	2	0
+1.1.1.23-Rhizopus	0	0	1	0
+1.1.1.23-Burkholderiales	0	0	6	0
+	
+1.1.1.262-Streptomyces	0	0	0	1
+1.1.1.262-Flavobacteriaceae	6	0	0	1
+1.1.1.262-Ostreococcus 'lucimarinus'	2	0	0	0
+1.1.1.262-Verrucomicrobiales	1	0	0	0
+1.1.1.262-Grimontia indica	1	0	0	0
+1.1.1.262-Acinetobacter	2	0	0	0
+1.1.1.262-Flavobacterium indicum	0	0	0	1
+1.1.1.262-Halieaceae	1	0	0	0
+1.1.1.262-Betaproteobacteria	0	0	0	1
+1.1.1.262-Clostridiales	1	0	0	0
+1.1.1.262-Fulvivirga imtechensis	1	0	0	0
+1.1.1.262-Ruegeria mobilis	0	0	1	0
+1.1.1.262-Eukaryota	2	0	0	2
+1.1.1.262-Sordariomycetes	1	0	0	0
+1.1.1.262-Defluviimonas	1	0	0	0
+1.1.1.262-Porticoccaceae	0	0	1	0
+1.1.1.262-Poecilia formosa	1	0	0	0
+1.1.1.262-Cryomorphaceae	0	0	4	1
+1.1.1.262-Marinomonas	1	0	0	0
+1.1.1.262-Vibrio cholerae	0	0	0	2
+1.1.1.262-Ictidomys tridecemlineatus	1	0	0	0
+1.1.1.262-Lentisphaera araneosa	1	0	0	0
+1.1.1.262-Rhodobacteraceae	4	0	0	0
+1.1.1.262-Planktomarina temperata	1	0	0	0
+1.1.1.262-Mangrovimonas yunxiaonensis	1	0	0	0
+1.1.1.262-Sphingomonas	1	0	0	0
+1.1.1.262-Toxoplasma gondii	1	0	0	0
+1.1.1.262-Hydrogenophaga	1	0	0	0
+1.1.1.262-Pythium ultimum	0	0	0	1
+1.1.1.262-Neorhizobium galegae	0	0	1	0
+1.1.1.262-Polaribacter	1	0	1	0
+1.1.1.262-Phaeobacter	1	0	0	0
+1.1.1.262-Alcanivorax dieselolei	1	0	0	0
+1.1.1.262-Clostridium	1	0	0	0
+1.1.1.262-rosids	1	0	0	0
+1.1.1.262-Cyanobacteria	2	0	0	0
+1.1.1.262-Alteromonadales	2	0	0	0
+1.1.1.262-Clavibacter michiganensis	0	0	0	1
+1.1.1.262-Oleiagrimonas soli	1	0	0	0
+1.1.1.262-[Clostridium] termitidis	1	0	0	0
+1.1.1.262-Larimichthys crocea	0	0	0	1
+1.1.1.262-Desulfovibrio magneticus	0	0	0	1
+1.1.1.262-Acidithiobacillus ferrivorans	0	0	0	2
+1.1.1.262-Candidatus Pelagibacter ubique	1	0	1	3
+1.1.1.262-Endopterygota	0	0	0	1
+1.1.1.262-Lacinutrix	1	0	0	0
+1.1.1.262-Gammaproteobacteria	6	0	0	2
+1.1.1.262-Proteobacteria	4	0	2	4
+1.1.1.262-Fusobacterium	0	1	0	0
+1.1.1.262-Shimia marina	0	0	0	2
+1.1.1.262-Pseudomonas aeruginosa	0	1	0	0
+1.1.1.262-Devosia geojensis	0	0	1	0
+1.1.1.262-Candidatus Pelagibacter	1	0	0	0
+1.1.1.262-Alphaproteobacteria	2	0	0	0
+1.1.1.262-Pontibacter	0	4	0	0
+1.1.1.262-Flavobacterium	0	0	1	0
+1.1.1.262-Pseudohongiella spirulinae	0	0	0	1
+1.1.1.262-Gloeophyllum trabeum	1	0	0	0
+1.1.1.262-Borrelia anserina	0	0	0	1
+1.1.1.262-Candidatus Halobonum tyrrellensis	3	0	0	0
+1.1.1.262-Pseudomonas syringae	1	0	0	1
+1.1.1.262-Alkaliphilus metalliredigens	3	0	0	0
+1.1.1.262-Tepidanaerobacter acetatoxydans	0	0	0	2
+1.1.1.262-Vibrio proteolyticus	1	0	0	0
+1.1.1.262-melanogaster subgroup	1	0	0	0
+1.1.1.262-Bacteroidetes	7	1	0	0
+1.1.1.262-Capnocytophaga cynodegmi	1	0	0	0
+1.1.1.262-Capnocytophaga	2	0	0	0
+1.1.1.262-Flavobacteriales	4	1	0	0
+1.1.1.262-Ahrensia	1	0	0	0
+1.1.1.262-Roseibium	1	0	0	1
+1.1.1.262-Pelagibacteraceae	1	0	0	1
+1.1.1.262-Acidimicrobium ferrooxidans	0	0	0	2
+1.1.1.262-Idiomarina woesei	0	0	1	0
+1.1.1.262-Thermogladius cellulolyticus	1	0	0	0
+1.1.1.262-Hungatella hathewayi	0	0	0	1
+	
+1.1.1.267-Ostreococcus	0	0	1	0
+1.1.1.267-Chitinophaga pinensis	0	0	0	1
+1.1.1.267-Cystobacter fuscus	1	0	0	0
+1.1.1.267-Mariprofundus ferrooxydans	1	0	0	0
+1.1.1.267-Arabidopsis lyrata subsp. lyrata	0	0	1	0
+1.1.1.267-Treponema saccharophilum	2	0	0	0
+1.1.1.267-Actinobacteria	0	0	4	1
+1.1.1.267-Clostridium	0	0	0	1
+1.1.1.267-Paenibacillus larvae subsp. larvae	0	0	0	1
+1.1.1.267-Propionimicrobium lymphophilum	0	0	2	0
+1.1.1.267-Leptothrix cholodnii	0	0	0	2
+1.1.1.267-Synechococcus	0	0	0	2
+1.1.1.267-Porticoccaceae	0	0	3	0
+1.1.1.267-Coriobacteriia	0	0	0	1
+1.1.1.267-Oryza brachyantha	0	0	1	0
+1.1.1.267-Altererythrobacter marensis	0	2	0	0
+1.1.1.267-Arthrobacter arilaitensis	0	0	1	0
+1.1.1.267-Marinomonas mediterranea	0	0	3	0
+1.1.1.267-Novosphingobium	0	0	0	1
+1.1.1.267-Pseudomonadaceae	1	0	0	0
+1.1.1.267-Rhodobacteraceae	3	0	0	2
+1.1.1.267-Carnobacterium inhibens subsp. gilichinskyi	0	0	0	1
+1.1.1.267-Chrysochromulina	0	0	1	0
+1.1.1.267-Phaeodactylum tricornutum	0	0	1	0
+1.1.1.267-Akkermansia muciniphila	0	0	2	0
+1.1.1.267-Methylobacterium	0	0	1	0
+1.1.1.267-Gordonia	0	0	0	1
+1.1.1.267-actinobacterium acAcidi	0	0	0	1
+1.1.1.267-Ancylostoma duodenale	0	0	0	1
+1.1.1.267-Spirochaeta thermophila	1	0	1	0
+1.1.1.267-Serratia	0	1	0	0
+1.1.1.267-Mycoplasma yeatsii	0	0	1	0
+1.1.1.267-Pedosphaera parvula	0	0	0	1
+1.1.1.267-Arcobacter	1	0	0	0
+1.1.1.267-Campylobacterales	1	0	0	0
+1.1.1.267-Azospirillum lipoferum	1	0	0	0
+1.1.1.267-Luminiphilus syltensis	2	0	0	0
+1.1.1.267-Planktomarina temperata	3	0	0	0
+1.1.1.267-Amycolatopsis	0	0	0	1
+1.1.1.267-Cyclobacterium marinum	0	0	1	0
+1.1.1.267-Nitrospira	0	0	0	1
+1.1.1.267-Shewanella frigidimarina	0	0	0	1
+1.1.1.267-Ostreococcus 'lucimarinus'	1	0	0	0
+1.1.1.267-Verrucomicrobiales	0	0	0	1
+1.1.1.267-Phaeomoniella chlamydospora	1	0	0	0
+1.1.1.267-Viridiplantae	0	0	1	0
+1.1.1.267-Methylophilales	0	0	0	1
+1.1.1.267-Amycolatopsis rifamycinica	0	0	1	0
+1.1.1.267-Alteromonas stellipolaris	1	0	0	0
+1.1.1.267-Variovorax paradoxus	0	1	0	0
+1.1.1.267-Proteobacteria	1	0	1	4
+1.1.1.267-Ignavibacterium album	0	2	0	0
+1.1.1.267-Pseudomonas oryzihabitans	0	0	0	1
+1.1.1.267-Succinatimonas hippei	0	0	1	0
+1.1.1.267-Lottia gigantea	0	0	1	0
+1.1.1.267-Mamiellales	0	0	0	2
+1.1.1.267-Gammaproteobacteria	2	0	2	1
+1.1.1.267-Calothrix	0	1	0	0
+1.1.1.267-Oscillibacter valericigenes	0	0	1	0
+1.1.1.267-Dikarya	0	0	0	1
+1.1.1.267-Thalassiosira	0	0	0	1
+1.1.1.267-Tanticharoenia sakaeratensis	0	0	2	1
+1.1.1.267-Acidimicrobium	0	0	5	0
+1.1.1.267-Alkaliphilus metalliredigens	0	0	0	1
+1.1.1.267-Prochlorococcus marinus	1	0	0	0
+1.1.1.267-Deltaproteobacteria	1	0	0	0
+1.1.1.267-Pseudomonas aeruginosa	0	7	0	0
+1.1.1.267-Comamonadaceae	0	0	1	0
+1.1.1.267-cyanobacterium endosymbiont of Epithemia turgida	1	0	0	0
+1.1.1.267-Rhodospirillum centenum	0	0	1	0
+1.1.1.267-Klebsiella michiganensis	2	0	0	0
+1.1.1.267-Bacteroidetes	1	0	0	0
+1.1.1.267-Alphaproteobacteria	2	0	0	0
+1.1.1.267-Hypocreales	0	0	0	1
+1.1.1.267-Gimesia maris	1	0	0	0
+1.1.1.267-Enterobacteriaceae	1	0	0	0
+1.1.1.267-Aspergillus	0	0	0	1
+1.1.1.267-Halieaceae	1	0	0	0
+	
+1.1.1.28-Alteromonas marina	1	0	0	0
+1.1.1.28-Acyrthosiphon pisum	1	0	0	0
+1.1.1.28-Methylophaga thiooxydans	1	0	0	0
+1.1.1.28-Roseibium	1	0	0	0
+1.1.1.28-Vulgatibacter incomptus	0	0	0	1
+1.1.1.28-Phaeobacter	1	0	0	0
+	
+1.1.1.290-Pseudomonas aeruginosa	0	1	0	0
+1.1.1.290-Sporosarcina globispora	1	0	0	0
+1.1.1.290-Candidatus Thioglobus singularis	1	0	0	0
+	
+1.1.1.35-Actinobacteria	1	0	0	1
+1.1.1.35-Alphaproteobacteria	1	0	2	2
+1.1.1.35-Phialophora attae	0	0	0	1
+1.1.1.35-Rhodobacterales	1	0	0	0
+1.1.1.35-Mamiellales	0	0	1	0
+1.1.1.35-Fluviicola taffensis	1	0	0	0
+1.1.1.35-Rhodobacter	1	0	0	0
+1.1.1.35-Marivirga tractuosa	0	0	1	0
+1.1.1.35-Viridiplantae	0	0	0	1
+1.1.1.35-Clostridium homopropionicum	0	0	0	1
+1.1.1.35-Celeribacter marinus	1	0	0	0
+1.1.1.35-Pseudomonas stutzeri	0	0	0	1
+1.1.1.35-Burkholderiaceae	0	0	1	0
+1.1.1.35-Bacillus	1	0	0	0
+1.1.1.35-Porticoccaceae	0	0	1	0
+1.1.1.35-Bacteroidetes	3	0	1	1
+1.1.1.35-Rozella allomycis	0	0	0	1
+1.1.1.35-Klebsiella pneumoniae	0	0	1	0
+1.1.1.35-Capnocytophaga cynodegmi	0	0	1	0
+1.1.1.35-Candidatus Pelagibacter	0	0	0	2
+1.1.1.35-Sandaracinus amylolyticus	0	0	0	1
+1.1.1.35-Pandoraea	0	0	0	1
+1.1.1.35-Planctomycetes	1	0	0	0
+1.1.1.35-Thalassiosira oceanica	0	0	1	0
+1.1.1.35-Deinococcus maricopensis	0	0	0	1
+1.1.1.35-Nostocaceae	1	0	0	0
+1.1.1.35-Microbacteriaceae	0	0	6	5
+1.1.1.35-Azotobacter	0	0	1	0
+1.1.1.35-Micromonospora lupini	0	0	0	1
+1.1.1.35-Rhizobium leguminosarum	0	0	1	0
+1.1.1.35-Bathycoccus prasinos	0	0	1	0
+1.1.1.35-Lentisphaera araneosa	1	0	0	0
+1.1.1.35-Knoellia subterranea	0	0	1	0
+1.1.1.35-Streptomyces	0	0	1	0
+1.1.1.35-Cryomorphaceae	0	0	4	0
+1.1.1.35-Aureococcus anophagefferens	0	0	0	1
+1.1.1.35-Chromobacterium	0	0	1	0
+1.1.1.35-Eukaryota	1	0	1	2
+1.1.1.35-candidate division Zixibacteria	0	0	0	1
+1.1.1.35-Shewanella	0	0	0	1
+1.1.1.35-Flavobacterium	1	0	0	2
+1.1.1.35-Mycobacterium neworleansense	0	0	0	1
+1.1.1.35-Oryza rufipogon	0	0	0	2
+1.1.1.35-Coleofasciculus chthonoplastes	0	0	0	1
+1.1.1.35-Archaea	0	0	0	1
+1.1.1.35-Myxococcus sp. mixupus	0	0	0	1
+1.1.1.35-Vibrio ichthyoenteri	1	0	0	0
+1.1.1.35-beta proteobacterium CB	0	0	1	0
+1.1.1.35-Salinispira pacifica	1	0	0	0
+1.1.1.35-Stenotrophomonas	0	2	0	0
+1.1.1.35-Pontibacillus halophilus	0	0	1	0
+1.1.1.35-Ostreococcus 'lucimarinus'	0	0	1	0
+1.1.1.35-Flavobacteriaceae	2	0	3	0
+1.1.1.35-Candidatus Puniceispirillum marinum	3	0	0	2
+1.1.1.35-Helicobacter apodemus	1	0	0	0
+1.1.1.35-Enterococcus	1	0	0	0
+1.1.1.35-Geobacter	0	0	0	1
+1.1.1.35-Ruegeria	1	0	0	0
+1.1.1.35-Acidimicrobium	0	0	11	0
+1.1.1.35-Thalassiosira pseudonana	0	0	0	1
+1.1.1.35-Ascaris lumbricoides	1	0	0	0
+1.1.1.35-Rufibacter	1	0	0	0
+1.1.1.35-candidate division WWE3	0	0	0	1
+1.1.1.35-Anaeromyxobacter	0	0	0	1
+1.1.1.35-Coccomyxa subellipsoidea	0	0	1	0
+1.1.1.35-Rhodobacteraceae	3	0	1	6
+1.1.1.35-Pseudomonas aeruginosa	0	5	0	0
+1.1.1.35-Oxalobacteraceae	0	0	1	0
+1.1.1.35-Roseobacter	1	0	0	0
+1.1.1.35-Proteobacteria	4	1	4	5
+1.1.1.35-Desulfotignum phosphitoxidans	0	0	0	1
+1.1.1.35-Haliscomenobacter hydrossis	1	0	0	0
+1.1.1.35-Halieaceae	2	0	0	0
+1.1.1.35-Sulfitobacter mediterraneus	1	0	0	0
+1.1.1.35-Arion vulgaris	0	0	0	1
+1.1.1.35-Comamonadaceae	0	0	4	0
+1.1.1.35-Polaribacter	0	0	3	0
+1.1.1.35-Candidatus Aquiluna	0	0	3	0
+1.1.1.35-Leersia perrieri	0	0	2	0
+1.1.1.35-Modestobacter	0	0	3	0
+1.1.1.35-Pelagibacteraceae	0	0	3	0
+1.1.1.35-Burkholderiales	0	0	3	0
+1.1.1.35-Ilumatobacter coccineus	0	0	1	0
+1.1.1.35-Nonlabens dokdonensis	0	0	0	1
+1.1.1.35-Betaproteobacteria	0	0	1	0
+1.1.1.35-Candidatus Thioglobus singularis	1	0	0	0
+1.1.1.35-Celeribacter baekdonensis	1	0	0	0
+1.1.1.35-Ostreococcus	0	0	0	3
+1.1.1.35-Candidatus Pelagibacter ubique	2	0	1	2
+1.1.1.35-Euryarchaeota	1	0	0	3
+1.1.1.35-Gammaproteobacteria	3	0	2	2
+1.1.1.35-Flavobacteriia	0	0	0	1
+1.1.1.35-Chitinophaga pinensis	0	0	0	2
+1.1.1.35-Lichtheimia ramosa	0	0	0	1
+1.1.1.35-Rhizobiales	0	0	1	0
+1.1.1.35-Dikarya	0	0	1	0
+1.1.1.35-Robiginitalea biformata	1	0	0	0
+	
+1.1.1.37-Pseudomonas helleri	0	0	0	2
+1.1.1.37-Viridiplantae	0	0	0	1
+1.1.1.37-Ostreococcus 'lucimarinus'	0	0	1	0
+1.1.1.37-Acidimicrobium	0	0	2	0
+1.1.1.37-Gammaproteobacteria	0	0	1	1
+1.1.1.37-Oceanospirillaceae	0	0	0	1
+1.1.1.37-Setosphaeria turcica	0	0	0	4
+1.1.1.37-Eukaryota	0	0	1	0
+1.1.1.37-Medicago truncatula	0	0	1	0
+1.1.1.37-Cellvibrionales	0	3	0	0
+1.1.1.37-Ostreococcus tauri	0	0	1	0
+1.1.1.37-Coraliomargarita	0	0	0	1
+	
+1.1.1.38-Pelagibacteraceae	0	0	0	3
+1.1.1.38-Eukaryota	0	0	1	0
+1.1.1.38-Bathycoccus prasinos	0	0	0	1
+1.1.1.38-Thermobifida fusca	0	0	1	0
+1.1.1.38-Bathycoccaceae	0	0	1	0
+1.1.1.38-Chlorophyta	0	0	1	0
+1.1.1.38-Gammaproteobacteria	0	0	1	0
+1.1.1.38-Rhodobacteraceae	0	0	0	1
+1.1.1.38-Candidatus Pelagibacter	0	0	2	0
+1.1.1.38-Firmicutes	0	0	1	0
+1.1.1.38-Mamiellales	0	0	1	0
+1.1.1.38-Ostreococcus 'lucimarinus'	0	0	1	0
+1.1.1.38-Alphaproteobacteria	0	0	0	1
+1.1.1.38-Oesophagostomum dentatum	0	0	0	1
+1.1.1.38-Pseudomonas aeruginosa	0	6	0	0
+1.1.1.38-Proteobacteria	0	0	1	0
+1.1.1.38-Clostridium	0	0	0	1
+1.1.1.38-Ostreococcus tauri	0	0	1	0
+1.1.1.38-Neisseria	0	0	1	0
+1.1.1.38-Advenella kashmirensis	0	0	0	1
+1.1.1.38-Halomonas	0	0	1	0
+1.1.1.38-Porticoccaceae	0	0	1	0
+	
+1.1.1.42-Gordonia	0	0	0	1
+1.1.1.42-Pseudomonas	0	1	0	0
+1.1.1.42-Dyella	0	0	1	0
+1.1.1.42-Pseudomonas aeruginosa	0	22	0	0
+1.1.1.42-Dermatophilaceae	0	0	0	1
+1.1.1.42-Bradyrhizobium retamae	0	0	1	0
+1.1.1.42-Marivirga tractuosa	0	0	1	0
+1.1.1.42-Tamlana sedimentorum	0	0	1	0
+1.1.1.42-Eukaryota	0	0	1	2
+1.1.1.42-Actinobacteria	0	0	3	2
+1.1.1.42-Lysobacter defluvii	0	0	0	1
+1.1.1.42-Vibrio	0	0	1	0
+1.1.1.42-Arthrobacter	0	0	0	1
+1.1.1.42-Francisella noatunensis subsp. orientalis	0	0	0	1
+1.1.1.42-Corynebacterium striatum	0	0	0	1
+1.1.1.42-Halomonas	0	0	0	1
+1.1.1.42-Rhizobium	0	0	0	1
+1.1.1.42-Flavobacteriales	0	0	1	0
+1.1.1.42-Vibrio cholerae	0	0	0	1
+1.1.1.42-Comamonadaceae	0	0	1	0
+1.1.1.42-Aureococcus anophagefferens	0	0	0	1
+1.1.1.42-Ruegeria	0	0	0	1
+1.1.1.42-Bellilinea caldifistulae	0	0	1	0
+1.1.1.42-Acidovorax	0	0	1	0
+1.1.1.42-Gallaecimonas xiamenensis	0	0	0	1
+1.1.1.42-Polaribacter	0	0	3	0
+1.1.1.42-Taphrina deformans	0	0	1	0
+1.1.1.42-Cryomorphaceae	0	0	1	0
+1.1.1.42-Ilumatobacter coccineus	0	0	1	0
+1.1.1.42-Idiomarina	0	0	0	1
+1.1.1.42-Vibrio ichthyoenteri	0	0	1	0
+1.1.1.42-Emiliania huxleyi	0	0	1	0
+1.1.1.42-Labrenzia alba	0	0	0	1
+1.1.1.42-Bacteroidetes	0	0	1	0
+1.1.1.42-Gammaproteobacteria	0	2	0	2
+1.1.1.42-Salegentibacter mishustinae	0	3	0	0
+1.1.1.42-Reinekea blandensis	0	0	0	1
+1.1.1.42-Lysobacter	0	0	1	0
+1.1.1.42-Ruegeria pomeroyi	0	0	1	0
+1.1.1.42-Xanthomonadaceae	0	0	0	1
+1.1.1.42-Flavobacterium suncheonense	0	0	1	0
+1.1.1.42-Nitrospira moscoviensis	0	0	0	1
+1.1.1.42-Thiomicrospira crunogena	0	0	1	0
+1.1.1.42-Collimonas arenae	0	0	0	1
+1.1.1.42-Rhodobacteraceae	0	0	2	10
+1.1.1.42-Leifsonia	0	1	0	0
+1.1.1.42-Lysobacter dokdonensis	0	2	0	0
+1.1.1.42-Pseudoalteromonas spongiae	0	0	1	0
+1.1.1.42-Pezizomycotina	0	0	1	0
+1.1.1.42-Octadecabacter arcticus	0	0	1	0
+1.1.1.42-Polynucleobacter necessarius subsp. asymbioticus	0	0	0	1
+1.1.1.42-Proteobacteria	0	0	0	3
+1.1.1.42-Chloroherpeton thalassium	0	0	1	0
+	
+1.1.1.44-Bacteroidetes	4	0	1	0
+1.1.1.44-Saccharicrinis fermentans	1	0	0	0
+1.1.1.44-Babesia microti	1	0	0	0
+1.1.1.44-Polaribacter	1	0	0	0
+1.1.1.44-Acidovorax	0	0	0	1
+1.1.1.44-Flavihumibacter	0	0	0	1
+1.1.1.44-Methylophilales	0	0	3	3
+1.1.1.44-Microbacteriaceae	0	0	1	1
+1.1.1.44-Solanum tuberosum	0	0	1	1
+1.1.1.44-Colwelliaceae	2	0	0	0
+1.1.1.44-Wolbachia endosymbiont of Cimex lectularius	1	0	0	0
+1.1.1.44-Paraglaciecola arctica	0	0	0	1
+1.1.1.44-Candidatus Pantoea carbekii	0	0	0	1
+1.1.1.44-Algibacter lectus	1	0	0	0
+1.1.1.44-Streptococcus	1	0	0	0
+1.1.1.44-T4likevirus	0	0	0	6
+1.1.1.44-Viruses	0	0	2	0
+1.1.1.44-Eukaryota	0	0	4	0
+1.1.1.44-Micrococcales	0	0	3	0
+1.1.1.44-Methylococcaceae	1	0	0	0
+1.1.1.44-Veillonella	0	0	0	1
+1.1.1.44-Proteobacteria	1	0	0	0
+1.1.1.44-Chthoniobacter flavus	0	0	0	1
+1.1.1.44-Thalassiosira pseudonana	0	0	1	0
+1.1.1.44-Alligator mississippiensis	0	0	1	0
+1.1.1.44-Rhodopirellula	1	0	0	0
+1.1.1.44-Muscomorpha	0	0	1	0
+1.1.1.44-Ostreococcus tauri	0	0	0	1
+1.1.1.44-Alistipes	0	0	1	0
+1.1.1.44-Opitutus terrae	0	0	0	1
+1.1.1.44-Flavobacteriia	1	0	1	0
+1.1.1.44-Clostridium tetani	1	0	0	0
+1.1.1.44-Candidatus Aquiluna	0	0	1	0
+1.1.1.44-Acanthamoeba castellanii	1	0	0	0
+1.1.1.44-Burkholderia rhizoxinica	0	0	0	1
+1.1.1.44-Trypanosoma cruzi	2	0	0	0
+1.1.1.44-Cephalops longistylis	1	0	0	0
+1.1.1.44-Methanosaeta sp. SDB	0	0	1	0
+1.1.1.44-Anditalea andensis	1	0	0	0
+1.1.1.44-Mastigocladus laminosus	0	4	0	0
+1.1.1.44-Rhizopus delemar	0	0	0	3
+1.1.1.44-Dialister micraerophilus	1	0	0	0
+1.1.1.44-Synechococcus	1	0	0	1
+1.1.1.44-Alteromonas	1	0	0	0
+1.1.1.44-Actinobacteria	0	0	5	2
+	
+1.1.1.49-Phaeodactylum tricornutum	1	0	0	0
+1.1.1.49-Nocardioides	0	0	1	0
+1.1.1.49-Synechococcus	0	0	0	1
+1.1.1.49-Chthoniobacter flavus	1	0	1	0
+1.1.1.49-Actinobacteria	0	0	2	7
+1.1.1.49-Arundo donax	0	0	0	1
+1.1.1.49-Sedimenticola	1	0	0	0
+1.1.1.49-Pseudomonas aeruginosa	0	16	0	0
+1.1.1.49-Cyanobium gracile	0	0	0	1
+1.1.1.49-Nereida ignava	2	0	0	0
+1.1.1.49-Flagellimonas	1	0	0	0
+1.1.1.49-Bacteroidales	1	0	0	0
+1.1.1.49-Roseobacter denitrificans	1	0	0	0
+1.1.1.49-Porticoccaceae	2	0	0	0
+1.1.1.49-Eukaryota	0	0	1	1
+1.1.1.49-Oxytricha trifallax	0	0	1	1
+1.1.1.49-Burkholderiales	2	0	0	1
+1.1.1.49-Rhodobacterales	1	0	0	0
+1.1.1.49-Candidatus Puniceispirillum marinum	1	0	0	3
+1.1.1.49-Candidatus Curtissbacteria	0	0	0	1
+1.1.1.49-Streptomyces	0	0	4	0
+1.1.1.49-Salinisphaera	0	0	0	1
+1.1.1.49-Influenza A virus	1	0	0	0
+1.1.1.49-Lichtheimia ramosa	0	0	0	1
+1.1.1.49-Monoraphidium neglectum	1	0	0	0
+1.1.1.49-Hoeflea	0	0	0	1
+1.1.1.49-Clostridium	1	0	0	0
+1.1.1.49-Roseobacter	0	0	0	2
+1.1.1.49-Acetobacter	1	0	0	0
+1.1.1.49-Asticcacaulis	1	0	0	0
+1.1.1.49-Verrucomicrobiales	3	0	0	0
+1.1.1.49-Triticum aestivum	1	0	0	0
+1.1.1.49-Marinitoga piezophila	0	0	0	1
+1.1.1.49-Pannonibacter	1	0	0	0
+1.1.1.49-Halieaceae	1	0	0	0
+1.1.1.49-Morus notabilis	0	0	1	0
+1.1.1.49-Bathycoccus prasinos	0	0	0	2
+1.1.1.49-Jannaschia	1	0	0	0
+1.1.1.49-Pseudoalteromonas agarivorans	1	0	0	0
+1.1.1.49-Bacillus akibai	0	0	0	1
+1.1.1.49-Pseudoalteromonas phenolica	1	0	0	0
+1.1.1.49-Myoviridae	0	0	1	4
+1.1.1.49-Candidatus Liberibacter americanus	1	0	0	0
+1.1.1.49-Aureobasidium pullulans	0	0	0	1
+1.1.1.49-Mycobacterium sinense	1	0	0	0
+1.1.1.49-Thalassiosira pseudonana	0	0	0	1
+1.1.1.49-Ostreococcus tauri	0	0	1	0
+1.1.1.49-T4likevirus	0	0	0	7
+1.1.1.49-Metazoa	0	0	1	1
+1.1.1.49-Candidatus Thioglobus singularis	1	0	0	0
+1.1.1.49-Micromonas pusilla	0	0	1	0
+1.1.1.49-Mesorhizobium	0	0	0	1
+1.1.1.49-Vibrionaceae	1	0	0	0
+1.1.1.49-Marinomonas profundimaris	0	0	1	0
+1.1.1.49-Rhodobacteraceae	14	0	0	5
+1.1.1.49-Burkholderia	0	0	4	0
+1.1.1.49-Methylophilales	1	0	7	2
+1.1.1.49-Mamiellales	1	0	0	0
+1.1.1.49-Vibrio	1	0	0	0
+1.1.1.49-Cellvibrio	1	0	0	0
+1.1.1.49-Tulasnella calospora	1	0	0	0
+1.1.1.49-Sphingomonadales	0	0	1	0
+1.1.1.49-Rubrivivax benzoatilyticus	0	0	1	0
+1.1.1.49-Proteobacteria	10	0	0	5
+1.1.1.49-Cricetulus griseus	0	0	0	1
+1.1.1.49-Luminiphilus syltensis	1	0	0	0
+1.1.1.49-Glarea lozoyensis	0	0	0	1
+1.1.1.49-Pedetontus saltator	0	0	1	0
+1.1.1.49-Alteromonadaceae	1	0	0	0
+1.1.1.49-Gammaproteobacteria	0	3	0	5
+1.1.1.49-Desulfovibrio piezophilus	0	0	1	0
+1.1.1.49-Dechloromonas aromatica	0	0	0	1
+1.1.1.49-Cladophialophora carrionii	0	0	1	0
+1.1.1.49-Bathycoccaceae	0	0	1	0
+1.1.1.49-Lichtheimia	0	0	0	1
+1.1.1.49-Pseudomonas	0	2	0	0
+1.1.1.49-Alteromonadales	2	0	0	0
+1.1.1.49-Ostreococcus	0	0	2	2
+1.1.1.49-Bos indicus	0	0	1	0
+1.1.1.49-Methylophaga thiooxydans	0	0	1	0
+1.1.1.49-Alphaproteobacteria	1	0	0	0
+1.1.1.49-Streptomyces cattleya	1	0	0	0
+1.1.1.49-Draconibacterium sediminis	0	0	4	0
+1.1.1.49-Candidatus Aquiluna	0	0	9	1
+1.1.1.49-Caulobacter vibrioides	0	1	0	0
+1.1.1.49-Cyanobacteria	0	0	0	5
+1.1.1.49-Ruegeria lacuscaerulensis	1	0	0	0
+1.1.1.49-Ophiocordyceps sinensis	0	0	0	1
+	
+1.1.1.86-Bacteroidetes	7	0	1	0
+1.1.1.86-secondary endosymbiont of Ctenarytaina eucalypti	0	0	0	4
+1.1.1.86-Draconibacterium	0	0	0	1
+1.1.1.86-Tetrasphaera	0	0	1	0
+1.1.1.86-Vibrionaceae	0	0	1	0
+1.1.1.86-Burkholderia	1	0	0	0
+1.1.1.86-Opitutus terrae	0	0	1	0
+1.1.1.86-Actinobacteria	0	0	13	3
+1.1.1.86-Pseudohongiella spirulinae	1	0	1	0
+1.1.1.86-Magnetospira	0	1	0	0
+1.1.1.86-Solemya velum gill symbiont	0	0	0	1
+1.1.1.86-Ostreococcus 'lucimarinus'	0	0	1	0
+1.1.1.86-Fusobacterium nucleatum	0	0	0	1
+1.1.1.86-Sphingomonas	1	0	0	0
+1.1.1.86-Syntrophobacter fumaroxidans	0	0	0	1
+1.1.1.86-Rhizophagus irregularis	1	0	0	0
+1.1.1.86-Candidatus Blochmannia floridanus	0	0	0	1
+1.1.1.86-Cyclobacterium marinum	1	0	0	0
+1.1.1.86-Leersia perrieri	1	0	0	0
+1.1.1.86-Strongylocentrotus purpuratus	0	0	0	1
+1.1.1.86-Leptospira kmetyi	0	0	0	1
+1.1.1.86-Sphingobacterium spiritivorum	0	0	1	0
+1.1.1.86-Candidatus Thioglobus singularis	0	0	1	0
+1.1.1.86-Novosphingobium	0	2	0	0
+1.1.1.86-Micromonosporaceae	0	0	3	0
+1.1.1.86-Candidatus Actinomarina minuta	1	0	4	6
+1.1.1.86-Candidatus Ruthia	1	0	0	3
+1.1.1.86-Candidatus Pelagibacter ubique	4	0	7	13
+1.1.1.86-Desulfocapsa sulfexigens	1	0	0	0
+1.1.1.86-Guillardia theta	1	0	0	0
+1.1.1.86-Comamonadaceae	0	0	4	1
+1.1.1.86-Cellvibrionales	1	0	0	0
+1.1.1.86-Trichormus azollae	1	0	0	0
+1.1.1.86-Nocardia	0	0	0	1
+1.1.1.86-Kineococcus radiotolerans	0	0	1	0
+1.1.1.86-Micrococcales	0	0	1	0
+1.1.1.86-Rhodocyclaceae	1	0	0	0
+1.1.1.86-Limnohabitans planktonicus	1	0	0	0
+1.1.1.86-Ahrensia	1	0	0	0
+1.1.1.86-Shewanella	1	0	0	0
+1.1.1.86-Epsilonproteobacteria	0	0	0	1
+1.1.1.86-Mycobacterium gilvum	0	0	0	1
+1.1.1.86-Tetrahymena thermophila	0	0	1	0
+1.1.1.86-Agarivorans albus	1	0	0	0
+1.1.1.86-Polaribacter dokdonensis	0	3	0	0
+1.1.1.86-Nitrosospira multiformis	0	0	2	0
+1.1.1.86-Buchnera aphidicola	1	0	0	0
+1.1.1.86-Alteromonas	1	0	0	0
+1.1.1.86-Hydra vulgaris	1	0	0	0
+1.1.1.86-Dokdonia donghaensis	4	0	0	0
+1.1.1.86-Pelagibacteraceae	0	1	12	25
+1.1.1.86-Betaproteobacteria	0	0	4	0
+1.1.1.86-Snodgrassella alvi	1	0	0	0
+1.1.1.86-Marinobacter	6	0	0	0
+1.1.1.86-Cyanobacteria	1	0	1	1
+1.1.1.86-Porticoccaceae	2	0	0	0
+1.1.1.86-Curvibacter putative symbiont of Hydra magnipapillata	0	0	1	0
+1.1.1.86-Eukaryota	0	0	0	1
+1.1.1.86-Actinoplanes missouriensis	0	0	4	0
+1.1.1.86-Maribacter	1	0	0	0
+1.1.1.86-Halomonas	1	0	0	0
+1.1.1.86-Jannaschia donghaensis	1	0	0	0
+1.1.1.86-Flavobacterium indicum	0	0	1	0
+1.1.1.86-Kiloniella	1	0	0	0
+1.1.1.86-Roseobacter	2	0	0	0
+1.1.1.86-Synechococcus	0	0	0	3
+1.1.1.86-Bacteroides caccae	1	0	0	0
+1.1.1.86-Calyptogena okutanii thioautotrophic gill symbiont	0	0	0	2
+1.1.1.86-Spirochaeta	1	0	0	0
+1.1.1.86-Macrococcus caseolyticus	0	0	0	1
+1.1.1.86-Chlorophyta	0	0	1	1
+1.1.1.86-Planctomycetaceae	1	0	0	0
+1.1.1.86-Caulobacter henricii	0	0	0	1
+1.1.1.86-Microbacterium	0	0	0	1
+1.1.1.86-Pseudomonas	1	0	0	1
+1.1.1.86-Populus trichocarpa	0	0	0	1
+1.1.1.86-Hyphomicrobiaceae	0	0	1	0
+1.1.1.86-Streptomyces griseus	0	0	1	0
+1.1.1.86-Ktedonobacter racemifer	0	0	0	2
+1.1.1.86-Alphaproteobacteria	3	0	1	4
+1.1.1.86-Candidatus Pelagibacter	2	0	3	7
+1.1.1.86-Glaciecola punicea	1	0	0	1
+1.1.1.86-Methylophilales	0	0	6	2
+1.1.1.86-Microbacteriaceae	0	0	2	0
+1.1.1.86-Spongiibacteraceae	1	0	0	0
+1.1.1.86-Rhodoluna lacicola	0	0	1	0
+1.1.1.86-Vibrio	1	0	0	0
+1.1.1.86-Bradyrhizobium retamae	1	0	0	0
+1.1.1.86-Rathayibacter toxicus	0	0	0	1
+1.1.1.86-Pseudoalteromonas	0	0	0	1
+1.1.1.86-Proteobacteria	8	0	5	7
+1.1.1.86-Burkholderiales	0	0	2	0
+1.1.1.86-Mycoplasma feriruminatoris	0	0	0	2
+1.1.1.86-Sphaerobolus stellatus	0	0	0	1
+1.1.1.86-Pedobacter	1	0	0	0
+1.1.1.86-Micrococcaceae	0	0	1	0
+1.1.1.86-Pseudomonas aeruginosa	0	2	0	0
+1.1.1.86-Gammaproteobacteria	4	0	6	8
+1.1.1.86-Microbacterium testaceum	0	0	3	0
+1.1.1.86-Alteromonas stellipolaris	1	0	0	0
+1.1.1.86-Ostreococcus	0	0	2	0
+1.1.1.86-Geobacter daltonii	1	0	0	0
+1.1.1.86-Flavobacteriaceae	7	0	1	2
+1.1.1.86-Halieaceae	6	0	0	0
+1.1.1.86-Rhodobacteraceae	11	0	5	2
+1.1.1.86-Acidimicrobium	0	0	7	0
+1.1.1.86-Pyrobaculum	1	0	0	0
+1.1.1.86-Anaeromyxobacter	0	0	1	0
+1.1.1.86-Rhodovulum	0	0	0	2
+1.1.1.86-Campylobacterales	1	0	0	0
+	
+1.1.3.4-Bosea	1	0	0	0
+1.1.3.4-Rhodobacteraceae	2	0	0	0
+1.1.3.4-Cytophagales	2	0	0	0
+1.1.3.4-Proteobacteria	0	0	0	1
+	
+1.1.3.9-Lichtheimia ramosa	0	0	0	1
+	
+1.1.5.3-Actinobacteria	0	0	1	0
+1.1.5.3-Labrenzia alba	0	0	0	1
+1.1.5.3-Rivulariaceae	0	0	0	1
+1.1.5.3-Pelagibacteraceae	0	0	0	1
+1.1.5.3-Rhodotorula toruloides	1	0	0	0
+1.1.5.3-Spiribacter	1	0	0	0
+1.1.5.3-Sphingopyxis alaskensis	0	0	1	0
+1.1.5.3-Hylemonella gracilis	0	0	1	0
+1.1.5.3-Rhodobacteraceae	0	0	0	1
+1.1.5.3-Roseivirga	1	0	0	0
+1.1.5.3-Gammaproteobacteria	0	0	1	1
+1.1.5.3-Acidimicrobium	0	0	1	0
+1.1.5.3-Actibacterium mucosum	1	0	0	0
+1.1.5.3-Gymnopus luxurians	1	0	0	0
+1.1.5.3-Nereida ignava	1	0	0	0
+1.1.5.3-Flavobacteriaceae	0	0	1	0
+1.1.5.3-Deltaproteobacteria	1	0	0	0
+1.1.5.3-Loktanella hongkongensis	1	0	0	0
+1.1.5.3-Porticoccaceae	0	0	1	0
+1.1.5.3-Limnohabitans	0	0	1	0
+1.1.5.3-Intrasporangiaceae	0	0	1	0
+1.1.5.3-Desulfobulbus propionicus	1	0	0	0
+1.1.5.3-Wigglesworthia glossinidia	1	0	0	0
+1.1.5.3-Proteobacteria	2	0	0	0
+	
+1.10.3.1-Bifidobacterium longum	1	0	0	0
+	
+1.10.9.1-Thalassiosira pseudonana	0	0	0	1
+1.10.9.1-Synechococcus	0	0	0	1
+	
+1.10.99.3-Mamiellales	0	0	2	0
+1.10.99.3-Thalassiosira pseudonana	0	0	0	1
+1.10.99.3-Micromonas pusilla	0	0	1	0
+1.10.99.3-Ostreococcus 'lucimarinus'	0	0	2	0
+	
+1.11.1.15-Erythrobacter	0	0	0	1
+1.11.1.15-Mycobacterium aromaticivorans	0	0	1	0
+1.11.1.15-Flavihumibacter	0	1	0	0
+1.11.1.15-Dacinae	0	0	1	0
+1.11.1.15-Lechevalieria aerocolonigenes	0	0	0	1
+1.11.1.15-Monosiga brevicollis	0	0	0	1
+1.11.1.15-Candidatus Aquiluna	0	0	0	2
+1.11.1.15-Solemya velum gill symbiont	1	0	0	0
+1.11.1.15-Spizellomyces punctatus	0	0	0	1
+1.11.1.15-Pelagibacteraceae	0	1	4	3
+1.11.1.15-Veillonella atypica	0	0	0	1
+1.11.1.15-Rhodobacter	0	0	1	0
+1.11.1.15-Bosea thiooxidans	1	0	0	0
+1.11.1.15-Trichinella spiralis	0	0	0	1
+1.11.1.15-Clostridium celatum	0	0	4	0
+1.11.1.15-Thalassiosira pseudonana	0	0	0	1
+1.11.1.15-Beauveria bassiana	0	0	0	1
+1.11.1.15-Cronobacter sakazakii	0	0	1	1
+1.11.1.15-Taylorella asinigenitalis	0	0	1	0
+1.11.1.15-Actinobacteria	0	0	5	1
+1.11.1.15-Sphingomonadaceae	0	3	0	0
+1.11.1.15-Candidatus Caedibacter acanthamoebae	0	0	1	0
+1.11.1.15-Burkholderiales	0	0	1	0
+1.11.1.15-Eubacterium	0	0	1	0
+1.11.1.15-Puccinia sorghi	0	0	0	1
+1.11.1.15-Pseudoxanthomonas dokdonensis	0	0	0	1
+1.11.1.15-Bacteroidetes	1	0	4	0
+1.11.1.15-Caulobacter vibrioides	0	4	0	0
+1.11.1.15-Flavobacteriaceae	3	0	6	0
+1.11.1.15-Alphaproteobacteria	0	0	5	6
+1.11.1.15-Eutrema salsugineum	0	0	0	1
+1.11.1.15-Betaproteobacteria	0	0	3	0
+1.11.1.15-Nonlabens	0	0	0	1
+1.11.1.15-[Haemophilus] ducreyi	0	0	0	1
+1.11.1.15-Thioalkalivibrio thiocyanoxidans	0	0	0	1
+1.11.1.15-Schizopora paradoxa	0	0	1	0
+1.11.1.15-Dechloromonas aromatica	0	0	1	0
+1.11.1.15-Theobroma cacao	0	0	0	1
+1.11.1.15-Noviherbaspirillum	0	0	0	1
+1.11.1.15-Daphnia pulex	0	0	0	1
+1.11.1.15-Chromera velia	0	0	0	1
+1.11.1.15-Gammaproteobacteria	0	0	2	7
+1.11.1.15-Legionella oakridgensis	0	0	0	2
+1.11.1.15-Comamonas	0	0	1	0
+1.11.1.15-Oceanicaulis	0	0	1	0
+1.11.1.15-Sunxiuqinia dokdonensis	0	0	0	1
+1.11.1.15-Nitrosopumilus	0	0	1	0
+1.11.1.15-Croceibacter atlanticus	1	0	0	0
+1.11.1.15-Gemella haemolysans	0	0	1	0
+1.11.1.15-Formosa	0	0	1	0
+1.11.1.15-Taphrina deformans	0	0	0	1
+1.11.1.15-Psychrobacter	0	0	0	1
+1.11.1.15-Desulfovibrionales	0	0	0	1
+1.11.1.15-Ostreococcus	0	0	2	0
+1.11.1.15-Ktedonobacter racemifer	0	0	0	1
+1.11.1.15-Crassostrea gigas	0	0	0	1
+1.11.1.15-Vibrio furnissii	1	0	0	0
+1.11.1.15-Acidimicrobiia	0	0	1	0
+1.11.1.15-Sphingobacterium paucimobilis	0	0	1	0
+1.11.1.15-Fusarium oxysporum	0	1	0	0
+1.11.1.15-Caulobacter	0	0	0	1
+1.11.1.15-Pseudonocardia dioxanivorans	0	0	1	1
+1.11.1.15-Bradyrhizobiaceae	0	2	0	0
+1.11.1.15-Rasamsonia emersonii	0	0	0	1
+1.11.1.15-Succinatimonas	0	0	0	1
+1.11.1.15-Candidatus Pelagibacter	0	0	5	4
+1.11.1.15-actinobacterium acAcidi	0	0	1	0
+1.11.1.15-Capnocytophaga cynodegmi	0	0	2	0
+1.11.1.15-Peptococcaceae	0	0	0	1
+1.11.1.15-Rhizobium	0	0	1	1
+1.11.1.15-Comamonadaceae	0	0	6	0
+1.11.1.15-Rhizobium etli	0	0	1	0
+1.11.1.15-Bartonella grahamii	0	0	1	0
+1.11.1.15-Polaribacter	0	0	4	0
+1.11.1.15-Anolis carolinensis	0	0	1	0
+1.11.1.15-Thauera linaloolentis	0	0	0	1
+1.11.1.15-Marinobacter	0	0	0	1
+1.11.1.15-Microbacteriaceae	0	0	1	1
+1.11.1.15-Brevundimonas	0	4	0	0
+1.11.1.15-Ostreococcus 'lucimarinus'	0	0	0	1
+1.11.1.15-Gordonia terrae	0	0	2	0
+1.11.1.15-Mesorhizobium	0	0	0	1
+1.11.1.15-Bifidobacterium scardovii	0	0	1	0
+1.11.1.15-Desulfovibrio salexigens	0	0	0	1
+1.11.1.15-Streptophyta	0	0	0	1
+1.11.1.15-Flammeovirgaceae	0	0	2	0
+1.11.1.15-Prevotella ruminicola	0	0	0	2
+1.11.1.15-Ponticoccus	0	0	1	0
+1.11.1.15-Flavobacteriia	0	0	0	1
+1.11.1.15-Paramecium tetraurelia	0	0	1	0
+1.11.1.15-Poeciliinae	0	0	1	0
+1.11.1.15-Candidatus Actinomarina minuta	0	0	1	1
+1.11.1.15-Desulfobulbus propionicus	0	0	0	1
+1.11.1.15-Rhodobacterales	2	0	0	0
+1.11.1.15-Cyclotella	0	0	0	1
+1.11.1.15-Candidatus Pelagibacter ubique	0	0	0	5
+1.11.1.15-Postia placenta	0	0	0	1
+1.11.1.15-Sodalis glossinidius	0	0	0	1
+1.11.1.15-Alteromonas stellipolaris	1	0	0	0
+1.11.1.15-Rhodococcus	0	0	1	0
+1.11.1.15-Methylophilales	0	0	5	4
+1.11.1.15-Claviceps purpurea	0	0	1	0
+1.11.1.15-Sphingomonas changbaiensis	0	0	0	1
+1.11.1.15-Pelagibacterium halotolerans	0	0	0	1
+1.11.1.15-Prevotella fusca	0	0	1	0
+1.11.1.15-Achromobacter arsenitoxydans	0	0	0	2
+1.11.1.15-Thioclava pacifica	1	0	0	0
+1.11.1.15-Halieaceae	1	0	0	1
+1.11.1.15-Eukaryota	0	0	6	1
+1.11.1.15-Thalassobius gelatinovorus	0	0	1	0
+1.11.1.15-Candida auris	0	0	0	1
+1.11.1.15-Novosphingobium	0	0	0	1
+1.11.1.15-Streptomyces	0	0	1	0
+1.11.1.15-Candidatus Thioglobus singularis	0	0	2	0
+1.11.1.15-Candidatus Nitrosopumilus salaria	0	0	0	1
+1.11.1.15-Pseudomonas aeruginosa	0	5	0	0
+1.11.1.15-Amycolatopsis rifamycinica	0	0	0	2
+1.11.1.15-Strongylocentrotus purpuratus	0	0	0	1
+1.11.1.15-Bacteroides	0	0	0	1
+1.11.1.15-Cryomorphaceae	0	0	1	2
+1.11.1.15-Synechococcus	0	1	0	1
+1.11.1.15-Cellvibrionales	0	0	0	1
+1.11.1.15-Pelagibaca bermudensis	1	0	0	0
+1.11.1.15-Glarea lozoyensis	0	0	1	0
+1.11.1.15-Proteobacteria	0	10	7	15
+1.11.1.15-Beggiatoa alba	0	0	1	0
+1.11.1.15-Melampsora larici-populina	0	0	0	1
+1.11.1.15-Haliscomenobacter hydrossis	1	0	0	0
+1.11.1.15-Pontibacter	0	0	0	1
+1.11.1.15-Cyanobium gracile	0	0	0	1
+1.11.1.15-Rhodobacteraceae	1	0	1	8
+1.11.1.15-Acidimicrobium	0	0	18	0
+1.11.1.15-Pseudolabrys	0	0	0	1
+	
+1.13.11.11-Methanoregula formicica	0	0	1	0
+1.13.11.11-Archaea	0	0	0	1
+1.13.11.11-Caenorhabditis remanei	0	0	1	0
+1.13.11.11-Chromera velia	0	0	0	1
+1.13.11.11-Mesorhizobium	0	0	1	0
+1.13.11.11-Sphingobacteriaceae	0	0	1	0
+1.13.11.11-Kibdelosporangium	0	0	1	0
+1.13.11.11-Bacteroidetes	0	0	0	1
+1.13.11.11-Polaribacter irgensii	0	0	0	1
+1.13.11.11-Cytophagales	0	0	0	1
+1.13.11.11-Flavobacteriaceae	0	0	1	1
+1.13.11.11-Proteobacteria	0	0	0	2
+1.13.11.11-Phaeodactylibacter xiamenensis	0	0	0	2
+1.13.11.11-Tulasnella calospora	0	0	0	1
+1.13.11.11-Candidatus Aquiluna	0	0	4	1
+1.13.11.11-Pseudomonas aeruginosa	0	10	0	0
+1.13.11.11-Actinobacteria	0	0	3	0
+1.13.11.11-Clostridium	0	0	1	0
+1.13.11.11-Haliangium ochraceum	0	0	0	1
+1.13.11.11-Alphaproteobacteria	0	1	0	0
+1.13.11.11-Betaproteobacteria	0	0	1	0
+	
+1.13.11.6-Acetobacter malorum	0	0	0	1
+1.13.11.6-Micromonas pusilla	0	0	0	1
+1.13.11.6-Flavobacterium	0	0	1	0
+1.13.11.6-Actinobacteria	0	0	1	0
+1.13.11.6-Flavobacteriaceae	0	0	0	1
+1.13.11.6-Bacteroidetes	0	0	0	1
+1.13.11.6-Cryomorphaceae	0	0	1	0
+	
+1.13.11.8-Proteobacteria	0	0	3	0
+1.13.11.8-Comamonadaceae	0	0	0	1
+	
+1.13.12.16-Flavobacteriaceae	0	0	1	2
+1.13.12.16-Aeromonas allosaccharophila	0	0	0	1
+1.13.12.16-actinobacterium acAcidi	0	0	1	0
+1.13.12.16-Endozoicomonas numazuensis	0	0	1	0
+1.13.12.16-Thermoactinomyces vulgaris	0	0	0	1
+1.13.12.16-Eukaryota	0	0	0	1
+1.13.12.16-Proteobacteria	0	0	1	5
+1.13.12.16-Cellvibrionales	0	0	0	2
+1.13.12.16-Peptococcaceae	0	0	0	1
+1.13.12.16-Tribolium castaneum	0	0	0	1
+1.13.12.16-Pseudomonas	0	1	1	0
+1.13.12.16-Porticoccaceae	0	0	1	1
+1.13.12.16-Azoarcus	0	0	0	1
+1.13.12.16-Marinobacter algicola	0	1	0	0
+1.13.12.16-Phenylobacterium	0	0	0	1
+1.13.

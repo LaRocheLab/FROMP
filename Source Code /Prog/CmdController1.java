@@ -88,9 +88,7 @@ public class CmdController1 {
 		//process all samples
 		processing();
 		
-		if (unusedEc!=null){
-			System.out.println(unusedEc);	
-		}
+		
 		System.out.println("ALL Done.");
 		System.exit(0);
 		
@@ -580,7 +578,9 @@ public class CmdController1 {
 				}
 				
 			}
-			
+			if (unusedEc!=null){
+				System.out.println("No values found within sequence file for ec: "+unusedEc);	
+			}
 			System.out.println("Done LCA");
 			checkTimedOut(metapro);
 
@@ -778,7 +778,9 @@ public class CmdController1 {
 					e.printStackTrace();
 				}					
 			}
-
+			if (unusedEc!=null){
+				System.out.println("No values found within sequence file for ec: "+unusedEc);	
+			}
 			System.out.println("Done Lca Matrix");
 		}
 	}

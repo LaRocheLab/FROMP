@@ -304,20 +304,21 @@ public class CmdController1 {
 			
 			System.out.println("Export as .frp file");
 			//project path
-			String projPath = "";
+			//String projPath = "";
+			String fileName = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1);
 			if(outPutPath_.contentEquals("def")){
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				projPath=basePath_+"f"+File.separator+"NewProject-"+sdf.format(d)+".frp";
+				tmpPath = basePath_+"f"+File.separator+fileName+"-New-"+sdf.format(d)+".frp";
 
 			}
 
 			else {
 				
-				projPath=outPutPath_+"NewProject-"+sdf.format(d)+".frp";
+				tmpPath = outPutPath_+fileName+"-New-"+sdf.format(d)+".frp";
 			}
 			checkSeqFile();
-			Controller.saveProject(projPath);
-			System.out.println("New Project File at : "+projPath);
+			Controller.saveProject(tmpPath);
+			System.out.println("New Project File at : "+tmpPath);
 		}
 		// op --checked out path
 		else if (optionsCmd_.contentEquals("op")){
@@ -469,7 +470,7 @@ public class CmdController1 {
 						System.out.println("check #:"+num_ec_exported);
 					}
 					catch (Exception e){
-						System.out.println("Wrong eclise options");
+						System.out.println("Wrong eclist options");
 						System.exit(0);
 					}		
 				}

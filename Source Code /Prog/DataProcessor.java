@@ -474,6 +474,7 @@ public class DataProcessor {
 		if ((seperator.isEmpty()) && (input.contains("\t"))) {
 			seperator = "\t";
 		}
+		//ret = return
 		String[] ret = new String[4];
 		ret[0] = "X";// ec name
 		ret[1] = "1";// number of this ec with this sequence id
@@ -1754,7 +1755,7 @@ public class DataProcessor {
 		Boolean newEc = Boolean.valueOf(true);
 		int index = 0;
 		if (ecList_ == null) {
-			ecList_ = new ArrayList();
+			ecList_ = new ArrayList<EcWithPathway>();
 			try {
 				this.ecList = this.reader.readTxt(listPath);
 				while ((zeile = this.ecList.readLine()) != null) {

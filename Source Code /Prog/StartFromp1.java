@@ -209,12 +209,13 @@ public class StartFromp1 {
 						while((line) != null){	
 					
 							String ID = line;
-							line = fileIn.readLine();		
-							String Seq = line;
-							
+							line = fileIn.readLine();	
+							String Seq="";
+							while (!line.startsWith(">")){
+								Seq+=line;
+								line = fileIn.readLine();
+							}
 							seqFile.addtoMap(ID, Seq);
-							
-							line = fileIn.readLine();
 						}
 						
 						FileSetofSeq.add(seqFile);

@@ -330,11 +330,12 @@ public class DataProcessor {
 		String[] ret = new String[4];
 
 		ret[0] = "X"; // IPR name
-		ret[1] = "1"; // Number of this ipr with this sequence id
-		ret[2] = "X"; // Whether or not it is an ipr
+		ret[1] = "1"; // Number of this IPR with this sequence id
+		ret[2] = "X"; // Whether or not it is an IPR
 		ret[3] = "X"; // Sequence id
-		//added !line.contains("/t") for a strange index exception was occuring without
+		//added !line.contains("/t") for a strange index exception was occurring without
 		if (line.contains(seperator) && !line.contains("\t")) {
+			//get IPR+6nums = IPRXXXXXX
 			String interpro = findInterProInRaw(line);
 			if (interpro != null) {
 				Project.amountOfIPRs += 1;
@@ -348,7 +349,8 @@ public class DataProcessor {
 			} else if (tmp != null) {
 				ret[1] = tmp;
 			}
-		} else {
+		} 
+		else {
 			if (line.contains("\t")) {
 				String repSeq = line.substring(0, line.indexOf("\t"));
 				ret[3] = repSeq;
@@ -419,7 +421,7 @@ public class DataProcessor {
 		}
 		return "";
 	}
-
+	//check IPR format. true :return IPRXXXXXX, false: if format is IPR+6 nums. return null.
 	private String findInterProInRaw(String input) { // method to parse the interpro format
 		String interpro = "";
 		String tmp = input;
@@ -427,7 +429,8 @@ public class DataProcessor {
 			interpro = tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
 			if (interpro.matches("IPR[0-9][0-9][0-9][0-9][0-9][0-9]")) {
 				return interpro;
-			} else {
+			} 
+			else {
 				tmp = tmp.substring(tmp.indexOf("IPR") + 3);
 			}
 		}
@@ -1180,6 +1183,7 @@ public class DataProcessor {
 			sample.sample_ = this.reader.readTxt(tmp);
 			
 			try {
+				//line in sample.
 				while ((zeile = sample.sample_.readLine()) != null) {
 					/*Important for interpro input where several samples are in the same
 					 * file each starting off with a line contaning the sample name
@@ -1370,7 +1374,7 @@ public class DataProcessor {
 
 	private ArrayList<String[]> convertInterpro(String[] interpro) {// conversion step using ipr->kegg
 																	
-		ArrayList<String[]> retList = new ArrayList();
+		ArrayList<String[]> retList = new ArrayList<String[]>();
 		if (this.IPRToECHash.isEmpty()) {
 			DigitizeConversionFiles();
 		}

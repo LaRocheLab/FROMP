@@ -197,7 +197,6 @@ public class CmdController1 {
 		}
 		//input is a *.* sample files.
 		else{
-			//System.out.println("111"+Project.workpath_);
 			//get filename.filetype.  such like abc.txt, need +1
 			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
 			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
@@ -579,7 +578,7 @@ public class CmdController1 {
 				}
 				
 			}
-			if (unusedEc!=null){
+			if (!unusedEc.isEmpty()){
 				System.out.println("No values found within sequence file for ec: "+unusedEc);	
 			}
 			System.out.println("Done LCA");
@@ -779,7 +778,7 @@ public class CmdController1 {
 					e.printStackTrace();
 				}					
 			}
-			if (unusedEc!=null){
+			if (!unusedEc.isEmpty()){
 				System.out.println("No values found within sequence file for ec: "+unusedEc);	
 			}
 			System.out.println("Done Lca Matrix");
@@ -803,12 +802,17 @@ public class CmdController1 {
 				else {
 					
 					line = in.readLine();
-					if(!line.matches("[A-Za-z]*")){
-						in.close();
-						return false;
+					while (!line.startsWith(">")){
+						if(!line.matches("[A-Za-z]*")){
+							in.close();
+							return false;
+						}
+						
+						line = in.readLine();
 					}
+					
 				}
-				line = in.readLine();
+//				line = in.readLine();
 				count++;	
 			}
 			in.close();

@@ -682,7 +682,23 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-
+	
+	private void showGOActPanes() {// Opens the ec activity analysis
+		clearBack();
+		EcActPanes matrixP_ = new EcActPanes(Controller.project_,
+				Controller.processor_, getSize());
+		matrixP_.backButton_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewFrompFrame.this.clearBack();
+				NewFrompFrame.this.showAnalyseOptions();
+			}
+		});
+		this.back_.add(matrixP_);
+		invalidate();
+		validate();
+		repaint();
+	}
+	
 	public void showLCAPanes() {
 		clearBack();
 		LCAPanes matrixP_ = new LCAPanes(Controller.project_,Controller.processor_, getSize());
@@ -881,7 +897,7 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
 					//uncommented
-					NewFrompFrame.this.showEcActPanes();
+					NewFrompFrame.this.showGOActPanes();
 				} else {
 					warningFrame();
 				}

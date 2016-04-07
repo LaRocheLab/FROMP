@@ -63,7 +63,7 @@ public class Project {
 	public static int numofConvUNIsMapped = 0;
 	
 	//ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
-	public static ArrayList<Boolean> legitSamples = new ArrayList(); 
+	public static ArrayList<Boolean> legitSamples = new ArrayList<Boolean>(); 
 //	final static String basePath_ = new File(".").getAbsolutePath()
 //			+ File.separator; // The base path of the Fromp software. Nessesairy for all relative paths to function
 	final static String basePath_ = StartFromp1.FolderPath; // The base path of the Fromp software. Nessesairy for all relative paths to function

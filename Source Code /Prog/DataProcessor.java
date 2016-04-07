@@ -50,14 +50,18 @@ public class DataProcessor {
 	
 	static final String listPath = StartFromp1.FolderPath+"list" + File.separator + "ec.list";
 	static final String pathwayList = StartFromp1.FolderPath+"list" + File.separator + "pathway.list";
-	static final String ecNamesPath = StartFromp1.FolderPath+"list" + File.separator + "ec2go.txt"; 
 	static final String rnListPath = StartFromp1.FolderPath+"list" + File.separator + "rn.list"; 
 	static final String mapTitleList = StartFromp1.FolderPath+"list" + File.separator + "map_title.tab"; 
 	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath+"list" + File.separator + "pfam2Ec2Rn.txt"; 
-	static final String interproToGOPath_ = StartFromp1.FolderPath+"list" + File.separator + "interpro2GO.txt"; 
-	static final String interproToECPath_ = StartFromp1.FolderPath+"list" + File.separator + "interPro_kegg.tsv";
+	//xx --> EC
+	static final String interproToECPath_ = StartFromp1.FolderPath+"list" + File.separator + "interPro_kegg.txt";
 	static final String uni2ECPath_ = StartFromp1.FolderPath+"list" + File.separator + "uniref2ec.txt";
-	static final String uni2Go_ = StartFromp1.FolderPath+"list" + File.separator + "uniref90_2GO.txt";
+	//XX --> GO
+	static final String interpro2GOPath = StartFromp1.FolderPath+"list" + File.separator + "interpro2GO.txt"; 
+	static final String uni2GoPath = StartFromp1.FolderPath+"list" + File.separator + "uniref90_2GO.txt";
+	static final String ec2GoPath = StartFromp1.FolderPath+"list" + File.separator + "ec2go.txt"; 
+	static final String kegg2GoPath = StartFromp1.FolderPath+"list" + File.separator + "kegg2go.txt"; 
+	static final String pfam2GoPath = StartFromp1.FolderPath+"list" + File.separator + "pfam2go.txt"; 
 	/* Variables to store the starting Strings of Pframs, ECs
 	 * Rns and interpros
 	 */
@@ -1497,7 +1501,7 @@ public class DataProcessor {
 
 			this.lFrame_.step(smpEc.name_);
 			if (smpEc.pathways_.size() > 0) {
-				smpEc.pathways_ = new ArrayList();
+				smpEc.pathways_ = new ArrayList<Pathway>();
 			}
 			EcWithPathway origEc = findEcWPath(smpEc);
 			if (origEc != null) {
@@ -1846,7 +1850,7 @@ public class DataProcessor {
 		String bioName = "";
 		String zeile = "";
 		try {
-			BufferedReader ec2go = this.reader.readTxt(ecNamesPath);
+			BufferedReader ec2go = this.reader.readTxt(ec2GoPath);
 			while ((zeile = ec2go.readLine()) != null) {
 				if (zeile.startsWith("EC:" + ecNr)) {
 					bioName = zeile.substring(zeile.indexOf(" > GO:") + 6,
@@ -1856,7 +1860,7 @@ public class DataProcessor {
 			}
 			ec2go.close();
 		} catch (IOException e) {
-			openWarning("Error", "File: " + ecNamesPath + " not found");
+			openWarning("Error", "File: " + ec2GoPath + " not found");
 			e.printStackTrace();
 		}
 	}
@@ -1881,7 +1885,7 @@ public class DataProcessor {
 		String path = "";
 		int index = -1;
 		if (getPathwayList_() == null) {
-			setPathwayList_(new ArrayList());
+			setPathwayList_(new ArrayList<PathwayWithEc>());
 			System.out.println(listPath);
 			this.ecList = this.reader.readTxt(listPath);
 			try {

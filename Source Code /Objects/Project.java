@@ -8,15 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.util.*;
-
-import Prog.CmdController1;
 import Prog.StartFromp1;
 import Prog.StringReader;
 
@@ -340,28 +337,32 @@ public class Project {
 							+ tmpSamp.sampleCol_.getBlue());
 					out.newLine();
 				}
+				//Write out EC and following data
 				for (int ecCnt = 0; ecCnt < tmpSamp.ecs_.size(); ecCnt++) {
-					EcWithPathway tmpEc = (EcWithPathway) tmpSamp.ecs_
-							.get(ecCnt);
+					EcWithPathway tmpEc = (EcWithPathway) tmpSamp.ecs_.get(ecCnt);
 					out.write("EC*:" + tmpEc.name_ + ":" + tmpEc.amount_);
 					out.newLine();
-					//System.out.println(tmpEc.repseqs_.size());
+
 					for (int repCnt = 0; repCnt < tmpSamp.conversions_.size(); repCnt++) {
-						if (((ConvertStat) tmpSamp.conversions_.get(repCnt)).ecNr_
-								.contentEquals(tmpEc.name_)) {
-							out.write(((ConvertStat) tmpSamp.conversions_
-									.get(repCnt)).desc_
+						if (tmpSamp.conversions_.get(repCnt).ecNr_.contentEquals(tmpEc.name_)) {
+							
+							out.write(tmpSamp.conversions_.get(repCnt).desc_  //seq ID
 									+ ":"
-									+ ((ConvertStat) tmpSamp.conversions_
-											.get(repCnt)).ecAmount_
+									+ (tmpSamp.conversions_.get(repCnt)).ecAmount_
 									+ ":"
-									+ ((ConvertStat) tmpSamp.conversions_
-											.get(repCnt)).pfamToEcAmount_ + ";");
+									+ (tmpSamp.conversions_.get(repCnt)).pfamToEcAmount_ 
+									+ ";");
 						}
+						// need add more code to store  unused ec#.
+						//...format like seqID : ecAmount : pfamToEcAmount : unused ec1, unused ec2;
 					}
 					//new line for each ec
 					out.newLine();
 				}
+				//Write out GO and following data
+				//...goNr.
+				
+				
 			}
 			saveUserPAths(out); // Writes the user paths (if any) to the end of the file
 			saveConvStats(out); // Writes the conversion statistics (if any) to the end of the file
@@ -515,7 +516,12 @@ public class Project {
 			}
 		}
 	}
-	//Saves the user paths to the project file
+	
+	/**
+	 * Saves the user paths to the project file
+	 * @param out
+	 * @throws IOException
+	 */
 	public void saveUserPAths(BufferedWriter out) throws IOException { 
 		out.write("<userPathways>");
 		out.newLine();
@@ -525,7 +531,7 @@ public class Project {
 			return;
 		}
 		for (int i = 0; i < userPathways.size(); i++) {
-			String zeile = (String) userPathways.get(i);
+			String zeile = userPathways.get(i);
 			String zeile2;
 
 			String shortBasePath_;

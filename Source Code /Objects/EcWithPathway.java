@@ -1,6 +1,5 @@
 package Objects;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 //This is an extension of the EcNr class. This class includes all of the pathways associated with a particular EC as an  attribute.
@@ -14,7 +13,7 @@ public class EcWithPathway extends EcNr {
 		super(ecNr);
 		this.maxChainLength_ = ecNr.maxChainLength_;
 
-		this.pathways_ = new ArrayList();
+		this.pathways_ = new ArrayList<Pathway>();
 		this.userEC = ecNr.userEC;
 		this.weightsSet = false;
 	}
@@ -22,7 +21,7 @@ public class EcWithPathway extends EcNr {
 	public EcWithPathway(EcWithPathway ecWp) {
 		super(ecWp);
 		this.maxChainLength_ = ecWp.maxChainLength_;
-		this.pathways_ = new ArrayList();
+		this.pathways_ = new ArrayList<Pathway>();
 		this.userEC = ecWp.userEC;
 		if (ecWp.pathways_ != null) {
 			for (int i = 0; i < ecWp.pathways_.size(); i++) {
@@ -34,7 +33,7 @@ public class EcWithPathway extends EcNr {
 	public EcWithPathway(EcWithPathway ecWp, EcNr ecnr) {
 		super(ecWp);
 		this.maxChainLength_ = ecnr.maxChainLength_;
-		this.pathways_ = new ArrayList();
+		this.pathways_ = new ArrayList<Pathway>();
 		this.amount_ = ecnr.amount_;
 		this.userEC = ecWp.userEC;
 		if (ecWp.pathways_ != null) {
@@ -43,7 +42,7 @@ public class EcWithPathway extends EcNr {
 			}
 		}
 		if (this.repseqs_.size() == 0) {
-			this.repseqs_ = new ArrayList();
+			this.repseqs_ = new ArrayList<Repseqs>();
 			for (int repCnt = 0; repCnt < ecnr.repseqs_.size(); repCnt++) {
 				this.repseqs_.add((Repseqs) ecnr.repseqs_.get(repCnt));
 			}

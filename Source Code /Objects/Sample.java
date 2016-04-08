@@ -8,11 +8,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
-import javax.swing.JLabel;
 
 //This contains all of the pertinent data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
 //as well as many other important pieces of data like the sample name, etc.
@@ -45,11 +41,11 @@ public class Sample {
 		this.sequenceFile = "";
 		this.sampleCol_ = Color.white;
 		this.reader_ = new StringReader();
-		this.ecs_ = new ArrayList();
-		this.pathways_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 		this.inUse = false;
 		this.valuesSet = false;
 	}
@@ -60,11 +56,11 @@ public class Sample {
 		this.sequenceFile = "";
 		this.sampleCol_ = Color.white;
 		this.reader_ = new StringReader();
-		this.ecs_ = new ArrayList();
-		this.pathways_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 	}
 	
 	public Sample(String name, String fullpath, Color col) {
@@ -73,11 +69,11 @@ public class Sample {
 		this.sequenceFile = "";
 		this.sampleCol_ = col;
 		this.reader_ = new StringReader();
-		this.ecs_ = new ArrayList();
-		this.pathways_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 		this.inUse = true;
 	}
 
@@ -88,11 +84,11 @@ public class Sample {
 		this.sampleCol_ = col;
 		this.inUse = using;
 		this.reader_ = new StringReader();
-		this.ecs_ = new ArrayList();
-		this.pathways_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 	}
 
 	public Sample(Sample sample) {
@@ -102,11 +98,11 @@ public class Sample {
 		this.sampleCol_ = sample.sampleCol_;
 		this.reader_ = new StringReader();
 
-		this.ecs_ = new ArrayList();
-		this.pathways_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 	}
 
 	public void setSequenceFile(String seq) {
@@ -135,16 +131,16 @@ public class Sample {
 
 	public void clearPaths() {
 		this.valuesSet = false;
-		this.pathways_ = new ArrayList();
-		this.ecs_ = new ArrayList();
-		this.rns_ = new ArrayList();
-		this.rnPathways_ = new ArrayList();
-		this.conversions_ = new ArrayList();
+		this.pathways_ = new ArrayList<PathwayWithEc>();
+		this.ecs_ = new ArrayList<EcWithPathway>();
+		this.rns_ = new ArrayList<EcWithPathway>();
+		this.rnPathways_ = new ArrayList<PathwayWithEc>();
+		this.conversions_ = new ArrayList<ConvertStat>();
 	}
 
 	public void addPaths(PathwayWithEc path) {
 		if (this.pathways_ == null) {
-			this.pathways_ = new ArrayList();
+			this.pathways_ = new ArrayList<PathwayWithEc>();
 		}
 		this.pathways_.add(path);
 	}
@@ -171,7 +167,7 @@ public class Sample {
 
 	public void addConvStats(ConvertStat stat) {
 		if (this.conversions_ == null) {
-			this.conversions_ = new ArrayList();
+			this.conversions_ = new ArrayList<ConvertStat>();
 		}
 		for (int statCnt = 0; statCnt < this.conversions_.size(); statCnt++) {
 			if (((ConvertStat) this.conversions_.get(statCnt)).desc_

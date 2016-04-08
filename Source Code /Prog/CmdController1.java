@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -19,21 +18,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-//import sun.org.mozilla.javascript.json.JsonParser;
-import java.io.IOException;
-import java.util.Date;
 /**
  * Used for command line FROMP functions. Processes all command line user input
  * into FROMP.
@@ -56,8 +42,6 @@ public class CmdController1 {
 	BufferedReader sequenceList;// buffered reader user to read in the sequence filenames listed in a file
 	StringReader reader; // String reader to assist in the reading of the
 	boolean batchCommand = false;
-	private String inputPath;
-	private String optionsCmd;
 	int cmdCode;
 	public static String tmpPath = "";
 	public static boolean elistSortSum=false;
@@ -67,7 +51,7 @@ public class CmdController1 {
 		
 	}
 	public CmdController1(String cmd,ArrayList<String> ecSet,String in,String out)  {
-		this.optionsCmd_ = cmd;
+		CmdController1.optionsCmd_ = cmd;
 		ec_=ecSet;
 		inputPath_=in;
 		outPutPath_=out;
@@ -129,35 +113,6 @@ public class CmdController1 {
 			}
 			
 		}	
-		//input is a .lst/.list file . it may include all above type files and .lst. 
-		else if(IP.endsWith(".lst")|| IP.endsWith(".list")){
-			try{
-				BufferedReader in = new BufferedReader(new FileReader(IP));
-				String line = in.readLine();
-				while(line != null){
-					//if it is not a sample+seq file
-					if (!line.contains("\t")){
-						//need check input path, because that inside of .lst/.lst was not checked in startFromp.
-						if( StartFromp1.checkPath(line, 1)){	
-							readInputFile(line);
-						}
-						
-					}
-					//if it is a sample+seq file, will check input path by next step.
-					else{
-						readInputFile(line);
-					}
-					
-					line = in.readLine();
-				}
-				in.close();
-			}
-			catch(Exception e){
-				System.out.println("wrong .lst file:   "+IP );
-			}
-		}		
-		
-		
 		// if input is a (sample + sequence) path. add sample meanwhile add sequence
 		else if(IP.contains("\t")){
 			//get sample path and sequence path from the input path
@@ -195,34 +150,58 @@ public class CmdController1 {
 				System.out.println("wrong sample");
 			}
 		}
-		//input is a *.* sample files.
-		else{
-			//get filename.filetype.  such like abc.txt, need +1
-			String name = IP.substring(IP.lastIndexOf(File.separator)+1);
-			//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
-			Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-			//IP = sample's path
+		//input is a list file or sample file.
+		else {
 			try{
-				Sample sample = new Sample(name, IP, col);
-				//add sample into sample list in project class.
-				Project.samples_.add(sample);
-				System.out.println(IP+"   sample added");
+				BufferedReader in = new BufferedReader(new FileReader(IP));
+				String line = in.readLine();
+				while(line != null){
+					
+					//sample path (list file )
+					if (StartFromp1.checkPath(line, 1)) {
+						readInputFile(line);
+					}
+					//if it is a sample + seq path or the first line of sample file.
+					else if (line.contains("\t")) {
+						String part1 = line.substring(0,line.indexOf("\t"));
+						String part2 = line.substring(line.indexOf("\t")+1);
+						//if it is a sample + seq path
+						if (StartFromp1.checkPath(part1, 1) && StartFromp1.checkPath(part2, 1)){
+							readInputFile(line);
+						}
+						//if it is wrong input path
+						else if (line.contains(File.separator)) {
+							System.out.println("Wong input file path: " + line);	
+							
+						}
+						//add sample.
+						else {
+							//get filename.filetype.  such like abc.txt, need +1
+							String name = IP.substring(IP.lastIndexOf(File.separator)+1);
+							//set random color for sample, set color is necessary, because we may need output picture, if all sample set(0,0,0) will hard to distinguish
+							Color col = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+							//IP = sample's path
+							try{
+								Sample sample = new Sample(name, IP, col);
+								//add sample into sample list in project class.
+								Project.samples_.add(sample);
+								System.out.println(IP+"   sample added");
+							}
+							catch (Exception e){
+								System.out.println("wrong sample");
+							}		
+							System.out.println(Project.workpath_);	
+							break;
+						}			
+					}
+					line = in.readLine();
+				}
+				in.close();
 			}
-			catch (Exception e){
-				System.out.println("wrong sample");
+			catch(Exception e){
+				System.out.println("wrong file:   "+IP );
 			}
-			
-			
-			System.out.println(Project.workpath_);
-		}
-		
-		
-		//input is a normal sample (.txt or .out) with a sequence path.
-		//1. (group samples) .frp file with  a sequence list file
-		//2. (single sample) .txt or .out file with a single sequence file.
-		
-		
-		
+		}		
 	}//finish sample input work.
 		
 	//main processing method.
@@ -562,7 +541,7 @@ public class CmdController1 {
 					String fileName = line +  "-";
 					metapro = new MetaProteomicAnalysis();
 					batchCommand = true;
-					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+					metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
 					
 				}
 			}
@@ -573,7 +552,7 @@ public class CmdController1 {
 					seqWithFileName seqFile = StartFromp1.FileSetofSeq.get(j);
 					metapro = new MetaProteomicAnalysis();
 					batchCommand = true;
-					tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-"), true, batchCommand);
+					metapro.getTrypticPeptideAnaysis(metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-"), true, batchCommand);
 					
 				}
 				
@@ -635,7 +614,7 @@ public class CmdController1 {
 						metapro = new MetaProteomicAnalysis(); 
 						ArrayList<TrypticPeptide> peptide = metapro.readFasta(seq_for_lca, fileName); 
 						batchCommand = true;
-						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+						metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
 						// Prepare printable  taxa table
 						HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
 						
@@ -722,7 +701,7 @@ public class CmdController1 {
 						metapro = new MetaProteomicAnalysis(); 
 						ArrayList<TrypticPeptide> peptide = metapro.readFasta(StartFromp1.FileSetofSeq.get(i).getIdSeq(), fileName); 
 						batchCommand = true;
-						tableAndChartData returnData = metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+						metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
 						// Prepare printable  taxa table
 						HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
 						
@@ -960,7 +939,7 @@ public class CmdController1 {
 					LinkedHashMap<String,String> seq_for_lca;
 					seq_for_lca = pane.cmdExportSequences(ecNum,sampleName, true, false);
 					String fileName = ecNum +  "-";
-					tableAndChartData returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), true, batchCommand);
+					meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), true, batchCommand);
 				}
 			}
 		}

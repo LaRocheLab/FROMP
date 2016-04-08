@@ -65,7 +65,7 @@ public class CmdController1 {
 		//add all samples
 		readInputFile(inputPath_);
 		
-		//check load finish
+		//load data from input file
 		Controller.loadPathways(true);
 		//set out put file name.
 		Project.workpath_ = inputPath_.substring(inputPath_.lastIndexOf(File.separator)+1,inputPath_.lastIndexOf("."));

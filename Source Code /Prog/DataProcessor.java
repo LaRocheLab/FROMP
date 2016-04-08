@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -1153,8 +1154,9 @@ public class DataProcessor {
 	 *            Sample number
 	 * @return converted Sample number
 	 * @author Kevan Lynch, Jennifer Terpstra
+	 * @throws FileNotFoundException 
 	 */
-	public int ParseInterpro(int count) {
+	public int ParseInterpro(int count) throws IOException {
 		String zeile = "";
 		String seqPath = "";
 		System.out.println("Parse Interpro");
@@ -1184,15 +1186,24 @@ public class DataProcessor {
 				}
 			}
 			
-			sample.sample_ = this.reader.readTxt(tmp);
+			//if sample from .frp file , fullPath_ = null --> tmp = null
+			//if sample from sample file. fullPath_ != null --> tmp != null
+			try{
+				sample.sample_  = new BufferedReader (new FileReader (tmp));
+				zeile = sample.sample_.readLine();
+			}catch(Exception e){
+				sample.sample_ = null;
+				zeile = null;				
+			}
 			
 			try {
 				//line in sample.
-				while ((zeile = sample.sample_.readLine()) != null) {
+				while (zeile != null) {
 					/*Important for interpro input where several samples are in the same
-					 * file each starting off with a line contaning the sample name
+					 * file each starting off with a line containing the sample name
 					 * starting with ">"
 					 */
+					
 					if (zeile.startsWith(">")) {
 						if (Project.samples_.get(i).ecs_.isEmpty()) {
 							Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
@@ -1287,6 +1298,7 @@ public class DataProcessor {
 						}
 
 					}
+					zeile = sample.sample_.readLine();
 				}
 			} catch (IOException e) {
 				openWarning("Error", "File: " + tmp + " not found");

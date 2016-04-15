@@ -5,3 +5,4 @@ noRepseqList
 ecList
 
 PFList
+t2.abc id: UniRef90_Q8GBW6 repseq: HWI-M02024:110:000000000-A8H0K:1:1101:27430:19509-1:N:0:CATTGTGG_1_288_- amount: 1

@@ -1,21 +1,28 @@
 package Objects;
 
-//This class holds information about the data (ie. which ec's were converted from pfams).
-
+/**
+ * This class holds information about the data (ie. which ec's were converted from pfams).
+ * 
+ *
+ */
 public class ConvertStat {
-	String desc_;
+	String desc_;//seq id
 	String ecNr_;
+	String unusedEc= "No_unused_Ec";
 	int ecAmount_;
 	int pfamToEcAmount_;
 	int pfamToRnAmount_;
 
-	public ConvertStat(String desc, String ecName, int ecAm, int pfamToEcAm,
-			int pfamToRnAm) {
+	public ConvertStat(String desc, String ecName, int ecAm, int pfamToEcAm,int pfamToRnAm,String unusedEc) {
 		this.desc_ = desc;
 		this.ecAmount_ = ecAm;
 		this.pfamToEcAmount_ = pfamToEcAm;
 		this.pfamToRnAmount_ = pfamToRnAm;
 		this.ecNr_ = ecName;
+		if (unusedEc != ""){
+			this.unusedEc = unusedEc;
+		}
+			
 	}
 
 	public void addStatsCnt(ConvertStat stat) {

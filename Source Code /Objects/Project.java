@@ -8,8 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,11 +16,13 @@ import java.util.*;
 import Prog.StartFromp1;
 import Prog.StringReader;
 
-// Obviously this is where project files are stored. Serves mostly to store the data from the samples so it can be used elsewhere.
-// One notable feature of this class however is the fact that this is where the matrix format files are processed... I don't know  
-// why either but it works and it would take a lot of configuring to move it to Prog.DataProcessor. If you would like to take the  
-// time to do so you are welcome
 
+/**
+ *  Obviously this is where project files are stored. Serves mostly to store the data from the samples so it can be used elsewhere.
+ *	One notable feature of this class however is the fact that this is where the matrix format files are processed... I don't know  
+ *	why either but it works and it would take a lot of configuring to move it to Prog.DataProcessor. If you would like to take the  
+ *	time to do so you are welcome
+ */
 public class Project {
 	public static String projectPath_; // Path to the project file in question
 	public static String workpath_; // The name of the project
@@ -59,7 +60,9 @@ public class Project {
 	public static int numOfConvUNIsComplete = 0;
 	public static int numofConvUNIsMapped = 0;
 	
-	//ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
+	/**
+	 * ArrayList of booleans which correlates to the samples_array and states whether or not each sample is valid
+	 */
 	public static ArrayList<Boolean> legitSamples = new ArrayList<Boolean>(); 
 //	final static String basePath_ = new File(".").getAbsolutePath()
 //			+ File.separator; // The base path of the Fromp software. Nessesairy for all relative paths to function
@@ -95,11 +98,14 @@ public class Project {
 		fontColor_ = Color.black;
 		overAllColor_ = Color.red;
 	}
-	/*
+	
+	/**
 	 * Method to load a project file. Calls loadProjectv0 with an integer 'mode'
 	 * depending of whether or not the first line contains '$$ver:1". Version 1
 	 * has denotations for whether or not each sample in the project file is 
 	 * "in use"
+	 * @param projectFile
+	 * @return
 	 */
 	public int loadProject(BufferedReader projectFile) {
 		String zeile = "";
@@ -132,7 +138,7 @@ public class Project {
 			e.printStackTrace();
 		}
 		samples_ = new ArrayList<Sample>();
-		overall_ = new Sample("overAll", "");
+		overall_ = new Sample("overAll", "");//overall ec and go amount of all samples
 		overall_.sampleCol_ = Color.black;
 		overall_.singleSample_ = false;
 		try {
@@ -173,56 +179,55 @@ public class Project {
 		}
 		return ret;
 	}
-	// Writes out a project file. To my knowledge this method is never used as the exportProject method is prefered. Writes to a .prj file
-	public void writeProject() {
-		try {
-			BufferedWriter out = null;
-			if (projectPath_.endsWith(".prj")) {
-				out = new BufferedWriter(new FileWriter(projectPath_));
-			} else {
-				out = new BufferedWriter(new FileWriter(projectPath_
-						+ File.separator + "projects" + File.separator
-						+ workpath_ + ".prj"));
-			}
-			if (projectPath_ == null) {
-				System.out.println("no path");
-			}
-			System.out.println(projectPath_ + File.separator + "projects"
-					+ File.separator + workpath_ + ".prj");
-			out.write("$$ver:1");
-			out.newLine();
-			out.write(projectPath_ + "\n");
-			out.write(workpath_ + "\n");
-			for (int i = 0; i < samples_.size(); i++) {
-				out.write(((Sample) samples_.get(i)).name_ + "\n");
-				out.write(((Sample) samples_.get(i)).fullPath_ + "\n");
-				out.write(((Sample) samples_.get(i)).sampleCol_.getRed() + "\n");
-				out.write(((Sample) samples_.get(i)).sampleCol_.getGreen()
-						+ "\n");
-				out.write(((Sample) samples_.get(i)).sampleCol_.getBlue()
-						+ "\n");
-				if (((Sample) samples_.get(i)).inUse) {
-					out.write("inUse\n");
-					System.out.println("inUse");
-				} else {
-					out.write("notInUse\n");
-					System.out.println("notinUse");
-				}
-				System.out.println(((Sample) samples_.get(i)).name_);
-				System.out.println(((Sample) samples_.get(i)).fullPath_);
-			}
-			out.close();
-		} catch (IOException e) {
-			System.out.println("Exception ");
-		}
-	}
+//	// Writes out a project file. To my knowledge this method is never used as the exportProject method is preferred. Writes to a .prj file
+//	public void writeProject() {
+//		try {
+//			BufferedWriter out = null;
+//			if (projectPath_.endsWith(".prj")) {
+//				out = new BufferedWriter(new FileWriter(projectPath_));
+//			} else {
+//				out = new BufferedWriter(new FileWriter(projectPath_
+//						+ File.separator + "projects" + File.separator
+//						+ workpath_ + ".prj"));
+//			}
+//			if (projectPath_ == null) {
+//				System.out.println("no path");
+//			}
+//			System.out.println(projectPath_ + File.separator + "projects"
+//					+ File.separator + workpath_ + ".prj");
+//			out.write("$$ver:1");
+//			out.newLine();
+//			out.write(projectPath_ + "\n");
+//			out.write(workpath_ + "\n");
+//			for (int i = 0; i < samples_.size(); i++) {
+//				out.write(((Sample) samples_.get(i)).name_ + "\n");
+//				out.write(((Sample) samples_.get(i)).fullPath_ + "\n");
+//				out.write(((Sample) samples_.get(i)).sampleCol_.getRed() + "\n");
+//				out.write(((Sample) samples_.get(i)).sampleCol_.getGreen()
+//						+ "\n");
+//				out.write(((Sample) samples_.get(i)).sampleCol_.getBlue()
+//						+ "\n");
+//				if (((Sample) samples_.get(i)).inUse) {
+//					out.write("inUse\n");
+//					System.out.println("inUse");
+//				} else {
+//					out.write("notInUse\n");
+//					System.out.println("notinUse");
+//				}
+//				System.out.println(((Sample) samples_.get(i)).name_);
+//				System.out.println(((Sample) samples_.get(i)).fullPath_);
+//			}
+//			out.close();
+//		} catch (IOException e) {
+//			System.out.println("Exception ");
+//		}
+//	}
 
 	public String exportProj(String path) {// The actual method to write the project out to a file. Builds a .frp file
 		if (path == null) {
 			path = projectPath_;
 			if (!path.endsWith(".frp")) {
-				path = projectPath_ + File.separator + "projects"
-						+ File.separator + workpath_;
+				path = projectPath_ + File.separator + "projects"+ File.separator + workpath_;
 				String tmpPath = path + ".frp"; // Temporary string built to test if a file of that name already exists
 				File file1 = new File(tmpPath); 
 				//If the file of the name does exist than loop until appending some int i to the 
@@ -311,56 +316,61 @@ public class Project {
 			out.write("$PROJ$" + workpath_);
 			out.newLine();
 			if (backColor_ != null) {
-				out.write("$back$" + backColor_.getRed() + ":"
-						+ backColor_.getGreen() + ":" + backColor_.getBlue());
+				out.write("$back$" + backColor_.getRed() + ":"+ backColor_.getGreen() + ":" + backColor_.getBlue());
 				out.newLine();
 			}
 			if (fontColor_ != null) {
-				out.write("$font$" + fontColor_.getRed() + ":"
-						+ fontColor_.getGreen() + ":" + fontColor_.getBlue());
+				out.write("$font$" + fontColor_.getRed() + ":"+ fontColor_.getGreen() + ":" + fontColor_.getBlue());
 				out.newLine();
 			}
 			if (overAllColor_ != null) {
-				out.write("$oAll$" + overAllColor_.getRed() + ":"
-						+ overAllColor_.getGreen() + ":"
-						+ overAllColor_.getBlue());
+				out.write("$oAll$" + overAllColor_.getRed() + ":"+ overAllColor_.getGreen() + ":"+ overAllColor_.getBlue());
 				out.newLine();
 			}
 			//all samples write to file.
 			for (int smpCnt = 0; smpCnt < samples_.size(); smpCnt++) {
-				Sample tmpSamp = (Sample) samples_.get(smpCnt);
+				Sample tmpSamp = samples_.get(smpCnt);
 				out.write("SMP*:" + tmpSamp.name_);
 				out.newLine();
 				if (tmpSamp.sampleCol_ != null) {
-					out.write("smpCol*" + tmpSamp.sampleCol_.getRed() + ":"
-							+ tmpSamp.sampleCol_.getGreen() + ":"
-							+ tmpSamp.sampleCol_.getBlue());
+					out.write("smpCol*" + tmpSamp.sampleCol_.getRed() + ":"+ tmpSamp.sampleCol_.getGreen() + ":"+ tmpSamp.sampleCol_.getBlue());
 					out.newLine();
 				}
 				//Write out EC and following data
 				for (int ecCnt = 0; ecCnt < tmpSamp.ecs_.size(); ecCnt++) {
-					EcWithPathway tmpEc = (EcWithPathway) tmpSamp.ecs_.get(ecCnt);
+					EcWithPathway tmpEc = tmpSamp.ecs_.get(ecCnt);
 					out.write("EC*:" + tmpEc.name_ + ":" + tmpEc.amount_);
 					out.newLine();
 
 					for (int repCnt = 0; repCnt < tmpSamp.conversions_.size(); repCnt++) {
+						//seq id empty problem
 						if (tmpSamp.conversions_.get(repCnt).ecNr_.contentEquals(tmpEc.name_)) {
-							
-							out.write(tmpSamp.conversions_.get(repCnt).desc_  //seq ID
-									+ ":"
-									+ (tmpSamp.conversions_.get(repCnt)).ecAmount_
-									+ ":"
-									+ (tmpSamp.conversions_.get(repCnt)).pfamToEcAmount_ 
-									+ ";");
+							//desc_ = seq ID
+							out.write(tmpSamp.conversions_.get(repCnt).desc_+"\t"
+									+tmpSamp.conversions_.get(repCnt).ecAmount_+"\t"
+									+tmpSamp.conversions_.get(repCnt).pfamToEcAmount_ +"\t"
+									+tmpSamp.conversions_.get(repCnt).unusedEc +"\n");
 						}
-						// need add more code to store  unused ec#.
-						//...format like seqID : ecAmount : pfamToEcAmount : unused ec1, unused ec2;
 					}
-					//new line for each ec
-					out.newLine();
 				}
 				//Write out GO and following data
 				//...goNr.
+				for (int ecCnt = 0; ecCnt < tmpSamp.gos_.size(); ecCnt++) {
+					GONum tmpEc = tmpSamp.gos_.get(ecCnt);
+					out.write("GO*:" + tmpEc.GoNumber + ":" + tmpEc.amount_);
+					out.newLine();
+
+					for (int repCnt = 0; repCnt < tmpSamp.conversionsGo_.size(); repCnt++) {
+						//seq id empty problem
+						if (tmpSamp.conversionsGo_.get(repCnt).GoNr_.contentEquals(tmpEc.GoNumber)) {
+							//desc_ = seq ID
+							out.write(tmpSamp.conversionsGo_.get(repCnt).desc_+"\t"
+									+tmpSamp.conversionsGo_.get(repCnt).goAmount_+"\t"
+									+tmpSamp.conversionsGo_.get(repCnt).pfamToGoAmount_ +"\t"
+									+tmpSamp.conversionsGo_.get(repCnt).unusedGo +"\n");
+						}
+					}
+				}
 				
 				
 			}
@@ -792,8 +802,6 @@ public class Project {
 			DigitizeConversionFiles();
 		}
 
-		String zeile = "";
-		String tmpNr = "";
 		String pfamNr = pfam;
 
 		if (this.PFamToECHash.containsKey(pfamNr)) {
@@ -809,7 +817,6 @@ public class Project {
 			DigitizeConversionFiles();
 		}
 
-		String zeile = "";
 		String tmpNr = "";
 		String interproNr = interpro;
 
@@ -888,8 +895,11 @@ public class Project {
 			}
 		}
 	}
-
-	public void importProj(String path) {// Imports the project file at a given file path
+	/**
+	 * Imports the project file at a given file path
+	 * @param path
+	 */
+	public void importProj(String path) { 
 		legitSamples = new ArrayList<Boolean>();
 		BufferedReader in = null;
 		projectPath_ = path;
@@ -908,60 +918,47 @@ public class Project {
 					if (tmpLine.startsWith("!!")) {
 						continue;
 					}
-					if (tmpLine.startsWith("SMP*:")) {
+					else if (tmpLine.startsWith("SMP*:")) {
 						finishedStart = true;
-					} else {
+					} 
+					else {
 						if (tmpLine.startsWith("$PROJ$")) {
 							workpath_ = tmpLine.substring("$PROJ$".length());
 						}
-						if (tmpLine.startsWith("$back$")) {
+						else if (tmpLine.startsWith("$back$")) {
+							
 							tmpLine = tmpLine.substring("$back$".length());
-							int red = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
+							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
 							int blue = Integer.valueOf(tmpLine).intValue();
 							backColor_ = new Color(red, green, blue);
 						}
-						if (tmpLine.startsWith("$font$")) {
+						else if (tmpLine.startsWith("$font$")) {
+							
 							tmpLine = tmpLine.substring("$font$".length());
-							int red = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
+							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
 							int blue = Integer.valueOf(tmpLine).intValue();
 							fontColor_ = new Color(red, green, blue);
 						}
-						if (tmpLine.startsWith("$oAll$")) {
+						else if (tmpLine.startsWith("$oAll$")) {
+							
 							tmpLine = tmpLine.substring("$oAll$".length());
-							int red = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
+							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
 							int blue = Integer.valueOf(tmpLine).intValue();
 							overAllColor_ = new Color(red, green, blue);
 						}
 					}
 				}
-				if (finishedStart) {
+				//Finished to load head info
+				else if (finishedStart) {
 					if (samples_ == null) {
 						samples_ = new ArrayList<Sample>();
 					}
@@ -971,38 +968,67 @@ public class Project {
 						Sample tmpSamp = new Sample(name, "");
 						sampNr++;
 						if (!(tmpLine = in.readLine()).isEmpty()) {
+							
 							tmpLine = tmpLine.substring("smpCol*".length());
-							int red = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(
-									tmpLine.substring(0, tmpLine.indexOf(":")))
-									.intValue();
-							tmpLine = tmpLine
-									.substring(tmpLine.indexOf(":") + 1);
+							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
 							int blue = Integer.valueOf(tmpLine).intValue();
 							tmpSamp.sampleCol_ = new Color(red, green, blue);
 							tmpSamp.inUse = true;
 							tmpSamp.imported = true;
-						} else {
+						} 
+						else {
 							tmpSamp.sampleCol_ = Color.BLUE;
 						}
 						tmpSamp.legitSample = true;
 						samples_.add(tmpSamp);
 					}
+					//read EC part.
 					if (tmpLine.startsWith("EC*:")) {
 						tmpLine = tmpLine.substring("EC*:".length());
-						String name = tmpLine
-								.substring(0, tmpLine.indexOf(":"));
+						String name = tmpLine.substring(0, tmpLine.indexOf(":"));
 						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
 						EcNr tmpEc = new EcNr(name);
 
 						tmpEc.amount_ = Integer.valueOf(tmpLine).intValue();
 						tmpEc.sampleNr_ = sampNr;
-						tmpEc.samColor_ = ((Sample) samples_.get(samples_
-								.size() - 1)).sampleCol_;
+						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+						tmpEc.stats_.add(new EcSampleStats(tmpEc));
+						
+						//read all seq id,ec amount, pf amount unused ec num of one Ec num.
+						while(!(tmpLine = in.readLine()).startsWith("EC*:")){
+							try{
+								ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
+								
+								String desc = line.get(0);
+								int ecAm = Integer.valueOf(line.get(1));
+								int pfAm = Integer.valueOf(line.get(2));
+								String unUsedec_go = line.get(3);
+								
+								ConvertStat convertStat = new ConvertStat(desc,tmpEc.name_, ecAm, pfAm, 0,unUsedec_go);
+								tmpEc.repseqs_.add(new Repseqs(desc, ecAm + pfAm));
+								samples_.get(samples_.size() - 1).conversions_.add(convertStat);
+							}
+							catch(Exception e){
+								continue;
+							}
+						}
+						
+						samples_.get(samples_.size() - 1).ecs_.add(new EcWithPathway(tmpEc));
+					}
+					//read GO part.
+					/*
+					 * if (tmpLine.startsWith("GO*:")) {
+						tmpLine = tmpLine.substring("GO*:".length());
+						String name = tmpLine.substring(0, tmpLine.indexOf(":"));
+						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+						GONum tmpGo = new GONum(name);
+
+						tmpGo.amount_ = Integer.valueOf(tmpLine).intValue();
+						tmpEc.sampleNr_ = sampNr;
+						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
 						tmpEc.stats_.add(new EcSampleStats(tmpEc));
 						if (!(tmpLine = in.readLine()).isEmpty()) {
 							String tmpRep = tmpLine;
@@ -1023,24 +1049,21 @@ public class Project {
 								nums = desc.substring(lastIndex + 1) + nums;
 								desc = desc.substring(0, lastIndex);
 
-								int ecAm = Integer.valueOf(
-										nums.substring(0, nums.indexOf(":")))
-										.intValue();
+								int ecAm = Integer.valueOf(nums.substring(0, nums.indexOf(":"))).intValue();
 								nums = nums.substring(nums.indexOf(":") + 1);
 								int pfAm = Integer.valueOf(nums).intValue();
-								ConvertStat convertStat = new ConvertStat(desc,
-										tmpEc.name_, ecAm, pfAm, 0);
-								tmpEc.repseqs_.add(new Repseqs(desc, ecAm
-										+ pfAm));
-								((Sample) samples_.get(samples_.size() - 1)).conversions_
-										.add(convertStat);
-								tmpLine = tmpLine.substring(tmpLine
-										.indexOf(";") + 1);
+								
+								ConvertStat convertStat = new ConvertStat(desc,tmpEc.name_, ecAm, pfAm, 0);
+								tmpEc.repseqs_.add(new Repseqs(desc, ecAm + pfAm));
+								((Sample) samples_.get(samples_.size() - 1)).conversions_.add(convertStat);
+								tmpLine = tmpLine.substring(tmpLine.indexOf(";") + 1);
 							}
 						}
-						((Sample) samples_.get(samples_.size() - 1)).ecs_
-								.add(new EcWithPathway(tmpEc));
+						((Sample) samples_.get(samples_.size() - 1)).ecs_.add(new EcWithPathway(tmpEc));
 					}
+					 */
+					
+					
 					if (tmpLine.contentEquals("<userPathways>")) {
 						loadUserPAths(in, true);
 					}
@@ -1052,6 +1075,10 @@ public class Project {
 					}
 				}
 			}
+			
+			
+			
+			
 			in.close();
 		} catch (IOException e) {
 			openWarning("Error", "File: " + path + " not found");
@@ -1118,7 +1145,7 @@ public class Project {
 	}
 
 	public static void setBackColor_(Color backColor_) {
-		backColor_ = backColor_;
+		Project.backColor_ = backColor_;
 	}
 
 	public static Color getFontColor_() {
@@ -1126,7 +1153,7 @@ public class Project {
 	}
 
 	public static void setFontColor_(Color fontColor_) {
-		fontColor_ = fontColor_;
+		Project.fontColor_ = fontColor_;
 	}
 
 	public static Color getOverAllColor_() {
@@ -1134,7 +1161,7 @@ public class Project {
 	}
 
 	public static void setOverAllColor_(Color overAllColor_) {
-		overAllColor_ = overAllColor_;
+		Project.overAllColor_ = overAllColor_;
 	}
 
 	public static void removeSample(int index) {
@@ -1158,7 +1185,8 @@ public class Project {
    {
      try
      {
-       BufferedReader in = new BufferedReader(new FileReader(path));
+       @SuppressWarnings("resource")
+	BufferedReader in = new BufferedReader(new FileReader(path));
        String comp = "<pathName>";
        String zeile;
        while ((zeile = in.readLine()) != null)
@@ -1169,13 +1197,13 @@ public class Project {
            return zeile.substring(zeile.indexOf(">") + 1);
          }
        }
+       in.close();
      }
      catch (Exception e)
      {
        openWarning("Error", "File: " + path + " not found");
        return "";
      }
-     String zeile;
      return "";
    }
 

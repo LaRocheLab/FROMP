@@ -1,6 +1,8 @@
 package Objects;
 
-//Holds the data for the sequence IDs.
+/**
+ * Holds the data for the sequence IDs.
+ */
 
 public class Repseqs {
 	String repseqDesc_;

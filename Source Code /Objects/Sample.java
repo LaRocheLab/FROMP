@@ -10,20 +10,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//This contains all of the pertinent data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
-//as well as many other important pieces of data like the sample name, etc.
+
+
+/**
+ * This contains all of the pertinent data in each sample, including all of the ECs and the pathways they map to, all of the pathways and the ECs who map to them 
+ * as well as many other important pieces of data like the sample name, etc.
+ */
 
 public class Sample {
-	StringReader reader_; // String reader used to load new samples
+	/**
+	 * String reader used to load new samples
+	 */
+	StringReader reader_; 
 	public String name_; // Name of the sample
 	public String fullPath_; // The file path to the sample
 	public Color sampleCol_; // the sample color
 	public BufferedReader sample_; // Buffered reader used to load new samples
 	public ArrayList<PathwayWithEc> pathways_; // Array list of pathways with ecs mapped to them in the sample
 	public ArrayList<EcWithPathway> ecs_; // Array list of ecs with pathways in the sample
+	public ArrayList<GONum> gos_ = new ArrayList<GONum>();//a set of all used go number in the sample
 	public ArrayList<PathwayWithEc> rnPathways_; 
 	public ArrayList<EcWithPathway> rns_; 
 	public ArrayList<ConvertStat> conversions_; // the conversion statistics for ecs in this sample
+	public ArrayList<ConvertStatGo> conversionsGo_; // the conversion statistics for gos in this sample
 	public boolean imported; 
 	public boolean matrixSample = false; 
 	public boolean inUse; 
@@ -32,8 +41,9 @@ public class Sample {
 	public boolean legitSample = false; 
 	public int indexNr = 0; 
 	public boolean onoff = true; // Used for display purposes in the GUI
+	
 	//seq file path
-	private String sequenceFile; 
+	private String sequenceFile="none"; 
 
 	public Sample() {
 		this.sample_ = null;
@@ -170,17 +180,27 @@ public class Sample {
 			this.conversions_ = new ArrayList<ConvertStat>();
 		}
 		for (int statCnt = 0; statCnt < this.conversions_.size(); statCnt++) {
-			if (((ConvertStat) this.conversions_.get(statCnt)).desc_
-					.contentEquals(stat.desc_)) {
-				((ConvertStat) this.conversions_.get(statCnt))
-						.addStatsCnt(stat);
-
+			if (this.conversions_.get(statCnt).desc_.contentEquals(stat.desc_)) {
+				this.conversions_.get(statCnt).addStatsCnt(stat);
 				return;
 			}
 		}
 		this.conversions_.add(stat);
 	}
-
+	
+	public void addConvStatsGo(ConvertStatGo stat) {
+		if (this.conversionsGo_ == null) {
+			this.conversionsGo_ = new ArrayList<ConvertStatGo>();
+		}
+		for (int statCnt = 0; statCnt < this.conversionsGo_.size(); statCnt++) {
+			if (this.conversionsGo_.get(statCnt).desc_.contentEquals(stat.desc_)) {
+				this.conversionsGo_.get(statCnt).addStatsCnt(stat);
+				return;
+			}
+		}
+		this.conversionsGo_.add(stat);
+	}
+	
 	public void writeConvStats(String path) {
 		try {
 			String desc = "";
@@ -235,15 +255,28 @@ public class Sample {
 			if (ecNr.isSameEc((EcNr) this.ecs_.get(ecCnt))) {
 				((EcWithPathway) this.ecs_.get(ecCnt)).amount_ += ecNr.amount_;
 				for (int statCnt = 0; statCnt < ecNr.stats_.size(); statCnt++) {
-					((EcWithPathway) this.ecs_.get(ecCnt)).stats_
-							.add((EcSampleStats) ecNr.stats_.get(statCnt));
+					((EcWithPathway) this.ecs_.get(ecCnt)).stats_.add((EcSampleStats) ecNr.stats_.get(statCnt));
 				}
 				return;
 			}
 		}
 		this.ecs_.add(ecNr);
 	}
-
+	//add go num in to sample --> go num's set
+	public void addGo(GONum goNr) {
+		for (int ecCnt = 0; ecCnt < gos_.size(); ecCnt++) {
+			
+			if (goNr.isSameGo(gos_.get(ecCnt))) {
+				gos_.get(ecCnt).amount_ += goNr.amount_;
+				for (int statCnt = 0; statCnt < goNr.stats_.size(); statCnt++) {
+					gos_.get(ecCnt).stats_.add(goNr.stats_.get(statCnt));
+				}
+				return;
+			}
+		}
+		gos_.add(goNr);
+	}
+	
 	public PathwayWithEc getPath(String pathId) {
 		for (int pathCnt = 0; pathCnt < this.pathways_.size(); pathCnt++) {
 			if (((PathwayWithEc) this.pathways_.get(pathCnt)).id_

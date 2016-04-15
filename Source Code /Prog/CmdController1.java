@@ -6,7 +6,6 @@ import Objects.Sample;
 import Panes.ActMatrixPane;
 import Panes.PathwayActivitymatrixPane;
 import Panes.PathwayMatrix;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
@@ -24,7 +23,7 @@ import java.io.IOException;
  * Used for command line FROMP functions. Processes all command line user input
  * into FROMP.
  * 
- * @author Jennifer Terpstra, Kevan Lynch
+ * @author zs
  */
 
 public class CmdController1 {
@@ -55,14 +54,14 @@ public class CmdController1 {
 		ec_=ecSet;
 		inputPath_=in;
 		outPutPath_=out;
-		//processing();
+		
 		System.out.println("Starting cmdFromp");
 		
 		controller = new Controller(Color.black);
 		
 		Panes.Loadingframe.showLoading = false;
 		Panes.HelpFrame.showSummary = false;
-		//add all samples
+		//add all samples(only loaded .frp data)
 		readInputFile(inputPath_);
 		
 		//load data from input file
@@ -880,7 +879,7 @@ public class CmdController1 {
 				else if (key.contains("n")){
 					while(!pass){
 						
-						System.out.print("\nContinue without sequence file(y) or quit(n) (y/n):");
+						System.out.print("Continue without sequence file(y) or quit(n) (y/n):");
 						key = kb.nextLine();
 						key = key.toLowerCase();
 						System.out.println();

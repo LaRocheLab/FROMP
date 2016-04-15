@@ -5,26 +5,18 @@ import Objects.EcNr;
 import Objects.EcWithPathway;
 import Objects.Line;
 import Objects.Pathway;
-import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.CmdController1;
-import Prog.Controller;
 import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
-import Prog.NewFrompFrame;
 import Prog.StartFromp1;
 import Prog.seqWithFileName;
 import Prog.tableAndChartData;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -36,13 +28,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -53,23 +41,15 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
-
 import java.io.PrintWriter;
-import java.io.File;
 import java.util.LinkedHashMap;
-
-import jxl.format.Colour;
-
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
-import org.biojava.nbio.core.sequence.io.FastaReader;
 import org.biojava.nbio.core.sequence.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 
 //This is the activity Matrix Pane. Ec oriented part of the EC activity section. From here you can generate the Ec activity matrix
@@ -762,10 +742,10 @@ public class ActMatrixPane extends JPanel {
 			
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return false;
@@ -803,7 +783,7 @@ public class ActMatrixPane extends JPanel {
 		}
 		
 		catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 			
@@ -1245,7 +1225,7 @@ public class ActMatrixPane extends JPanel {
 	private void drawSampleNames() {
 		this.lframe.bigStep("drawSampleNames");
 
-		this.nameLabels_ = new ArrayList();
+		this.nameLabels_ = new ArrayList<JLabel>();
 		String name = "";
 		if (this.selectedSampIndex_ < 0) {
 			name = "Overall";
@@ -1469,7 +1449,7 @@ public class ActMatrixPane extends JPanel {
 											.get(popupIndexY)).getEc_());
 							ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 									.get(popupIndexY)).arrayLine_[indexX]);
-							ArrayList<ConvertStat> reps = new ArrayList();
+							ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 							for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 									.get(popupIndexX)).conversions_.size(); statsCnt++) {
 								String test = (((ConvertStat) ((Sample) Project.samples_
@@ -1540,7 +1520,7 @@ public class ActMatrixPane extends JPanel {
 														.get(indexY)).getEc_());
 										ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 												.get(indexY)).arrayLine_[indexX]);
-										ArrayList<ConvertStat> reps = new ArrayList();
+										ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 										for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 												.get(indexX)).conversions_
 												.size(); statsCnt++) {
@@ -1713,7 +1693,7 @@ public class ActMatrixPane extends JPanel {
 											.get(popupIndexY)).getEc_());
 							ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 									.get(popupIndexY)).arrayLine_[indexX]);
-							ArrayList<ConvertStat> reps = new ArrayList();
+							ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 							for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 									.get(popupIndexX)).conversions_.size(); statsCnt++) {
 								String test = (((ConvertStat) ((Sample) Project.samples_
@@ -1786,7 +1766,7 @@ public class ActMatrixPane extends JPanel {
 														.get(indexY)).getEc_());
 										ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 												.get(indexY)).arrayLine_[indexX]);
-										ArrayList<ConvertStat> reps = new ArrayList();
+										ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 										for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 												.get(indexX)).conversions_
 												.size(); statsCnt++) {
@@ -1935,7 +1915,7 @@ public class ActMatrixPane extends JPanel {
 											.get(popupIndexY)).getEc_());
 							ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 									.get(popupIndexY)).arrayLine_[indexX]);
-							ArrayList<ConvertStat> reps = new ArrayList();
+							ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 							for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 									.get(popupIndexX)).conversions_.size(); statsCnt++) {
 								String test = (((ConvertStat) ((Sample) Project.samples_
@@ -2008,7 +1988,7 @@ public class ActMatrixPane extends JPanel {
 														.get(indexY)).getEc_());
 										ecTmp.amount_ = ((int) ((Line) ActMatrixPane.this.ecMatrix_
 												.get(indexY)).arrayLine_[indexX]);
-										ArrayList<ConvertStat> reps = new ArrayList();
+										ArrayList<ConvertStat> reps = new ArrayList<ConvertStat>();
 										for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
 												.get(indexX)).conversions_
 												.size(); statsCnt++) {

@@ -3,14 +3,14 @@ package Prog;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Debug {
-	public static ArrayList<String> noEnzymeLines = new ArrayList();
-	public static ArrayList<String> noRepseqLine = new ArrayList();
-	public static ArrayList<String> EcList = new ArrayList();
-	public static ArrayList<String> PfList = new ArrayList();
+	public static ArrayList<String> noEnzymeLines = new ArrayList<String>();
+	public static ArrayList<String> noRepseqLine = new ArrayList<String>();
+	public static ArrayList<String> EcList = new ArrayList<String>();
+	public static ArrayList<String> PfList = new ArrayList<String>();
+	public static ArrayList<String> GoList = new ArrayList<String>();
 
 	public static void addnoEnzymeLine(String line) {
 		noEnzymeLines.add(line);
@@ -27,7 +27,11 @@ public class Debug {
 	public static void addPf(String line) {
 		PfList.add(line);
 	}
-
+	
+	public static void addGo(String line) {
+		GoList.add(line);
+	}
+	
 	public static void printAll() {
 		printNoenz();
 		printNoRep();

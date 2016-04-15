@@ -2,9 +2,7 @@ package Objects;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.PrintStream;
 import java.util.ArrayList;
-
 import javax.swing.JLabel;
 
 //An Ec object. Contains most of the info you need to know about a particular EC.
@@ -38,10 +36,10 @@ public class EcNr {
 	public EcNr(String[] name) {
 		this.maxChainLength_ = 1;
 		this.longestChain_ = 1;
-		this.repseqs_ = new ArrayList();
+		this.repseqs_ = new ArrayList<Repseqs>();
 
-		this.posSize_ = new ArrayList();
-		this.stats_ = new ArrayList();
+		this.posSize_ = new ArrayList<EcPosAndSize>();
+		this.stats_ = new ArrayList<EcSampleStats>();
 		ecLabel = new ArrayList<JLabel>();
 		this.name_ = name[0];
 		if (isNumber(name[1])) {
@@ -66,9 +64,9 @@ public class EcNr {
 	public EcNr(String name) {
 		this.longestChain_ = 1;
 		this.maxChainLength_ = 1;
-		this.repseqs_ = new ArrayList();
-		this.posSize_ = new ArrayList();
-		this.stats_ = new ArrayList();
+		this.repseqs_ = new ArrayList<Repseqs>();
+		this.posSize_ = new ArrayList<EcPosAndSize>();
+		this.stats_ = new ArrayList<EcSampleStats>();
 		ecLabel = new ArrayList<JLabel>();
 		this.name_ = name;
 		this.amount_ = 1;
@@ -84,9 +82,9 @@ public class EcNr {
 			this.maxChainLength_ = 1;
 		}
 		this.longestChain_ = 1;
-		this.repseqs_ = new ArrayList();
-		this.posSize_ = new ArrayList();
-		this.stats_ = new ArrayList();
+		this.repseqs_ = new ArrayList<Repseqs>();
+		this.posSize_ = new ArrayList<EcPosAndSize>();
+		this.stats_ = new ArrayList<EcSampleStats>();
 		ecLabel = new ArrayList<JLabel>();
 		this.name_ = ecNr.name_;
 		this.weight_ = ecNr.weight_;
@@ -165,7 +163,9 @@ public class EcNr {
 	public boolean isSameEc(EcNr ec) {
 		return this.name_.contentEquals(ec.name_);
 	}
-
+	/**
+	 * ec# from string to int[]. 
+	 */
 	public void ecToVec() {
 		String tmpec = this.name_;
 		if (this.name_.contains("°")) {

@@ -5,11 +5,10 @@ import Objects.Project;
 import Objects.Sample;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.PrintStream;
-import java.util.ArrayList;
 
-//This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.	
-
+/**
+ * This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.
+ */
 public class Controller {
 	public static Project project_=new Project(""); // The current project
 	//data processor which does all parsing and hard computation of raw input files
@@ -90,10 +89,13 @@ public class Controller {
 		processor_ = null;
 		System.gc();
 	}
-
+	/**
+	 * Load data from input file
+	 * @param fullLoad
+	 */
 	public static void loadPathways(boolean fullLoad) {
 		if (processor_ == null) {
-			System.out.println("null");
+			System.out.println("new processor");
 			processor_ = new DataProcessor(project_);
 		}
 		if (Project.dataChanged) {

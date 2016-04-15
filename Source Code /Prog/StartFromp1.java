@@ -1,27 +1,12 @@
 package Prog;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import pathwayLayout.PathLayoutGrid;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This is the main method for FROMP. Its is what starts FROMP, and what decides
@@ -42,6 +27,8 @@ public class StartFromp1 {
 	String data="";
 	public static String FolderPath = "";
 	public static boolean isSeq = false;
+	public static boolean doEC = true;
+	public static boolean doGo = true;
 	
 	/**
 	 * Takes in a string array of arguments from the user which determines what
@@ -86,6 +73,7 @@ public class StartFromp1 {
 				printOptions();	
 			}
 			else if(args[0].contentEquals("d")){
+				@SuppressWarnings("unused")
 				PathLayoutGrid Grid = new PathLayoutGrid(10, 10, true);
 			}
 			else{
@@ -259,6 +247,7 @@ public class StartFromp1 {
 		// if is a file path
 		else if(checkPath(EcOrList,1)){
 			try{
+				@SuppressWarnings("resource")
 				BufferedReader fileIn1 = new BufferedReader(new FileReader(EcOrList));
 				String line = fileIn1.readLine();
 				
@@ -295,7 +284,7 @@ public class StartFromp1 {
 			File f = new File(path);
 			//no file or wrong file
 			if(path.endsWith(File.separator) ||  !f.exists()){
-				System.out.println("The Path of Input file was WRONG or NOT EXISTS. Issue at:" +path );
+				System.out.println("This is not a vaid file path:" +path );
 				return false;
 			}
 				
@@ -368,15 +357,15 @@ public class StartFromp1 {
 		return ""+-1;
 	}
 	
-	private static boolean checkNum(String options){
-		try{
-			Integer.parseInt(options);
-		}
-		catch(NumberFormatException e){
-			return false;
-		}
-		return true;
-	}
+//	private static boolean checkNum(String options){
+//		try{
+//			Integer.parseInt(options);
+//		}
+//		catch(NumberFormatException e){
+//			return false;
+//		}
+//		return true;
+//	}
 	private static void argsError(){
 		
 		System.out.println("\nThe arguements used are invalid.Plase check Manual or input Help command line blew.\njava -jar FROMP.jar h");

@@ -16,14 +16,12 @@ import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,8 +59,8 @@ public class EditsamplesPane extends JPanel {
 	JLabel randl_; 
 	public boolean dataChanged_; 
 	public JButton advance_; 
-	private JButton save_; 
-	private JButton saveAs_; 
+//	private JButton save_; 
+//	private JButton saveAs_; 
 	private JButton loadMat_; 
 	public JButton backButton_; 
 	public JButton nextButton_; 
@@ -531,77 +529,77 @@ public class EditsamplesPane extends JPanel {
 		add(help);
 	}
 
-	private void addSaveButtons() {
-		this.save_ = new JButton("Save project");
-		this.save_.setBounds(this.xCol2, 500, 150, 30);
-		this.save_.setLayout(null);
-		this.save_.setVisible(true);
-		this.save_.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Project.dataChanged = true;
-				EditsamplesPane.this.setValues();
-				Controller.loadPathways(true);
-				Controller.saveProject();
-			}
-		});
-		add(this.save_);
-
-		this.saveAs_ = new JButton("Save project as");
-		this.saveAs_.setBounds(this.xCol2, 535, 150, 30);
-		this.saveAs_.setLayout(null);
-		this.saveAs_.setVisible(true);
-		this.saveAs_.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Project.dataChanged = true;
-				EditsamplesPane.this.setValues();
-				Controller.loadPathways(true);
-				String path_ = "";
-				try {
-					path_ = new File("").getCanonicalPath();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				JFileChooser fChoose_ = new JFileChooser(path_ + File.separator
-						+ "projects");
-				fChoose_.setFileSelectionMode(0);
-				fChoose_.setBounds(100, 100, 200, 20);
-				fChoose_.setVisible(true);
-				File file = new File(path_ + File.separator + "projects");
-				fChoose_.setSelectedFile(file);
-				fChoose_.setFileFilter(new FileFilter() {
-					public boolean accept(File f) {
-						if ((f.isDirectory())
-								|| (f.getName().toLowerCase().endsWith(".frp"))) {
-							return true;
-						}
-						return false;
-					}
-
-					public String getDescription() {
-						return ".frp";
-					}
-				});
-				if (fChoose_.showSaveDialog(EditsamplesPane.this.getParent()) == 0) {
-					try {
-						String path = fChoose_.getSelectedFile()
-								.getCanonicalPath();
-						if (!path.endsWith(".frp")) {
-							path = path + ".frp";
-							System.out.println(".frp");
-						}
-						Controller.project_.exportProj(path);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					EditsamplesPane.this.invalidate();
-					EditsamplesPane.this.validate();
-					EditsamplesPane.this.repaint();
-				}
-				System.out.println("Save");
-			}
-		});
-		add(this.saveAs_);
-	}
+//	private void addSaveButtons() {
+//		this.save_ = new JButton("Save project");
+//		this.save_.setBounds(this.xCol2, 500, 150, 30);
+//		this.save_.setLayout(null);
+//		this.save_.setVisible(true);
+//		this.save_.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				Project.dataChanged = true;
+//				EditsamplesPane.this.setValues();
+//				Controller.loadPathways(true);
+//				Controller.saveProject();
+//			}
+//		});
+//		add(this.save_);
+//
+//		this.saveAs_ = new JButton("Save project as");
+//		this.saveAs_.setBounds(this.xCol2, 535, 150, 30);
+//		this.saveAs_.setLayout(null);
+//		this.saveAs_.setVisible(true);
+//		this.saveAs_.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				Project.dataChanged = true;
+//				EditsamplesPane.this.setValues();
+//				Controller.loadPathways(true);
+//				String path_ = "";
+//				try {
+//					path_ = new File("").getCanonicalPath();
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+//				JFileChooser fChoose_ = new JFileChooser(path_ + File.separator
+//						+ "projects");
+//				fChoose_.setFileSelectionMode(0);
+//				fChoose_.setBounds(100, 100, 200, 20);
+//				fChoose_.setVisible(true);
+//				File file = new File(path_ + File.separator + "projects");
+//				fChoose_.setSelectedFile(file);
+//				fChoose_.setFileFilter(new FileFilter() {
+//					public boolean accept(File f) {
+//						if ((f.isDirectory())
+//								|| (f.getName().toLowerCase().endsWith(".frp"))) {
+//							return true;
+//						}
+//						return false;
+//					}
+//
+//					public String getDescription() {
+//						return ".frp";
+//					}
+//				});
+//				if (fChoose_.showSaveDialog(EditsamplesPane.this.getParent()) == 0) {
+//					try {
+//						String path = fChoose_.getSelectedFile()
+//								.getCanonicalPath();
+//						if (!path.endsWith(".frp")) {
+//							path = path + ".frp";
+//							System.out.println(".frp");
+//						}
+//						Controller.project_.exportProj(path);
+//					} catch (IOException e1) {
+//						e1.printStackTrace();
+//					}
+//					EditsamplesPane.this.invalidate();
+//					EditsamplesPane.this.validate();
+//					EditsamplesPane.this.repaint();
+//				}
+//				System.out.println("Save");
+//			}
+//		});
+//		add(this.saveAs_);
+//	}
 
 	private void addBackNext() {// Adds the "Back to project Menu" and "Go to pathway selection" buttons
 		this.backButton_.setBounds(this.xCol2 - 135, 570, 250, 30);
@@ -677,19 +675,19 @@ public class EditsamplesPane extends JPanel {
 		repaint(); 
 	}
 
-	private void setValues() {
-		convertChecks();
+//	private void setValues() {
+//		convertChecks();
+//
+//		copyNames();
+//		Project.dataChanged = true;
+//	}
 
-		copyNames();
-		Project.dataChanged = true;
-	}
-
-	private void copyNames() {
-		for (int nCnt = 0; nCnt < this.names_.size(); nCnt++) {
-			((Sample) Project.samples_.get(nCnt)).name_ = ((JButton) this.names_
-					.get(nCnt)).getText();
-		}
-	}
+//	private void copyNames() {
+//		for (int nCnt = 0; nCnt < this.names_.size(); nCnt++) {
+//			((Sample) Project.samples_.get(nCnt)).name_ = ((JButton) this.names_
+//					.get(nCnt)).getText();
+//		}
+//	}
 
 	private void showRandomSampling() {// Shows the random sampling checkbox. If checked sets ranMode_ in Project object
 		if (this.randCheck_ == null) {

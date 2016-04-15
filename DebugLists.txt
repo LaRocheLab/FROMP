@@ -5,4 +5,7 @@ noRepseqList
 ecList
 
 PFList
-t2.abc id: UniRef90_Q8GBW6 repseq: HWI-M02024:110:000000000-A8H0K:1:1101:27430:19509-1:N:0:CATTGTGG_1_288_- amount: 1
+t2.abc id: IPR019478 repseq: Test_0043565_interpro_with_go amount: 1
+t2.abc id: IPR019478 repseq: Test_ipr_with_unusedEC/GO_0006779_0055114 amount: 1
+t2.abc id: IPR011242 repseq: Test_2_7_2_8_no_unusedEC amount: 1
+t2.abc id: UniRef90_Q8GBW6 repseq: Test_uniref90_6.4.1.2_2.1.3.1 amount: 1

@@ -37,7 +37,7 @@ import java.util.*;
  * data, to the users. This class does all of the computation that actually
  * makes the data usable from the raw input.
  * 
- * @author Jennifer Terpstra, Kevan Lynch
+ * @author Jennifer Terpstra, Kevan Lynch, zs
  */
 public class DataProcessor {
 	Project activeProj_;
@@ -45,7 +45,6 @@ public class DataProcessor {
 	String workpath_;
 	String separator_;
 	//These lines are the conversion charts found in /list
-	
 	//pathway num --> 1.ec/cpd 2.name.
 	static final String listPath = StartFromp1.FolderPath+"list" + File.separator + "ec.list";
 	static final String mapTitleList = StartFromp1.FolderPath+"list" + File.separator + "map_title.tab"; 	
@@ -62,15 +61,6 @@ public class DataProcessor {
 	//unused list
 	static final String rnListPath = StartFromp1.FolderPath+"list" + File.separator + "rn.list"; 
 	static final String pathwayList = StartFromp1.FolderPath+"list" + File.separator + "pathway.list";
-	
-	
-	/* Variables to store the starting Strings of Pframs, ECs
-	 * Rns and interpros
-	 */
-//	static final String EC = "EC"; 
-//	static final String PF = "Pf"; 
-//	static final String RN = "Rn"; 
-//	static final String IPR = "IPR"; 
 	
 	XmlParser parser; // An XML parser, Prog.XMLParser
 	int offCounter = 0; 
@@ -135,21 +125,16 @@ public class DataProcessor {
 	public DataProcessor(Project actProj) {// Builds the data processor object for the active project
 		
 		this.activeProj_ = actProj;
-
 		newUserData = true;
 		newBaseData = true;
-
 		this.reader = new StringReader();
 		this.separator_ = File.separator;
 		this.parser = new XmlParser();
 		this.lFrame_ = new Loadingframe();
-
 		newUserPathList_ = new ArrayList<PathwayWithEc>();
 		pathwayList_ = null;
-
 		prepData(); // Prepares everything for the data processor
 	}
-
 	public DataProcessor() {// Builds a shell of a data processor, not connected to
 		newUserData = true;
 		newBaseData = true;
@@ -556,7 +541,8 @@ public class DataProcessor {
 						.length()) > 3) {// Matrix format. Still nothing here to input the matrix format. Use the Load Ec-matrix button.
 				}
 			}
-		} else if (isPfambool(input) || isEc(input) || isInterProBool(input)) {// one column format
+		} 
+		else if (isPfambool(input) || isEc(input) || isInterProBool(input)) {// one column format
 			ret[0] = input;
 			if (isEc(ret[0])) {
 				ret[2] = "EC";
@@ -586,7 +572,8 @@ public class DataProcessor {
 				ret[1] = "1";
 				ret[2] = "IPR";
 			}
-		} else {
+		} 
+		else {
 			ret[0] = input;
 			return ret;
 		}
@@ -626,7 +613,8 @@ public class DataProcessor {
 				if (isNumber(tmp.substring(3))) {
 					return tmp;
 				}
-			} else if (tmp.length() >= 9) {
+			} 
+			else if (tmp.length() >= 9) {
 				tmp = tmp.substring(3);
 				isInterPro(tmp);
 			}
@@ -714,7 +702,7 @@ public class DataProcessor {
 	}
 	public boolean isGo(String go) {
 
-		if(go.matches(".*[0-9].*")){
+		if(go.matches("\\d{7}")){
 			return true;
 		}
 		
@@ -818,30 +806,11 @@ public class DataProcessor {
 					//read all seq id line from sample. if it is IPR num or .ipr file. it will finish in ParseInterpro()
 					while ((zeile = sample.sample_.readLine()) != null){//Parses through the files to build the "Sample attributes"
 						
-						if (zeile.matches(".*IPR[0-9].*")|| zeile.startsWith(">")) {
+						if (zeile.startsWith(">")) {
 							i = ParseInterpro(i);
 							//go next sample
 							break;
 						}
-						/*important for interpro input formats where several samples are in the same file
-						 * each starting off with a line containing the sample name starting with ">"
-						 */
-//						if (zeile.startsWith(">")) {
-//							if (Project.samples_.get(i).ecs_.isEmpty()) {
-//								Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
-//								continue;
-//							} 
-//							else {
-//								Color tmpColor = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
-//								Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">") + 1),sample.fullPath_, tmpColor);
-//								tmpSample.legitSample = true;
-//								tmpSample.inUse = true;
-//								Project.samples_.add(i + 1, tmpSample);
-//								Project.legitSamples.add(i + 1, true);
-//								i++;
-//								continue;
-//							}
-//						}
 						// IPR/Uni/Pfam.. name, amount, type(IPR/Uni/Pfam..) and seq ID inside. no ec or go number.
 						String[] newEnz = getEnzFromSample(zeile);
 						
@@ -865,9 +834,43 @@ public class DataProcessor {
 							this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
 							this.lFrame_.updateCounter(counter);
 							
-							//If the sequence was taken in as a pfam
-							// need to add read go fuction.
-							if (newEnz[2].equalsIgnoreCase("PF")){
+							if (newEnz[2].equalsIgnoreCase("IPR")) {
+								if (!newEnz[1].isEmpty()) {
+									Project.amountOfEcs += Integer.valueOf(newEnz[1]).intValue();
+								}
+								if (StartFromp1.doEC){			
+									String [] Enz = convertInterpro(newEnz);
+									if (!newEnz[0].isEmpty()) {
+										ecNr = new EcNr(Enz);
+										addEcToSample(ecNr,i,Enz);
+									}
+								}
+								if (StartFromp1.doGo){
+									//if go:num in line, read go:num,do not map
+									if (zeile.matches(".*GO:\\d{7}.*")){
+										String GoNum = zeile.substring(zeile.indexOf("GO:")+3,zeile.indexOf("GO:")+10);
+										
+										String [] noMapGO = new String[5];
+										noMapGO[0]=GoNum;
+										noMapGO[1]="1";
+										noMapGO[2]="GO";
+										noMapGO[3]=zeile.substring(0,zeile.indexOf("\t"));
+										noMapGO[4]="";
+										goNr = new GONum(noMapGO);
+										addGOtoSample(goNr,i,noMapGO);
+										
+									}
+									else{	
+										String[] Enz = convertInterproGo(newEnz);	
+										if (!Enz[0].isEmpty()) {	
+											goNr = new GONum(Enz); 
+											addGOtoSample(goNr,i,Enz);
+										}	
+									}
+								}
+							}
+							//pfam line in this sample.
+							else  if (newEnz[2].equalsIgnoreCase("PF")){
 								if (!newEnz[1].isEmpty()) {
 									Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
 								}
@@ -877,162 +880,39 @@ public class DataProcessor {
 										String[] Enz = (String[]) enzL.get(cnt);
 										if (!Enz[0].isEmpty()) {
 											ecNr = new EcNr(Enz);
-
-											EcWithPathway ecWP = null;
-											if (!ecNr.type_.contentEquals("X")) {
-												if ((ecNr.type_.contentEquals("EC"))
-														&& (isEc(ecNr.name_))) {
-													Project.samples_.get(i).addConvStats(new ConvertStat(Enz[3],ecNr.name_,0,ecNr.amount_,0,Enz[4]));
-													ecWP = findEcWPath(ecNr);
-													this.lFrame_.step("converted " 
-															+ Enz[0]);
-												}
-												if (ecWP != null) {
-													if (!ecNr.isCompleteEc()) {
-														ecNr.incomplete = true;
-													}
-													if (isEc(ecNr.name_)) {
-														Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-														Project.legitSamples.remove(i);
-														Project.legitSamples.add(i,Boolean.valueOf(true));
-													}
-												} else {
-													if (!ecNr.isCompleteEc()) {
-														ecNr.incomplete = true;
-													}
-													ecNr.unmapped = true;
-													EcWithPathway unmatched = new EcWithPathway(ecNr);
-													unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-													Project.samples_.get(i).addEc(unmatched);
-												}
-											}
+											addEcToSample(ecNr,i,Enz);	
 										}
 									}		
-								}//doEC finish
+								}//doEC finish..had to keep arraylist enzl,it need to be invoke for other place.
 								if (StartFromp1.doGo){
-									ArrayList<String[]> enzL = convertPfamGo(newEnz);
-									for (int cnt = 0; cnt < enzL.size(); cnt++) {
-										String[] Enz = (String[]) enzL.get(cnt);
-										if (!Enz[0].isEmpty()) {
-											goNr = new GONum(Enz);
-
-											if (!goNr.type_.contentEquals("X")) {
-												if ((goNr.type_.contentEquals("GO"))&& (isGo(goNr.GoNumber))) {
-													Project.samples_.get(i).addConvStatsGo(new ConvertStatGo(Enz[3],goNr.GoNumber,0,goNr.amount_,0,Enz[4]));
-													this.lFrame_.step("converted " + Enz[0]);
-													Project.samples_.get(i).addGo(new GONum(goNr));
-													//added to try to fix out of bounds exception!!
-													if(Project.legitSamples.size()==1){
-														Project.legitSamples.remove(0);
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}
-													//added -1 to attempt to fix error
-													else if(Project.legitSamples.size()>1){
-														Project.legitSamples.remove(i);
-														Project.legitSamples.add(i,Boolean.valueOf(true));
-													}
-													else{
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}	
-												}
-											
-												else {
-													goNr.unmapped = true;
-													GONum unmatched = new GONum(goNr);	
-													Project.samples_.get(i).addGo(unmatched);
-												}
-											}
-										}
-									}	
+									String[] Enz = convertPfamGo(newEnz);								
+									if (!Enz[0].isEmpty()) {
+										goNr = new GONum(Enz);
+										addGOtoSample(goNr,i,Enz);
+									}
 								}//doGO finish
-								
 							}//PF Done
-							//if it is a uniref line in this sample.
+							//uniref line in this sample.
 							else if(newEnz[2].equalsIgnoreCase("uniref")){
 								if (!newEnz[1].isEmpty()) {
 									Project.amountOfUNIs += Integer.valueOf(newEnz[1]).intValue();
 								}
 								if (StartFromp1.doEC){
-									ArrayList<String[]> enzL = convertUni(newEnz);
-									
-									for (int cnt = 0; cnt < enzL.size(); cnt++) {
-										String[] Enz = (String[]) enzL.get(cnt);
-										if (!Enz[0].isEmpty()) {
-											ecNr = new EcNr(Enz);
-
-											EcWithPathway ecWP = null;
-											if (!ecNr.type_.contentEquals("X")) {
-												if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_))) {
-													Project.samples_.get(i).addConvStats(new ConvertStat(Enz[3],ecNr.name_,0,ecNr.amount_,0,Enz[4]));
-													ecWP = findEcWPath(ecNr);
-													this.lFrame_.step("converted " + Enz[0]);
-												}
-												if (ecWP != null) {
-													if (!ecNr.isCompleteEc()) {
-														ecNr.incomplete = true;
-													}
-													if (isEc(ecNr.name_)) {
-														Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-														Project.legitSamples.remove(i);
-														Project.legitSamples.add(i,Boolean.valueOf(true));
-													}
-												} 
-												else {
-													if (!ecNr.isCompleteEc()) {
-														ecNr.incomplete = true;
-													}
-													ecNr.unmapped = true;
-													EcWithPathway unmatched = new EcWithPathway(ecNr);
-													unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-													Project.samples_.get(i).addEc(unmatched);
-												}
-											}
-										}
+									String[] Enz = convertUni(newEnz);
+									if (!Enz[0].isEmpty()) {
+										ecNr = new EcNr(Enz);
+										addEcToSample(ecNr,i,Enz);	
 									}
 								}
 								if (StartFromp1.doGo){
-									ArrayList<String[]> gozL = convertUniGo(newEnz);
-									
-									for (int cnt = 0; cnt < gozL.size(); cnt++) {
-										String[] Enz = (String[]) gozL.get(cnt);
-										if (!Enz[0].isEmpty()) {
-											goNr = new GONum(Enz);
-
-											
-											if (!goNr.type_.contentEquals("X")) {
-												if ((goNr.type_.contentEquals("GO")) && isGo(goNr.GoNumber)) {
-													
-													Project.samples_.get(i).addConvStatsGo(new ConvertStatGo(Enz[3],goNr.GoNumber,0,goNr.amount_,0,Enz[4]));
-													this.lFrame_.step("converted " + Enz[0]);
-													Project.samples_.get(i).addGo(new GONum(goNr));
-													//added to try to fix out of bounds exception!!
-													if(Project.legitSamples.size()==1){
-														Project.legitSamples.remove(0);
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}
-													//added -1 to attempt to fix error
-													else if(Project.legitSamples.size()>1){
-														Project.legitSamples.remove(i);
-														Project.legitSamples.add(i,Boolean.valueOf(true));
-													}
-													else{
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}	
-												}
-												
-												else {
-													goNr.unmapped = true;
-													GONum unmatched = new GONum(goNr);	
-													Project.samples_.get(i).addGo(unmatched);
-												}	
-											} 
-										}
-									}
+									String[] Enz = convertUniGo(newEnz);						
+									if (!Enz[0].isEmpty()) {
+										goNr = new GONum(Enz);
+										addGOtoSample(goNr,i,Enz);
+									}	
 								}
-								
-							}
-																
-							//ec#(may be go#) in the line. no need(IPR/Uniref/Pfam). read it directly
+							}								
+							//ec#(may be need to add read go#) in the line. no need(IPR/Uniref/Pfam). read it directly
 							else if (!newEnz[0].isEmpty()) {
 								//may need add if doEc/doGo
 								ecNr = new EcNr(newEnz);
@@ -1046,7 +926,8 @@ public class DataProcessor {
 										Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
 										Project.legitSamples.remove(i);
 										Project.legitSamples.add(i,Boolean.valueOf(true));
-									} else {
+									} 
+									else {
 										if (!ecNr.isCompleteEc()) {
 											ecNr.incomplete = true;
 										}
@@ -1056,8 +937,7 @@ public class DataProcessor {
 										Project.samples_.get(i).addEc(unmatched);
 									}
 								}
-							}
-							
+							}	
 						}
 					}
 					sample.sample_.close();
@@ -1069,11 +949,9 @@ public class DataProcessor {
 				System.out.println("finished allecvsp");
 			}
 			//check status
-			
 		}
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Total execution time(milliseconds): " + (endTime - startTime));
-
 		ArrayList<String> comptotecs = new ArrayList<String>();
 		ArrayList<String> allecs = new ArrayList<String>();
 		ArrayList<String> ecmapped = new ArrayList<String>();
@@ -1253,9 +1131,7 @@ public class DataProcessor {
 		newUserPathList_ = new ArrayList<PathwayWithEc>();
 	}
 
-	private ArrayList<String[]> convertPfamGo(String[] pfam) {
-
-		ArrayList<String[]> retList = new ArrayList<String[]>();
+	private String[] convertPfamGo(String[] pfam) {
 		
 		if (PfamToGOHash.isEmpty()) {
 
@@ -1264,7 +1140,6 @@ public class DataProcessor {
 		String[] tmpNr = new String[5];
 		tmpNr[3] = pfam[3];
 		String PfamNr = pfam[0];//IPR name.	
-
 		if (this.PfamToGOHash.containsKey(PfamNr)) {
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = PfamToECHash.get(PfamNr).get(0);
@@ -1274,18 +1149,14 @@ public class DataProcessor {
 			tmpNr[4] = "";
 			for (int i = 1; i < PfamToGOHash.get(PfamNr).size(); i++) {
 				//store all unused ec number
-				tmpNr[4] +=  PfamToGOHash.get(PfamNr).get(i) + " ";
-				
+				tmpNr[4] +=  PfamToGOHash.get(PfamNr).get(i) + " ";	
 			}
 			//remove last " " of unused ec string.
 			if (tmpNr[4] != ""){
 				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length()-1);
 			}
-			
-			
-			retList.add(tmpNr);
 		}
-		return retList;
+		return tmpNr;
 	}
 
 	private void DigitizeConversionFilesPfamGo() {
@@ -1312,13 +1183,10 @@ public class DataProcessor {
 		
 	}
 
-	private ArrayList<String[]> convertUniGo(String[] uni) {
-		ArrayList<String[]> retList = new ArrayList<String[]>();
+	private String[] convertUniGo(String[] uni) {
 		if (UniToGOHash.isEmpty()) {
-
 			DigitizeConversionFilesUniGo();
 		}
-
 		String[] tmpNr = new String[5];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];	
@@ -1344,10 +1212,8 @@ public class DataProcessor {
 				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length()-1);
 			}
 			Project.numOfConvertedUNIs += 1;
-			retList.add(tmpNr);
 		}
-		return retList;
-		
+		return tmpNr;
 	}
 	/**
 	 * Load list file UniRef-> GO ,save into memory as a hash table
@@ -1384,7 +1250,7 @@ public class DataProcessor {
 			catch (IOException e) {
 				openWarning("Error", "File" + file + " not found");
 			}
-
+			System.out.println("\rLoading uniref list..."+i/4+"%");
 		}
 		
 		this.UniToGOHash = tmpUNIToGO;
@@ -1442,7 +1308,6 @@ public class DataProcessor {
 				sample.sample_ = null;
 				zeile = null;				
 			}
-			
 			try {
 				//line in sample or .ipr file.
 				while (zeile != null) {
@@ -1480,109 +1345,39 @@ public class DataProcessor {
 					}
 
 					else if (zeile.matches(".*IPR[0-9].*")) {
+						String[] newEnz = getEnzFromInterPro(zeile);//set ret[] 4 elements of IPR
 						
 						if (StartFromp1.doEC){
-							String[] newEnz = getEnzFromInterPro(zeile);//set ret[] 4 elements of IPR
 							if (newEnz[2].equalsIgnoreCase("IPR")) {
-								/*If you chance this to "enzL = convertInterproOld(newEnz) then it will
-								 * change from direct to indirect mapping of Interpro reads
-								 */
-								//only one element inside, need to refactor later.
-								ArrayList<String[]> enzL = convertInterpro(newEnz);
-								
-								for (int cnt = 0; cnt < enzL.size(); cnt++) {
-									newEnz = enzL.get(cnt);
-									if (!newEnz[0].isEmpty()) {
-										EcNr ecNr = new EcNr(newEnz);
-
-										EcWithPathway ecWP = null;
-										if (!ecNr.type_.contentEquals("X")) {
-											if ((ecNr.type_.contentEquals("EC"))&& (isEc(ecNr.name_))) {
-												Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3],ecNr.name_,0,ecNr.amount_,0,newEnz[4]));
-												ecWP = findEcWPath(ecNr);
-												this.lFrame_.step("converted " + newEnz[0]);
-
-											}
-											if (ecWP != null) {
-												Project.numOfConvIPRsMapped += 1;
-												if (!ecNr.isCompleteEc()) {
-													ecNr.incomplete = true;
-												}
-												if (isEc(ecNr.name_)) {
-													Project.numOfConvIPRsComplete += 1;
-													Project.samples_.get(i).addEc(new EcWithPathway(ecWP,ecNr));
-													//added to try to fix out of bounds exception!!
-													if(Project.legitSamples.size()==1){
-														Project.legitSamples.remove(0);
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}
-													//added -1 to attempt to fix error
-													else if(Project.legitSamples.size()>1){
-														Project.legitSamples.remove(i);
-														Project.legitSamples.add(i,Boolean.valueOf(true));
-													}
-													else{
-														Project.legitSamples.add(0,Boolean.valueOf(true));
-													}
-													
-												}
-											} else {
-												if (!ecNr.isCompleteEc()) {
-													ecNr.incomplete = true;
-												}
-												ecNr.unmapped = true;
-												EcWithPathway unmatched = new EcWithPathway(ecNr);
-												unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-												Project.samples_.get(i).addEc(unmatched);
-
-											}
-										}
-									}
+								String [] Enz = convertInterpro(newEnz);
+								if (!newEnz[0].isEmpty()) {
+									EcNr ecNr = new EcNr(Enz);
+									addEcToSample(ecNr,i,Enz);
 								}
 							}	
 						}
 						if (StartFromp1.doGo){
-							String[] newEnz = getEnzFromInterPro(zeile);//set ret[] 4 elements of IPR
-							if (newEnz[2].equalsIgnoreCase("IPR")) {
-								/*If you chance this to "enzL = convertInterproOld(newEnz) then it will
-								 * change from direct to indirect mapping of Interpro reads
-								 */
-								//only one element inside, need to refactor later.
-								ArrayList<String[]> gozL = convertInterproGo(newEnz);
-								for (int cnt = 0; cnt < gozL.size(); cnt++) {
-									newEnz = gozL.get(cnt);
-									if (!newEnz[0].isEmpty()) {
-									
-										GONum goNr = new GONum(newEnz);
-										// X mean inti data no changed, it is unmapped.
-										if (!goNr.type_.contentEquals("X")) {
-											if (goNr.type_.contentEquals("GO") && isGo(goNr.GoNumber)) {
-												Project.samples_.get(i).addConvStatsGo(new ConvertStatGo(newEnz[3],goNr.GoNumber,0,goNr.amount_,0,newEnz[4]));
-												
-												this.lFrame_.step("converted " + newEnz[0]);
-												Project.samples_.get(i).addGo(new GONum(goNr));
-												//added to try to fix out of bounds exception!!
-												if(Project.legitSamples.size()==1){
-													Project.legitSamples.remove(0);
-													Project.legitSamples.add(0,Boolean.valueOf(true));
-												}
-												//added -1 to attempt to fix error
-												else if(Project.legitSamples.size()>1){
-													Project.legitSamples.remove(i);
-													Project.legitSamples.add(i,Boolean.valueOf(true));
-												}
-												else{
-													Project.legitSamples.add(0,Boolean.valueOf(true));
-												}
-
-											}
-											else {	
-												goNr.unmapped = true;
-												GONum unmatched = new GONum(goNr);
-												Project.samples_.get(i).addGo(unmatched);			
-											}
-										} 		
-									}
+							//if go:num in line, read go:num,do not map
+							if (zeile.matches(".*GO:\\d{7}.*")){
+								String GoNum = zeile.substring(zeile.indexOf("GO:")+3,zeile.indexOf("GO:")+10);
+								
+								String [] noMapGO = new String[5];
+								noMapGO[0]=GoNum;
+								noMapGO[1]="1";
+								noMapGO[2]="GO";
+								noMapGO[3]=zeile.substring(0,zeile.indexOf("\t"));
+								noMapGO[4]="";
+								GONum goNr = new GONum(noMapGO);
+								addGOtoSample(goNr,i,noMapGO);
+								
+							}
+							else{	
+								if (newEnz[2].equalsIgnoreCase("IPR")) {
+									String[] Enz = convertInterproGo(newEnz);	
+									if (!Enz[0].isEmpty()) {	
+										GONum goNr = new GONum(Enz); 
+										addGOtoSample(goNr,i,Enz);
+									}	
 								}
 							}
 						}
@@ -1590,7 +1385,8 @@ public class DataProcessor {
 					// do not know, is it need add read uniref ID
 					zeile = sample.sample_.readLine();
 				}
-			} catch (IOException e) {
+			} 
+			catch (IOException e) {
 				openWarning("Error", "File: " + tmp + " not found");
 				e.printStackTrace();
 			}
@@ -1598,8 +1394,81 @@ public class DataProcessor {
 		return i;
 	}
 	
-	private ArrayList<String[]> convertInterproGo(String[] interpro) {
-		ArrayList<String[]> retList = new ArrayList<String[]>();
+	private void addEcToSample(EcNr ecNr, int i, String[] newEnz) {
+		EcWithPathway ecWP = null;
+		if (!ecNr.type_.contentEquals("X")) {
+			if ((ecNr.type_.contentEquals("EC"))&& (isEc(ecNr.name_))) {
+				Project.samples_.get(i).addConvStats(new ConvertStat(newEnz[3],ecNr.name_,0,ecNr.amount_,0,newEnz[4]));
+				ecWP = findEcWPath(ecNr);
+				this.lFrame_.step("converted " + newEnz[0]);
+			}
+			if (ecWP != null) {
+				Project.numOfConvIPRsMapped += 1;
+				if (!ecNr.isCompleteEc()) {
+					ecNr.incomplete = true;
+				}
+				if (isEc(ecNr.name_)) {
+					Project.numOfConvIPRsComplete += 1;
+					Project.samples_.get(i).addEc(new EcWithPathway(ecWP,ecNr));
+					//added to try to fix out of bounds exception!!
+					if(Project.legitSamples.size()==1){
+						Project.legitSamples.remove(0);
+						Project.legitSamples.add(0,Boolean.valueOf(true));
+					}
+					//added -1 to attempt to fix error
+					else if(Project.legitSamples.size()>1){
+						Project.legitSamples.remove(i);
+						Project.legitSamples.add(i,Boolean.valueOf(true));
+					}
+					else{
+						Project.legitSamples.add(0,Boolean.valueOf(true));
+					}
+					
+				}
+			} else {
+				if (!ecNr.isCompleteEc()) {
+					ecNr.incomplete = true;
+				}
+				ecNr.unmapped = true;
+				EcWithPathway unmatched = new EcWithPathway(ecNr);
+				unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+				Project.samples_.get(i).addEc(unmatched);
+			}
+		}
+	}
+
+	private void addGOtoSample(GONum goNr, int i, String[] newEnz) {
+		// X mean inti data no changed, it is unmapped.
+		if (!goNr.type_.contentEquals("X")) {
+			if (goNr.type_.contentEquals("GO") && isGo(goNr.GoNumber)) {
+				Project.samples_.get(i).addConvStatsGo(new ConvertStatGo(newEnz[3],goNr.GoNumber,0,goNr.amount_,0,newEnz[4]));
+				
+				this.lFrame_.step("converted " + newEnz[0]);
+				Project.samples_.get(i).addGo(new GONum(goNr));
+				//added to try to fix out of bounds exception!!
+				if(Project.legitSamples.size()==1){
+					Project.legitSamples.remove(0);
+					Project.legitSamples.add(0,Boolean.valueOf(true));
+				}
+				//added -1 to attempt to fix error
+				else if(Project.legitSamples.size()>1){
+					Project.legitSamples.remove(i);
+					Project.legitSamples.add(i,Boolean.valueOf(true));
+				}
+				else{
+					Project.legitSamples.add(0,Boolean.valueOf(true));
+				}
+
+			}
+			else {	
+				goNr.unmapped = true;
+				GONum unmatched = new GONum(goNr);
+				Project.samples_.get(i).addGo(unmatched);			
+			}
+		}
+	}
+	private String[] convertInterproGo(String[] interpro) {
+	
 		if (this.IPRToGOHash.isEmpty()) {
 
 			DigitizeConversionFilesGo();
@@ -1628,9 +1497,9 @@ public class DataProcessor {
 			}
 			
 			Project.numOfConvertedIPRs += 1;
-			retList.add(tmpNr);
+			
 		}
-		return retList;
+		return tmpNr;
 	}
 	/**
 	 * Takes the IPR->GO conversion file into memory as a hashtable
@@ -1740,18 +1609,14 @@ public class DataProcessor {
 	 * @param interpro
 	 * @return
 	 */
-	private ArrayList<String[]> convertInterpro(String[] interpro) {
-																	
-		ArrayList<String[]> retList = new ArrayList<String[]>();
+	private String[] convertInterpro(String[] interpro) {
 		if (this.IPRToECHash.isEmpty()) {
 			DigitizeConversionFiles();
 		}
-
 		String[] tmpNr = new String[5];
 		//pass seq id to tmpNr at pos 3
 		tmpNr[3] = interpro[3];
 		String interproNr = interpro[0];//IPR name.
-
 		if (this.IPRToECHash.containsKey(interproNr)) {
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = IPRToECHash.get(interproNr).get(0);
@@ -1762,30 +1627,25 @@ public class DataProcessor {
 			for (int i = 1; i < IPRToECHash.get(interproNr).size(); i++) {
 				//store all unused ec number
 				tmpNr[4] +=  IPRToECHash.get(interproNr).get(i) + " ";
-				
 			}
 			//remove last " " of unused ec string.
 			if (tmpNr[4] != ""){
 				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length()-1);
 			}
-			
 			Project.numOfConvertedIPRs += 1;
-			retList.add(tmpNr);
 		}
-		return retList;
+		return tmpNr;
 	}
 	/**
 	 * Uniref ID --> ec number.
 	 * @param uni
 	 * @return
 	 */
-	private ArrayList<String[]> convertUni(String[] uni) {//conversion step using uniref -> EC
-		
-		ArrayList<String[]> retList = new ArrayList<String[]>();
+	private String[] convertUni(String[] uni) {//conversion step using uniref -> EC
+
 		if (UniToECHash.isEmpty()) {
 			DigitizeConversionFilesUni();
 		}
-
 		String[] tmpNr = new String[5];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];
@@ -1793,7 +1653,6 @@ public class DataProcessor {
 
 		if (this.UniToECHash.containsKey(uniNr)) {
 			System.out.println("Found UniRef");
-			
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToECHash.get(uniNr).get(0);
 			tmpNr[1] = uni[1];
@@ -1810,9 +1669,8 @@ public class DataProcessor {
 				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length()-1);
 			}
 			Project.numOfConvertedUNIs += 1;
-			retList.add(tmpNr);
 		}
-		return retList;
+		return tmpNr;
 	}
 
 	private void DigitizeConversionFiles() { // Takes the IPR->EC conversion file into memory as a hashtable
@@ -1955,7 +1813,6 @@ public class DataProcessor {
 			}
 		}
 	}
-
 	// this will only happen if random sampling is selected
 	private void removeRandomEc() {// removes randome ecs for prepping during random sampling
 		Random generator = new Random();
@@ -2909,7 +2766,6 @@ public class DataProcessor {
 		frame.add(panel);
 
 		JLabel label = new JLabel(string);
-
 		label.setVisible(true);
 		label.setForeground(Color.black);
 		label.setBounds(0, 0, 350, 150);

@@ -169,10 +169,9 @@ public class CmdController1 {
 							readInputFile(line);
 						}
 						//if it is wrong input path
-						else if (line.contains(File.separator)) {
-							System.out.println("Wong input file path: " + line);	
-							
-						}
+//						else if (line.contains(File.separator)) {
+//							System.out.println("Wong input file path: " + line);					
+//						}
 						//add sample.
 						else {
 							//get filename.filetype.  such like abc.txt, need +1

@@ -32,7 +32,7 @@ public class Sample {
 	public ArrayList<PathwayWithEc> rnPathways_; 
 	public ArrayList<EcWithPathway> rns_; 
 	public ArrayList<ConvertStat> conversions_; // the conversion statistics for ecs in this sample
-	public ArrayList<ConvertStatGo> conversionsGo_; // the conversion statistics for gos in this sample
+	public ArrayList<ConvertStatGo> conversionsGo_ = new ArrayList<ConvertStatGo>(); // the conversion statistics for gos in this sample
 	public boolean imported; 
 	public boolean matrixSample = false; 
 	public boolean inUse; 

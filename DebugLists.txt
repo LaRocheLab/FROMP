@@ -5,7 +5,6 @@ noRepseqList
 ecList
 
 PFList
-t2.abc id: IPR019478 repseq: Test_0043565_interpro_with_go amount: 1
-t2.abc id: IPR019478 repseq: Test_ipr_with_unusedEC/GO_0006779_0055114 amount: 1
-t2.abc id: IPR011242 repseq: Test_2_7_2_8_no_unusedEC amount: 1
-t2.abc id: UniRef90_Q8GBW6 repseq: Test_uniref90_6.4.1.2_2.1.3.1 amount: 1
+t1.abc id: IPR000023 repseq: HWI-ST758_121_0015078-0045263-0015986 amount: 1
+t1.abc id: UniRef90_M3B4E1 repseq: HWI-ST758_122_ amount: 1
+t1.abc id: IPR002146 repseq: HWI-ST758_123_0032549 amount: 1

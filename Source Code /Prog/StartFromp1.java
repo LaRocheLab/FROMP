@@ -27,6 +27,7 @@ public class StartFromp1 {
 	String data="";
 	public static String FolderPath = "";
 	public static boolean isSeq = false;
+	//controller for loading ec or/and go
 	public static boolean doEC = true;
 	public static boolean doGo = true;
 	

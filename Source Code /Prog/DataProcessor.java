@@ -805,11 +805,12 @@ public class DataProcessor {
 				try {
 					//read all seq id line from sample. if it is IPR num or .ipr file. it will finish in ParseInterpro()
 					while ((zeile = sample.sample_.readLine()) != null){//Parses through the files to build the "Sample attributes"
-						
+						//for reading .ipr file
 						if (zeile.startsWith(">")) {
 							i = ParseInterpro(i);
 							//go next sample
-							break;
+//							break;
+							
 						}
 						// IPR/Uni/Pfam.. name, amount, type(IPR/Uni/Pfam..) and seq ID inside. no ec or go number.
 						String[] newEnz = getEnzFromSample(zeile);
@@ -834,7 +835,9 @@ public class DataProcessor {
 							this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
 							this.lFrame_.updateCounter(counter);
 							
+							//get the key word (IPR/Uniref/pfam..) from the line of sample.
 							if (newEnz[2].equalsIgnoreCase("IPR")) {
+								
 								if (!newEnz[1].isEmpty()) {
 									Project.amountOfEcs += Integer.valueOf(newEnz[1]).intValue();
 								}
@@ -1175,7 +1178,8 @@ public class DataProcessor {
 					}
 				}
 			}
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			openWarning("Error", "File" + interproToECPath_ + " not found");
 			e.printStackTrace();
 		}
@@ -1250,7 +1254,7 @@ public class DataProcessor {
 			catch (IOException e) {
 				openWarning("Error", "File" + file + " not found");
 			}
-			System.out.println("\rLoading uniref list..."+i/4+"%");
+			System.out.println("\rLoading uniref list..."+(i*100/4)+"%");
 		}
 		
 		this.UniToGOHash = tmpUNIToGO;
@@ -1614,8 +1618,13 @@ public class DataProcessor {
 			DigitizeConversionFiles();
 		}
 		String[] tmpNr = new String[5];
+		tmpNr[0]= "X";
+		tmpNr[1]= "1";
+		tmpNr[2]= "X";
 		//pass seq id to tmpNr at pos 3
 		tmpNr[3] = interpro[3];
+		tmpNr[4]= "";
+		
 		String interproNr = interpro[0];//IPR name.
 		if (this.IPRToECHash.containsKey(interproNr)) {
 			//only use the first ec number, if IPR map to more than one ec.

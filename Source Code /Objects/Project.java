@@ -37,7 +37,7 @@ public class Project {
 	public static boolean dataChanged = true; 
 	public static boolean dataChanged2 = true; 
 	public static boolean iprNameChange = false;
-	public static ArrayList<Sample> samples_; // ArrayList of sample objects which stores the samples associated wth this project
+	public static ArrayList<Sample> samples_=new ArrayList<Sample>(); // ArrayList of sample objects which stores the samples associated with this project
 	public static ArrayList<String> removedSamples; 
 	public static Sample overall_; 
 	private static Color backColor_; 
@@ -343,31 +343,30 @@ public class Project {
 					out.newLine();
 
 					for (int repCnt = 0; repCnt < tmpSamp.conversions_.size(); repCnt++) {
-						//seq id empty problem
+						//seq id empty problem. need to fix.
 						if (tmpSamp.conversions_.get(repCnt).ecNr_.contentEquals(tmpEc.name_)) {
 							//desc_ = seq ID
 							out.write(tmpSamp.conversions_.get(repCnt).desc_+"\t"
-									+tmpSamp.conversions_.get(repCnt).ecAmount_+"\t"
-									+tmpSamp.conversions_.get(repCnt).pfamToEcAmount_ +"\t"
-									+tmpSamp.conversions_.get(repCnt).unusedEc +"\n");
+									 +tmpSamp.conversions_.get(repCnt).ecAmount_+"\t"
+									 +tmpSamp.conversions_.get(repCnt).pfamToEcAmount_ +"\t"
+									 +tmpSamp.conversions_.get(repCnt).unusedEc +"\n");
 						}
 					}
 				}
 				//Write out GO and following data
-				//...goNr.
 				for (int ecCnt = 0; ecCnt < tmpSamp.gos_.size(); ecCnt++) {
 					GONum tmpEc = tmpSamp.gos_.get(ecCnt);
 					out.write("GO*:" + tmpEc.GoNumber + ":" + tmpEc.amount_);
 					out.newLine();
 
 					for (int repCnt = 0; repCnt < tmpSamp.conversionsGo_.size(); repCnt++) {
-						//seq id empty problem
+						//seq id empty problem. need to fix.
 						if (tmpSamp.conversionsGo_.get(repCnt).GoNr_.contentEquals(tmpEc.GoNumber)) {
 							//desc_ = seq ID
 							out.write(tmpSamp.conversionsGo_.get(repCnt).desc_+"\t"
-									+tmpSamp.conversionsGo_.get(repCnt).goAmount_+"\t"
-									+tmpSamp.conversionsGo_.get(repCnt).pfamToGoAmount_ +"\t"
-									+tmpSamp.conversionsGo_.get(repCnt).unusedGo +"\n");
+								 	 +tmpSamp.conversionsGo_.get(repCnt).goAmount_+"\t"
+								 	 +tmpSamp.conversionsGo_.get(repCnt).pfamToGoAmount_ +"\t"
+									 +tmpSamp.conversionsGo_.get(repCnt).unusedGo +"\n");
 						}
 					}
 				}
@@ -897,190 +896,182 @@ public class Project {
 	}
 	/**
 	 * Imports the project file at a given file path
+	 * Format of .frp file : head part + (sample name part + read ec part + read go part)*samples amount + tail part 
 	 * @param path
 	 */
 	public void importProj(String path) { 
 		legitSamples = new ArrayList<Boolean>();
 		BufferedReader in = null;
-		projectPath_ = path;
-		imported = true;
-		boolean finishedStart = false;
+		projectPath_ = path;	
 		int sampNr = -1;
 		try {
 			in = new BufferedReader(new FileReader(path));
 			if (!in.readLine().contentEquals("$$ver:$EXP1$")) {
 				in.close();
+				System.out.println("Wrong format of the project file");
 				return;
 			}
 			String tmpLine = "";
-			while ((tmpLine = in.readLine()) != null) {
-				if (!finishedStart) {
-					if (tmpLine.startsWith("!!")) {
-						continue;
-					}
-					else if (tmpLine.startsWith("SMP*:")) {
-						finishedStart = true;
-					} 
-					else {
-						if (tmpLine.startsWith("$PROJ$")) {
-							workpath_ = tmpLine.substring("$PROJ$".length());
-						}
-						else if (tmpLine.startsWith("$back$")) {
-							
-							tmpLine = tmpLine.substring("$back$".length());
-							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int blue = Integer.valueOf(tmpLine).intValue();
-							backColor_ = new Color(red, green, blue);
-						}
-						else if (tmpLine.startsWith("$font$")) {
-							
-							tmpLine = tmpLine.substring("$font$".length());
-							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int blue = Integer.valueOf(tmpLine).intValue();
-							fontColor_ = new Color(red, green, blue);
-						}
-						else if (tmpLine.startsWith("$oAll$")) {
-							
-							tmpLine = tmpLine.substring("$oAll$".length());
-							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int blue = Integer.valueOf(tmpLine).intValue();
-							overAllColor_ = new Color(red, green, blue);
-						}
-					}
+			tmpLine = in.readLine();
+			//load head part
+			while (!tmpLine.startsWith("SMP*:")) {
+				//start to load head part
+				if (tmpLine.startsWith("$PROJ$")) {
+					workpath_ = tmpLine.substring("$PROJ$".length());
 				}
-				//Finished to load head info
-				else if (finishedStart) {
+				
+				else if (tmpLine.startsWith("$back$")) {
+					
+					tmpLine = tmpLine.substring("$back$".length());
+					int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int blue = Integer.valueOf(tmpLine).intValue();
+					backColor_ = new Color(red, green, blue);
+				}
+				else if (tmpLine.startsWith("$font$")) {
+					
+					tmpLine = tmpLine.substring("$font$".length());
+					int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int blue = Integer.valueOf(tmpLine).intValue();
+					fontColor_ = new Color(red, green, blue);
+				}
+				else if (tmpLine.startsWith("$oAll$")) {
+					
+					tmpLine = tmpLine.substring("$oAll$".length());
+					int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+					tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+					int blue = Integer.valueOf(tmpLine).intValue();
+					overAllColor_ = new Color(red, green, blue);
+					
+				}
+				tmpLine = in.readLine();
+			}//end to load head part
+			//start to load sample name part + read ec part + read go part
+			while (!tmpLine.startsWith("<userPathways>")){
+				//load sample name
+				if (tmpLine.startsWith("SMP*:")) {
 					if (samples_ == null) {
 						samples_ = new ArrayList<Sample>();
+					}	
+					tmpLine = tmpLine.substring("SMP*:".length());
+					String name = tmpLine;
+					Sample tmpSamp = new Sample(name, "");
+					sampNr++;
+					tmpLine = in.readLine();
+					if (!tmpLine.isEmpty()) {
+						
+						tmpLine = tmpLine.substring("smpCol*".length());
+						int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+						int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
+						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
+						int blue = Integer.valueOf(tmpLine).intValue();
+						tmpSamp.sampleCol_ = new Color(red, green, blue);
+						tmpSamp.inUse = true;
+						tmpSamp.imported = true;
+					} 
+					else {
+						tmpSamp.sampleCol_ = Color.BLUE;
 					}
-					if (tmpLine.startsWith("SMP*:")) {
-						tmpLine = tmpLine.substring("SMP*:".length());
-						String name = tmpLine;
-						Sample tmpSamp = new Sample(name, "");
-						sampNr++;
-						if (!(tmpLine = in.readLine()).isEmpty()) {
+					tmpSamp.legitSample = true;
+					samples_.add(tmpSamp);		
+				}	
+				
+				//read EC part.	
+				if (tmpLine.startsWith("EC*:") && StartFromp1.doEC) {
+					String [] ecNumAmount = tmpLine.split(":");
+					EcNr tmpEc = new EcNr(ecNumAmount[1]);
+					tmpEc.amount_ = Integer.valueOf(ecNumAmount[2]).intValue();
+					tmpEc.sampleNr_ = sampNr;
+					tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+					tmpEc.stats_.add(new EcSampleStats(tmpEc));
+					tmpLine = in.readLine();
+					//read all(Format: seq id + ec amount + pf amount + unused ec num) of this Ec num.
+					while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") && !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
+						try{
+							ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
 							
-							tmpLine = tmpLine.substring("smpCol*".length());
-							int red = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int green = Integer.valueOf(tmpLine.substring(0, tmpLine.indexOf(":"))).intValue();
-							tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-							int blue = Integer.valueOf(tmpLine).intValue();
-							tmpSamp.sampleCol_ = new Color(red, green, blue);
-							tmpSamp.inUse = true;
-							tmpSamp.imported = true;
-						} 
-						else {
-							tmpSamp.sampleCol_ = Color.BLUE;
+							String desc = line.get(0);
+							int ecAm = Integer.valueOf(line.get(1));
+							int pfAm = Integer.valueOf(line.get(2));
+							String unUsedEc = line.get(3);
+							
+							ConvertStat convertStat = new ConvertStat(desc,tmpEc.name_, ecAm, pfAm, 0,unUsedEc);
+							tmpEc.repseqs_.add(new Repseqs(desc, ecAm + pfAm));
+							samples_.get(samples_.size() - 1).conversions_.add(convertStat);
 						}
-						tmpSamp.legitSample = true;
-						samples_.add(tmpSamp);
-					}
-					//read EC part.
-					if (tmpLine.startsWith("EC*:")) {
-						tmpLine = tmpLine.substring("EC*:".length());
-						String name = tmpLine.substring(0, tmpLine.indexOf(":"));
-						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-						EcNr tmpEc = new EcNr(name);
-
-						tmpEc.amount_ = Integer.valueOf(tmpLine).intValue();
-						tmpEc.sampleNr_ = sampNr;
-						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
-						tmpEc.stats_.add(new EcSampleStats(tmpEc));
-						
-						//read all seq id,ec amount, pf amount unused ec num of one Ec num.
-						while(!(tmpLine = in.readLine()).startsWith("EC*:")){
-							try{
-								ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
-								
-								String desc = line.get(0);
-								int ecAm = Integer.valueOf(line.get(1));
-								int pfAm = Integer.valueOf(line.get(2));
-								String unUsedec_go = line.get(3);
-								
-								ConvertStat convertStat = new ConvertStat(desc,tmpEc.name_, ecAm, pfAm, 0,unUsedec_go);
-								tmpEc.repseqs_.add(new Repseqs(desc, ecAm + pfAm));
-								samples_.get(samples_.size() - 1).conversions_.add(convertStat);
-							}
-							catch(Exception e){
-								continue;
-							}
+						catch(Exception e){
+							e.printStackTrace();
 						}
-						
-						samples_.get(samples_.size() - 1).ecs_.add(new EcWithPathway(tmpEc));
+						tmpLine = in.readLine();
 					}
-					//read GO part.
-					/*
-					 * if (tmpLine.startsWith("GO*:")) {
-						tmpLine = tmpLine.substring("GO*:".length());
-						String name = tmpLine.substring(0, tmpLine.indexOf(":"));
-						tmpLine = tmpLine.substring(tmpLine.indexOf(":") + 1);
-						GONum tmpGo = new GONum(name);
-
-						tmpGo.amount_ = Integer.valueOf(tmpLine).intValue();
-						tmpEc.sampleNr_ = sampNr;
-						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
-						tmpEc.stats_.add(new EcSampleStats(tmpEc));
-						if (!(tmpLine = in.readLine()).isEmpty()) {
-							String tmpRep = tmpLine;
-							while (!tmpRep.isEmpty()) {
-								if (tmpLine.isEmpty()) {
-									break;
-								}
-								if (tmpLine.contains(";")) {
-									tmpRep = tmpLine.substring(0,
-											tmpLine.indexOf(";"));
-								} else {
-									tmpRep = tmpLine;
-								}
-								int lastIndex = tmpRep.lastIndexOf(":");
-								String nums = tmpRep.substring(lastIndex);
-								String desc = tmpRep.substring(0, lastIndex);
-								lastIndex = desc.lastIndexOf(":");
-								nums = desc.substring(lastIndex + 1) + nums;
-								desc = desc.substring(0, lastIndex);
-
-								int ecAm = Integer.valueOf(nums.substring(0, nums.indexOf(":"))).intValue();
-								nums = nums.substring(nums.indexOf(":") + 1);
-								int pfAm = Integer.valueOf(nums).intValue();
-								
-								ConvertStat convertStat = new ConvertStat(desc,tmpEc.name_, ecAm, pfAm, 0);
-								tmpEc.repseqs_.add(new Repseqs(desc, ecAm + pfAm));
-								((Sample) samples_.get(samples_.size() - 1)).conversions_.add(convertStat);
-								tmpLine = tmpLine.substring(tmpLine.indexOf(";") + 1);
-							}
-						}
-						((Sample) samples_.get(samples_.size() - 1)).ecs_.add(new EcWithPathway(tmpEc));
-					}
-					 */
 					
+					samples_.get(samples_.size() - 1).ecs_.add(new EcWithPathway(tmpEc));
+					continue;
 					
-					if (tmpLine.contentEquals("<userPathways>")) {
-						loadUserPAths(in, true);
+				}	
+				
+				//read GO part.
+				if (tmpLine.startsWith("GO*:")&& StartFromp1.doGo) {
+					
+					String [] goNumAmount = tmpLine.split(":");
+					GONum tmpGo = new GONum(goNumAmount[1]);
+					tmpGo.amount_ = Integer.valueOf(goNumAmount[2]).intValue();
+					tmpGo.sampleNr_ = sampNr;
+					tmpGo.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+					tmpGo.stats_.add(new GoSampleStats(tmpGo));
+					tmpLine = in.readLine();
+					//read all(Format: seq id + go amount + pf amount + unused go num) of this Go num.
+					while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") && !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
+						try{
+							ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
+							
+							String desc = line.get(0);
+							// need to refactor later.
+							int goAm = Integer.valueOf(line.get(1));
+							int pfAm = Integer.valueOf(line.get(2));
+							String unUsedGo = line.get(3);
+							
+							ConvertStatGo convertStatGo = new ConvertStatGo(desc,tmpGo.GoNumber, goAm, pfAm, 0,unUsedGo);
+							tmpGo.repseqs_.add(new Repseqs(desc, goAm + pfAm));
+							samples_.get(samples_.size() - 1).conversionsGo_.add(convertStatGo);
+						}
+						catch(Exception e){
+							e.printStackTrace();
+						}
+						tmpLine = in.readLine();
 					}
-					if (tmpLine.contentEquals("<ConvStats>")) {
-						loadConvStats(in);
-					}
-					if (tmpLine.contentEquals("<SeqFiles>")) {
-						loadSeqFiles(in);
-					}
+					samples_.get(samples_.size() - 1).gos_.add(new GONum(tmpGo));
+					continue;
 				}
+				tmpLine = in.readLine();	
+			}//end to load sample name part + read ec part + read go part	
+							
+			//start to read the tail part
+			while (tmpLine != null){
+				if (tmpLine.contentEquals("<userPathways>")) {
+					loadUserPAths(in, true);
+				}
+				else if (tmpLine.contentEquals("<ConvStats>")) {
+					loadConvStats(in);
+				}
+				else if (tmpLine.contentEquals("<SeqFiles>")) {
+					loadSeqFiles(in);
+				}
+	
+				tmpLine = in.readLine();
 			}
-			
-			
-			
-			
 			in.close();
-		} catch (IOException e) {
+			imported = true;
+		}//end of try		
+		catch (IOException e) {
 			openWarning("Error", "File: " + path + " not found");
 			e.printStackTrace();
 		}

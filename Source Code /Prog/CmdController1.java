@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -23,19 +24,19 @@ import java.io.IOException;
  * Used for command line FROMP functions. Processes all command line user input
  * into FROMP.
  * 
- * @author zs
+ * @author Song Zhao, Jennifer Terpstra, Kevan Lynch
  */
 
 public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
-	String inputPath_	; // The inputpath given by the user
+	String inputPath_	; // The input path given by the user
 	public static String outPutPath_=StartFromp1.FolderPath; // The output path given in by the user
 	public static String optionsCmd_=""; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
 	static Controller controller; // The controller. Allows user to save, load etc.
 	static PathwayMatrix pwMAtrix; // the Pathway Matrix
-	//Basepath of the FROMP software. Necessary for all relative paths to function
+	//Base path of the FROMP software. Necessary for all relative paths to function
 	//final String basePath_ = new File(".").getAbsolutePath() + File.separator; 
 	BufferedReader ecList; // Buffered reader used to read in the ec numbers listed in a file
 	BufferedReader sequenceList;// buffered reader user to read in the sequence filenames listed in a file
@@ -44,13 +45,13 @@ public class CmdController1 {
 	int cmdCode;
 	public static String tmpPath = "";
 	public static boolean elistSortSum=false;
-	final String basePath_ = StartFromp1.FolderPath+"Output"+File.separator;
+	final String basePath_ = StartFromp1.FolderPath+"def"+File.separator;
 	static ArrayList <String> unusedEc = new ArrayList<String>();
 	public CmdController1(){
 		
 	}
-	public CmdController1(String cmd,ArrayList<String> ecSet,String in,String out)  {
-		CmdController1.optionsCmd_ = cmd;
+	public CmdController1(String cmd,ArrayList<String> ecSet,String in,String out) throws IOException  {
+		optionsCmd_ = cmd;
 		ec_=ecSet;
 		inputPath_=in;
 		outPutPath_=out;
@@ -61,6 +62,10 @@ public class CmdController1 {
 		
 		Panes.Loadingframe.showLoading = false;
 		Panes.HelpFrame.showSummary = false;
+		
+		//check user's request ec or/and go. before load file. only load requested item for save time.
+		checkDoEcOrAndGo();
+		
 		//add all samples(only loaded .frp data)
 		readInputFile(inputPath_);
 		
@@ -75,6 +80,39 @@ public class CmdController1 {
 		System.out.println("ALL Done.");
 		System.exit(0);
 		
+	}
+	/**
+	 * For checking user request ec or/and go. before load file. only load requested item(ec/go) for saving time.
+	 */
+	private void checkDoEcOrAndGo() {
+		String [] EcRequest = {"p","s","m","e","op","up","ec","seq","seqall","eclist","pvalue","lca","lcamat"}; 
+		String [] GoRequest = {"g","go","seqgo","seqallgo","pvaluego","lcago","lcamatgo"};
+		String [] AllRequest = {"f","a","am"};
+		//only EC
+		if (Arrays.asList(EcRequest).contains(optionsCmd_)){
+			StartFromp1.doEC = true;
+			StartFromp1.doGo = false;
+		}
+		//only GO
+		else if (Arrays.asList(GoRequest).contains(optionsCmd_)){
+			StartFromp1.doEC = false;
+			StartFromp1.doGo = true;
+		}
+		//EC and GO
+		else if (Arrays.asList(AllRequest).contains(optionsCmd_)){
+			StartFromp1.doEC = true;
+			StartFromp1.doGo = true;
+		}
+		//test option "lca-all". one line can read EC, GO, and 
+		else if (optionsCmd_.contentEquals("lca-all")){
+			
+			if (StartFromp1.ecSet.isEmpty()){
+				StartFromp1.doEC = false;
+			}
+			if (StartFromp1.goSet.isEmpty()){
+				StartFromp1.doGo = false;
+			}
+		}
 	}
 	//read input file or path.  IP=input path
 	private void readInputFile(String IP) {
@@ -203,9 +241,9 @@ public class CmdController1 {
 	}//finish sample input work.
 		
 	//main processing method.
-	private void processing(){	
+	private void processing() throws IOException{	
 		
-		// p or a --checked out put path.
+		//1. p or a --checked out put path.
 		if (optionsCmd_.contentEquals("p")|| optionsCmd_.contentEquals("a")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
@@ -223,7 +261,7 @@ public class CmdController1 {
 			System.out.println("PathwayPics were saved at: "+ tmpPath);
 			//System.exit(0);	
 		}
-		// s or a or am --checked output path
+		//2. s or a or am --checked output path
 		if (optionsCmd_.contentEquals("s")||optionsCmd_.contentEquals("a")||optionsCmd_.contentEquals("am")){
 			System.out.println("Pathway-score-matrix");
 			pwMAtrix = new PathwayMatrix(Project.samples_,Project.overall_, DataProcessor.pathwayList_,Controller.project_);
@@ -240,7 +278,7 @@ public class CmdController1 {
 			pwMAtrix.exportMat(tmpPath, true);	
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
-		// m or a or am --checked output path
+		//3. m or a or am --checked output path
 		if (optionsCmd_.contentEquals("m") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("Pathway-activity-matrix");
 			PathwayActivitymatrixPane pane = new PathwayActivitymatrixPane(Controller.processor_, Controller.project_,new Dimension(23, 23));
@@ -256,7 +294,7 @@ public class CmdController1 {
 			System.out.println("Output files were saved at: "+ tmpPath);
 			
 		}
-		// e or a or am --checked output path
+		//4. e or a or am --checked output path
 		if  (optionsCmd_.contentEquals("e") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("EC-activity-matrix");
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
@@ -272,8 +310,25 @@ public class CmdController1 {
 			pane.exportMat(tmpPath, true);
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
-		// f export the project as a .frp file. (it was  .txt + .out + .frp = new one .frp file ) need add def function
-		//f or a --checked out path
+		
+		//5. g or a or am --checked output path // need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+		if  (optionsCmd_.contentEquals("g") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
+			System.out.println("GO-activity-matrix");
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			
+			if (outPutPath_.contentEquals("def")){
+				tmpPath = basePath_+"g";
+					
+			}
+			else{
+				tmpPath= outPutPath_.substring(0,outPutPath_.length()-1);
+						
+			}
+			pane.exportMat(tmpPath, true);
+			System.out.println("Output files were saved at: "+ tmpPath);
+		}
+
+		//6. f or a - export all data as a project(.frp) file.
 		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
 			Date d = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
@@ -296,7 +351,7 @@ public class CmdController1 {
 			Controller.saveProject(tmpPath);
 			System.out.println("New Project File at : "+tmpPath);
 		}
-		// op --checked out path
+		//7. op --checked out path
 		else if (optionsCmd_.contentEquals("op")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
@@ -316,7 +371,7 @@ public class CmdController1 {
 			
 			
 		}
-		// up - user pathway --checked out put path
+		//8. up - user pathway --checked out put path
 		else if (optionsCmd_.contentEquals("up")){
 			System.out.println("Pathway-score-matrix");
 			//builds a pathway matrix object which will be used to generate pathway pictures
@@ -337,7 +392,8 @@ public class CmdController1 {
 			System.out.println("PathwayPics were saved at: "+ tmpPath);
 			//System.exit(0);	
 		}
-		// ec --checked out put path
+		
+		//9. ec --checked out put path
 		else if (optionsCmd_.contentEquals("ec")){
 			if(outPutPath_.contentEquals("def")){		
 				tmpPath = basePath_+"ec"+File.separator;
@@ -352,7 +408,24 @@ public class CmdController1 {
 			}
 			System.out.println("Repseqs saved at: "+ tmpPath );
 		}
-		// seq -- checked out put path. --checking seq file
+		
+		//10. go --checked out put path
+		else if (optionsCmd_.contentEquals("go")){
+			if(outPutPath_.contentEquals("def")){		
+				tmpPath = basePath_+"go"+File.separator;
+			}
+			else{
+				tmpPath = outPutPath_;
+			}
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
+				
+				pane.cmdExportRepseqsGo(StartFromp1.goSet.get(i),tmpPath);
+			}
+			System.out.println("Repseqs saved at: "+ tmpPath );
+		}
+		
+		//11. seq -- checked out put path. --checking seq file
 		else if (optionsCmd_.contentEquals("seq")){
 			
 			checkSeqFile();
@@ -373,7 +446,30 @@ public class CmdController1 {
 			
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
 		}
-		// seqall --checked output path --checking seq file
+		
+		//12. seqgo -- checked out put path. --checking seq file
+		else if (optionsCmd_.contentEquals("seqgo")){
+			
+			checkSeqFile();
+			
+			if(outPutPath_.contains("def")){		
+				tmpPath = basePath_+"seqgo"+File.separator;
+			}
+			
+			else {
+				tmpPath = outPutPath_;
+			}
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			
+			for (int i = 0; i < ec_.size(); i++) {
+				
+				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
+			}
+			
+			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
+		}
+		
+		//13. seqall --checked output path --checking seq file
 		else if (optionsCmd_.contentEquals("seqall")){
 			
 			checkSeqFile();

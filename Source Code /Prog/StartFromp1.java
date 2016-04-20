@@ -3,6 +3,7 @@ package Prog;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,13 +14,13 @@ import pathwayLayout.PathLayoutGrid;
  * whether or not FROMP will be working in a gui or on the command line
  * depending upon the arguments the user includes.
  * 
- * @author Jennifer Terpstra, Kevan Lynch
+ * @author Song Zhao, Jennifer Terpstra, Kevan Lynch
  */
 public class StartFromp1 {
 	static NewFrompFrame newFrame;
-	static CmdController1 cmd = new CmdController1();
-	 //the totally number of  ecs need pass to cmdController for processing.
-	public static ArrayList<String> ecSet =new ArrayList<String>();
+	static CmdController1 cmd = new CmdController1(); 
+	public static ArrayList<String> ecSet =new ArrayList<String>();//the totally number of  ecs need pass to cmdController for processing.
+	public static ArrayList<String> goSet =new ArrayList<String>();//the totally number of  gos need pass to cmdController for processing.
 	public static ArrayList<seqWithFileName> FileSetofSeq = new ArrayList<seqWithFileName>();
 	static String in;
 	static String out;
@@ -30,6 +31,7 @@ public class StartFromp1 {
 	//controller for loading ec or/and go
 	public static boolean doEC = true;
 	public static boolean doGo = true;
+	
 	
 	/**
 	 * Takes in a string array of arguments from the user which determines what
@@ -48,8 +50,9 @@ public class StartFromp1 {
 	 *            works
 	 * @author Jennifer Terpstra, Kevan Lynch
 	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws URISyntaxException {
+	public static void main(String[] args) throws URISyntaxException, IOException {
 		File test = new File(StartFromp1.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		String test1 = test.toString();
 		String folderPath="";
@@ -74,7 +77,7 @@ public class StartFromp1 {
 				printOptions();	
 			}
 			else if(args[0].contentEquals("d")){
-				@SuppressWarnings("unused")
+				@SuppressWarnings("unused")//open a new window
 				PathLayoutGrid Grid = new PathLayoutGrid(10, 10, true);
 			}
 			else{
@@ -82,7 +85,7 @@ public class StartFromp1 {
 			}		
 		}
 		
-		//args = 3. it may p,s,m,e,f,a,am,op,up,eclist(all),pvalue(all)
+		//args = 3. it may p,s,m,e,g,f,a,am,op,up,eclist(all),pvalue(all),golist(all),pvaluego(all)
 		else if (args.length == 3){
 			
 			if (checkPath(args[0],1) && checkPath(args[1],2)){
@@ -91,7 +94,8 @@ public class StartFromp1 {
 						args[2].contentEquals("f") ||args[2].contentEquals("a") ||
 						args[2].contentEquals("am") ||args[2].contentEquals("op") ||
 						args[2].contentEquals("up") ||args[2].contentEquals("eclist") ||
-						args[2].contentEquals("pvalue") ){
+						args[2].contentEquals("pvalue")||args[2].contentEquals("g") ||
+						args[2].contentEquals("golist")||args[2].contentEquals("pvaluego")){
 					
 					cmdCode=args[2];
 					in = args[0];
@@ -110,13 +114,14 @@ public class StartFromp1 {
 				argsError();
 			}	
 		}
-		//args = 4 or more it may ec,seq,seqall,eclist(#),pvalue(#),lca
+		//args = 4 or more it may ec,go,seq,seqgo,seqall,seqallgo,eclist(#)/s,golist(#)/s,pvalue(#),pvaluego(#),lca,lcago,lcamat,lcamatgo.
 		else if (args.length >3){
 			if (checkPath(args[0],1) && checkPath(args[1],2)){
 				in = args[0];
 				//out = args[1];
 				//arg = eclist or pvalue
-				if(args[2].contentEquals("eclist") || args[2].contentEquals("pvalue")){
+				if(args[2].contentEquals("eclist") || args[2].contentEquals("pvalue")|| 
+						args[2].contentEquals("golist")|| args[2].contentEquals("pvaluego")){
 					// if is not 4 args or 4th args not a #
 //					if (args.length !=4 || !checkNum(args[3])){
 					if (args.length !=4){
@@ -131,7 +136,8 @@ public class StartFromp1 {
 				}
 				//arg = ec,seq,seqall)
 				else if (args[2].contentEquals("ec") ||args[2].contentEquals("seq") ||
-						args[2].contentEquals("seqall")){
+						args[2].contentEquals("seqall")||args[2].contentEquals("go")
+						||args[2].contentEquals("seqgo")||args[2].contentEquals("seqallgo")){
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
 						EcFileReader(args[i]);
@@ -141,12 +147,14 @@ public class StartFromp1 {
 					Collections.sort(ecSet);		
 					//summary
 					System.out.println(ecSet+"\nTotally "+ecSet.size()+" ec#s in the list.\nDone...");
+					System.out.println(goSet+"\nTotally "+goSet.size()+" go#s in the list.\nDone...");
 					//push to cmdcontroller1
 					cmdCode=args[2];
 					cmd = new CmdController1(cmdCode,ecSet,in,out);			
 				}
 				//arg = lca , lcamat. collection ec or seq
-				else if (args[2].contentEquals("lca")||args[2].contentEquals("lcamat") ){
+				else if (args[2].contentEquals("lca")||args[2].contentEquals("lcamat") ||
+						args[2].contentEquals("lcago")||args[2].contentEquals("lcamatgo")){
 					
 					//push all of input ec into ecset;
 					for(int i=3; i<args.length;i++){
@@ -162,6 +170,7 @@ public class StartFromp1 {
 					Collections.sort(ecSet);		
 					//summary
 					System.out.println(ecSet+"\nTotally "+ecSet.size()+" ec#s in the list.\nDone...");
+					System.out.println(goSet+"\nTotally "+goSet.size()+" go#s in the list.\nDone...");
 					//push to cmdcontroller1
 					cmdCode=args[2];
 					cmd = new CmdController1(cmdCode,ecSet,in,out);	
@@ -245,6 +254,17 @@ public class StartFromp1 {
 				System.out.println(ec+"  has added already.pass...");
 			
 		}
+		//if it is a go#
+		else if (EcOrList.matches("\\d{7}")){
+			if( !goSet.contains(EcOrList)){
+				goSet.add(EcOrList);
+				System.out.println(EcOrList+"  is added.continue...");
+			}
+			else
+				System.out.println(EcOrList+"  has added already.pass...");
+			
+			
+		}
 		// if is a file path
 		else if(checkPath(EcOrList,1)){
 			try{
@@ -270,9 +290,9 @@ public class StartFromp1 {
 		}
 		
 		else{
-			System.out.println(EcOrList+"  is not a valid ec number.pass...");
+			System.out.println(EcOrList+"  is not a valid ec/go number.pass...");
 		}				
-}
+	}
 
 	public static void run() { // runs gui fromp
 		newFrame = new NewFrompFrame();

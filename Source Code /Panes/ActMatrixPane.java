@@ -3,6 +3,7 @@ package Panes;
 import Objects.ConvertStat;
 import Objects.EcNr;
 import Objects.EcWithPathway;
+import Objects.GONum;
 import Objects.Line;
 import Objects.Pathway;
 import Objects.Project;
@@ -83,6 +84,7 @@ public class ActMatrixPane extends JPanel {
 	private int NoDataChart = 0;
 	private JButton resort_; // JBotton to resort the array
 	public ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
+	public ArrayList<Line> goMatrix_; // Arraylist of line objects used to build the matrix
 	private Loadingframe lframe; // Loading frame
 	private Line unmappedSum; 
 	private Line mappedSum; 
@@ -193,7 +195,7 @@ public class ActMatrixPane extends JPanel {
 		repaint(); 
 	}
 
-	private void initMainPanels() {// instanciates the options, display, and scroll panels
+	private void initMainPanels() {// Instantiates the options, display, and scroll panels
 		this.optionsPanel_ = new JPanel();
 		this.optionsPanel_.setPreferredSize(new Dimension(getWidth(), 100));
 		this.optionsPanel_.setLocation(0, 0);
@@ -339,7 +341,7 @@ public class ActMatrixPane extends JPanel {
 	private void prepMatrix() {// This preps the onscreen matrix using the arrayline_[] variable in the line object.
 		this.ecMatrix_ = new ArrayList<Line>();
 		this.lframe = new Loadingframe();
-		this.lframe.bigStep("Preparing Matrix");
+		this.lframe.bigStep("Preparing EC Matrix");
 		this.lframe.step("Init");
 		this.sumIndexSmp = 0;
 		for (int x = 0; x < Project.samples_.size(); x++) {
@@ -374,9 +376,7 @@ public class ActMatrixPane extends JPanel {
 						boolean found = false;
 						this.lframe.step(actEc.name_);
 						for (int arrCnt = 0; arrCnt < this.ecMatrix_.size(); arrCnt++) {
-							if (actEc.name_
-									.contentEquals(((Line) this.ecMatrix_
-											.get(arrCnt)).getEc_().name_)) {
+							if (actEc.name_.contentEquals(((Line) this.ecMatrix_.get(arrCnt)).getEc_().name_)) {
 								found = true;
 								((Line) this.ecMatrix_.get(arrCnt)).arrayLine_[indexSmp] = actEc.amount_;
 								this.sums.arrayLine_[indexSmp] += actEc.amount_;
@@ -2817,7 +2817,7 @@ public class ActMatrixPane extends JPanel {
 			}
 		}
 	}
-	//exports all sequence IDs for all samples given an EC name via cmdPrompt
+	//exports all request sequence IDs for all samples given an EC name via cmdPrompt
 	public void cmdExportRepseqs(String ecName) {
 		EcNr ecTmp;
 
@@ -2878,12 +2878,32 @@ public class ActMatrixPane extends JPanel {
 			}
 		}
 	}
-	/*
+	
+	
+	//exports all request sequence IDs for all samples given an GO name via cmdPrompt
+	public void cmdExportRepseqsGo(String goName,String path) throws IOException {
+		
+		BufferedWriter out;
+		for (int i = 0; i < Project.samples_.size();i++){
+			
+			Sample tmp = Project.samples_.get(i);
+			out = new BufferedWriter (new FileWriter(path+tmp.name_+"-SeqID-GO-"+goName+".txt"));
+			for (int goCnt = 0; goCnt < tmp.conversionsGo_.size(); goCnt++){
+				if(tmp.conversionsGo_.get(goCnt).getGoNr_().contentEquals(goName)){
+					System.out.println(tmp.conversionsGo_.get(goCnt).getDesc_());
+					out.write(tmp.conversionsGo_.get(goCnt).getDesc_()+"\n");
+
+				}	
+			}
+			out.close();
+		}
+	}
+	
+	/**
 	 * Takes in command line calls to export sequences along with whether or not to print all sequences samples into each EC number file
 	 */
 	public LinkedHashMap<String,String> cmdExportSequences(String ecName,String sampleName, boolean oneFile, boolean findLca) {
 		System.out.println("cmdExport");
-		int index;
 		EcNr ecTmp;
 		ArrayList<ConvertStat> reps;
 		String sampName;
@@ -3037,9 +3057,7 @@ public class ActMatrixPane extends JPanel {
 								if (text != null && text != "") {
 									printWriter.println("" + text);
 								} else {
-									printWriter
-											.println("No matching sequences in the file provided. ("
-													+ sampName_ + ")");
+									printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
 								}
 								printWriter.close();
 							} catch (IOException e1) {

@@ -24,7 +24,6 @@ public class ConvertStatGo {
 		}
 			
 	}
-
 	public void addStatsCnt(ConvertStatGo stat) {
 		this.goAmount_ += stat.goAmount_;
 		this.pfamToGoAmount_ += stat.pfamToGoAmount_;

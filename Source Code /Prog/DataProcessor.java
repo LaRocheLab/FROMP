@@ -461,7 +461,7 @@ public class DataProcessor {
 		}
 		//need add code. if do not find IPR and UniRef, then try to find Pfam.
 		else if (input.matches(".*Pfam.*")){
-			
+			return getEnzFromPfam(input);
 		}
 		String seperator = "";
 		String tmp = input;
@@ -580,6 +580,32 @@ public class DataProcessor {
 		return ret;
 	}
 
+	private String[] getEnzFromPfam(String line) {
+		if (!line.matches(".*PF\\d{5}.*")) {
+			System.out.println("returned null");
+			return null;
+		}
+		String[] ret = new String[4];
+		ret[0] = "X"; // Pfam name
+		ret[1] = "1"; // Number of this Pfam with this sequence id
+		ret[2] = "X"; // Whether or not it is an Pfam
+		ret[3] = "X"; // Sequence id
+		if (line.contains("\t")) {
+			String seqID = line.substring(0,line.indexOf("\t"));
+			ret[3] = seqID;
+			String uni = line.substring(line.indexOf("PF"));
+			uni = uni.substring(0, uni.indexOf("\t"));
+			if (uni != null) {
+				Project.amountOfUNIs += 1;
+				ret[0] = uni;
+				ret[2] = "PF";
+			} else {
+				System.out.println("Pfam save was unsuccessful");
+			}
+		}
+		return ret;
+	
+	}
 	/**
 	 * Assuming the user input string is pfam format then the method outputs the
 	 * pfam, only without the PF at the begining.
@@ -865,23 +891,23 @@ public class DataProcessor {
 									}
 									else{	
 										String[] Enz = convertInterproGo(newEnz);	
-										if (!Enz[0].isEmpty()) {	
+										if (Enz[0] != null) {	
 											goNr = new GONum(Enz); 
 											addGOtoSample(goNr,i,Enz);
 										}	
 									}
 								}
 							}
-							//pfam line in this sample.
+							//pfam line in this sample.(No IPR)
 							else  if (newEnz[2].equalsIgnoreCase("PF")){
-								if (!newEnz[1].isEmpty()) {
+								if (newEnz[1] != null) {
 									Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
 								}
 								if (StartFromp1.doEC){
 									ArrayList<String[]> enzL = convertPfam(newEnz);
 									for (int cnt = 0; cnt < enzL.size(); cnt++) {
 										String[] Enz = (String[]) enzL.get(cnt);
-										if (!Enz[0].isEmpty()) {
+										if (Enz[0] != null) {
 											ecNr = new EcNr(Enz);
 											addEcToSample(ecNr,i,Enz);	
 										}
@@ -889,7 +915,7 @@ public class DataProcessor {
 								}//doEC finish..had to keep arraylist enzl,it need to be invoke for other place.
 								if (StartFromp1.doGo){
 									String[] Enz = convertPfamGo(newEnz);								
-									if (!Enz[0].isEmpty()) {
+									if (Enz[0] != null) {
 										goNr = new GONum(Enz);
 										addGOtoSample(goNr,i,Enz);
 									}
@@ -902,14 +928,14 @@ public class DataProcessor {
 								}
 								if (StartFromp1.doEC){
 									String[] Enz = convertUni(newEnz);
-									if (!Enz[0].isEmpty()) {
+									if (Enz[0] != null) {
 										ecNr = new EcNr(Enz);
 										addEcToSample(ecNr,i,Enz);	
 									}
 								}
 								if (StartFromp1.doGo){
 									String[] Enz = convertUniGo(newEnz);						
-									if (!Enz[0].isEmpty()) {
+									if (Enz[0] != null) {
 										goNr = new GONum(Enz);
 										addGOtoSample(goNr,i,Enz);
 									}	
@@ -1143,9 +1169,9 @@ public class DataProcessor {
 		String[] tmpNr = new String[5];
 		tmpNr[3] = pfam[3];
 		String PfamNr = pfam[0];//IPR name.	
-		if (this.PfamToGOHash.containsKey(PfamNr)) {
+		if (PfamToGOHash.containsKey(PfamNr)) {
 			//only use the first ec number, if IPR map to more than one ec.
-			tmpNr[0] = PfamToECHash.get(PfamNr).get(0);
+			tmpNr[0] = PfamToGOHash.get(PfamNr).get(0);
 			tmpNr[1] = pfam[1];
 			tmpNr[2] = "GO";
 			tmpNr[3] = pfam[3];
@@ -1180,7 +1206,7 @@ public class DataProcessor {
 			}
 		} 
 		catch (IOException e) {
-			openWarning("Error", "File" + interproToECPath_ + " not found");
+			openWarning("Error", "File" + pfam2GoPath + " not found");
 			e.printStackTrace();
 		}
 		this.PfamToGOHash = tmpPfamToGo;
@@ -1378,7 +1404,7 @@ public class DataProcessor {
 							else{	
 								if (newEnz[2].equalsIgnoreCase("IPR")) {
 									String[] Enz = convertInterproGo(newEnz);	
-									if (!Enz[0].isEmpty()) {	
+									if (Enz[0] != null) {	
 										GONum goNr = new GONum(Enz); 
 										addGOtoSample(goNr,i,Enz);
 									}	

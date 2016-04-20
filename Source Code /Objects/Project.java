@@ -355,13 +355,13 @@ public class Project {
 				}
 				//Write out GO and following data
 				for (int ecCnt = 0; ecCnt < tmpSamp.gos_.size(); ecCnt++) {
-					GONum tmpEc = tmpSamp.gos_.get(ecCnt);
-					out.write("GO*:" + tmpEc.GoNumber + ":" + tmpEc.amount_);
+					GONum tmpGo = tmpSamp.gos_.get(ecCnt);
+					out.write("GO*:" + tmpGo.GoNumber + ":" + tmpGo.amount_);
 					out.newLine();
 
 					for (int repCnt = 0; repCnt < tmpSamp.conversionsGo_.size(); repCnt++) {
 						//seq id empty problem. need to fix.
-						if (tmpSamp.conversionsGo_.get(repCnt).GoNr_.contentEquals(tmpEc.GoNumber)) {
+						if (tmpSamp.conversionsGo_.get(repCnt).GoNr_.contentEquals(tmpGo.GoNumber)) {
 							//desc_ = seq ID
 							out.write(tmpSamp.conversionsGo_.get(repCnt).desc_+"\t"
 								 	 +tmpSamp.conversionsGo_.get(repCnt).goAmount_+"\t"

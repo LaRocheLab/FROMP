@@ -149,4 +149,9 @@ public class GONum {
 		}
 	}
 	
+	public void addSample(GONum goNr) {
+		GoSampleStats tmpstats = new GoSampleStats(goNr);
+
+		this.stats_.add(tmpstats);
+	}
 }

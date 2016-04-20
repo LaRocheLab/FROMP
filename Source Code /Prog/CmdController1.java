@@ -322,7 +322,7 @@ public class CmdController1 {
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
 		
-		//5. g or a or am --checked output path // need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+		//5. g or a or am --checked output path // need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if  (optionsCmd_.contentEquals("g") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("GO-activity-matrix");
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
@@ -335,7 +335,7 @@ public class CmdController1 {
 				tmpPath= outPutPath_.substring(0,outPutPath_.length()-1);
 						
 			}
-			pane.exportMat(tmpPath, true);
+			pane.exportMatGo(tmpPath, true);
 			System.out.println("Output files were saved at: "+ tmpPath);
 		}
 
@@ -351,7 +351,6 @@ public class CmdController1 {
 			if(outPutPath_.contentEquals("def")){
 				// need to add , if no exist folder, will create a new folder.---------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				tmpPath = basePath_+"f"+File.separator+fileName+"-New-"+sdf.format(d)+".frp";
-
 			}
 
 			else {

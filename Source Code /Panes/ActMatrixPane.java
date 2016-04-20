@@ -2556,7 +2556,7 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	
-	//exports the whole matrix to the input path
+	//exports the whole pathway/ec matrix to the input path
 	public void exportMat(String path, boolean inCsf) {
 		String separator = "\t";
 		String pathway = "";
@@ -2644,6 +2644,73 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 	
+	//exports the whole go matrix to the input path
+	public void exportMatGo(String path, boolean inCsf) {
+		String separator = "\t";
+		String go= "";
+		if (inCsf) {
+			separator = "\t";
+		}
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			out.write("GO"+separator);
+			for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+				if (((Sample) Project.samples_.get(smpCnt)).inUse) {
+					out.write(((Sample) Project.samples_.get(smpCnt)).name_
+							+ separator);
+				}
+			}
+			out.newLine();
+			for (int y = 0; y < this.goMatrix_.size(); y++) {
+				Line line = (Line) this.goMatrix_.get(y);
+			
+				go = line.getGoNr_().GoNumber;
+				
+				out.write(go + separator);
+
+				for (int x = 0; x < line.getArrayLine_().length; x++) {
+					
+					out.write(line.getArrayLine_()[x] + separator);
+					
+				}
+				out.newLine();
+			}
+			out.close();
+		} 
+		catch (IOException e) {
+			File f = new File(path);
+			f.mkdirs();
+			if (!path.endsWith(".txt")) {
+				Calendar cal = Calendar.getInstance();
+
+				int day = cal.get(5);
+				int month = cal.get(2) + 1;
+				int year = cal.get(1);
+
+				String date = day + "." + month + "." + year;
+				path = path + File.separator + "GoActMat" + "."
+						+ Project.workpath_ + "." + date;
+			}
+			String tmpPath = path + ".txt";
+			File file1 = new File(tmpPath);
+			if (file1.exists() && !file1.isDirectory()) {
+				int i = 1;
+				while ("Pigs" != "Fly") {// loop forever
+					tmpPath = path + "-" + i + ".txt";
+					File file2 = new File(tmpPath);
+					if (file2.exists() && !file2.isDirectory()) {
+						i++;
+						continue;
+					} else {
+						path = path + "-" + i;
+						break;
+					}
+				}
+			}
+			path = path + ".txt";
+			exportMatGo(path, inCsf);
+		}
+	}
 	/**
 	 * Method is used to export all the ec numbers from the ec matrix into a
 	 * .txt file. The number of ecs to be exported can be specified.

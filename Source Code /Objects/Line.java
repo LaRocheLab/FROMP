@@ -12,6 +12,9 @@ public class Line {
 	PathwayWithEc path_;
 	EcWithPathway ec_;
 	EcNr ecNr_;
+	GONum goNr_;
+	
+
 	private final boolean sumline_;
 	private final boolean mappedSums_;
 	private final boolean unmappedSums_;
@@ -42,6 +45,15 @@ public class Line {
 		this.unmappedSums_ = false;
 		this.incompleteSums_ = false;
 	}
+	public Line(GONum go, double[] line) {
+		this.goNr_ = go;
+		this.arrayLine_ = line;
+		this.sumline_ = false;
+		this.mappedSums_ = false;
+		this.unmappedSums_ = false;
+		this.incompleteSums_ = false;
+	}
+	
 
 	public Line(EcNr ecNr, double[] line) {
 		this.ecNr_ = ecNr;
@@ -68,8 +80,6 @@ public class Line {
 		}
 	}
 	
-	
-
 	public ArrayList<Double> getDist_nums() {
 		return dist_nums;
 	}
@@ -188,5 +198,13 @@ public class Line {
 
 	public boolean isincompleteSums_() {
 		return this.incompleteSums_;
+	}
+	
+	public GONum getGoNr_() {
+		return goNr_;
+	}
+
+	public void setGoNr_(GONum goNr_) {
+		this.goNr_ = goNr_;
 	}
 }

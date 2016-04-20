@@ -1,6 +1,7 @@
 package Panes;
 
 import Objects.ConvertStat;
+import Objects.ConvertStatGo;
 import Objects.EcNr;
 import Objects.EcWithPathway;
 import Objects.GONum;
@@ -93,6 +94,7 @@ public class ActMatrixPane extends JPanel {
 	private tableAndChartData returnData;
 	JPanel optionsPanel_; // Options panel
 	JPanel displayP_; // Panel which displays the ec matrix
+	JPanel displayP_go; // Panel which displays the go matrix
 	JScrollPane showJPanel_; // Scroll pane which allows the user to scroll through the matrix if it is bigger than the allotted space
 	DataProcessor proc_; // Data Processor which allows the input files to be parsed and for relevant data to be computed from them
 	int selectedSampIndex_ = -1; 
@@ -140,7 +142,10 @@ public class ActMatrixPane extends JPanel {
 		setSelectedEc(); // Sets whether or not each sample is selected
 		prepMatrix(); // Builds the ec matrixLoadingframe.close();
 		initMainPanels(); // Instantiates the options, display and scroll panels
-		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
+		if(StartFromp1.doEC){
+			prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
+		}
+		
 		Loadingframe.close(); // closes the loading frame
 	}
 	
@@ -204,16 +209,36 @@ public class ActMatrixPane extends JPanel {
 		this.optionsPanel_.setLayout(null);
 		add(this.optionsPanel_, "First");
 
-		this.displayP_ = new JPanel();
-		this.displayP_.setLocation(0, 0);
-		this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
-//		this.displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
-		this.displayP_.setSize(getPreferredSize());
-		this.displayP_.setBackground(Project.getBackColor_());
-		this.displayP_.setVisible(true);
-		this.displayP_.setLayout(null);
+		
+		//ec matrix
+		if (StartFromp1.doEC){
+			this.displayP_ = new JPanel();
+			this.displayP_.setLocation(0, 0);
+			this.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.ecMatrix_.size() + 2) * 15 + 100));
+//			this.displayP_.setPreferredSize(new Dimension(1520,scrollChartPos));
+			this.displayP_.setSize(getPreferredSize());
+			this.displayP_.setBackground(Project.getBackColor_());
+			this.displayP_.setVisible(true);
+			this.displayP_.setLayout(null);
+			
+			this.showJPanel_ = new JScrollPane(this.displayP_);
+		}
 
-		this.showJPanel_ = new JScrollPane(this.displayP_);
+		
+		//go matrix	
+		if (StartFromp1.doGo){
+			this.displayP_go = new JPanel();
+			this.displayP_go.setLocation(0, 0);
+			this.displayP_go.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(this.goMatrix_.size() + 2) * 15 + 100));
+//			this.displayP_go.setPreferredSize(new Dimension(1520,scrollChartPos));
+			this.displayP_go.setSize(getPreferredSize());
+			this.displayP_go.setBackground(Project.getBackColor_());
+			this.displayP_go.setVisible(true);
+			this.displayP_go.setLayout(null);
+			
+			this.showJPanel_ = new JScrollPane(this.displayP_go);
+		}
+		
 		this.showJPanel_.setVisible(true);
 		this.showJPanel_.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.showJPanel_.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -339,90 +364,158 @@ public class ActMatrixPane extends JPanel {
 	}
 
 	private void prepMatrix() {// This preps the onscreen matrix using the arrayline_[] variable in the line object.
-		this.ecMatrix_ = new ArrayList<Line>();
-		this.lframe = new Loadingframe();
-		this.lframe.bigStep("Preparing EC Matrix");
-		this.lframe.step("Init");
-		this.sumIndexSmp = 0;
-		for (int x = 0; x < Project.samples_.size(); x++) {
-			if ((((Sample) Project.samples_.get(x)).inUse)
-					&& (((Sample) Project.samples_.get(x)).onoff)) {
-				this.sumIndexSmp += 1;
+		
+		if (StartFromp1.doEC){
+			this.ecMatrix_ = new ArrayList<Line>();
+			this.lframe = new Loadingframe();
+			this.lframe.bigStep("Preparing EC Matrix");
+			this.lframe.step("Init");
+			this.sumIndexSmp = 0;
+			for (int x = 0; x < Project.samples_.size(); x++) {
+				if ((((Sample) Project.samples_.get(x)).inUse)
+						&& (((Sample) Project.samples_.get(x)).onoff)) {
+					this.sumIndexSmp += 1;
+				}
 			}
-		}
-		int indexSmp = -1;
+			int indexSmp = -1;
 
-		this.mappedSum = new Line(new double[this.sumIndexSmp], true, false,
-				false);
-		this.mappedSum.fillWithZeros();
-		this.unmappedSum = new Line(new double[this.sumIndexSmp], false, true,
-				false);
-		this.unmappedSum.fillWithZeros();
-		this.incompleteSum = new Line(new double[this.sumIndexSmp], false,
-				false, true);
-		this.incompleteSum.fillWithZeros();
-		this.sums = new Line(new double[this.sumIndexSmp], false, false, false);
-		this.sums.fillWithZeros();
-		for (int x = 0; x < Project.samples_.size(); x++) {
-			if ((((Sample) Project.samples_.get(x)).inUse)
-					&& (((Sample) Project.samples_.get(x)).onoff)) {
-				indexSmp++;
-				ArrayList<EcWithPathway> actSample = ((Sample) Project.samples_
-						.get(x)).ecs_;
-				for (int ecCnt = 0; ecCnt < actSample.size(); ecCnt++) {
-					EcWithPathway actEc = (EcWithPathway) actSample.get(ecCnt);
-					actEc.addStats();
-					if (actEc.isSelected_) {
-						boolean found = false;
-						this.lframe.step(actEc.name_);
-						for (int arrCnt = 0; arrCnt < this.ecMatrix_.size(); arrCnt++) {
-							if (actEc.name_.contentEquals(((Line) this.ecMatrix_.get(arrCnt)).getEc_().name_)) {
-								found = true;
-								((Line) this.ecMatrix_.get(arrCnt)).arrayLine_[indexSmp] = actEc.amount_;
+			this.mappedSum = new Line(new double[this.sumIndexSmp], true, false,
+					false);
+			this.mappedSum.fillWithZeros();
+			this.unmappedSum = new Line(new double[this.sumIndexSmp], false, true,
+					false);
+			this.unmappedSum.fillWithZeros();
+			this.incompleteSum = new Line(new double[this.sumIndexSmp], false,
+					false, true);
+			this.incompleteSum.fillWithZeros();
+			this.sums = new Line(new double[this.sumIndexSmp], false, false, false);
+			this.sums.fillWithZeros();
+			for (int x = 0; x < Project.samples_.size(); x++) {
+				if ((((Sample) Project.samples_.get(x)).inUse)
+						&& (((Sample) Project.samples_.get(x)).onoff)) {
+					indexSmp++;
+					ArrayList<EcWithPathway> actSample = ((Sample) Project.samples_
+							.get(x)).ecs_;
+					for (int ecCnt = 0; ecCnt < actSample.size(); ecCnt++) {
+						EcWithPathway actEc = (EcWithPathway) actSample.get(ecCnt);
+						actEc.addStats();
+						if (actEc.isSelected_) {
+							boolean found = false;
+							this.lframe.step(actEc.name_);
+							for (int arrCnt = 0; arrCnt < this.ecMatrix_.size(); arrCnt++) {
+								if (actEc.name_.contentEquals(((Line) this.ecMatrix_.get(arrCnt)).getEc_().name_)) {
+									found = true;
+									((Line) this.ecMatrix_.get(arrCnt)).arrayLine_[indexSmp] = actEc.amount_;
+									this.sums.arrayLine_[indexSmp] += actEc.amount_;
+									if ((actEc.isCompleteEc()) || (actEc.userEC)) {
+										if (actEc.isUnmapped()) {
+											this.unmappedSum.arrayLine_[indexSmp] += actEc.amount_;
+											break;
+										}
+										this.mappedSum.arrayLine_[indexSmp] += actEc.amount_;
+										break;
+									}
+									this.incompleteSum.arrayLine_[indexSmp] += actEc.amount_;
+
+									break;
+								}
+							}
+							if (!found) {
+								Line line = new Line(new EcWithPathway(actEc),
+										new double[this.sumIndexSmp]);
+								line.fillWithZeros();
+								line.arrayLine_[indexSmp] = actEc.amount_;
 								this.sums.arrayLine_[indexSmp] += actEc.amount_;
 								if ((actEc.isCompleteEc()) || (actEc.userEC)) {
 									if (actEc.isUnmapped()) {
 										this.unmappedSum.arrayLine_[indexSmp] += actEc.amount_;
-										break;
+									} else {
+										this.mappedSum.arrayLine_[indexSmp] += actEc.amount_;
 									}
-									this.mappedSum.arrayLine_[indexSmp] += actEc.amount_;
-									break;
+								} else {
+									this.incompleteSum.arrayLine_[indexSmp] += actEc.amount_;
 								}
-								this.incompleteSum.arrayLine_[indexSmp] += actEc.amount_;
+								this.ecMatrix_.add(line);
+							}
+						}
+					}
+				}
+			}
+			for (int arrCnt = 0; arrCnt < this.ecMatrix_.size(); arrCnt++) {
+				((Line) this.ecMatrix_.get(arrCnt)).setSum();
+			}
+			this.mappedSum.setSum();
+			this.unmappedSum.setSum();
+			this.incompleteSum.setSum();
+			this.sums.setSum();
+			unCompleteMover();
+			Loadingframe.close();
+		}
+		if (StartFromp1.doGo){
+			this.goMatrix_ = new ArrayList<Line>();
+			this.lframe = new Loadingframe();
+			this.lframe.bigStep("Preparing GO Matrix");
+			this.lframe.step("Init");
+			this.sumIndexSmp = 0;
+			for (int x = 0; x < Project.samples_.size(); x++) {
+				if ((((Sample) Project.samples_.get(x)).inUse)
+						&& (((Sample) Project.samples_.get(x)).onoff)) {
+					this.sumIndexSmp += 1;
+				}
+			}
+			int indexSmp = -1;
+
+			this.mappedSum = new Line(new double[this.sumIndexSmp], true, false,
+					false);
+			this.mappedSum.fillWithZeros();
+			this.unmappedSum = new Line(new double[this.sumIndexSmp], false, true,
+					false);
+			this.unmappedSum.fillWithZeros();
+			this.incompleteSum = new Line(new double[this.sumIndexSmp], false,
+					false, true);
+			this.incompleteSum.fillWithZeros();
+			this.sums = new Line(new double[this.sumIndexSmp], false, false, false);
+			this.sums.fillWithZeros();
+			for (int x = 0; x < Project.samples_.size(); x++) {
+				if ((((Sample) Project.samples_.get(x)).inUse)
+						&& (((Sample) Project.samples_.get(x)).onoff)) {
+					indexSmp++;
+					ArrayList<GONum> actSample = ((Sample) Project.samples_.get(x)).gos_;
+					for (int ecCnt = 0; ecCnt < actSample.size(); ecCnt++) {
+						GONum actGo = actSample.get(ecCnt);
+					
+						boolean found = false;
+						this.lframe.step(actGo.GoNumber);
+						for (int arrCnt = 0; arrCnt < this.goMatrix_.size(); arrCnt++) {
+							if (actGo.GoNumber.contentEquals(((Line) this.goMatrix_.get(arrCnt)).getGoNr_().GoNumber)) {
+								found = true;
+								((Line) this.goMatrix_.get(arrCnt)).arrayLine_[indexSmp] = actGo.amount_;
+								this.sums.arrayLine_[indexSmp] += actGo.amount_;
+								this.incompleteSum.arrayLine_[indexSmp] += actGo.amount_;
 
 								break;
 							}
 						}
 						if (!found) {
-							Line line = new Line(new EcWithPathway(actEc),
-									new double[this.sumIndexSmp]);
+							Line line = new Line(actGo,new double[this.sumIndexSmp]);
 							line.fillWithZeros();
-							line.arrayLine_[indexSmp] = actEc.amount_;
-							this.sums.arrayLine_[indexSmp] += actEc.amount_;
-							if ((actEc.isCompleteEc()) || (actEc.userEC)) {
-								if (actEc.isUnmapped()) {
-									this.unmappedSum.arrayLine_[indexSmp] += actEc.amount_;
-								} else {
-									this.mappedSum.arrayLine_[indexSmp] += actEc.amount_;
-								}
-							} else {
-								this.incompleteSum.arrayLine_[indexSmp] += actEc.amount_;
-							}
-							this.ecMatrix_.add(line);
-						}
+							line.arrayLine_[indexSmp] = actGo.amount_;
+							this.sums.arrayLine_[indexSmp] += actGo.amount_;
+							this.incompleteSum.arrayLine_[indexSmp] += actGo.amount_;
+							this.goMatrix_.add(line);
+						}		
 					}
 				}
 			}
+			for (int arrCnt = 0; arrCnt < this.goMatrix_.size(); arrCnt++) {
+				goMatrix_.get(arrCnt).setSum();
+			}
+			this.mappedSum.setSum();
+			this.unmappedSum.setSum();
+			this.incompleteSum.setSum();
+			this.sums.setSum();
+			Loadingframe.close();	
 		}
-		for (int arrCnt = 0; arrCnt < this.ecMatrix_.size(); arrCnt++) {
-			((Line) this.ecMatrix_.get(arrCnt)).setSum();
-		}
-		this.mappedSum.setSum();
-		this.unmappedSum.setSum();
-		this.incompleteSum.setSum();
-		this.sums.setSum();
-		unCompleteMover();
-		Loadingframe.close();
 	}
 	
 	//Options panel for the Lowest Common Ancestor page
@@ -1229,7 +1322,8 @@ public class ActMatrixPane extends JPanel {
 		String name = "";
 		if (this.selectedSampIndex_ < 0) {
 			name = "Overall";
-		} else {
+		} 
+		else {
 			name = ((Sample) Project.samples_.get(this.selectedSampIndex_)).name_;
 		}
 
@@ -2976,11 +3070,82 @@ public class ActMatrixPane extends JPanel {
 		}
 		return seq_for_lca;
 	}
-	/*
+	
+	/**
+	 * Takes in command line calls to export sequences along with whether or not to print all sequences samples into each GO number file
+	 */
+	public LinkedHashMap<String,String> cmdExportSequencesGo(String goName,String sampleName, boolean oneFile, boolean findLca) {
+		System.out.println("cmdExport");
+		GONum goTmp;
+		ArrayList<ConvertStatGo> reps;
+		String sampName;
+		LinkedHashMap<String,String> seq_for_lca = null;
+
+		for (int i = 0; i < goMatrix_.size(); i++) {
+			//changed contains to equals!!
+			if (goName.equals(this.goMatrix_.get(i).getGoNr_().GoNumber)) {
+				goTmp = new GONum(goMatrix_.get(i).getGoNr_());
+				for (int smpCnt = 0; smpCnt < goMatrix_.get(i).arrayLine_.length; smpCnt++) {
+					goTmp.amount_ = ((int) (goMatrix_.get(i)).arrayLine_[smpCnt]);
+					reps = new ArrayList<ConvertStatGo>();
+					for (int statsCnt = 0; statsCnt < (Project.samples_.get(smpCnt)).conversionsGo_.size(); statsCnt++) {
+						String test = (Project.samples_.get(smpCnt).conversionsGo_.get(statsCnt)).getDesc_();
+						if (goTmp.GoNumber.contentEquals(Project.samples_.get(smpCnt).conversionsGo_.get(statsCnt).getGoNr_()) && !test.contains("\t")) {
+							reps.add(Project.samples_.get(smpCnt).conversionsGo_.get(statsCnt));
+						}
+					}
+					String test = "";
+					String test2 = "";
+					for (int j = reps.size() - 1; j >= 0; j--) {
+						if (reps.get(j) == null) {
+						} 
+						else {
+							test = (reps.get(j)).getDesc_();
+							if (test.contains("\t")) {
+								reps.set(j, null);
+							} 
+							else {
+								for (int k = j - 1; k >= 0; k--) {
+									if ((reps.get(k) == null)) {
+									} 
+									else {
+										test2 = (reps.get(k)).getDesc_();
+										if (test.contains(test2)) {
+											reps.set(k, null);
+										}
+									}
+								}
+							}
+						}
+					}
+					for (int j = reps.size() - 1; j >= 0; j--) {
+						if (reps.get(j) == null) {
+							reps.remove(j);
+						}
+					}
+					sampName = Project.samples_.get(smpCnt).name_;
+					
+					if(reps.size()>0&&((chosen_sample.equals("All Samples"))||(chosen_sample.equals("")))){
+						//print all sequences per sample GO number 
+						System.out.println("Working1....\n");
+						seq_for_lca = ExportSequencesGo(reps, goTmp, sampName, oneFile, findLca, seq_for_lca);
+					}
+					//used if trying to find the lca from the LCA page instead of the GO Matrix page
+					else if(reps.size()>0 && chosen_sample.equals(sampName)){
+						System.out.println("Working2....\n");
+						seq_for_lca = ExportSequencesGo(reps, goTmp, sampName, oneFile, findLca, seq_for_lca);
+					}
+						
+				}
+			}
+		}
+		return seq_for_lca;
+	}
+	/**
 	 * exports sequences from EC numbers from a sample to their own named file.
 	 */
 	public LinkedHashMap<String,String> ExportSequences(ArrayList<ConvertStat> reps_, EcNr ecNr_,
-			String sampName_, boolean oneFile, boolean findLca, LinkedHashMap<String,String> seqTmp) {
+		String sampName_, boolean oneFile, boolean findLca, LinkedHashMap<String,String> seqTmp) {
 		String seqFilePath = "";
 		String desc, protien, file_name;
 		LinkedHashMap<String, String> seq_for_lca;
@@ -2994,8 +3159,7 @@ public class ActMatrixPane extends JPanel {
 		for (int i = 0; i < Project.samples_.size(); i++) {
 			if (sampName_.equals(Project.samples_.get(i).name_)) {
 				if (Project.samples_.get(i).getSequenceFile() != null
-						&& !Project.samples_.get(i).getSequenceFile()
-								.equals("")) {
+						&& !Project.samples_.get(i).getSequenceFile().equals("")) {
 					seqFilePath = Project.samples_.get(i).getSequenceFile();
 				}
 			}
@@ -3052,7 +3216,8 @@ public class ActMatrixPane extends JPanel {
 								if (!f.exists()) {
 							            f.mkdirs();
 							    }
-								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
+								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+										sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
 								PrintWriter printWriter = new PrintWriter(file);
 								if (text != null && text != "") {
 									printWriter.println("" + text);
@@ -3060,17 +3225,20 @@ public class ActMatrixPane extends JPanel {
 									printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
 								}
 								printWriter.close();
-							} catch (IOException e1) {
+							} 
+							catch (IOException e1) {
 								e1.printStackTrace();
 							}
-							}
+						}
 							//seqall
 							else if(findLca == false && oneFile == true){
 								try {
-									String sampleName;
+									@SuppressWarnings("unused")
+									String sampleName="";
 									if (sampName_.contains(".out")) {
 										sampleName = sampName_.replace(".out", "");
-									} else {
+									} 
+									else {
 										sampleName = sampName_;
 									}
 									
@@ -3086,12 +3254,11 @@ public class ActMatrixPane extends JPanel {
 									if (text != null && text != "") {
 										printWriter.println("" + text);
 									} else {
-										printWriter
-												.println("No matching sequences in the file provided. ("
-														+ sampName_ + ")");
+										printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
 									}
 									printWriter.close();
-								} catch (IOException e1) {
+								} 
+								catch (IOException e1) {
 									e1.printStackTrace();
 								}
 							}
@@ -3100,25 +3267,20 @@ public class ActMatrixPane extends JPanel {
 							
 					} 
 					else {
-						System.out
-								.println("The sequence file is not in the fasta format. ("
-										+ sampName_ + ")");
+						System.out.println("The sequence file is not in the fasta format. ("+ sampName_ + ")");
 					}
-				} catch (IOException e1) {
+				} 
+				catch (IOException e1) {
 					e1.printStackTrace();
 				}
 
 			} 
 			else {
-				System.out
-						.println("The sequence file associated with this sample ("
-								+ sampName_ + ") does not exist");
+				System.out.println("The sequence file associated with this sample ("+ sampName_ + ") does not exist");
 			}
 		} 
 		else {
-			System.out
-					.println("There is no sequence file associated with this sample ("
-							+ sampName_ + ")");
+			System.out.println("There is no sequence file associated with this sample ("+ sampName_ + ")");
 		}
 		//used to find the lowest common ancestor of all the samples for a particular ec in one table
 		if(findLca == true && oneFile == false){
@@ -3134,109 +3296,265 @@ public class ActMatrixPane extends JPanel {
 		fileName = sampName_;
 		return seq_for_lca;
 	}
-
-public boolean isDrawChart() {
-	return drawChart;
-}
-
-public void setDrawChart(boolean drawChart) {
-	this.drawChart = drawChart;
-}
-
-/**
- * Pops up whenever an exception occurs in a try/catch
- * @param strIN Error message to be displayed
- * 
- * @author Jennifer Terpstra
- */
-private void warningFrame(String strIN) { 
-
-	JOptionPane.showMessageDialog(null,strIN, 
-		    "Warning", JOptionPane.WARNING_MESSAGE);
-}
-
-/**
- * Checks the user input for how many ecs to export to see if it is a valid number
- * or if they wish to export all ecs. 
- * 
- * @param strIN User input into the input message
- * @return If the string is a valid input for exporting ecs
- * 
- * @author Jennifer Terpstra
- */
-private boolean checkValidExportNum(String strIN){
-	if(strIN==null){
-		return false;
-	}
-	if(strIN.equalsIgnoreCase("all")){
-		return true;
-	}
-	try{
-		int num = Integer.parseInt(strIN);
-		if(num < 0){
-			warningFrame("Number cannot be less than 0");
-			return false;
-		}
-		else if(num > this.ecMatrix_.size()){
-			warningFrame("Number cannot be greater than the number of Ecs in the matrix");
-			return false;
+	
+	/**
+	 * exports sequences from GO numbers from a sample to their own named file.
+	 */
+	public LinkedHashMap<String,String> ExportSequencesGo(ArrayList<ConvertStatGo> reps_, GONum goNr_,
+		String sampName_, boolean oneFile, boolean findLca, LinkedHashMap<String,String> seqTmp) {
+		String seqFilePath = "";
+		String desc, protien, file_name;
+		LinkedHashMap<String, String> seq_for_lca;
+		//seq_for_lca will be reset,if is null or do not put all in file
+		if(seqTmp==null||oneFile==false||exportAll==false){
+			seq_for_lca = new LinkedHashMap<String,String>();
 		}
 		else{
+			seq_for_lca = seqTmp;
+		}
+		for (int i = 0; i < Project.samples_.size(); i++) {
+			if (sampName_.equals(Project.samples_.get(i).name_)) {
+				if (Project.samples_.get(i).getSequenceFile() != null
+						&& !Project.samples_.get(i).getSequenceFile().equals("")) {
+					seqFilePath = Project.samples_.get(i).getSequenceFile();
+				}
+			}
+		}
+		if (seqFilePath != null && !seqFilePath.equals("")) {
+			File seqFile = new File(seqFilePath);
+			if (seqFile.exists() && !seqFile.isDirectory()) {
+				LinkedHashMap<String, ProteinSequence> sequenceHash;
+				try {
+					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
+					if (sequenceHash != null) {
+						String text = ">";
+						System.out.println("repCnt: " + reps_.size());
+						for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
+							if ((sequenceHash.get(((ConvertStatGo) reps_.get(repCnt)).getDesc_())) != null) {
+								desc = ((ConvertStatGo) reps_.get(repCnt)).getDesc_();
+								protien = (sequenceHash.get(((ConvertStatGo) reps_.get(repCnt)).getDesc_())).toString();
+								if(oneFile){
+									text = text + desc + " " + sampName_ + "\n" + protien;
+									desc = desc + " " + sampName_;
+								}
+								else{
+									text = text + desc + "\n" + protien;
+									desc = desc + " " + sampName_;
+								}
+								//used to determine if a sample was picked in the "FindLca" page
+								if(chosen_sample.equals("All Samples")||chosen_sample.equals("")){
+									seq_for_lca.put(desc, protien);
+								}
+								else if(chosen_sample.equals(sampName_)){
+									seq_for_lca.put(desc, protien);
+								}
+								// ensures that there is a ">" character in front of every new sample
+								if (repCnt < reps_.size() - 1) {
+									text = text + "\n>";
+								}
+								// Don't want the ">" character on the last newline with no sample
+								else if (repCnt == reps_.size()) {
+									text = text + "\n";
+								}
+							}
+						}
+						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamatgo")){
+							//seq
+							if(findLca == false && oneFile == false){
+							try {
+								String sampleName;
+								if (sampName_.contains(".out")) {
+									sampleName = sampName_.replace(".out", "");
+								} else {
+									sampleName = sampName_;
+								}
+								File f = new File(CmdController1.tmpPath+ "Sequences");
+								if (!f.exists()) {
+							            f.mkdirs();
+							    }
+								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+										sampleName +"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
+								PrintWriter printWriter = new PrintWriter(file);
+								if (text != null && text != "") {
+									printWriter.println("" + text);
+								} else {
+									printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
+								}
+								printWriter.close();
+							} 
+							catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+							//seqall
+							else if(findLca == false && oneFile == true){
+								try {
+									@SuppressWarnings("unused")
+									String sampleName="";
+									if (sampName_.contains(".out")) {
+										sampleName = sampName_.replace(".out", "");
+									} 
+									else {
+										sampleName = sampName_;
+									}
+									
+									File f = new File(CmdController1.tmpPath+ "Sequences");
+									if (!f.exists()) {
+								            f.mkdirs();
+								    }
+					
+									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+											Project.workpath_+"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
+									//This allows writing to the file of the same name to append to the file if created, creates file if not
+									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+									if (text != null && text != "") {
+										printWriter.println("" + text);
+									} else {
+										printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
+									}
+									printWriter.close();
+								} 
+								catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							
+						}
+							
+					} 
+					else {
+						System.out.println("The sequence file is not in the fasta format. ("+ sampName_ + ")");
+					}
+				} 
+				catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			} 
+			else {
+				System.out.println("The sequence file associated with this sample ("+ sampName_ + ") does not exist");
+			}
+		} 
+		else {
+			System.out.println("There is no sequence file associated with this sample ("+ sampName_ + ")");
+		}
+		//used to find the lowest common ancestor of all the samples for a particular ec in one table
+		if(findLca == true && oneFile == false){
+			if(chosen_sample.equals("All Samples")||chosen_sample.equals("")){
+				file_name = sampName_ + "-" + goNr_.GoNumber;
+			}
+			else{
+				file_name = chosen_sample + "-" + goNr_.GoNumber;
+			}
+			MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+			meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca,file_name), true, batchCommand);
+		}
+		fileName = sampName_;
+		return seq_for_lca;
+	}
+
+	public boolean isDrawChart() {
+		return drawChart;
+	}
+	
+	public void setDrawChart(boolean drawChart) {
+		this.drawChart = drawChart;
+	}
+	
+	/**
+	 * Pops up whenever an exception occurs in a try/catch
+	 * @param strIN Error message to be displayed
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private void warningFrame(String strIN) { 
+	
+		JOptionPane.showMessageDialog(null,strIN, 
+			    "Warning", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/**
+	 * Checks the user input for how many ecs to export to see if it is a valid number
+	 * or if they wish to export all ecs. 
+	 * 
+	 * @param strIN User input into the input message
+	 * @return If the string is a valid input for exporting ecs
+	 * 
+	 * @author Jennifer Terpstra
+	 */
+	private boolean checkValidExportNum(String strIN){
+		if(strIN==null){
+			return false;
+		}
+		if(strIN.equalsIgnoreCase("all")){
 			return true;
 		}
+		try{
+			int num = Integer.parseInt(strIN);
+			if(num < 0){
+				warningFrame("Number cannot be less than 0");
+				return false;
+			}
+			else if(num > this.ecMatrix_.size()){
+				warningFrame("Number cannot be greater than the number of Ecs in the matrix");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		catch (NumberFormatException e){
+			warningFrame("Input must be a number");
+			return false;
+		}
 	}
-	catch (NumberFormatException e){
-		warningFrame("Input must be a number");
-		return false;
-	}
-}
-
-/**
- * Displays after a user exports tables or piechart with the file location, the location
- * can then be displayed to the user.
- * 
- * @param strIN Filepath towards the exported file
- * @param location Foler which the exported file is located
- * 
- * @author Jennifer Terpstra
- * @return 
- */
-public void infoFrame(String strIN, final String location) {
-	JFrame infoFrame = new JFrame();
-	infoFrame.setBounds(200, 200, 800, 200);
-	infoFrame.setLayout(null);
-	infoFrame.setVisible(true);
-
-	JPanel backP = new JPanel();
-	backP.setBounds(0, 0, 800, 80);
-	backP.setLayout(null);
-	infoFrame.add(backP);
-
-	JLabel label = new JLabel("File was saved at " + strIN);
-	label.setBounds(20, 20, 800, 50);
-	backP.add(label);
 	
-//	JButton open = new JButton("Open file location");
-//	open.setBounds(250, 80, 225, 30);
-//	open.addActionListener(new ActionListener(){
-//		public void actionPerformed(ActionEvent e) {
-//			String path = "";
-//			try {
-//				path = new File("").getCanonicalPath();
-//			} catch (IOException e1) {
-//				
-//			}
-//			JFileChooser fChoose_ = new JFileChooser(path + File.separator
-//					+ location);
-//			fChoose_.setFileSelectionMode(0);
-//			fChoose_.setBounds(100, 100, 200, 20);
-//			fChoose_.setVisible(true);
-//			fChoose_.showOpenDialog(getParent());
-//			
-//		}
-//		
-//	});
-//	infoFrame.add(open);
-}
+	/**
+	 * Displays after a user exports tables or piechart with the file location, the location
+	 * can then be displayed to the user.
+	 * 
+	 * @param strIN Filepath towards the exported file
+	 * @param location Foler which the exported file is located
+	 * 
+	 * @author Jennifer Terpstra
+	 * @return 
+	 */
+	public void infoFrame(String strIN, final String location) {
+		JFrame infoFrame = new JFrame();
+		infoFrame.setBounds(200, 200, 800, 200);
+		infoFrame.setLayout(null);
+		infoFrame.setVisible(true);
+	
+		JPanel backP = new JPanel();
+		backP.setBounds(0, 0, 800, 80);
+		backP.setLayout(null);
+		infoFrame.add(backP);
+	
+		JLabel label = new JLabel("File was saved at " + strIN);
+		label.setBounds(20, 20, 800, 50);
+		backP.add(label);
+		
+	//	JButton open = new JButton("Open file location");
+	//	open.setBounds(250, 80, 225, 30);
+	//	open.addActionListener(new ActionListener(){
+	//		public void actionPerformed(ActionEvent e) {
+	//			String path = "";
+	//			try {
+	//				path = new File("").getCanonicalPath();
+	//			} catch (IOException e1) {
+	//				
+	//			}
+	//			JFileChooser fChoose_ = new JFileChooser(path + File.separator
+	//					+ location);
+	//			fChoose_.setFileSelectionMode(0);
+	//			fChoose_.setBounds(100, 100, 200, 20);
+	//			fChoose_.setVisible(true);
+	//			fChoose_.showOpenDialog(getParent());
+	//			
+	//		}
+	//		
+	//	});
+	//	infoFrame.add(open);
+	}
 
 }

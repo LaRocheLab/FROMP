@@ -37,7 +37,6 @@ public class EcNr {
 		this.maxChainLength_ = 1;
 		this.longestChain_ = 1;
 		this.repseqs_ = new ArrayList<Repseqs>();
-
 		this.posSize_ = new ArrayList<EcPosAndSize>();
 		this.stats_ = new ArrayList<EcSampleStats>();
 		ecLabel = new ArrayList<JLabel>();

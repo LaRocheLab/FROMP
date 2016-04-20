@@ -1307,7 +1307,7 @@ public class DataProcessor {
 		for (i = count; i < Project.samples_.size(); i++) {
 			Sample sample = Project.samples_.get(i);
 			System.out.println("Loading IPR file: "+sample.name_);
-			if(sample.getSequenceFile()!=""){
+			if(sample.getSequenceFile()!="none"){
 				hasSeq = true;
 			}
 			else{

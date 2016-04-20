@@ -85,8 +85,8 @@ public class CmdController1 {
 	 * For checking user request ec or/and go. before load file. only load requested item(ec/go) for saving time.
 	 */
 	private void checkDoEcOrAndGo() {
-		String [] EcRequest = {"p","s","m","e","op","up","ec","seq","seqall","eclist","pvalue","lca","lcamat"}; 
-		String [] GoRequest = {"g","go","seqgo","seqallgo","pvaluego","lcago","lcamatgo"};
+		String [] EcRequest = {"p","s","m","e","op","up","ec","seq","seqall","lca","lcamat"}; 
+		String [] GoRequest = {"g","go","seqgo","seqallgo","lcago","lcamatgo"};
 		String [] AllRequest = {"f","a","am"};
 		//only EC
 		if (Arrays.asList(EcRequest).contains(optionsCmd_)){
@@ -102,6 +102,17 @@ public class CmdController1 {
 		else if (Arrays.asList(AllRequest).contains(optionsCmd_)){
 			StartFromp1.doEC = true;
 			StartFromp1.doGo = true;
+		}
+		//for special options eclist/golist pvalue/pvaluego
+		else if (optionsCmd_.startsWith("eclist")||optionsCmd_.startsWith("pvalue")){
+			StartFromp1.doEC = true;
+			StartFromp1.doGo = false;
+			
+		}
+		else if  (optionsCmd_.startsWith("golist")||optionsCmd_.startsWith("pvaluego")){
+			StartFromp1.doEC = false;
+			StartFromp1.doGo = true;
+			
 		}
 		//test option "lca-all". one line can read EC, GO, and 
 		else if (optionsCmd_.contentEquals("lca-all")){
@@ -461,9 +472,9 @@ public class CmdController1 {
 			}
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			
-			for (int i = 0; i < ec_.size(); i++) {
+			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
 				
-				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
+				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", false, false);
 			}
 			
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);

@@ -48,7 +48,7 @@ public class Sample {
 	public Sample() {
 		this.sample_ = null;
 		this.fullPath_ = "";
-		this.sequenceFile = "";
+		this.sequenceFile = "none";
 		this.sampleCol_ = Color.white;
 		this.reader_ = new StringReader();
 		this.ecs_ = new ArrayList<EcWithPathway>();
@@ -63,7 +63,7 @@ public class Sample {
 	public Sample(String name, String fullpath) {
 		this.name_ = name;
 		this.fullPath_ = fullpath;
-		this.sequenceFile = "";
+		this.sequenceFile = "none";
 		this.sampleCol_ = Color.white;
 		this.reader_ = new StringReader();
 		this.ecs_ = new ArrayList<EcWithPathway>();
@@ -76,7 +76,7 @@ public class Sample {
 	public Sample(String name, String fullpath, Color col) {
 		this.name_ = name;
 		this.fullPath_ = fullpath;
-		this.sequenceFile = "";
+		this.sequenceFile = "none";
 		this.sampleCol_ = col;
 		this.reader_ = new StringReader();
 		this.ecs_ = new ArrayList<EcWithPathway>();
@@ -90,7 +90,7 @@ public class Sample {
 	public Sample(String name, String fullpath, Color col, boolean using) {
 		this.name_ = name;
 		this.fullPath_ = fullpath;
-		this.sequenceFile = "";
+		this.sequenceFile = "none";
 		this.sampleCol_ = col;
 		this.inUse = using;
 		this.reader_ = new StringReader();

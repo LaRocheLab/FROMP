@@ -76,13 +76,13 @@ public class FastaReaderHelper {
      * @return
      * @throws IOException
      */
-    public static LinkedHashMap<String, ProteinSequence> readFastaProteinSequence(
-            File file) throws IOException {
+    public static LinkedHashMap<String, ProteinSequence> readFastaProteinSequence(File file) throws IOException {
+    	
         FileInputStream inStream = new FileInputStream(file);
         LinkedHashMap<String, ProteinSequence> proteinSequences = readFastaProteinSequence(inStream);
         inStream.close();
         return proteinSequences;
-    }
+	}
 
     /**
      * Read a fasta file containing amino acids with setup that would handle most
@@ -92,8 +92,7 @@ public class FastaReaderHelper {
      * @return
      * @throws IOException
      */
-    public static LinkedHashMap<String, ProteinSequence> readFastaProteinSequence(
-            InputStream inStream) throws IOException {
+    public static LinkedHashMap<String, ProteinSequence> readFastaProteinSequence(InputStream inStream) throws IOException {
         FastaReader<ProteinSequence, AminoAcidCompound> fastaReader = new FastaReader<ProteinSequence, AminoAcidCompound>(
                 inStream,
                 new GenericFastaHeaderParser<ProteinSequence, AminoAcidCompound>(),

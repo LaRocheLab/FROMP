@@ -256,22 +256,20 @@ public class RepseqFrame extends JFrame {
 		for (int i = 0; i < Project.samples_.size(); i++) {
 			if (this.sampName_.equals(Project.samples_.get(i).name_)) {
 				if (Project.samples_.get(i).getSequenceFile() != null
-						&& !Project.samples_.get(i).getSequenceFile()
-								.equals("")) {
+						&& !Project.samples_.get(i).getSequenceFile().equals("")) {
 					seqFilePath = Project.samples_.get(i).getSequenceFile();
 				}
 			}
 		}
 		//ensure the path isn't null and the file exists
-		if (seqFilePath != null && !seqFilePath.equals("")) { 
+		if (seqFilePath != null && !seqFilePath.equals("none")) { 
 			File seqFile = new File(seqFilePath); 
 			if (seqFile.exists() && !seqFile.isDirectory()) { 
 				//instanciates the sequence hash built by the biojava core
 				LinkedHashMap<String, ProteinSequence> sequenceHash; 
 				try {
 					//calls biojava to build the sequence hash
-					sequenceHash = FastaReaderHelper
-							.readFastaProteinSequence(seqFile); 
+					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile); 
 					if (sequenceHash != null) {
 						/*
 						 * System.out.println("Seq File: "+seqFile); for
@@ -282,12 +280,9 @@ public class RepseqFrame extends JFrame {
 						 * }
 						 */
 						String text = ">";
-						System.out.println("repCnt: "
-								+ RepseqFrame.this.reps_.size());
-						for (int repCnt = 0; repCnt < RepseqFrame.this.reps_
-								.size(); repCnt++) {
-							if ((sequenceHash.get(((ConvertStat) this.reps_
-									.get(repCnt)).getDesc_())) != null) {
+						System.out.println("repCnt: "+ RepseqFrame.this.reps_.size());
+						for (int repCnt = 0; repCnt < RepseqFrame.this.reps_.size(); repCnt++) {
+							if ((sequenceHash.get(((ConvertStat) this.reps_.get(repCnt)).getDesc_())) != null) {
 								text = text
 										+ ((ConvertStat) this.reps_.get(repCnt))
 												.getDesc_()
@@ -396,7 +391,6 @@ public class RepseqFrame extends JFrame {
 		this.back_.add(tArea);
 
 		String text = "";
-		String test = "";
 		for (int repCnt = 0; repCnt < this.reps_.size(); repCnt++) {
 			int amount = ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_();
 			if (((ConvertStat) this.reps_.get(repCnt)).getPfamToEcAmount_() > amount) {

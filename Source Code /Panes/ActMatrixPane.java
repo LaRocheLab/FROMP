@@ -2474,6 +2474,17 @@ public class ActMatrixPane extends JPanel {
 		}
 		return tempLine;
 	}
+	public ArrayList<Line> removeDuplicatesGo() {
+		ArrayList<Line> tempLine = new ArrayList<Line>();
+		ArrayList<String> tempName = new ArrayList<String>();
+		for (int i = 0; i < this.goMatrix_.size(); i++) {
+			if (!tempName.contains(this.goMatrix_.get(i).getGoNr_().GoNumber)) {
+				tempLine.add(this.goMatrix_.get(i));
+				tempName.add(this.goMatrix_.get(i).getGoNr_().GoNumber);
+			}
+		}
+		return tempLine;
+	}
 
 	private void unmappedMover() {
 		int unmappedCnt = 0;
@@ -2722,10 +2733,12 @@ public class ActMatrixPane extends JPanel {
 	public void exportEcNums(String path, int numEc){
 		try {
 			
-			System.out.println("exportEcNums");
+			System.out.println("export Ec Nums");
 			
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+
 			out.write("Ec Activity EC Numbers");
+
 			int exportNum = 0;
 			/*Used for command line to check if the input entered for the number of
 			 * ec to be exported is a valid input.
@@ -2759,7 +2772,8 @@ public class ActMatrixPane extends JPanel {
 				
 			}
 			out.close();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			File f = new File(path);
 			f.mkdirs();
 			if (!path.endsWith(".txt")) {
@@ -2794,6 +2808,81 @@ public class ActMatrixPane extends JPanel {
 		}
 		
 	}
+	
+	public void exportGoNums(String path, int numGo){
+		try {
+			
+			System.out.println("export GO Nums");
+			
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+				
+			out.write("Go Activity GO Numbers");
+				
+			int exportNum = 0;
+			/*Used for command line to check if the input entered for the number of
+			 * ec to be exported is a valid input.
+			 */
+			if(numGo == 0){
+				exportNum = this.goMatrix_.size();
+				System.out.println("exportNum="+exportNum);
+			}
+			else if(numGo > 0 && numGo <= this.goMatrix_.size()){
+				exportNum = numGo;
+			}
+			else{
+				//exits the program if the input is found to be a invalid input
+				System.out.println("Number of exported GO's cannot be less than 0 or greater than total number of GO's");
+				System.exit(0);
+			}
+			
+			if(CmdController1.elistSortSum == true){
+				quicksortSumGo();
+			}
+			
+			for (int y = 0; y < exportNum; y++) {
+				Line line = goMatrix_.get(y);
+				out.newLine();
+				out.write(line.getGoNr_().GoNumber);
+				
+			}
+			out.close();
+		} 
+		catch (IOException e) {
+			File f = new File(path);
+			f.mkdirs();
+			if (!path.endsWith(".txt")) {
+				Calendar cal = Calendar.getInstance();
+
+				int day = cal.get(5);
+				int month = cal.get(2) + 1;
+				int year = cal.get(1);
+
+				String date = day + "." + month + "." + year;
+				path = path + File.separator + "GoActMat" + "."
+						+ Project.workpath_ + "." + date;
+			}
+			String tmpPath = path + ".txt";
+			File file1 = new File(tmpPath);
+			if (file1.exists() && !file1.isDirectory()) {
+				int i = 1;
+				while ("Pigs" != "Fly") {// loop forever
+					tmpPath = path + "-" + i + ".txt";
+					File file2 = new File(tmpPath);
+					if (file2.exists() && !file2.isDirectory()) {
+						i++;
+						continue;
+					} else {
+						path = path + "-" + i ;
+						break;
+					}
+				}
+			}
+			path = path + ".txt";
+			exportEcNums(path, numGo);
+		}
+		
+	}
+	
 
 	private void quicksortSum() {
 		this.lframe.bigStep("Sorting ECs");
@@ -2811,6 +2900,16 @@ public class ActMatrixPane extends JPanel {
 		}
 
 		unCompleteMover();
+		Loadingframe.close();
+	}
+	
+	private void quicksortSumGo() {
+		this.lframe.bigStep("Sorting GOs");
+		if (this.goMatrix_.size() > 0) {
+			quicksortGo(0, this.goMatrix_.size() - 1);
+		}
+		reverseMatrixGo();
+		this.goMatrix_ = removeDuplicatesGo();
 		Loadingframe.close();
 	}
 	
@@ -2872,6 +2971,28 @@ public class ActMatrixPane extends JPanel {
 			quicksort(i, high);
 	}
 	
+	private void quicksortGo(int low, int high) {
+		int i = low, j = high;
+		int pivot = this.goMatrix_.get(high - 1).sum_;
+		while (i <= j) {
+			while (this.goMatrix_.get(i).sum_ < pivot) {
+				i++;
+			}
+			while (this.goMatrix_.get(j).sum_ > pivot) {
+				j--;
+			}
+			if (i <= j) {
+				switchGos(i, j);
+				i++;
+				j--;
+			}
+		}
+		if (low < j)
+			quicksortGo(low, j);
+		if (i < high)
+			quicksortGo(i, high);
+	}
+	
 	private void quicksortDist(int low, int high) {
 		int i = low, j = high;
 		double pivot = this.ecMatrix_.get(high - 1).lowest_dist_num;
@@ -2915,7 +3036,7 @@ public class ActMatrixPane extends JPanel {
 		if (i < high)
 			quicksortOdds(i, high);
 	}
-
+	// for ec
 	private void reverseMatrix() {
 		int j = 0;
 		for (int i = ecMatrix_.size() - 1; i > j; i--) {
@@ -2931,6 +3052,27 @@ public class ActMatrixPane extends JPanel {
 		this.ecMatrix_.set(index1, line2);
 		this.ecMatrix_.set(index2, line1);
 	}
+	//for go
+	private void reverseMatrixGo() {
+		int j = 0;
+		for (int i = goMatrix_.size() - 1; i > j; i--) {
+			switchGos(i, j);
+			j++;
+		}
+	}
+	
+	private void switchGos(int index1, int index2) {
+		Line line1 = (Line) this.goMatrix_.get(index1);
+		Line line2 = (Line) this.goMatrix_.get(index2);
+
+		this.goMatrix_.set(index1, line2);
+		this.goMatrix_.set(index2, line1);
+	}
+	
+	
+	
+	
+	
 
 	private float odds(float a, float b, float c, float d) {
 		if (a == 0.0F) {

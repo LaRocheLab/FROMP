@@ -501,6 +501,28 @@ public class CmdController1 {
 			}
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
 		}
+		//14. segallgo
+		else if (optionsCmd_.contentEquals("seqallgo")){
+			
+			checkSeqFile();
+			
+			if(outPutPath_.contentEquals("def")){	
+				
+				tmpPath = basePath_+"seqallgo"+File.separator;
+			}
+			else {
+				tmpPath = outPutPath_;
+			}
+			
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			
+			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
+				
+				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", true, false);
+			}
+			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
+		}
+			
 		// eclist(s) or eclist#(s) - checked out path
 		else if (optionsCmd_.startsWith ("eclist")){
 			//initialization

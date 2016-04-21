@@ -3663,8 +3663,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
-						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamat")
-								&& !CmdController1.optionsCmd_.equals("lcamatx")){
+						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamat")){
 							//seq
 							if(findLca == false && oneFile == false){
 							try {
@@ -3820,8 +3819,7 @@ public class ActMatrixPane extends JPanel {
 								}
 							}
 						}
-						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamatgo")
-								&& !CmdController1.optionsCmd_.equals("lcamatx")){
+						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamatgo")){
 							//seq
 							if(findLca == false && oneFile == false){
 							try {

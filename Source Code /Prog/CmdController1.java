@@ -114,16 +114,6 @@ public class CmdController1 {
 			StartFromp1.doGo = true;
 			
 		}
-		//test option "lcax/lcamatx". one line can read EC, GO, and seq
-		else if (optionsCmd_.contentEquals("lcax") || optionsCmd_.contentEquals("lcamatx")){
-			
-			if (StartFromp1.ecSet.isEmpty()){
-				StartFromp1.doEC = false;
-			}
-			if (StartFromp1.goSet.isEmpty()){
-				StartFromp1.doGo = false;
-			}
-		}
 	}
 	//read input file or path.  IP=input path
 	private void readInputFile(String IP) {
@@ -761,7 +751,7 @@ public class CmdController1 {
 			
 		}
 		
-		//19. lca.- checked out path--can read ec , ec file
+		//19. lca.- checked out path--can read ec , ec file , seq file.
 		else if (optionsCmd_.contentEquals("lca")){
 			
 			checkSeqFile();
@@ -794,6 +784,17 @@ public class CmdController1 {
 				}
 			}
 			
+			if(!StartFromp1.FileSetofSeq.isEmpty()){
+				
+				for(int j=0;j< StartFromp1.FileSetofSeq.size();j++){
+					seqWithFileName seqFile = StartFromp1.FileSetofSeq.get(j);
+					metapro = new MetaProteomicAnalysis();
+					batchCommand = true;
+					metapro.getTrypticPeptideAnaysis(metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-"), true, batchCommand);
+					
+				}
+				
+			}
 			if (!unusedEc.isEmpty()){
 				System.out.println("No values found within sequence file for ec: "+unusedEc);	
 			}
@@ -802,7 +803,7 @@ public class CmdController1 {
 
 		}
 		
-		//20. lcago.- checked out path--can read go , go file
+		//20. lcago.- checked out path--can read go , go file , seq file.
 		else if (optionsCmd_.contentEquals("lcago")){
 			
 			checkSeqFile();
@@ -835,31 +836,6 @@ public class CmdController1 {
 				}
 			}
 			
-			if (!unusedEc.isEmpty()){
-				System.out.println("No values found within sequence file for GO: "+unusedEc);	
-			}
-			System.out.println("Done LCA - GO");
-			checkTimedOut(metapro);
-
-		}
-		//21.lcaseq - read seqfile
-		else if (optionsCmd_.contentEquals("lcaseq")){
-			
-			checkSeqFile();
-			//set output path
-			if(outPutPath_.contentEquals("def")){		
-				tmpPath = basePath_+"lcaseq"+File.separator;
-			}
-			else {
-				tmpPath = outPutPath_;
-			}
-
-			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			pane.exportAll = true;
-			String sampleName = "";
-			String line = "";
-			
 			if(!StartFromp1.FileSetofSeq.isEmpty()){
 				
 				for(int j=0;j< StartFromp1.FileSetofSeq.size();j++){
@@ -872,11 +848,11 @@ public class CmdController1 {
 				
 			}
 			if (!unusedEc.isEmpty()){
-				System.out.println("No values found within sequence file for the seq: "+unusedEc);	
+				System.out.println("No values found within sequence file for GO: "+unusedEc);	
 			}
-			System.out.println("Done LCA - Seq");
+			System.out.println("Done LCA - GO");
 			checkTimedOut(metapro);
-			
+
 		}
 		
 		//21. lcamat - can read ec , ec file , seq file.
@@ -986,7 +962,88 @@ public class CmdController1 {
 				}	
 				
 			}
-
+			// Process seq file.
+			if (!StartFromp1.FileSetofSeq.isEmpty()){
+				String path = tmpPath+Project.workpath_+"-Seq-Taxa-Matrix-"+sdf.format(d)+".txt";
+				
+				File file = new File(path);
+				//StringBuffer tableContent = new StringBuffer();
+				String separator = "\t";
+				try{
+					FileWriter fileWriter = new FileWriter(file);
+					String writerLine = "Seq-Taxa";
+					
+					for (int t =0 ; t < Project.samples_.size();t++){
+						
+						writerLine += separator+ Project.samples_.get(t).name_;
+					
+					}
+					//title finished.
+					fileWriter.write(writerLine+"\n");
+					
+					//writer each ec to line.
+					for (int i = 0;i< StartFromp1.FileSetofSeq.size();i++) {
+						
+						String fileName = StartFromp1.FileSetofSeq.get(i).getFileName() +  "-";
+						metapro = new MetaProteomicAnalysis(); 
+						ArrayList<TrypticPeptide> peptide = metapro.readFasta(StartFromp1.FileSetofSeq.get(i).getIdSeq(), fileName); 
+						batchCommand = true;
+						metapro.getTrypticPeptideAnaysis(peptide, true, batchCommand);
+						// Prepare printable  taxa table
+						HashMap <String, int []> taxaTable = new HashMap<String, int[]>();
+						
+						
+						//each peptide
+						for (int j =0; j<peptide.size();j++){	
+							if (peptide.get(j).getIdentifiedTaxa() != null) {
+								String ecTaxaName = fileName+peptide.get(j).getIdentifiedTaxa().getTaxon_name();
+								String samName = peptide.get(j).getUniqueIdentifier().substring(peptide.get(j).getUniqueIdentifier().indexOf(" ")+1); 
+								int samIndex=0;
+								for (int s=0;s<Project.samples_.size();s++){
+									if (Project.samples_.get(s).name_.contentEquals(samName)){
+										samIndex = s;
+										break;	
+									}	
+								}
+								//no need root, Bacteria and Inconclusive
+								if(!ecTaxaName.contentEquals(fileName+"root") && !ecTaxaName.contentEquals(fileName+"Bacteria") && !ecTaxaName.contentEquals(fileName+"Inconclusive")){
+									
+									if (taxaTable.containsKey(ecTaxaName)){
+										int [] num = taxaTable.get(ecTaxaName);
+										num [samIndex] += 1;
+										taxaTable.put(ecTaxaName,num);		
+									}
+									else{
+										int [] num = new int [Project.samples_.size()];
+										num[samIndex]+=1;
+										taxaTable.put(ecTaxaName,num);		
+									}	
+								}
+							}
+							
+						}
+						for (String key : taxaTable.keySet() ){
+							String Line =key;
+							int [] num = taxaTable.get(key);
+							
+							for (int sam = 0 ; sam < num.length;sam++){
+								Line += "\t"+num[sam];	
+							}
+							System.out.println("Line:"+Line);
+							fileWriter.write(Line+"\n");		
+						}
+						// one empty line for each ec.
+						if(!taxaTable.keySet().isEmpty()){
+							fileWriter.write("\t\n");
+							
+						}
+					}
+					fileWriter.close();					
+				}
+				catch(IOException e){
+					e.printStackTrace();
+				}					
+			}
 			if (!unusedEc.isEmpty()){
 				System.out.println("No values found within sequence file for ec: "+unusedEc);	
 			}
@@ -1099,30 +1156,6 @@ public class CmdController1 {
 				}	
 				
 			}
-			
-			if (!unusedEc.isEmpty()){
-				System.out.println("No values found within sequence file for ec: "+unusedEc);	
-			}
-			System.out.println("Done Lca Matrix");
-		}
-		//22. lcamatgo - can read seq file.
-		else if (optionsCmd_.contentEquals("lcamatseq")){
-			
-			checkSeqFile();		
-			//set output path
-			if(outPutPath_.contentEquals("def")){		
-				tmpPath = basePath_+"lcamatgo"+File.separator;
-			}
-			else {
-				tmpPath = outPutPath_;
-			}		
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			pane.exportAll = true;
-			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-			
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
-			
 			// Process seq file.
 			if (!StartFromp1.FileSetofSeq.isEmpty()){
 				String path = tmpPath+Project.workpath_+"-Seq-Taxa-Matrix-"+sdf.format(d)+".txt";

@@ -4,6 +4,7 @@ import Objects.Project;
 import Panes.AboutFrame;
 import Panes.EcActPanes;
 import Panes.EditsamplesPane;
+import Panes.GoActPanes;
 import Panes.LCAPanes;
 import Panes.PathwayActPanes;
 import Panes.PathwaySelectP;
@@ -685,7 +686,7 @@ public class NewFrompFrame extends JFrame {
 	
 	private void showGOActPanes() {// Opens the ec activity analysis
 		clearBack();
-		EcActPanes matrixP_ = new EcActPanes(Controller.project_,
+		GoActPanes matrixP_ = new GoActPanes(Controller.project_,
 				Controller.processor_, getSize());
 		matrixP_.backButton_.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

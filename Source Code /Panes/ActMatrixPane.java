@@ -84,8 +84,8 @@ public class ActMatrixPane extends JPanel {
 	private int numChart = 0;
 	private int NoDataChart = 0;
 	private JButton resort_; // JBotton to resort the array
-	public ArrayList<Line> ecMatrix_; // Arraylist of line objects used to build the matrix
-	public ArrayList<Line> goMatrix_; // Arraylist of line objects used to build the matrix
+	public ArrayList<Line> ecMatrix_ = new ArrayList<Line>(); // Arraylist of line objects used to build the matrix
+	public ArrayList<Line> goMatrix_ = new ArrayList<Line>(); // Arraylist of line objects used to build the matrix
 	private Loadingframe lframe; // Loading frame
 	private Line unmappedSum; 
 	private Line mappedSum; 
@@ -129,8 +129,7 @@ public class ActMatrixPane extends JPanel {
 									
 		this.actProj_ = actProj; // sets this active project
 		this.proc_ = proc; // sets this data processor
-							
-							
+												
 		setLayout(new BorderLayout()); 
 		setVisible(true); 
 		setBackground(Project.getBackColor_()); 
@@ -142,9 +141,9 @@ public class ActMatrixPane extends JPanel {
 		setSelectedEc(); // Sets whether or not each sample is selected
 		prepMatrix(); // Builds the ec matrixLoadingframe.close();
 		initMainPanels(); // Instantiates the options, display and scroll panels
-		if(StartFromp1.doEC){
+//		if(StartFromp1.doEC){
 			prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
-		}
+//		}
 		
 		Loadingframe.close(); // closes the loading frame
 	}

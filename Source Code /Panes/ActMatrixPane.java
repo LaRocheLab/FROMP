@@ -1912,8 +1912,7 @@ public class ActMatrixPane extends JPanel {
 
 										String sampName = ((Sample) Project.samples_
 												.get(indexX)).name_;
-										RepseqFrame repFrame = new RepseqFrame(
-												reps, ecTmp, sampName);
+										RepseqFrame repFrame = new RepseqFrame(reps, ecTmp, sampName);
 									}
 								}
 
@@ -1953,6 +1952,192 @@ public class ActMatrixPane extends JPanel {
 		this.label_.setVisible(true);
 		this.label_.setLayout(null);
 		this.displayP_.add(this.label_);
+		
+	}
+	
+	public void showHypergeometricDistributionGo(Line goNr, int index){
+		int total_go = 0;
+		ArrayList<Double> hype_dist = new ArrayList<Double>(); 
+		ArrayList<JLabel> geo_labels = new ArrayList<JLabel>();
+		if (goNr.isSumline_()) {
+			addSumLineVals(goNr, index);
+			return;
+		}
+		int uncompleteOffset = 0;
+		//finding the total amount of go's found in all the samples
+		for(int i = 0; i<goNr.arrayLine_.length; i++){
+			total_go += (float) (this.sums.arrayLine_[i]);
+		}
+		for (int smpCnt = 0; smpCnt < goNr.arrayLine_.length; smpCnt++) {
+				float x = (float) goNr.arrayLine_[smpCnt];
+				float n = (float) (this.sums.arrayLine_[smpCnt]);
+				float K = goNr.sum_;
+				float M = total_go;
+				
+				HypergeometricDistribution tmp_dist = new HypergeometricDistribution((int)M,(int)K,(int)n);
+				hype_dist.add(tmp_dist.probability((int)x));
+				this.label_ = new JLabel(String.valueOf((tmp_dist.probability((int)x))));
+				geo_labels.add(this.label_);
+				if(includeRepseq_!=null && includeRepseq_.isSelected()){
+					this.label_.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				}
+				this.label_.setToolTipText(String.valueOf((tmp_dist.probability((int)x))));
+				this.lframe.step("adding3 " + goNr.arrayLine_[smpCnt]);
+				if (includeRepseq_!=null && includeRepseq_.isSelected()) {
+					final int indexY = index;
+					final int indexX = smpCnt;
+					JMenuItem mItem = new JMenuItem("Export");
+					menuPopup = new JPopupMenu();
+
+					menuPopup.add(mItem);
+					ActMatrixPane.this.setComponentPopupMenu(menuPopup);
+					/*
+					 * Popup menu that comes up when you right click any of the ECs when
+					 * the "include sequence id" option in selected
+					 */
+					mItem.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e) {
+							GONum goTmp = new GONum(((Line) ActMatrixPane.this.goMatrix_.get(popupIndexY)).getGoNr_());
+							goTmp.amount_ = ((int) ((Line) ActMatrixPane.this.goMatrix_.get(popupIndexY)).arrayLine_[indexX]);
+							ArrayList<ConvertStatGo> reps = new ArrayList<ConvertStatGo>();
+							for (int statsCnt = 0; statsCnt < ((Sample) Project.samples_
+									.get(popupIndexX)).conversionsGo_.size(); statsCnt++) {
+								String test = ((((Sample) Project.samples_.get(popupIndexX)).conversionsGo_.get(statsCnt)).getDesc_());
+								if (goTmp.GoNumber.contentEquals(Project.samples_.get(popupIndexX).conversionsGo_.get(statsCnt).getGoNr_()) 
+										&& !test.contains("\t")) {
+									reps.add(Project.samples_.get(popupIndexX).conversionsGo_.get(statsCnt));
+								}
+							}
+
+							String test = "";
+							String test2 = "";
+							for (int i = reps.size() - 1; i >= 0; i--) {
+								if ((reps.get(i) == null)) {
+								} else {
+									test = reps.get(i).getDesc_();
+									if (test.contains("\t")) {
+										reps.set(i, null);
+									} else {
+										for (int j = i - 1; j >= 0; j--) {
+											if ((reps.get(j) == null)) {
+											} else {
+												test2 = reps.get(j).getDesc_();
+												if (test.contains(test2)) {
+													reps.set(j, null);
+												}
+											}
+										}
+									}
+								}
+							}
+							for (int i = reps.size() - 1; i >= 0; i--) {
+								if (reps.get(i) == null) {
+									reps.remove(i);
+								}
+							}
+
+							String sampName = ((Sample) Project.samples_
+									.get(popupIndexX)).name_;
+							ExportRepsGo(reps, goTmp, sampName);
+						}
+					});
+					/*
+					 * Opens up the window when you left click the ECs with "include sequence ids"
+					 * selected
+					 */
+					this.label_.addMouseListener(new MouseListener()
+							{
+								public void mouseClicked(MouseEvent e) {
+									if (SwingUtilities.isRightMouseButton(e)
+											|| e.isControlDown()) {
+										System.out.println("Right Button Pressed");
+										ActMatrixPane.this.menuPopup.show(e.getComponent(), e.getX(),e.getY());
+										popupIndexY = indexY;
+										popupIndexX = indexX;
+									} 
+									else {
+										GONum goTmp = new GONum(ActMatrixPane.this.goMatrix_.get(indexY).getGoNr_());
+										goTmp.amount_ = ((int) ((Line) ActMatrixPane.this.goMatrix_.get(indexY)).arrayLine_[indexX]);
+										ArrayList<ConvertStatGo> reps = new ArrayList<ConvertStatGo>();
+										for (int statsCnt = 0; statsCnt < Project.samples_.get(indexX).conversionsGo_.size(); statsCnt++) {
+											String test = (((ConvertStatGo) ((Sample) Project.samples_.get(indexX)).conversionsGo_.get(statsCnt)).getDesc_());
+											if ((goTmp.GoNumber.contentEquals(Project.samples_.get(indexX).conversionsGo_.get(statsCnt).getGoNr_()))
+													&& !test.contains("\t")) {
+												reps.add(Project.samples_.get(indexX).conversionsGo_.get(statsCnt));
+											}
+										}
+
+										String test = "";
+										String test2 = "";
+										for (int i = reps.size() - 1; i >= 0; i--) {
+											if ((reps.get(i) == null)) {
+											} 
+											else {
+												test = reps.get(i).getDesc_();
+												if (test.contains("\t")) {
+													reps.set(i, null);
+												} else {
+													for (int j = i - 1; j >= 0; j--) {
+														if ((reps.get(j) == null)) {
+														} else {
+															test2 = reps.get(j).getDesc_();
+															if (test.contains(test2)) {
+																reps.set(j,null);
+															}
+														}
+													}
+												}
+											}
+										}
+										for (int i = reps.size() - 1; i >= 0; i--) {
+											if (reps.get(i) == null) {
+												reps.remove(i);
+											}
+										}
+
+										String sampName = ((Sample) Project.samples_
+												.get(indexX)).name_;
+										RepseqFrameGo repFrame = new RepseqFrameGo(reps, goTmp, sampName);
+									}
+								}
+
+								public void mouseEntered(MouseEvent e) {
+								}
+
+								public void mouseExited(MouseEvent e) {
+								}
+
+								public void mousePressed(MouseEvent e) {
+								}
+
+								public void mouseReleased(MouseEvent e) {
+								}
+							});
+				}
+			this.label_.setBounds(50 + (smpCnt + 1) * 130, uncompleteOffset
+					+ 50 + index * 15, 130, 15);
+			this.label_.setVisible(true);
+			this.label_.setLayout(null);
+			this.displayP_go.add(this.label_);
+		}
+		
+		goNr.setDist_nums(hype_dist);
+		goNr.setGeo_labels(geo_labels);
+		add_Geo_Dist_Colour(goNr);
+		
+		if (goNr.sum_ != 0) {
+			this.label_ = new JLabel(String.valueOf(goNr.sum_));
+			this.lframe.step("adding4 " + goNr.sum_);
+		} 
+		else {
+			this.label_ = new JLabel("0");
+		}
+		this.label_.setBounds(50 + (goNr.arrayLine_.length + 1) * 130,
+				uncompleteOffset + 50 + index * 15, 130, 15);
+		this.label_.setVisible(true);
+		this.label_.setLayout(null);
+		this.displayP_go.add(this.label_);
 		
 	}
 	
@@ -2203,6 +2388,40 @@ public class ActMatrixPane extends JPanel {
 			e1.printStackTrace();
 		}
 	}
+	
+	public void ExportRepsGo(ArrayList<ConvertStatGo> reps, GONum goNr,String sampName) {
+		String text = "";
+		String test = "";
+		System.out.println("Reps:" + reps.size());
+		for (int repCnt = 0; repCnt < reps.size(); repCnt++) {
+			int amount = (reps.get(repCnt)).getGoAmount_();
+			if ((reps.get(repCnt)).getPfamToGoAmount_() > amount) {
+				amount = ( reps.get(repCnt)).getPfamToGoAmount_();
+			}
+			text = text + (reps.get(repCnt)).getDesc_();
+			text = text + "\n";
+		}
+		try {
+			String sampleName;
+			if (sampName.contains(".out")) {
+				sampleName = sampName.replace(".out", "");
+			} else {
+				sampleName = sampName;
+			}
+			File f = new File(CmdController1.tmpPath+ "Sequences");
+			if (!f.exists()) {
+		            f.mkdirs();
+		    }
+			File file = new File(CmdController1.tmpPath + File.separator+"Sequences"+File.separator+sampleName + sampleName + "-GO-" +goNr.GoNumber + ".txt");
+			PrintWriter printWriter = new PrintWriter(file);
+			printWriter.println("" + text);
+			printWriter.close();
+		} 
+		catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	//adds the sum of a line in order to be able to print the line sum
 	private void addSumLineVals(Line ecNr, int index) {
 		int uncompleteOffset = 0;
@@ -2931,6 +3150,15 @@ public class ActMatrixPane extends JPanel {
 		Loadingframe.close();
 	}
 	
+	public void quicksortGeoDistGo() {
+		this.lframe.bigStep("Sorting GOs");
+		if(this.goMatrix_.size()>0){
+			quicksortDistGo(0, this.goMatrix_.size() - 1);
+		}
+		this.goMatrix_ = removeDuplicatesGo();
+		Loadingframe.close();
+	}
+	
 	private void quicksortOdds(){
 		this.lframe.bigStep("Sorting ECs");
 		if(this.ecMatrix_.size()>0){
@@ -3014,6 +3242,30 @@ public class ActMatrixPane extends JPanel {
 		if (i < high)
 			quicksortDist(i, high);
 	}
+	
+	
+	private void quicksortDistGo(int low, int high) {
+		int i = low, j = high;
+		double pivot = this.goMatrix_.get(high - 1).lowest_dist_num;
+		while (i <= j) {
+			while (this.goMatrix_.get(i).lowest_dist_num < pivot) {
+				i++;
+			}
+			while (this.goMatrix_.get(j).lowest_dist_num > pivot) {
+				j--;
+			}
+			if (i <= j) {
+				switchGos(i, j);
+				i++;
+				j--;
+			}
+		}
+		if (low < j)
+			quicksortDistGo(low, j);
+		if (i < high)
+			quicksortDistGo(i, high);
+	}
+	
 	
 	private void quicksortOdds(int low, int high) {
 		int i = low, j = high;

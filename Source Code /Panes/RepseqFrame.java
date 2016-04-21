@@ -152,7 +152,7 @@ public class RepseqFrame extends JFrame {
 		this.back_.setVisible(true);
 		addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				System.out.print("move");
+//				System.out.print("move");
 				if (RepseqFrame.this.back_.getY() <= 0) {
 					int count = e.getWheelRotation();
 					int value = RepseqFrame.this.back_.getY() - count * 20;

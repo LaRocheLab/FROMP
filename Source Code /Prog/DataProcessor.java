@@ -1280,7 +1280,7 @@ public class DataProcessor {
 			catch (IOException e) {
 				openWarning("Error", "File" + file + " not found");
 			}
-			System.out.println("\rLoading uniref list..."+(i*100/4)+"%");
+			System.out.println("\rLoading uniref list(400MB)..."+(i*100/4)+"%");
 		}
 		
 		this.UniToGOHash = tmpUNIToGO;

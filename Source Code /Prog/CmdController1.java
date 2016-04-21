@@ -86,7 +86,7 @@ public class CmdController1 {
 	 */
 	private void checkDoEcOrAndGo() {
 		String [] EcRequest = {"p","s","m","e","op","up","ec","seq","seqall","lca","lcamat"}; 
-		String [] GoRequest = {"g","go","seqgo","seqallgo","lcago","lcamatgo"};
+		String [] GoRequest = {"g","go","seqgo","seqallgo","pvaluego","lcago","lcamatgo"};
 		String [] AllRequest = {"f","a","am"};
 		//only EC
 		if (Arrays.asList(EcRequest).contains(optionsCmd_)){
@@ -104,7 +104,7 @@ public class CmdController1 {
 			StartFromp1.doGo = true;
 		}
 		//for special options eclist/golist pvalue/pvaluego
-		else if (optionsCmd_.startsWith("eclist")||optionsCmd_.startsWith("pvalue")){
+		else if (optionsCmd_.startsWith("eclist")||(optionsCmd_.startsWith("pvalue") && !optionsCmd_.startsWith("pvaluego"))){
 			StartFromp1.doEC = true;
 			StartFromp1.doGo = false;
 			
@@ -656,7 +656,7 @@ public class CmdController1 {
 		}
 		
 		//17. pvalue or pvalue#- checked out path
-		else if (optionsCmd_.startsWith("pvalue")){
+		else if (optionsCmd_.startsWith("pvalue") && !optionsCmd_.startsWith("pvaluego")){
 			//initialization
 			System.out.println("pvalue");
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
@@ -706,6 +706,61 @@ public class CmdController1 {
 			pane.exportEcNums(tmpPath, this.num_ec_exported);
 			
 		}
+		
+		//18. pvaluego or pvaluego#- checked out path
+		else if (optionsCmd_.startsWith("pvaluego")){
+			//initialization
+			System.out.println("pvaluego");
+			
+			//output all
+			if(optionsCmd_.contentEquals("pvaluego")){
+				//num_ec_exported=0;
+				if(outPutPath_.contentEquals("def")){
+					tmpPath = basePath_+"pvaluego"+File.separator + Project.workpath_+"-pvalue-golist-all.txt";;	
+				}
+				//if no assigned file name.
+				else {
+					tmpPath = outPutPath_+Project.workpath_+"-pvalue-golist-all.txt";
+				}
+				
+			}
+			//output by assgined # 
+			else{
+				try{
+					num_ec_exported = Integer.parseInt(optionsCmd_.substring(8));
+					System.out.println("check pvalue #:"+num_ec_exported);
+				}
+				catch(Exception e){
+					System.out.println("Wrong pvalue options. Quit");
+					System.exit(0);
+				}
+			
+				
+				if(outPutPath_.contentEquals("def")){
+					tmpPath = basePath_+"pvalue"+File.separator + Project.workpath_+"-pvalue-golist"+"-"+num_ec_exported+".txt";	
+				}
+				//if no assigned file name.
+				else if (outPutPath_.endsWith(File.separator)){
+					tmpPath = outPutPath_+Project.workpath_+"-pvalue-golist"+"-"+num_ec_exported+".txt";
+				}
+				
+			}
+			
+			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			//need to make the matrix have the geometric distribution p values before sorting
+			int goCnt = 0;
+			for (goCnt = 0; goCnt < pane.goMatrix_.size(); goCnt++) {
+				Line goNr = (Line) pane.goMatrix_.get(goCnt);
+				pane.showHypergeometricDistributionGo(goNr, goCnt);
+				
+			}
+			//sort by lowest p value, lowest p value to highest p value throughout all samples
+			pane.quicksortGeoDistGo();
+			
+			pane.exportGoNums(tmpPath, this.num_ec_exported);
+			
+		}
+		
 		// lca.- checked out path--can read ec , ec file , seq file.
 		else if (optionsCmd_.contentEquals("lca")){
 			

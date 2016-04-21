@@ -490,7 +490,9 @@ public class MetaProteomicAnalysis {
 			index++;
 		}
 		returnData.setDataset(dataset);
-		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")
+				&& !CmdController1.optionsCmd_.equals("lcamatgo")
+				&& !CmdController1.optionsCmd_.equals("lcamatx")){
 			final JFreeChart chart = ChartFactory.createPieChart(fileName
 					+ " Total Taxonomy", returnData.getDataset(), true, true, false);
 			PiePlot pie1 = (PiePlot) chart.getPlot();
@@ -586,7 +588,9 @@ public class MetaProteomicAnalysis {
 		};
 		table.setFillsViewportHeight(true);
 		
-		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")
+				&& !CmdController1.optionsCmd_.equals("lcamatgo")
+				&& !CmdController1.optionsCmd_.equals("lcamatx")){
 			exportExcel(table, "TotalTaxon", fileName);
 			System.out.println("File exported to " +  File.separator
 					+ "Excel" + File.separator + fileName + "TotalTaxon" + ".xls");
@@ -618,12 +622,16 @@ public class MetaProteomicAnalysis {
 		};
 		table2.setFillsViewportHeight(true);
 		
-		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")){
+		if(commandLineOn && !CmdController1.optionsCmd_.equals("lcamat")
+				&& !CmdController1.optionsCmd_.equals("lcamatgo")
+				&& !CmdController1.optionsCmd_.equals("lcamatx")){
 			exportExcel(table2, "Summary", fileName);
 			System.out.println("File exported to " +  File.separator
 				+ "Excel" + File.separator + fileName + "Summary" + ".xls");
 		}
-		else if(batchCommandOn && !CmdController1.optionsCmd_.equals("lcamat")){
+		else if(batchCommandOn && !CmdController1.optionsCmd_.equals("lcamat")
+				&& !CmdController1.optionsCmd_.equals("lcamatgo")
+				&& !CmdController1.optionsCmd_.equals("lcamatx")){
 			exportTableTxt(table2, "TotalTaxon", fileName);
 			System.out.println("File exported to " +  File.separator
 					+ "Tables" + File.separator + fileName + "Summary" + ".txt");

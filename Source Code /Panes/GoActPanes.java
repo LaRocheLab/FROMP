@@ -124,8 +124,6 @@ public class GoActPanes extends JPanel {
 		invalidate();
 		validate();
 		repaint();
-
-		
 	}
 
 }

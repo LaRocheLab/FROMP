@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 public class GONum {
 	
 	public String GoNumber = "";
-	private String GoName = "";
+	private String GoTerm = "";
 	public int amount_ =0; //amount of go number in a sample
 	public int sampleNr_ = 0;
 	public Color samColor_;
@@ -24,6 +24,7 @@ public class GONum {
 	public String type_; 
 	public boolean isPfam_ = false; 
 	public boolean unmapped = false; 
+	public boolean unique_ =false;
 	
 	public GONum(String[] Go){
 		this.repseqs_ = new ArrayList<Repseqs>();
@@ -46,13 +47,26 @@ public class GONum {
 		
 		
 	}
-	
+
+	public String nameSuppl() {
+		if (this.unmapped) {
+			return " #";
+		}
+		if (this.unique_) {
+			return " *";
+		}
+		
+		return "";
+	}
 	
 	public GONum(String GoNumber){
 		this.GoNumber = GoNumber;
 	}
 
-
+	public GONum(String GoNumber, String GoTerm){
+		this.GoNumber = GoNumber;
+		this.GoTerm = GoTerm;
+	}
 
 	public String getGoNumber() {
 		return GoNumber;
@@ -66,14 +80,14 @@ public class GONum {
 
 
 
-	public String getGoName() {
-		return GoName;
+	public String getGoTerm() {
+		return GoTerm;
 	}
 
 
 
-	public void setGoName(String goName) {
-		GoName = goName;
+	public void setGoTerm(String goName) {
+		GoTerm = goName;
 	}
 
 
@@ -136,7 +150,7 @@ public class GONum {
 		
 		this.amount_ = goNr.amount_;
 		
-		this.GoName = goNr.GoName;
+		this.GoTerm = goNr.GoTerm;
 	
 		this.unmapped = goNr.unmapped;
 		this.isPfam_ = goNr.isPfam_;

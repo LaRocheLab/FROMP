@@ -78,8 +78,8 @@ public class ActMatrixPane extends JPanel {
 	private Project actProj_; // The active project
 	private boolean sortedEc = false; 
 	private boolean drawChart = false; 
-	private final int xSize = 130; 
-	private final int ySize = 15; 
+//	private final int xSize = 130; 
+//	private final int ySize = 15; 
 	private int sumIndexSmp; 
 	private int numChart = 0;
 	private int NoDataChart = 0;
@@ -913,7 +913,6 @@ public class ActMatrixPane extends JPanel {
 		}
 		
 		catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

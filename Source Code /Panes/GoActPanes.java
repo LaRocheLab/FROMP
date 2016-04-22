@@ -28,7 +28,7 @@ public class GoActPanes extends JPanel {
 	JButton pathwaySort; // A button to choose to g to the PathwayEcMat panel
 	JButton ecSort_; // A button to go to the ActMatrixPane panel
 	PathwayEcMat pwEcMat; 
-	ActMatrixPane actMat_; 
+	GoActMatixPane actMat_; 
 	int mode_; // mode =0 :ActMatrixPane / mode = 1 :PathwayEcMat
 	int xsize; 
 	int yOffset_; 
@@ -117,7 +117,7 @@ public class GoActPanes extends JPanel {
 		//ActMatrixPane
 		if ((this.actMat_ == null) || (Project.dataChanged)) {
 			//go to actMatrixPane finally. same to use cmd line.
-			this.actMat_ = new ActMatrixPane(this.activeProj_,this.ecList_, this.proc_, this.showPanel_.getSize());
+			this.actMat_ = new GoActMatixPane(this.activeProj_, this.proc_, this.showPanel_.getSize());
 			actMat_.displayP_.setPreferredSize(new Dimension((Project.samples_.size() + 2) * 130,(actMat_.goMatrix_.size() + 2) * 15 + 100));
 		}
 		this.showPanel_.add(this.actMat_);

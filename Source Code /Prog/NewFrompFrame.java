@@ -10,7 +10,6 @@ import Panes.PathwayActPanes;
 import Panes.PathwaySelectP;
 import Panes.PathwaysPane;
 import Panes.PwSearchPane;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -27,10 +26,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-
-import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -43,21 +39,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
-
 import pathwayLayout.PathLayoutGrid;
-
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 /**
  * Main GUI frame for FROMP. Every part of the GUI FROMP is run through this
  * frame.
  * 
- * @author Jennifer Terpstra, Kevan Lynch
+ * @author Jennifer Terpstra, Kevan Lynch, Song
  */
 public class NewFrompFrame extends JFrame {
 	private static final long serialVersionUID = 7855981267252684730L; 
-	private String separator_; // The file seperator used by your OS. ie '/' for Linux/Mac and '\' for Windows
 	private String path_; // The canonical path for this folder
 	private Color backCol_; // Backgound colour
 	private Color sysColor_; // System colour
@@ -73,8 +65,6 @@ public class NewFrompFrame extends JFrame {
 	private JScrollPane showJPanel_; // Used only to be able to scroll through samples in the EditSamplesPane
 
 	public NewFrompFrame() {
-		this.separator_ = File.separator;
-
 		setVisible(true);
 		setLayout(new BorderLayout());
 		setBounds(20, 20, 1200, 800);
@@ -300,7 +290,7 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
-					if (!NewFrompFrame.this.control_.processor_
+					if (!Controller.processor_
 							.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
@@ -325,7 +315,7 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
-					if (!NewFrompFrame.this.control_.processor_.selectedPathways()) {
+					if (!Controller.processor_.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
 					} 
@@ -350,7 +340,7 @@ public class NewFrompFrame extends JFrame {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
 					//check, is sample added?
-					if (!NewFrompFrame.this.control_.processor_
+					if (!Controller.processor_
 							.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
@@ -374,7 +364,7 @@ public class NewFrompFrame extends JFrame {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					NewFrompFrame.this.clearBack();
 					Controller.loadPathways(true);
-					if (!NewFrompFrame.this.control_.processor_
+					if (!Controller.processor_
 							.selectedPathways()) {
 						warningFrame("No pathways selected!");
 						selectPws();
@@ -494,6 +484,7 @@ public class NewFrompFrame extends JFrame {
 		mItem.getAccessibleContext().setAccessibleDescription("About Fromp");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				PathLayoutGrid Grid = new PathLayoutGrid(10, 10, true);
 			}
 		});
@@ -525,6 +516,7 @@ public class NewFrompFrame extends JFrame {
 		mItem.getAccessibleContext().setAccessibleDescription("About Fromp");
 		mItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				AboutFrame about = new AboutFrame();
 				System.out.println("About");
 			}
@@ -882,7 +874,7 @@ public class NewFrompFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
-					//uncommented
+					
 					NewFrompFrame.this.showEcActPanes();
 				} else {
 					warningFrame();
@@ -897,7 +889,7 @@ public class NewFrompFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
-					//uncommented
+					
 					NewFrompFrame.this.showGOActPanes();
 				} else {
 					warningFrame();
@@ -984,7 +976,7 @@ public class NewFrompFrame extends JFrame {
 			s.setBounds(xcol1, yOff + (ySize + 2) * (i + 3), xsize, ySize);
 			s.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Project.userPathways = new ArrayList();
+					Project.userPathways = new ArrayList<String>();
 
 					NewFrompFrame.this.control_
 							.loadProjFile((String) NewFrompFrame.recentProj_
@@ -1007,19 +999,9 @@ public class NewFrompFrame extends JFrame {
 	//remove same path was in the recent list
 	private void removeRecentDoubles() {
 		if (recentProj_ == null) {
-			recentProj_ = new ArrayList();
+			recentProj_ = new ArrayList<String>();
 		}
-//		for (int i = 0; i < recentProj_.size(); i++) {
-//			String comp = (String) recentProj_.get(i);
-//			for (int j = 0; j < recentProj_.size(); j++) {
-//				if (i != j) {
-//					if (((String) recentProj_.get(j)).contentEquals(comp)) {
-//						recentProj_.remove(j);
-//						j--;
-//					}
-//				}
-//			}
-//		}
+
 		//rewrite function
 		for (int i =1; i < recentProj_.size(); i++){
 			if ((recentProj_.get(i)).contentEquals(recentProj_.get(0))) {
@@ -1033,7 +1015,7 @@ public class NewFrompFrame extends JFrame {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
 					StartFromp1.FolderPath+"recentProj.txt"));
-			recentProj_ = new ArrayList();
+			recentProj_ = new ArrayList<String>();
 			String line = "";
 			while ((line = in.readLine()) != null) {
 				if (!line.isEmpty()) {
@@ -1100,7 +1082,7 @@ public class NewFrompFrame extends JFrame {
 						.getCanonicalPath());
 				addRecentPath(fChoose_.getSelectedFile().getCanonicalPath());
 				if (erg == 1) {
-					Project.userPathways = new ArrayList();
+					Project.userPathways = new ArrayList<String>();
 
 					System.out.println("OPEN PROJECT 1");
 
@@ -1114,7 +1096,7 @@ public class NewFrompFrame extends JFrame {
 					NewFrompFrame.this.newEditSamples();
 				} else {
 					if (erg == 2) {
-						Project.userPathways = new ArrayList();
+						Project.userPathways = new ArrayList<String>();
 
 						System.out.println("OPEN PROJECT 2");
 

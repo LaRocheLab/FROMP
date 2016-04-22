@@ -296,6 +296,15 @@ public class Sample {
 		}
 		return null;
 	}
+	
+	public GONum getGo(String goId) {
+		for (int goCnt = 0; goCnt < this.gos_.size(); goCnt++) {
+			if ((this.gos_.get(goCnt)).GoNumber.contentEquals(goId)) {
+				return this.gos_.get(goCnt);
+			}
+		}
+		return null;
+	}
 
 	public void integratePathway(PathwayWithEc pathway) {
 		PathwayWithEc newPath = new PathwayWithEc(pathway);

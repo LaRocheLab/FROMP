@@ -1,3 +1,4 @@
+/home/song/git/songFROMP/projects/new-project-1.frp
 /home/zs/git/songFROMP/projects/default.frp
 /home/zs/git/songFROMP/projects/1234.frp
 /home/zs/git/songFROMP/projects/default(2).frp

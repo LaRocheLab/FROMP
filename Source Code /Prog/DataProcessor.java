@@ -53,6 +53,7 @@ public class DataProcessor {
 	static final String uni2ECPath_ = StartFromp1.FolderPath+"list" + File.separator + "optimized" + File.separator + "uniref2ec_optimized.txt";
 	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath+"list" + File.separator + "pfam2Ec2Rn.txt"; 
 	//xx --> GO
+	static final String listPathgoterm = StartFromp1.FolderPath+"list" + File.separator + "go-terms.txt";
 	static final String interpro2GOPath = StartFromp1.FolderPath+"list" + File.separator + "optimized" + File.separator + "interpro2GO_optimized.txt"; 
 	static final String uni2GoPath = StartFromp1.FolderPath+"list" + File.separator + "optimized" + File.separator + "uniref90_2GO_optimized-";//4 files.-1-2-3-4
 	static final String ec2GoPath = StartFromp1.FolderPath+"list" + File.separator + "ec2go.txt"; 
@@ -83,6 +84,7 @@ public class DataProcessor {
 	int numCompleteIPR = 0; 
 	int numMappedIPR = 0; 
 	BufferedReader ecList; // Buffered Reader for reading the conversion files
+	BufferedReader goList; // Buffered Reader for reading the conversion files
 	BufferedReader rnList; 
 	BufferedReader nameList; 
 	BufferedReader ecToGoTxt_; 
@@ -97,6 +99,7 @@ public class DataProcessor {
 	public static ArrayList<PathwayWithEc> pathwayList_; // Array list containing the pathways
 	private static ArrayList<PathwayWithEc> newUserPathList_; // Array list containing the user pathways
 	public static ArrayList<EcWithPathway> ecList_; // Array list containg the ECs
+	public static ArrayList<GONum> goList_; // Array list containg the GOs
 	boolean reduce = false; 
 	ArrayList<String> numEcs = new ArrayList<String>(); // Arraylists to facilitate conversion statistics
 	ArrayList<String> numPfams = new ArrayList<String>(); 
@@ -133,6 +136,7 @@ public class DataProcessor {
 		this.lFrame_ = new Loadingframe();
 		newUserPathList_ = new ArrayList<PathwayWithEc>();
 		pathwayList_ = null;
+		goList_=null;
 		prepData(); // Prepares everything for the data processor
 	}
 	public DataProcessor() {// Builds a shell of a data processor, not connected to
@@ -155,6 +159,7 @@ public class DataProcessor {
 			System.err.println("new BaseData");
 			prepPathList();
 			prepEcList();
+			prepGoList();
 			newBaseData = false;
 		}
 		if (newUserData) {
@@ -171,6 +176,47 @@ public class DataProcessor {
 		}
 	}
 
+	private void prepGoList() {
+		// preps the go list
+		this.lFrame_.bigStep("GO List");
+		String zeile = "";
+		String term = "";
+		String id = "";
+	
+		Boolean newGo = true;
+	
+		if (goList_ == null) {
+			goList_ = new ArrayList<GONum>();
+			try {
+				this.goList = this.reader.readTxt(listPathgoterm);
+				while ((zeile = this.goList.readLine()) != null) {
+					term = zeile.substring(0,zeile.indexOf("\t"));
+					
+					newGo = true;
+	
+					id = zeile.substring(zeile.indexOf("GO:")+3);
+					
+						GONum tmpGO = new GONum(id,term);
+						for (int i = 0; (i < goList_.size())&& newGo; i++) {
+							if (goList_.get(i).getGoTerm().contentEquals(term)) {
+								newGo = false;
+								break;
+							}
+						}
+						if (newGo) {
+							goList_.add(tmpGO);
+							this.lFrame_.step((goList_.get(goList_.size() - 1)).GoNumber);
+		
+						} 		
+					}
+				this.goList.close();
+			} 
+			catch (IOException e) {
+				openWarning("Error", "File: " + listPathgoterm + " not found");
+				e.printStackTrace();
+			}
+		}	
+	}
 	public void processProject() { // prepares the project object
 		this.lFrame_ = new Loadingframe();
 		if ((newBaseData) || (newUserData)) {
@@ -1589,8 +1635,9 @@ public class DataProcessor {
 		ArrayList<String[]> retList = new ArrayList<String[]>();
 		this.pfamToRnToEc_ = this.reader.readTxt(pfamToRnToEcPath_);//conversion file
 		String zeile = "";
-		String[] tmpNr = new String[4];
+		String[] tmpNr = new String[5];
 		tmpNr[3] = pfam[3];
+		tmpNr[4] = "";
 		int pfamNr = Integer.valueOf(pfam[0].substring(2)).intValue();
 
 		if (!totalnumPfams.contains(pfam[0]) && pfam[2].equalsIgnoreCase("PF")) {
@@ -1602,7 +1649,7 @@ public class DataProcessor {
 			while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
 					if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3,zeile.indexOf(":PF") + 8)).intValue()) {
-						tmpNr = new String[4];
+						tmpNr = new String[5];
 						tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
 						tmpNr[1] = pfam[1];
 						if (tmpNr[0].startsWith("R")) {
@@ -1611,6 +1658,7 @@ public class DataProcessor {
 							tmpNr[2] = "EC";
 						}
 						tmpNr[3] = pfam[3];
+						tmpNr[4] = "";
 						this.numOfPfamsToGo += 1;
 						if (tmpNr[2].contentEquals("EC")) {
 							retList.add(tmpNr);

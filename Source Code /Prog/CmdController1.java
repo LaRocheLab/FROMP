@@ -4,6 +4,7 @@ import Objects.Line;
 import Objects.Project;
 import Objects.Sample;
 import Panes.ActMatrixPane;
+import Panes.GoActMatixPane;
 import Panes.PathwayActivitymatrixPane;
 import Panes.PathwayMatrix;
 import java.awt.Color;
@@ -315,7 +316,7 @@ public class CmdController1 {
 		//5. g or a or am - GO-activity-matrix
 		if  (optionsCmd_.contentEquals("g") || optionsCmd_.contentEquals("a") || optionsCmd_.contentEquals("am")){
 			System.out.println("GO-activity-matrix");
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));
 			
 			if (outPutPath_.contentEquals("def")){
 				tmpPath = basePath_+"g";
@@ -417,7 +418,7 @@ public class CmdController1 {
 			else{
 				tmpPath = outPutPath_;
 			}
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_, DataProcessor.ecList_, Controller.processor_, new Dimension(12, 12));
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));
 			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
 				
 				pane.cmdExportRepseqsGo(StartFromp1.goSet.get(i),tmpPath);
@@ -459,8 +460,7 @@ public class CmdController1 {
 			else {
 				tmpPath = outPutPath_;
 			}
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
 				
 				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", false, false);
@@ -503,8 +503,7 @@ public class CmdController1 {
 				tmpPath = outPutPath_;
 			}
 			
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
 				
 				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", true, false);
@@ -582,8 +581,7 @@ public class CmdController1 {
 		else if (optionsCmd_.startsWith ("golist")){
 			//initialization
 			System.out.println("GO list");
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			//output all
 			if(optionsCmd_.contentEquals("golist")){
 				//num_ec_exported=0;
@@ -736,7 +734,7 @@ public class CmdController1 {
 				
 			}
 			
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));
 			//need to make the matrix have the geometric distribution p values before sorting
 			int goCnt = 0;
 			for (goCnt = 0; goCnt < pane.goMatrix_.size(); goCnt++) {
@@ -816,8 +814,7 @@ public class CmdController1 {
 			}
 
 			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
-			pane.exportAll = true;
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			pane.exportAll = true;
 			String sampleName = "";
 			String line = "";
 			
@@ -1061,7 +1058,7 @@ public class CmdController1 {
 			else {
 				tmpPath = outPutPath_;
 			}		
-			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			pane.exportAll = true;
 			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
 			

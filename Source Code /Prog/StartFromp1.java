@@ -378,28 +378,13 @@ public class StartFromp1 {
 		return ""+-1;
 	}
 	
-//	private static boolean checkNum(String options){
-//		try{
-//			Integer.parseInt(options);
-//		}
-//		catch(NumberFormatException e){
-//			return false;
-//		}
-//		return true;
-//	}
 	private static void argsError(){
 		
 		System.out.println("\nThe arguements used are invalid.Plase check Manual or input Help command line blew.\njava -jar FROMP.jar h");
 		System.exit(0);
 	}
 	private static void printOptions() { // Prints out the options for this program to the cmd line
-		/*
-		if (args[0] != "h") {
-			System.out.println("The arguments used are invalid");
-			System.out.println();
-			System.out.println("The correct arguments are:");
-		}
-		*/		
+	
 		System.out.println("../java -jar FROMP.jar h for help");
 		System.out.println("../java -jar FROMP.jar d for the pathwaydesigner");
 		System.out.println();

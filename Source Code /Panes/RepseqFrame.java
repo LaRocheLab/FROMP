@@ -227,7 +227,7 @@ public class RepseqFrame extends JFrame {
 					+ ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_()
 					+ ","
 					+ ((ConvertStat) this.reps_.get(repCnt))
-							.getPfamToEcAmount_() + "," + amount;
+							.getPfamToEcAmount_() + "," + amount+",unused_EC: "+this.reps_.get(repCnt).getUnusedEc();
 			text = text + "\n";
 			// }
 		}
@@ -408,7 +408,7 @@ public class RepseqFrame extends JFrame {
 					+ ((ConvertStat) this.reps_.get(repCnt)).getEcAmount_()
 					+ ","
 					+ ((ConvertStat) this.reps_.get(repCnt))
-							.getPfamToEcAmount_() + "," + amount;
+							.getPfamToEcAmount_() + "," + amount+",unused_EC: "+this.reps_.get(repCnt).getUnusedEc();
 			text = text + "\n";
 			// }
 		}

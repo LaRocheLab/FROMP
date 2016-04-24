@@ -97,7 +97,7 @@ public class RepseqFrameGo extends JFrame {
 		this.back_.setVisible(true);
 		addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				System.out.print("move");
+//				System.out.print("move");
 				int count = e.getWheelRotation();
 				if (Math.abs(count) > 0) {
 					int value = RepseqFrameGo.this.back_.getY() - count * 50;
@@ -210,18 +210,14 @@ public class RepseqFrameGo extends JFrame {
 				amount = ((ConvertStatGo) RepseqFrameGo.this.reps_.get(repCnt))
 						.getPfamToGoAmount_();
 			}
-			// test=((ConvertStatGo)this.reps_.get(repCnt)).getDesc_() + "," +
-			// ((ConvertStatGo)this.reps_.get(repCnt)).getGoAmount_() + "," +
-			// ((ConvertStatGo)this.reps_.get(repCnt)).getPfamToGoAmount_() + ","
-			// + amount;
-			// if(!test.contains("\t")){
+
 			text = text
 					+ ((ConvertStatGo) this.reps_.get(repCnt)).getDesc_()
 					+ ","
 					+ ((ConvertStatGo) this.reps_.get(repCnt)).getGoAmount_()
 					+ ","
 					+ ((ConvertStatGo) this.reps_.get(repCnt))
-							.getPfamToGoAmount_() + "," + amount;
+							.getPfamToGoAmount_() + "," + amount+",unused_GO: "+this.reps_.get(repCnt).getUnusedGo();
 			text = text + "\n";
 			// }
 		}
@@ -265,14 +261,7 @@ public class RepseqFrameGo extends JFrame {
 					//calls biojava to build the sequence hash
 					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile); 
 					if (sequenceHash != null) {
-						/*
-						 * System.out.println("Seq File: "+seqFile); for
-						 * (Map.Entry<String, ProteinSequence> entry :
-						 * sequenceHash.entrySet()) { String key =
-						 * entry.getKey(); ProteinSequence value =
-						 * entry.getValue(); System.out.println(key+": "+value);
-						 * }
-						 */
+
 						String text = ">";
 						System.out.println("repCnt: "+ RepseqFrameGo.this.reps_.size());
 						for (int repCnt = 0; repCnt < RepseqFrameGo.this.reps_.size(); repCnt++) {
@@ -391,18 +380,14 @@ public class RepseqFrameGo extends JFrame {
 				amount = ((ConvertStatGo) this.reps_.get(repCnt))
 						.getPfamToGoAmount_();
 			}
-			// test=((ConvertStatGo)this.reps_.get(repCnt)).getDesc_() + "," +
-			// ((ConvertStatGo)this.reps_.get(repCnt)).getGoAmount_() + "," +
-			// ((ConvertStatGo)this.reps_.get(repCnt)).getPfamToGoAmount_() + ","
-			// + amount;
-			// if(!test.contains("\t")){
+
 			text = text
 					+ ((ConvertStatGo) this.reps_.get(repCnt)).getDesc_()
 					+ ","
 					+ ((ConvertStatGo) this.reps_.get(repCnt)).getGoAmount_()
 					+ ","
 					+ ((ConvertStatGo) this.reps_.get(repCnt))
-							.getPfamToGoAmount_() + "," + amount;
+							.getPfamToGoAmount_() + "," + amount+",unused_GO: "+this.reps_.get(repCnt).getUnusedGo();
 			text = text + "\n";
 			
 		}

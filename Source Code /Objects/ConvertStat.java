@@ -6,6 +6,14 @@ package Objects;
  *
  */
 public class ConvertStat {
+	public String getUnusedEc() {
+		return unusedEc;
+	}
+
+	public void setUnusedEc(String unusedEc) {
+		this.unusedEc = unusedEc;
+	}
+
 	String desc_;//seq id
 	String ecNr_;
 	String unusedEc= "No_unused_Ec";

@@ -24,6 +24,12 @@ public class ConvertStatGo {
 		}
 			
 	}
+	public String getUnusedGo() {
+		return unusedGo;
+	}
+	public void setUnusedGo(String unusedGo) {
+		this.unusedGo = unusedGo;
+	}
 	public void addStatsCnt(ConvertStatGo stat) {
 		this.goAmount_ += stat.goAmount_;
 		this.pfamToGoAmount_ += stat.pfamToGoAmount_;

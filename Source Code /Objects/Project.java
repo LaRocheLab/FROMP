@@ -1073,7 +1073,8 @@ public class Project {
 		}//end of try		
 		catch (IOException e) {
 			openWarning("Error", "File: " + path + " not found");
-			e.printStackTrace();
+			System.out.println("Error: File: " + path + " not found");
+			//e.printStackTrace();
 		}
 	}
 

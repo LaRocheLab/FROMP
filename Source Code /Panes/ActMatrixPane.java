@@ -136,7 +136,7 @@ public class ActMatrixPane extends JPanel {
 		ec_list = new ArrayList<String>();
 		this.sumIndexSmp = 0; 
 		setSelectedEc(); // Sets whether or not each sample is selected
-		prepMatrix(); // Builds the ec matrixLoadingframe.close();
+		prepMatrix(); // Builds the ec matrix;
 		initMainPanels(); // Instantiates the options, display and scroll panels
 		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back panel
 		Loadingframe.close(); // closes the loading frame
@@ -422,7 +422,7 @@ public class ActMatrixPane extends JPanel {
 		this.incompleteSum.setSum();
 		this.sums.setSum();
 		unCompleteMover();
-		Loadingframe.close();
+
 	}
 	
 	//Options panel for the Lowest Common Ancestor page

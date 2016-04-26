@@ -136,7 +136,6 @@ public class DataProcessor {
 		this.lFrame_ = new Loadingframe();
 		newUserPathList_ = new ArrayList<PathwayWithEc>();
 		pathwayList_ = null;
-		goList_=null;
 		prepData(); // Prepares everything for the data processor
 	}
 	public DataProcessor() {// Builds a shell of a data processor, not connected to
@@ -880,6 +879,7 @@ public class DataProcessor {
 			else if (!sample.name_.isEmpty()) {
 				
 				String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
+				System.out.println(Project.samples_.get(i).name_+" is working....");
 				sample.sample_ = this.reader.readTxt(tmp);
 				sample.clearPaths();
 				Project.legitSamples.add(Boolean.valueOf(false));

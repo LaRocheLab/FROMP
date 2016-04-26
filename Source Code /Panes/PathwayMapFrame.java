@@ -702,7 +702,7 @@ public class PathwayMapFrame extends JFrame {
 					out.newLine();
 					for (int ecCnt = 0; ecCnt < this.path_.ecNrs_.size(); ecCnt++) {
 						EcNr ecTmp = (EcNr) this.path_.ecNrs_.get(ecCnt);
-						out.write(ecTmp.name_ + "/t" + ecTmp.amount_);
+						out.write(ecTmp.name_ + "\t" + ecTmp.amount_);
 						out.newLine();
 					}
 				} else {

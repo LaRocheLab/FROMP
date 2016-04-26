@@ -190,10 +190,11 @@ public class DataProcessor {
 		String zeile = "";
 		String term = "";
 		String id = "";
-		System.out.println("Load GO List...");
+		
 		Boolean newGo = true;
 	
 		if (goList_ == null) {
+			System.out.println("Load GO List...");
 			goList_ = new ArrayList<GONum>();
 			try {
 				this.goList = this.reader.readTxt(listPathgoterm);
@@ -1029,7 +1030,7 @@ public class DataProcessor {
 					e.printStackTrace();
 				}
 				Debug.writeOutAll("DebugLists.txt");
-				System.out.println("finished allecvsp");
+				System.out.println("\nfinished allecvsp");
 			}
 			//check status
 		}
@@ -1278,7 +1279,7 @@ public class DataProcessor {
 		uniNr = uniNr.replaceAll("UniRef90_", "");
 
 		if (this.UniToGOHash.containsKey(uniNr)) {
-			System.out.print("\r"+uniNr+" Found UniRef");
+			System.out.print("\r"+uniNr+" Found UniRef                                        ");
 			
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToGOHash.get(uniNr).get(0);
@@ -1743,7 +1744,7 @@ public class DataProcessor {
 		String uniNr = uni[0];
 		
 		if (this.UniToECHash.containsKey(uniNr)) {
-			System.out.print("\r"+uniNr+" Found UniRef");
+			System.out.print("\r"+uniNr+" Found UniRef                                  ");
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToECHash.get(uniNr).get(0);
 			tmpNr[1] = uni[1];

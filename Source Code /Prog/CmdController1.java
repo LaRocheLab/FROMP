@@ -196,22 +196,15 @@ public class CmdController1 {
 				String line = in.readLine();
 				while(line != null){
 					
-					//sample path (list file )
-					if (StartFromp1.checkPath(line, 1)) {
-						readInputFile(line);
-					}
+					
 					//if it is a sample + seq path or the first line of sample file.
-					else if (line.contains("\t")) {
+					if (line.contains("\t")) {
 						String part1 = line.substring(0,line.indexOf("\t"));
 						String part2 = line.substring(line.indexOf("\t")+1);
 						//if it is a sample + seq path
 						if (StartFromp1.checkPath(part1, 1) && StartFromp1.checkPath(part2, 1)){
 							readInputFile(line);
 						}
-						//if it is wrong input path
-//						else if (line.contains(File.separator)) {
-//							System.out.println("Wong input file path: " + line);					
-//						}
 						//add sample.
 						else {
 							//get filename.filetype.  such like abc.txt, need +1
@@ -231,6 +224,10 @@ public class CmdController1 {
 							System.out.println(Project.workpath_);	
 							break;
 						}			
+					}
+					//sample path (list file )
+					else if (StartFromp1.checkPath(line, 1)) {
+						readInputFile(line);
 					}
 					line = in.readLine();
 				}

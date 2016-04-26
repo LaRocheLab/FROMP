@@ -78,7 +78,7 @@ public class EditsamplesPane extends JPanel {
 					((Sample) Project.samples_.get(Project.samples_.size() - 1)).fullPath_);
 		}
 		this.lastPath_ = "";
-		this.colChange = 15;
+		this.colChange = 50;
 		this.colButton_ = new IndexButton[Project.samples_.size()];
 		this.delButt_ = new IndexButton[Project.samples_.size()];
 		this.seqButt_ = new IndexButton[Project.samples_.size()];
@@ -220,7 +220,7 @@ public class EditsamplesPane extends JPanel {
 			this.seqButt_[sampCnt] = new IndexButton(sampCnt);
 			//determine there are sequence file or not.
 			if (Project.samples_.get(sampCnt).getSequenceFile() != null
-					&& !Project.samples_.get(cnt).getSequenceFile().equals("")) {
+					&& !Project.samples_.get(cnt).getSequenceFile().equals("none")) {
 				this.seqButt_[sampCnt].setText("?");
 				this.seqButt_[sampCnt].setBackground(Color.yellow);
 				if(CmdController1.checkSeqFileFormat(Project.samples_.get(sampCnt).getSequenceFile())){
@@ -655,7 +655,8 @@ public class EditsamplesPane extends JPanel {
 			if (col.getBlue() <= 255 - this.colChange) {
 				col = new Color(col.getRed() - this.colChange, col.getGreen(),
 						col.getBlue() + this.colChange);
-			} else if (col.getGreen() <= 255 - this.colChange) {
+			} 
+			else if (col.getGreen() <= 255 - this.colChange) {
 				col = new Color(col.getRed(), col.getGreen() + this.colChange,
 						col.getBlue());
 			}
@@ -764,7 +765,8 @@ public class EditsamplesPane extends JPanel {
 			if (!tmpProc.enzReadCorrectly(newEnz)) {
 				System.err.println("no enzyme in sample line");
 				System.err.println(zeile);
-			} else {
+			} 
+			else {
 				goodLines++;
 			}
 		}

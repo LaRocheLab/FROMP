@@ -305,7 +305,10 @@ public class StartFromp1 {
 			File f = new File(path);
 			//no file or wrong file
 			if(path.endsWith(File.separator) ||  !f.exists()){
-				System.out.println("This is not a vaid file path:" +path );
+				if (!(path.matches(".*IPR.*")||path.matches(".*UniRef90.*") || path.matches(".*Pfam.*"))){
+					System.out.println("This is not a vaid file path:" +path );
+				}
+				
 				return false;
 			}
 				

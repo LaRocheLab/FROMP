@@ -157,9 +157,14 @@ public class DataProcessor {
 	public void prepData() {
 		if (newBaseData) {
 			System.err.println("new BaseData");
-			prepPathList();
-			prepEcList();
-			prepGoList();
+			if (StartFromp1.doEC){
+				prepPathList();
+				prepEcList();
+			}
+			if (StartFromp1.doGo){
+				prepGoList();
+			}
+			
 			newBaseData = false;
 		}
 		if (newUserData) {
@@ -1266,11 +1271,11 @@ public class DataProcessor {
 		String[] tmpNr = new String[5];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];	
-		System.out.println(uniNr);
+//		System.out.println(uniNr);
 		uniNr = uniNr.replaceAll("UniRef90_", "");
 
 		if (this.UniToGOHash.containsKey(uniNr)) {
-			System.out.println("Found UniRef");
+			System.out.print("\r"+uniNr+" Found UniRef");
 			
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToGOHash.get(uniNr).get(0);
@@ -1289,6 +1294,7 @@ public class DataProcessor {
 			}
 			Project.numOfConvertedUNIs += 1;
 		}
+		
 		return tmpNr;
 	}
 	/**
@@ -1326,9 +1332,9 @@ public class DataProcessor {
 			catch (IOException e) {
 				openWarning("Error", "File" + file + " not found");
 			}
-			System.out.println("\rLoading uniref list(400MB)..."+(i*100/4)+"%");
+			System.out.print("\rLoading uniref list(400MB)..."+(i*100/4)+"%");
 		}
-		
+		System.out.println();
 		this.UniToGOHash = tmpUNIToGO;
 		
 	}
@@ -1732,10 +1738,9 @@ public class DataProcessor {
 		String[] tmpNr = new String[5];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];
-		System.out.println(uniNr);
-
+		
 		if (this.UniToECHash.containsKey(uniNr)) {
-			System.out.println("Found UniRef");
+			System.out.print("\r"+uniNr+" Found UniRef");
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToECHash.get(uniNr).get(0);
 			tmpNr[1] = uni[1];

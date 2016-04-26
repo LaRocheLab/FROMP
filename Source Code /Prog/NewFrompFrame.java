@@ -971,25 +971,24 @@ public class NewFrompFrame extends JFrame {
 		for (int i = 0; i < recentProj_.size(); i++) {
 			final int index = i;
 			path = (String) recentProj_.get(i);
-			path = path.substring(path.lastIndexOf(File.separator));
-			s = new JButton(path);
-			s.setBounds(xcol1, yOff + (ySize + 2) * (i + 3), xsize, ySize);
-			s.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					Project.userPathways = new ArrayList<String>();
-
-					NewFrompFrame.this.control_
-							.loadProjFile((String) NewFrompFrame.recentProj_
-									.get(index));
-					NewFrompFrame.this.control_.openProject();
-					DataProcessor.newBaseData = true;
-					Controller.dataChanged = true;
-
-					NewFrompFrame.this.clearBack();
-					NewFrompFrame.this.newEditSamples();
-				}
-			});
-			panel.add(s);
+			//if recent project do not exists, do not add button.
+			if (StartFromp1.checkPath(path, 1)){	
+				path = path.substring(path.lastIndexOf(File.separator));
+				s = new JButton(path);
+				s.setBounds(xcol1, yOff + (ySize + 2) * (i + 3), xsize, ySize);
+				s.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						Project.userPathways = new ArrayList<String>();
+						NewFrompFrame.this.control_.loadProjFile((String) NewFrompFrame.recentProj_.get(index));
+						NewFrompFrame.this.control_.openProject();
+						DataProcessor.newBaseData = true;
+						Controller.dataChanged = true;
+						NewFrompFrame.this.clearBack();
+						NewFrompFrame.this.newEditSamples();
+					}
+				});
+				panel.add(s);	
+			}	
 		}
 		this.back_.add(panel);
 		invalidate();

@@ -105,7 +105,7 @@ public class CmdController1 {
 			StartFromp1.doGo = true;
 		}
 		//for special options eclist/golist pvalue/pvaluego
-		else if (optionsCmd_.startsWith("eclist")||(optionsCmd_.startsWith("pvalue") && optionsCmd_.startsWith("pvaluego"))){
+		else if (optionsCmd_.startsWith("eclist")||(optionsCmd_.startsWith("pvalue") && !optionsCmd_.startsWith("pvaluego"))){
 			StartFromp1.doEC = true;
 			StartFromp1.doGo = false;
 			
@@ -583,7 +583,7 @@ public class CmdController1 {
 			if(optionsCmd_.contentEquals("golist")){
 				//num_ec_exported=0;
 				if(outPutPath_.contentEquals("def")){
-					tmpPath=basePath_+"eclist"+File.separator + Project.workpath_+"-golist-all.txt";;	
+					tmpPath=basePath_+"golist"+File.separator + Project.workpath_+"-golist-all.txt";;	
 				}
 				//if it is a assigned path.
 				else{
@@ -722,7 +722,7 @@ public class CmdController1 {
 			
 				
 				if(outPutPath_.contentEquals("def")){
-					tmpPath = basePath_+"pvalue"+File.separator + Project.workpath_+"-pvalue-golist"+"-"+num_ec_exported+".txt";	
+					tmpPath = basePath_+"pvaluego"+File.separator + Project.workpath_+"-pvalue-golist"+"-"+num_ec_exported+".txt";	
 				}
 				//if no assigned file name.
 				else if (outPutPath_.endsWith(File.separator)){

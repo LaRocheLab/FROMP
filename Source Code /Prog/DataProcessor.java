@@ -157,10 +157,10 @@ public class DataProcessor {
 	public void prepData() {
 		if (newBaseData) {
 			System.err.println("new BaseData");
-			if (StartFromp1.doEC){
-				prepPathList();
-				prepEcList();
-			}
+		
+			prepPathList();
+			prepEcList();
+			
 			if (StartFromp1.doGo){
 				prepGoList();
 			}
@@ -173,9 +173,12 @@ public class DataProcessor {
 			prepUserEc();
 			newUserData = false;
 		}
+	
 		computeWeights(); 
 		transferWeightToPwl(); // Transfers the weights to a pathway list
 		calcChainsForProg(); // Calculates the longest chain between EcNrs
+	
+		
 		if (this.lFrame_ != null) {
 			Loadingframe.close();
 		}
@@ -187,7 +190,7 @@ public class DataProcessor {
 		String zeile = "";
 		String term = "";
 		String id = "";
-	
+		System.out.println("Load GO List...");
 		Boolean newGo = true;
 	
 		if (goList_ == null) {

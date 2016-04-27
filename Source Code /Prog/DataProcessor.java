@@ -226,8 +226,9 @@ public class DataProcessor {
 		}	
 	}
 	public void processProject() { // prepares the project object
-		this.lFrame_ = new Loadingframe();
+		
 		if ((newBaseData) || (newUserData)) {
+			this.lFrame_ = new Loadingframe();
 			prepData();
 		}
 		this.lFrame_ = new Loadingframe();
@@ -996,7 +997,7 @@ public class DataProcessor {
 									}	
 								}
 							}								
-							//ec#(may be need to add read go#) in the line. no need(IPR/Uniref/Pfam). read it directly
+							//ec#(may be need to add read go# later) in the line. no need(IPR/Uniref/Pfam). read it directly
 							else if (!newEnz[0].isEmpty()) {
 								//may need add if doEc/doGo
 								ecNr = new EcNr(newEnz);
@@ -1225,6 +1226,7 @@ public class DataProcessor {
 		tmpNr[3] = pfam[3];
 		String PfamNr = pfam[0];//IPR name.	
 		if (PfamToGOHash.containsKey(PfamNr)) {
+			System.out.print("\r"+PfamNr+" Found Pfam-->GO                                        ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = PfamToGOHash.get(PfamNr).get(0);
 			tmpNr[1] = pfam[1];
@@ -1275,11 +1277,11 @@ public class DataProcessor {
 		String[] tmpNr = new String[5];
 		tmpNr[3] = uni[3];
 		String uniNr = uni[0];	
-//		System.out.println(uniNr);
+
 		uniNr = uniNr.replaceAll("UniRef90_", "");
 
 		if (this.UniToGOHash.containsKey(uniNr)) {
-			System.out.print("\r"+uniNr+" Found UniRef                                        ");
+			System.out.print("\r"+uniNr+" Found UniRef-->GO                                        ");
 			
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToGOHash.get(uniNr).get(0);
@@ -1309,7 +1311,7 @@ public class DataProcessor {
 	private void DigitizeConversionFilesUniGo() {
 		
 		Hashtable<String, ArrayList<String>> tmpUNIToGO = new Hashtable<String, ArrayList<String>>();
- 
+		System.out.println();
 		for (int i = 1 ; i <= 4;i++){
 			
 			String file = uni2GoPath+i+".txt";
@@ -1566,6 +1568,7 @@ public class DataProcessor {
 		String interproNr = interpro[0];//IPR name.
 
 		if (this.IPRToGOHash.containsKey(interproNr)) {
+			System.out.print("\r"+interproNr+" Found IPR-->GO                                        ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = IPRToGOHash.get(interproNr).get(0);
 			tmpNr[1] = interpro[1];
@@ -1659,6 +1662,7 @@ public class DataProcessor {
 			while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
 					if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3,zeile.indexOf(":PF") + 8)).intValue()) {
+						System.out.print("\r"+pfamNr+" Found Pfam-->  EC                                        ");
 						tmpNr = new String[5];
 						tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
 						tmpNr[1] = pfam[1];
@@ -1711,6 +1715,7 @@ public class DataProcessor {
 		
 		String interproNr = interpro[0];//IPR name.
 		if (this.IPRToECHash.containsKey(interproNr)) {
+			System.out.print("\r"+interproNr+" Found IPR-->  EC                                        ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = IPRToECHash.get(interproNr).get(0);
 			tmpNr[1] = interpro[1];
@@ -1744,7 +1749,7 @@ public class DataProcessor {
 		String uniNr = uni[0];
 		
 		if (this.UniToECHash.containsKey(uniNr)) {
-			System.out.print("\r"+uniNr+" Found UniRef                                  ");
+			System.out.print("\r"+uniNr+" Found UniRef-->  EC                                  ");
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToECHash.get(uniNr).get(0);
 			tmpNr[1] = uni[1];

@@ -27,6 +27,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -995,20 +998,7 @@ public class NewFrompFrame extends JFrame {
 		validate();
 		repaint();
 	}
-	//remove same path was in the recent list
-	private void removeRecentDoubles() {
-		if (recentProj_ == null) {
-			recentProj_ = new ArrayList<String>();
-		}
-
-		//rewrite function
-		for (int i =1; i < recentProj_.size(); i++){
-			if ((recentProj_.get(i)).contentEquals(recentProj_.get(0))) {
-				recentProj_.remove(i);
-				break;
-			}
-		}
-	}
+	
 	// read recent project list from recentProj.txt, then save it into arrayList recentProj_
 	private void loadRecentProj() {
 		try {
@@ -1017,27 +1007,34 @@ public class NewFrompFrame extends JFrame {
 			recentProj_ = new ArrayList<String>();
 			String line = "";
 			while ((line = in.readLine()) != null) {
-				if (!line.isEmpty()) {
+				if (!line.isEmpty()&&StartFromp1.checkPath(line, 1)) {
 					recentProj_.add(line);
-					System.out.println("load " + line);
+					System.out.println("load " + line);		
 				}
 			}
 			in.close();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			saveRecentProj();
 			e.printStackTrace();
 		}
 	}
 
 	private void saveRecentProj() {
-		removeRecentDoubles();
+	
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(
 					StartFromp1.FolderPath+"recentProj.txt"));
-			for (int i = 0; i < recentProj_.size(); i++) {
-				out.write((String) recentProj_.get(i));
-				System.out.println("Save " + (String) recentProj_.get(i));
-				out.newLine();
+			//remove repeat elements.
+			Set<String> s = new LinkedHashSet<String>(recentProj_);
+			recentProj_ = new ArrayList <String>(s);	
+			for (int i = 0; i < recentProj_.size(); i++) {		
+				//only store valid paths
+				if(StartFromp1.checkPath(recentProj_.get(i), 1)){
+					out.write((String) recentProj_.get(i));
+					System.out.println("Save " + (String) recentProj_.get(i));
+					out.newLine();
+				}
 			}
 			out.close();
 		} catch (IOException e) {

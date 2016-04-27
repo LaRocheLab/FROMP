@@ -293,9 +293,9 @@ public class MetaProteomicAnalysis {
 							peptide.get(i).setLca(lcaList);
 							System.out.println(fileName + " Working....\n");
 							//Printing out the contents of the lowest common ancestor search into a file
-							for (int p = 0; p < peptide.get(i).getLca().size(); p++) {
-							}
-							//If on the last peptide array, notfy the user that results are finished
+//							for (int p = 0; p < peptide.get(i).getLca().size(); p++) {
+//							}
+							//If on the last peptide array, notify the user that results are finished
 							if (i == peptide.size() - 1) {
 								System.out.println(fileName + " Done\n");
 								findCommonLCA(peptide);
@@ -537,11 +537,12 @@ public class MetaProteomicAnalysis {
 					//gets unique identifier of sequence in case that the identifier ends with '-'
 					if (peptide.get(i).getUniqueIdentifier().lastIndexOf('-') > peptide.get(i).getUniqueIdentifier().lastIndexOf('+')) {
 						
-						rowData2[index2][0] = peptide.get(i).getUniqueIdentifier().subSequence(peptide.get(i)
-							.getUniqueIdentifier().indexOf(peptide.get(i).getUniqueIdentifier()
-							.charAt(0)),peptide.get(i).getUniqueIdentifier().lastIndexOf('-') + 1);
-						rowData2[index2][1] = peptide.get(i).getUniqueIdentifier().substring(
-							peptide.get(i).getUniqueIdentifier().lastIndexOf('-') + 2);
+						String line = peptide.get(i).getUniqueIdentifier();
+						//store seq ID 
+						rowData2[index2][0] = line.substring(0,line.lastIndexOf(" "));
+					
+						//sotre sample name.
+						rowData2[index2][1] = line.substring(line.lastIndexOf(" ")+1);
 					} 
 					
 					else {

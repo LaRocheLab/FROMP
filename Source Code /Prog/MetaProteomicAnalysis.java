@@ -226,8 +226,11 @@ public class MetaProteomicAnalysis {
 			taxa_rank.add(taxa_id[i]);
 		}
 		int num = -1;
+		double countPrecent = 1;
 		for (int i = 0; i < peptide.size(); i++) {
+			countPrecent = peptide.size();
 			for (int j = 0; j < peptide.get(i).getPeptides().size(); j++) {
+//				countPrecent = peptide.get(i).getPeptides().size();
 				try {
 					// Format nessary for the first peptide to be inserted into the query
 					if (peptide.get(i).getPeptides().size() > 0 && j == 0) {
@@ -291,7 +294,8 @@ public class MetaProteomicAnalysis {
 							peptide.get(i).setLowestClass(lowestTaxa);
 							//adding the arraylist of lowest common ancestors for that unique identifer
 							peptide.get(i).setLca(lcaList);
-							System.out.println(fileName + " Working....\n");
+							System.out.print("\r"+String.format("%.2f", (i+1)/countPrecent*100)+"%   "+fileName +"Working....");
+							
 							//Printing out the contents of the lowest common ancestor search into a file
 //							for (int p = 0; p < peptide.get(i).getLca().size(); p++) {
 //							}
@@ -313,6 +317,7 @@ public class MetaProteomicAnalysis {
 				}
 			}
 		}
+		System.out.println();
 		return returnData;
 	}
 	
@@ -335,7 +340,9 @@ public class MetaProteomicAnalysis {
 		boolean positive = false;
 		PrintWriter printWriter;
 		try {
+			double count = 1;
 			for (int i = 0; i < peptide.size(); i++) {
+				count = peptide.size();
 				if (peptide.get(i).getLca() != null) {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
@@ -348,7 +355,7 @@ public class MetaProteomicAnalysis {
 						query = "http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
 								+ peptide.get(i).getLowestClass().getTaxon_id()+ "&extra=true&names=true";
 						//get request
-						System.out.println(query);
+						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+query+"          ");
 						URL url = new URL(query);
 					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					    con.setRequestMethod("GET");
@@ -363,7 +370,7 @@ public class MetaProteomicAnalysis {
 							JSONArray jsonarray = new JSONArray(line1);
 							JSONObject obj;
 							//for each LCA within the arraylist
-							System.out.println("Finding Lca of " + fileName + "....\n");
+//							System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   Finding Lca of " + fileName);
 							for (int j = 0; j < peptide.get(i).getLca().size(); j++) {
 								//for each element within the JSON array
 								for (int k = 0; k < jsonarray.length(); k++) {
@@ -445,7 +452,7 @@ public class MetaProteomicAnalysis {
 	 * @author Jennifer Terpstra
 	 */
 	public void drawLCAGraph(ArrayList<TrypticPeptide> peptide, String fileName){
-		System.out.println("Draw Graph");
+		System.out.println("\nDraw Graph");
 		String sample;
 		//Counts the number of indentified rows within the Tryptic peptide arrayList
 		int countIdentRows = 0;
@@ -555,10 +562,8 @@ public class MetaProteomicAnalysis {
 							peptide.get(i).getUniqueIdentifier().lastIndexOf('+') + 2);
 					}
 					rowData2[index2][2] = peptide.get(i).getIdentifiedTaxa().getTaxon_name();
-					
-					System.out.println(rowData2[index2][1]);
-					System.out.println(rowData2[index2][2]);
-					
+//					System.out.println(rowData2[index2][1]);
+//					System.out.println(rowData2[index2][2]);
 					index2++;
 				}
 			}

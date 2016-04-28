@@ -249,20 +249,20 @@ public class StartFromp1 {
 		if (!ec.contentEquals("-1")){
 			if( !ecSet.contains(ec)){
 				ecSet.add(ec);
-				System.out.println(ec+"  is added.continue...");
+				System.out.print("\r"+ec+"  is added.continue...");
 			}
 			else
-				System.out.println(ec+"  has added already.pass...");
+				System.out.print("\r"+ec+"  has added already.pass...");
 			
 		}
 		//if it is a go#
 		else if (EcOrList.matches("\\d{7}")){
 			if( !goSet.contains(EcOrList)){
 				goSet.add(EcOrList);
-				System.out.println(EcOrList+"  is added.continue...");
+				System.out.print("\r"+EcOrList+"  is added.continue...");
 			}
 			else
-				System.out.println(EcOrList+"  has added already.pass...");
+				System.out.print("\r"+EcOrList+"  has added already.pass...");
 			
 			
 		}

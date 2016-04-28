@@ -438,7 +438,7 @@ public class CmdController1 {
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			
 			for (int i = 0; i < ec_.size(); i++) {
-				
+				System.out.print("("+(i+1)+"/"+ec_.size()+") ");
 				pane.cmdExportSequences(this.ec_.get(i),"", false, false);
 			}
 			
@@ -482,7 +482,7 @@ public class CmdController1 {
 			ActMatrixPane pane = new ActMatrixPane(Controller.project_,DataProcessor.ecList_, Controller.processor_,new Dimension(12, 12));
 			
 			for (int i = 0; i < ec_.size(); i++) {
-				
+				System.out.print("("+(i+1)+"/"+ec_.size()+") ");
 				pane.cmdExportSequences(this.ec_.get(i),"", true, false);
 			}
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
@@ -767,7 +767,7 @@ public class CmdController1 {
 			if (!ec_.isEmpty()){
 				
 				for (int i = 0;i<this.ec_.size();i++) {
-					
+					System.out.print("("+(i+1)+"/"+ec_.size()+") ");
 					line = ""+ec_.get(i);
 					LinkedHashMap<String,String> seq_for_lca;
 					seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);
@@ -891,7 +891,7 @@ public class CmdController1 {
 					
 					//writer each ec to line.
 					for (int i = 0;i<this.ec_.size();i++) {
-						
+						System.out.print("("+(i+1)+"/"+ec_.size()+") ");
 						line = ""+ec_.get(i);
 						LinkedHashMap<String,String> seq_for_lca;
 						seq_for_lca = pane.cmdExportSequences(line,sampleName, true, false);

@@ -2942,12 +2942,12 @@ public class ActMatrixPane extends JPanel {
 					
 					if(reps.size()>0&&((chosen_sample.equals("All Samples"))||(chosen_sample.equals("")))){
 						//print all sequences per sample EC number 
-						System.out.println("Working1....\n");
+						System.out.print("Working1....");
 						seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
 					}
 					//used if trying to find the lca from the LCA page instead of the EC Matrix page
 					else if(reps.size()>0 && chosen_sample.equals(sampName)){
-						System.out.println("Working2....\n");
+						System.out.print("Working2....");
 						seq_for_lca = ExportSequences(reps, ecTmp, sampName, oneFile, findLca, seq_for_lca);
 					}
 						

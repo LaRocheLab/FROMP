@@ -1082,8 +1082,7 @@ public class NewFrompFrame extends JFrame {
 
 					System.out.println("OPEN PROJECT 1");
 
-					NewFrompFrame.this.control_.loadProjFile(fChoose_
-							.getSelectedFile().getCanonicalPath());
+//					NewFrompFrame.this.control_.loadProjFile(fChoose_.getSelectedFile().getCanonicalPath());
 					NewFrompFrame.this.control_.openProject();
 
 					DataProcessor.newBaseData = true;

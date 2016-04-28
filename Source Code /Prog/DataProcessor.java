@@ -161,7 +161,7 @@ public class DataProcessor {
 			prepPathList();
 			prepEcList();
 			
-			if (StartFromp1.doGo){
+			if (StartFromp1.getCmdCode() == null){
 				prepGoList();
 			}
 			

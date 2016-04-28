@@ -25,6 +25,7 @@ public class StartFromp1 {
 	static String in;
 	static String out;
 	static String cmdCode;
+	
 	String data="";
 	public static String FolderPath = "";
 	public static boolean isSeq = false;
@@ -380,7 +381,12 @@ public class StartFromp1 {
 
 		return ""+-1;
 	}
-	
+	public static String getCmdCode() {
+		return cmdCode;
+	}
+	public static void setCmdCode(String cmdCode) {
+		StartFromp1.cmdCode = cmdCode;
+	}
 	private static void argsError(){
 		
 		System.out.println("\nThe arguements used are invalid.Plase check Manual or input Help command line blew.\njava -jar FROMP.jar h");

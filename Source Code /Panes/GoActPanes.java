@@ -97,14 +97,9 @@ public class GoActPanes extends JPanel {
 		legend.setBounds(800, 10, 150, 17);
 		this.optionsPanel_.add(legend);
 
-		legend = new JLabel("unique GO => '*'");
-		legend.setForeground(Project.getFontColor_());
-		legend.setBounds(800, 27, 150, 17);
-		this.optionsPanel_.add(legend);
-
 		legend = new JLabel("unmapped GO => '#'");
 		legend.setForeground(Project.getFontColor_());
-		legend.setBounds(800, 44, 150, 17);
+		legend.setBounds(800, 27, 150, 17);
 		this.optionsPanel_.add(legend);
 
 		this.backButton_.setBounds(10, 10, 300, 25);

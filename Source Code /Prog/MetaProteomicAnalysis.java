@@ -342,7 +342,7 @@ public class MetaProteomicAnalysis {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
-						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+"http://api.unipept.ugent.be");
+						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+"http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]=....");
 					}
 					else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier

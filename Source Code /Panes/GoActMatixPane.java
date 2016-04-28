@@ -2173,12 +2173,12 @@ public class GoActMatixPane extends JPanel {
 					
 					if(reps.size()>0&&((chosen_sample.equals("All Samples"))||(chosen_sample.equals("")))){
 						//print all sequences per sample GO number 
-						System.out.println("Working1....\n");
+						System.out.print("Working1....");
 						seq_for_lca = ExportSequencesGo(reps, goTmp, sampName, oneFile, findLca, seq_for_lca);
 					}
 					//used if trying to find the lca from the LCA page instead of the GO Matrix page
 					else if(reps.size()>0 && chosen_sample.equals(sampName)){
-						System.out.println("Working2....\n");
+						System.out.print("Working2....");
 						seq_for_lca = ExportSequencesGo(reps, goTmp, sampName, oneFile, findLca, seq_for_lca);
 					}
 						

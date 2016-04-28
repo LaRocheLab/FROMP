@@ -882,7 +882,7 @@ public class DataProcessor {
 			else if (!sample.name_.isEmpty()) {
 				
 				String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
-				System.out.println(Project.samples_.get(i).name_+" is working....");
+				System.out.println("("+(i+1)+"/"+Project.samples_.size()+") "+Project.samples_.get(i).name_+" is working....");
 				int count=1;
 				sample.sample_ = this.reader.readTxt(tmp);
 				try {
@@ -1246,7 +1246,7 @@ public class DataProcessor {
 		tmpNr[3] = pfam[3];
 		String PfamNr = pfam[0];//IPR name.	
 		if (PfamToGOHash.containsKey(PfamNr)) {
-			System.out.print("\r"+String.format("%.2f", percent)+"%  "+PfamNr+" Found Pfam-->GO                          ");
+			System.out.print("\r"+String.format("%.2f", percent)+"%  "+PfamNr+" Found Pfam-->GO          ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = PfamToGOHash.get(PfamNr).get(0);
 			tmpNr[1] = pfam[1];
@@ -1301,7 +1301,7 @@ public class DataProcessor {
 		uniNr = uniNr.replaceAll("UniRef90_", "");
 
 		if (this.UniToGOHash.containsKey(uniNr)) {
-			System.out.print("\r"+String.format("%.2f", percent)+"%  "+uniNr+" Found UniRef-->GO                          ");
+			System.out.print("\r"+String.format("%.2f", percent)+"%  "+uniNr+" Found UniRef-->GO          ");
 			
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToGOHash.get(uniNr).get(0);
@@ -1588,7 +1588,7 @@ public class DataProcessor {
 		String interproNr = interpro[0];//IPR name.
 
 		if (this.IPRToGOHash.containsKey(interproNr)) {
-			System.out.print("\r"+String.format("%.2f", percent)+"%  "+interproNr+" Found IPR-->GO                          ");
+			System.out.print("\r"+String.format("%.2f", percent)+"%  "+interproNr+" Found IPR-->GO          ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = IPRToGOHash.get(interproNr).get(0);
 			tmpNr[1] = interpro[1];
@@ -1682,7 +1682,7 @@ public class DataProcessor {
 			while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
 				if (!zeile.startsWith("!")) {
 					if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3,zeile.indexOf(":PF") + 8)).intValue()) {
-						System.out.print("\r"+String.format("%.2f", percent)+"%  "+pfamNr+" Found Pfam-->  EC                          ");
+						System.out.print("\r"+String.format("%.2f", percent)+"%  "+pfamNr+" Found Pfam-->EC          ");
 						tmpNr = new String[5];
 						tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
 						tmpNr[1] = pfam[1];
@@ -1735,7 +1735,7 @@ public class DataProcessor {
 		
 		String interproNr = interpro[0];//IPR name.
 		if (this.IPRToECHash.containsKey(interproNr)) {
-			System.out.print("\r"+String.format("%.2f", percent)+"%  "+interproNr+" Found IPR-->  EC                          ");
+			System.out.print("\r"+String.format("%.2f", percent)+"%  "+interproNr+" Found IPR-->EC          ");
 			//only use the first ec number, if IPR map to more than one ec.
 			tmpNr[0] = IPRToECHash.get(interproNr).get(0);
 			tmpNr[1] = interpro[1];
@@ -1769,7 +1769,7 @@ public class DataProcessor {
 		String uniNr = uni[0];
 		
 		if (this.UniToECHash.containsKey(uniNr)) {
-			System.out.print("\r"+String.format("%.2f", percent)+"%  "+uniNr+" Found UniRef-->EC                          ");
+			System.out.print("\r"+String.format("%.2f", percent)+"%  "+uniNr+" Found UniRef-->EC          ");
 			//only use first ec # if uniref id map to more than one ec number.
 			tmpNr[0] = UniToECHash.get(uniNr).get(0);
 			tmpNr[1] = uni[1];

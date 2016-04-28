@@ -459,7 +459,7 @@ public class CmdController1 {
 			}
 			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
-				
+				System.out.print("("+(i+1)+"/"+StartFromp1.goSet.size()+") ");
 				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", false, false);
 			}
 			
@@ -502,7 +502,7 @@ public class CmdController1 {
 			
 			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
 			for (int i = 0; i < StartFromp1.goSet.size(); i++) {
-				
+				System.out.print("("+(i+1)+"/"+StartFromp1.goSet.size()+") ");
 				pane.cmdExportSequencesGo(StartFromp1.goSet.get(i),"", true, false);
 			}
 			System.out.println("Output files were saved at: "+ tmpPath+"Sequences"+File.separator);
@@ -811,14 +811,15 @@ public class CmdController1 {
 			}
 
 			MetaProteomicAnalysis metapro = new MetaProteomicAnalysis();
-			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			pane.exportAll = true;
+			GoActMatixPane pane = new GoActMatixPane(Controller.project_, Controller.processor_,new Dimension(12, 12));			
+			pane.exportAll = true;
 			String sampleName = "";
 			String line = "";
 			
 			if (!StartFromp1.goSet.isEmpty()){
 				
 				for (int i = 0;i<StartFromp1.goSet.size();i++) {
-					
+					System.out.print("("+(i+1)+"/"+StartFromp1.goSet.size()+") ");
 					line = ""+StartFromp1.goSet.get(i);
 					LinkedHashMap<String,String> seq_for_lca;
 					seq_for_lca = pane.cmdExportSequencesGo(line,sampleName, true, false);
@@ -1086,7 +1087,7 @@ public class CmdController1 {
 					
 					//writer each go to line.
 					for (int i = 0;i<StartFromp1.goSet.size();i++) {
-						
+						System.out.print("("+(i+1)+"/"+StartFromp1.goSet.size()+") ");
 						line = ""+StartFromp1.goSet.get(i);
 						LinkedHashMap<String,String> seq_for_lca;
 						seq_for_lca = pane.cmdExportSequencesGo(line,sampleName, true, false);

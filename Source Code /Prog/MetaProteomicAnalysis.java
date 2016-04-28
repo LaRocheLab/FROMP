@@ -236,7 +236,8 @@ public class MetaProteomicAnalysis {
 					if (peptide.get(i).getPeptides().size() > 0 && j == 0) {
 						qPep += peptide.get(i).getPeptides().get(j);
 						// Format nessary for every subsequent peptide in the query
-					} else if (peptide.get(i).getPeptides().size() > 0) {
+					} 
+					else if (peptide.get(i).getPeptides().size() > 0) {
 						if (reset == true) {
 							qPep += peptide.get(i).getPeptides().get(j);
 							reset = false;
@@ -258,7 +259,7 @@ public class MetaProteomicAnalysis {
 						con.disconnect();
 						input1.close();
 						
-						// If the response isnt empty, write the response to a file
+						// If the response is not empty, write the response to a file
 						if (!line1.equals("[]")) {
 							if (num != i) {
 								num = i;
@@ -305,12 +306,16 @@ public class MetaProteomicAnalysis {
 								findCommonLCA(peptide);
 							}
 						}
+						else{
+							System.out.print("\r"+String.format("%.2f", (i+1)/countPrecent*100)+"%   "+fileName +"Working....response is empty");
+						}
 						query = "http://api.unipept.ugent.be/api/v1/pept2lca.json?input[]=";
 						qPep = "";
 
 					}
 				} catch (IOException| JSONException b) {
-					System.out.println("Connection Timeout " + fileName);
+					
+					System.out.print("\rConnection Timeout " + fileName);
 					if(!timedOut.contains(fileName)){
 						timedOut.add(fileName);
 					}
@@ -347,6 +352,7 @@ public class MetaProteomicAnalysis {
 					//If the tryipic peptide only had one lowest common ancestor result, set it as its identified taxa
 					if (peptide.get(i).getLca().size() == 1) {
 						peptide.get(i).setIdentifiedTaxa(peptide.get(i).getLca().get(0));
+						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+"http://api.unipept.ugent.be");
 					}
 					else {
 						/*If the tryipic peptide had multiple lowest common ancestor results, first the lowest taxa identifier
@@ -355,7 +361,7 @@ public class MetaProteomicAnalysis {
 						query = "http://api.unipept.ugent.be/api/v1/taxonomy.json?input[]="
 								+ peptide.get(i).getLowestClass().getTaxon_id()+ "&extra=true&names=true";
 						//get request
-						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+query+"          ");
+						System.out.print("\r"+String.format("%.2f", (i+1)/count*100)+"%   "+"http://api.unipept.ugent.be");
 						URL url = new URL(query);
 					    HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					    con.setRequestMethod("GET");
@@ -432,7 +438,7 @@ public class MetaProteomicAnalysis {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			System.out.println("Connection Timeout for " + fileName);
+			System.out.print("\rConnection Timeout for " + fileName);
 			if(!timedOut.contains(fileName)){
 				timedOut.add(fileName);
 			}

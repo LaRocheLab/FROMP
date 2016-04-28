@@ -4,9 +4,7 @@ import Objects.EcWithPathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
-import Prog.NewFrompFrame;
 import Prog.PathButt;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,12 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.PrintStream;
 import java.util.ArrayList;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,7 +32,7 @@ public class PwSearchPane extends JPanel {
 	private Sample overSample_; 
 	private ArrayList<PathwayWithEc> pathways_; // ArrayList of pathways to search through
 	private JTextField searchfield; // Pathway search field
-	private JTextField searchfield2; // EC search field
+//	private JTextField searchfield2; // EC search field
 	private ArrayList<Integer> pathwIndexes_; // Temp variable of the indicies in the pathways arraylist that the search hits
 	private ArrayList<Integer> ecIndexes_; // Temp variable of the indicies in the ec arraylist that the search hits
 	private Project proj_; // The active project
@@ -56,7 +51,7 @@ public class PwSearchPane extends JPanel {
 
 	public PwSearchPane(Project proj, ArrayList<Sample> samples,
 			Sample overallSample, Dimension dim) {
-		this.samples_ = new ArrayList();
+		this.samples_ = new ArrayList<Sample>();
 		this.proj_ = proj;
 		for (int smpCnt = 0; smpCnt < samples.size(); smpCnt++) {
 			this.samples_.add((Sample) samples.get(smpCnt));
@@ -104,7 +99,7 @@ public class PwSearchPane extends JPanel {
 	private void findPw() {
 		removeAll();
 		initMainPanels();
-		this.pathwIndexes_ = new ArrayList();
+		this.pathwIndexes_ = new ArrayList<Integer>();
 		this.line_ = 0;
 		//Button to go back to the anaylze options menu
 		this.backButton_.setBounds(40, 20, this.colDis + 50, this.linDis);
@@ -250,7 +245,7 @@ public class PwSearchPane extends JPanel {
 		});
 		this.displayP_.add(button_);
 
-		this.pathwIndexes_ = new ArrayList();
+		this.pathwIndexes_ = new ArrayList<Integer>();
 		this.line_ = 0;
 	}
 
@@ -260,7 +255,7 @@ public class PwSearchPane extends JPanel {
 				.toUpperCase());
 		String upCase = in.replaceFirst(in.substring(0, 1), in.substring(0, 1)
 				.toLowerCase());
-		this.pathwIndexes_ = new ArrayList();
+		this.pathwIndexes_ = new ArrayList<Integer>();
 		for (int pwCnt = 0; pwCnt < this.overSample_.pathways_.size(); pwCnt++) {
 			if ((((PathwayWithEc) this.overSample_.pathways_.get(pwCnt)).id_
 					.contains(lowcase))
@@ -293,7 +288,7 @@ public class PwSearchPane extends JPanel {
 		if(in.contains("ec")){
 			in = in.replaceAll("ec\\s*", "");
 		}
-		this.ecIndexes_ = new ArrayList();
+		this.ecIndexes_ = new ArrayList<Integer>();
 		for (int ecCnt = 0; ecCnt < this.overSample_.ecs_.size(); ecCnt++) {
 			if (((EcWithPathway) this.overSample_.ecs_.get(ecCnt)).name_
 					.equalsIgnoreCase(in)) {
@@ -482,6 +477,7 @@ public class PwSearchPane extends JPanel {
 					if (PwSearchPane.this.proj_ == null) {
 						System.out.println("actProjsearch");
 					}
+					@SuppressWarnings("unused")
 					PwInfoFrame frame = new PwInfoFrame(
 							(EcWithPathway) PwSearchPane.this.overSample_.ecs_
 									.get(index), PwSearchPane.this.proj_,

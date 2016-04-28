@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JButton;
@@ -108,7 +107,7 @@ public class PathwayActivitymatrixPane extends JPanel {
 	}
 
 	private void prepPaths() {
-		this.paths_ = new ArrayList();
+		this.paths_ = new ArrayList<PathwayWithEc>();
 		for (int pathCnt = 0; pathCnt < this.proc_.getPathwayList_().size(); pathCnt++) {
 			if (((PathwayWithEc) this.proc_.getPathwayList_().get(pathCnt))
 					.isSelected()) {
@@ -334,7 +333,7 @@ public class PathwayActivitymatrixPane extends JPanel {
 
 	private void createMatrix() {
 		this.numOfpaths = 0;
-		this.lineMatrix_ = new ArrayList();
+		this.lineMatrix_ = new ArrayList<Line>();
 		for (int j = 0; j < this.proc_.getPathwayList_().size(); j++) {
 			if (((PathwayWithEc) this.proc_.getPathwayList_().get(j))
 					.isSelected()) {
@@ -348,7 +347,6 @@ public class PathwayActivitymatrixPane extends JPanel {
 		double[] tmpLine = new double[sampleNr];
 		for (int pathCnt = 0; pathCnt < this.paths_.size(); pathCnt++) {
 			tmpLine = new double[sampleNr];
-			int xREAL = 0;
 			if (this.proc_.getPathway(
 					((PathwayWithEc) this.paths_.get(pathCnt)).id_)
 					.isSelected()) {
@@ -372,7 +370,6 @@ public class PathwayActivitymatrixPane extends JPanel {
 							tmpScore = activity;
 						}
 						tmpLine[sampleCnt] = tmpScore;
-						xREAL++;
 					}
 				}
 				this.lineMatrix_.add(new Line((PathwayWithEc) this.paths_
@@ -577,7 +574,7 @@ public class PathwayActivitymatrixPane extends JPanel {
 		this.exp_ = new Exporter(this);
 		double[][] matrix = new double[this.numOfSamples][this.numOfpaths];
 
-		ArrayList<String> yDesc = new ArrayList();
+		ArrayList<String> yDesc = new ArrayList<String>();
 		for (int pathCnt = 0; pathCnt < this.lineMatrix_.size(); pathCnt++) {
 			
 			//remove special signal for using at Stamp.

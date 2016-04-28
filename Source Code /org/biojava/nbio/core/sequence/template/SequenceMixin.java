@@ -60,7 +60,7 @@ public class SequenceMixin {
      * @return The number of times the given compounds appear in this Sequence
      */
     public static <C extends Compound> int countCompounds(
-            Sequence<C> sequence, C... compounds) {
+            Sequence<C> sequence, @SuppressWarnings("unchecked") C... compounds) {
         int count = 0;
         Map<C, Integer> compositon = getComposition(sequence);
         for (C compound : compounds) {
@@ -331,7 +331,7 @@ public class SequenceMixin {
      * @param sequence The input sequence
      * @return The inverted sequence which is optionally complemented
      */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <C extends Compound> SequenceView<C> inverse(Sequence<C> sequence) {
         SequenceView<C> reverse = new ReversedSequenceView<C>(sequence);
         if(sequence.getCompoundSet().isComplementable()) {

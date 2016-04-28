@@ -30,5 +30,6 @@ import java.util.HashMap;
  * @author @author Paolo Pavan
  */
 public interface FeatureRetriever {
-    HashMap<String, ArrayList<AbstractFeature>> getFeatures();
+    @SuppressWarnings("rawtypes")
+	HashMap<String, ArrayList<AbstractFeature>> getFeatures();
 }

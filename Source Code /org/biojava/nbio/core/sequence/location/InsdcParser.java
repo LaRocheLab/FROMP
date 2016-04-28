@@ -96,7 +96,8 @@ public class InsdcParser <S extends AbstractSequence<C>, C extends Compound>{
     protected Integer featureGlobalStart, featureGlobalEnd;
     
     //private S referenceSequence = new org.biojava.nbio.core.sequence.DNASequence();
-    private AbstractSequence referenceSequence = new DNASequence();
+    @SuppressWarnings({ "rawtypes", "unused" })
+	private AbstractSequence referenceSequence = new DNASequence();
     
     enum complexFeaturesAppendEnum {
 
@@ -308,7 +309,8 @@ public class InsdcParser <S extends AbstractSequence<C>, C extends Compound>{
             "complement(join(complement(2000..4000),complement(70..80)),bond(34,35),join(56,80),complement(45..56))",
             
         };
-        InsdcParser p = new InsdcParser();
+        @SuppressWarnings("rawtypes")
+		InsdcParser p = new InsdcParser();
         p.setComplexFeaturesAppendMode(complexFeaturesAppendEnum.HIERARCHICAL);
         
         for (String s: testStrings){

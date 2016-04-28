@@ -111,7 +111,8 @@ public abstract class AbstractSequence<C extends Compound> implements Sequence<C
      *  
      * @param proxyLoader
      */
-    public void setProxySequenceReader(SequenceReader<C> proxyLoader) {
+    @SuppressWarnings("unchecked")
+	public void setProxySequenceReader(SequenceReader<C> proxyLoader) {
         this.sequenceStorage = proxyLoader;
         if (proxyLoader instanceof FeaturesKeyWordInterface) {
             this.setFeaturesKeyWord((FeaturesKeyWordInterface) sequenceStorage);
@@ -122,9 +123,10 @@ public abstract class AbstractSequence<C extends Compound> implements Sequence<C
         
         if (proxyLoader instanceof FeatureRetriever) {
             this.setFeatureRetriever((FeatureRetriever) sequenceStorage);
-            HashMap<String, ArrayList<AbstractFeature>> ff = getFeatureRetriever().getFeatures();
+            @SuppressWarnings("rawtypes")
+			HashMap<String, ArrayList<AbstractFeature>> ff = getFeatureRetriever().getFeatures();
             for (String k: ff.keySet()){
-                for (AbstractFeature f: ff.get(k)){
+                for (@SuppressWarnings("rawtypes") AbstractFeature f: ff.get(k)){
                     this.addFeature(f);
                 }
             }
@@ -645,7 +647,7 @@ public abstract class AbstractSequence<C extends Compound> implements Sequence<C
      * @return
      */
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         return SequenceMixin.countCompounds(this, compounds);
     }
 

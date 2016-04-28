@@ -7,12 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +17,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -37,10 +31,8 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 //import sun.org.mozilla.javascript.JavaScriptException;
 import Panes.ActMatrixPane;
-import Panes.SampleNameFrame;
 import jxl.*;
 import jxl.write.*;
 import jxl.write.Number;
@@ -341,9 +333,7 @@ public class MetaProteomicAnalysis {
 		System.out.println("Find common LCA");
 		//final taxa results get written to a file with a -LCA.txt postfix
 		String query = "";
-		Process p1 = null;
 		boolean positive = false;
-		PrintWriter printWriter;
 		try {
 			double count = 1;
 			for (int i = 0; i < peptide.size(); i++) {
@@ -390,12 +380,8 @@ public class MetaProteomicAnalysis {
 													&& (!(obj.getString(peptide.get(i).getLca().get(j).getTaxon_rank()+ "_id").isEmpty()))) {
 												//obtaining taxonID from the server response according to the current tryptic peptide LCA taxon rank
 												int taxonID = (Integer.parseInt(obj.getString(peptide.get(i).getLca().get(j).getTaxon_rank()+ "_id")));
-												//obtaining taxon name from the server for the current tryptic pepetide LCA taxon rank
-												String taxonName = obj.getString(peptide.get(i).getLca().get(j).getTaxon_rank()+ "_name");
 												//obtaining current sample tryptic pepetide LCA taxon id 
 												int sampleTaxonID = peptide.get(i).getLca().get(j).getTaxon_id();
-												//obtaining current sample tryptic peptide LCA taxon name
-												String sampleName = peptide.get(i).getLca().get(j).getTaxon_name();
 												/*if the response taxonID is equal to the sample taxonID than the sample LCA is valid for the
 												 * tryptic peptides current lowest taxa 
 												 */
@@ -711,7 +697,6 @@ public class MetaProteomicAnalysis {
 	    }
 		
 		File file = new File(CmdController1.tmpPath + "Tables" + File.separator + fileName + tableName + ".txt");
-		StringBuffer tableContent = new StringBuffer();
 		TableModel model = table.getModel();
 		String separator = "\t";
 	
@@ -755,6 +740,7 @@ public class MetaProteomicAnalysis {
 	 */
 	public static boolean isNumeric(String str) {
 		try {
+			@SuppressWarnings("unused")
 			int d = Integer.parseInt(str);
 		} catch (NumberFormatException nfe) {
 			return false;

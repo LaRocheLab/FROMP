@@ -60,7 +60,7 @@ public class JoiningSequenceReader<C extends Compound> implements ProxySequenceR
      * available during construction otherwise we will throw an illegal
      * state exception).
      */
-    public JoiningSequenceReader(Sequence<C>... sequences) {
+    public JoiningSequenceReader(@SuppressWarnings("unchecked") Sequence<C>... sequences) {
         this(Arrays.asList(sequences));
     }
 
@@ -75,7 +75,7 @@ public class JoiningSequenceReader<C extends Compound> implements ProxySequenceR
         this.compoundSet = grepCompoundSet();
     }
 
-    public JoiningSequenceReader(CompoundSet<C> compoundSet, Sequence<C>... sequences) {
+    public JoiningSequenceReader(CompoundSet<C> compoundSet, @SuppressWarnings("unchecked") Sequence<C>... sequences) {
         this(compoundSet, Arrays.asList(sequences));
     }
 
@@ -282,7 +282,7 @@ public class JoiningSequenceReader<C extends Compound> implements ProxySequenceR
 
     
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         return SequenceMixin.countCompounds(this, compounds);
     }
 

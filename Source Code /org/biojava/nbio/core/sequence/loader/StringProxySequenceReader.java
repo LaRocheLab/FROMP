@@ -82,7 +82,7 @@ public class StringProxySequenceReader<C extends Compound> implements ProxySeque
         }
     }
     
-    public void setContents(String sequence, ArrayList features) throws CompoundNotFoundException{
+    public void setContents(String sequence, ArrayList<?> features) throws CompoundNotFoundException{
         setContents(sequence);
     }
 
@@ -152,7 +152,7 @@ public class StringProxySequenceReader<C extends Compound> implements ProxySeque
 
     
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

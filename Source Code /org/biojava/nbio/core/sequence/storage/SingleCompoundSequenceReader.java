@@ -172,7 +172,7 @@ public class SingleCompoundSequenceReader<C extends Compound> implements ProxySe
      */
     
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         return SequenceMixin.countCompounds(this, compounds);
     }
 

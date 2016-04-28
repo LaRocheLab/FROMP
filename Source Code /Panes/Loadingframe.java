@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 //The cute little loading window with the swimming fish
 
 public class Loadingframe extends Thread {
-	private static final long serialVersionUID = 1L;
 	public JFrame frame_;
 	JPanel backGround_;
 	JLabel mover_;

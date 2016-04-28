@@ -60,7 +60,7 @@ public abstract class AbstractCompoundSet<C extends Compound> implements Compoun
     }
   }
 
-  protected void addCompound(C compound, C lowerCasedCompound, C... equivalents) {
+  protected void addCompound(C compound, C lowerCasedCompound, @SuppressWarnings("unchecked") C... equivalents) {
     List<C> equiv = new ArrayList<C>(equivalents.length);
     equiv.addAll(Arrays.asList(equivalents));
     addCompound(compound, lowerCasedCompound, equiv);

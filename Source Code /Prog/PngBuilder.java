@@ -5,27 +5,20 @@ import Objects.EcPosAndSize;
 import Objects.EcSampleStats;
 import Objects.PathwayWithEc;
 import Objects.Sample;
-import Panes.ImagePanel;
-
 import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
-
 
 /**
  * Builds the PNG files which are outputted by FROMP

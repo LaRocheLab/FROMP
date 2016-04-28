@@ -9,7 +9,6 @@ import Objects.Sample;
 import Prog.DataProcessor;
 import Prog.PathButt;
 import Panes.ActMatrixPane;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,9 +20,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -198,7 +195,7 @@ public class PathwayEcMat extends JPanel {
 					}
 				}
 				Line line = new Line(ecNr, arr);
-				((ArrayList) this.arrays_.get(origCnt)).add(line);
+				this.arrays_.get(origCnt).add(line);
 				this.linecnt_ += 1;
 				line.setSum();
 				ecNr = null;
@@ -260,17 +257,17 @@ public class PathwayEcMat extends JPanel {
 		if (i < high)
 			quicksortEcsBySum(arr, i, high);
 	}
-
-	private void sortEcsByName() {// this method was implemented using bubble
-									// sort, I have since modified it to work as
-									// a quicksort method instead
-		boolean changed = true;
-
+	/**
+	 * this method was implemented using bubble sort, 
+	 * I have since modified it to work as 
+	 * a quick sort method instead
+	 */
+	private void sortEcsByName() {
+		
 		Loadingframe lframe = new Loadingframe();
-
 		lframe.bigStep("sorting ecs");
 		for (int pthCnt = 0; pthCnt < this.arrays_.size(); pthCnt++) {
-			ArrayList<Line> arr1 = (ArrayList) this.arrays_.get(pthCnt);
+			ArrayList<Line> arr1 = this.arrays_.get(pthCnt);
 			// changed = true;
 			lframe.step("Sorting path:"
 					+ ((PathwayWithEc) this.origPaths_.get(pthCnt)).id_);
@@ -309,9 +306,6 @@ public class PathwayEcMat extends JPanel {
 
 	private void sortPathsBySum() {
 		Loadingframe lframe = new Loadingframe();
-		boolean changed = true;
-		double sum1 = 0.0D;
-		double sum2 = 0.0D;
 		lframe.bigStep("sorting paths");
 		setsums();
 
@@ -353,9 +347,9 @@ public class PathwayEcMat extends JPanel {
 		double sum = 0.0D;
 		for (int pathCnt = 0; pathCnt < this.arrays_.size(); pathCnt++) {
 			sum = 0.0D;
-			for (int ecCnt = 0; ecCnt < ((ArrayList) this.arrays_.get(pathCnt))
+			for (int ecCnt = 0; ecCnt < (this.arrays_.get(pathCnt))
 					.size(); ecCnt++) {
-				sum += ((Line) ((ArrayList) this.arrays_.get(pathCnt))
+				sum += ((Line) (this.arrays_.get(pathCnt))
 						.get(ecCnt)).sum_;
 			}
 			this.pwSums_[pathCnt] = sum;
@@ -430,11 +424,11 @@ public class PathwayEcMat extends JPanel {
 									.get(origCnt)).ecNrs_.get(oriEcCnt))
 									.nameSuppl() + seperator);
 					for (int smpCnt = 0; smpCnt < this.activesamps_; smpCnt++) {
-						if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+						if (((Line) (this.arrays_.get(origCnt))
 								.get(oriEcCnt)).getEntry(smpCnt) == 0.0D) {
 							out.write("0" + seperator);
 						} else {
-							out.write(((Line) ((ArrayList) this.arrays_
+							out.write(((Line) (this.arrays_
 									.get(origCnt)).get(oriEcCnt))
 									.getEntry(smpCnt)
 									+ seperator);
@@ -472,15 +466,13 @@ public class PathwayEcMat extends JPanel {
 										.get(origCnt)).ecNrs_.get(oriEcCnt))
 										.nameSuppl() + seperator);
 						for (int smpCnt = 0; smpCnt < this.activesamps_; smpCnt++) {
-							if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+							if (((Line) ( this.arrays_.get(origCnt))
 									.get(oriEcCnt)).getEntry(smpCnt) == 0.0D) {
 								out.write("0" + seperator);
 							} 
 							else {
-								out.write(((Line) ((ArrayList) this.arrays_
-										.get(origCnt)).get(oriEcCnt))
-										.getEntry(smpCnt)
-										+ seperator);
+								out.write(((Line) (this.arrays_.get(origCnt)).get(oriEcCnt))
+										.getEntry(smpCnt)+ seperator);
 							}
 						}
 						out.newLine();
@@ -866,7 +858,7 @@ public class PathwayEcMat extends JPanel {
 							public void mouseClicked(MouseEvent e) {
 								if (SwingUtilities.isRightMouseButton(e)|| e.isControlDown()) {
 									if (actMat_.includeRepseq_.isSelected()) {
-										actMat_.ecMenuPopup.show(e.getComponent(), e.getX(),e.getY());
+										ActMatrixPane.ecMenuPopup.show(e.getComponent(), e.getX(),e.getY());
 										JButton  button1 = (JButton) e.getComponent();
 										System.out.println(button1.getText());
 										actMat_.buttonName = button1.getText();
@@ -888,12 +880,12 @@ public class PathwayEcMat extends JPanel {
 						});
 						this.displayP_.add(ecButt);
 						for (int smpCnt = 0; smpCnt < this.activesamps_; smpCnt++) {
-							if (((Line) ((ArrayList) this.arrays_.get(origCnt))
+							if (((Line) (this.arrays_.get(origCnt))
 									.get(oriEcCnt)).getEntry(smpCnt) == 0.0D) {
 								line = "0";
 							} else {
 								line = String
-										.valueOf(((Line) ((ArrayList) this.arrays_
+										.valueOf(((Line) (this.arrays_
 												.get(origCnt)).get(oriEcCnt))
 												.getEntry(smpCnt));
 							}
@@ -907,7 +899,7 @@ public class PathwayEcMat extends JPanel {
 							value.setLayout(null);
 							this.displayP_.add(value);
 						}
-						line = String.valueOf(((Line) ((ArrayList) this.arrays_
+						line = String.valueOf(((Line) (this.arrays_
 								.get(origCnt)).get(oriEcCnt)).getSum_());
 						JLabel value = new JLabel(line);
 						value.setBounds(20 + xdist + xdist * this.activesamps_,
@@ -940,25 +932,6 @@ public class PathwayEcMat extends JPanel {
 
 		arr.set(index1, line2);
 		arr.set(index2, line1);
-	}
-
-	private boolean id1Bigger(String id1, String id2) {
-		if (id1.contentEquals("-1")) {
-			return true;
-		}
-		if (id2.contentEquals("-1")) {
-			return false;
-		}
-		for (int charCnt = 0; (charCnt < id1.length())
-				&& (charCnt < id2.length()); charCnt++) {
-			if (id1.charAt(charCnt) > id2.charAt(charCnt)) {
-				return true;
-			}
-			if (id1.charAt(charCnt) < id2.charAt(charCnt)) {
-				return false;
-			}
-		}
-		return false;
 	}
 
 	public void setyOffset_(int yOffset_) {

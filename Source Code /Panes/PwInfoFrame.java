@@ -7,8 +7,6 @@ import Objects.Project;
 import Objects.Sample;
 import Prog.PathButt;
 import java.awt.Color;
-import java.io.PrintStream;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 // pop out window when click ec# at ec activity

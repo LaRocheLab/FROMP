@@ -1,6 +1,5 @@
 package pathwayLayout;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class IntMat {

@@ -328,7 +328,7 @@ public class UniprotProxySequenceReader<C extends Compound> implements ProxySequ
      * @return
      */
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

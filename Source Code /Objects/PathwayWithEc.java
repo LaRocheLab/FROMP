@@ -1,8 +1,6 @@
 package Objects;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 //An extension of the pathway class. Adds all of the ECs which can be mapped to a particular path in a convenient ArrayList.
 
@@ -17,14 +15,14 @@ public class PathwayWithEc extends Pathway {
 	
 	public PathwayWithEc(Pathway pathway) {
 		super(pathway);
-		this.ecNrs_ = new ArrayList();
+		this.ecNrs_ = new ArrayList<EcNr>();
 		this.sumOfEC_ = 0;
 		this.pathwayInfoPAth = pathway.pathwayInfoPAth;
 	}
 
 	public PathwayWithEc(PathwayWithEc pathway, boolean newPw) {
 		super(pathway);
-		this.ecNrs_ = new ArrayList();
+		this.ecNrs_ = new ArrayList<EcNr>();
 		this.sumOfEC_ = pathway.sumOfEC_;
 		if ((pathway.ecNrs_ != null) && (!newPw)) {
 			for (int i = 0; i < pathway.ecNrs_.size(); i++) {
@@ -62,7 +60,7 @@ public class PathwayWithEc extends Pathway {
 			for (int i = 0; i < this.ecNrs_.size(); i++) {
 				if (((EcNr) this.ecNrs_.get(i)).name_.contentEquals(ecNr.name_)) {
 					((EcNr) this.ecNrs_.get(i)).amount_ = 0;
-					((EcNr) this.ecNrs_.get(i)).stats_ = new ArrayList();
+					((EcNr) this.ecNrs_.get(i)).stats_ = new ArrayList<EcSampleStats>();
 					this.ecNrs_.remove(i);
 					this.sumOfEC_ -= 1;
 					break;

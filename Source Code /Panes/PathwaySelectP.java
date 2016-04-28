@@ -4,10 +4,7 @@ import Objects.Pathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Prog.StartFromp1;
-
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +14,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileFilter;
 import pathwayLayout.PathLayoutGrid;
-
 // The pathway selction panel
 
 public class PathwaySelectP extends JPanel {
@@ -236,6 +231,7 @@ public class PathwaySelectP extends JPanel {
 		openDesigner.setLayout(null);
 		openDesigner.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				PathLayoutGrid Grid = new PathLayoutGrid(10, 10, true);
 			}
 		});
@@ -429,7 +425,7 @@ public class PathwaySelectP extends JPanel {
 		});
 		if (fChoose_.showOpenDialog(getParent()) == 0) {
 			if (Project.userPathways == null) {
-				Project.userPathways = new ArrayList();
+				Project.userPathways = new ArrayList<String>();
 			}
 			try {
 				Project.userPathways.add(fChoose_.getSelectedFile()

@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -145,7 +144,7 @@ public class PathButt extends JButton {
 		}
 		BufferedReader xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway"
 				+ this.separator_ + pathway.id_ + ".xml");
-		ArrayList<EcPosAndSize> tmppos = new ArrayList();
+		ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
 		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
 			xmlPath = this.reader.readTxt(StartFromp1.FolderPath+"pathway" + this.separator_
 					+ pathway.id_ + ".xml");

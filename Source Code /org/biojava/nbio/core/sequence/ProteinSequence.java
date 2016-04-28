@@ -114,7 +114,8 @@ public class ProteinSequence extends AbstractSequence<AminoAcidCompound> {
             if (codedBy != null) {
                 String codedBySeq = codedBy.getValue();
 
-                InsdcParser parser = new InsdcParser(DataSource.GENBANK);
+                @SuppressWarnings("rawtypes")
+				InsdcParser parser = new InsdcParser(DataSource.GENBANK);
                 Location location = parser.parse(codedBySeq);
 
                 try {

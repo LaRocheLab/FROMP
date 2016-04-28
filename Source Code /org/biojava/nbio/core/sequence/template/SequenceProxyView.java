@@ -157,7 +157,7 @@ public class SequenceProxyView<C extends Compound> implements SequenceView<C> {
     }
 
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         return SequenceMixin.countCompounds(this, compounds);
     }
 

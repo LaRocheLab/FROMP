@@ -61,7 +61,8 @@ public class GenbankProxySequenceReader<C extends Compound> extends StringProxyS
     private GenbankSequenceParser<AbstractSequence<C>, C> genbankParser;
     private GenericGenbankHeaderParser<AbstractSequence<C>, C> headerParser;
     private String header;
-    private HashMap<String, ArrayList<AbstractFeature>> features;
+    @SuppressWarnings("rawtypes")
+	private HashMap<String, ArrayList<AbstractFeature>> features;
     
 
     /**
@@ -170,7 +171,8 @@ public class GenbankProxySequenceReader<C extends Compound> extends StringProxyS
     public GenericGenbankHeaderParser<AbstractSequence<C>, C> getHeaderParser() {
         return headerParser;
     }
-    public HashMap<String, ArrayList<AbstractFeature>> getFeatures() {
+    @SuppressWarnings("rawtypes")
+	public HashMap<String, ArrayList<AbstractFeature>> getFeatures() {
         return features;
     }
 

@@ -3,8 +3,6 @@ package Objects;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-
 /**
  * GONum Object stored GO Number, seqID mapped to this GO number, 
  * and unused GO Number.

@@ -15,7 +15,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,7 +37,7 @@ public class PathLayoutGrid {
 	String loadPath;
 	public static String pathWayName;
 	private float minForce = 0.47F;
-	private float minCnt = 1000.0F;
+//	private float minCnt = 1000.0F;
 
 	public PathLayoutGrid(PathLayoutGrid grid) {
 		this.nodes = copyNodeList(grid.nodes);
@@ -58,8 +57,9 @@ public class PathLayoutGrid {
 			return;
 		}
 		if (this.nodes == null) {
-			this.nodes = new ArrayList();
+			this.nodes = new ArrayList<Node>();
 		}
+		@SuppressWarnings("unused")
 		LayoutFrame frame = new LayoutFrame(800, 600, this, this.nodes);
 	}
 
@@ -76,6 +76,7 @@ public class PathLayoutGrid {
 			}
 			System.out.println("Round:" + i + ", cost:" + cost);
 		}
+		@SuppressWarnings("unused")
 		LayoutFrame frame = new LayoutFrame(800, 600, this, this.minGraph);
 	}
 
@@ -155,7 +156,7 @@ public class PathLayoutGrid {
 	}
 
 	public ArrayList<Node> copyNodeList(ArrayList<Node> nodes) {
-		ArrayList<Node> retList = new ArrayList();
+		ArrayList<Node> retList = new ArrayList<Node>();
 		for (int i = 0; i < nodes.size(); i++) {
 			retList.add(new Node((Node) nodes.get(i), true));
 		}
@@ -171,7 +172,7 @@ public class PathLayoutGrid {
 		minCost = cost;
 
 		this.minGraph = copyNodeList(nodesList);
-		ArrayList<Node> tempGraph = new ArrayList();
+		ArrayList<Node> tempGraph = new ArrayList<Node>();
 		while (temperature > tMin) {
 			for (int i = 0; i < repeatTimes; i++) {
 				tempGraph = copyNodeList(neighbor(nodesList, pRate));
@@ -468,7 +469,7 @@ public class PathLayoutGrid {
 	}
 
 	public void openPathWay(String path) {
-		this.nodes = new ArrayList();
+		this.nodes = new ArrayList<Node>();
 		this.loadPath = path;
 		String name = "";
 		try {
@@ -774,7 +775,7 @@ public class PathLayoutGrid {
 
 	public void addNode(Node node) {
 		if (this.nodes == null) {
-			this.nodes = new ArrayList();
+			this.nodes = new ArrayList<Node>();
 		}
 		this.nodes.add(node);
 	}

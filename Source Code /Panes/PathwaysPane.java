@@ -1,22 +1,18 @@
 package Panes;
 
 import Objects.EcWithPathway;
-import Objects.Pathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;

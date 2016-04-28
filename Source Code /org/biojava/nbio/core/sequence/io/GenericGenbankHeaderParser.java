@@ -37,8 +37,7 @@ public class GenericGenbankHeaderParser<S extends AbstractSequence<C>, C extends
 	private String accession = null;
 	private String identifier = null;
 	private String name = null;
-    @SuppressWarnings("unused")
-	private int version;
+    private int version;
     private boolean versionSeen;
     private ArrayList<String> comments = new ArrayList<String>();
 

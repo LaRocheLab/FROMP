@@ -1,12 +1,10 @@
 package Panes;
 
-import Objects.Pathway;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Objects.Sample;
 import Prog.DataProcessor;
 import Prog.PathButt;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -19,11 +17,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;

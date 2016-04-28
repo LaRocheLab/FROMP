@@ -9,7 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -148,7 +147,7 @@ public class Exporter {
 
 	public ArrayList<String> getNameListFromPathwaysWEc(
 			ArrayList<PathwayWithEc> list) {
-		ArrayList<String> ret = new ArrayList();
+		ArrayList<String> ret = new ArrayList<String>();
 		String name = "";
 		for (int pwCnt = 0; pwCnt < list.size(); pwCnt++) {
 			name = ((PathwayWithEc) list.get(pwCnt)).id_ + "/"
@@ -159,7 +158,7 @@ public class Exporter {
 	}
 
 	public ArrayList<String> getNameListFromEcwp(ArrayList<EcWithPathway> list) {
-		ArrayList<String> ret = new ArrayList();
+		ArrayList<String> ret = new ArrayList<String>();
 		String name = "";
 		for (int pwCnt = 0; pwCnt < list.size(); pwCnt++) {
 			name = ((EcWithPathway) list.get(pwCnt)).name_;
@@ -169,7 +168,7 @@ public class Exporter {
 	}
 
 	public ArrayList<String> getNameListFromEcs(ArrayList<EcNr> list) {
-		ArrayList<String> ret = new ArrayList();
+		ArrayList<String> ret = new ArrayList<String>();
 		String name = "";
 		for (int pwCnt = 0; pwCnt < list.size(); pwCnt++) {
 			name = ((EcNr) list.get(pwCnt)).name_;
@@ -179,7 +178,7 @@ public class Exporter {
 	}
 
 	public ArrayList<String> getNameListFromPw(ArrayList<Pathway> list) {
-		ArrayList<String> ret = new ArrayList();
+		ArrayList<String> ret = new ArrayList<String>();
 		String name = "";
 		for (int pwCnt = 0; pwCnt < list.size(); pwCnt++) {
 			name = ((Pathway) list.get(pwCnt)).id_ + "/"
@@ -190,7 +189,7 @@ public class Exporter {
 	}
 
 	public ArrayList<String> getNameListFromSample(ArrayList<Sample> list) {
-		ArrayList<String> ret = new ArrayList();
+		ArrayList<String> ret = new ArrayList<String>();
 		String name = "";
 		for (int pwCnt = 0; pwCnt < list.size(); pwCnt++) {
 			name = ((Sample) list.get(pwCnt)).name_;

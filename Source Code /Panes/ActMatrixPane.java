@@ -21,11 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,8 +73,6 @@ public class ActMatrixPane extends JPanel {
 	private Project actProj_; // The active project
 	private boolean sortedEc = false; 
 	private boolean drawChart = false; 
-	private final int xSize = 130; 
-	private final int ySize = 15; 
 	private int sumIndexSmp; 
 	private int numChart = 0;
 	private int NoDataChart = 0;
@@ -697,59 +692,6 @@ public class ActMatrixPane extends JPanel {
 	this.optionsPanel_.add(load_Seq_Batch);
 	}
 	
-	/**
-	 * Returns true if the loaded batch file into find lowest common ancestor is
-	 * in the proper format for a read in batch file of ec numbers
-	 * @param filename File to be read
-	 * @return true if the file is in the correct format of an ec numbers batch file
-	 * 
-	 * @author Jennifer Terpstra
-	 */
-	private boolean checkBatchFile(File filename){
-		try {
-			if (filename != null) {
-				BufferedReader reader = new BufferedReader(new FileReader(
-						filename));
-				StringBuilder sb = new StringBuilder();
-				// reading in the first two lines of the buffered file. The
-				// correct format is a description string at the start
-				// followed by a number in the format #.#.#.#
-				String line = reader.readLine();
-				if(line==null){
-					line = "";
-				}
-				if (!line.isEmpty() && (line != null)) {
-					
-					line = reader.readLine();
-					System.out.println(line);
-					if (line.matches("[0-9]+.[0-9]+.[0-9]+.[0-9]+")) {
-						
-						return true;
-						
-					} 
-					else {
-						return false;
-					}
-					
-					
-				}
-				reader.close();
-				
-			}
-			else{
-				return false;	
-			}
-			
-
-		} catch (FileNotFoundException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		return false;
-	}
 	//load ec#'s for lca function
 	private void runLcaBatchFile(ArrayList<String> ecset){
 		LinkedHashMap<String,String> seq_for_lca;
@@ -1226,6 +1168,7 @@ public class ActMatrixPane extends JPanel {
 		this.lframe.bigStep("drawSampleNames");
 
 		this.nameLabels_ = new ArrayList<JLabel>();
+		@SuppressWarnings("unused")
 		String name = "";
 		if (this.selectedSampIndex_ < 0) {
 			name = "Overall";
@@ -1572,6 +1515,7 @@ public class ActMatrixPane extends JPanel {
 
 										String sampName = ((Sample) Project.samples_
 												.get(indexX)).name_;
+										@SuppressWarnings("unused")
 										RepseqFrame repFrame = new RepseqFrame(
 												reps, ecTmp, sampName);
 									}
@@ -1818,6 +1762,7 @@ public class ActMatrixPane extends JPanel {
 
 										String sampName = ((Sample) Project.samples_
 												.get(indexX)).name_;
+										@SuppressWarnings("unused")
 										RepseqFrame repFrame = new RepseqFrame(
 												reps, ecTmp, sampName);
 									}
@@ -2036,6 +1981,7 @@ public class ActMatrixPane extends JPanel {
 
 										String sampName = ((Sample) Project.samples_
 												.get(indexX)).name_;
+										@SuppressWarnings("unused")
 										RepseqFrame repFrame = new RepseqFrame(
 												reps, ecTmp, sampName);
 									}
@@ -2079,7 +2025,6 @@ public class ActMatrixPane extends JPanel {
 	//exports the sequence ids of a particular EC to RepSeqIDs
 	public void ExportReps(ArrayList<ConvertStat> reps, EcNr ecNr,String sampName) {
 		String text = "";
-		String test = "";
 		System.out.println("Reps:" + reps.size());
 		for (int repCnt = 0; repCnt < reps.size(); repCnt++) {
 			int amount = ((ConvertStat) reps.get(repCnt)).getEcAmount_();
@@ -2167,6 +2112,7 @@ public class ActMatrixPane extends JPanel {
 			ActMatrixPane.this.setComponentPopupMenu(menuPopup);
 			this.names_.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					@SuppressWarnings("unused")
 					PwInfoFrame frame = new PwInfoFrame(
 							((Line) ActMatrixPane.this.ecMatrix_.get(i))
 									.getEc_(), ActMatrixPane.this.actProj_,Project.overall_);
@@ -2258,26 +2204,22 @@ public class ActMatrixPane extends JPanel {
 				this.names_.addMouseListener(new MouseListener() {
 					public void mouseClicked(MouseEvent e) {
 						if (SwingUtilities.isRightMouseButton(e)|| e.isControlDown()) {
-							ActMatrixPane.this.ecMenuPopup.show(e.getComponent(),e.getX(), e.getY());
+							ActMatrixPane.ecMenuPopup.show(e.getComponent(),e.getX(), e.getY());
 							buttonName = e.getComponent().getName();
 					
 						}
 					}
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
 					}
 					@Override
 					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
 					}
 					@Override
 					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
 					}
 					@Override
 					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
 
 					}
 				});
@@ -2308,6 +2250,7 @@ public class ActMatrixPane extends JPanel {
 		
 	}
 
+	@SuppressWarnings("unused")
 	private void switchOptionsMode() {// Switches the option mode
 		if (this.showOptions_.isSelected()) {
 			this.useOddsrat_.setVisible(true);
@@ -2406,6 +2349,7 @@ public class ActMatrixPane extends JPanel {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void sortEcsbySumBubble() {
 		if (this.sortedEc) {
 			return;
@@ -2883,7 +2827,6 @@ public class ActMatrixPane extends JPanel {
 	 */
 	public LinkedHashMap<String,String> cmdExportSequences(String ecName,String sampleName, boolean oneFile, boolean findLca) {
 		System.out.println("cmdExport");
-		int index;
 		EcNr ecTmp;
 		ArrayList<ConvertStat> reps;
 		String sampName;
@@ -3049,12 +2992,6 @@ public class ActMatrixPane extends JPanel {
 							//seqall
 							else if(findLca == false && oneFile == true){
 								try {
-									String sampleName;
-									if (sampName_.contains(".out")) {
-										sampleName = sampName_.replace(".out", "");
-									} else {
-										sampleName = sampName_;
-									}
 									
 									File f = new File(CmdController1.tmpPath+ "Sequences");
 									if (!f.exists()) {

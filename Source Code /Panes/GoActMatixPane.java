@@ -146,13 +146,6 @@ public class GoActMatixPane extends JPanel {
 		this.lframe.bigStep("drawSampleNames");
 
 		this.nameLabels_ = new ArrayList<JLabel>();
-		String name = "";
-		if (this.selectedSampIndex_ < 0) {
-			name = "Overall";
-		} 
-		else {
-			name = ((Sample) Project.samples_.get(this.selectedSampIndex_)).name_;
-		}
 
 		int x = 0;
 		int xREAL = 0;
@@ -841,7 +834,6 @@ public class GoActMatixPane extends JPanel {
 	}
 
 	private void showGoValues() {// paints the ec matrix showing the ec values, calls showValues, or show odds
-		boolean sumLineDrawn = false;
 		this.lframe.bigStep("showGoValues");
 		int goCnt = 0;
 		for (goCnt = 0; goCnt < this.goMatrix_.size(); goCnt++) {

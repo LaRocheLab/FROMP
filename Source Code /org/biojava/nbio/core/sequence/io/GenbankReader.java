@@ -134,9 +134,9 @@ public class GenbankReader<S extends AbstractSequence<C>, C extends Compound> {
      * @throws IOException
      * @throws CompoundNotFoundException 
      */
-    public LinkedHashMap<String,S> process(int max) throws IOException, CompoundNotFoundException {
+    @SuppressWarnings("unchecked")
+	public LinkedHashMap<String,S> process(int max) throws IOException, CompoundNotFoundException {
         LinkedHashMap<String,S> sequences = new LinkedHashMap<String,S>();
-        @SuppressWarnings("unchecked")
         int i=0;
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         while(true) {
@@ -150,7 +150,7 @@ public class GenbankReader<S extends AbstractSequence<C>, C extends Compound> {
         	
         	// add features to new sequence
         	for (String k: genbankParser.getFeatures().keySet()){
-        		for (AbstractFeature f: genbankParser.getFeatures(k)){
+        		for (@SuppressWarnings("rawtypes") AbstractFeature f: genbankParser.getFeatures(k)){
         			//f.getLocations().setSequence(sequence);  // can't set proper sequence source to features. It is actually needed? Don't think so...
         			sequence.addFeature(f);
         		}

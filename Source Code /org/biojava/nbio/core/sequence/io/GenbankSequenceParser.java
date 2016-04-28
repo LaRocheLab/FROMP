@@ -72,7 +72,8 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
      * FEATURE_TAG section They are organized by list of the same type (i.e.
      * same genbank Feature) and are provided with location
      */
-    private HashMap<String, ArrayList<AbstractFeature>> featureCollection;
+    @SuppressWarnings("rawtypes")
+	private HashMap<String, ArrayList<AbstractFeature>> featureCollection;
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -117,7 +118,8 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
     // dbxref line
     protected static final Pattern dbxp = Pattern.compile("^([^:]+):(\\S+)$");
     
-    protected static final InsdcParser locationParser = new InsdcParser(DataSource.GENBANK);
+    @SuppressWarnings("rawtypes")
+	protected static final InsdcParser locationParser = new InsdcParser(DataSource.GENBANK);
     //sections start at a line and continue till the first line afterwards with a
     //non-whitespace first character
     //we want to match any of the following as a new section within a section
@@ -136,7 +138,8 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
     
     
 
-    private String parse(BufferedReader bufferedReader) {
+    @SuppressWarnings("rawtypes")
+	private String parse(BufferedReader bufferedReader) {
         String sectionKey = null;
         List<String[]> section;
         // Get an ordered list of key->value pairs in array-tuples
@@ -220,7 +223,7 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
             } else if (sectionKey.equals(FEATURE_TAG)) {
                 // starting from second line of input, start a new feature whenever we come across
                 // a key that does not start with /
-                AbstractFeature gbFeature = null;
+                AbstractFeature<?, ?> gbFeature = null;
                 for (int i = 1; i < section.size(); i++) {
                     String key = ((String[]) section.get(i))[0];
                     String val = ((String[]) section.get(i))[1];
@@ -270,7 +273,7 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
                         gbFeature.setLocation((AbstractLocation)l);
 
                         if (!featureCollection.containsKey(key)) {
-                            featureCollection.put(key, new ArrayList());
+                            featureCollection.put(key, new ArrayList<AbstractFeature>());
                         }
                         featureCollection.get(key).add(gbFeature);
                     }
@@ -379,7 +382,8 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
         return section;
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public String getSequence(BufferedReader bufferedReader, int sequenceLength) throws IOException {
         featureCollection = new HashMap<String, ArrayList<AbstractFeature>>();
         mapDB = new LinkedHashMap<String, ArrayList<DBReferenceInfo>>();
@@ -410,16 +414,19 @@ public class GenbankSequenceParser<S extends AbstractSequence<C>, C extends Comp
         return new ArrayList<String>(featureCollection.keySet());
     }
     
-    public ArrayList<AbstractFeature> getFeatures(String keyword) {
+    @SuppressWarnings("rawtypes")
+	public ArrayList<AbstractFeature> getFeatures(String keyword) {
         return featureCollection.get(keyword);
     }
-    public HashMap<String, ArrayList<AbstractFeature>> getFeatures() {
+    @SuppressWarnings("rawtypes")
+	public HashMap<String, ArrayList<AbstractFeature>> getFeatures() {
         return featureCollection;
     }
     
-    public void parseFeatures(AbstractSequence<C> sequence) {
+    @SuppressWarnings("unchecked")
+	public void parseFeatures(AbstractSequence<C> sequence) {
         for (String k: featureCollection.keySet())
-            for (AbstractFeature f: featureCollection.get(k))
+            for (@SuppressWarnings("rawtypes") AbstractFeature f: featureCollection.get(k))
                 sequence.addFeature(f);
     }
 

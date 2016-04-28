@@ -5,7 +5,6 @@ import Objects.PathwayWithEc;
 import Objects.Project;
 import Prog.DataProcessor;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JButton;

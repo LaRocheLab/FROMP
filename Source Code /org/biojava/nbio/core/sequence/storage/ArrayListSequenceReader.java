@@ -249,7 +249,7 @@ public class ArrayListSequenceReader<C extends Compound> implements SequenceRead
      * @return
      */
     @Override
-	public int countCompounds(C... compounds) {
+	public int countCompounds(@SuppressWarnings("unchecked") C... compounds) {
         return SequenceMixin.countCompounds(this, compounds);
     }
 

@@ -32,7 +32,7 @@ public class CmdController1 {
 	public static String[] args_; // An array of String arguments taken in from the command line
 	String inputPath_	; // The input path given by the user
 	public static String outPutPath_=StartFromp1.FolderPath; // The output path given in by the user
-	public static String optionsCmd_=""; // The option denoted by the user. ie h for help, etc
+	public static String optionsCmd_="none"; // The option denoted by the user. ie h for help, etc
 	ArrayList<String> ec_=new ArrayList<String>();; // If an EC number was denoted by the user to output sequence IDs, this is the variable it is saved to
 	int num_ec_exported = 0; //number of ecs desired to be exported in the ec list
 	static Controller controller; // The controller. Allows user to save, load etc.
@@ -44,7 +44,7 @@ public class CmdController1 {
 	StringReader reader; // String reader to assist in the reading of the
 	boolean batchCommand = false;
 	int cmdCode;
-	public static String tmpPath = "";
+	public static String tmpPath = StartFromp1.FolderPath;
 	public static boolean elistSortSum=false;
 	final String basePath_ = StartFromp1.FolderPath+"def"+File.separator;
 	static ArrayList <String> unusedEc = new ArrayList<String>();
@@ -774,7 +774,8 @@ public class CmdController1 {
 					String fileName = line +  "-";
 					metapro = new MetaProteomicAnalysis();
 					batchCommand = true;
-					metapro.getTrypticPeptideAnaysis(metapro.readFasta(seq_for_lca, fileName), true, batchCommand);
+					ArrayList<TrypticPeptide> tryp = metapro.readFasta(seq_for_lca, fileName);
+					metapro.getTrypticPeptideAnaysis(tryp, true, batchCommand);
 					
 				}
 			}
@@ -785,7 +786,8 @@ public class CmdController1 {
 					seqWithFileName seqFile = StartFromp1.FileSetofSeq.get(j);
 					metapro = new MetaProteomicAnalysis();
 					batchCommand = true;
-					metapro.getTrypticPeptideAnaysis(metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-"), true, batchCommand);
+					ArrayList<TrypticPeptide> tryp = metapro.readFasta(seqFile.getIdSeq(), seqFile.getFileName()+"-");
+					metapro.getTrypticPeptideAnaysis(tryp, true, batchCommand);
 					
 				}
 				

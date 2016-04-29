@@ -9,6 +9,7 @@ import Prog.CmdController1;
 import Prog.DataProcessor;
 import Prog.MetaProteomicAnalysis;
 import Prog.StartFromp1;
+import Prog.seqWithFileName;
 import Prog.tableAndChartData;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,13 +25,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.util.Collections;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
@@ -53,16 +49,16 @@ import org.jfree.chart.plot.PiePlot;
 public class GoActMatixPane extends JPanel {
 	private static final long serialVersionUID = 1L; //
 	private JButton exportMat_; // Button to export the matrix to a file
-	private JButton exportGos_; //button to export just the ec numbers from the matrix into a file
-	private JButton names_; // Tmp variable for building a a list of EC buttons
+	private JButton exportGos_; //button to export just the go numbers from the matrix into a file
+	private JButton names_; // Tmp variable for building a a list of GO buttons
 	private JLabel label_; 
 	private JCheckBox bySumcheck_; // Check box used to sort matrix by sum
 	private JCheckBox useOddsrat_; // Checkbox to include the odds-ratio in the calculation of the matrix
 	private JCheckBox sort_odds_by_lowest;
 	private JCheckBox useGeoDist_;
 	private JCheckBox sort_by_lowest_Geo;
-	private JCheckBox moveUnmappedToEnd; // Checkbox to moved unmapped ecs to the end of the list. Default is checked
-	public JCheckBox includeRepseq_; // Checkbox to include the ability to click on ecs from samples and see the sequence ids which are associated with that ec
+	private JCheckBox moveUnmappedToEnd; // Checkbox to moved unmapped gos to the end of the list. Default is checked
+	public JCheckBox includeRepseq_; // Checkbox to include the ability to click on gos from samples and see the sequence ids which are associated with that go
 	private JCheckBox useCsf_; // Checkbox to use CSF
 	private JTextField maxVisField_; 
 	private ArrayList<JLabel> nameLabels_; // ArrayList of labels
@@ -83,7 +79,7 @@ public class GoActMatixPane extends JPanel {
 	private Line sums; 
 	private tableAndChartData returnData;
 	JPanel optionsPanel_; // Options panel
-	JPanel displayP_; // Panel which displays the ec matrix
+	JPanel displayP_; // Panel which displays the go matrix
 	JScrollPane showJPanel_; // Scroll pane which allows the user to scroll through the matrix if it is bigger than the allotted space
 	DataProcessor proc_; // Data Processor which allows the input files to be parsed and for relevant data to be computed from them
 	int selectedSampIndex_ = -1; 
@@ -96,7 +92,7 @@ public class GoActMatixPane extends JPanel {
 	int yIndex1 = 0;
 	int yIndex2 = 0;
 	int scrollChartPos = 0;
-	int num_export_go = 0;
+	int num_exportMat_go = 0;
 	String buttonName;
 	public boolean exportAll = false;
 	boolean findLca = false;
@@ -105,7 +101,7 @@ public class GoActMatixPane extends JPanel {
 	ArrayList<String> go_batch = new ArrayList<String>(); ;
 	String fileName = "";
 	String sampleName = "";
-	String chosen_ec = "";
+	String chosen_go = "";
 	String chosen_sample = "";
 
 	
@@ -117,25 +113,416 @@ public class GoActMatixPane extends JPanel {
 									
 		this.actProj_ = actProj; // sets this active project
 		this.proc_ = proc; // sets this data processor
-		this.smpList_ = Project.samples_; 										
+		go_list = new ArrayList<String>();
+		
 		setLayout(new BorderLayout()); 
 		setVisible(true); 
 		setBackground(Project.getBackColor_()); 
 		setSize(dim); 
-						
+		
+		this.smpList_ = Project.samples_; 														
 		this.sumIndexSmp = 0; 
-		prepGoMatrix(); // Builds the ec matrixLoadingframe.close();
+		prepGoMatrix(); // Builds the go matrixLoadingframe.close();
 		initMainPanels(); // Instantiates the options, display and scroll panels
-		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the ec matrix, then repaints the back pane
+		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the go matrix, then repaints the back pane
 		Loadingframe.close(); // closes the loading frame
 	}
+
+	public GoActMatixPane(Project actProj,DataProcessor proc, Dimension dim,String lca) {
+		// opens the loading frame
+		this.lframe = new Loadingframe(); 
+		this.lframe.bigStep("Preparing Panel"); 
+		this.lframe.step("Init"); 
+									
+		this.actProj_ = actProj; // sets this active project
+		this.proc_ = proc; // sets this data processor
+		go_list = new ArrayList<String>();
+		
+		setLayout(new BorderLayout()); 
+		setVisible(true); 
+		setBackground(Project.getBackColor_()); 
+		setSize(dim); 
+		
+		this.smpList_ = Project.samples_; 													
+		this.sumIndexSmp = 0; 
+		prepGoMatrix(); // Builds the go matrixLoadingframe.close();
+		initMainPanels(); // Instantiates the options, display and scroll panels
+		prepaint(); // Removes everything from the back panel adds the options panel, draws the sample names, shows the go matrix, then repaints the back pane
+		prepaintLCA(); 
+		Loadingframe.close(); // closes the loading frame
+	}
+	
+	private void prepaintLCA() {// This method rebuids the back panel of the window
+		removeAll(); // Removes everything on the backpanel
+		initMainPanels(); // instanciates the options, display, and scroll panels
+		prepGoMatrix();
+		addOptionsLCA(); // adds the buttons, labels, checkboxes etc to the options panel
+		if(drawChart==true){
+			drawChart();
+		}
+		invalidate(); 
+		validate(); 
+		repaint(); 
+		
+	}
+
+	private void addOptionsLCA() {
+		
+		int goCnt;
+		GONum go_Path = null;
+		go_list = new ArrayList<String>();
+		//adding all the go numbers found within the ecMatrix to the LCA GO number combobox
+		for (goCnt = 0; goCnt < this.goMatrix_.size(); goCnt++) {
+			Line goNr = (Line) this.goMatrix_.get(goCnt);
+			
+			if (goNr.getGoNr_() != null) {
+				go_Path = goNr.getGoNr_();
+			}
+			if (go_Path != null && go_Path.getGoNumber() != null) {
+				go_list.add(go_Path.getGoNumber());
+			}
+			
+		}
+		Collections.sort(go_list);
+		
+		//Combo box of the various go numbers to find their lowest common ancestor
+		final JComboBox<String> goList = new JComboBox<String>();
+			System.out.println("go list size: " + go_list.size());
+			goList.addItem("No GO Selected");
+			for (int i = 0; i < go_list.size(); i++) {
+				if (go_list.size() > 0) {
+					goList.addItem(go_list.get(i));
+				}
+			}
+		goList.addActionListener(new ActionListener() {
+		 public void actionPerformed(ActionEvent e) {
+			 System.out.println(goList.getSelectedItem().toString());
+			 chosen_go = goList.getSelectedItem().toString();
+		    }
+		  });
+		goList.setSelectedItem(0);
+		goList.setBounds(20,35,150,40);
+		goList.setVisible(true);
+		
+		//combo box of all the samples present within the project, can choose to find lca of specific go and sample
+		final JComboBox<String> sampleList = new JComboBox<String>();
+			//can find lca of all samples given just the go number
+			sampleList.addItem("All Samples");
+			for (int j = 0; j < Project.samples_.size(); j++) {
+				sampleList.addItem(Project.samples_.get(j).name_);
+			}
+			sampleList.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 System.out.println(sampleList.getSelectedItem().toString());
+					chosen_sample = sampleList.getSelectedItem().toString();
+				}
+			});
+		sampleList.setSelectedItem(0);
+		sampleList.setBounds(210, 35, 350, 40);
+		sampleList.setVisible(true);
+		
+		this.exportMat_ = new JButton("Find Lowest Common Ancestor");
+		this.exportMat_.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean oneFile = false;
+				if (!chosen_go.equals("No GO Selected")&&!chosen_go.equals("")) {
+				lframe = new Loadingframe(); // opens the loading frame
+				lframe.bigStep("Calculating LCA..");
+				lframe.step(chosen_go);
+
+				LinkedHashMap<String,String> seq_for_lca;
+				//If the user did not choose a sample, export all the samples into one file
+				if(chosen_sample.equals("")||chosen_sample.equals("All Samples")){
+					oneFile = true;
+					exportAll = true;
+				}
+				else{
+					oneFile = false;
+					exportAll = false;
+				}
+				seq_for_lca = cmdExportSequencesGo(chosen_go,sampleName, oneFile, findLca);
+				oneFile = false;
+				exportAll = false;
+				
+				if(((chosen_sample.equals("All Samples")||(chosen_sample.equals("")))&&!chosen_go.equals("No GO Selected"))){
+					fileName = chosen_go+"-";
+					
+				}
+				else if(((!chosen_sample.equals("All Samples"))||(!chosen_sample.equals(""))&&!chosen_go.equals("No GO Selected"))){
+					fileName = chosen_sample + "-" + chosen_go + "-";
+					lframe.step(chosen_sample + "-" + chosen_go + "-");
+				}
+				if(!chosen_go.equals("No GO Selected")&&!chosen_go.equals("")){
+				//cannot find the lowest common ancestor of a unselected go number and sample
+				System.out.println("Lowest Common Section");
+				MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), oneFile, batchCommand);
+				}
+
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} else {
+					drawChart();
+				}
+
+				Loadingframe.close();
+				}
+				else{
+					warningFrame("Please Select an GO");
+				}
+				
+			}
+				
+		});
+	this.exportMat_.setBounds(600, 35, 300, 40);
+	this.exportMat_.setVisible(true);
+	this.exportMat_.setLayout(null);
+	this.exportMat_.setForeground(Project.getFontColor_());
+	
+	//Button used to clear the screen of all graphs & charts
+	JButton clear = new JButton("Clear Screen");
+
+	clear.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			displayP_.removeAll();
+			displayP_.updateUI(); 
+			numChart = 0;
+			NoDataChart = 0;
+			yIndex1 = 520;
+			yIndex2 = 0;
+		}
+	});
+	clear.setBounds(1000, 10, 170, 20);
+	clear.setVisible(true);
+	clear.setLayout(null);
+	clear.setForeground(Color.red);
+	
+	JButton load_Seq_Batch = new JButton("Load Seq Batch file");
+	load_Seq_Batch.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Load Seq Batch file");
+			String path_ = "";
+			//path_ = new File("").getCanonicalPath();
+			path_ = StartFromp1.FolderPath+"bin";
+			JFileChooser fChoose_ = new JFileChooser(path_);
+			fChoose_.setFileSelectionMode(0);
+			fChoose_.setBounds(100, 100, 200, 20);
+			fChoose_.setVisible(true);
+			File file = new File(path_);
+			fChoose_.setSelectedFile(file);;
+			fChoose_.setFileFilter(new FileFilter() {
+				public boolean accept(File f) {
+					if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))
+							|| (f.getName().toLowerCase().endsWith(".lst"))
+							|| (f.getName().toLowerCase().endsWith(".faa"))){
+						return true;
+					}
+					return false;
+				}
+
+				public String getDescription() {
+					return ".txt/.lst/.faa";
+				}
+			});
+			//using SeqFileReader to read a  batch of seq file.
+			if (fChoose_.showSaveDialog(GoActMatixPane.this.getParent()) == 0) {
+				try {
+					String path = fChoose_.getSelectedFile().getCanonicalPath();
+					
+					StartFromp1.goSet = new ArrayList<String>();
+					StartFromp1.FileSetofSeq = new ArrayList<seqWithFileName>();
+					StartFromp1.SeqFileReader(path);
+					
+					if(!StartFromp1.FileSetofSeq.isEmpty()){
+						System.out.println("Is Seq batch");
+						runLcaSeq(StartFromp1.FileSetofSeq);
+					}
+					else{
+						warningFrame("This is not a Seq batch file!");
+					}	
+				} 
+				catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		
+			}
+		}	
+	});
+	
+	load_Seq_Batch.setBounds(1000, 40, 170, 20);
+	load_Seq_Batch.setVisible(true);
+	load_Seq_Batch.setLayout(null);
+
+	
+	JButton load_Ec_Batch = new JButton("Load GO Batch file");
+	load_Ec_Batch.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Load GO Batch file");
+			String path_ = "";
+			//path_ = new File("").getCanonicalPath();
+			path_ = StartFromp1.FolderPath+"bin";
+			JFileChooser fChoose_ = new JFileChooser(path_);
+			fChoose_.setFileSelectionMode(0);
+			fChoose_.setBounds(100, 100, 200, 20);
+			fChoose_.setVisible(true);
+			File file = new File(path_);
+			fChoose_.setSelectedFile(file);;
+			fChoose_.setFileFilter(new FileFilter() {
+				public boolean accept(File f) {
+					if ((f.isDirectory())|| (f.getName().toLowerCase().endsWith(".txt"))){
+						return true;
+					}
+					return false;
+				}
+
+				public String getDescription() {
+					return ".txt";
+				}
+			});
+			//using EcFileReader to read a  batch of go file.
+			if (fChoose_.showSaveDialog(GoActMatixPane.this.getParent()) == 0) {
+				try {
+					String path = fChoose_.getSelectedFile().getCanonicalPath();
+					//File filename = new File(path);
+					
+					StartFromp1.goSet =new ArrayList<String>();
+					StartFromp1.EcFileReader(path);
+					
+					//boolean isBatch = checkBatchFile(filename);
+					if(StartFromp1.goSet!=null){
+						System.out.println("Is go batch");
+						runLcaBatchFile(StartFromp1.goSet);
+					}
+					else{
+						warningFrame("This is not a GO number batch file!");
+					}
+					
+				} 
+				catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		
+			}
+		}
+
+		
+	});
+	load_Ec_Batch.setBounds(1000, 70, 170, 20);
+	load_Ec_Batch.setVisible(true);
+	
+
+	
+	JLabel warning = new JLabel("Note: Sequence files that contain a large amount of sequences may take awhile to process");
+	warning.setBounds(20, 73, 700, 20);
+	warning.setVisible(true);
+	warning.setLayout(null);
+	warning.setForeground(Project.getFontColor_());
+	
+	JLabel ec_combo = new JLabel("Choose GO:");
+	ec_combo.setBounds(20,15,100,20);
+	ec_combo.setVisible(true);
+	
+	JLabel smp_combo = new JLabel("Choose Sample:");
+	smp_combo.setBounds(210,15,350,20);
+	smp_combo.setVisible(true);
+
+
+	this.optionsPanel_.add(this.exportMat_);
+	this.optionsPanel_.add(clear);
+	this.optionsPanel_.add(warning);
+	this.optionsPanel_.add(goList);
+	this.optionsPanel_.add(sampleList);
+	this.optionsPanel_.add(ec_combo);
+	this.optionsPanel_.add(smp_combo);
+	this.optionsPanel_.add(load_Ec_Batch);
+	this.optionsPanel_.add(load_Seq_Batch);
+	
+		
+	}
+	//load go#'s for lca function
+	private void runLcaBatchFile(ArrayList<String> ecset){
+		LinkedHashMap<String,String> seq_for_lca;
+		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		try{
+			
+			
+			lframe = new Loadingframe(); // opens the loading frame
+			lframe.bigStep("Calculating LCA..");
+			
+			for(int i = 0; i < ecset.size();i++){
+				String line = ecset.get(i);
+				lframe.step(line);
+				exportAll = true;
+				//equal to cmd seqall.
+				seq_for_lca = cmdExportSequencesGo(line,sampleName, true, false);
+				fileName = line +  "-";
+				meta = new MetaProteomicAnalysis();
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
+				
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} 
+				else {
+					drawChart();
+				}	
+				
+			}	
+			Loadingframe.close();
+		}
+		
+		catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+			
+	}
+		
+	private void runLcaSeq(ArrayList<seqWithFileName> fileSetofSeq) {
+		LinkedHashMap<String,String> seq_for_lca;
+		MetaProteomicAnalysis meta = new MetaProteomicAnalysis();
+		try{
+			
+			
+			lframe = new Loadingframe(); // opens the loading frame
+			lframe.bigStep("Calculating LCA..");
+			
+			for(int i = 0; i < fileSetofSeq.size();i++){
+				String line = fileSetofSeq.get(i).getFileName();
+				lframe.step(line);
+				exportAll = true;
+				//equal to cmd seqall.
+				seq_for_lca = fileSetofSeq.get(i).getIdSeq();
+				fileName = line +  "-";
+				meta = new MetaProteomicAnalysis();
+				returnData = meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), false, batchCommand);
+				
+				drawChart = true;
+				if (numChart < 1) {
+					prepaintLCA();
+				} 
+				else {
+					drawChart();
+				}	
+				
+			}	
+			Loadingframe.close();
+		}
+		
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}	
 
 	private void prepaint() { // This method rebuids the back panel of the window
 		removeAll(); // Removes everything on the backpanel
 		initMainPanels(); // instanciates the options, display, and scroll panels
 		addOptions(); // adds the buttons, labels, checkboxes etc to the options panel
 		drawSampleNames();
-		showGoValues(); // paints the ec matrix showing the ec values, calls showValues, or show odds.
+		showGoValues(); // paints the go matrix showing the go values, calls showValues, or show odds.
 		invalidate(); 
 		validate(); 
 		repaint(); 
@@ -421,8 +808,8 @@ public class GoActMatixPane extends JPanel {
 					&& (((Sample) Project.samples_.get(x)).onoff)) {
 				indexSmp++;
 				ArrayList<GONum> actSample = ((Sample) Project.samples_.get(x)).gos_;
-				for (int ecCnt = 0; ecCnt < actSample.size(); ecCnt++) {
-					GONum actGo = actSample.get(ecCnt);
+				for (int goCnt = 0; goCnt < actSample.size(); goCnt++) {
+					GONum actGo = actSample.get(goCnt);
 				
 					boolean found = false;
 					this.lframe.step(actGo.GoNumber);
@@ -611,10 +998,10 @@ public class GoActMatixPane extends JPanel {
 					String numExport = JOptionPane.showInputDialog(null,"Enter Number of Ecs to export","All");
 					if(checkValidExportNum(numExport)){
 						if(numExport.equalsIgnoreCase("all")){
-							num_export_go = 0;
+							num_exportMat_go = 0;
 						}
 						else{
-							num_export_go = Integer.parseInt(numExport);
+							num_exportMat_go = Integer.parseInt(numExport);
 						}
 					
 					JFileChooser fChoose_ = new JFileChooser(Project.workpath_);
@@ -645,7 +1032,7 @@ public class GoActMatixPane extends JPanel {
 								path = path + ".txt";
 								System.out.println(".txt");
 							}
-							GoActMatixPane.this.exportGoNums(path, num_export_go);
+							GoActMatixPane.this.exportGoNums(path, num_exportMat_go);
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
@@ -833,7 +1220,7 @@ public class GoActMatixPane extends JPanel {
 		Loadingframe.close();
 	}
 
-	private void showGoValues() {// paints the ec matrix showing the ec values, calls showValues, or show odds
+	private void showGoValues() {// paints the go matrix showing the go values, calls showValues, or show odds
 		this.lframe.bigStep("showGoValues");
 		int goCnt = 0;
 		for (goCnt = 0; goCnt < this.goMatrix_.size(); goCnt++) {
@@ -1524,11 +1911,11 @@ public class GoActMatixPane extends JPanel {
 			} else {
 				sampleName = sampName;
 			}
-			File f = new File(CmdController1.tmpPath+ "Sequences");
+			File f = new File(StartFromp1.FolderPath+ "Sequences");
 			if (!f.exists()) {
 		            f.mkdirs();
 		    }
-			File file = new File(CmdController1.tmpPath + File.separator+"Sequences"+File.separator+sampleName + sampleName + "-GO-" +goNr.GoNumber + ".txt");
+			File file = new File(StartFromp1.FolderPath + File.separator+"Sequences"+File.separator+sampleName + sampleName + "-GO-" +goNr.GoNumber + ".txt");
 			PrintWriter printWriter = new PrintWriter(file);
 			printWriter.println("" + text);
 			printWriter.close();
@@ -1596,19 +1983,19 @@ public class GoActMatixPane extends JPanel {
 			});
 			if (this.includeRepseq_.isSelected()) {
 				ecMenuPopup = new JPopupMenu();
-				JMenuItem export_one = new JMenuItem("Export all Sequences to one file");
+				JMenuItem exportMat_one = new JMenuItem("Export all Sequences to one file");
 				JMenuItem lca_one = new JMenuItem("Find Lowest Common Ancestor of all Sequences to one file");
-			    JMenuItem export_individual = new JMenuItem("Export all Sequences to individual files");
+			    JMenuItem exportMat_individual = new JMenuItem("Export all Sequences to individual files");
 			    JMenuItem lca_individual = new JMenuItem("Find Lowest Common Ancestor of all Sequences to individual files");
 			  
-			    ecMenuPopup.add(export_one);
-			    ecMenuPopup.add(export_individual);
+			    ecMenuPopup.add(exportMat_one);
+			    ecMenuPopup.add(exportMat_individual);
 			    ecMenuPopup.add(lca_one);
 			    ecMenuPopup.add(lca_individual);
 			  
-				export_one.addActionListener(new ActionListener(){
+				exportMat_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences to one file" in the popup menu, sets the exportAll boolean to true
-					//sends the buttons EC number into cmdExportSequencesGo to be handled like a command line option
+					//sends the buttons GO number into cmdExportSequencesGo to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = true;
@@ -1622,9 +2009,9 @@ public class GoActMatixPane extends JPanel {
 					}
 					
 				});
-				export_individual.addActionListener(new ActionListener(){
+				exportMat_individual.addActionListener(new ActionListener(){
 					//If the user clicks on the "Export all Sequences to individual files" in the popup menu, sets the exportAll boolean to false
-					//sends the buttons EC number into cmdExportSequencesGo to be handled like a command line option
+					//sends the buttons GO number into cmdExportSequencesGo to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = false;
@@ -1639,7 +2026,7 @@ public class GoActMatixPane extends JPanel {
 				});
 				lca_one.addActionListener(new ActionListener(){
 					//If the user clicks on the "Find Lowest Common Ancestor of all Sequences to one file" in the popup menu, sets the exportAll boolean to true
-					//sends the buttons EC number into cmdExportSequencesGo to be handled like a command line option
+					//sends the buttons GO number into cmdExportSequencesGo to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = true;
@@ -1660,7 +2047,7 @@ public class GoActMatixPane extends JPanel {
 				});
 				lca_individual.addActionListener(new ActionListener(){
 					//If the user clicks on the "Find Lowest Common Ancestor of all Sequences to individual files" in the popup menu, sets the exportAll boolean to false
-					//sends the buttons EC number into cmdExportSequencesGo to be handled like a command line option
+					//sends the buttons GO number into cmdExportSequencesGo to be handled like a command line option
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						exportAll = false;
@@ -1780,12 +2167,12 @@ public class GoActMatixPane extends JPanel {
 
 	private void unmappedMover() {
 		int unmappedCnt = 0;
-		for (int ecCnt1 = 0; ecCnt1 < this.goMatrix_.size(); ecCnt1++) {
-			if ((((Line) this.goMatrix_.get(ecCnt1)).getGoNr_().unmapped)
-					&& (ecCnt1 < this.goMatrix_.size() - unmappedCnt)) {
-				moveToEnd(ecCnt1);
+		for (int goCnt1 = 0; goCnt1 < this.goMatrix_.size(); goCnt1++) {
+			if ((((Line) this.goMatrix_.get(goCnt1)).getGoNr_().unmapped)
+					&& (goCnt1 < this.goMatrix_.size() - unmappedCnt)) {
+				moveToEnd(goCnt1);
 				unmappedCnt++;
-				ecCnt1--;
+				goCnt1--;
 			}
 		}
 	}
@@ -1885,7 +2272,7 @@ public class GoActMatixPane extends JPanel {
 				
 			int exportNum = 0;
 			/*Used for command line to check if the input entered for the number of
-			 * ec to be exported is a valid input.
+			 * go to be exported is a valid input.
 			 */
 			if(numGo == 0){
 				exportNum = this.goMatrix_.size();
@@ -2251,11 +2638,11 @@ public class GoActMatixPane extends JPanel {
 								} else {
 									sampleName = sampName_;
 								}
-								File f = new File(CmdController1.tmpPath+ "Sequences");
+								File f = new File(StartFromp1.FolderPath+ "Sequences");
 								if (!f.exists()) {
 							            f.mkdirs();
 							    }
-								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+								File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+
 										sampleName +"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
 								PrintWriter printWriter = new PrintWriter(file);
 								if (text != null && text != "") {
@@ -2278,12 +2665,12 @@ public class GoActMatixPane extends JPanel {
 									else {
 									}
 									
-									File f = new File(CmdController1.tmpPath+ "Sequences");
+									File f = new File(StartFromp1.FolderPath+ "Sequences");
 									if (!f.exists()) {
 								            f.mkdirs();
 								    }
 					
-									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+									File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+
 											Project.workpath_+"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
 									//This allows writing to the file of the same name to append to the file if created, creates file if not
 									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
@@ -2318,7 +2705,7 @@ public class GoActMatixPane extends JPanel {
 		else {
 			System.out.println("There is no sequence file associated with this sample ("+ sampName_ + ")");
 		}
-		//used to find the lowest common ancestor of all the samples for a particular ec in one table
+		//used to find the lowest common ancestor of all the samples for a particular go in one table
 		if(findLca == true && oneFile == false){
 			if(chosen_sample.equals("All Samples")||chosen_sample.equals("")){
 				file_name = sampName_ + "-" + goNr_.GoNumber;
@@ -2354,11 +2741,11 @@ public class GoActMatixPane extends JPanel {
 	}
 	
 	/**
-	 * Checks the user input for how many ecs to export to see if it is a valid number
-	 * or if they wish to export all ecs. 
+	 * Checks the user input for how many gos to export to see if it is a valid number
+	 * or if they wish to export all gos. 
 	 * 
 	 * @param strIN User input into the input message
-	 * @return If the string is a valid input for exporting ecs
+	 * @return If the string is a valid input for exporting gos
 	 * 
 	 * @author Jennifer Terpstra
 	 */

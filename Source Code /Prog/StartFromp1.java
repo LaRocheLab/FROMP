@@ -65,6 +65,7 @@ public class StartFromp1 {
 		}
 		
 		FolderPath = folderPath;
+		cmd = new CmdController1(); 
 		//args = 0. start GUI		
 		if(args.length  == 0){
 			System.out.println("Welcome to  FROMP.\nGUI is starting...\nFor using cmdFROMP, please check FROMP-Maual.\n\n\n");

@@ -129,7 +129,7 @@ public class MetaProteomicAnalysis {
 	}
 	
 	/**
-	 * Performs the extraction of the protien sequences from the provided sequence files
+	 * Performs the extraction of the protein sequences from the provided sequence files
 	 * storing the digested results in TrypticPeptide class. Code for tryptic digest
 	 * was found at:
 	 * 
@@ -498,11 +498,11 @@ public class MetaProteomicAnalysis {
 			pie1.setCircular(false);
 			pie1.setLabelGenerator(null);
 			try {
-				File f = new File(CmdController1.tmpPath+ "PieChart");
+				File f = new File(StartFromp1.FolderPath+ "PieChart");
 				if (!f.exists()) {
 			            f.mkdirs();
 			    }
-				ChartUtilities.saveChartAsPNG(new File(CmdController1.tmpPath
+				ChartUtilities.saveChartAsPNG(new File(StartFromp1.FolderPath
 						+ "PieChart" + File.separator + fileName
 						+ " Total Taxonomy" + ".png"), chart, 1000, 1000);
 				System.out.println("Pie Chart exported to " + File.separator
@@ -645,12 +645,12 @@ public class MetaProteomicAnalysis {
 	public void exportExcel(JTable table, String tableName, String fileName){
 		 try {
 			 
-			 File f = new File(CmdController1.tmpPath + "Excel");
+			 File f = new File(StartFromp1.FolderPath + "Excel");
 			 if (!f.exists()) {
 				 f.mkdirs();
 			 }
 			 //saves the new excel file within the Excel folder
-		 	File file = new File(CmdController1.tmpPath + "Excel" + File.separator + fileName + tableName + ".xls");
+		 	File file = new File(StartFromp1.FolderPath + "Excel" + File.separator + fileName + tableName + ".xls");
             WritableWorkbook workbook1 = Workbook.createWorkbook(file);
             WritableSheet sheet1 = workbook1.createSheet("fileName", 0);
             TableModel model = table.getModel();
@@ -691,12 +691,12 @@ public class MetaProteomicAnalysis {
 	public void exportTableTxt(JTable table, String tableName, String fileName){
 		
 	
-		File f = new File(CmdController1.tmpPath+ "Tables");
+		File f = new File(StartFromp1.FolderPath+ "Tables");
 		if (!f.exists()) {
 	            f.mkdirs();
 	    }
 		
-		File file = new File(CmdController1.tmpPath + "Tables" + File.separator + fileName + tableName + ".txt");
+		File file = new File(StartFromp1.FolderPath + "Tables" + File.separator + fileName + tableName + ".txt");
 		TableModel model = table.getModel();
 		String separator = "\t";
 	

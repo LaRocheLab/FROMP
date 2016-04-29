@@ -3,6 +3,8 @@ package Panes;
 import Objects.PathwayWithEc;
 import Objects.Project;
 import Prog.DataProcessor;
+import Prog.NewFrompFrame;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +25,7 @@ public class LCAPanes extends JPanel{
 	JButton ecSort_; // A button to go to the ActMatrixPane panel
 	//PathwayEcMat pwEcMat; 
 	ActMatrixPane actMat_; 
+	GoActMatixPane actMatGo_;
 	int mode_; 
 	int xsize; 
 	int yOffset_; 
@@ -77,30 +80,27 @@ public class LCAPanes extends JPanel{
 
 	private void showActivity() {
 		this.showPanel_.removeAll();
-
-		switchmode();
-		switch (this.mode_) {
-		case 0:
+		
+		if(NewFrompFrame.isEcGoLca()){
+			
 			if ((this.actMat_ == null) || (Project.dataChanged)) {
 				this.actMat_ = new ActMatrixPane(this.activeProj_,this.proc_,this.showPanel_.getSize());
 			}
 			this.showPanel_.add(this.actMat_);
-			invalidate();
-			validate();
-			repaint();
-			break;
-		case 1:
-//			if ((this.pwEcMat == null) || (Project.dataChanged)) {
-//				this.pwEcMat = new PathwayEcMat(this.pwList_, this.activeProj_,
-//						this.proc_, this.showPanel_.getSize());
-//			}
-//			this.showPanel_.add(this.pwEcMat);
-//			invalidate();
-//			validate();
-//			repaint();
+			
 		}
+		else{
+			
+			if ((this.actMatGo_ == null) || (Project.dataChanged)) {
+				this.actMatGo_ = new GoActMatixPane(this.activeProj_,this.proc_,this.showPanel_.getSize(),"lca");
+			}
+			this.showPanel_.add(this.actMatGo_);
+		}
+		
+		invalidate();
+		validate();
+		repaint();
+		
 	}
 
-	private void switchmode() {
-	}
 }

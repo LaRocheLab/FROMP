@@ -66,6 +66,16 @@ public class NewFrompFrame extends JFrame {
 	final String recentProjPath_ = "recentProj.txt"; // Path to the file which contains the recently opened projects
 	private Controller control_; // The controller. Allows user to save, load etc.
 	private JScrollPane showJPanel_; // Used only to be able to scroll through samples in the EditSamplesPane
+	
+	static boolean EcGoLca;//ture: load ec lca. false: load go lca.
+
+	public static boolean isEcGoLca() {
+		return EcGoLca;
+	}
+
+	public void setEcGoLca(boolean ecGoLca) {
+		EcGoLca = ecGoLca;
+	}
 
 	public NewFrompFrame() {
 		setVisible(true);
@@ -901,10 +911,11 @@ public class NewFrompFrame extends JFrame {
 		});
 		panel.add(s);
 		
-		s = new JButton("Lowest Common Ancestor >");
+		s = new JButton("Lowest Common Ancestor(EC) >");
 		s.setBounds(xcol1, yOff + (ySize + 2) * 7, xsize, ySize);
 		s.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				EcGoLca=true;
 				if (NewFrompFrame.this.control_.gotSamples()) {
 					Controller.loadPathways(true);
 					NewFrompFrame.this.showLCAPanes();
@@ -914,6 +925,22 @@ public class NewFrompFrame extends JFrame {
 			}
 		});
 		panel.add(s);
+		
+		s = new JButton("Lowest Common Ancestor(GO) >");
+		s.setBounds(xcol1, yOff + (ySize + 2) * 8, xsize, ySize);
+		s.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EcGoLca=false;
+				if (NewFrompFrame.this.control_.gotSamples()) {
+					Controller.loadPathways(true);
+					NewFrompFrame.this.showLCAPanes();
+				} else {
+					warningFrame();
+				}
+			}
+		});
+		panel.add(s);
+
 
 		this.back_.add(panel);
 

@@ -61,7 +61,7 @@ public class StartFromp1 {
 			folderPath = test1.substring(0, test1.lastIndexOf("bin"));
 		}
 		else{
-			folderPath = test1.substring(0, test1.lastIndexOf("FROMPt1.jar"));
+			folderPath = test1.substring(0, test1.lastIndexOf("FROMP.jar"));
 		}
 		
 		FolderPath = folderPath;

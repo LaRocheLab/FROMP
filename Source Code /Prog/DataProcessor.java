@@ -395,36 +395,41 @@ public class DataProcessor {
 		ret[2] = "X"; // Whether or not it is an IPR
 		ret[3] = "X"; // Sequence id
 		//added !line.contains("/t") for a strange index exception was occurring without
-		if (line.contains(seperator) && !line.contains("\t")) {
-			//get IPR name = IPRXXXXXX
-			String interpro = findInterProInRaw(line);
-			if (interpro != null) {
-				Project.amountOfIPRs += 1;
-				ret[0] = interpro;
-				ret[2] = "IPR";
-			}
-			String tmp = line.substring(line.indexOf(seperator) + 1);
-			if (tmp.contains(seperator)) {
-				ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-				ret[3] = tmp.substring(line.indexOf(seperator) + 1);
-			} else if (tmp != null) {
-				ret[1] = tmp;
-			}
-		} 
-		else {
-			if (line.contains("\t")) {
-				String repSeq = line.substring(0, line.indexOf("\t"));
-				ret[3] = repSeq;
-			}
-			String interpro = findInterProInRaw(line);
-			if (interpro != null) {
-				Project.amountOfIPRs += 1;
-				ret[0] = interpro;
-				ret[2] = "IPR";
+		try{
+			if (line.contains(seperator) && !line.contains("\t")) {
+				//get IPR name = IPRXXXXXX
+				String interpro = findInterProInRaw(line);
+				if (interpro != null) {
+					Project.amountOfIPRs += 1;
+					ret[0] = interpro;
+					ret[2] = "IPR";
+				}
+				String tmp = line.substring(line.indexOf(seperator) + 1);
+				if (tmp.contains(seperator)) {
+					ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+					ret[3] = tmp.substring(line.indexOf(seperator) + 1);
+				} else if (tmp != null) {
+					ret[1] = tmp;
+				}
 			} 
 			else {
-				System.out.println("IPR save was unsuccessful");
-			}
+				if (line.contains("\t")) {
+					String repSeq = line.substring(0, line.indexOf("\t"));
+					ret[3] = repSeq;
+				}
+				String interpro = findInterProInRaw(line);
+				if (interpro != null) {
+					Project.amountOfIPRs += 1;
+					ret[0] = interpro;
+					ret[2] = "IPR";
+				} 
+				else {
+					System.out.println("IPR save was unsuccessful");
+				}
+			}	
+		}
+		catch (Exception e){
+			System.out.println("IPR save was unsuccessful");
 		}
 		return ret;
 	}
@@ -440,16 +445,22 @@ public class DataProcessor {
 		ret[1] = "1"; // Number of this UniRef with this sequence id
 		ret[2] = "X"; // Whether or not it is an UniRef
 		ret[3] = "X"; // Sequence id
+		
 		if (line.contains("\t")) {
-			String seqID = line.substring(0,line.indexOf("\t"));
-			ret[3] = seqID;
-			String uni = line.substring(line.indexOf("UniRef90_"));
-			uni = uni.substring(0, uni.indexOf("\t"));
-			if (uni != null) {
-				Project.amountOfUNIs += 1;
-				ret[0] = uni;
-				ret[2] = "UniRef";
-			} else {
+			try{
+				String seqID = line.substring(0,line.indexOf("\t"));
+				ret[3] = seqID;
+				String uni = line.substring(line.indexOf("UniRef90_"));
+				uni = uni.substring(0, uni.indexOf("\t"));
+				if (uni != null) {
+					Project.amountOfUNIs += 1;
+					ret[0] = uni;
+					ret[2] = "UniRef";
+				} else {
+					System.out.println("UniRef save was unsuccessful");
+				}
+			}
+			catch (Exception e){
 				System.out.println("UniRef save was unsuccessful");
 			}
 		}
@@ -646,18 +657,23 @@ public class DataProcessor {
 		ret[1] = "1"; // Number of this Pfam with this sequence id
 		ret[2] = "X"; // Whether or not it is an Pfam
 		ret[3] = "X"; // Sequence id
-		if (line.contains("\t")) {
-			String seqID = line.substring(0,line.indexOf("\t"));
-			ret[3] = seqID;
-			String uni = line.substring(line.indexOf("PF"));
-			uni = uni.substring(0, uni.indexOf("\t"));
-			if (uni != null) {
-				Project.amountOfUNIs += 1;
-				ret[0] = uni;
-				ret[2] = "PF";
-			} else {
-				System.out.println("Pfam save was unsuccessful");
+		try{
+			if (line.contains("\t")) {
+				String seqID = line.substring(0,line.indexOf("\t"));
+				ret[3] = seqID;
+				String uni = line.substring(line.indexOf("PF"));
+				uni = uni.substring(0, uni.indexOf("\t"));
+				if (uni != null) {
+					Project.amountOfUNIs += 1;
+					ret[0] = uni;
+					ret[2] = "PF";
+				} else {
+					System.out.println("Pfam save was unsuccessful");
+				}
 			}
+		}
+		catch (Exception e){
+			System.out.println("Pfam save was unsuccessful");
 		}
 		return ret;
 	

@@ -125,7 +125,7 @@ public class CmdController1 {
 			//add try-catch for check input file.
 			try{			
 				controller.loadProjFile(IP);
-				System.out.println("Project file added");
+				System.out.println("Project file added: "+IP);
 				//get file name, for using as a part of output file name.
 				Project.workpath_ = IP.substring(IP.lastIndexOf(File.separator)+1,IP.lastIndexOf("."));
 			}
@@ -1290,7 +1290,8 @@ public class CmdController1 {
 		for (int i =0 ; i < Project.samples_.size();i++){	
 			
 			if(Project.samples_.get(i).getSequenceFile()== null || 
-					Project.samples_.get(i).getSequenceFile().contentEquals("")){
+					Project.samples_.get(i).getSequenceFile().contentEquals("")|| 
+					Project.samples_.get(i).getSequenceFile().contentEquals("none")){
 				
 				sampleWithoutSeq.add(i, Project.samples_.get(i).name_);
 			}	

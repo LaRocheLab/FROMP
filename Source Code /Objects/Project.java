@@ -624,34 +624,50 @@ public class Project {
 			return;
 		}
 		String zeile;
-		int i = 0;
-		while ((zeile = in.readLine()) != null) {
-			if (zeile.contentEquals("</SeqFiles>")) {
-				break;
-			}
-			if (!zeile.contentEquals("none")) {
-				File tmp = new File(zeile);
-				
-				if(System.getProperty("os.name").contains("Linux")){
-					if(zeile.contains(File.separator)){
-						if(tmp.exists()){
-							samples_.get(i).setSequenceFile(zeile);
-						}
-					}
-				}
-				else if(System.getProperty("os.name").contains("Windows")){
-					if(zeile.contains(File.separator)){
-						if(tmp.exists()){
-							samples_.get(i).setSequenceFile(zeile);
-						}
-					}
-					
-				}
-				
-				
-			}
-			i++;
+//		int i = 0;
+//		while ((zeile = in.readLine()) != null) {
+//			if (zeile.contentEquals("</SeqFiles>")) {
+//				break;
+//			}
+//			if (!zeile.contentEquals("none")) {
+//				File tmp = new File(zeile);
+//				
+//				if(System.getProperty("os.name").contains("Linux")){
+//					if(zeile.contains(File.separator)){
+//						if(tmp.exists()){
+//							samples_.get(i).setSequenceFile(zeile);
+//						}
+//					}
+//				}
+//				else if(System.getProperty("os.name").contains("Windows")){
+//					if(zeile.contains(File.separator)){
+//						if(tmp.exists()){
+//							samples_.get(i).setSequenceFile(zeile);
+//						}
+//					}
+//					
+//				}
+//				
+//				
+//			}
+//			i++;
+//		}
+		ArrayList<String> AllSeqPath = new ArrayList <String>();
+		// store all seq file path into a arraylist
+		while ((zeile = in.readLine()) != null && !zeile.contentEquals("</SeqFiles>")) {
+			AllSeqPath.add(zeile);
 		}
+		//add seq file path to sample.
+		int j = 0;
+		for (int i = AllSeqPath.size(); i > 0 ; i--){
+			
+			String seqPath = AllSeqPath.get(i-1);
+			
+			samples_.get(samples_.size()-1-j).setSequenceFile(seqPath);
+			
+			j++;
+		}
+			
 	}
 	/*
 	 * When you press the "Load EC-Matrix" button in the EditSamplesPane and load a matrix file
@@ -994,7 +1010,8 @@ public class Project {
 					tmpEc.stats_.add(new EcSampleStats(tmpEc));
 					tmpLine = in.readLine();
 					//read all(Format: seq id + ec amount + pf amount + unused ec num) of this Ec num.
-					while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") && !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
+					while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") 
+							&& !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
 						try{
 							ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
 							
@@ -1020,20 +1037,22 @@ public class Project {
 				
 				//read GO part.
 				if (tmpLine.startsWith("GO*:")&& StartFromp1.doGo) {
-					
-					String [] goNumAmount = tmpLine.split(":");
-					GONum tmpGo = new GONum(goNumAmount[1]);
-					tmpGo.amount_ = Integer.valueOf(goNumAmount[2]).intValue();
-					tmpGo.sampleNr_ = sampNr;
-					tmpGo.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
-					tmpGo.stats_.add(new GoSampleStats(tmpGo));
-					tmpLine = in.readLine();
-					//read all(Format: seq id + go amount + pf amount + unused go num) of this Go num.
-					while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") && !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
-						try{
+					try{
+//						System.out.println(tmpLine);
+						String [] goNumAmount = tmpLine.split(":");
+						GONum tmpGo = new GONum(goNumAmount[1]);
+						tmpGo.amount_ = Integer.valueOf(goNumAmount[2]).intValue();
+						tmpGo.sampleNr_ = sampNr;
+						tmpGo.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+						tmpGo.stats_.add(new GoSampleStats(tmpGo));
+						tmpLine = in.readLine();
+						//read all(Format: seq id + go amount + pf amount + unused go num) of this Go num.
+						while(!tmpLine.startsWith("EC*:") && !tmpLine.startsWith("GO*:") && !tmpLine.startsWith("<userPathways>") && !tmpLine.startsWith("SMP*:")){
+							
 							ArrayList<String> line = new ArrayList<String>(Arrays.asList(tmpLine.split("\t")));
 							
 							String desc = line.get(0);
+//							System.out.println(desc);
 							// need to refactor later.
 							int goAm = Integer.valueOf(line.get(1));
 							int pfAm = Integer.valueOf(line.get(2));
@@ -1042,14 +1061,20 @@ public class Project {
 							ConvertStatGo convertStatGo = new ConvertStatGo(desc,tmpGo.GoNumber, goAm, pfAm, 0,unUsedGo);
 							tmpGo.repseqs_.add(new Repseqs(desc, goAm + pfAm));
 							samples_.get(samples_.size() - 1).conversionsGo_.add(convertStatGo);
+							
+							tmpLine = in.readLine();
 						}
-						catch(Exception e){
-							e.printStackTrace();
-						}
-						tmpLine = in.readLine();
+						samples_.get(samples_.size() - 1).gos_.add(new GONum(tmpGo));
+						continue;
+						
 					}
-					samples_.get(samples_.size() - 1).gos_.add(new GONum(tmpGo));
-					continue;
+					
+					catch(Exception e){
+						System.out.println("Error: "+tmpLine);
+						
+//						e.printStackTrace();
+//						continue;
+					}
 				}
 				tmpLine = in.readLine();	
 			}//end to load sample name part + read ec part + read go part	

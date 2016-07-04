@@ -1,7 +1,19 @@
 File f = new File(CmdController1.tmpPath+ "Sequences");
-								if (!f.exists()) {
-							            f.mkdirs();
-							    }
+    if (!f.exists()) {
+        f.mkdirs();
+}
+
+
+
+int index =1;
+while(file.exists()){
+        file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+                        Project.workpath_+"-"+ ecNr_.name_ + "-Sequences(" +index +").txt");
+        index++;
+}
+
+
+
 
 !CmdController1.optionsCmd_.equals("lcamat")
 

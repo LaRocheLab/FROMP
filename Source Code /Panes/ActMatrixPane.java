@@ -2826,7 +2826,7 @@ public class ActMatrixPane extends JPanel {
 	 * Takes in command line calls to export sequences along with whether or not to print all sequences samples into each EC number file
 	 */
 	public LinkedHashMap<String,String> cmdExportSequences(String ecName,String sampleName, boolean oneFile, boolean findLca) {
-		System.out.println("cmdExport");
+		System.out.println(ecName+" cmdExport");
 		EcNr ecTmp;
 		ArrayList<ConvertStat> reps;
 		String sampName;
@@ -2930,18 +2930,18 @@ public class ActMatrixPane extends JPanel {
 				try {
 					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
 					if (sequenceHash != null) {
-						String text = ">";
-						System.out.println("repCnt: " + reps_.size());
+						String text = "";
+						System.out.println("repCnt:" + reps_.size()+" Sample name: "+sampName_);
 						for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
 							if ((sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())) != null) {
 								desc = ((ConvertStat) reps_.get(repCnt)).getDesc_();
 								protien = (sequenceHash.get(((ConvertStat) reps_.get(repCnt)).getDesc_())).toString();
 								if(oneFile){
-									text = text + desc + " " + sampName_ + "\n" + protien;
+									text += ">"+ desc + " " + sampName_ + "\n" + protien+"\n";
 									desc = desc + " " + sampName_;
 								}
 								else{
-									text = text + desc + "\n" + protien;
+									text = ">"+text + desc + "\n" + protien+"\n";
 									desc = desc + " " + sampName_;
 								}
 								//used to determine if a sample was picked in the "FindLca" page
@@ -2951,16 +2951,17 @@ public class ActMatrixPane extends JPanel {
 								else if(chosen_sample.equals(sampName_)){
 									seq_for_lca.put(desc, protien);
 								}
-								// ensures that there is a ">" character in front of every new sample
-								if (repCnt < reps_.size() - 1) {
-									text = text + "\n>";
-								}
-								// Don't want the ">" character on the last newline with no sample
-								else if (repCnt == reps_.size()) {
-									text = text + "\n";
-								}
+//								// ensures that there is a ">" character in front of every new sample
+//								if (repCnt < reps_.size() - 1) {
+//									text = text + "\n>";
+//								}
+//								// Don't want the ">" character on the last newline with no sample
+//								else if (repCnt == reps_.size()-1) {
+//									text = text + "\n";
+//								}
 							}
 						}
+						reps_ = null;
 						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamat")){
 							//seq
 							if(findLca == false && oneFile == false){
@@ -2971,11 +2972,11 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									sampleName = sampName_;
 								}
-								File f = new File(StartFromp1.FolderPath+ "Sequences");
+								File f = new File(CmdController1.tmpPath+ "Sequences");
 								if (!f.exists()) {
 							            f.mkdirs();
 							    }
-								File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
+								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
 								PrintWriter printWriter = new PrintWriter(file);
 								if (text != null && text != "") {
 									printWriter.println("" + text);
@@ -2993,13 +2994,13 @@ public class ActMatrixPane extends JPanel {
 							else if(findLca == false && oneFile == true){
 								try {
 									
-									File f = new File(StartFromp1.FolderPath+ "Sequences");
+									File f = new File(CmdController1.tmpPath+ "Sequences");
 									if (!f.exists()) {
 								            f.mkdirs();
 								    }
 					
-									File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+
-											Project.workpath_+"-"+ ecNr_.name_ + "-Sequences" + ".txt");
+									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+											Project.workpath_+"-"+ ecNr_.name_ + "-Sequences-" +CmdController1.sdf.format(CmdController1.d)+ ".txt");
 									//This allows writing to the file of the same name to append to the file if created, creates file if not
 									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 									if (text != null && text != "") {
@@ -3014,6 +3015,7 @@ public class ActMatrixPane extends JPanel {
 									e1.printStackTrace();
 								}
 							}
+							text = null;
 							
 						}
 							

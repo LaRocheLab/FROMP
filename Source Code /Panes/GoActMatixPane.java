@@ -2500,7 +2500,7 @@ public class GoActMatixPane extends JPanel {
 	 * Takes in command line calls to export sequences along with whether or not to print all sequences samples into each GO number file
 	 */
 	public LinkedHashMap<String,String> cmdExportSequencesGo(String goName,String sampleName, boolean oneFile, boolean findLca) {
-		System.out.println("cmdExport");
+		System.out.println(goName+ " cmdExport");
 		GONum goTmp;
 		ArrayList<ConvertStatGo> reps;
 		String sampName;
@@ -2597,18 +2597,18 @@ public class GoActMatixPane extends JPanel {
 				try {
 					sequenceHash = FastaReaderHelper.readFastaProteinSequence(seqFile);
 					if (sequenceHash != null) {
-						String text = ">";
-						System.out.println("repCnt: " + reps_.size());
+						String text = "";
+						System.out.println("repCnt: " + reps_.size()+" Sample name: "+sampName_);
 						for (int repCnt = 0; repCnt < reps_.size(); repCnt++) {
 							if ((sequenceHash.get(((ConvertStatGo) reps_.get(repCnt)).getDesc_())) != null) {
 								desc = ((ConvertStatGo) reps_.get(repCnt)).getDesc_();
 								protien = (sequenceHash.get(((ConvertStatGo) reps_.get(repCnt)).getDesc_())).toString();
 								if(oneFile){
-									text = text + desc + " " + sampName_ + "\n" + protien;
+									text += ">"+ desc + " " + sampName_ + "\n" + protien+"\n";
 									desc = desc + " " + sampName_;
 								}
 								else{
-									text = text + desc + "\n" + protien;
+									text = ">"+text + desc + "\n" + protien+"\n";
 									desc = desc + " " + sampName_;
 								}
 								//used to determine if a sample was picked in the "FindLca" page
@@ -2618,62 +2618,34 @@ public class GoActMatixPane extends JPanel {
 								else if(chosen_sample.equals(sampName_)){
 									seq_for_lca.put(desc, protien);
 								}
-								// ensures that there is a ">" character in front of every new sample
-								if (repCnt < reps_.size() - 1) {
-									text = text + "\n>";
-								}
-								// Don't want the ">" character on the last newline with no sample
-								else if (repCnt == reps_.size()) {
-									text = text + "\n";
-								}
+//								// ensures that there is a ">" character in front of every new sample
+//								if (repCnt < reps_.size() - 1) {
+//									text = text + "\n>";
+//								}
+//								// Don't want the ">" character on the last newline with no sample
+//								else if (repCnt == reps_.size()) {
+//									text = text + "\n";
+//								}
 							}
 						}
+						reps_ = null;
 						if(!CmdController1.optionsCmd_.equals("")&&!CmdController1.optionsCmd_.equals("lcamatgo")){
-							//seq
+							//seqgo
 							if(findLca == false && oneFile == false){
-							try {
-								String sampleName;
-								if (sampName_.contains(".out")) {
-									sampleName = sampName_.replace(".out", "");
-								} else {
-									sampleName = sampName_;
-								}
-								File f = new File(StartFromp1.FolderPath+ "Sequences");
-								if (!f.exists()) {
-							            f.mkdirs();
-							    }
-								File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+
-										sampleName +"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
-								PrintWriter printWriter = new PrintWriter(file);
-								if (text != null && text != "") {
-									printWriter.println("" + text);
-								} else {
-									printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
-								}
-								printWriter.close();
-							} 
-							catch (IOException e1) {
-								e1.printStackTrace();
-							}
-						}
-							//seqall
-							else if(findLca == false && oneFile == true){
 								try {
+									String sampleName;
 									if (sampName_.contains(".out")) {
-										sampName_.replace(".out", "");
-									} 
-									else {
+										sampleName = sampName_.replace(".out", "");
+									} else {
+										sampleName = sampName_;
 									}
-									
 									File f = new File(StartFromp1.FolderPath+ "Sequences");
 									if (!f.exists()) {
 								            f.mkdirs();
 								    }
-					
-									File file = new File(StartFromp1.FolderPath+File.separator+"Sequences"+File.separator+
-											Project.workpath_+"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
-									//This allows writing to the file of the same name to append to the file if created, creates file if not
-									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+											sampleName +"-GO-"+ goNr_.GoNumber + "-Sequences" + ".txt");
+									PrintWriter printWriter = new PrintWriter(file);
 									if (text != null && text != "") {
 										printWriter.println("" + text);
 									} else {
@@ -2685,7 +2657,37 @@ public class GoActMatixPane extends JPanel {
 									e1.printStackTrace();
 								}
 							}
-							
+							//seqallgo
+							else if(findLca == false && oneFile == true){
+								try {
+									if (sampName_.contains(".out")) {
+										sampName_.replace(".out", "");
+									} 
+									else {
+									}
+									
+									File f = new File(CmdController1.tmpPath+ "Sequences");
+									if (!f.exists()) {
+								            f.mkdirs();
+								    }
+					
+									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+											Project.workpath_+"-GO-"+ goNr_.GoNumber + "-Sequences-" +CmdController1.sdf.format(CmdController1.d)+ ".txt");
+									//This allows writing to the file of the same name to append to the file if created, creates file if not
+									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
+									if (text != null && text != "") {
+										printWriter.println("" + text);
+									} else {
+										printWriter.println("No matching sequences in the file provided. ("+ sampName_ + ")");
+									}
+									printWriter.close();
+									
+								} 
+								catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							text=null;
 						}
 							
 					} 

@@ -5,6 +5,10 @@ import Objects.Project;
 import Objects.Sample;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * This is pretty well always in the background while in Fromp. It allows the user to save, load, open, etc. projects.
@@ -142,5 +146,12 @@ public class Controller {
 	public void writeScore(Sample sample, String saveAs, int mode) {
 		processor_.setWorkPath(Project.workpath_);
 		processor_.writeScore(sample, saveAs, mode);
+	}
+
+	public void loadIprMat(String IP) throws IOException {
+		
+		project_.importIprMat(IP);
+		
+
 	}
 }

@@ -48,6 +48,8 @@ public class CmdController1 {
 	public static boolean elistSortSum=false;
 	final String basePath_ = StartFromp1.FolderPath+"def"+File.separator;
 	static ArrayList <String> unusedEc = new ArrayList<String>();
+	public static Date d = new Date();
+	public static SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
 	public CmdController1(){
 		
 	}
@@ -117,11 +119,25 @@ public class CmdController1 {
 		}
 	}
 	//read input file or path.  IP=input path
-	private void readInputFile(String IP) {
+	private void readInputFile(String IP) throws IOException {
 		// for loading file.
+		String test = null;
+		try{
+			@SuppressWarnings("resource")
+			BufferedReader iprMat = new BufferedReader(new FileReader(IP));
+			test = iprMat.readLine();
+			test = iprMat.readLine();
+		}catch(Exception e){
+			
+		}
+		//input is a IPR Matrix file.
+		if(test.startsWith("IPR")){
+			System.out.println("IPR Matrix:" + IP);
+			controller.loadIprMat(IP);
+		}
 		
 		//input is a .frp file
-		if (IP.endsWith(".frp")) {
+		else if (IP.endsWith(".frp")) {
 			//add try-catch for check input file.
 			try{			
 				controller.loadProjFile(IP);
@@ -329,8 +345,7 @@ public class CmdController1 {
 
 		//6. f or a - export all data as a project(.frp) file.
 		if ( optionsCmd_.contentEquals("f") || optionsCmd_.contentEquals("a") ){
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
+			
 			
 			System.out.println("Export as .frp file");
 			//project path

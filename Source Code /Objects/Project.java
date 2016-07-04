@@ -1261,6 +1261,65 @@ public class Project {
 	public static void setIprNameChange(boolean iprNameChange) {
 		Project.iprNameChange = iprNameChange;
 	}
+
+
+	public void importIprMat(String iP) throws IOException {
+		legitSamples = new ArrayList<Boolean>();
+		BufferedReader in = new BufferedReader(new FileReader(iP));	
+		String line = in.readLine();
+		String sampleNames[] =  line.split("\t");
+		
+		//add all samples name in to project class.
+		for(int i =0 ; i< sampleNames.length;i++){
+			String name = sampleNames[i];
+			Sample tmpSamp = new Sample(name, "");
+			tmpSamp.sampleCol_=new Color(0,0,0);
+			tmpSamp.inUse = true;
+			tmpSamp.imported = true;
+			tmpSamp.legitSample = true;
+			samples_.add(tmpSamp);
+		}
+		//ipr -> ec
+		while((line=in.readLine())!=null){
+			String IprLine[] =  line.split("\t");
+			//check, samples amount must same as the data amount.
+			if (sampleNames.length != IprLine.length-1 ){
+				System.err.println("IPR Matrix, samples amount is not equal data amount,please check your file then run again.");
+				System.exit(0);
+			}
+			if (IprLine[0].startsWith("IPR")){
+				BufferedReader mapFile = new BufferedReader(new FileReader(StartFromp1.FolderPath+"list" + File.separator + "interPro_kegg.txt"));
+				String mapLine=null;
+				String ecName=null;
+				
+				while((mapLine = mapFile.readLine())!=null){
+					if (mapLine.startsWith(IprLine[0])){
+						String pathEc = mapLine.substring(mapLine.indexOf("\t")+1);
+						String patEc[] = pathEc.split("\\+");
+						ecName =patEc[1];
+						break;
+						
+					}
+				}
+				mapFile.close();
+				//load the number of ec.
+				if (ecName !=null){
+					for (int samNr = 0 ; samNr< sampleNames.length;samNr++){
+						
+						EcNr tmpEc = new EcNr(ecName);
+						String amount = IprLine[IprLine.length-1-samNr];
+						tmpEc.amount_ = Integer.valueOf(amount).intValue();
+						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+						tmpEc.stats_.add(new EcSampleStats(tmpEc));
+						samples_.get(samples_.size() - 1-samNr).ecs_.add(new EcWithPathway(tmpEc));
+					}
+				}
+			}
+		}
+		imported = true;
+	}
+
+	
 	
 	
 }

@@ -1316,6 +1316,7 @@ public class Project {
 				}
 			}
 		}
+		in.close();
 		imported = true;
 	}
 

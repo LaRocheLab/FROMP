@@ -1273,7 +1273,7 @@ public class Project {
 		for(int i =0 ; i< sampleNames.length;i++){
 			String name = sampleNames[i];
 			Sample tmpSamp = new Sample(name, "");
-			tmpSamp.sampleCol_=new Color(0,0,0);
+			tmpSamp.sampleCol_=new Color((float) Math.random(),(float) Math.random(),(float) Math.random());	
 			tmpSamp.inUse = true;
 			tmpSamp.imported = true;
 			tmpSamp.legitSample = true;

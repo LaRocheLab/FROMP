@@ -2941,7 +2941,7 @@ public class ActMatrixPane extends JPanel {
 									desc = desc + " " + sampName_;
 								}
 								else{
-									text = ">"+text + desc + "\n" + protien+"\n";
+									text += ">"+ desc + "\n" + protien+"\n";
 									desc = desc + " " + sampName_;
 								}
 								//used to determine if a sample was picked in the "FindLca" page
@@ -2972,11 +2972,11 @@ public class ActMatrixPane extends JPanel {
 								} else {
 									sampleName = sampName_;
 								}
-								File f = new File(CmdController1.tmpPath+ "Sequences");
+								File f = new File(CmdController1.tmpPath+ "Sequences"+File.separator);
 								if (!f.exists()) {
 							            f.mkdirs();
 							    }
-								File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
+								File file = new File(CmdController1.tmpPath+"Sequences"+File.separator+sampleName +"-"+ ecNr_.name_ + "-Sequences" + ".txt");
 								PrintWriter printWriter = new PrintWriter(file);
 								if (text != null && text != "") {
 									printWriter.println("" + text);
@@ -2994,12 +2994,12 @@ public class ActMatrixPane extends JPanel {
 							else if(findLca == false && oneFile == true){
 								try {
 									
-									File f = new File(CmdController1.tmpPath+ "Sequences");
+									File f = new File(CmdController1.tmpPath+ "Sequences"+File.separator);
 									if (!f.exists()) {
 								            f.mkdirs();
 								    }
 					
-									File file = new File(CmdController1.tmpPath+File.separator+"Sequences"+File.separator+
+									File file = new File(CmdController1.tmpPath+"Sequences"+File.separator+
 											Project.workpath_+"-"+ ecNr_.name_ + "-Sequences-" +CmdController1.sdf.format(CmdController1.d)+ ".txt");
 									//This allows writing to the file of the same name to append to the file if created, creates file if not
 									PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));

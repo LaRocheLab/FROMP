@@ -2538,13 +2538,20 @@ GO*:0047154:1
 scaffold_1_7811_[273225_-_272947]_(REVERSE_SENSE)_	0	1	0008948
 GO*:0004792:1
 scaffold_1_8113_[254888_-_254529]_(REVERSE_SENSE)_	0	1	No_unused_GO
+SMP*:s2.txt
+smpCol*240:197:48
+EC*:2.7.7.6:4
+scaffold_8_1988_[114113_-_114448]_	0	1	No_unused_Ec
+scaffold_9_2886_[148428_-_147412]_(REVERSE_SENSE)_	0	1	No_unused_Ec
+scaffold_23_209_[8457_-_12530]_	0	1	No_unused_Ec
+scaffold_23_282_[12558_-_16844]_	0	1	No_unused_Ec
 <userPathways>
 </userPathways>
 <ConvStats>
 <amountOfEcs>0
 <numOfCompleteEcs>0
 <numOfMappedEcs>0
-<amountOfPfs>22
+<amountOfPfs>0
 <numOfConvertedPFs>0
 <numOfConvPfsComplete>0
 <numOfConvPfsMapped>0

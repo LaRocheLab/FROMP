@@ -1309,9 +1309,13 @@ public class Project {
 						EcNr tmpEc = new EcNr(ecName);
 						String amount = IprLine[IprLine.length-1-samNr];
 						tmpEc.amount_ = Integer.valueOf(amount).intValue();
-						tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
-						tmpEc.stats_.add(new EcSampleStats(tmpEc));
-						samples_.get(samples_.size() - 1-samNr).ecs_.add(new EcWithPathway(tmpEc));
+						if (tmpEc.amount_ >0){
+							tmpEc.samColor_ = ((Sample) samples_.get(samples_.size() - 1)).sampleCol_;
+							tmpEc.stats_.add(new EcSampleStats(tmpEc));
+							samples_.get(samples_.size() - 1-samNr).ecs_.add(new EcWithPathway(tmpEc));
+							
+						}
+						
 					}
 				}
 			}

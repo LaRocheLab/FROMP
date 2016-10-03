@@ -2150,9 +2150,9 @@ public class DataProcessor {
 
 					id = getPathwayFromList(zeile);
 					
-					if ((!id.equalsIgnoreCase("ec01120"))
+					if (true /*&& (!id.equalsIgnoreCase("ec01120"))
 							&& (!id.equalsIgnoreCase("ec01110"))
-							&& (!id.equalsIgnoreCase("ec01100"))) {
+							&& (!id.equalsIgnoreCase("ec01100"))*/) {
 						Pathway tmpPathway = new Pathway(getPathway(id));
 						if (!tmp.isEmpty()) {
 							for (int i = 0; (i < ecList_.size())
@@ -2270,9 +2270,9 @@ public class DataProcessor {
 					tmpid = getPathwayFromList(zeile);
 
 					ecNr = getEcNrFromList(zeile);
-					if ((!tmpid.equalsIgnoreCase("ec01120"))
+					if (true /* && (!tmpid.equalsIgnoreCase("ec01120"))
 							&& (!tmpid.equalsIgnoreCase("ec01110"))
-							&& (!tmpid.equalsIgnoreCase("ec01100"))) {
+							&& (!tmpid.equalsIgnoreCase("ec01100"))*/) {
 						if ((tmpid.equalsIgnoreCase(path)) && (!ecNr.isEmpty())) {
 							((PathwayWithEc) getPathwayList_().get(index))
 									.addEc(new EcNr(ecNr));
@@ -2465,9 +2465,9 @@ public class DataProcessor {
 		try {
 			this.ecList = this.reader.readTxt(listPath);
 			while ((zeile = this.ecList.readLine()) != null) {
-				if ((zeile.contains("ec:")) && (!zeile.contains("ec01100"))
+				if ((zeile.contains("ec:")) /*&& (!zeile.contains("ec01100"))
 						&& (!zeile.contains("ec01110"))
-						&& (!zeile.contains("ec01120"))) {
+						&& (!zeile.contains("ec01120"))*/) {
 					totalNrEc += 1.0F;
 				}
 			}

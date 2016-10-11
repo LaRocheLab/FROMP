@@ -215,7 +215,10 @@ public class PngBuilder {
 		double perc = 0.0D;
 		try {
 			this.image = ImageIO.read(new File(StartFromp1.FolderPath+"pics" + this.separator_+ tmpPath.id_ + ".png"));
-			reColorAllEcs(this.image, Color.white);
+			if(!tmpPath.id_.contentEquals("ec01100") && !tmpPath.id_.contentEquals("ec01110") && !tmpPath.id_.contentEquals("ec01120")){
+				reColorAllEcs(this.image, Color.white);
+			}
+			
 			for (int ecCnt = 0; ecCnt < tmpPath.ecNrs_.size(); ecCnt++) {
 				EcNr tmpEc = (EcNr) tmpPath.ecNrs_.get(ecCnt);
 				//System.out.println(tmpEc.name_);

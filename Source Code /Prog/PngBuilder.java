@@ -228,7 +228,7 @@ public class PngBuilder {
 					statsCnt = 0;
 					EcPosAndSize tmpPos = (EcPosAndSize) tmpEc.posSize_.get(i);
 					try {
-						//System.out.println(tmpPos.ecURL_);
+						System.out.println(tmpPos.ecURL_);
 						URI uri = new URI(tmpPos.ecURL_);
 						urlList.put(tmpEc.name_, uri);
 					} catch (URISyntaxException e1) {

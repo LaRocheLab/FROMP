@@ -40,2897 +40,2897 @@ import java.util.*;
  * @author Jennifer Terpstra, Kevan Lynch, zs
  */
 public class DataProcessor {
-	Project activeProj_;
-	StringReader reader;
-	String workpath_;
-	String separator_;
-	// These lines are the conversion charts found in /list
-	// pathway num --> 1.ec/cpd 2.name.
-	static final String listPath = StartFromp1.FolderPath + "list" + File.separator + "ec.list";
-	static final String mapTitleList = StartFromp1.FolderPath + "list" + File.separator + "map_title.tab";
-	// xx --> EC
-	static final String interproToECPath_ = StartFromp1.FolderPath + "list" + File.separator + "interPro_kegg.txt";
-	static final String uni2ECPath_ = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
-			+ "uniref2ec_optimized.txt";
-	static final String pfamToRnToEcPath_ = StartFromp1.FolderPath + "list" + File.separator + "pfam2Ec2Rn.txt";
-	// xx --> GO
-	static final String listPathgoterm = StartFromp1.FolderPath + "list" + File.separator + "go-terms.txt";
-	static final String interpro2GOPath = StartFromp1.FolderPath + "list" + File.separator + "optimized"
-			+ File.separator + "interpro2GO_optimized.txt";
-	static final String uni2GoPath = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
-			+ "uniref90_2GO_optimized-";// 4 files.-1-2-3-4
-	static final String ec2GoPath = StartFromp1.FolderPath + "list" + File.separator + "ec2go.txt";
-	static final String kegg2GoPath = StartFromp1.FolderPath + "list" + File.separator + "kegg2go.txt";
-	static final String pfam2GoPath = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
-			+ "pfam2GO_optimized.txt";
-	// unused list
-	static final String rnListPath = StartFromp1.FolderPath + "list" + File.separator + "rn.list";
-	static final String pathwayList = StartFromp1.FolderPath + "list" + File.separator + "pathway.list";
+    Project activeProj_;
+    StringReader reader;
+    String workpath_;
+    String separator_;
+    // These lines are the conversion charts found in /list
+    // pathway num --> 1.ec/cpd 2.name.
+    static final String listPath = StartFromp1.FolderPath + "list" + File.separator + "ec.list";
+    static final String mapTitleList = StartFromp1.FolderPath + "list" + File.separator + "map_title.tab";
+    // xx --> EC
+    static final String interproToECPath_ = StartFromp1.FolderPath + "list" + File.separator + "interPro_kegg.txt";
+    static final String uni2ECPath_ = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
+	    + "uniref2ec_optimized.txt";
+    static final String pfamToRnToEcPath_ = StartFromp1.FolderPath + "list" + File.separator + "pfam2Ec2Rn.txt";
+    // xx --> GO
+    static final String listPathgoterm = StartFromp1.FolderPath + "list" + File.separator + "go-terms.txt";
+    static final String interpro2GOPath = StartFromp1.FolderPath + "list" + File.separator + "optimized"
+	    + File.separator + "interpro2GO_optimized.txt";
+    static final String uni2GoPath = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
+	    + "uniref90_2GO_optimized-";// 4 files.-1-2-3-4
+    static final String ec2GoPath = StartFromp1.FolderPath + "list" + File.separator + "ec2go.txt";
+    static final String kegg2GoPath = StartFromp1.FolderPath + "list" + File.separator + "kegg2go.txt";
+    static final String pfam2GoPath = StartFromp1.FolderPath + "list" + File.separator + "optimized" + File.separator
+	    + "pfam2GO_optimized.txt";
+    // unused list
+    static final String rnListPath = StartFromp1.FolderPath + "list" + File.separator + "rn.list";
+    static final String pathwayList = StartFromp1.FolderPath + "list" + File.separator + "pathway.list";
 
-	XmlParser parser; // An XML parser, Prog.XMLParser
-	int offCounter = 0;
-	int counter = 0;
-	int nrOfP = 0;
-	double percent = 0; // Degree of completion
-	public static boolean newBaseData = true;
-	public static boolean newUserData = true;
-	Loadingframe lFrame_; // Loading Frame to let the user know when things are
-							// happening
-	boolean chaining = true; // Boolean to indicate whether or not in chaining
-								// mode
-	int numOfConvertedPfam = 0; // Conversion statistics for the Pfam, EC, and
-								// InterPro conversions
-	int numOfMissedpfams = 0;
-	int numOfPFams = 0;
-	int numOfPfamsToGo = 0;
-	int numOfGOToRn = 0;
-	int numOfGoToEc = 0;
-	int unmatchedIndex;
-	int maxEcInP = 0;
-	int numIPR = 0;
-	int numConvertedIPR = 0;
-	int numCompleteIPR = 0;
-	int numMappedIPR = 0;
-	BufferedReader ecList; // Buffered Reader for reading the conversion files
-	BufferedReader goList; // Buffered Reader for reading the conversion files
-	BufferedReader rnList;
-	BufferedReader nameList;
-	BufferedReader ecToGoTxt_;
-	BufferedReader pfamToRnToEc_;
-	BufferedReader pfamToGo_;
-	BufferedReader interproToGOTxt_;
-	BufferedReader interproToECTxt_;
-	BufferedReader uniToEcTxt_;
-	BufferedReader uniToGoTxt_;
-	PngBuilder build; // PngBuilder to draw the graphics
-	Color sysCol_;
-	public static ArrayList<PathwayWithEc> pathwayList_; // Array list
-															// containing the
-															// pathways
-	private static ArrayList<PathwayWithEc> newUserPathList_; // Array list
-																// containing
-																// the user
-																// pathways
-	public static ArrayList<EcWithPathway> ecList_; // Array list containg the
-													// ECs
-	public static ArrayList<GONum> goList_; // Array list containg the GOs
-	boolean reduce = false;
-	ArrayList<String> numEcs = new ArrayList<String>(); // Arraylists to
-														// facilitate conversion
-														// statistics
-	ArrayList<String> numPfams = new ArrayList<String>();
-	ArrayList<String> totalnumPfams = new ArrayList<String>();
+    XmlParser parser; // An XML parser, Prog.XMLParser
+    int offCounter = 0;
+    int counter = 0;
+    int nrOfP = 0;
+    double percent = 0; // Degree of completion
+    public static boolean newBaseData = true;
+    public static boolean newUserData = true;
+    Loadingframe lFrame_; // Loading Frame to let the user know when things are
+			  // happening
+    boolean chaining = true; // Boolean to indicate whether or not in chaining
+			     // mode
+    int numOfConvertedPfam = 0; // Conversion statistics for the Pfam, EC, and
+				// InterPro conversions
+    int numOfMissedpfams = 0;
+    int numOfPFams = 0;
+    int numOfPfamsToGo = 0;
+    int numOfGOToRn = 0;
+    int numOfGoToEc = 0;
+    int unmatchedIndex;
+    int maxEcInP = 0;
+    int numIPR = 0;
+    int numConvertedIPR = 0;
+    int numCompleteIPR = 0;
+    int numMappedIPR = 0;
+    BufferedReader ecList; // Buffered Reader for reading the conversion files
+    BufferedReader goList; // Buffered Reader for reading the conversion files
+    BufferedReader rnList;
+    BufferedReader nameList;
+    BufferedReader ecToGoTxt_;
+    BufferedReader pfamToRnToEc_;
+    BufferedReader pfamToGo_;
+    BufferedReader interproToGOTxt_;
+    BufferedReader interproToECTxt_;
+    BufferedReader uniToEcTxt_;
+    BufferedReader uniToGoTxt_;
+    PngBuilder build; // PngBuilder to draw the graphics
+    Color sysCol_;
+    public static ArrayList<PathwayWithEc> pathwayList_; // Array list
+							 // containing the
+							 // pathways
+    private static ArrayList<PathwayWithEc> newUserPathList_; // Array list
+							      // containing
+							      // the user
+							      // pathways
+    public static ArrayList<EcWithPathway> ecList_; // Array list containg the
+						    // ECs
+    public static ArrayList<GONum> goList_; // Array list containg the GOs
+    boolean reduce = false;
+    ArrayList<String> numEcs = new ArrayList<String>(); // Arraylists to
+							// facilitate conversion
+							// statistics
+    ArrayList<String> numPfams = new ArrayList<String>();
+    ArrayList<String> totalnumPfams = new ArrayList<String>();
 
-	// To EC hash table
-	// Hash of IPR -> EC conversion
-	Hashtable<String, ArrayList<String>> IPRToECHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of UNI -> EC conversion
-	Hashtable<String, ArrayList<String>> UniToECHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of pfam -> EC conversion (not used)
-	Hashtable<String, ArrayList<String>> PfamToECHash = new Hashtable<String, ArrayList<String>>();
+    // To EC hash table
+    // Hash of IPR -> EC conversion
+    Hashtable<String, ArrayList<String>> IPRToECHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of UNI -> EC conversion
+    Hashtable<String, ArrayList<String>> UniToECHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of pfam -> EC conversion (not used)
+    Hashtable<String, ArrayList<String>> PfamToECHash = new Hashtable<String, ArrayList<String>>();
 
-	// To GO hash table
-	// Hash of IPR -> GO conversion
-	Hashtable<String, ArrayList<String>> IPRToGOHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of UNI -> GO conversion
-	Hashtable<String, ArrayList<String>> UniToGOHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of pfam -> GO conversion
-	Hashtable<String, ArrayList<String>> PfamToGOHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of KEGG -> GO conversion (not used)
-	Hashtable<String, ArrayList<String>> KeggToGOHash = new Hashtable<String, ArrayList<String>>();
-	// Hash of EC -> GO conversion (not used)
-	Hashtable<String, ArrayList<String>> EcToGOHash = new Hashtable<String, ArrayList<String>>();
+    // To GO hash table
+    // Hash of IPR -> GO conversion
+    Hashtable<String, ArrayList<String>> IPRToGOHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of UNI -> GO conversion
+    Hashtable<String, ArrayList<String>> UniToGOHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of pfam -> GO conversion
+    Hashtable<String, ArrayList<String>> PfamToGOHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of KEGG -> GO conversion (not used)
+    Hashtable<String, ArrayList<String>> KeggToGOHash = new Hashtable<String, ArrayList<String>>();
+    // Hash of EC -> GO conversion (not used)
+    Hashtable<String, ArrayList<String>> EcToGOHash = new Hashtable<String, ArrayList<String>>();
 
-	public DataProcessor(Project actProj) {// Builds the data processor object
-											// for the active project
+    public DataProcessor(Project actProj) {// Builds the data processor object
+					   // for the active project
 
-		this.activeProj_ = actProj;
-		newUserData = true;
-		newBaseData = true;
-		this.reader = new StringReader();
-		this.separator_ = File.separator;
-		this.parser = new XmlParser();
-		this.lFrame_ = new Loadingframe();
-		newUserPathList_ = new ArrayList<PathwayWithEc>();
-		pathwayList_ = null;
-		prepData(); // Prepares everything for the data processor
+	this.activeProj_ = actProj;
+	newUserData = true;
+	newBaseData = true;
+	this.reader = new StringReader();
+	this.separator_ = File.separator;
+	this.parser = new XmlParser();
+	this.lFrame_ = new Loadingframe();
+	newUserPathList_ = new ArrayList<PathwayWithEc>();
+	pathwayList_ = null;
+	prepData(); // Prepares everything for the data processor
+    }
+
+    public DataProcessor() {// Builds a shell of a data processor, not connected
+			    // to
+	newUserData = true;
+	newBaseData = true;
+	this.reader = new StringReader();
+	this.separator_ = File.separator;
+	this.parser = new XmlParser();
+    }
+
+    /**
+     * Prepares the data processor, if the base data or the user data is new.
+     * For example, the DataProcessor was just called resulting in it preparing
+     * the pathlist and the ec list
+     *
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    public void prepData() {
+	if (newBaseData) {
+	    System.err.println("new BaseData");
+
+	    prepPathList();
+	    prepEcList();
+
+	    if (StartFromp1.getCmdCode() == null) {
+		prepGoList();
+	    }
+
+	    newBaseData = false;
+	}
+	if (newUserData) {
+	    System.err.println("new UserData");
+	    prepUserPathList();
+	    prepUserEc();
+	    newUserData = false;
 	}
 
-	public DataProcessor() {// Builds a shell of a data processor, not connected
-							// to
-		newUserData = true;
-		newBaseData = true;
-		this.reader = new StringReader();
-		this.separator_ = File.separator;
-		this.parser = new XmlParser();
+	computeWeights();
+	transferWeightToPwl(); // Transfers the weights to a pathway list
+	calcChainsForProg(); // Calculates the longest chain between EcNrs
+
+	if (this.lFrame_ != null) {
+	    Loadingframe.close();
 	}
+    }
 
-	/**
-	 * Prepares the data processor, if the base data or the user data is new.
-	 * For example, the DataProcessor was just called resulting in it preparing
-	 * the pathlist and the ec list
-	 *
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	public void prepData() {
-		if (newBaseData) {
-			System.err.println("new BaseData");
+    private void prepGoList() {
+	// preps the go list
+	this.lFrame_.bigStep("GO List");
+	String zeile = "";
+	String term = "";
+	String id = "";
 
-			prepPathList();
-			prepEcList();
+	Boolean newGo = true;
 
-			if (StartFromp1.getCmdCode() == null) {
-				prepGoList();
+	if (goList_ == null) {
+	    System.out.println("Load GO List...");
+	    goList_ = new ArrayList<GONum>();
+	    try {
+		this.goList = this.reader.readTxt(listPathgoterm);
+		while ((zeile = this.goList.readLine()) != null) {
+		    term = zeile.substring(0, zeile.indexOf("\t"));
+
+		    newGo = true;
+
+		    id = zeile.substring(zeile.indexOf("GO:") + 3);
+
+		    GONum tmpGO = new GONum(id, term);
+		    for (int i = 0; (i < goList_.size()) && newGo; i++) {
+			if (goList_.get(i).getGoTerm().contentEquals(term)) {
+			    newGo = false;
+			    break;
 			}
+		    }
+		    if (newGo) {
+			goList_.add(tmpGO);
+			this.lFrame_.step((goList_.get(goList_.size() - 1)).GoNumber);
 
-			newBaseData = false;
+		    }
 		}
-		if (newUserData) {
-			System.err.println("new UserData");
-			prepUserPathList();
-			prepUserEc();
-			newUserData = false;
-		}
-
-		computeWeights();
-		transferWeightToPwl(); // Transfers the weights to a pathway list
-		calcChainsForProg(); // Calculates the longest chain between EcNrs
-
-		if (this.lFrame_ != null) {
-			Loadingframe.close();
-		}
+		this.goList.close();
+	    } catch (IOException e) {
+		openWarning("Error", "File: " + listPathgoterm + " not found");
+		e.printStackTrace();
+	    }
 	}
+    }
 
-	private void prepGoList() {
-		// preps the go list
-		this.lFrame_.bigStep("GO List");
-		String zeile = "";
-		String term = "";
-		String id = "";
+    public void processProject() { // prepares the project object
 
-		Boolean newGo = true;
-
-		if (goList_ == null) {
-			System.out.println("Load GO List...");
-			goList_ = new ArrayList<GONum>();
-			try {
-				this.goList = this.reader.readTxt(listPathgoterm);
-				while ((zeile = this.goList.readLine()) != null) {
-					term = zeile.substring(0, zeile.indexOf("\t"));
-
-					newGo = true;
-
-					id = zeile.substring(zeile.indexOf("GO:") + 3);
-
-					GONum tmpGO = new GONum(id, term);
-					for (int i = 0; (i < goList_.size()) && newGo; i++) {
-						if (goList_.get(i).getGoTerm().contentEquals(term)) {
-							newGo = false;
-							break;
-						}
-					}
-					if (newGo) {
-						goList_.add(tmpGO);
-						this.lFrame_.step((goList_.get(goList_.size() - 1)).GoNumber);
-
-					}
-				}
-				this.goList.close();
-			} catch (IOException e) {
-				openWarning("Error", "File: " + listPathgoterm + " not found");
-				e.printStackTrace();
-			}
-		}
+	if ((newBaseData) || (newUserData)) {
+	    this.lFrame_ = new Loadingframe();
+	    prepData();
 	}
-
-	public void processProject() { // prepares the project object
-
-		if ((newBaseData) || (newUserData)) {
-			this.lFrame_ = new Loadingframe();
-			prepData();
-		}
-		this.lFrame_ = new Loadingframe();
-		allEcVsPathway();
-		this.lFrame_ = new Loadingframe();
-		removeEcPfamDoubles();
-		this.lFrame_ = new Loadingframe();
-		if (Project.randMode_) {
-			removeRandomEc();
-		}
-		this.lFrame_ = new Loadingframe();
-		transferEcToPath();
-
-		this.lFrame_ = new Loadingframe();
-		prepOverall();
-
-		this.lFrame_ = new Loadingframe();
-		calcAllChainsforallSamples();
-
-		this.lFrame_ = new Loadingframe();
-		getAllscores(0);
-		if (this.lFrame_ != null) {
-			Loadingframe.close();
-		}
+	this.lFrame_ = new Loadingframe();
+	allEcVsPathway();
+	this.lFrame_ = new Loadingframe();
+	removeEcPfamDoubles();
+	this.lFrame_ = new Loadingframe();
+	if (Project.randMode_) {
+	    removeRandomEc();
 	}
+	this.lFrame_ = new Loadingframe();
+	transferEcToPath();
 
-	/**
-	 * Retrieves ec/pfam and sequence ids from HMMER output files.
-	 *
-	 * @param line
-	 *            Read in lines from the HMMER files
-	 * @return String array of EC name, number of EC, pfram or ec and sequence
-	 *         id
-	 *
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	public String[] getEnzFromRawSample(String line) {
-		if (line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
-			return getEnzFromInterPro(line);
-		}
-		if (line.matches(".*UniRef90_.*")) {
-			// System.out.println("Raw Uni");
-			return getEnzFromUni(line);
-		}
-		String[] ret = new String[4];
+	this.lFrame_ = new Loadingframe();
+	prepOverall();
 
-		ret[0] = "X"; // Ec name
-		ret[1] = "1"; // Number of this ec with this sequence id
-		ret[2] = "X"; // Whether or not it is a pf or if it is an ec
-		ret[3] = "X"; // Sequence ID
-		if (line.contains("_")) {
-			String tmp = line.substring(0, line.indexOf("_"));
-			if (isEc(tmp)) {
-				String repSeq = line.substring(line.indexOf(" -") + 1);
-				repSeq = repSeq.substring(0, repSeq.indexOf(" -"));
-				if (repSeq.contains("/")) {
-					repSeq = repSeq.substring(0, repSeq.indexOf("/"));
-				}
-				while ((repSeq.startsWith(" ")) || (repSeq.startsWith("-"))) {
-					repSeq = repSeq.substring(1);
-				}
-				ret[0] = tmp;
-				ret[2] = "EC";
-				ret[3] = repSeq;
-				if (!numEcs.contains(ret[0])) {// adds to the count of total ecs
-												// for statistics
-					numEcs.add(ret[0]);
-				}
-			} else {
-				tmp = findPfamAndRepSeqInRaw(line);
-				if (!tmp.isEmpty()) {
-					ret[0] = tmp.substring(0, tmp.indexOf("-"));
-					ret[2] = "Pf";
-					String repSeq = tmp.substring(tmp.indexOf("-") + 1);
-					if (repSeq.contains("/")) {
-						repSeq = repSeq.substring(0, repSeq.indexOf("/"));
-					}
-					ret[3] = repSeq;
+	this.lFrame_ = new Loadingframe();
+	calcAllChainsforallSamples();
 
-					if (!totalnumPfams.contains(ret[0])) {// adds to the count
-															// of total pfams
-						totalnumPfams.add(ret[0]);
-					}
-					String[] nump = ret.clone();
-					ArrayList<String[]> nump2;
-					nump2 = convertPfam(nump);
-					for (int i = 0; i < nump2.size(); i++) {
-						// adds to the count of total converted pfams
-						if (!numPfams.contains(nump2.get(i)[0])) {
-							numPfams.add(nump2.get(i)[0]);
-							System.out.println(nump2.get(i)[0]);
-						}
-					}
-				}
-			}
-		}
-		if ((ret[0] == "X") && (line.startsWith("PF"))) {
-			ret[0] = line.substring(0, line.indexOf("."));
-			if (isPfambool(ret[0])) {
-				ret[2] = "Pf";
-				String tmp = line.substring(line.indexOf(" ") + 1);
-				tmp = tmp.substring(0, tmp.indexOf(" -"));
-				ret[3] = tmp;
+	this.lFrame_ = new Loadingframe();
+	getAllscores(0);
+	if (this.lFrame_ != null) {
+	    Loadingframe.close();
+	}
+    }
 
-				if (!totalnumPfams.contains(ret[0])) { // Adds to the count of
-														// total pfams
-					totalnumPfams.add(ret[0]);
-				}
-				String[] nump = ret.clone();
-				ArrayList<String[]> nump2;
-				nump2 = convertPfam(nump);
-				for (int i = 0; i < nump2.size(); i++) {
-					// Adds to the count of total converted pfams
-					if (!numPfams.contains(nump2.get(i)[0])) {
-						numPfams.add(nump2.get(i)[0]);
-						System.out.println(nump2.get(i)[0]);
-					}
-				}
-			} else if ((ret[0] == "X") && (line.startsWith("IPR"))) {
-				ret[0] = line.substring(0, line.indexOf("."));
-				if (isInterProBool(ret[0])) {
-					ret[2] = "IPR";
-					String tmp = line.substring(line.indexOf(" "));
-					tmp = tmp.substring(line.indexOf(" -"));
-					ret[3] = tmp;
-				}
-			} else {
-				ret[0] = "X";
-			}
-		}
-		if (ret[0] == "X") {
-			String tmp;
-			try {
-				tmp = line.substring(line.indexOf(" "));
-				while (tmp.startsWith(" ")) {
-					tmp = tmp.substring(1);
-				}
-				ret = getEnzFromRawSample(tmp);
-			} catch (StringIndexOutOfBoundsException e) {
-				return ret;
+    /**
+     * Retrieves ec/pfam and sequence ids from HMMER output files.
+     *
+     * @param line
+     *            Read in lines from the HMMER files
+     * @return String array of EC name, number of EC, pfram or ec and sequence
+     *         id
+     *
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    public String[] getEnzFromRawSample(String line) {
+	if (line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*")) {
+	    return getEnzFromInterPro(line);
+	}
+	if (line.matches(".*UniRef90_.*")) {
+	    // System.out.println("Raw Uni");
+	    return getEnzFromUni(line);
+	}
+	String[] ret = new String[4];
 
-			}
-			if (tmp != null) {
-				while (tmp.startsWith(" ")) {
-					tmp = tmp.substring(1);
-				}
-			}
-			if (tmp != null) {
-				ret = getEnzFromRawSample(tmp);
-			}
+	ret[0] = "X"; // Ec name
+	ret[1] = "1"; // Number of this ec with this sequence id
+	ret[2] = "X"; // Whether or not it is a pf or if it is an ec
+	ret[3] = "X"; // Sequence ID
+	if (line.contains("_")) {
+	    String tmp = line.substring(0, line.indexOf("_"));
+	    if (isEc(tmp)) {
+		String repSeq = line.substring(line.indexOf(" -") + 1);
+		repSeq = repSeq.substring(0, repSeq.indexOf(" -"));
+		if (repSeq.contains("/")) {
+		    repSeq = repSeq.substring(0, repSeq.indexOf("/"));
 		}
+		while ((repSeq.startsWith(" ")) || (repSeq.startsWith("-"))) {
+		    repSeq = repSeq.substring(1);
+		}
+		ret[0] = tmp;
+		ret[2] = "EC";
+		ret[3] = repSeq;
+		if (!numEcs.contains(ret[0])) {// adds to the count of total ecs
+					       // for statistics
+		    numEcs.add(ret[0]);
+		}
+	    } else {
+		tmp = findPfamAndRepSeqInRaw(line);
+		if (!tmp.isEmpty()) {
+		    ret[0] = tmp.substring(0, tmp.indexOf("-"));
+		    ret[2] = "Pf";
+		    String repSeq = tmp.substring(tmp.indexOf("-") + 1);
+		    if (repSeq.contains("/")) {
+			repSeq = repSeq.substring(0, repSeq.indexOf("/"));
+		    }
+		    ret[3] = repSeq;
+
+		    if (!totalnumPfams.contains(ret[0])) {// adds to the count
+							  // of total pfams
+			totalnumPfams.add(ret[0]);
+		    }
+		    String[] nump = ret.clone();
+		    ArrayList<String[]> nump2;
+		    nump2 = convertPfam(nump);
+		    for (int i = 0; i < nump2.size(); i++) {
+			// adds to the count of total converted pfams
+			if (!numPfams.contains(nump2.get(i)[0])) {
+			    numPfams.add(nump2.get(i)[0]);
+			    System.out.println(nump2.get(i)[0]);
+			}
+		    }
+		}
+	    }
+	}
+	if ((ret[0] == "X") && (line.startsWith("PF"))) {
+	    ret[0] = line.substring(0, line.indexOf("."));
+	    if (isPfambool(ret[0])) {
+		ret[2] = "Pf";
+		String tmp = line.substring(line.indexOf(" ") + 1);
+		tmp = tmp.substring(0, tmp.indexOf(" -"));
+		ret[3] = tmp;
+
+		if (!totalnumPfams.contains(ret[0])) { // Adds to the count of
+						       // total pfams
+		    totalnumPfams.add(ret[0]);
+		}
+		String[] nump = ret.clone();
+		ArrayList<String[]> nump2;
+		nump2 = convertPfam(nump);
+		for (int i = 0; i < nump2.size(); i++) {
+		    // Adds to the count of total converted pfams
+		    if (!numPfams.contains(nump2.get(i)[0])) {
+			numPfams.add(nump2.get(i)[0]);
+			System.out.println(nump2.get(i)[0]);
+		    }
+		}
+	    } else if ((ret[0] == "X") && (line.startsWith("IPR"))) {
+		ret[0] = line.substring(0, line.indexOf("."));
+		if (isInterProBool(ret[0])) {
+		    ret[2] = "IPR";
+		    String tmp = line.substring(line.indexOf(" "));
+		    tmp = tmp.substring(line.indexOf(" -"));
+		    ret[3] = tmp;
+		}
+	    } else {
+		ret[0] = "X";
+	    }
+	}
+	if (ret[0] == "X") {
+	    String tmp;
+	    try {
+		tmp = line.substring(line.indexOf(" "));
+		while (tmp.startsWith(" ")) {
+		    tmp = tmp.substring(1);
+		}
+		ret = getEnzFromRawSample(tmp);
+	    } catch (StringIndexOutOfBoundsException e) {
 		return ret;
+
+	    }
+	    if (tmp != null) {
+		while (tmp.startsWith(" ")) {
+		    tmp = tmp.substring(1);
+		}
+	    }
+	    if (tmp != null) {
+		ret = getEnzFromRawSample(tmp);
+	    }
 	}
+	return ret;
+    }
 
-	/* Retrieves the interpro and sequence ids from Interpro output files */
-	public String[] getEnzFromInterPro(String line) {
+    /* Retrieves the interpro and sequence ids from Interpro output files */
+    public String[] getEnzFromInterPro(String line) {
 
-		if (!line.matches(".*IPR[0-9].*")) {
-			return null;
-		}
-		String seperator = ",";
-		String[] ret = new String[4];
-
-		ret[0] = "X"; // IPR name
-		ret[1] = "1"; // Number of this IPR with this sequence id
-		ret[2] = "X"; // Whether or not it is an IPR
-		ret[3] = "X"; // Sequence id
-		// added !line.contains("/t") for a strange index exception was
-		// occurring without
-		try {
-			if (line.contains(seperator) && !line.contains("\t")) {
-				// get IPR name = IPRXXXXXX
-				String interpro = findInterProInRaw(line);
-				if (interpro != null) {
-					Project.amountOfIPRs += 1;
-					ret[0] = interpro;
-					ret[2] = "IPR";
-				}
-				String tmp = line.substring(line.indexOf(seperator) + 1);
-				if (tmp.contains(seperator)) {
-					ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-					ret[3] = tmp.substring(line.indexOf(seperator) + 1);
-				} else if (tmp != null) {
-					ret[1] = tmp;
-				}
-			} else {
-				if (line.contains("\t")) {
-					String repSeq = line.substring(0, line.indexOf("\t"));
-					ret[3] = repSeq;
-				}
-				String interpro = findInterProInRaw(line);
-				if (interpro != null) {
-					Project.amountOfIPRs += 1;
-					ret[0] = interpro;
-					ret[2] = "IPR";
-				} else {
-					System.out.println("IPR save was unsuccessful");
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("IPR save was unsuccessful");
-		}
-		return ret;
+	if (!line.matches(".*IPR[0-9].*")) {
+	    return null;
 	}
+	String seperator = ",";
+	String[] ret = new String[4];
 
-	public String[] getEnzFromUni(String line) {
-
-		if (!line.matches(".*UniRef90_.*")) {
-			System.out.println("returned null");
-			return null;
+	ret[0] = "X"; // IPR name
+	ret[1] = "1"; // Number of this IPR with this sequence id
+	ret[2] = "X"; // Whether or not it is an IPR
+	ret[3] = "X"; // Sequence id
+	// added !line.contains("/t") for a strange index exception was
+	// occurring without
+	try {
+	    if (line.contains(seperator) && !line.contains("\t")) {
+		// get IPR name = IPRXXXXXX
+		String interpro = findInterProInRaw(line);
+		if (interpro != null) {
+		    Project.amountOfIPRs += 1;
+		    ret[0] = interpro;
+		    ret[2] = "IPR";
 		}
-		String[] ret = new String[4];
-		ret[0] = "X"; // UniRef name
-		ret[1] = "1"; // Number of this UniRef with this sequence id
-		ret[2] = "X"; // Whether or not it is an UniRef
-		ret[3] = "X"; // Sequence id
-
+		String tmp = line.substring(line.indexOf(seperator) + 1);
+		if (tmp.contains(seperator)) {
+		    ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+		    ret[3] = tmp.substring(line.indexOf(seperator) + 1);
+		} else if (tmp != null) {
+		    ret[1] = tmp;
+		}
+	    } else {
 		if (line.contains("\t")) {
-			try {
-				String seqID = line.substring(0, line.indexOf("\t"));
-				ret[3] = seqID;
-				String uni = line.substring(line.indexOf("UniRef90_"));
-				uni = uni.substring(0, uni.indexOf("\t"));
-				if (uni != null) {
-					Project.amountOfUNIs += 1;
-					ret[0] = uni;
-					ret[2] = "UniRef";
-				} else {
-					System.out.println("UniRef save was unsuccessful");
-				}
-			} catch (Exception e) {
-				System.out.println("UniRef save was unsuccessful");
-			}
+		    String repSeq = line.substring(0, line.indexOf("\t"));
+		    ret[3] = repSeq;
 		}
-		return ret;
-	}
-
-	/**
-	 * Finds the PFam and sequence ID in a line of raw data.
-	 * 
-	 * @param input
-	 *            Line of user input containing their raw data
-	 * 
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	private String findPfamAndRepSeqInRaw(String input) {
-		String Pfam = "";
-		String tmp = input;
-		while (tmp.contains("PF")) {
-			Pfam = tmp.substring(tmp.indexOf("PF"), tmp.indexOf("PF") + 7);
-			String repSeq = tmp.substring(tmp.indexOf("PF") + 7);
-			char firstChar = repSeq.charAt(0);
-			while ((isNumber(firstChar)) || (firstChar == '.') || (firstChar == ' ')) {
-				repSeq = repSeq.substring(1);
-				firstChar = repSeq.charAt(0);
-			}
-			if (isPfambool(Pfam)) {
-				return Pfam + "-" + repSeq.substring(0, repSeq.indexOf("-"));
-			}
-			tmp = tmp.substring(tmp.indexOf("PF") + 7);
-		}
-		return "";
-	}
-
-	// check IPR format. true :return IPRXXXXXX, false: if format is IPR+nums.
-	// return null.
-	private String findInterProInRaw(String input) { // method to parse the
-														// interpro format
-		String interpro = "";
-		String tmp = input;
-		while (tmp.contains("IPR")) {
-			interpro = tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
-			if (interpro.matches("IPR[0-9].*")) {
-				return interpro;
-			} else {
-				tmp = tmp.substring(tmp.indexOf("IPR") + 3);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Retrieves ec/pfam and sequence ids from the three column, two column, and
-	 * matrix data files.
-	 *
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	public String[] getEnzFromSample(String input) {
-		// input line type: 1.IPR 2.Uniref_90 3.IPR+Pfam (use IPR) 4.Pfam
-		// priority： 1. IPR or Uniref_90 2.Pfam 3.tigrfam (too old, may be no
-		// more sample use this)
-		if (input.matches(".*IPR[0-9].*")) {
-			return getEnzFromInterPro(input);// no ec/go inside
-		}
-
-		else if (input.matches(".*UniRef90_.*")) {
-			return getEnzFromUni(input);// no ec/go inside
-		}
-		// need add code. if do not find IPR and UniRef, then try to find Pfam.
-		else if (input.matches(".*Pfam.*")) {
-			return getEnzFromPfam(input);
-		}
-		String seperator = "";
-		String tmp = input;
-		// adding input.contains("\t"), might have to remove
-		if (input.contains(",") && !input.contains("\t")) {
-			seperator = ",";
-		}
-		if ((seperator.isEmpty()) && (input.contains("_"))) {
-			seperator = "_";
-		}
-		if ((seperator.isEmpty()) && (input.contains("\t"))) {
-			seperator = "\t";
-		}
-		// ret = return
-		String[] ret = new String[4];
-		ret[0] = "X";// ec name
-		ret[1] = "1";// number of this ec with this sequence id
-		ret[2] = "X";// whether or not it is a pf, ipr or if it is an ec
-		ret[3] = "X";// sequence id
-		if (input.isEmpty()) {
-			return ret;
-		}
-		if (!seperator.isEmpty()) {
-			if (input.contains(seperator)) {
-				if ((input.length() - input.replace(seperator, "").length()) == 2
-						|| (input.length() - input.replace(seperator, "").length()) == 1)// this
-																							// determines
-																							// that
-																							// the
-																							// input
-																							// is
-																							// of
-																							// the
-																							// two
-																							// or
-																							// three
-																							// column
-																							// format
-				{
-					ret[0] = input.substring(0, input.indexOf(seperator));
-					tmp = input.substring(input.indexOf(seperator) + 1);
-					if (isEc(ret[0])) {
-						ret[2] = "EC";
-						if (!numEcs.contains(ret[0])) {// adds to the total
-														// number of ecs
-							numEcs.add(ret[0]);
-						}
-					} else if (ret[0].contains(".")) {
-						ret[0] = ret[0].substring(0, ret[0].indexOf("."));
-					}
-					String pfam = isPfam(ret[0]);
-					if (pfam != null) {
-						ret[0] = pfam;
-						ret[2] = "Pf";
-						if (!totalnumPfams.contains(ret[0])) {// adds to the
-																// total number
-																// of pfams
-							totalnumPfams.add(ret[0]);
-						}
-						String[] nump = ret.clone();
-						ArrayList<String[]> nump2;
-						nump2 = convertPfam(nump);
-						// adds to the total number of converted pfams
-						for (int i = 0; i < nump2.size(); i++) {
-							if (!numPfams.contains(nump2.get(i)[0])) {
-								numPfams.add(nump2.get(i)[0]);
-							}
-						}
-					}
-					String interpro = isInterPro(ret[0]);
-					if (interpro != null) {
-						ret[0] = interpro;
-						ret[2] = "IPR";
-					}
-					if (tmp.contains(seperator)) {
-						ret[1] = tmp.substring(0, tmp.indexOf(seperator));
-						tmp = tmp.substring(tmp.indexOf(seperator) + 1);
-						if (!tmp.isEmpty()) {
-							ret[3] = tmp;
-						} else {
-							return ret;
-						}
-					} else {
-						ret[1] = tmp;
-
-						return ret;
-					}
-
-				} else if ((input.length() - input.replace(seperator, "").length()) > 3) {// Matrix
-																							// format.
-																							// Still
-																							// nothing
-																							// here
-																							// to
-																							// input
-																							// the
-																							// matrix
-																							// format.
-																							// Use
-																							// the
-																							// Load
-																							// Ec-matrix
-																							// button.
-				}
-			}
-		} else if (isPfambool(input) || isEc(input) || isInterProBool(input)) {// one
-																				// column
-																				// format
-			ret[0] = input;
-			if (isEc(ret[0])) {
-				ret[2] = "EC";
-				if (!numEcs.contains(ret[0])) {// adds to the total number of
-												// ecs
-					numEcs.add(ret[0]);
-				}
-			}
-			String pfam = isPfam(ret[0]);
-			if (pfam != null) {
-				ret[0] = pfam;
-				ret[2] = "Pf";
-				if (!totalnumPfams.contains(ret[0])) {// adds to the total
-														// number of pfams
-					totalnumPfams.add(ret[0]);
-				}
-				String[] nump = ret.clone();
-				ArrayList<String[]> nump2;
-				nump2 = convertPfam(nump);
-				for (int i = 0; i < nump2.size(); i++) {// adds to the total
-														// number of converted
-														// pfams
-					if (!numPfams.contains(nump2.get(i)[0])) {
-						numPfams.add(nump2.get(i)[0]);
-					}
-				}
-			}
-			String interpro = isInterPro(ret[0]);
-			if (interpro != null) {
-				ret[0] = interpro;
-				ret[1] = "1";
-				ret[2] = "IPR";
-			}
+		String interpro = findInterProInRaw(line);
+		if (interpro != null) {
+		    Project.amountOfIPRs += 1;
+		    ret[0] = interpro;
+		    ret[2] = "IPR";
 		} else {
-			ret[0] = input;
+		    System.out.println("IPR save was unsuccessful");
+		}
+	    }
+	} catch (Exception e) {
+	    System.out.println("IPR save was unsuccessful");
+	}
+	return ret;
+    }
+
+    public String[] getEnzFromUni(String line) {
+
+	if (!line.matches(".*UniRef90_.*")) {
+	    System.out.println("returned null");
+	    return null;
+	}
+	String[] ret = new String[4];
+	ret[0] = "X"; // UniRef name
+	ret[1] = "1"; // Number of this UniRef with this sequence id
+	ret[2] = "X"; // Whether or not it is an UniRef
+	ret[3] = "X"; // Sequence id
+
+	if (line.contains("\t")) {
+	    try {
+		String seqID = line.substring(0, line.indexOf("\t"));
+		ret[3] = seqID;
+		String uni = line.substring(line.indexOf("UniRef90_"));
+		uni = uni.substring(0, uni.indexOf("\t"));
+		if (uni != null) {
+		    Project.amountOfUNIs += 1;
+		    ret[0] = uni;
+		    ret[2] = "UniRef";
+		} else {
+		    System.out.println("UniRef save was unsuccessful");
+		}
+	    } catch (Exception e) {
+		System.out.println("UniRef save was unsuccessful");
+	    }
+	}
+	return ret;
+    }
+
+    /**
+     * Finds the PFam and sequence ID in a line of raw data.
+     * 
+     * @param input
+     *            Line of user input containing their raw data
+     * 
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    private String findPfamAndRepSeqInRaw(String input) {
+	String Pfam = "";
+	String tmp = input;
+	while (tmp.contains("PF")) {
+	    Pfam = tmp.substring(tmp.indexOf("PF"), tmp.indexOf("PF") + 7);
+	    String repSeq = tmp.substring(tmp.indexOf("PF") + 7);
+	    char firstChar = repSeq.charAt(0);
+	    while ((isNumber(firstChar)) || (firstChar == '.') || (firstChar == ' ')) {
+		repSeq = repSeq.substring(1);
+		firstChar = repSeq.charAt(0);
+	    }
+	    if (isPfambool(Pfam)) {
+		return Pfam + "-" + repSeq.substring(0, repSeq.indexOf("-"));
+	    }
+	    tmp = tmp.substring(tmp.indexOf("PF") + 7);
+	}
+	return "";
+    }
+
+    // check IPR format. true :return IPRXXXXXX, false: if format is IPR+nums.
+    // return null.
+    private String findInterProInRaw(String input) { // method to parse the
+						     // interpro format
+	String interpro = "";
+	String tmp = input;
+	while (tmp.contains("IPR")) {
+	    interpro = tmp.substring(tmp.indexOf("IPR"), tmp.indexOf("IPR") + 9);
+	    if (interpro.matches("IPR[0-9].*")) {
+		return interpro;
+	    } else {
+		tmp = tmp.substring(tmp.indexOf("IPR") + 3);
+	    }
+	}
+	return null;
+    }
+
+    /**
+     * Retrieves ec/pfam and sequence ids from the three column, two column, and
+     * matrix data files.
+     *
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    public String[] getEnzFromSample(String input) {
+	// input line type: 1.IPR 2.Uniref_90 3.IPR+Pfam (use IPR) 4.Pfam
+	// priority： 1. IPR or Uniref_90 2.Pfam 3.tigrfam (too old, may be no
+	// more sample use this)
+	if (input.matches(".*IPR[0-9].*")) {
+	    return getEnzFromInterPro(input);// no ec/go inside
+	}
+
+	else if (input.matches(".*UniRef90_.*")) {
+	    return getEnzFromUni(input);// no ec/go inside
+	}
+	// need add code. if do not find IPR and UniRef, then try to find Pfam.
+	else if (input.matches(".*Pfam.*")) {
+	    return getEnzFromPfam(input);
+	}
+	String seperator = "";
+	String tmp = input;
+	// adding input.contains("\t"), might have to remove
+	if (input.contains(",") && !input.contains("\t")) {
+	    seperator = ",";
+	}
+	if ((seperator.isEmpty()) && (input.contains("_"))) {
+	    seperator = "_";
+	}
+	if ((seperator.isEmpty()) && (input.contains("\t"))) {
+	    seperator = "\t";
+	}
+	// ret = return
+	String[] ret = new String[4];
+	ret[0] = "X";// ec name
+	ret[1] = "1";// number of this ec with this sequence id
+	ret[2] = "X";// whether or not it is a pf, ipr or if it is an ec
+	ret[3] = "X";// sequence id
+	if (input.isEmpty()) {
+	    return ret;
+	}
+	if (!seperator.isEmpty()) {
+	    if (input.contains(seperator)) {
+		if ((input.length() - input.replace(seperator, "").length()) == 2
+			|| (input.length() - input.replace(seperator, "").length()) == 1)// this
+											 // determines
+											 // that
+											 // the
+											 // input
+											 // is
+											 // of
+											 // the
+											 // two
+											 // or
+											 // three
+											 // column
+											 // format
+		{
+		    ret[0] = input.substring(0, input.indexOf(seperator));
+		    tmp = input.substring(input.indexOf(seperator) + 1);
+		    if (isEc(ret[0])) {
+			ret[2] = "EC";
+			if (!numEcs.contains(ret[0])) {// adds to the total
+						       // number of ecs
+			    numEcs.add(ret[0]);
+			}
+		    } else if (ret[0].contains(".")) {
+			ret[0] = ret[0].substring(0, ret[0].indexOf("."));
+		    }
+		    String pfam = isPfam(ret[0]);
+		    if (pfam != null) {
+			ret[0] = pfam;
+			ret[2] = "Pf";
+			if (!totalnumPfams.contains(ret[0])) {// adds to the
+							      // total number
+							      // of pfams
+			    totalnumPfams.add(ret[0]);
+			}
+			String[] nump = ret.clone();
+			ArrayList<String[]> nump2;
+			nump2 = convertPfam(nump);
+			// adds to the total number of converted pfams
+			for (int i = 0; i < nump2.size(); i++) {
+			    if (!numPfams.contains(nump2.get(i)[0])) {
+				numPfams.add(nump2.get(i)[0]);
+			    }
+			}
+		    }
+		    String interpro = isInterPro(ret[0]);
+		    if (interpro != null) {
+			ret[0] = interpro;
+			ret[2] = "IPR";
+		    }
+		    if (tmp.contains(seperator)) {
+			ret[1] = tmp.substring(0, tmp.indexOf(seperator));
+			tmp = tmp.substring(tmp.indexOf(seperator) + 1);
+			if (!tmp.isEmpty()) {
+			    ret[3] = tmp;
+			} else {
+			    return ret;
+			}
+		    } else {
+			ret[1] = tmp;
+
 			return ret;
+		    }
+
+		} else if ((input.length() - input.replace(seperator, "").length()) > 3) {// Matrix
+											  // format.
+											  // Still
+											  // nothing
+											  // here
+											  // to
+											  // input
+											  // the
+											  // matrix
+											  // format.
+											  // Use
+											  // the
+											  // Load
+											  // Ec-matrix
+											  // button.
 		}
-		return ret;
+	    }
+	} else if (isPfambool(input) || isEc(input) || isInterProBool(input)) {// one
+									       // column
+									       // format
+	    ret[0] = input;
+	    if (isEc(ret[0])) {
+		ret[2] = "EC";
+		if (!numEcs.contains(ret[0])) {// adds to the total number of
+					       // ecs
+		    numEcs.add(ret[0]);
+		}
+	    }
+	    String pfam = isPfam(ret[0]);
+	    if (pfam != null) {
+		ret[0] = pfam;
+		ret[2] = "Pf";
+		if (!totalnumPfams.contains(ret[0])) {// adds to the total
+						      // number of pfams
+		    totalnumPfams.add(ret[0]);
+		}
+		String[] nump = ret.clone();
+		ArrayList<String[]> nump2;
+		nump2 = convertPfam(nump);
+		for (int i = 0; i < nump2.size(); i++) {// adds to the total
+							// number of converted
+							// pfams
+		    if (!numPfams.contains(nump2.get(i)[0])) {
+			numPfams.add(nump2.get(i)[0]);
+		    }
+		}
+	    }
+	    String interpro = isInterPro(ret[0]);
+	    if (interpro != null) {
+		ret[0] = interpro;
+		ret[1] = "1";
+		ret[2] = "IPR";
+	    }
+	} else {
+	    ret[0] = input;
+	    return ret;
+	}
+	return ret;
+    }
+
+    private String[] getEnzFromPfam(String line) {
+	if (!line.matches(".*PF\\d{5}.*")) {
+	    System.out.println("returned null");
+	    return null;
+	}
+	String[] ret = new String[4];
+	ret[0] = "X"; // Pfam name
+	ret[1] = "1"; // Number of this Pfam with this sequence id
+	ret[2] = "X"; // Whether or not it is an Pfam
+	ret[3] = "X"; // Sequence id
+	try {
+	    if (line.contains("\t")) {
+		String seqID = line.substring(0, line.indexOf("\t"));
+		ret[3] = seqID;
+		String uni = line.substring(line.indexOf("PF"));
+		uni = uni.substring(0, uni.indexOf("\t"));
+		if (uni != null) {
+		    Project.amountOfUNIs += 1;
+		    ret[0] = uni;
+		    ret[2] = "PF";
+		} else {
+		    System.out.println("Pfam save was unsuccessful");
+		}
+	    }
+	} catch (Exception e) {
+	    System.out.println("Pfam save was unsuccessful");
+	}
+	return ret;
+
+    }
+
+    /**
+     * Assuming the user input string is pfam format then the method outputs the
+     * pfam, only without the PF at the begining.
+     * 
+     * @returns pFam parsed to have no "PF" or NULL if not pFam
+     * 
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    public String isPfam(String pfam) {
+	String tmp = pfam;
+	if (tmp.contains("PF")) {
+	    tmp = tmp.substring(tmp.indexOf("PF"));
+	    if (tmp.length() == 7) {
+		if (isNumber(tmp.substring(2))) {
+		    return tmp;
+		}
+	    } else if (tmp.length() >= 7) {
+		tmp = tmp.substring(2);
+		isPfam(tmp);
+	    }
+	}
+	return null;
+    }
+
+    /*
+     * If the input string is determine to be an interPro the method outputs the
+     * interPro. Else if returns null
+     */
+    public String isInterPro(String interpro) {
+	String tmp = interpro;
+	if (tmp.contains("IPR")) {
+	    tmp = tmp.substring(tmp.indexOf("IPR"));
+	    if (tmp.length() == 9) {
+		if (isNumber(tmp.substring(3))) {
+		    return tmp;
+		}
+	    } else if (tmp.length() >= 9) {
+		tmp = tmp.substring(3);
+		isInterPro(tmp);
+	    }
+	}
+	return null;
+    }
+
+    /*
+     * If the input string is deteremined to be UNI the method outputs the uni.
+     * Else returns null
+     */
+    public String isUNI(String uni) {
+	String tmp = uni;
+	String[] uniref;
+	if (tmp.contains("UniRef90_")) {
+	    uniref = tmp.split("\\t");
+	    tmp = uniref[1];
+	    if (tmp.contains("UniRef90_")) {
+		return tmp;
+	    }
+	}
+	return null;
+    }
+
+    // returns a boolean variable which is the awnser to whether or not the
+    // string is a pfam
+    public boolean isPfambool(String pfam) {
+	String tmp = pfam;
+	if ((tmp.startsWith("PF")) && (tmp.length() == 7) && (isNumber(tmp.substring(2)))) {
+	    return true;
+	}
+	return false;
+    }
+
+    // returns a boolean variable which is the answer to whether or not the
+    // string is an interPro
+    public boolean isInterProBool(String interpro) {
+	String tmp = interpro;
+	if ((tmp.startsWith("IPR")) && (tmp.length() == 9) && (isNumber(tmp.substring(3)))) {
+	    return true;
+	}
+	return false;
+    }
+
+    // returns a boolean variable which is the answer to whether or not the
+    // string is UniRef
+    public boolean isUNIBool(String uni) {
+	String tmp = uni;
+	if ((tmp.matches(".*UniRef90_.*"))) {
+	    return true;
+	}
+	return false;
+    }
+
+    // returns a boolean stating whether or not the input string is a complete
+    // EC
+    public boolean isEc(String ec) {
+	if (ec == null) {
+	    return false;
+	}
+	if (!ec.contains(".")) {
+	    return false;
+	}
+	String ecPart = "";
+	String ecRest = ec;
+	ecPart = ecRest.substring(0, ecRest.indexOf("."));
+	ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
+	if (!isNumber(ecPart)) {
+	    return false;
+	}
+	if (!ecRest.contains(".")) {
+	    return false;
+	}
+	ecPart = ecRest.substring(0, ecRest.indexOf("."));
+	ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
+	if (!isNumber(ecPart)) {
+	    return false;
+	}
+	if (!ecRest.contains(".")) {
+	    return false;
+	}
+	ecPart = ecRest.substring(0, ecRest.indexOf("."));
+	ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
+	if (!isNumber(ecPart)) {
+	    System.out.println("5 " + ec);
+	    return false;
+	}
+	if (isNumber(ecRest)) {
+	    return true;
+	}
+	System.out.println("1" + ec);
+	return false;
+    }
+
+    public boolean isGo(String go) {
+
+	if (go.matches("\\d{7}")) {
+	    return true;
 	}
 
-	private String[] getEnzFromPfam(String line) {
-		if (!line.matches(".*PF\\d{5}.*")) {
-			System.out.println("returned null");
-			return null;
-		}
-		String[] ret = new String[4];
-		ret[0] = "X"; // Pfam name
-		ret[1] = "1"; // Number of this Pfam with this sequence id
-		ret[2] = "X"; // Whether or not it is an Pfam
-		ret[3] = "X"; // Sequence id
+	return false;
+    }
+
+    public boolean isNumber(String in) {// Returns whether or not a string is a
+					// number
+	try {
+	    Integer.valueOf(in).intValue();
+	} catch (Exception e) {
+	    return false;
+	}
+	return true;
+    }
+
+    public boolean isNumber(char c) {// Returns whether or not a char is a
+				     // number
+	if ((c == '0') || (c == '1') || (c == '2') || (c == '3') || (c == '4') || (c == '5') || (c == '6') || (c == '7')
+		|| (c == '8') || (c == '9')) {
+	    return true;
+	}
+	return false;
+    }
+
+    public boolean isDot(char c) {
+	if (c == '.') {
+	    return true;
+	}
+	return false;
+    }
+
+    public String getEcNrFromList(String input) {
+	String output = "";
+	if (input.contains("ec:")) {
+	    output = input.substring(input.lastIndexOf("ec:") + 3, input.length() - 1);
+	}
+	return output;
+    }
+
+    public String getPathwayFromList(String input) {
+	String output = "";
+	if (input.contains("path:")) {
+	    output = input.substring(input.indexOf(":") + 1, input.indexOf(":") + 8);
+	}
+	return output;
+    }
+
+    private void addUserNewPathsToSample(Sample sample) {
+	if (newUserPathList_.isEmpty()) {
+	    return;
+	}
+	for (int pathCnt = 0; pathCnt < newUserPathList_.size(); pathCnt++) {
+	    sample.integratePathway((PathwayWithEc) newUserPathList_.get(pathCnt));
+	}
+    }
+
+    /**
+     * Does the parsing of the input files as well as the printing out of
+     * statistics at the end. Each file is parsed line by line and checked for
+     * formating at teach line in order to accommodate for mixed format files.
+     * If the file is found to be of the interpro format, however, then this
+     * method will call another method to parse the file so that efficiency
+     * isn't lost checking the file type at each line. This method then
+     * continues.
+     * 
+     * @see ParseInterpro
+     * @author Kevan Lynch, Jennifer Terpstra
+     * @throws IOException
+     */
+
+    public void allEcVsPathway() {
+	System.out.println("allEcVsPathway");
+	String zeile = "";
+	EcNr ecNr = null;
+	GONum goNr = null;
+	int counter = 0;
+
+	this.lFrame_.bigStep("all EC Vs Pathway");
+	final long startTime = System.currentTimeMillis();
+	for (int i = 0; i < Project.samples_.size(); i++) {// For each of the
+							   // samples in the
+							   // project
+	    this.lFrame_.bigStep((Project.samples_.get(i)).name_);
+	    Sample sample = Project.samples_.get(i);
+
+	    if (sample.valuesSet) {// If the sample has already had its values
+				   // set then simply add paths to the samples
+		addUserNewPathsToSample(sample);
+	    } else if (sample.imported) { // if the sample was imported then
+					  // fill the samples ECs.such like
+					  // .frp file
+		fillSampleEcs((Sample) Project.samples_.get(i), i);
+		// If the sample name is empty than the sample hasn't been build
+		// yet, so build the sample from the sample file
+	    }
+
+	    else if (!sample.name_.isEmpty()) {
+
+		String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
+		System.out.println("(" + (i + 1) + "/" + Project.samples_.size() + ") " + Project.samples_.get(i).name_
+			+ " is working....");
+		int count = 1;
+		sample.sample_ = this.reader.readTxt(tmp);
 		try {
-			if (line.contains("\t")) {
-				String seqID = line.substring(0, line.indexOf("\t"));
-				ret[3] = seqID;
-				String uni = line.substring(line.indexOf("PF"));
-				uni = uni.substring(0, uni.indexOf("\t"));
-				if (uni != null) {
-					Project.amountOfUNIs += 1;
-					ret[0] = uni;
-					ret[2] = "PF";
-				} else {
-					System.out.println("Pfam save was unsuccessful");
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("Pfam save was unsuccessful");
+		    while (sample.sample_ != null && sample.sample_.readLine() != null) {
+
+			System.out.print("\rSample size: " + count + " lines");
+			count++;
+		    }
+		} catch (IOException e1) {
+		    e1.printStackTrace();
 		}
-		return ret;
-
-	}
-
-	/**
-	 * Assuming the user input string is pfam format then the method outputs the
-	 * pfam, only without the PF at the begining.
-	 * 
-	 * @returns pFam parsed to have no "PF" or NULL if not pFam
-	 * 
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	public String isPfam(String pfam) {
-		String tmp = pfam;
-		if (tmp.contains("PF")) {
-			tmp = tmp.substring(tmp.indexOf("PF"));
-			if (tmp.length() == 7) {
-				if (isNumber(tmp.substring(2))) {
-					return tmp;
-				}
-			} else if (tmp.length() >= 7) {
-				tmp = tmp.substring(2);
-				isPfam(tmp);
-			}
-		}
-		return null;
-	}
-
-	/*
-	 * If the input string is determine to be an interPro the method outputs the
-	 * interPro. Else if returns null
-	 */
-	public String isInterPro(String interpro) {
-		String tmp = interpro;
-		if (tmp.contains("IPR")) {
-			tmp = tmp.substring(tmp.indexOf("IPR"));
-			if (tmp.length() == 9) {
-				if (isNumber(tmp.substring(3))) {
-					return tmp;
-				}
-			} else if (tmp.length() >= 9) {
-				tmp = tmp.substring(3);
-				isInterPro(tmp);
-			}
-		}
-		return null;
-	}
-
-	/*
-	 * If the input string is deteremined to be UNI the method outputs the uni.
-	 * Else returns null
-	 */
-	public String isUNI(String uni) {
-		String tmp = uni;
-		String[] uniref;
-		if (tmp.contains("UniRef90_")) {
-			uniref = tmp.split("\\t");
-			tmp = uniref[1];
-			if (tmp.contains("UniRef90_")) {
-				return tmp;
-			}
-		}
-		return null;
-	}
-
-	// returns a boolean variable which is the awnser to whether or not the
-	// string is a pfam
-	public boolean isPfambool(String pfam) {
-		String tmp = pfam;
-		if ((tmp.startsWith("PF")) && (tmp.length() == 7) && (isNumber(tmp.substring(2)))) {
-			return true;
-		}
-		return false;
-	}
-
-	// returns a boolean variable which is the answer to whether or not the
-	// string is an interPro
-	public boolean isInterProBool(String interpro) {
-		String tmp = interpro;
-		if ((tmp.startsWith("IPR")) && (tmp.length() == 9) && (isNumber(tmp.substring(3)))) {
-			return true;
-		}
-		return false;
-	}
-
-	// returns a boolean variable which is the answer to whether or not the
-	// string is UniRef
-	public boolean isUNIBool(String uni) {
-		String tmp = uni;
-		if ((tmp.matches(".*UniRef90_.*"))) {
-			return true;
-		}
-		return false;
-	}
-
-	// returns a boolean stating whether or not the input string is a complete
-	// EC
-	public boolean isEc(String ec) {
-		if (ec == null) {
-			return false;
-		}
-		if (!ec.contains(".")) {
-			return false;
-		}
-		String ecPart = "";
-		String ecRest = ec;
-		ecPart = ecRest.substring(0, ecRest.indexOf("."));
-		ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
-		if (!isNumber(ecPart)) {
-			return false;
-		}
-		if (!ecRest.contains(".")) {
-			return false;
-		}
-		ecPart = ecRest.substring(0, ecRest.indexOf("."));
-		ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
-		if (!isNumber(ecPart)) {
-			return false;
-		}
-		if (!ecRest.contains(".")) {
-			return false;
-		}
-		ecPart = ecRest.substring(0, ecRest.indexOf("."));
-		ecRest = ecRest.substring(ecRest.indexOf(".") + 1);
-		if (!isNumber(ecPart)) {
-			System.out.println("5 " + ec);
-			return false;
-		}
-		if (isNumber(ecRest)) {
-			return true;
-		}
-		System.out.println("1" + ec);
-		return false;
-	}
-
-	public boolean isGo(String go) {
-
-		if (go.matches("\\d{7}")) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public boolean isNumber(String in) {// Returns whether or not a string is a
-										// number
-		try {
-			Integer.valueOf(in).intValue();
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean isNumber(char c) {// Returns whether or not a char is a
-										// number
-		if ((c == '0') || (c == '1') || (c == '2') || (c == '3') || (c == '4') || (c == '5') || (c == '6') || (c == '7')
-				|| (c == '8') || (c == '9')) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isDot(char c) {
-		if (c == '.') {
-			return true;
-		}
-		return false;
-	}
-
-	public String getEcNrFromList(String input) {
-		String output = "";
-		if (input.contains("ec:")) {
-			output = input.substring(input.lastIndexOf("ec:") + 3, input.length() - 1);
-		}
-		return output;
-	}
-
-	public String getPathwayFromList(String input) {
-		String output = "";
-		if (input.contains("path:")) {
-			output = input.substring(input.indexOf(":") + 1, input.indexOf(":") + 8);
-		}
-		return output;
-	}
-
-	private void addUserNewPathsToSample(Sample sample) {
-		if (newUserPathList_.isEmpty()) {
-			return;
-		}
-		for (int pathCnt = 0; pathCnt < newUserPathList_.size(); pathCnt++) {
-			sample.integratePathway((PathwayWithEc) newUserPathList_.get(pathCnt));
-		}
-	}
-
-	/**
-	 * Does the parsing of the input files as well as the printing out of
-	 * statistics at the end. Each file is parsed line by line and checked for
-	 * formating at teach line in order to accommodate for mixed format files.
-	 * If the file is found to be of the interpro format, however, then this
-	 * method will call another method to parse the file so that efficiency
-	 * isn't lost checking the file type at each line. This method then
-	 * continues.
-	 * 
-	 * @see ParseInterpro
-	 * @author Kevan Lynch, Jennifer Terpstra
-	 * @throws IOException
-	 */
-
-	public void allEcVsPathway() {
-		System.out.println("allEcVsPathway");
-		String zeile = "";
-		EcNr ecNr = null;
-		GONum goNr = null;
-		int counter = 0;
-
-		this.lFrame_.bigStep("all EC Vs Pathway");
-		final long startTime = System.currentTimeMillis();
-		for (int i = 0; i < Project.samples_.size(); i++) {// For each of the
-															// samples in the
-															// project
-			this.lFrame_.bigStep((Project.samples_.get(i)).name_);
-			Sample sample = Project.samples_.get(i);
-
-			if (sample.valuesSet) {// If the sample has already had its values
-									// set then simply add paths to the samples
-				addUserNewPathsToSample(sample);
-			} else if (sample.imported) { // if the sample was imported then
-											// fill the samples ECs.such like
-											// .frp file
-				fillSampleEcs((Sample) Project.samples_.get(i), i);
-				// If the sample name is empty than the sample hasn't been build
-				// yet, so build the sample from the sample file
-			}
-
-			else if (!sample.name_.isEmpty()) {
-
-				String tmp = ((Sample) Project.samples_.get(i)).fullPath_;
-				System.out.println("(" + (i + 1) + "/" + Project.samples_.size() + ") " + Project.samples_.get(i).name_
-						+ " is working....");
-				int count = 1;
-				sample.sample_ = this.reader.readTxt(tmp);
-				try {
-					while (sample.sample_ != null && sample.sample_.readLine() != null) {
-
-						System.out.print("\rSample size: " + count + " lines");
-						count++;
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println();
-				sample.sample_ = this.reader.readTxt(tmp);
-				sample.clearPaths();
-				Project.legitSamples.add(Boolean.valueOf(false));
-				try {
-					int currCount = 1;
-
-					// read all seq id line from sample. if it is IPR num or
-					// .ipr file. it will finish in ParseInterpro()
-					while (sample.sample_ != null && (zeile = sample.sample_.readLine()) != null) {// Parses
-																									// through
-																									// the
-																									// files
-																									// to
-																									// build
-																									// the
-																									// "Sample
-																									// attributes"
-
-						percent = (double) currCount * 100 / count;
-						currCount++;
-						// for reading .ipr file
-						if (zeile.startsWith(">")) {
-							i = ParseInterpro(i);
-							// go next sample
-							// break;
-
-						}
-						// IPR/Uni/Pfam.. name, amount, type(IPR/Uni/Pfam..) and
-						// seq ID inside. no ec or go number.
-						String[] newEnz = getEnzFromSample(zeile);
-
-						if (!enzReadCorrectly(newEnz)) {
-							newEnz = getEnzFromRawSample(zeile);
-						}
-						if (!enzReadCorrectly(newEnz)) {
-							Debug.addnoEnzymeLine(sample.name_ + " " + zeile);
-						} else {
-							if (newEnz[2] == "EC") {// if the sequence was
-													// already an EC
-								Debug.addEc(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
-										+ newEnz[1]);
-							} else if (newEnz[2] == "GO") {// if the sequence
-															// was already an EC
-								Debug.addGo(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
-										+ newEnz[1]);
-							} else {
-								Debug.addPf(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
-										+ newEnz[1]);
-							}
-							counter++;
-							this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
-							this.lFrame_.updateCounter(counter);
-
-							// get the key word (IPR/Uniref/pfam..) from the
-							// line of sample.
-							if (newEnz[2].equalsIgnoreCase("IPR")) {
-
-								if (!newEnz[1].isEmpty()) {
-									Project.amountOfEcs += Integer.valueOf(newEnz[1]).intValue();
-								}
-								if (StartFromp1.doEC) {
-									String[] Enz = convertInterpro(newEnz);
-									if (!newEnz[0].isEmpty()) {
-										ecNr = new EcNr(Enz);
-										addEcToSample(ecNr, i, Enz);
-									}
-								}
-								if (StartFromp1.doGo) {
-									// if go:num in line, read go:num,do not map
-									if (zeile.matches(".*GO:\\d{7}.*")) {
-										String GoNum = zeile.substring(zeile.indexOf("GO:") + 3,
-												zeile.indexOf("GO:") + 10);
-
-										String[] noMapGO = new String[5];
-										noMapGO[0] = GoNum;
-										noMapGO[1] = "1";
-										noMapGO[2] = "GO";
-										noMapGO[3] = zeile.substring(0, zeile.indexOf("\t"));
-										noMapGO[4] = "";
-										goNr = new GONum(noMapGO);
-										addGOtoSample(goNr, i, noMapGO);
-
-									} else {
-										String[] Enz = convertInterproGo(newEnz);
-										if (Enz[0] != null) {
-											goNr = new GONum(Enz);
-											addGOtoSample(goNr, i, Enz);
-										}
-									}
-								}
-							}
-							// pfam line in this sample.(No IPR)
-							else if (newEnz[2].equalsIgnoreCase("PF")) {
-								if (newEnz[1] != null) {
-									Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
-								}
-								if (StartFromp1.doEC) {
-									ArrayList<String[]> enzL = convertPfam(newEnz);
-									for (int cnt = 0; cnt < enzL.size(); cnt++) {
-										String[] Enz = (String[]) enzL.get(cnt);
-										if (Enz[0] != null) {
-											ecNr = new EcNr(Enz);
-											addEcToSample(ecNr, i, Enz);
-										}
-									}
-								} // doEC finish..had to keep arraylist enzl,it
-									// need to be invoke for other place.
-								if (StartFromp1.doGo) {
-									String[] Enz = convertPfamGo(newEnz);
-									if (Enz[0] != null) {
-										goNr = new GONum(Enz);
-										addGOtoSample(goNr, i, Enz);
-									}
-								} // doGO finish
-							} // PF Done
-								// uniref line in this sample.
-							else if (newEnz[2].equalsIgnoreCase("uniref")) {
-								if (!newEnz[1].isEmpty()) {
-									Project.amountOfUNIs += Integer.valueOf(newEnz[1]).intValue();
-								}
-								if (StartFromp1.doEC) {
-									String[] Enz = convertUni(newEnz);
-									if (Enz[0] != null) {
-										ecNr = new EcNr(Enz);
-										addEcToSample(ecNr, i, Enz);
-									}
-								}
-								if (StartFromp1.doGo) {
-									String[] Enz = convertUniGo(newEnz);
-									if (Enz[0] != null) {
-										goNr = new GONum(Enz);
-										addGOtoSample(goNr, i, Enz);
-									}
-								}
-							}
-							// ec#(may be need to add read go# later) in the
-							// line. no need(IPR/Uniref/Pfam). read it directly
-							else if (!newEnz[0].isEmpty()) {
-								// may need add if doEc/doGo
-								ecNr = new EcNr(newEnz);
-								if (ecNr.couldBeEc()) {
-									if (!ecNr.isCompleteEc()) {
-										ecNr.incomplete = true;
-									}
-									Project.samples_.get(i).addConvStats(
-											new ConvertStat(newEnz[3], ecNr.name_, ecNr.amount_, 0, 0, ""));
-									EcWithPathway ecWP = findEcWPath(ecNr);
-									if (ecWP != null) {
-										Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-										Project.legitSamples.remove(i);
-										Project.legitSamples.add(i, Boolean.valueOf(true));
-									} else {
-										if (!ecNr.isCompleteEc()) {
-											ecNr.incomplete = true;
-										}
-										ecNr.unmapped = true;
-										EcWithPathway unmatched = new EcWithPathway(ecNr);
-										unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-										Project.samples_.get(i).addEc(unmatched);
-									}
-								}
-							}
-						}
-					}
-					if (sample.sample_ != null) {
-						sample.sample_.close();
-					}
-
-				} catch (IOException e) {
-					openWarning("Error", "File: " + tmp + " not found");
-					e.printStackTrace();
-				}
-				Debug.writeOutAll("DebugLists.txt");
-				System.out.println("\nfinished allecvsp");
-			}
-			// check status
-		}
-		final long endTime = System.currentTimeMillis();
-		System.out.println("Total execution time(milliseconds): " + (endTime - startTime));
-		ArrayList<String> comptotecs = new ArrayList<String>();
-		ArrayList<String> allecs = new ArrayList<String>();
-		ArrayList<String> ecmapped = new ArrayList<String>();
-		ArrayList<String> pfammapped = new ArrayList<String>();
-		String testStr1;
-		String testStr2;
-		String testStr3;
-		for (int i = 0; i < Project.samples_.size(); i++) {// adds to the number
-															// of total complete
-															// ecs
-			for (int k = 0; k < Project.samples_.get(i).ecs_.size(); k++) {
-				if (!comptotecs.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
-					if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
-						if (Project.samples_.get(i).ecs_.get(k).name_.contains(".")) {
-							testStr1 = Project.samples_.get(i).ecs_.get(k).name_
-									.substring(Project.samples_.get(i).ecs_.get(k).name_.indexOf(".") + 1);
-							if (testStr1.matches("[0-9].*")) {
-								if (testStr1.contains(".")) {
-									testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
-									if (testStr2.matches("[0-9].*")) {
-										if (testStr2.contains(".")) {
-											testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
-											if (testStr3.matches("[0-9]*")) {
-												comptotecs.add(Project.samples_.get(i).ecs_.get(k).name_);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				/*
-				 * adds to the total number of ecs so that it can later subtract
-				 * the number of complete ecs to find the number of incomplete
-				 * ecs
-				 */
-				if (!allecs.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
-					allecs.add(Project.samples_.get(i).ecs_.get(k).name_);
-				}
-				if (!ecmapped.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& numEcs.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
-					ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_); // adds
-																				// to
-																				// the
-																				// number
-																				// of
-																				// mapped
-																				// ecs
-				}
-				if (!pfammapped.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& numPfams.contains(Project.samples_.get(i).ecs_.get(k).name_)
-						&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
-					pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);// adds
-																				// to
-																				// the
-																				// number
-																				// of
-																				// mapped
-																				// pfams
-				}
-			}
-		}
-		int completepfams = 0;
-		int completeecs = 0;
-		for (int i = 0; i < numPfams.size(); i++) {
-			if (numPfams.get(i).matches("[0-9].*")) {
-				if (numPfams.get(i).contains(".")) {
-					testStr1 = numPfams.get(i).substring(numPfams.get(i).indexOf(".") + 1);
-					if (testStr1.matches("[0-9].*")) {
-						if (testStr1.contains(".")) {
-							testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
-							if (testStr2.matches("[0-9].*")) {
-								if (testStr2.contains(".")) {
-									testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
-									if (testStr3.matches("[0-9]*")) {
-										completepfams++;// adds to the number of
-														// complete pfams
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		for (int i = 0; i < numEcs.size(); i++) {
-			if (numEcs.get(i).matches("[0-9].*")) {
-				if (numEcs.get(i).contains(".")) {
-					testStr1 = numEcs.get(i).substring(numEcs.get(i).indexOf(".") + 1);
-					if (testStr1.matches("[0-9].*")) {
-						if (testStr1.contains(".")) {
-							testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
-							if (testStr2.matches("[0-9].*")) {
-								if (testStr2.contains(".")) {
-									testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
-									if (testStr3.matches("[0-9]*")) {
-										completeecs++;// adds to the number of
-														// complete ecs
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		int incomptotecs = allecs.size() - comptotecs.size();
-		/*
-		 * adds a failsafe for whether or not the data was loaded from a project
-		 * file, as the statistics are already saved there
-		 */
-		if (!Project.loaded) {
-			Project.amountOfEcs = numEcs.size();
-			Project.numOfCompleteEcs = completeecs;
-			Project.numOfMappedEcs = ecmapped.size();
-			Project.amountOfPfs = totalnumPfams.size();
-			Project.numOfConvertedPFs = numPfams.size();
-			Project.numOfConvPfsComplete = completepfams;
-			Project.numOfConvPfsMapped = pfammapped.size();
-		}
-		// calls the Help Frame to make the Project Summary window
-		String Text = "<html><body>Finished processing the samples" + "<br>" + "<br>"
-				+ "Total complete ECs (including converted pfams):\t" + comptotecs.size() + "<br>"
-				+ "Total incomplete ECs (including converted pfams):\t" + incomptotecs + "<br>" + "ECs:\t"
-				+ Project.amountOfEcs + "<br>" + "Complete ECs:\t" + Project.numOfCompleteEcs + "<br>" + "Mapped ECs:\t"
-				+ Project.numOfMappedEcs + "<br>" + "Pfams:\t" + Project.amountOfPfs + "<br>" + "Converted Pfams:\t"
-				+ Project.numOfConvertedPFs + "<br>" + "Complete converted Pfams:\t" + Project.numOfConvPfsComplete
-				+ "<br>" + "Mapped converted Pfams:\t" + Project.numOfConvPfsMapped + "<br>" + "Interpros:\t"
-				+ Project.amountOfIPRs + "<br>" + "Converted Interpros:\t" + Project.numOfConvertedIPRs + "<br>"
-				+ "Complete converted Interpros:\t" + Project.numOfConvIPRsComplete + "<br>"
-				+ "Mapped converted Interpros:\t" + Project.numOfConvIPRsMapped + "<br><br>" + "<br>"
-				+ "Sample that seem to be valid: " + "<br>";
-		for (int i = 0; i < Project.samples_.size(); i++) {
-			Text = Text + (i + 1) + ":" + Project.samples_.get(i).legitSample + " ";
-			if ((i % 5 == 0) && (i != 0)) {
-				Text = Text + "<br>";
-			}
-		}
-		Text = Text + "<br></body></html>";
-		// Commented out help frame as it is unnessary for general users. Useful
-		// for debugging
-		// HelpFrame helpF = new HelpFrame(Text);
-		System.out.println(
-				"---------------------------------------------------------------------------------------------");
-		System.out.println("Finished processing the samples");
-		System.out.println("Total icomplete ECs (including converted pfams): " + comptotecs.size());
-		System.out.println("Total incomplete ECs (including converted pfams): " + incomptotecs);
-		System.out.println("ECs: " + Project.amountOfEcs);
-		System.out.println("Complete ECs: " + Project.numOfCompleteEcs);
-		System.out.println("Mapped ECs: " + Project.numOfMappedEcs);
-		System.out.println("Pfams: " + Project.amountOfPfs);
-		System.out.println("Converted Pfams: " + Project.numOfConvertedPFs);
-		System.out.println("Complete converted Pfams: " + Project.numOfConvPfsComplete);
-		System.out.println("Mapped converted Pfams: " + Project.numOfConvPfsMapped);
-
-		System.out.println("Sample that seem to be valid:");
-		for (int i = 0; i < Project.samples_.size(); i++) {
-			System.out.println("Sample: " + (i + 1) + ":" + ((Sample) Project.samples_.get(i)).name_ + " "
-					+ ((Sample) Project.samples_.get(i)).legitSample);
-		}
-		newUserPathList_ = new ArrayList<PathwayWithEc>();
-	}
-
-	private String[] convertPfamGo(String[] pfam) {
-
-		if (PfamToGOHash.isEmpty()) {
-
-			DigitizeConversionFilesPfamGo();
-		}
-		String[] tmpNr = new String[5];
-		tmpNr[3] = pfam[3];
-		String PfamNr = pfam[0];// IPR name.
-		if (PfamToGOHash.containsKey(PfamNr)) {
-			System.out.print("\r" + String.format("%.2f", percent) + "%  " + PfamNr + " Found Pfam-->GO          ");
-			// only use the first ec number, if IPR map to more than one ec.
-			tmpNr[0] = PfamToGOHash.get(PfamNr).get(0);
-			tmpNr[1] = pfam[1];
-			tmpNr[2] = "GO";
-			tmpNr[3] = pfam[3];
-			tmpNr[4] = "";
-			for (int i = 1; i < PfamToGOHash.get(PfamNr).size(); i++) {
-				// store all unused ec number
-				tmpNr[4] += PfamToGOHash.get(PfamNr).get(i) + " ";
-			}
-			// remove last " " of unused ec string.
-			if (tmpNr[4] != "") {
-				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
-			}
-		}
-		return tmpNr;
-	}
-
-	private void DigitizeConversionFilesPfamGo() {
-
-		this.pfamToGo_ = this.reader.readTxt(pfam2GoPath);
-		Hashtable<String, ArrayList<String>> tmpPfamToGo = new Hashtable<String, ArrayList<String>>();
-		String line = "";
-		try {
-			while ((line = this.pfamToGo_.readLine()) != null) {
-				if (!line.startsWith("!")) {
-					if (line.matches(".*PF.*")) {
-						String tmpPfam = line.substring(0, line.indexOf("\t"));
-						String tmpGO = line.substring(line.indexOf("\t") + 1);
-						ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpGO.split(" ")));
-						tmpPfamToGo.put(tmpPfam, tmpGOS);
-					}
-				}
-			}
-		} catch (IOException e) {
-			openWarning("Error", "File" + pfam2GoPath + " not found");
-			e.printStackTrace();
-		}
-		this.PfamToGOHash = tmpPfamToGo;
-
-	}
-
-	private String[] convertUniGo(String[] uni) {
-		if (UniToGOHash.isEmpty()) {
-			DigitizeConversionFilesUniGo();
-		}
-		String[] tmpNr = new String[5];
-		tmpNr[3] = uni[3];
-		String uniNr = uni[0];
-
-		uniNr = uniNr.replaceAll("UniRef90_", "");
-
-		if (this.UniToGOHash.containsKey(uniNr)) {
-			System.out.print("\r" + String.format("%.2f", percent) + "%  " + uniNr + " Found UniRef-->GO          ");
-
-			// only use first ec # if uniref id map to more than one ec number.
-			tmpNr[0] = UniToGOHash.get(uniNr).get(0);
-			tmpNr[1] = uni[1];
-			tmpNr[2] = "GO";
-			tmpNr[3] = uni[3];
-			tmpNr[4] = "";
-			for (int i = 1; i < UniToGOHash.get(uniNr).size(); i++) {
-				// store all unused ec number
-				tmpNr[4] += UniToGOHash.get(uniNr).get(i) + " ";
-
-			}
-			// remove last " " of unused ec string.
-			if (tmpNr[4] != "") {
-				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
-			}
-			Project.numOfConvertedUNIs += 1;
-		}
-
-		return tmpNr;
-	}
-
-	/**
-	 * Load list file UniRef-> GO ,save into memory as a hash table have to load
-	 * 4 uniref --> go files. Github only allow files under 100MB,so have to
-	 * made 4 parts. If in local machine can use one uniref2go "-all" file in
-	 * List folder.
-	 */
-	private void DigitizeConversionFilesUniGo() {
-
-		Hashtable<String, ArrayList<String>> tmpUNIToGO = new Hashtable<String, ArrayList<String>>();
 		System.out.println();
-		System.out.print("\rLoading uniref list(400MB)...0%");
-		for (int i = 1; i <= 4; i++) {
+		sample.sample_ = this.reader.readTxt(tmp);
+		sample.clearPaths();
+		Project.legitSamples.add(Boolean.valueOf(false));
+		try {
+		    int currCount = 1;
 
-			String file = uni2GoPath + i + ".txt";
-			this.uniToGoTxt_ = this.reader.readTxt(file);
+		    // read all seq id line from sample. if it is IPR num or
+		    // .ipr file. it will finish in ParseInterpro()
+		    while (sample.sample_ != null && (zeile = sample.sample_.readLine()) != null) {// Parses
+												   // through
+												   // the
+												   // files
+												   // to
+												   // build
+												   // the
+												   // "Sample
+												   // attributes"
 
-			String zeile = "";
-			String[] uni_args = null;
-			try {
-				while ((zeile = this.uniToGoTxt_.readLine()) != null) {
-					if (!zeile.startsWith("!")) {
-						if (zeile.matches(".*[0-9].*")) {
+			percent = (double) currCount * 100 / count;
+			currCount++;
+			// for reading .ipr file
+			if (zeile.startsWith(">")) {
+			    i = ParseInterpro(i);
+			    // go next sample
+			    // break;
 
-							uni_args = zeile.split("\t");
-							String tmpUni = uni_args[0];
-							String tmpNum = uni_args[1];
-
-							ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpNum.split(" ")));
-							tmpUNIToGO.put(tmpUni, tmpGOS);
-						}
-					}
-				}
-				this.uniToGoTxt_.close();
-			} catch (IOException e) {
-				openWarning("Error", "File" + file + " not found");
 			}
-			System.out.print("\rLoading uniref list(400MB)..." + (i * 100 / 4) + "%");
-		}
-		this.UniToGOHash = tmpUNIToGO;
-		System.out.println();
-	}
+			// IPR/Uni/Pfam.. name, amount, type(IPR/Uni/Pfam..) and
+			// seq ID inside. no ec or go number.
+			String[] newEnz = getEnzFromSample(zeile);
 
-	/**
-	 * Parses a file of the InterPro format and pulls out the samples,
-	 * IPRs(which get converted) and sequence IDs.
-	 * 
-	 * @param count
-	 *            Sample number
-	 * @return converted Sample number
-	 * @author Kevan Lynch, Jennifer Terpstra
-	 * @throws FileNotFoundException
-	 */
-	public int ParseInterpro(int count) throws IOException {
-		String zeile = "";
-		String seqPath = "";
-		System.out.println("Parse Interpro");
-		boolean hasSeq = false;
-		ArrayList<String> seqPaths = new ArrayList<String>();
-		int i = count;
-		for (i = count; i < Project.samples_.size(); i++) {
-			Sample sample = Project.samples_.get(i);
-			System.out.println("Loading IPR file: " + sample.name_);
-			if (sample.getSequenceFile() != "none") {
-				hasSeq = true;
+			if (!enzReadCorrectly(newEnz)) {
+			    newEnz = getEnzFromRawSample(zeile);
+			}
+			if (!enzReadCorrectly(newEnz)) {
+			    Debug.addnoEnzymeLine(sample.name_ + " " + zeile);
 			} else {
-				hasSeq = false;
-			}
-			StringReader reader2 = new StringReader();
-			String tmp = Project.samples_.get(i).fullPath_;
-			if (hasSeq) {
-				String seqFilePath = Project.samples_.get(i).getSequenceFile();
-				BufferedReader seq = reader2.readTxt(seqFilePath);
-				try {
-					while ((seqPath = seq.readLine()) != null) {
-						seqPaths.add(seqPath);
-					}
-				} catch (IOException e1) {
-					System.out.println("No sequence file exists");
+			    if (newEnz[2] == "EC") {// if the sequence was
+						    // already an EC
+				Debug.addEc(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
+					+ newEnz[1]);
+			    } else if (newEnz[2] == "GO") {// if the sequence
+							   // was already an EC
+				Debug.addGo(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
+					+ newEnz[1]);
+			    } else {
+				Debug.addPf(sample.name_ + " id: " + newEnz[0] + " repseq: " + newEnz[3] + " amount: "
+					+ newEnz[1]);
+			    }
+			    counter++;
+			    this.lFrame_.step(newEnz[0] + ": " + newEnz[1]);
+			    this.lFrame_.updateCounter(counter);
+
+			    // get the key word (IPR/Uniref/pfam..) from the
+			    // line of sample.
+			    if (newEnz[2].equalsIgnoreCase("IPR")) {
+
+				if (!newEnz[1].isEmpty()) {
+				    Project.amountOfEcs += Integer.valueOf(newEnz[1]).intValue();
 				}
-			}
-
-			// if sample from .frp file , fullPath_ = null --> tmp = null
-			// if sample from sample file. fullPath_ != null --> tmp != null
-			try {
-				sample.sample_ = new BufferedReader(new FileReader(tmp));
-				zeile = sample.sample_.readLine();
-			} catch (Exception e) {
-				sample.sample_ = null;
-				zeile = null;
-			}
-			try {
-				// line in sample or .ipr file.
-				while (zeile != null) {
-					/**
-					 * Important for interpro input where several samples are in
-					 * the same file each starting off with a line containing
-					 * the sample name starting with ">"
-					 */
-					// if line include sample name.
-					if (zeile.startsWith(">")) {
-						if (Project.samples_.get(i).ecs_.isEmpty()) {
-							Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
-							if (hasSeq) {
-								Project.samples_.get(i).setSequenceFile(seqPaths.get(0));
-							}
-							zeile = sample.sample_.readLine();
-							continue;
-						} else {
-							Color tmpColor = new Color((float) Math.random(), (float) Math.random(),
-									(float) Math.random());
-							Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">") + 1), sample.fullPath_,
-									tmpColor);
-
-							if (hasSeq) {
-								for (int k = 1; k < seqPaths.size(); k++) {
-									tmpSample.setSequenceFile(seqPaths.get(k));
-								}
-							}
-							tmpSample.legitSample = true;
-							tmpSample.inUse = true;
-							Project.samples_.add(i + 1, tmpSample);
-							Project.legitSamples.add(i + 1, true);
-							i++;
-							zeile = sample.sample_.readLine();
-							continue;
-						}
-					}
-
-					else if (zeile.matches(".*IPR[0-9].*")) {
-						String[] newEnz = getEnzFromInterPro(zeile);// set ret[]
-																	// 4
-																	// elements
-																	// of IPR
-
-						if (StartFromp1.doEC) {
-							if (newEnz[2].equalsIgnoreCase("IPR")) {
-								String[] Enz = convertInterpro(newEnz);
-								if (!newEnz[0].isEmpty()) {
-									EcNr ecNr = new EcNr(Enz);
-									addEcToSample(ecNr, i, Enz);
-								}
-							}
-						}
-						if (StartFromp1.doGo) {
-							// if go:num in line, read go:num,do not map
-							if (zeile.matches(".*GO:\\d{7}.*")) {
-								String GoNum = zeile.substring(zeile.indexOf("GO:") + 3, zeile.indexOf("GO:") + 10);
-
-								String[] noMapGO = new String[5];
-								noMapGO[0] = GoNum;
-								noMapGO[1] = "1";
-								noMapGO[2] = "GO";
-								noMapGO[3] = zeile.substring(0, zeile.indexOf("\t"));
-								noMapGO[4] = "";
-								GONum goNr = new GONum(noMapGO);
-								addGOtoSample(goNr, i, noMapGO);
-
-							} else {
-								if (newEnz[2].equalsIgnoreCase("IPR")) {
-									String[] Enz = convertInterproGo(newEnz);
-									if (Enz[0] != null) {
-										GONum goNr = new GONum(Enz);
-										addGOtoSample(goNr, i, Enz);
-									}
-								}
-							}
-						}
-					}
-					// do not know, is it need add read uniref ID
-					zeile = sample.sample_.readLine();
+				if (StartFromp1.doEC) {
+				    String[] Enz = convertInterpro(newEnz);
+				    if (!newEnz[0].isEmpty()) {
+					ecNr = new EcNr(Enz);
+					addEcToSample(ecNr, i, Enz);
+				    }
 				}
-			} catch (IOException e) {
-				openWarning("Error", "File: " + tmp + " not found");
-				e.printStackTrace();
-			}
-		}
-		return i;
-	}
+				if (StartFromp1.doGo) {
+				    // if go:num in line, read go:num,do not map
+				    if (zeile.matches(".*GO:\\d{7}.*")) {
+					String GoNum = zeile.substring(zeile.indexOf("GO:") + 3,
+						zeile.indexOf("GO:") + 10);
 
-	private void addEcToSample(EcNr ecNr, int i, String[] newEnz) {
-		EcWithPathway ecWP = null;
-		if (!ecNr.type_.contentEquals("X")) {
-			if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_))) {
-				Project.samples_.get(i)
-						.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0, newEnz[4]));
-				ecWP = findEcWPath(ecNr);
-				this.lFrame_.step("converted " + newEnz[0]);
-			}
-			if (ecWP != null) {
-				Project.numOfConvIPRsMapped += 1;
-				if (!ecNr.isCompleteEc()) {
+					String[] noMapGO = new String[5];
+					noMapGO[0] = GoNum;
+					noMapGO[1] = "1";
+					noMapGO[2] = "GO";
+					noMapGO[3] = zeile.substring(0, zeile.indexOf("\t"));
+					noMapGO[4] = "";
+					goNr = new GONum(noMapGO);
+					addGOtoSample(goNr, i, noMapGO);
+
+				    } else {
+					String[] Enz = convertInterproGo(newEnz);
+					if (Enz[0] != null) {
+					    goNr = new GONum(Enz);
+					    addGOtoSample(goNr, i, Enz);
+					}
+				    }
+				}
+			    }
+			    // pfam line in this sample.(No IPR)
+			    else if (newEnz[2].equalsIgnoreCase("PF")) {
+				if (newEnz[1] != null) {
+				    Project.amountOfPfs += Integer.valueOf(newEnz[1]).intValue();
+				}
+				if (StartFromp1.doEC) {
+				    ArrayList<String[]> enzL = convertPfam(newEnz);
+				    for (int cnt = 0; cnt < enzL.size(); cnt++) {
+					String[] Enz = (String[]) enzL.get(cnt);
+					if (Enz[0] != null) {
+					    ecNr = new EcNr(Enz);
+					    addEcToSample(ecNr, i, Enz);
+					}
+				    }
+				} // doEC finish..had to keep arraylist enzl,it
+				  // need to be invoke for other place.
+				if (StartFromp1.doGo) {
+				    String[] Enz = convertPfamGo(newEnz);
+				    if (Enz[0] != null) {
+					goNr = new GONum(Enz);
+					addGOtoSample(goNr, i, Enz);
+				    }
+				} // doGO finish
+			    } // PF Done
+			      // uniref line in this sample.
+			    else if (newEnz[2].equalsIgnoreCase("uniref")) {
+				if (!newEnz[1].isEmpty()) {
+				    Project.amountOfUNIs += Integer.valueOf(newEnz[1]).intValue();
+				}
+				if (StartFromp1.doEC) {
+				    String[] Enz = convertUni(newEnz);
+				    if (Enz[0] != null) {
+					ecNr = new EcNr(Enz);
+					addEcToSample(ecNr, i, Enz);
+				    }
+				}
+				if (StartFromp1.doGo) {
+				    String[] Enz = convertUniGo(newEnz);
+				    if (Enz[0] != null) {
+					goNr = new GONum(Enz);
+					addGOtoSample(goNr, i, Enz);
+				    }
+				}
+			    }
+			    // ec#(may be need to add read go# later) in the
+			    // line. no need(IPR/Uniref/Pfam). read it directly
+			    else if (!newEnz[0].isEmpty()) {
+				// may need add if doEc/doGo
+				ecNr = new EcNr(newEnz);
+				if (ecNr.couldBeEc()) {
+				    if (!ecNr.isCompleteEc()) {
 					ecNr.incomplete = true;
-				}
-				if (isEc(ecNr.name_)) {
-					Project.numOfConvIPRsComplete += 1;
+				    }
+				    Project.samples_.get(i).addConvStats(
+					    new ConvertStat(newEnz[3], ecNr.name_, ecNr.amount_, 0, 0, ""));
+				    EcWithPathway ecWP = findEcWPath(ecNr);
+				    if (ecWP != null) {
 					Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
-					// added to try to fix out of bounds exception!!
-					if (Project.legitSamples.size() == 1) {
-						Project.legitSamples.remove(0);
-						Project.legitSamples.add(0, Boolean.valueOf(true));
-					}
-					// added -1 to attempt to fix error
-					else if (Project.legitSamples.size() > 1) {
-						Project.legitSamples.remove(i);
-						Project.legitSamples.add(i, Boolean.valueOf(true));
-					} else {
-						Project.legitSamples.add(0, Boolean.valueOf(true));
-					}
-
-				}
-			} else {
-				if (!ecNr.isCompleteEc()) {
-					ecNr.incomplete = true;
-				}
-				ecNr.unmapped = true;
-				EcWithPathway unmatched = new EcWithPathway(ecNr);
-				unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-				Project.samples_.get(i).addEc(unmatched);
-			}
-		}
-	}
-
-	private void addGOtoSample(GONum goNr, int i, String[] newEnz) {
-		// X mean inti data no changed, it is unmapped.
-		if (!goNr.type_.contentEquals("X")) {
-			if (goNr.type_.contentEquals("GO") && isGo(goNr.GoNumber)) {
-				Project.samples_.get(i)
-						.addConvStatsGo(new ConvertStatGo(newEnz[3], goNr.GoNumber, 0, goNr.amount_, 0, newEnz[4]));
-
-				this.lFrame_.step("converted " + newEnz[0]);
-				Project.samples_.get(i).addGo(new GONum(goNr));
-				// added to try to fix out of bounds exception!!
-				if (Project.legitSamples.size() == 1) {
-					Project.legitSamples.remove(0);
-					Project.legitSamples.add(0, Boolean.valueOf(true));
-				}
-				// added -1 to attempt to fix error
-				else if (Project.legitSamples.size() > 1) {
 					Project.legitSamples.remove(i);
 					Project.legitSamples.add(i, Boolean.valueOf(true));
-				} else {
-					Project.legitSamples.add(0, Boolean.valueOf(true));
-				}
-
-			} else {
-				goNr.unmapped = true;
-				GONum unmatched = new GONum(goNr);
-				Project.samples_.get(i).addGo(unmatched);
-			}
-		}
-	}
-
-	private String[] convertInterproGo(String[] interpro) {
-
-		if (this.IPRToGOHash.isEmpty()) {
-
-			DigitizeConversionFilesGo();
-		}
-
-		String[] tmpNr = new String[5];
-		// pass seq id to tmpNr at pos 3
-		tmpNr[3] = interpro[3];
-		String interproNr = interpro[0];// IPR name.
-
-		if (this.IPRToGOHash.containsKey(interproNr)) {
-			System.out.print("\r" + String.format("%.2f", percent) + "%  " + interproNr + " Found IPR-->GO          ");
-			// only use the first ec number, if IPR map to more than one ec.
-			tmpNr[0] = IPRToGOHash.get(interproNr).get(0);
-			tmpNr[1] = interpro[1];
-			tmpNr[2] = "GO";
-			tmpNr[3] = interpro[3];
-			tmpNr[4] = "";
-			for (int i = 1; i < IPRToGOHash.get(interproNr).size(); i++) {
-				// store all unused go number
-				tmpNr[4] += IPRToGOHash.get(interproNr).get(i) + " ";
-
-			}
-			// remove last " " of unused ec string.
-			if (tmpNr[4] != "") {
-				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
-			}
-
-			Project.numOfConvertedIPRs += 1;
-
-		}
-		return tmpNr;
-	}
-
-	/**
-	 * Takes the IPR->GO conversion file into memory as a hashtable
-	 */
-	private void DigitizeConversionFilesGo() {
-		this.interproToGOTxt_ = this.reader.readTxt(interpro2GOPath);
-		Hashtable<String, ArrayList<String>> tmpIPRToGo = new Hashtable<String, ArrayList<String>>();
-		String line = "";
-		try {
-			while ((line = this.interproToGOTxt_.readLine()) != null) {
-				if (!line.startsWith("!")) {
-					if (line.matches(".*IPR[0-9].*")) {
-						String tmpIPR = line.substring(0, line.indexOf("\t"));
-						String tmpGO = line.substring(line.indexOf("\t") + 1);
-						ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpGO.split(" ")));
-						tmpIPRToGo.put(tmpIPR, tmpGOS);
+				    } else {
+					if (!ecNr.isCompleteEc()) {
+					    ecNr.incomplete = true;
 					}
+					ecNr.unmapped = true;
+					EcWithPathway unmatched = new EcWithPathway(ecNr);
+					unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+					Project.samples_.get(i).addEc(unmatched);
+				    }
 				}
+			    }
 			}
+		    }
+		    if (sample.sample_ != null) {
+			sample.sample_.close();
+		    }
+
 		} catch (IOException e) {
-			openWarning("Error", "File" + interproToECPath_ + " not found");
-			e.printStackTrace();
+		    openWarning("Error", "File: " + tmp + " not found");
+		    e.printStackTrace();
 		}
-		this.IPRToGOHash = tmpIPRToGo;
+		Debug.writeOutAll("DebugLists.txt");
+		System.out.println("\nfinished allecvsp");
+	    }
+	    // check status
 	}
-
-	// returns true if element 0 of the array is either ec,ipr or pfam and the
-	// element 1 is an int
-	public boolean enzReadCorrectly(String[] newEnz) {
-		if (newEnz == null) {
-			return false;
-		}
-		boolean ret = false;
-		if ((isEc(newEnz[0])) || (isPfambool(newEnz[0])) || (isInterProBool(newEnz[0]) || (isUNIBool(newEnz[0])))) {
-			ret = true;
-		} else {
-			return false;
-		}
-		try {
-			Integer.valueOf(newEnz[1]).intValue();
-		} catch (Exception e) {
-			ret = false;
-		}
-		return ret;
-	}
-
-	/**
-	 * Does the computation of converting from pfam format into an EC
-	 * 
-	 * @param pfam
-	 *            pfam sequence
-	 * @return converted EC sequence
-	 * 
-	 * @author Jennifer Terpstra, Kevan Lynch
-	 */
-	public ArrayList<String[]> convertPfam(String[] pfam) {
-
-		ArrayList<String[]> retList = new ArrayList<String[]>();
-		this.pfamToRnToEc_ = this.reader.readTxt(pfamToRnToEcPath_);// conversion
-																	// file
-		String zeile = "";
-		String[] tmpNr = new String[5];
-		tmpNr[3] = pfam[3];
-		tmpNr[4] = "";
-		int pfamNr = Integer.valueOf(pfam[0].substring(2)).intValue();
-
-		if (!totalnumPfams.contains(pfam[0]) && pfam[2].equalsIgnoreCase("PF")) {
-			totalnumPfams.add(pfam[0]);
-		}
-
-		this.numOfPFams += 1;
-		try {
-			while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
-				if (!zeile.startsWith("!")) {
-					if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3, zeile.indexOf(":PF") + 8))
-							.intValue()) {
-						System.out.print(
-								"\r" + String.format("%.2f", percent) + "%  " + pfamNr + " Found Pfam-->EC          ");
-						tmpNr = new String[5];
-						tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
-						tmpNr[1] = pfam[1];
-						if (tmpNr[0].startsWith("R")) {
-							tmpNr[2] = "Rn";
-						} else {
-							tmpNr[2] = "EC";
-						}
-						tmpNr[3] = pfam[3];
-						tmpNr[4] = "";
-						this.numOfPfamsToGo += 1;
-						if (tmpNr[2].contentEquals("EC")) {
-							retList.add(tmpNr);
-							if (!numPfams.contains(tmpNr[0])) {
-								numPfams.add(tmpNr[0]);
-							}
-						}
+	final long endTime = System.currentTimeMillis();
+	System.out.println("Total execution time(milliseconds): " + (endTime - startTime));
+	ArrayList<String> comptotecs = new ArrayList<String>();
+	ArrayList<String> allecs = new ArrayList<String>();
+	ArrayList<String> ecmapped = new ArrayList<String>();
+	ArrayList<String> pfammapped = new ArrayList<String>();
+	String testStr1;
+	String testStr2;
+	String testStr3;
+	for (int i = 0; i < Project.samples_.size(); i++) {// adds to the number
+							   // of total complete
+							   // ecs
+	    for (int k = 0; k < Project.samples_.get(i).ecs_.size(); k++) {
+		if (!comptotecs.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
+		    if (Project.samples_.get(i).ecs_.get(k).name_.matches("[0-9].*")) {
+			if (Project.samples_.get(i).ecs_.get(k).name_.contains(".")) {
+			    testStr1 = Project.samples_.get(i).ecs_.get(k).name_
+				    .substring(Project.samples_.get(i).ecs_.get(k).name_.indexOf(".") + 1);
+			    if (testStr1.matches("[0-9].*")) {
+				if (testStr1.contains(".")) {
+				    testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
+				    if (testStr2.matches("[0-9].*")) {
+					if (testStr2.contains(".")) {
+					    testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
+					    if (testStr3.matches("[0-9]*")) {
+						comptotecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+					    }
 					}
-					if (pfamNr < Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3, zeile.indexOf(":PF") + 8))
-							.intValue()) {
-						break;
-					}
+				    }
 				}
+			    }
 			}
-			if (retList.size() == 0) {
-				this.numOfMissedpfams += 1;
-			}
-			this.pfamToRnToEc_.close();
-		} catch (IOException e) {
-			openWarning("Error", "File: " + pfamToRnToEcPath_ + " not found");
-			e.printStackTrace();
+		    }
 		}
-		return retList;
+		/*
+		 * adds to the total number of ecs so that it can later subtract
+		 * the number of complete ecs to find the number of incomplete
+		 * ecs
+		 */
+		if (!allecs.contains(Project.samples_.get(i).ecs_.get(k).name_)) {
+		    allecs.add(Project.samples_.get(i).ecs_.get(k).name_);
+		}
+		if (!ecmapped.contains(Project.samples_.get(i).ecs_.get(k).name_)
+			&& numEcs.contains(Project.samples_.get(i).ecs_.get(k).name_)
+			&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
+		    ecmapped.add(Project.samples_.get(i).ecs_.get(k).name_); // adds
+									     // to
+									     // the
+									     // number
+									     // of
+									     // mapped
+									     // ecs
+		}
+		if (!pfammapped.contains(Project.samples_.get(i).ecs_.get(k).name_)
+			&& numPfams.contains(Project.samples_.get(i).ecs_.get(k).name_)
+			&& !Project.samples_.get(i).ecs_.get(k).unmapped) {
+		    pfammapped.add(Project.samples_.get(i).ecs_.get(k).name_);// adds
+									      // to
+									      // the
+									      // number
+									      // of
+									      // mapped
+									      // pfams
+		}
+	    }
+	}
+	int completepfams = 0;
+	int completeecs = 0;
+	for (int i = 0; i < numPfams.size(); i++) {
+	    if (numPfams.get(i).matches("[0-9].*")) {
+		if (numPfams.get(i).contains(".")) {
+		    testStr1 = numPfams.get(i).substring(numPfams.get(i).indexOf(".") + 1);
+		    if (testStr1.matches("[0-9].*")) {
+			if (testStr1.contains(".")) {
+			    testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
+			    if (testStr2.matches("[0-9].*")) {
+				if (testStr2.contains(".")) {
+				    testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
+				    if (testStr3.matches("[0-9]*")) {
+					completepfams++;// adds to the number of
+							// complete pfams
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+	for (int i = 0; i < numEcs.size(); i++) {
+	    if (numEcs.get(i).matches("[0-9].*")) {
+		if (numEcs.get(i).contains(".")) {
+		    testStr1 = numEcs.get(i).substring(numEcs.get(i).indexOf(".") + 1);
+		    if (testStr1.matches("[0-9].*")) {
+			if (testStr1.contains(".")) {
+			    testStr2 = testStr1.substring(testStr1.indexOf(".") + 1);
+			    if (testStr2.matches("[0-9].*")) {
+				if (testStr2.contains(".")) {
+				    testStr3 = testStr2.substring(testStr2.indexOf(".") + 1);
+				    if (testStr3.matches("[0-9]*")) {
+					completeecs++;// adds to the number of
+						      // complete ecs
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
 	}
 
-	/**
-	 * IPR number to ec
-	 * 
-	 * @param interpro
-	 * @return
-	 */
-	private String[] convertInterpro(String[] interpro) {
-		if (this.IPRToECHash.isEmpty()) {
-			DigitizeConversionFiles();
-		}
-		String[] tmpNr = new String[5];
-		tmpNr[0] = "X";
-		tmpNr[1] = "1";
-		tmpNr[2] = "X";
-		// pass seq id to tmpNr at pos 3
-		tmpNr[3] = interpro[3];
-		tmpNr[4] = "";
-
-		String interproNr = interpro[0];// IPR name.
-		if (this.IPRToECHash.containsKey(interproNr)) {
-			System.out.print("\r" + String.format("%.2f", percent) + "%  " + interproNr + " Found IPR-->EC          ");
-			// only use the first ec number, if IPR map to more than one ec.
-			tmpNr[0] = IPRToECHash.get(interproNr).get(0);
-			tmpNr[1] = interpro[1];
-			tmpNr[2] = "EC";
-			tmpNr[3] = interpro[3];
-			tmpNr[4] = "";
-			for (int i = 1; i < IPRToECHash.get(interproNr).size(); i++) {
-				// store all unused ec number
-				tmpNr[4] += IPRToECHash.get(interproNr).get(i) + " ";
-			}
-			// remove last " " of unused ec string.
-			if (tmpNr[4] != "") {
-				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
-			}
-			Project.numOfConvertedIPRs += 1;
-		}
-		return tmpNr;
-	}
-
-	/**
-	 * Uniref ID --> ec number.
-	 * 
-	 * @param uni
-	 * @return
-	 */
-	private String[] convertUni(String[] uni) {// conversion step using uniref
-												// -> EC
-
-		if (UniToECHash.isEmpty()) {
-			DigitizeConversionFilesUni();
-		}
-		String[] tmpNr = new String[5];
-		tmpNr[3] = uni[3];
-		String uniNr = uni[0];
-
-		if (this.UniToECHash.containsKey(uniNr)) {
-			System.out.print("\r" + String.format("%.2f", percent) + "%  " + uniNr + " Found UniRef-->EC          ");
-			// only use first ec # if uniref id map to more than one ec number.
-			tmpNr[0] = UniToECHash.get(uniNr).get(0);
-			tmpNr[1] = uni[1];
-			tmpNr[2] = "EC";
-			tmpNr[3] = uni[3];
-			tmpNr[4] = "";
-			for (int i = 1; i < UniToECHash.get(uniNr).size(); i++) {
-				// store all unused ec number
-				tmpNr[4] += UniToECHash.get(uniNr).get(i) + " ";
-
-			}
-			// remove last " " of unused ec string.
-			if (tmpNr[4] != "") {
-				tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
-			}
-			Project.numOfConvertedUNIs += 1;
-		}
-		return tmpNr;
-	}
-
-	private void DigitizeConversionFiles() { // Takes the IPR->EC conversion
-												// file into memory as a
-												// hashtable
-		this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);
-		Hashtable<String, ArrayList<String>> tmpIPRToEC = new Hashtable<String, ArrayList<String>>();
-		String line = "";
-		try {
-			while ((line = this.interproToECTxt_.readLine()) != null) {
-				if (!line.startsWith("!")) {
-					if (line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*") && line.contains("+")) {
-						String tmpIPR = line.substring(line.indexOf("IPR"), line.indexOf("IPR") + 9);
-						ArrayList<String> tmpECS = new ArrayList<String>();
-						String temp = line;
-						while (temp.contains("+")) {
-							temp = temp.substring(temp.indexOf("+") + 1);
-							String tmpEC = temp;
-							if (tmpEC.contains("+")) {
-								tmpEC = tmpEC.substring(0, tmpEC.indexOf("+"));
-							}
-							tmpECS.add(tmpEC);
-						}
-						tmpIPRToEC.put(tmpIPR, tmpECS);
-					}
-				}
-			}
-		} catch (IOException e) {
-			openWarning("Error", "File" + interproToECPath_ + " not found");
-			e.printStackTrace();
-		}
-		this.IPRToECHash = tmpIPRToEC;
-	}
-
-	/**
-	 * Load list file UniRef-> EC ,save into memory as a hash table
-	 */
-	private void DigitizeConversionFilesUni() {
-		this.uniToEcTxt_ = this.reader.readTxt(uni2ECPath_);
-		Hashtable<String, ArrayList<String>> tmpUNIToEC = new Hashtable<String, ArrayList<String>>();
-		String zeile = "";
-		String[] uni_args = null;
-		String[] ec_nums = null;
-		try {
-			while ((zeile = this.uniToEcTxt_.readLine()) != null) {
-				if (!zeile.startsWith("!")) {
-					if (zeile.contains("UniRef90") && zeile.matches(".*[0-9]+.[0-9]+.[0-9]+.[0-9]+.*")) {
-						uni_args = zeile.split("\t");
-						String tmpUni = uni_args[0];
-						ArrayList<String> tmpECS = new ArrayList<String>();
-						if (uni_args[1].contains(" ")) {
-							ec_nums = uni_args[1].split("\\s");
-							for (String ec : ec_nums) {
-								if (ec != "") {
-									tmpECS.add(ec);
-								}
-							}
-							tmpUNIToEC.put(tmpUni, tmpECS);
-						}
-					}
-				}
-				uni_args = null;
-				ec_nums = null;
-			}
-			this.uniToEcTxt_.close();
-		} catch (IOException e) {
-			openWarning("Error", "File" + uni2ECPath_ + " not found");
-		}
-		this.UniToECHash = tmpUNIToEC;
-	}
-
-	private void fillSampleEcs(Sample sample, int sampleIndex) {//
-		this.lFrame_.bigStep("Filling " + sample.name_);
-		for (int ecCnt = 0; ecCnt < sample.ecs_.size(); ecCnt++) {
-			EcWithPathway smpEc = (EcWithPathway) sample.ecs_.get(ecCnt);
-
-			this.lFrame_.step(smpEc.name_);
-			if (smpEc.pathways_.size() > 0) {
-				smpEc.pathways_ = new ArrayList<Pathway>();
-			}
-			EcWithPathway origEc = findEcWPath(smpEc);
-			if (origEc != null) {
-				for (int pwcnt = 0; pwcnt < origEc.pathways_.size(); pwcnt++) {
-					smpEc.pathways_.add(new Pathway((Pathway) origEc.pathways_.get(pwcnt)));
-				}
-				smpEc.weight_ = origEc.weight_;
-				smpEc.unique_ = origEc.unique_;
-				smpEc.bioName_ = origEc.bioName_;
-			} else {
-				smpEc.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
-			}
-		}
-	}
-
-	public void removeEcPfamDoubles() {
-		String ecNr = "";
-		ConvertStat stat = null;
-		int amount = 0;
-		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-			Sample samp = (Sample) Project.samples_.get(smpCnt);
-			if (!samp.imported) {
-				for (int convCnt = 0; convCnt < samp.conversions_.size(); convCnt++) {
-					stat = (ConvertStat) samp.conversions_.get(convCnt);
-					ecNr = "";
-					amount = 0;
-					if ((stat.getPfamToEcAmount_() > 0) && (stat.getEcAmount_() > 0)) {
-						ecNr = stat.getEcNr_();
-						if (stat.getPfamToEcAmount_() >= stat.getEcAmount_()) {
-							amount = stat.getEcAmount_();
-						} else {
-							amount = stat.getEcAmount_() - stat.getPfamToEcAmount_();
-						}
-						removeEcByEcnR(samp, ecNr, amount);
-					}
-				}
-			}
-		}
-	}
-
-	public void removeEcByEcnR(Sample samp, String ecNr, int amount) {// removes
-																		// an ec
-																		// by
-																		// its
-																		// name
-																		// from
-																		// a
-																		// provided
-																		// sample
-
-		if (ecNr == null) {
-			return;
-		}
-		for (int ecCnt = 0; ecCnt < samp.ecs_.size(); ecCnt++) {
-			EcNr tmpEcNr = (EcNr) samp.ecs_.get(ecCnt);
-			if (tmpEcNr.name_.contentEquals(ecNr)) {
-				tmpEcNr.amount_ -= amount;
-				for (int statCnt = 0; statCnt < tmpEcNr.stats_.size(); statCnt++) {
-					((EcSampleStats) tmpEcNr.stats_.get(statCnt)).amount_ -= amount;
-				}
-				if (tmpEcNr.amount_ <= 0) {
-					samp.ecs_.remove(ecCnt);
-				}
-				this.lFrame_.step("removeEcByEcnR" + ecNr + ":" + amount);
-				return;
-			}
-		}
-	}
-
-	// this will only happen if random sampling is selected
-	private void removeRandomEc() {// removes randome ecs for prepping during
-									// random sampling
-		Random generator = new Random();
-
-		int sumOfEcs = 0;
-		int[] sumsOfEcsArr = new int[Project.samples_.size()];
-		if (Project.samples_.get(0) != null) {
-			int minEcs = -1;
-			for (int i = 0; i < Project.samples_.size(); i++) {
-				sumOfEcs = 0;
-				for (int ecCnt = 0; ecCnt < ((Sample) Project.samples_.get(i)).ecs_.size(); ecCnt++) {
-					if (((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(ecCnt)).pathways_.size() > 0) {
-						sumOfEcs += ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(ecCnt)).amount_;
-					}
-				}
-				System.out.println("sums " + i + " : " + sumOfEcs);
-				sumsOfEcsArr[i] = sumOfEcs;
-				if ((sumOfEcs < minEcs) || (minEcs == -1)) {
-					minEcs = sumOfEcs;
-				}
-			}
-			for (int i = 0; i < Project.samples_.size(); i++) {
-				while (sumsOfEcsArr[i] > minEcs) {
-					int pick = generator.nextInt(sumsOfEcsArr[i]);
-					int index = 0;
-					while (pick > 0) {
-						pick -= ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_;
-						if (pick <= 0) {
-							break;
-						}
-						index++;
-					}
-					((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_ -= 1;
-					sumsOfEcsArr[i] -= 1;
-					if (((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_ <= 0) {
-						((Sample) Project.samples_.get(i)).ecs_.remove(index);
-					}
-				}
-			}
-			for (int i = 0; i < Project.samples_.size(); i++) {
-				int sum = 0;
-				for (int j = 0; j < ((Sample) Project.samples_.get(i)).ecs_.size(); j++) {
-					sum += ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(j)).amount_;
-				}
-				System.out.println("newsize(" + i + ") =  counted " + sum + " predicted " + sumsOfEcsArr[i]);
-			}
-		}
-	}
-
+	int incomptotecs = allecs.size() - comptotecs.size();
 	/*
-	 * loops through the ec list, which contains the ecs with pathways and if my
-	 * ecs have the same name as the provided ecnr, returns the ec with pathway
+	 * adds a failsafe for whether or not the data was loaded from a project
+	 * file, as the statistics are already saved there
 	 */
-	public EcWithPathway findEcWPath(EcNr ecNr) {
-		for (int i = 0; i < ecList_.size(); i++) {
-			if (((EcWithPathway) ecList_.get(i)).name_.compareTo(ecNr.name_) == 0) {
-				return (EcWithPathway) ecList_.get(i);
-			}
+	if (!Project.loaded) {
+	    Project.amountOfEcs = numEcs.size();
+	    Project.numOfCompleteEcs = completeecs;
+	    Project.numOfMappedEcs = ecmapped.size();
+	    Project.amountOfPfs = totalnumPfams.size();
+	    Project.numOfConvertedPFs = numPfams.size();
+	    Project.numOfConvPfsComplete = completepfams;
+	    Project.numOfConvPfsMapped = pfammapped.size();
+	}
+	// calls the Help Frame to make the Project Summary window
+	String Text = "<html><body>Finished processing the samples" + "<br>" + "<br>"
+		+ "Total complete ECs (including converted pfams):\t" + comptotecs.size() + "<br>"
+		+ "Total incomplete ECs (including converted pfams):\t" + incomptotecs + "<br>" + "ECs:\t"
+		+ Project.amountOfEcs + "<br>" + "Complete ECs:\t" + Project.numOfCompleteEcs + "<br>" + "Mapped ECs:\t"
+		+ Project.numOfMappedEcs + "<br>" + "Pfams:\t" + Project.amountOfPfs + "<br>" + "Converted Pfams:\t"
+		+ Project.numOfConvertedPFs + "<br>" + "Complete converted Pfams:\t" + Project.numOfConvPfsComplete
+		+ "<br>" + "Mapped converted Pfams:\t" + Project.numOfConvPfsMapped + "<br>" + "Interpros:\t"
+		+ Project.amountOfIPRs + "<br>" + "Converted Interpros:\t" + Project.numOfConvertedIPRs + "<br>"
+		+ "Complete converted Interpros:\t" + Project.numOfConvIPRsComplete + "<br>"
+		+ "Mapped converted Interpros:\t" + Project.numOfConvIPRsMapped + "<br><br>" + "<br>"
+		+ "Sample that seem to be valid: " + "<br>";
+	for (int i = 0; i < Project.samples_.size(); i++) {
+	    Text = Text + (i + 1) + ":" + Project.samples_.get(i).legitSample + " ";
+	    if ((i % 5 == 0) && (i != 0)) {
+		Text = Text + "<br>";
+	    }
+	}
+	Text = Text + "<br></body></html>";
+	// Commented out help frame as it is unnessary for general users. Useful
+	// for debugging
+	// HelpFrame helpF = new HelpFrame(Text);
+	System.out.println(
+		"---------------------------------------------------------------------------------------------");
+	System.out.println("Finished processing the samples");
+	System.out.println("Total icomplete ECs (including converted pfams): " + comptotecs.size());
+	System.out.println("Total incomplete ECs (including converted pfams): " + incomptotecs);
+	System.out.println("ECs: " + Project.amountOfEcs);
+	System.out.println("Complete ECs: " + Project.numOfCompleteEcs);
+	System.out.println("Mapped ECs: " + Project.numOfMappedEcs);
+	System.out.println("Pfams: " + Project.amountOfPfs);
+	System.out.println("Converted Pfams: " + Project.numOfConvertedPFs);
+	System.out.println("Complete converted Pfams: " + Project.numOfConvPfsComplete);
+	System.out.println("Mapped converted Pfams: " + Project.numOfConvPfsMapped);
+
+	System.out.println("Sample that seem to be valid:");
+	for (int i = 0; i < Project.samples_.size(); i++) {
+	    System.out.println("Sample: " + (i + 1) + ":" + ((Sample) Project.samples_.get(i)).name_ + " "
+		    + ((Sample) Project.samples_.get(i)).legitSample);
+	}
+	newUserPathList_ = new ArrayList<PathwayWithEc>();
+    }
+
+    private String[] convertPfamGo(String[] pfam) {
+
+	if (PfamToGOHash.isEmpty()) {
+
+	    DigitizeConversionFilesPfamGo();
+	}
+	String[] tmpNr = new String[5];
+	tmpNr[3] = pfam[3];
+	String PfamNr = pfam[0];// IPR name.
+	if (PfamToGOHash.containsKey(PfamNr)) {
+	    System.out.print("\r" + String.format("%.2f", percent) + "%  " + PfamNr + " Found Pfam-->GO          ");
+	    // only use the first ec number, if IPR map to more than one ec.
+	    tmpNr[0] = PfamToGOHash.get(PfamNr).get(0);
+	    tmpNr[1] = pfam[1];
+	    tmpNr[2] = "GO";
+	    tmpNr[3] = pfam[3];
+	    tmpNr[4] = "";
+	    for (int i = 1; i < PfamToGOHash.get(PfamNr).size(); i++) {
+		// store all unused ec number
+		tmpNr[4] += PfamToGOHash.get(PfamNr).get(i) + " ";
+	    }
+	    // remove last " " of unused ec string.
+	    if (tmpNr[4] != "") {
+		tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
+	    }
+	}
+	return tmpNr;
+    }
+
+    private void DigitizeConversionFilesPfamGo() {
+
+	this.pfamToGo_ = this.reader.readTxt(pfam2GoPath);
+	Hashtable<String, ArrayList<String>> tmpPfamToGo = new Hashtable<String, ArrayList<String>>();
+	String line = "";
+	try {
+	    while ((line = this.pfamToGo_.readLine()) != null) {
+		if (!line.startsWith("!")) {
+		    if (line.matches(".*PF.*")) {
+			String tmpPfam = line.substring(0, line.indexOf("\t"));
+			String tmpGO = line.substring(line.indexOf("\t") + 1);
+			ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpGO.split(" ")));
+			tmpPfamToGo.put(tmpPfam, tmpGOS);
+		    }
 		}
-		return null;
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File" + pfam2GoPath + " not found");
+	    e.printStackTrace();
+	}
+	this.PfamToGOHash = tmpPfamToGo;
+
+    }
+
+    private String[] convertUniGo(String[] uni) {
+	if (UniToGOHash.isEmpty()) {
+	    DigitizeConversionFilesUniGo();
+	}
+	String[] tmpNr = new String[5];
+	tmpNr[3] = uni[3];
+	String uniNr = uni[0];
+
+	uniNr = uniNr.replaceAll("UniRef90_", "");
+
+	if (this.UniToGOHash.containsKey(uniNr)) {
+	    System.out.print("\r" + String.format("%.2f", percent) + "%  " + uniNr + " Found UniRef-->GO          ");
+
+	    // only use first ec # if uniref id map to more than one ec number.
+	    tmpNr[0] = UniToGOHash.get(uniNr).get(0);
+	    tmpNr[1] = uni[1];
+	    tmpNr[2] = "GO";
+	    tmpNr[3] = uni[3];
+	    tmpNr[4] = "";
+	    for (int i = 1; i < UniToGOHash.get(uniNr).size(); i++) {
+		// store all unused ec number
+		tmpNr[4] += UniToGOHash.get(uniNr).get(i) + " ";
+
+	    }
+	    // remove last " " of unused ec string.
+	    if (tmpNr[4] != "") {
+		tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
+	    }
+	    Project.numOfConvertedUNIs += 1;
 	}
 
-	public void transferEcToPath() {
-		EcWithPathway ecWP = null;
-		PathwayWithEc pwEc = null;
-		for (int sampleCount = 0; sampleCount < Project.samples_.size(); sampleCount++) {
-			if (!((Sample) Project.samples_.get(sampleCount)).valuesSet) {
-				for (int PwCount = 0; PwCount < getPathwayList_().size(); PwCount++) {
-					pwEc = new PathwayWithEc((Pathway) getPathwayList_().get(PwCount));
-					pwEc.clearList();
-					((Sample) Project.samples_.get(sampleCount)).addPaths(pwEc);
-					((PathwayWithEc) ((Sample) Project.samples_.get(sampleCount)).pathways_
-							.get(((Sample) Project.samples_.get(sampleCount)).pathways_.size() - 1)).clearList();
-				}
+	return tmpNr;
+    }
+
+    /**
+     * Load list file UniRef-> GO ,save into memory as a hash table have to load
+     * 4 uniref --> go files. Github only allow files under 100MB,so have to
+     * made 4 parts. If in local machine can use one uniref2go "-all" file in
+     * List folder.
+     */
+    private void DigitizeConversionFilesUniGo() {
+
+	Hashtable<String, ArrayList<String>> tmpUNIToGO = new Hashtable<String, ArrayList<String>>();
+	System.out.println();
+	System.out.print("\rLoading uniref list(400MB)...0%");
+	for (int i = 1; i <= 4; i++) {
+
+	    String file = uni2GoPath + i + ".txt";
+	    this.uniToGoTxt_ = this.reader.readTxt(file);
+
+	    String zeile = "";
+	    String[] uni_args = null;
+	    try {
+		while ((zeile = this.uniToGoTxt_.readLine()) != null) {
+		    if (!zeile.startsWith("!")) {
+			if (zeile.matches(".*[0-9].*")) {
+
+			    uni_args = zeile.split("\t");
+			    String tmpUni = uni_args[0];
+			    String tmpNum = uni_args[1];
+
+			    ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpNum.split(" ")));
+			    tmpUNIToGO.put(tmpUni, tmpGOS);
 			}
+		    }
 		}
-		if (Project.overall_.pathways_.size() == 0) {
-			for (int PwCount = 0; PwCount < getPathwayList_().size(); PwCount++) {
-				Project.overall_.addPaths(new PathwayWithEc((Pathway) getPathwayList_().get(PwCount)));
-			}
-		}
-		for (int sampleCount = 0; sampleCount < Project.samples_.size(); sampleCount++) {
-			Sample tmpSample = (Sample) Project.samples_.get(sampleCount);
-			if (!tmpSample.valuesSet) {
-				for (int pwCount = 0; pwCount < tmpSample.pathways_.size(); pwCount++) {
-					((PathwayWithEc) tmpSample.pathways_.get(pwCount)).ecNrs_ = new ArrayList<EcNr>();
-				}
-				for (int ecsCount = 0; ecsCount < tmpSample.ecs_.size(); ecsCount++) {
-					ecWP = null;
-					ecWP = (EcWithPathway) tmpSample.ecs_.get(ecsCount);
-					if (ecWP.pathways_ != null) {
-						for (int ecWPCount = 0; ecWPCount < ecWP.pathways_.size(); ecWPCount++) {
-							for (int pwCount = 0; pwCount < tmpSample.pathways_.size(); pwCount++) {
-								if (((Pathway) ecWP.pathways_.get(ecWPCount)).id_.compareTo(
-										((PathwayWithEc) ((Sample) Project.samples_.get(sampleCount)).pathways_
-												.get(pwCount)).id_) == 0) {
-									if (((PathwayWithEc) tmpSample.pathways_.get(pwCount)).userPathway) {
-										((PathwayWithEc) tmpSample.pathways_.get(pwCount)).addEcNewly(ecWP);
-									} else {
-										((PathwayWithEc) tmpSample.pathways_.get(pwCount)).addEc(ecWP);
-									}
-									this.lFrame_.step(String.valueOf(ecWP.amount_));
-								}
-							}
-						}
-					}
-				}
-				tmpSample.valuesSet = true;
-			}
-		}
+		this.uniToGoTxt_.close();
+	    } catch (IOException e) {
+		openWarning("Error", "File" + file + " not found");
+	    }
+	    System.out.print("\rLoading uniref list(400MB)..." + (i * 100 / 4) + "%");
 	}
+	this.UniToGOHash = tmpUNIToGO;
+	System.out.println();
+    }
 
-	public void prepOverall() {
-		this.lFrame_.bigStep("Overall");
-
-		Sample tmpSmp = null;
-		PathwayWithEc tmpPwS = null;
-		PathwayWithEc tmpPwD = null;
-		EcNr tmpEc = null;
-
-		Project.overall_.ecs_ = new ArrayList<EcWithPathway>();
-		for (int pwCnt = 0; pwCnt < Project.overall_.pathways_.size(); pwCnt++) {
-			tmpPwD = (PathwayWithEc) Project.overall_.pathways_.get(pwCnt);
-			tmpPwD.ecNrs_ = new ArrayList<EcNr>();
+    /**
+     * Parses a file of the InterPro format and pulls out the samples,
+     * IPRs(which get converted) and sequence IDs.
+     * 
+     * @param count
+     *            Sample number
+     * @return converted Sample number
+     * @author Kevan Lynch, Jennifer Terpstra
+     * @throws FileNotFoundException
+     */
+    public int ParseInterpro(int count) throws IOException {
+	String zeile = "";
+	String seqPath = "";
+	System.out.println("Parse Interpro");
+	boolean hasSeq = false;
+	ArrayList<String> seqPaths = new ArrayList<String>();
+	int i = count;
+	for (i = count; i < Project.samples_.size(); i++) {
+	    Sample sample = Project.samples_.get(i);
+	    System.out.println("Loading IPR file: " + sample.name_);
+	    if (sample.getSequenceFile() != "none") {
+		hasSeq = true;
+	    } else {
+		hasSeq = false;
+	    }
+	    StringReader reader2 = new StringReader();
+	    String tmp = Project.samples_.get(i).fullPath_;
+	    if (hasSeq) {
+		String seqFilePath = Project.samples_.get(i).getSequenceFile();
+		BufferedReader seq = reader2.readTxt(seqFilePath);
+		try {
+		    while ((seqPath = seq.readLine()) != null) {
+			seqPaths.add(seqPath);
+		    }
+		} catch (IOException e1) {
+		    System.out.println("No sequence file exists");
 		}
-		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-			tmpSmp = (Sample) Project.samples_.get(smpCnt);
-			if (!tmpSmp.inUse) {
-				System.out.println("not in use");
+	    }
+
+	    // if sample from .frp file , fullPath_ = null --> tmp = null
+	    // if sample from sample file. fullPath_ != null --> tmp != null
+	    try {
+		sample.sample_ = new BufferedReader(new FileReader(tmp));
+		zeile = sample.sample_.readLine();
+	    } catch (Exception e) {
+		sample.sample_ = null;
+		zeile = null;
+	    }
+	    try {
+		// line in sample or .ipr file.
+		while (zeile != null) {
+		    /**
+		     * Important for interpro input where several samples are in
+		     * the same file each starting off with a line containing
+		     * the sample name starting with ">"
+		     */
+		    // if line include sample name.
+		    if (zeile.startsWith(">")) {
+			if (Project.samples_.get(i).ecs_.isEmpty()) {
+			    Project.samples_.get(i).name_ = zeile.substring(zeile.indexOf(">") + 1);
+			    if (hasSeq) {
+				Project.samples_.get(i).setSequenceFile(seqPaths.get(0));
+			    }
+			    zeile = sample.sample_.readLine();
+			    continue;
 			} else {
-				for (int pwCnt = 0; pwCnt < tmpSmp.pathways_.size(); pwCnt++) {
-					tmpPwS = (PathwayWithEc) tmpSmp.pathways_.get(pwCnt);
-					tmpPwD = Project.overall_.getPath(tmpPwS.id_);
-					if (tmpPwD == null) {
-						Project.overall_.pathways_.add(new PathwayWithEc(tmpPwS));
-						tmpPwD = Project.overall_.getPath(tmpPwS.id_);
-					}
-					for (int ecCnt = 0; ecCnt < tmpPwS.ecNrs_.size(); ecCnt++) {
-						tmpEc = new EcNr((EcNr) tmpPwS.ecNrs_.get(ecCnt));
-						tmpEc.samColor_ = tmpSmp.sampleCol_;
-						tmpEc.sampleNr_ = smpCnt;
-						tmpPwD.addEc(tmpEc, tmpSmp);
-					}
+			    Color tmpColor = new Color((float) Math.random(), (float) Math.random(),
+				    (float) Math.random());
+			    Sample tmpSample = new Sample(zeile.substring(zeile.indexOf(">") + 1), sample.fullPath_,
+				    tmpColor);
+
+			    if (hasSeq) {
+				for (int k = 1; k < seqPaths.size(); k++) {
+				    tmpSample.setSequenceFile(seqPaths.get(k));
 				}
-				for (int ecCnt = 0; ecCnt < tmpSmp.ecs_.size(); ecCnt++) {
-					Project.overall_.addEc(new EcWithPathway((EcWithPathway) tmpSmp.ecs_.get(ecCnt)));
-				}
+			    }
+			    tmpSample.legitSample = true;
+			    tmpSample.inUse = true;
+			    Project.samples_.add(i + 1, tmpSample);
+			    Project.legitSamples.add(i + 1, true);
+			    i++;
+			    zeile = sample.sample_.readLine();
+			    continue;
 			}
+		    }
+
+		    else if (zeile.matches(".*IPR[0-9].*")) {
+			String[] newEnz = getEnzFromInterPro(zeile);// set ret[]
+								    // 4
+								    // elements
+								    // of IPR
+
+			if (StartFromp1.doEC) {
+			    if (newEnz[2].equalsIgnoreCase("IPR")) {
+				String[] Enz = convertInterpro(newEnz);
+				if (!newEnz[0].isEmpty()) {
+				    EcNr ecNr = new EcNr(Enz);
+				    addEcToSample(ecNr, i, Enz);
+				}
+			    }
+			}
+			if (StartFromp1.doGo) {
+			    // if go:num in line, read go:num,do not map
+			    if (zeile.matches(".*GO:\\d{7}.*")) {
+				String GoNum = zeile.substring(zeile.indexOf("GO:") + 3, zeile.indexOf("GO:") + 10);
+
+				String[] noMapGO = new String[5];
+				noMapGO[0] = GoNum;
+				noMapGO[1] = "1";
+				noMapGO[2] = "GO";
+				noMapGO[3] = zeile.substring(0, zeile.indexOf("\t"));
+				noMapGO[4] = "";
+				GONum goNr = new GONum(noMapGO);
+				addGOtoSample(goNr, i, noMapGO);
+
+			    } else {
+				if (newEnz[2].equalsIgnoreCase("IPR")) {
+				    String[] Enz = convertInterproGo(newEnz);
+				    if (Enz[0] != null) {
+					GONum goNr = new GONum(Enz);
+					addGOtoSample(goNr, i, Enz);
+				    }
+				}
+			    }
+			}
+		    }
+		    // do not know, is it need add read uniref ID
+		    zeile = sample.sample_.readLine();
 		}
+	    } catch (IOException e) {
+		openWarning("Error", "File: " + tmp + " not found");
+		e.printStackTrace();
+	    }
+	}
+	return i;
+    }
+
+    private void addEcToSample(EcNr ecNr, int i, String[] newEnz) {
+	EcWithPathway ecWP = null;
+	if (!ecNr.type_.contentEquals("X")) {
+	    if ((ecNr.type_.contentEquals("EC")) && (isEc(ecNr.name_))) {
+		Project.samples_.get(i)
+			.addConvStats(new ConvertStat(newEnz[3], ecNr.name_, 0, ecNr.amount_, 0, newEnz[4]));
+		ecWP = findEcWPath(ecNr);
+		this.lFrame_.step("converted " + newEnz[0]);
+	    }
+	    if (ecWP != null) {
+		Project.numOfConvIPRsMapped += 1;
+		if (!ecNr.isCompleteEc()) {
+		    ecNr.incomplete = true;
+		}
+		if (isEc(ecNr.name_)) {
+		    Project.numOfConvIPRsComplete += 1;
+		    Project.samples_.get(i).addEc(new EcWithPathway(ecWP, ecNr));
+		    // added to try to fix out of bounds exception!!
+		    if (Project.legitSamples.size() == 1) {
+			Project.legitSamples.remove(0);
+			Project.legitSamples.add(0, Boolean.valueOf(true));
+		    }
+		    // added -1 to attempt to fix error
+		    else if (Project.legitSamples.size() > 1) {
+			Project.legitSamples.remove(i);
+			Project.legitSamples.add(i, Boolean.valueOf(true));
+		    } else {
+			Project.legitSamples.add(0, Boolean.valueOf(true));
+		    }
+
+		}
+	    } else {
+		if (!ecNr.isCompleteEc()) {
+		    ecNr.incomplete = true;
+		}
+		ecNr.unmapped = true;
+		EcWithPathway unmatched = new EcWithPathway(ecNr);
+		unmatched.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+		Project.samples_.get(i).addEc(unmatched);
+	    }
+	}
+    }
+
+    private void addGOtoSample(GONum goNr, int i, String[] newEnz) {
+	// X mean inti data no changed, it is unmapped.
+	if (!goNr.type_.contentEquals("X")) {
+	    if (goNr.type_.contentEquals("GO") && isGo(goNr.GoNumber)) {
+		Project.samples_.get(i)
+			.addConvStatsGo(new ConvertStatGo(newEnz[3], goNr.GoNumber, 0, goNr.amount_, 0, newEnz[4]));
+
+		this.lFrame_.step("converted " + newEnz[0]);
+		Project.samples_.get(i).addGo(new GONum(goNr));
+		// added to try to fix out of bounds exception!!
+		if (Project.legitSamples.size() == 1) {
+		    Project.legitSamples.remove(0);
+		    Project.legitSamples.add(0, Boolean.valueOf(true));
+		}
+		// added -1 to attempt to fix error
+		else if (Project.legitSamples.size() > 1) {
+		    Project.legitSamples.remove(i);
+		    Project.legitSamples.add(i, Boolean.valueOf(true));
+		} else {
+		    Project.legitSamples.add(0, Boolean.valueOf(true));
+		}
+
+	    } else {
+		goNr.unmapped = true;
+		GONum unmatched = new GONum(goNr);
+		Project.samples_.get(i).addGo(unmatched);
+	    }
+	}
+    }
+
+    private String[] convertInterproGo(String[] interpro) {
+
+	if (this.IPRToGOHash.isEmpty()) {
+
+	    DigitizeConversionFilesGo();
 	}
 
-	public boolean ecNrInList(String ecNr) {
+	String[] tmpNr = new String[5];
+	// pass seq id to tmpNr at pos 3
+	tmpNr[3] = interpro[3];
+	String interproNr = interpro[0];// IPR name.
+
+	if (this.IPRToGOHash.containsKey(interproNr)) {
+	    System.out.print("\r" + String.format("%.2f", percent) + "%  " + interproNr + " Found IPR-->GO          ");
+	    // only use the first ec number, if IPR map to more than one ec.
+	    tmpNr[0] = IPRToGOHash.get(interproNr).get(0);
+	    tmpNr[1] = interpro[1];
+	    tmpNr[2] = "GO";
+	    tmpNr[3] = interpro[3];
+	    tmpNr[4] = "";
+	    for (int i = 1; i < IPRToGOHash.get(interproNr).size(); i++) {
+		// store all unused go number
+		tmpNr[4] += IPRToGOHash.get(interproNr).get(i) + " ";
+
+	    }
+	    // remove last " " of unused ec string.
+	    if (tmpNr[4] != "") {
+		tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
+	    }
+
+	    Project.numOfConvertedIPRs += 1;
+
+	}
+	return tmpNr;
+    }
+
+    /**
+     * Takes the IPR->GO conversion file into memory as a hashtable
+     */
+    private void DigitizeConversionFilesGo() {
+	this.interproToGOTxt_ = this.reader.readTxt(interpro2GOPath);
+	Hashtable<String, ArrayList<String>> tmpIPRToGo = new Hashtable<String, ArrayList<String>>();
+	String line = "";
+	try {
+	    while ((line = this.interproToGOTxt_.readLine()) != null) {
+		if (!line.startsWith("!")) {
+		    if (line.matches(".*IPR[0-9].*")) {
+			String tmpIPR = line.substring(0, line.indexOf("\t"));
+			String tmpGO = line.substring(line.indexOf("\t") + 1);
+			ArrayList<String> tmpGOS = new ArrayList<String>(Arrays.asList(tmpGO.split(" ")));
+			tmpIPRToGo.put(tmpIPR, tmpGOS);
+		    }
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File" + interproToECPath_ + " not found");
+	    e.printStackTrace();
+	}
+	this.IPRToGOHash = tmpIPRToGo;
+    }
+
+    // returns true if element 0 of the array is either ec,ipr or pfam and the
+    // element 1 is an int
+    public boolean enzReadCorrectly(String[] newEnz) {
+	if (newEnz == null) {
+	    return false;
+	}
+	boolean ret = false;
+	if ((isEc(newEnz[0])) || (isPfambool(newEnz[0])) || (isInterProBool(newEnz[0]) || (isUNIBool(newEnz[0])))) {
+	    ret = true;
+	} else {
+	    return false;
+	}
+	try {
+	    Integer.valueOf(newEnz[1]).intValue();
+	} catch (Exception e) {
+	    ret = false;
+	}
+	return ret;
+    }
+
+    /**
+     * Does the computation of converting from pfam format into an EC
+     * 
+     * @param pfam
+     *            pfam sequence
+     * @return converted EC sequence
+     * 
+     * @author Jennifer Terpstra, Kevan Lynch
+     */
+    public ArrayList<String[]> convertPfam(String[] pfam) {
+
+	ArrayList<String[]> retList = new ArrayList<String[]>();
+	this.pfamToRnToEc_ = this.reader.readTxt(pfamToRnToEcPath_);// conversion
+								    // file
+	String zeile = "";
+	String[] tmpNr = new String[5];
+	tmpNr[3] = pfam[3];
+	tmpNr[4] = "";
+	int pfamNr = Integer.valueOf(pfam[0].substring(2)).intValue();
+
+	if (!totalnumPfams.contains(pfam[0]) && pfam[2].equalsIgnoreCase("PF")) {
+	    totalnumPfams.add(pfam[0]);
+	}
+
+	this.numOfPFams += 1;
+	try {
+	    while ((zeile = this.pfamToRnToEc_.readLine()) != null) {
+		if (!zeile.startsWith("!")) {
+		    if (pfamNr == Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3, zeile.indexOf(":PF") + 8))
+			    .intValue()) {
+			System.out.print(
+				"\r" + String.format("%.2f", percent) + "%  " + pfamNr + " Found Pfam-->EC          ");
+			tmpNr = new String[5];
+			tmpNr[0] = zeile.substring(zeile.indexOf(";") + 1);
+			tmpNr[1] = pfam[1];
+			if (tmpNr[0].startsWith("R")) {
+			    tmpNr[2] = "Rn";
+			} else {
+			    tmpNr[2] = "EC";
+			}
+			tmpNr[3] = pfam[3];
+			tmpNr[4] = "";
+			this.numOfPfamsToGo += 1;
+			if (tmpNr[2].contentEquals("EC")) {
+			    retList.add(tmpNr);
+			    if (!numPfams.contains(tmpNr[0])) {
+				numPfams.add(tmpNr[0]);
+			    }
+			}
+		    }
+		    if (pfamNr < Integer.valueOf(zeile.substring(zeile.indexOf(":PF") + 3, zeile.indexOf(":PF") + 8))
+			    .intValue()) {
+			break;
+		    }
+		}
+	    }
+	    if (retList.size() == 0) {
+		this.numOfMissedpfams += 1;
+	    }
+	    this.pfamToRnToEc_.close();
+	} catch (IOException e) {
+	    openWarning("Error", "File: " + pfamToRnToEcPath_ + " not found");
+	    e.printStackTrace();
+	}
+	return retList;
+    }
+
+    /**
+     * IPR number to ec
+     * 
+     * @param interpro
+     * @return
+     */
+    private String[] convertInterpro(String[] interpro) {
+	if (this.IPRToECHash.isEmpty()) {
+	    DigitizeConversionFiles();
+	}
+	String[] tmpNr = new String[5];
+	tmpNr[0] = "X";
+	tmpNr[1] = "1";
+	tmpNr[2] = "X";
+	// pass seq id to tmpNr at pos 3
+	tmpNr[3] = interpro[3];
+	tmpNr[4] = "";
+
+	String interproNr = interpro[0];// IPR name.
+	if (this.IPRToECHash.containsKey(interproNr)) {
+	    System.out.print("\r" + String.format("%.2f", percent) + "%  " + interproNr + " Found IPR-->EC          ");
+	    // only use the first ec number, if IPR map to more than one ec.
+	    tmpNr[0] = IPRToECHash.get(interproNr).get(0);
+	    tmpNr[1] = interpro[1];
+	    tmpNr[2] = "EC";
+	    tmpNr[3] = interpro[3];
+	    tmpNr[4] = "";
+	    for (int i = 1; i < IPRToECHash.get(interproNr).size(); i++) {
+		// store all unused ec number
+		tmpNr[4] += IPRToECHash.get(interproNr).get(i) + " ";
+	    }
+	    // remove last " " of unused ec string.
+	    if (tmpNr[4] != "") {
+		tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
+	    }
+	    Project.numOfConvertedIPRs += 1;
+	}
+	return tmpNr;
+    }
+
+    /**
+     * Uniref ID --> ec number.
+     * 
+     * @param uni
+     * @return
+     */
+    private String[] convertUni(String[] uni) {// conversion step using uniref
+					       // -> EC
+
+	if (UniToECHash.isEmpty()) {
+	    DigitizeConversionFilesUni();
+	}
+	String[] tmpNr = new String[5];
+	tmpNr[3] = uni[3];
+	String uniNr = uni[0];
+
+	if (this.UniToECHash.containsKey(uniNr)) {
+	    System.out.print("\r" + String.format("%.2f", percent) + "%  " + uniNr + " Found UniRef-->EC          ");
+	    // only use first ec # if uniref id map to more than one ec number.
+	    tmpNr[0] = UniToECHash.get(uniNr).get(0);
+	    tmpNr[1] = uni[1];
+	    tmpNr[2] = "EC";
+	    tmpNr[3] = uni[3];
+	    tmpNr[4] = "";
+	    for (int i = 1; i < UniToECHash.get(uniNr).size(); i++) {
+		// store all unused ec number
+		tmpNr[4] += UniToECHash.get(uniNr).get(i) + " ";
+
+	    }
+	    // remove last " " of unused ec string.
+	    if (tmpNr[4] != "") {
+		tmpNr[4] = tmpNr[4].substring(0, tmpNr[4].length() - 1);
+	    }
+	    Project.numOfConvertedUNIs += 1;
+	}
+	return tmpNr;
+    }
+
+    private void DigitizeConversionFiles() { // Takes the IPR->EC conversion
+					     // file into memory as a
+					     // hashtable
+	this.interproToECTxt_ = this.reader.readTxt(interproToECPath_);
+	Hashtable<String, ArrayList<String>> tmpIPRToEC = new Hashtable<String, ArrayList<String>>();
+	String line = "";
+	try {
+	    while ((line = this.interproToECTxt_.readLine()) != null) {
+		if (!line.startsWith("!")) {
+		    if (line.matches(".*IPR[0-9][0-9][0-9][0-9][0-9][0-9].*") && line.contains("+")) {
+			String tmpIPR = line.substring(line.indexOf("IPR"), line.indexOf("IPR") + 9);
+			ArrayList<String> tmpECS = new ArrayList<String>();
+			String temp = line;
+			while (temp.contains("+")) {
+			    temp = temp.substring(temp.indexOf("+") + 1);
+			    String tmpEC = temp;
+			    if (tmpEC.contains("+")) {
+				tmpEC = tmpEC.substring(0, tmpEC.indexOf("+"));
+			    }
+			    tmpECS.add(tmpEC);
+			}
+			tmpIPRToEC.put(tmpIPR, tmpECS);
+		    }
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File" + interproToECPath_ + " not found");
+	    e.printStackTrace();
+	}
+	this.IPRToECHash = tmpIPRToEC;
+    }
+
+    /**
+     * Load list file UniRef-> EC ,save into memory as a hash table
+     */
+    private void DigitizeConversionFilesUni() {
+	this.uniToEcTxt_ = this.reader.readTxt(uni2ECPath_);
+	Hashtable<String, ArrayList<String>> tmpUNIToEC = new Hashtable<String, ArrayList<String>>();
+	String zeile = "";
+	String[] uni_args = null;
+	String[] ec_nums = null;
+	try {
+	    while ((zeile = this.uniToEcTxt_.readLine()) != null) {
+		if (!zeile.startsWith("!")) {
+		    if (zeile.contains("UniRef90") && zeile.matches(".*[0-9]+.[0-9]+.[0-9]+.[0-9]+.*")) {
+			uni_args = zeile.split("\t");
+			String tmpUni = uni_args[0];
+			ArrayList<String> tmpECS = new ArrayList<String>();
+			if (uni_args[1].contains(" ")) {
+			    ec_nums = uni_args[1].split("\\s");
+			    for (String ec : ec_nums) {
+				if (ec != "") {
+				    tmpECS.add(ec);
+				}
+			    }
+			    tmpUNIToEC.put(tmpUni, tmpECS);
+			}
+		    }
+		}
+		uni_args = null;
+		ec_nums = null;
+	    }
+	    this.uniToEcTxt_.close();
+	} catch (IOException e) {
+	    openWarning("Error", "File" + uni2ECPath_ + " not found");
+	}
+	this.UniToECHash = tmpUNIToEC;
+    }
+
+    private void fillSampleEcs(Sample sample, int sampleIndex) {//
+	this.lFrame_.bigStep("Filling " + sample.name_);
+	for (int ecCnt = 0; ecCnt < sample.ecs_.size(); ecCnt++) {
+	    EcWithPathway smpEc = (EcWithPathway) sample.ecs_.get(ecCnt);
+
+	    this.lFrame_.step(smpEc.name_);
+	    if (smpEc.pathways_.size() > 0) {
+		smpEc.pathways_ = new ArrayList<Pathway>();
+	    }
+	    EcWithPathway origEc = findEcWPath(smpEc);
+	    if (origEc != null) {
+		for (int pwcnt = 0; pwcnt < origEc.pathways_.size(); pwcnt++) {
+		    smpEc.pathways_.add(new Pathway((Pathway) origEc.pathways_.get(pwcnt)));
+		}
+		smpEc.weight_ = origEc.weight_;
+		smpEc.unique_ = origEc.unique_;
+		smpEc.bioName_ = origEc.bioName_;
+	    } else {
+		smpEc.addPathway((Pathway) getPathwayList_().get(this.unmatchedIndex));
+	    }
+	}
+    }
+
+    public void removeEcPfamDoubles() {
+	String ecNr = "";
+	ConvertStat stat = null;
+	int amount = 0;
+	for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+	    Sample samp = (Sample) Project.samples_.get(smpCnt);
+	    if (!samp.imported) {
+		for (int convCnt = 0; convCnt < samp.conversions_.size(); convCnt++) {
+		    stat = (ConvertStat) samp.conversions_.get(convCnt);
+		    ecNr = "";
+		    amount = 0;
+		    if ((stat.getPfamToEcAmount_() > 0) && (stat.getEcAmount_() > 0)) {
+			ecNr = stat.getEcNr_();
+			if (stat.getPfamToEcAmount_() >= stat.getEcAmount_()) {
+			    amount = stat.getEcAmount_();
+			} else {
+			    amount = stat.getEcAmount_() - stat.getPfamToEcAmount_();
+			}
+			removeEcByEcnR(samp, ecNr, amount);
+		    }
+		}
+	    }
+	}
+    }
+
+    public void removeEcByEcnR(Sample samp, String ecNr, int amount) {// removes
+								      // an ec
+								      // by
+								      // its
+								      // name
+								      // from
+								      // a
+								      // provided
+								      // sample
+
+	if (ecNr == null) {
+	    return;
+	}
+	for (int ecCnt = 0; ecCnt < samp.ecs_.size(); ecCnt++) {
+	    EcNr tmpEcNr = (EcNr) samp.ecs_.get(ecCnt);
+	    if (tmpEcNr.name_.contentEquals(ecNr)) {
+		tmpEcNr.amount_ -= amount;
+		for (int statCnt = 0; statCnt < tmpEcNr.stats_.size(); statCnt++) {
+		    ((EcSampleStats) tmpEcNr.stats_.get(statCnt)).amount_ -= amount;
+		}
+		if (tmpEcNr.amount_ <= 0) {
+		    samp.ecs_.remove(ecCnt);
+		}
+		this.lFrame_.step("removeEcByEcnR" + ecNr + ":" + amount);
+		return;
+	    }
+	}
+    }
+
+    // this will only happen if random sampling is selected
+    private void removeRandomEc() {// removes randome ecs for prepping during
+				   // random sampling
+	Random generator = new Random();
+
+	int sumOfEcs = 0;
+	int[] sumsOfEcsArr = new int[Project.samples_.size()];
+	if (Project.samples_.get(0) != null) {
+	    int minEcs = -1;
+	    for (int i = 0; i < Project.samples_.size(); i++) {
+		sumOfEcs = 0;
+		for (int ecCnt = 0; ecCnt < ((Sample) Project.samples_.get(i)).ecs_.size(); ecCnt++) {
+		    if (((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(ecCnt)).pathways_.size() > 0) {
+			sumOfEcs += ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(ecCnt)).amount_;
+		    }
+		}
+		System.out.println("sums " + i + " : " + sumOfEcs);
+		sumsOfEcsArr[i] = sumOfEcs;
+		if ((sumOfEcs < minEcs) || (minEcs == -1)) {
+		    minEcs = sumOfEcs;
+		}
+	    }
+	    for (int i = 0; i < Project.samples_.size(); i++) {
+		while (sumsOfEcsArr[i] > minEcs) {
+		    int pick = generator.nextInt(sumsOfEcsArr[i]);
+		    int index = 0;
+		    while (pick > 0) {
+			pick -= ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_;
+			if (pick <= 0) {
+			    break;
+			}
+			index++;
+		    }
+		    ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_ -= 1;
+		    sumsOfEcsArr[i] -= 1;
+		    if (((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(index)).amount_ <= 0) {
+			((Sample) Project.samples_.get(i)).ecs_.remove(index);
+		    }
+		}
+	    }
+	    for (int i = 0; i < Project.samples_.size(); i++) {
+		int sum = 0;
+		for (int j = 0; j < ((Sample) Project.samples_.get(i)).ecs_.size(); j++) {
+		    sum += ((EcWithPathway) ((Sample) Project.samples_.get(i)).ecs_.get(j)).amount_;
+		}
+		System.out.println("newsize(" + i + ") =  counted " + sum + " predicted " + sumsOfEcsArr[i]);
+	    }
+	}
+    }
+
+    /*
+     * loops through the ec list, which contains the ecs with pathways and if my
+     * ecs have the same name as the provided ecnr, returns the ec with pathway
+     */
+    public EcWithPathway findEcWPath(EcNr ecNr) {
+	for (int i = 0; i < ecList_.size(); i++) {
+	    if (((EcWithPathway) ecList_.get(i)).name_.compareTo(ecNr.name_) == 0) {
+		return (EcWithPathway) ecList_.get(i);
+	    }
+	}
+	return null;
+    }
+
+    public void transferEcToPath() {
+	EcWithPathway ecWP = null;
+	PathwayWithEc pwEc = null;
+	for (int sampleCount = 0; sampleCount < Project.samples_.size(); sampleCount++) {
+	    if (!((Sample) Project.samples_.get(sampleCount)).valuesSet) {
+		for (int PwCount = 0; PwCount < getPathwayList_().size(); PwCount++) {
+		    pwEc = new PathwayWithEc((Pathway) getPathwayList_().get(PwCount));
+		    pwEc.clearList();
+		    ((Sample) Project.samples_.get(sampleCount)).addPaths(pwEc);
+		    ((PathwayWithEc) ((Sample) Project.samples_.get(sampleCount)).pathways_
+			    .get(((Sample) Project.samples_.get(sampleCount)).pathways_.size() - 1)).clearList();
+		}
+	    }
+	}
+	if (Project.overall_.pathways_.size() == 0) {
+	    for (int PwCount = 0; PwCount < getPathwayList_().size(); PwCount++) {
+		Project.overall_.addPaths(new PathwayWithEc((Pathway) getPathwayList_().get(PwCount)));
+	    }
+	}
+	for (int sampleCount = 0; sampleCount < Project.samples_.size(); sampleCount++) {
+	    Sample tmpSample = (Sample) Project.samples_.get(sampleCount);
+	    if (!tmpSample.valuesSet) {
+		for (int pwCount = 0; pwCount < tmpSample.pathways_.size(); pwCount++) {
+		    ((PathwayWithEc) tmpSample.pathways_.get(pwCount)).ecNrs_ = new ArrayList<EcNr>();
+		}
+		for (int ecsCount = 0; ecsCount < tmpSample.ecs_.size(); ecsCount++) {
+		    ecWP = null;
+		    ecWP = (EcWithPathway) tmpSample.ecs_.get(ecsCount);
+		    if (ecWP.pathways_ != null) {
+			for (int ecWPCount = 0; ecWPCount < ecWP.pathways_.size(); ecWPCount++) {
+			    for (int pwCount = 0; pwCount < tmpSample.pathways_.size(); pwCount++) {
+				if (((Pathway) ecWP.pathways_.get(ecWPCount)).id_.compareTo(
+					((PathwayWithEc) ((Sample) Project.samples_.get(sampleCount)).pathways_
+						.get(pwCount)).id_) == 0) {
+				    if (((PathwayWithEc) tmpSample.pathways_.get(pwCount)).userPathway) {
+					((PathwayWithEc) tmpSample.pathways_.get(pwCount)).addEcNewly(ecWP);
+				    } else {
+					((PathwayWithEc) tmpSample.pathways_.get(pwCount)).addEc(ecWP);
+				    }
+				    this.lFrame_.step(String.valueOf(ecWP.amount_));
+				}
+			    }
+			}
+		    }
+		}
+		tmpSample.valuesSet = true;
+	    }
+	}
+    }
+
+    public void prepOverall() {
+	this.lFrame_.bigStep("Overall");
+
+	Sample tmpSmp = null;
+	PathwayWithEc tmpPwS = null;
+	PathwayWithEc tmpPwD = null;
+	EcNr tmpEc = null;
+
+	Project.overall_.ecs_ = new ArrayList<EcWithPathway>();
+	for (int pwCnt = 0; pwCnt < Project.overall_.pathways_.size(); pwCnt++) {
+	    tmpPwD = (PathwayWithEc) Project.overall_.pathways_.get(pwCnt);
+	    tmpPwD.ecNrs_ = new ArrayList<EcNr>();
+	}
+	for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+	    tmpSmp = (Sample) Project.samples_.get(smpCnt);
+	    if (!tmpSmp.inUse) {
+		System.out.println("not in use");
+	    } else {
+		for (int pwCnt = 0; pwCnt < tmpSmp.pathways_.size(); pwCnt++) {
+		    tmpPwS = (PathwayWithEc) tmpSmp.pathways_.get(pwCnt);
+		    tmpPwD = Project.overall_.getPath(tmpPwS.id_);
+		    if (tmpPwD == null) {
+			Project.overall_.pathways_.add(new PathwayWithEc(tmpPwS));
+			tmpPwD = Project.overall_.getPath(tmpPwS.id_);
+		    }
+		    for (int ecCnt = 0; ecCnt < tmpPwS.ecNrs_.size(); ecCnt++) {
+			tmpEc = new EcNr((EcNr) tmpPwS.ecNrs_.get(ecCnt));
+			tmpEc.samColor_ = tmpSmp.sampleCol_;
+			tmpEc.sampleNr_ = smpCnt;
+			tmpPwD.addEc(tmpEc, tmpSmp);
+		    }
+		}
+		for (int ecCnt = 0; ecCnt < tmpSmp.ecs_.size(); ecCnt++) {
+		    Project.overall_.addEc(new EcWithPathway((EcWithPathway) tmpSmp.ecs_.get(ecCnt)));
+		}
+	    }
+	}
+    }
+
+    public boolean ecNrInList(String ecNr) {
+	this.ecList = this.reader.readTxt(listPath);
+	String zeile = null;
+	try {
+	    while ((zeile = this.ecList.readLine()) != null) {
+		if (zeile.contains(ecNr)) {
+		    return true;
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File: " + listPath + " not found");
+	    e.printStackTrace();
+	}
+	return false;
+    }
+
+    private void prepEcList() {// preps the ec list
+	this.lFrame_.bigStep("EC List");
+	String zeile = "";
+	String tmp = "";
+	String id = "";
+
+	Boolean newEc = Boolean.valueOf(true);
+	int index = 0;
+	if (ecList_ == null) {
+	    ecList_ = new ArrayList<EcWithPathway>();
+	    try {
 		this.ecList = this.reader.readTxt(listPath);
-		String zeile = null;
-		try {
-			while ((zeile = this.ecList.readLine()) != null) {
-				if (zeile.contains(ecNr)) {
-					return true;
+		while ((zeile = this.ecList.readLine()) != null) {
+		    tmp = getEcNrFromList(zeile);
+		    newEc = Boolean.valueOf(true);
+
+		    id = getPathwayFromList(zeile);
+
+		    if (true /*
+			      * && (!id.equalsIgnoreCase("ec01120")) &&
+			      * (!id.equalsIgnoreCase("ec01110")) &&
+			      * (!id.equalsIgnoreCase("ec01100"))
+			      */) {
+			Pathway tmpPathway = new Pathway(getPathway(id));
+			if (!tmp.isEmpty()) {
+			    for (int i = 0; (i < ecList_.size()) && (newEc.booleanValue()); i++) {
+				if (((EcWithPathway) ecList_.get(i)).name_.contentEquals(tmp)) {
+				    newEc = Boolean.valueOf(false);
+				    index = i;
+
+				    break;
 				}
+				index = i;
+			    }
+			    if (newEc.booleanValue()) {
+				ecList_.add(new EcWithPathway(new EcNr(tmp)));
+				((EcWithPathway) ecList_.get(ecList_.size() - 1)).addPathway(tmpPathway);
+				setBioNameFromList((EcWithPathway) ecList_.get(ecList_.size() - 1));
+				this.lFrame_.step(((EcWithPathway) ecList_.get(ecList_.size() - 1)).name_);
+			    } else {
+				((EcWithPathway) ecList_.get(index)).addPathway(tmpPathway);
+			    }
 			}
-		} catch (IOException e) {
-			openWarning("Error", "File: " + listPath + " not found");
-			e.printStackTrace();
+		    }
 		}
-		return false;
+		this.ecList.close();
+	    } catch (IOException e) {
+		openWarning("Error", "File: " + listPath + " not found");
+		e.printStackTrace();
+	    }
 	}
+    }
 
-	private void prepEcList() {// preps the ec list
-		this.lFrame_.bigStep("EC List");
-		String zeile = "";
-		String tmp = "";
-		String id = "";
-
-		Boolean newEc = Boolean.valueOf(true);
-		int index = 0;
-		if (ecList_ == null) {
-			ecList_ = new ArrayList<EcWithPathway>();
-			try {
-				this.ecList = this.reader.readTxt(listPath);
-				while ((zeile = this.ecList.readLine()) != null) {
-					tmp = getEcNrFromList(zeile);
-					newEc = Boolean.valueOf(true);
-
-					id = getPathwayFromList(zeile);
-
-					if (true /*
-								 * && (!id.equalsIgnoreCase("ec01120")) &&
-								 * (!id.equalsIgnoreCase("ec01110")) &&
-								 * (!id.equalsIgnoreCase("ec01100"))
-								 */) {
-						Pathway tmpPathway = new Pathway(getPathway(id));
-						if (!tmp.isEmpty()) {
-							for (int i = 0; (i < ecList_.size()) && (newEc.booleanValue()); i++) {
-								if (((EcWithPathway) ecList_.get(i)).name_.contentEquals(tmp)) {
-									newEc = Boolean.valueOf(false);
-									index = i;
-
-									break;
-								}
-								index = i;
-							}
-							if (newEc.booleanValue()) {
-								ecList_.add(new EcWithPathway(new EcNr(tmp)));
-								((EcWithPathway) ecList_.get(ecList_.size() - 1)).addPathway(tmpPathway);
-								setBioNameFromList((EcWithPathway) ecList_.get(ecList_.size() - 1));
-								this.lFrame_.step(((EcWithPathway) ecList_.get(ecList_.size() - 1)).name_);
-							} else {
-								((EcWithPathway) ecList_.get(index)).addPathway(tmpPathway);
-							}
-						}
-					}
-				}
-				this.ecList.close();
-			} catch (IOException e) {
-				openWarning("Error", "File: " + listPath + " not found");
-				e.printStackTrace();
-			}
+    /**
+     * Given an ec number, returns the pathway number in order to find the
+     * appropriate pathway
+     * 
+     * @param ecNum
+     *            EC number
+     * @return Pathway number
+     * 
+     * @author Jennifer Terpstra
+     */
+    public String getPathwayEc(String ecNum) {
+	String zeile = "";
+	String tmp = "";
+	String id = "";
+	Map<String, String> eclist = new HashMap<String, String>();
+	this.ecList = this.reader.readTxt(listPath);
+	try {
+	    while ((zeile = this.ecList.readLine()) != null) {
+		tmp = getEcNrFromList(zeile);
+		id = getPathwayFromList(zeile);
+		if (!id.equals("") && !eclist.containsKey(tmp)) {
+		    eclist.put(tmp, id);
 		}
+	    }
+	    if (eclist.containsKey(ecNum)) {
+		return eclist.get(ecNum);
+	    }
+	} catch (IOException e) {
+
+	    e.printStackTrace();
 	}
+	return null;
 
-	/**
-	 * Given an ec number, returns the pathway number in order to find the
-	 * appropriate pathway
-	 * 
-	 * @param ecNum
-	 *            EC number
-	 * @return Pathway number
-	 * 
-	 * @author Jennifer Terpstra
-	 */
-	public String getPathwayEc(String ecNum) {
-		String zeile = "";
-		String tmp = "";
-		String id = "";
-		Map<String, String> eclist = new HashMap<String, String>();
-		this.ecList = this.reader.readTxt(listPath);
-		try {
-			while ((zeile = this.ecList.readLine()) != null) {
-				tmp = getEcNrFromList(zeile);
-				id = getPathwayFromList(zeile);
-				if (!id.equals("") && !eclist.containsKey(tmp)) {
-					eclist.put(tmp, id);
-				}
-			}
-			if (eclist.containsKey(ecNum)) {
-				return eclist.get(ecNum);
-			}
-		} catch (IOException e) {
+    }
 
-			e.printStackTrace();
+    private void setBioNameFromList(EcWithPathway ec) {
+	String ecNr = ec.name_;
+	String bioName = "";
+	String zeile = "";
+	try {
+	    BufferedReader ec2go = this.reader.readTxt(ec2GoPath);
+	    while ((zeile = ec2go.readLine()) != null) {
+		if (zeile.startsWith("EC:" + ecNr)) {
+		    bioName = zeile.substring(zeile.indexOf(" > GO:") + 6, zeile.indexOf(" ; GO:"));
+		    ec.bioName_ = bioName;
 		}
-		return null;
-
+	    }
+	    ec2go.close();
+	} catch (IOException e) {
+	    openWarning("Error", "File: " + ec2GoPath + " not found");
+	    e.printStackTrace();
 	}
+    }
 
-	private void setBioNameFromList(EcWithPathway ec) {
-		String ecNr = ec.name_;
-		String bioName = "";
-		String zeile = "";
-		try {
-			BufferedReader ec2go = this.reader.readTxt(ec2GoPath);
-			while ((zeile = ec2go.readLine()) != null) {
-				if (zeile.startsWith("EC:" + ecNr)) {
-					bioName = zeile.substring(zeile.indexOf(" > GO:") + 6, zeile.indexOf(" ; GO:"));
-					ec.bioName_ = bioName;
-				}
-			}
-			ec2go.close();
-		} catch (IOException e) {
-			openWarning("Error", "File: " + ec2GoPath + " not found");
-			e.printStackTrace();
-		}
-	}
-
-	public Pathway getPathway(String id) {
-		Pathway ret = null;
-		for (int i = 0; i < pathwayList_.size(); i++) {
-			if (id.compareTo(((PathwayWithEc) getPathwayList_().get(i)).id_) == 0) {
-				ret = new Pathway((Pathway) getPathwayList_().get(i));
-				return ret;
-			}
-		}
+    public Pathway getPathway(String id) {
+	Pathway ret = null;
+	for (int i = 0; i < pathwayList_.size(); i++) {
+	    if (id.compareTo(((PathwayWithEc) getPathwayList_().get(i)).id_) == 0) {
+		ret = new Pathway((Pathway) getPathwayList_().get(i));
 		return ret;
+	    }
 	}
+	return ret;
+    }
 
-	private void prepPathList() {// Preps the list of pathways
-		this.lFrame_.bigStep("Pathlist");
-		String zeile = "";
-		String ecNr = "";
-		String tmpid = "";
-		String tmpName = "";
-		String path = "";
-		int index = -1;
-		if (getPathwayList_() == null) {
-			setPathwayList_(new ArrayList<PathwayWithEc>());
-			this.ecList = this.reader.readTxt(listPath);
-			try {
-				while ((zeile = this.ecList.readLine()) != null) {
-					tmpid = getPathwayFromList(zeile);
+    private void prepPathList() {// Preps the list of pathways
+	this.lFrame_.bigStep("Pathlist");
+	String zeile = "";
+	String ecNr = "";
+	String tmpid = "";
+	String tmpName = "";
+	String path = "";
+	int index = -1;
+	if (getPathwayList_() == null) {
+	    setPathwayList_(new ArrayList<PathwayWithEc>());
+	    this.ecList = this.reader.readTxt(listPath);
+	    try {
+		while ((zeile = this.ecList.readLine()) != null) {
+		    tmpid = getPathwayFromList(zeile);
 
-					ecNr = getEcNrFromList(zeile);
-					if (true /*
-								 * && (!tmpid.equalsIgnoreCase("ec01120")) &&
-								 * (!tmpid.equalsIgnoreCase("ec01110")) &&
-								 * (!tmpid.equalsIgnoreCase("ec01100"))
-								 */) {
-						if ((tmpid.equalsIgnoreCase(path)) && (!ecNr.isEmpty())) {
-							((PathwayWithEc) getPathwayList_().get(index)).addEc(new EcNr(ecNr));
-						} else if (!ecNr.isEmpty()) {
-							path = tmpid;
-							tmpName = getPathwayName(tmpid);
+		    ecNr = getEcNrFromList(zeile);
+		    if (true /*
+			      * && (!tmpid.equalsIgnoreCase("ec01120")) &&
+			      * (!tmpid.equalsIgnoreCase("ec01110")) &&
+			      * (!tmpid.equalsIgnoreCase("ec01100"))
+			      */) {
+			if ((tmpid.equalsIgnoreCase(path)) && (!ecNr.isEmpty())) {
+			    ((PathwayWithEc) getPathwayList_().get(index)).addEc(new EcNr(ecNr));
+			} else if (!ecNr.isEmpty()) {
+			    path = tmpid;
+			    tmpName = getPathwayName(tmpid);
 
-							index++;
+			    index++;
 
-							getPathwayList_().add(new PathwayWithEc(new Pathway(tmpid, tmpName)));
+			    getPathwayList_().add(new PathwayWithEc(new Pathway(tmpid, tmpName)));
 
-							((PathwayWithEc) getPathwayList_().get(index)).addEc(new EcNr(ecNr));
+			    ((PathwayWithEc) getPathwayList_().get(index)).addEc(new EcNr(ecNr));
 
-							this.lFrame_.step(((PathwayWithEc) getPathwayList_().get(index)).name_);
-						}
-					}
-				}
-				this.ecList.close();
-			} catch (IOException e) {
-				openWarning("Error", "File: " + listPath + " not found");
-				e.printStackTrace();
+			    this.lFrame_.step(((PathwayWithEc) getPathwayList_().get(index)).name_);
 			}
-			getPathwayList_().add(new PathwayWithEc(new Pathway("-1", "Unmatched")));
-			this.unmatchedIndex = (getPathwayList_().size() - 1);
+		    }
 		}
+		this.ecList.close();
+	    } catch (IOException e) {
+		openWarning("Error", "File: " + listPath + " not found");
+		e.printStackTrace();
+	    }
+	    getPathwayList_().add(new PathwayWithEc(new Pathway("-1", "Unmatched")));
+	    this.unmatchedIndex = (getPathwayList_().size() - 1);
 	}
+    }
 
-	private void prepUserEc() {
+    private void prepUserEc() {
 
-		for (int i = 0; i < getPathwayList_().size(); i++) {
-			PathwayWithEc pathway = (PathwayWithEc) getPathwayList_().get(i);
-			if (pathway.userPathway) {
-				for (int j = 0; j < pathway.ecNrs_.size(); j++) {
-					EcNr ecNr = (EcNr) pathway.ecNrs_.get(j);
-					EcWithPathway ecWp = findEcWPath(ecNr);
-					if (ecWp == null) {
-						ecWp = new EcWithPathway(ecNr);
-						ecWp.userEC = true;
+	for (int i = 0; i < getPathwayList_().size(); i++) {
+	    PathwayWithEc pathway = (PathwayWithEc) getPathwayList_().get(i);
+	    if (pathway.userPathway) {
+		for (int j = 0; j < pathway.ecNrs_.size(); j++) {
+		    EcNr ecNr = (EcNr) pathway.ecNrs_.get(j);
+		    EcWithPathway ecWp = findEcWPath(ecNr);
+		    if (ecWp == null) {
+			ecWp = new EcWithPathway(ecNr);
+			ecWp.userEC = true;
 
-						ecWp.addPathway(new Pathway(pathway));
-						ecList_.add(ecWp);
-					} else {
-						ecWp.addPathway(pathway);
-					}
-				}
-			}
+			ecWp.addPathway(new Pathway(pathway));
+			ecList_.add(ecWp);
+		    } else {
+			ecWp.addPathway(pathway);
+		    }
 		}
+	    }
 	}
+    }
 
-	private void prepUserPathList() {
+    private void prepUserPathList() {
 
-		if (this.activeProj_ == null) {
-			return;
-		}
-		if (Project.userPathways == null) {
-			return;
-		}
-		for (int i = 0; i < Project.userPathways.size(); i++) {
-			System.out.println("userpath " + i);
-			String path = (String) Project.userPathways.get(i);
-			readUserPathway(path);
-		}
+	if (this.activeProj_ == null) {
+	    return;
 	}
+	if (Project.userPathways == null) {
+	    return;
+	}
+	for (int i = 0; i < Project.userPathways.size(); i++) {
+	    System.out.println("userpath " + i);
+	    String path = (String) Project.userPathways.get(i);
+	    readUserPathway(path);
+	}
+    }
 
-	private void readUserPathway(String path) {
+    private void readUserPathway(String path) {
 
-		Pathway actPathway = new Pathway("", "");
-		PathwayWithEc finPAth = new PathwayWithEc(actPathway);
-		int userPathCnt = 0;
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(path));
-			String comp = "<pathName>";
-			String zeile;
-			while ((zeile = in.readLine()) != null) {
-				// String zeile;
-				comp = "<pathName>";
-				if (zeile.startsWith(comp)) {
-					zeile = zeile.substring(zeile.indexOf(">") + 1);
-					finPAth.name_ = zeile;
-					System.out.println("userpathName " + zeile);
-					if (finPAth.name_ == null) {
-						finPAth.name_ = ("userPath" + userPathCnt);
-						userPathCnt++;
-					}
-					if (finPAth.name_.contentEquals("null")) {
-						finPAth.name_ = ("userPath" + userPathCnt);
-						userPathCnt++;
-					}
-				}
-				comp = "<id>";
-				if (zeile.startsWith(comp)) {
-					zeile = zeile.substring(zeile.indexOf(">") + 1);
-					finPAth.id_ = zeile;
-					if (finPAth.id_.isEmpty()) {
-						finPAth.id_ = finPAth.name_;
-					}
-				}
-				comp = "<nodes>";
-				if (zeile.startsWith(comp)) {
-					finPAth = new PathwayWithEc(addNodes(finPAth, in), false);
-				}
-				comp = "<connections>";
-				if (zeile.startsWith(comp)) {
-					break;
-				}
-			}
-			in.close();
-			finPAth.userPathway = true;
-			finPAth.pathwayInfoPAth = path;
+	Pathway actPathway = new Pathway("", "");
+	PathwayWithEc finPAth = new PathwayWithEc(actPathway);
+	int userPathCnt = 0;
+	try {
+	    BufferedReader in = new BufferedReader(new FileReader(path));
+	    String comp = "<pathName>";
+	    String zeile;
+	    while ((zeile = in.readLine()) != null) {
+		// String zeile;
+		comp = "<pathName>";
+		if (zeile.startsWith(comp)) {
+		    zeile = zeile.substring(zeile.indexOf(">") + 1);
+		    finPAth.name_ = zeile;
+		    System.out.println("userpathName " + zeile);
+		    if (finPAth.name_ == null) {
+			finPAth.name_ = ("userPath" + userPathCnt);
+			userPathCnt++;
+		    }
+		    if (finPAth.name_.contentEquals("null")) {
+			finPAth.name_ = ("userPath" + userPathCnt);
+			userPathCnt++;
+		    }
+		}
+		comp = "<id>";
+		if (zeile.startsWith(comp)) {
+		    zeile = zeile.substring(zeile.indexOf(">") + 1);
+		    finPAth.id_ = zeile;
+		    if (finPAth.id_.isEmpty()) {
 			finPAth.id_ = finPAth.name_;
-			finPAth.printPath();
-			if (getPathway(finPAth.id_) == null) {
-				getPathwayList_().add(finPAth);
-				newUserPathList_.add(finPAth);
-			}
-		} catch (Exception e) {
-			openWarning("Error", "File pathway: " + path + ".chn" + " not found");
-			System.out.println("Userfilepath not found");
+		    }
 		}
+		comp = "<nodes>";
+		if (zeile.startsWith(comp)) {
+		    finPAth = new PathwayWithEc(addNodes(finPAth, in), false);
+		}
+		comp = "<connections>";
+		if (zeile.startsWith(comp)) {
+		    break;
+		}
+	    }
+	    in.close();
+	    finPAth.userPathway = true;
+	    finPAth.pathwayInfoPAth = path;
+	    finPAth.id_ = finPAth.name_;
+	    finPAth.printPath();
+	    if (getPathway(finPAth.id_) == null) {
+		getPathwayList_().add(finPAth);
+		newUserPathList_.add(finPAth);
+	    }
+	} catch (Exception e) {
+	    openWarning("Error", "File pathway: " + path + ".chn" + " not found");
+	    System.out.println("Userfilepath not found");
 	}
+    }
 
-	private PathwayWithEc addNodes(PathwayWithEc path, BufferedReader in) throws IOException {
+    private PathwayWithEc addNodes(PathwayWithEc path, BufferedReader in) throws IOException {
 
-		PathwayWithEc finPAth = new PathwayWithEc(path);
-		EcNr ec = null;
+	PathwayWithEc finPAth = new PathwayWithEc(path);
+	EcNr ec = null;
 
-		boolean comment = false;
-		String zeile;
-		while ((zeile = in.readLine()) != null) {
-			String comp = "<name>";
-			if (zeile.startsWith(comp)) {
-				String ecName = zeile.substring(zeile.indexOf(">") + 1);
-				ec = new EcNr(ecName);
-			}
-			comp = "<comment>";
-			if (zeile.startsWith(comp)) {
-				String ecName = zeile.substring(zeile.indexOf(">") + 1);
-				if (ecName.contentEquals("true")) {
-					comment = true;
+	boolean comment = false;
+	String zeile;
+	while ((zeile = in.readLine()) != null) {
+	    String comp = "<name>";
+	    if (zeile.startsWith(comp)) {
+		String ecName = zeile.substring(zeile.indexOf(">") + 1);
+		ec = new EcNr(ecName);
+	    }
+	    comp = "<comment>";
+	    if (zeile.startsWith(comp)) {
+		String ecName = zeile.substring(zeile.indexOf(">") + 1);
+		if (ecName.contentEquals("true")) {
+		    comment = true;
+		}
+	    }
+	    comp = "</node>";
+	    if (zeile.startsWith(comp)) {
+		if (comment) {
+		    comment = false;
+		} else {
+		    finPAth.addEc(ec);
+		}
+	    }
+	    comp = "</nodes>";
+	    if (zeile.startsWith(comp)) {
+		break;
+	    }
+	}
+	return finPAth;
+    }
+
+    public String getPathwayName(String id) {
+	this.nameList = this.reader.readTxt(mapTitleList);
+	String zeile = "";
+	int beginIndex = 6;
+	try {
+	    while ((zeile = this.nameList.readLine()) != null) {
+		if (zeile.startsWith(id.substring(2))) {
+		    return zeile.substring(beginIndex);
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File: pathway" + mapTitleList + ".chn" + " not found");
+	    e.printStackTrace();
+	}
+	return "";
+    }
+
+    private void computeWeights() {
+	this.lFrame_.bigStep("Weights");
+	float totaluniqueEc = ecList_.size();
+	float totalNrEc = 0.0F;
+	float nrOfPaths = 0.0F;
+	float weight = 0.0F;
+	String zeile = "";
+	try {
+	    this.ecList = this.reader.readTxt(listPath);
+	    while ((zeile = this.ecList.readLine()) != null) {
+		if ((zeile.contains("ec:")) /*
+					     * && (!zeile.contains("ec01100"))
+					     * && (!zeile.contains("ec01110"))
+					     * && (!zeile.contains("ec01120"))
+					     */) {
+		    totalNrEc += 1.0F;
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File: " + listPath + " not found");
+	    e.printStackTrace();
+	}
+	for (int i = 0; i < totaluniqueEc; i++) {
+	    if (!((EcWithPathway) ecList_.get(i)).weightsSet) {
+		nrOfPaths = 0.0F;
+		for (int pathCount = 0; pathCount < ((EcWithPathway) ecList_.get(i)).pathways_.size(); pathCount++) {
+		    if (isNoOverAll(((Pathway) ((EcWithPathway) ecList_.get(i)).pathways_.get(pathCount)).id_)) {
+			nrOfPaths += 1.0F;
+		    }
+		}
+		if (nrOfPaths == 0.0F) {
+		    nrOfPaths = ((EcWithPathway) ecList_.get(i)).pathways_.size();
+		}
+		weight = totalNrEc / totaluniqueEc / nrOfPaths;
+		((EcWithPathway) ecList_.get(i)).weight_ = weight;
+		this.lFrame_.step(String.valueOf(weight));
+		((EcWithPathway) ecList_.get(i)).weightsSet = true;
+	    }
+	    if (((EcWithPathway) ecList_.get(i)).weight_ > 100000.0F) {
+		System.out.println("computeWeights userec");
+		((EcWithPathway) ecList_.get(i)).weight_ = 1.0F;
+	    }
+	}
+    }
+
+    private void calcAllChainsforallSamples() {
+	for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+	    if (((Sample) Project.samples_.get(smpCnt)).inUse) {
+		calcChainsForSample((Sample) Project.samples_.get(smpCnt));
+	    }
+	}
+	calcChainsForSample(Project.overall_);
+    }
+
+    private void calcChainsForSample(Sample samp) {
+	PathwayWithEc actpath = null;
+	EcNr actEcnr = null;
+	for (int pathCnt = 0; pathCnt < samp.pathways_.size(); pathCnt++) {
+	    actpath = (PathwayWithEc) samp.pathways_.get(pathCnt);
+	    this.lFrame_.bigStep("Chaining");
+	    for (int ecCnt = 0; ecCnt < actpath.ecNrs_.size(); ecCnt++) {
+		actEcnr = (EcNr) actpath.ecNrs_.get(ecCnt);
+
+		this.lFrame_.step(actEcnr.name_);
+		findLongestChain(actpath, actEcnr, false);
+
+		actEcnr.adaptWeightToChain();
+	    }
+	}
+    }
+
+    private void calcChainsForProg() {
+	PathwayWithEc actpath = null;
+	EcNr actEcnr = null;
+	for (int pathCnt = 0; pathCnt < getPathwayList_().size(); pathCnt++) {
+	    actpath = (PathwayWithEc) getPathwayList_().get(pathCnt);
+	    this.lFrame_.bigStep("Chaining");
+	    for (int ecCnt = 0; ecCnt < actpath.ecNrs_.size(); ecCnt++) {
+		actEcnr = (EcNr) actpath.ecNrs_.get(ecCnt);
+		this.lFrame_.step(actEcnr.name_);
+		findLongestChain(actpath, actEcnr, true);
+
+		actEcnr.adaptWeightToChain();
+	    }
+	}
+    }
+
+    private void findLongestChain(PathwayWithEc path, EcNr ecNr, boolean forProg) {
+	int longestChain = 1;
+	if (path.userPathway) {
+	    return;
+	}
+	if (path.id_.contentEquals("-1")) {
+	    return;
+	}
+	BufferedReader chainList = this.reader
+		.readTxt(StartFromp1.FolderPath + "pathway" + File.separator + path.id_ + ".chn");
+	String zeile = "";
+	String subLine = "";
+	String next = " --> ";
+	String chainEc = "";
+	String ecName = ecNr.name_;
+	ArrayList<EcNr> chain = new ArrayList<EcNr>();
+	boolean lastHit = false;
+	int tempChainLenght = 1;
+	try {
+	    while ((zeile = chainList.readLine()) != null) {
+		if (zeile.startsWith(ecName + next)) {
+		    lastHit = false;
+		    tempChainLenght = 1;
+		    subLine = zeile;
+		    while (!lastHit) {
+			if (subLine.contains(next)) {
+			    subLine = subLine.substring(zeile.indexOf(next) + 5);
+			    if (subLine.contains(next)) {
+				chainEc = subLine.substring(0, subLine.indexOf(next));
+			    } else {
+				chainEc = subLine;
+				lastHit = true;
+			    }
+			    for (int ecCnt = 0; ecCnt < path.ecNrs_.size(); ecCnt++) {
+				if (chainEc.contentEquals(((EcNr) path.ecNrs_.get(ecCnt)).name_)) {
+				    tempChainLenght++;
+				    chain.add((EcNr) path.ecNrs_.get(ecCnt));
+				    break;
 				}
+				lastHit = true;
+			    }
+			} else {
+			    lastHit = true;
 			}
-			comp = "</node>";
-			if (zeile.startsWith(comp)) {
-				if (comment) {
-					comment = false;
-				} else {
-					finPAth.addEc(ec);
-				}
-			}
-			comp = "</nodes>";
-			if (zeile.startsWith(comp)) {
-				break;
-			}
+		    }
+		    if (tempChainLenght > longestChain) {
+			longestChain = tempChainLenght;
+		    }
 		}
-		return finPAth;
+	    }
+	    chainList.close();
+	    if (ecNr.longestChain_ < longestChain) {
+		ecNr.longestChain_ = longestChain;
+		if (forProg) {
+		    ecNr.maxChainLength_ = longestChain;
+		}
+	    }
+	    for (int chCnt = 0; chCnt < chain.size(); chCnt++) {
+		if (((EcNr) chain.get(chCnt)).longestChain_ < longestChain) {
+		    ((EcNr) chain.get(chCnt)).longestChain_ = longestChain;
+		    if (forProg) {
+			((EcNr) chain.get(chCnt)).maxChainLength_ = longestChain;
+		    }
+		}
+	    }
+	} catch (IOException e) {
+	    openWarning("Error", "File: pathway" + File.separator + path.id_ + ".chn" + " not found");
+	    e.printStackTrace();
 	}
+    }
 
-	public String getPathwayName(String id) {
-		this.nameList = this.reader.readTxt(mapTitleList);
-		String zeile = "";
-		int beginIndex = 6;
-		try {
-			while ((zeile = this.nameList.readLine()) != null) {
-				if (zeile.startsWith(id.substring(2))) {
-					return zeile.substring(beginIndex);
-				}
-			}
-		} catch (IOException e) {
-			openWarning("Error", "File: pathway" + mapTitleList + ".chn" + " not found");
-			e.printStackTrace();
-		}
-		return "";
+    private boolean isNoOverAll(String pathName) {
+	/*if ((pathName.contentEquals("ec01100")) || (pathName.contentEquals("ec01110"))
+		|| (pathName.contentEquals("ec01120")) || (pathName.contentEquals("rn01100"))
+		|| (pathName.contentEquals("rn01110")) || (pathName.contentEquals("rn01120"))) {
+	    return false;
+	}*/
+	return true;
+    }
+
+    public float getWeight(String ecNr) {
+	for (int i = 0; i < ecList_.size(); i++) {
+	    if (((EcWithPathway) ecList_.get(i)).name_.contentEquals(ecNr)) {
+		return ((EcWithPathway) ecList_.get(i)).weight_;
+	    }
 	}
+	return 0.0F;
+    }
 
-	private void computeWeights() {
-		this.lFrame_.bigStep("Weights");
-		float totaluniqueEc = ecList_.size();
-		float totalNrEc = 0.0F;
-		float nrOfPaths = 0.0F;
-		float weight = 0.0F;
-		String zeile = "";
-		try {
-			this.ecList = this.reader.readTxt(listPath);
-			while ((zeile = this.ecList.readLine()) != null) {
-				if ((zeile.contains("ec:")) /*
-											 * && (!zeile.contains("ec01100"))
-											 * && (!zeile.contains("ec01110"))
-											 * && (!zeile.contains("ec01120"))
-											 */) {
-					totalNrEc += 1.0F;
-				}
-			}
-		} catch (IOException e) {
-			openWarning("Error", "File: " + listPath + " not found");
-			e.printStackTrace();
+    public void transferWeightToPwl() {
+	this.lFrame_.bigStep("transferWeights");
+
+	float pathw = 0.0F;
+	float tmpWeight = 0.0F;
+	for (int i = 0; i < getPathwayList_().size(); i++) {
+	    if (!((PathwayWithEc) getPathwayList_().get(i)).weightSet) {
+		pathw = 0.0F;
+		for (int j = 0; j < ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.size(); j++) {
+		    String tmpEc = ((EcNr) ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.get(j)).name_;
+		    tmpWeight = getWeight(tmpEc);
+		    ((EcNr) ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.get(j)).weight_ = tmpWeight;
+		    pathw += tmpWeight;
 		}
-		for (int i = 0; i < totaluniqueEc; i++) {
-			if (!((EcWithPathway) ecList_.get(i)).weightsSet) {
-				nrOfPaths = 0.0F;
-				for (int pathCount = 0; pathCount < ((EcWithPathway) ecList_.get(i)).pathways_.size(); pathCount++) {
-					if (isNoOverAll(((Pathway) ((EcWithPathway) ecList_.get(i)).pathways_.get(pathCount)).id_)) {
-						nrOfPaths += 1.0F;
-					}
-				}
-				if (nrOfPaths == 0.0F) {
-					nrOfPaths = ((EcWithPathway) ecList_.get(i)).pathways_.size();
-				}
-				weight = totalNrEc / totaluniqueEc / nrOfPaths;
-				((EcWithPathway) ecList_.get(i)).weight_ = weight;
-				this.lFrame_.step(String.valueOf(weight));
-				((EcWithPathway) ecList_.get(i)).weightsSet = true;
-			}
-			if (((EcWithPathway) ecList_.get(i)).weight_ > 100000.0F) {
-				System.out.println("computeWeights userec");
-				((EcWithPathway) ecList_.get(i)).weight_ = 1.0F;
-			}
+		((PathwayWithEc) getPathwayList_().get(i)).weight_ = pathw;
+
+		((PathwayWithEc) getPathwayList_().get(i)).weightSet = true;
+		if (pathw == 0.0D) {
+		    System.out.println("transfer we: " + ((PathwayWithEc) getPathwayList_().get(i)).id_ + "w " + pathw);
 		}
+		if (((PathwayWithEc) getPathwayList_().get(i)).userPathway) {
+		    System.out.println("userPath " + ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.size());
+		}
+	    }
 	}
+    }
 
-	private void calcAllChainsforallSamples() {
-		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-			if (((Sample) Project.samples_.get(smpCnt)).inUse) {
-				calcChainsForSample((Sample) Project.samples_.get(smpCnt));
-			}
-		}
-		calcChainsForSample(Project.overall_);
+    public void getAllscores(int mode) {
+	for (int i = 0; i < Project.samples_.size(); i++) {
+	    getScore((Sample) Project.samples_.get(i), mode);
 	}
+	getScore(Project.overall_, mode);
+    }
 
-	private void calcChainsForSample(Sample samp) {
-		PathwayWithEc actpath = null;
-		EcNr actEcnr = null;
-		for (int pathCnt = 0; pathCnt < samp.pathways_.size(); pathCnt++) {
-			actpath = (PathwayWithEc) samp.pathways_.get(pathCnt);
-			this.lFrame_.bigStep("Chaining");
-			for (int ecCnt = 0; ecCnt < actpath.ecNrs_.size(); ecCnt++) {
-				actEcnr = (EcNr) actpath.ecNrs_.get(ecCnt);
-
-				this.lFrame_.step(actEcnr.name_);
-				findLongestChain(actpath, actEcnr, false);
-
-				actEcnr.adaptWeightToChain();
-			}
+    public void getScore(Sample sample, int mode) {
+	double erg = 0.0D;
+	PathwayWithEc tmp = null;
+	for (int i = 0; i < sample.pathways_.size(); i++) {
+	    for (int pwCnt = 0; pwCnt < getPathwayList_().size(); pwCnt++) {
+		if (((PathwayWithEc) sample.pathways_.get(i)).id_
+			.contentEquals(((PathwayWithEc) getPathwayList_().get(pwCnt)).id_)) {
+		    tmp = (PathwayWithEc) getPathwayList_().get(pwCnt);
 		}
+	    }
+	    erg = ((PathwayWithEc) sample.pathways_.get(i)).getWeight(mode) / tmp.getWeight(mode);
+	    ((PathwayWithEc) sample.pathways_.get(i)).score_ = (erg * 100.0D);
 	}
+	sample.valuesSet = true;
+    }
 
-	private void calcChainsForProg() {
-		PathwayWithEc actpath = null;
-		EcNr actEcnr = null;
-		for (int pathCnt = 0; pathCnt < getPathwayList_().size(); pathCnt++) {
-			actpath = (PathwayWithEc) getPathwayList_().get(pathCnt);
-			this.lFrame_.bigStep("Chaining");
-			for (int ecCnt = 0; ecCnt < actpath.ecNrs_.size(); ecCnt++) {
-				actEcnr = (EcNr) actpath.ecNrs_.get(ecCnt);
-				this.lFrame_.step(actEcnr.name_);
-				findLongestChain(actpath, actEcnr, true);
+    public void setWorkPath(String path) {
+	this.workpath_ = path;
+    }
 
-				actEcnr.adaptWeightToChain();
-			}
-		}
+    public void writeScore(Sample sample, String path, int mode) {
+	String divide = "\t";
+	if (mode == 1) {
+	    divide = ",";
 	}
-
-	private void findLongestChain(PathwayWithEc path, EcNr ecNr, boolean forProg) {
-		int longestChain = 1;
-		if (path.userPathway) {
-			return;
-		}
-		if (path.id_.contentEquals("-1")) {
-			return;
-		}
-		BufferedReader chainList = this.reader
-				.readTxt(StartFromp1.FolderPath + "pathway" + File.separator + path.id_ + ".chn");
-		String zeile = "";
-		String subLine = "";
-		String next = " --> ";
-		String chainEc = "";
-		String ecName = ecNr.name_;
-		ArrayList<EcNr> chain = new ArrayList<EcNr>();
-		boolean lastHit = false;
-		int tempChainLenght = 1;
-		try {
-			while ((zeile = chainList.readLine()) != null) {
-				if (zeile.startsWith(ecName + next)) {
-					lastHit = false;
-					tempChainLenght = 1;
-					subLine = zeile;
-					while (!lastHit) {
-						if (subLine.contains(next)) {
-							subLine = subLine.substring(zeile.indexOf(next) + 5);
-							if (subLine.contains(next)) {
-								chainEc = subLine.substring(0, subLine.indexOf(next));
-							} else {
-								chainEc = subLine;
-								lastHit = true;
-							}
-							for (int ecCnt = 0; ecCnt < path.ecNrs_.size(); ecCnt++) {
-								if (chainEc.contentEquals(((EcNr) path.ecNrs_.get(ecCnt)).name_)) {
-									tempChainLenght++;
-									chain.add((EcNr) path.ecNrs_.get(ecCnt));
-									break;
-								}
-								lastHit = true;
-							}
-						} else {
-							lastHit = true;
-						}
-					}
-					if (tempChainLenght > longestChain) {
-						longestChain = tempChainLenght;
-					}
-				}
-			}
-			chainList.close();
-			if (ecNr.longestChain_ < longestChain) {
-				ecNr.longestChain_ = longestChain;
-				if (forProg) {
-					ecNr.maxChainLength_ = longestChain;
-				}
-			}
-			for (int chCnt = 0; chCnt < chain.size(); chCnt++) {
-				if (((EcNr) chain.get(chCnt)).longestChain_ < longestChain) {
-					((EcNr) chain.get(chCnt)).longestChain_ = longestChain;
-					if (forProg) {
-						((EcNr) chain.get(chCnt)).maxChainLength_ = longestChain;
-					}
-				}
-			}
-		} catch (IOException e) {
-			openWarning("Error", "File: pathway" + File.separator + path.id_ + ".chn" + " not found");
-			e.printStackTrace();
-		}
+	double erg = 0.0D;
+	try {
+	    if (path.isEmpty()) {
+		path = this.workpath_ + "/output/weigth " + sample.name_;
+	    } else if (!path.endsWith(".txt")) {
+		path = path + ".txt";
+	    }
+	    BufferedWriter out = new BufferedWriter(new FileWriter(path));
+	    out.write(sample.name_);
+	    out.newLine();
+	    for (int i = 0; i < sample.pathways_.size(); i++) {
+		erg = ((PathwayWithEc) sample.pathways_.get(i)).score_;
+		out.write(((PathwayWithEc) sample.pathways_.get(i)).id_ + divide
+			+ ((PathwayWithEc) sample.pathways_.get(i)).name_ + divide + erg);
+		out.newLine();
+	    }
+	    out.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
+    }
 
-	private boolean isNoOverAll(String pathName) {
-		if ((pathName.contentEquals("ec01100")) || (pathName.contentEquals("ec01110"))
-				|| (pathName.contentEquals("ec01120")) || (pathName.contentEquals("rn01100"))
-				|| (pathName.contentEquals("rn01110")) || (pathName.contentEquals("rn01120"))) {
-			return false;
-		}
-		return true;
+    public BufferedImage alterPathway(Sample sample, PathwayWithEc pathway) {
+	boolean found = false;
+	if (this.build == null) {
+	    this.build = new PngBuilder();
 	}
+	BufferedReader xmlPath = this.reader
+		.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + pathway.id_ + ".xml");
+	ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
+	for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
+	    xmlPath = this.reader.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + pathway.id_ + ".xml");
+	    tmppos = this.parser.findEcPosAndSize(((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
+	    ((EcNr) pathway.ecNrs_.get(ecCount)).addPos(tmppos);
 
-	public float getWeight(String ecNr) {
-		for (int i = 0; i < ecList_.size(); i++) {
-			if (((EcWithPathway) ecList_.get(i)).name_.contentEquals(ecNr)) {
-				return ((EcWithPathway) ecList_.get(i)).weight_;
-			}
-		}
-		return 0.0F;
+	    System.out.println(((EcNr) pathway.ecNrs_.get(ecCount)).stats_.size());
+	    if (tmppos != null) {
+		found = true;
+	    }
 	}
-
-	public void transferWeightToPwl() {
-		this.lFrame_.bigStep("transferWeights");
-
-		float pathw = 0.0F;
-		float tmpWeight = 0.0F;
-		for (int i = 0; i < getPathwayList_().size(); i++) {
-			if (!((PathwayWithEc) getPathwayList_().get(i)).weightSet) {
-				pathw = 0.0F;
-				for (int j = 0; j < ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.size(); j++) {
-					String tmpEc = ((EcNr) ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.get(j)).name_;
-					tmpWeight = getWeight(tmpEc);
-					((EcNr) ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.get(j)).weight_ = tmpWeight;
-					pathw += tmpWeight;
-				}
-				((PathwayWithEc) getPathwayList_().get(i)).weight_ = pathw;
-
-				((PathwayWithEc) getPathwayList_().get(i)).weightSet = true;
-				if (pathw == 0.0D) {
-					System.out.println("transfer we: " + ((PathwayWithEc) getPathwayList_().get(i)).id_ + "w " + pathw);
-				}
-				if (((PathwayWithEc) getPathwayList_().get(i)).userPathway) {
-					System.out.println("userPath " + ((PathwayWithEc) getPathwayList_().get(i)).ecNrs_.size());
-				}
-			}
-		}
+	if (found) {
+	    return this.build.getAlteredPathway(pathway, sample);
 	}
-
-	public void getAllscores(int mode) {
-		for (int i = 0; i < Project.samples_.size(); i++) {
-			getScore((Sample) Project.samples_.get(i), mode);
-		}
-		getScore(Project.overall_, mode);
+	try {
+	    return ImageIO.read(new File(StartFromp1.FolderPath + "pics" + this.separator_ + pathway.id_ + ".png"));
+	} catch (IOException e) {
+	    openWarning("Error", "File: pics" + this.separator_ + pathway.id_ + ".png" + " not found");
+	    e.printStackTrace();
 	}
+	return null;
+    }
 
-	public void getScore(Sample sample, int mode) {
-		double erg = 0.0D;
-		PathwayWithEc tmp = null;
-		for (int i = 0; i < sample.pathways_.size(); i++) {
-			for (int pwCnt = 0; pwCnt < getPathwayList_().size(); pwCnt++) {
-				if (((PathwayWithEc) sample.pathways_.get(i)).id_
-						.contentEquals(((PathwayWithEc) getPathwayList_().get(pwCnt)).id_)) {
-					tmp = (PathwayWithEc) getPathwayList_().get(pwCnt);
-				}
-			}
-			erg = ((PathwayWithEc) sample.pathways_.get(i)).getWeight(mode) / tmp.getWeight(mode);
-			((PathwayWithEc) sample.pathways_.get(i)).score_ = (erg * 100.0D);
-		}
-		sample.valuesSet = true;
+    public void alterPng(Sample sample) {
+	if (this.build == null) {
+	    this.build = new PngBuilder();
 	}
-
-	public void setWorkPath(String path) {
-		this.workpath_ = path;
+	PathwayWithEc tmpPath = null;
+	BufferedReader xmlPath = null;
+	ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
+	ArrayList<EcPosAndSize> pos = new ArrayList<EcPosAndSize>();
+	for (int pathCount = 0; pathCount < sample.pathways_.size(); pathCount++) {
+	    tmpPath = (PathwayWithEc) sample.pathways_.get(pathCount);
+	    xmlPath = this.reader.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + tmpPath.id_ + ".xml");
+	    while (pos.size() > 0) {
+		pos.remove(0);
+	    }
+	    for (int ecCount = 0; ecCount < tmpPath.ecNrs_.size(); ecCount++) {
+		xmlPath = this.reader
+			.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + tmpPath.id_ + ".xml");
+		tmppos = this.parser.findEcPosAndSize(((EcNr) tmpPath.ecNrs_.get(ecCount)).name_, xmlPath);
+		((EcNr) tmpPath.ecNrs_.get(ecCount)).addPos(tmppos);
+	    }
+	    this.build.alterPathway(tmpPath, sample);
 	}
+    }
 
-	public void writeScore(Sample sample, String path, int mode) {
-		String divide = "\t";
-		if (mode == 1) {
-			divide = ",";
+    public void sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
+	int tmpCnt = 0;
+	for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
+	    tmpCnt = pathCnt;
+	    for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+		if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways.get(pathCnt2)).score_) {
+		    tmpCnt = pathCnt2;
 		}
-		double erg = 0.0D;
-		try {
-			if (path.isEmpty()) {
-				path = this.workpath_ + "/output/weigth " + sample.name_;
-			} else if (!path.endsWith(".txt")) {
-				path = path + ".txt";
-			}
-			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write(sample.name_);
-			out.newLine();
-			for (int i = 0; i < sample.pathways_.size(); i++) {
-				erg = ((PathwayWithEc) sample.pathways_.get(i)).score_;
-				out.write(((PathwayWithEc) sample.pathways_.get(i)).id_ + divide
-						+ ((PathwayWithEc) sample.pathways_.get(i)).name_ + divide + erg);
-				out.newLine();
-			}
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    }
+	    pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
+	    pathways.remove(tmpCnt + 1);
 	}
+    }
 
-	public BufferedImage alterPathway(Sample sample, PathwayWithEc pathway) {
-		boolean found = false;
-		if (this.build == null) {
-			this.build = new PngBuilder();
+    public void sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
+	int tmpCnt = 0;
+	for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
+	    tmpCnt = pathCnt;
+	    for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
+		for (int i = 0; i < ((PathwayWithEc) pathways.get(tmpCnt)).id_.length(); i++) {
+		    if (((PathwayWithEc) pathways.get(tmpCnt)).id_
+			    .charAt(i) < ((PathwayWithEc) pathways.get(tmpCnt)).id_.charAt(i)) {
+			tmpCnt = pathCnt2;
+		    }
 		}
-		BufferedReader xmlPath = this.reader
-				.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + pathway.id_ + ".xml");
-		ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
-		for (int ecCount = 0; ecCount < pathway.ecNrs_.size(); ecCount++) {
-			xmlPath = this.reader.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + pathway.id_ + ".xml");
-			tmppos = this.parser.findEcPosAndSize(((EcNr) pathway.ecNrs_.get(ecCount)).name_, xmlPath);
-			((EcNr) pathway.ecNrs_.get(ecCount)).addPos(tmppos);
-
-			System.out.println(((EcNr) pathway.ecNrs_.get(ecCount)).stats_.size());
-			if (tmppos != null) {
-				found = true;
-			}
-		}
-		if (found) {
-			return this.build.getAlteredPathway(pathway, sample);
-		}
-		try {
-			return ImageIO.read(new File(StartFromp1.FolderPath + "pics" + this.separator_ + pathway.id_ + ".png"));
-		} catch (IOException e) {
-			openWarning("Error", "File: pics" + this.separator_ + pathway.id_ + ".png" + " not found");
-			e.printStackTrace();
-		}
-		return null;
+	    }
+	    pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
+	    pathways.remove(tmpCnt + 1);
 	}
+    }
 
-	public void alterPng(Sample sample) {
-		if (this.build == null) {
-			this.build = new PngBuilder();
+    public void sortAllPathwaysByName() {
+	for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+	    sortPathwaysByName(((Sample) Project.samples_.get(smpCnt)).pathways_);
+	}
+    }
+
+    public void convertSelected() {
+	for (int pathCnt = 0; pathCnt < getPathwayList_().size(); pathCnt++) {
+	    for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
+		Sample tmpSamp = (Sample) Project.samples_.get(smpCnt);
+		for (int pathCnt2 = 0; pathCnt2 < tmpSamp.pathways_.size(); pathCnt2++) {
+		    if (((PathwayWithEc) getPathwayList_().get(pathCnt)).id_
+			    .contentEquals(((PathwayWithEc) tmpSamp.pathways_.get(pathCnt2)).id_)) {
+			((PathwayWithEc) tmpSamp.pathways_.get(pathCnt2))
+				.setSelected(((PathwayWithEc) getPathwayList_().get(pathCnt)).isSelected());
+		    }
 		}
-		PathwayWithEc tmpPath = null;
-		BufferedReader xmlPath = null;
-		ArrayList<EcPosAndSize> tmppos = new ArrayList<EcPosAndSize>();
-		ArrayList<EcPosAndSize> pos = new ArrayList<EcPosAndSize>();
-		for (int pathCount = 0; pathCount < sample.pathways_.size(); pathCount++) {
-			tmpPath = (PathwayWithEc) sample.pathways_.get(pathCount);
-			xmlPath = this.reader.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + tmpPath.id_ + ".xml");
-			while (pos.size() > 0) {
-				pos.remove(0);
-			}
-			for (int ecCount = 0; ecCount < tmpPath.ecNrs_.size(); ecCount++) {
-				xmlPath = this.reader
-						.readTxt(StartFromp1.FolderPath + "pathway" + this.separator_ + tmpPath.id_ + ".xml");
-				tmppos = this.parser.findEcPosAndSize(((EcNr) tmpPath.ecNrs_.get(ecCount)).name_, xmlPath);
-				((EcNr) tmpPath.ecNrs_.get(ecCount)).addPos(tmppos);
-			}
-			this.build.alterPathway(tmpPath, sample);
-		}
+	    }
+	    for (int pathCnt2 = 0; pathCnt2 < Project.overall_.pathways_.size(); pathCnt2++) {
+		((PathwayWithEc) Project.overall_.pathways_.get(pathCnt2))
+			.setSelected(((PathwayWithEc) getPathwayList_().get(pathCnt)).isSelected());
+	    }
 	}
+    }
 
-	public void sortPathwaysByScore(ArrayList<PathwayWithEc> pathways) {
-		int tmpCnt = 0;
-		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
-			tmpCnt = pathCnt;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				if (((PathwayWithEc) pathways.get(tmpCnt)).score_ < ((PathwayWithEc) pathways.get(pathCnt2)).score_) {
-					tmpCnt = pathCnt2;
-				}
-			}
-			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
-			pathways.remove(tmpCnt + 1);
-		}
+    public void setPathwayList_(ArrayList<PathwayWithEc> pathwayList_) {
+	DataProcessor.pathwayList_ = pathwayList_;
+    }
+
+    public ArrayList<PathwayWithEc> getPathwayList_() {
+	return pathwayList_;
+    }
+
+    public boolean selectedPathways() {
+	boolean ret = false;
+	for (int i = 0; i < pathwayList_.size(); i++) {
+	    if (pathwayList_.get(i).isSelected()) {
+		ret = true;
+		break;
+	    }
 	}
+	return ret;
+    }
 
-	public void sortPathwaysByName(ArrayList<PathwayWithEc> pathways) {
-		int tmpCnt = 0;
-		for (int pathCnt = 0; pathCnt < pathways.size() - 1; pathCnt++) {
-			tmpCnt = pathCnt;
-			for (int pathCnt2 = pathCnt + 1; pathCnt2 < pathways.size(); pathCnt2++) {
-				for (int i = 0; i < ((PathwayWithEc) pathways.get(tmpCnt)).id_.length(); i++) {
-					if (((PathwayWithEc) pathways.get(tmpCnt)).id_
-							.charAt(i) < ((PathwayWithEc) pathways.get(tmpCnt)).id_.charAt(i)) {
-						tmpCnt = pathCnt2;
-					}
-				}
-			}
-			pathways.add(pathCnt, (PathwayWithEc) pathways.get(tmpCnt));
-			pathways.remove(tmpCnt + 1);
-		}
+    public EcWithPathway getEc(String ecId) {
+	for (int ecCnt = 0; ecCnt < ecList_.size(); ecCnt++) {
+	    if (((EcWithPathway) ecList_.get(ecCnt)).name_.contentEquals(ecId)) {
+		return (EcWithPathway) ecList_.get(ecCnt);
+	    }
 	}
+	return null;
+    }
 
-	public void sortAllPathwaysByName() {
-		for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-			sortPathwaysByName(((Sample) Project.samples_.get(smpCnt)).pathways_);
-		}
-	}
+    private void openWarning(String title, String string) {// open the warning
+							   // which takes in
+							   // its title and
+							   // warning message
 
-	public void convertSelected() {
-		for (int pathCnt = 0; pathCnt < getPathwayList_().size(); pathCnt++) {
-			for (int smpCnt = 0; smpCnt < Project.samples_.size(); smpCnt++) {
-				Sample tmpSamp = (Sample) Project.samples_.get(smpCnt);
-				for (int pathCnt2 = 0; pathCnt2 < tmpSamp.pathways_.size(); pathCnt2++) {
-					if (((PathwayWithEc) getPathwayList_().get(pathCnt)).id_
-							.contentEquals(((PathwayWithEc) tmpSamp.pathways_.get(pathCnt2)).id_)) {
-						((PathwayWithEc) tmpSamp.pathways_.get(pathCnt2))
-								.setSelected(((PathwayWithEc) getPathwayList_().get(pathCnt)).isSelected());
-					}
-				}
-			}
-			for (int pathCnt2 = 0; pathCnt2 < Project.overall_.pathways_.size(); pathCnt2++) {
-				((PathwayWithEc) Project.overall_.pathways_.get(pathCnt2))
-						.setSelected(((PathwayWithEc) getPathwayList_().get(pathCnt)).isSelected());
-			}
-		}
-	}
+	JFrame frame = new JFrame(title);
+	frame.setVisible(true);
+	frame.setBounds(200, 200, 350, 150);
+	frame.setLayout(null);
+	frame.setResizable(false);
 
-	public void setPathwayList_(ArrayList<PathwayWithEc> pathwayList_) {
-		DataProcessor.pathwayList_ = pathwayList_;
-	}
+	JPanel panel = new JPanel();
+	panel.setBounds(0, 0, 350, 150);
+	panel.setBackground(Color.lightGray);
+	panel.setVisible(true);
+	panel.setLayout(null);
+	frame.add(panel);
 
-	public ArrayList<PathwayWithEc> getPathwayList_() {
-		return pathwayList_;
-	}
+	JLabel label = new JLabel(string);
+	label.setVisible(true);
+	label.setForeground(Color.black);
+	label.setBounds(0, 0, 350, 150);
+	label.setLayout(null);
+	panel.add(label);
 
-	public boolean selectedPathways() {
-		boolean ret = false;
-		for (int i = 0; i < pathwayList_.size(); i++) {
-			if (pathwayList_.get(i).isSelected()) {
-				ret = true;
-				break;
-			}
-		}
-		return ret;
-	}
-
-	public EcWithPathway getEc(String ecId) {
-		for (int ecCnt = 0; ecCnt < ecList_.size(); ecCnt++) {
-			if (((EcWithPathway) ecList_.get(ecCnt)).name_.contentEquals(ecId)) {
-				return (EcWithPathway) ecList_.get(ecCnt);
-			}
-		}
-		return null;
-	}
-
-	private void openWarning(String title, String string) {// open the warning
-															// which takes in
-															// its title and
-															// warning message
-
-		JFrame frame = new JFrame(title);
-		frame.setVisible(true);
-		frame.setBounds(200, 200, 350, 150);
-		frame.setLayout(null);
-		frame.setResizable(false);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 350, 150);
-		panel.setBackground(Color.lightGray);
-		panel.setVisible(true);
-		panel.setLayout(null);
-		frame.add(panel);
-
-		JLabel label = new JLabel(string);
-		label.setVisible(true);
-		label.setForeground(Color.black);
-		label.setBounds(0, 0, 350, 150);
-		label.setLayout(null);
-		panel.add(label);
-
-		frame.repaint();
-	}
+	frame.repaint();
+    }
 }

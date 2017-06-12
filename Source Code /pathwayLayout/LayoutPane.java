@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 // user path way pane.
 public class LayoutPane extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +33,7 @@ public class LayoutPane extends JPanel {
 	boolean setComment = false;
 	public static JTextField nameField;
 
-	public LayoutPane(int xSize, int ySize, PathLayoutGrid Grid,
-			ArrayList<Node> nodes) {
+	public LayoutPane(int xSize, int ySize, PathLayoutGrid Grid, ArrayList<Node> nodes) {
 		nameField = new JTextField("Enter Pathname");
 
 		this.grid = Grid;
@@ -59,66 +59,64 @@ public class LayoutPane extends JPanel {
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
-				//double click add new node.
-//				if (arg0.getClickCount() == 2) {
-					final int x = arg0.getX();
-					final int y = arg0.getY();
-					System.out.println("x: "+x+"\ty: "+y);
-					if (LayoutPane.this.activeNode != null) {
-						LayoutPane.this.activeNode.xPos = (x / LayoutPane.this.xStepSize - 1);
-						LayoutPane.this.activeNode.yPos = (y / LayoutPane.this.yStepSize - 1);
-						if (LayoutPane.this.activeNode.xPos < 0) {
-							LayoutPane.this.activeNode.xPos = 0;
-						}
-						if (LayoutPane.this.activeNode.yPos < 0) {
-							LayoutPane.this.activeNode.yPos = 0;
-						}
-						LayoutPane.this.adaptChildren(LayoutPane.this.activeNode);
-						LayoutPane.this.activeNode = null;
-						LayoutPane.this.reDo();
-					} 
-					else if (!LayoutPane.this.fieldOpen) {
-						LayoutPane.this.fieldOpen = true;
-						final JTextField field = new JTextField("Name");
-						field.setBounds(x, y, 100, 20);
-						field.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								System.out.println("actionPerformed");
-								LayoutPane.this.fieldOpen = false;
-								if (!field.getText().isEmpty()) {
-									Node node = new Node(field.getText());
-									node.xPos = (x / LayoutPane.this.xStepSize - 1);
-									node.yPos = (y / LayoutPane.this.yStepSize - 1);
-									if (node.xPos < 0) {
-										node.xPos = 0;
-									}
-									if (node.yPos < 0) {
-										node.yPos = 0;
-									}
-									if (LayoutPane.this.setComment) {
-										node.comment = LayoutPane.this.setComment;
-										LayoutPane.this.setComment = false;
-									}
-									LayoutPane.this.grid.addNode(node);
-									LayoutPane.this.remove(field);
-									LayoutPane.this.reDo();
-								} 
-								else {
-									LayoutPane.this.remove(field);
-									LayoutPane.this.invalidate();
-									LayoutPane.this.validate();
-									LayoutPane.this.repaint();
-								}
-							}
-						});
-						LayoutPane.this.add(field);
-						LayoutPane.this.invalidate();
-						LayoutPane.this.validate();
-						LayoutPane.this.repaint();
+				// double click add new node.
+				// if (arg0.getClickCount() == 2) {
+				final int x = arg0.getX();
+				final int y = arg0.getY();
+				System.out.println("x: " + x + "\ty: " + y);
+				if (LayoutPane.this.activeNode != null) {
+					LayoutPane.this.activeNode.xPos = (x / LayoutPane.this.xStepSize - 1);
+					LayoutPane.this.activeNode.yPos = (y / LayoutPane.this.yStepSize - 1);
+					if (LayoutPane.this.activeNode.xPos < 0) {
+						LayoutPane.this.activeNode.xPos = 0;
 					}
-					
-//				}
-				
+					if (LayoutPane.this.activeNode.yPos < 0) {
+						LayoutPane.this.activeNode.yPos = 0;
+					}
+					LayoutPane.this.adaptChildren(LayoutPane.this.activeNode);
+					LayoutPane.this.activeNode = null;
+					LayoutPane.this.reDo();
+				} else if (!LayoutPane.this.fieldOpen) {
+					LayoutPane.this.fieldOpen = true;
+					final JTextField field = new JTextField("Name");
+					field.setBounds(x, y, 100, 20);
+					field.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							System.out.println("actionPerformed");
+							LayoutPane.this.fieldOpen = false;
+							if (!field.getText().isEmpty()) {
+								Node node = new Node(field.getText());
+								node.xPos = (x / LayoutPane.this.xStepSize - 1);
+								node.yPos = (y / LayoutPane.this.yStepSize - 1);
+								if (node.xPos < 0) {
+									node.xPos = 0;
+								}
+								if (node.yPos < 0) {
+									node.yPos = 0;
+								}
+								if (LayoutPane.this.setComment) {
+									node.comment = LayoutPane.this.setComment;
+									LayoutPane.this.setComment = false;
+								}
+								LayoutPane.this.grid.addNode(node);
+								LayoutPane.this.remove(field);
+								LayoutPane.this.reDo();
+							} else {
+								LayoutPane.this.remove(field);
+								LayoutPane.this.invalidate();
+								LayoutPane.this.validate();
+								LayoutPane.this.repaint();
+							}
+						}
+					});
+					LayoutPane.this.add(field);
+					LayoutPane.this.invalidate();
+					LayoutPane.this.validate();
+					LayoutPane.this.repaint();
+				}
+
+				// }
+
 			}
 		});
 	}
@@ -240,8 +238,7 @@ public class LayoutPane extends JPanel {
 		random.setBounds(680, 10, 150, 30);
 		random.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				LayoutPane.this.grid
-						.setNodesRandomly(LayoutPane.this.grid.nodes);
+				LayoutPane.this.grid.setNodesRandomly(LayoutPane.this.grid.nodes);
 				LayoutPane.this.reDo();
 			}
 		});
@@ -268,18 +265,14 @@ public class LayoutPane extends JPanel {
 		if (length < 75) {
 			length = 75;
 		}
-		int xPos = (int) (this.xStepSize + this.xStepSize * node.xPos - this.xStepSize
-				* this.buttonfac / 2.0D);
-		int yPos = (int) (this.yStepSize + this.yStepSize * node.yPos - this.yStepSize
-				* this.buttonfac / 2.0D);
-		button.setBounds(xPos, yPos, length,
-				(int) (this.yStepSize * this.buttonfac));
+		int xPos = (int) (this.xStepSize + this.xStepSize * node.xPos - this.xStepSize * this.buttonfac / 2.0D);
+		int yPos = (int) (this.yStepSize + this.yStepSize * node.yPos - this.yStepSize * this.buttonfac / 2.0D);
+		button.setBounds(xPos, yPos, length, (int) (this.yStepSize * this.buttonfac));
 		if (node.comment) {
 			button.setBackground(Color.orange);
 		}
 		button.setVisible(true);
-		if ((this.activeNode != null)
-				&& (node.ownIndex == this.activeNode.ownIndex)) {
+		if ((this.activeNode != null) && (node.ownIndex == this.activeNode.ownIndex)) {
 			if (node.comment) {
 				button.setBackground(Color.green.darker());
 			} else {
@@ -299,14 +292,14 @@ public class LayoutPane extends JPanel {
 		}
 	}
 
-	private void addActiveNodeParts(Node node, int index, int xPos, int yPos,
-			int length) {
+	private void addActiveNodeParts(Node node, int index, int xPos, int yPos, int length) {
 		final int indexF = index;
 		ImageIcon icon = null;
-		try{
-			icon = new ImageIcon(new File("").getAbsolutePath() + File.separator+"images"+File.separator+"DoNotDelThis.gif", "del Button gif");
-		}
-		catch (Exception e){
+		try {
+			icon = new ImageIcon(
+					new File("").getAbsolutePath() + File.separator + "images" + File.separator + "DoNotDelThis.gif",
+					"del Button gif");
+		} catch (Exception e) {
 			System.out.println("Garbage can is gone!");
 			System.exit(0);
 		}
@@ -333,8 +326,7 @@ public class LayoutPane extends JPanel {
 		field.setBounds(xPos, yPos + ySize, length, ySize);
 		field.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((Node) LayoutPane.this.nodes_.get(indexF)).name = field
-						.getText();
+				((Node) LayoutPane.this.nodes_.get(indexF)).name = field.getText();
 				LayoutPane.this.reDo();
 				field.setVisible(false);
 			}
@@ -361,12 +353,9 @@ public class LayoutPane extends JPanel {
 		for (int i = 0; i < this.grid.xGridSize + 1; i++) {
 			for (int j = 0; j < this.grid.yGridSize + 1; j++) {
 				g2.setColor(Color.gray);
-				g2.drawLine(this.xStepSize,
-						this.yStepSize + this.yStepSize * j, this.xStepSize
-								+ this.xStepSize * this.grid.xGridSize,
-						this.yStepSize + this.yStepSize * j);
-				g2.drawLine(this.xStepSize + this.xStepSize * i,
-						this.yStepSize, this.xStepSize + this.xStepSize * i,
+				g2.drawLine(this.xStepSize, this.yStepSize + this.yStepSize * j,
+						this.xStepSize + this.xStepSize * this.grid.xGridSize, this.yStepSize + this.yStepSize * j);
+				g2.drawLine(this.xStepSize + this.xStepSize * i, this.yStepSize, this.xStepSize + this.xStepSize * i,
 						this.yStepSize + this.yStepSize * this.grid.yGridSize);
 			}
 		}
@@ -392,8 +381,7 @@ public class LayoutPane extends JPanel {
 				int vecX = (int) ((xPos - xPos2) / length * (0.3D * length));
 				int vecY = (int) ((yPos - yPos2) / length * (0.3D * length));
 				g2.setColor(Color.red);
-				g2.fillOval(xPos2 + vecX - offset, yPos2 + vecY - offset, size,
-						size);
+				g2.fillOval(xPos2 + vecX - offset, yPos2 + vecY - offset, size, size);
 				g2.setColor(Color.black);
 			}
 		}
@@ -420,8 +408,7 @@ public class LayoutPane extends JPanel {
 				this.activeNode = ((Node) this.nodes_.get(index));
 			}
 		} else {
-			System.out.println("selectNode " + this.activeNode.ownIndex + " "
-					+ index);
+			System.out.println("selectNode " + this.activeNode.ownIndex + " " + index);
 			if (this.activeNode.ownIndex == index) {
 				this.activeNode = null;
 			} else {
@@ -439,7 +426,8 @@ public class LayoutPane extends JPanel {
 		}
 		reDo();
 	}
-	//Not used
+
+	// Not used
 	protected ImageIcon createImageIcon(String path, String description) {
 		ClassLoader cl = getClass().getClassLoader();
 		URL imgURL = cl.getResource(path);
@@ -448,6 +436,6 @@ public class LayoutPane extends JPanel {
 		}
 		System.err.println("Couldn't find file: " + path);
 		return null;
-		
+
 	}
 }

@@ -1466,6 +1466,6 @@ public class CmdController1 {
 		    meta.getTrypticPeptideAnaysis(meta.readFasta(seq_for_lca, fileName), true, batchCommand);
 		}
 	    }
+		}
 	}
-    }
 }
